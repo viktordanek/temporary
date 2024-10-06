@@ -25,6 +25,22 @@ This project creates and manages temporary files and variables in a NixOS enviro
 2. **Temporary**: Scripts that create temporary files and directories, automatically deleting them when the calling process completes.
 3. **Service**: A service that runs on boot, ensuring any leftover temporary resources from unexpected shutdowns are cleaned up.  The service is currently untested and should be considered broken.
 
+# Usage as a flake
+
+[![FlakeHub](https://img.shields.io/endpoint?url=https://flakehub.com/f/viktordanek/temporary/badge)](https://flakehub.com/flake/viktordanek/temporary)
+
+Add temporary to your `flake.nix`:
+
+```nix
+{
+  inputs.temporary.url = "https://flakehub.com/f/viktordanek/temporary/*.tar.gz";
+
+  outputs = { self, temporary }: {
+    # Use in your outputs
+  };
+}
+
+
 ## Installation
 
 To install this package, use Nix's flake support. Clone the repository and run the following command:
