@@ -595,6 +595,15 @@
                                                                                                                                 fi &&
                                                                                                                                 assert_equals "$( ${ pkgs.coreutils }/bin/cat ${ environment-variable "EXPECTED_FILE" } )" "$( ${ pkgs.coreutils }/bin/cat ${ environment-variable "OBSERVED_FILE" } )" "The observed file does not equal the expected file for ${ environment-variable "RELATIVE" }."
                                                                                                                         done
+                                                                                                                    } &&
+                                                                                                                # KLUDGE:  We really need to test below.  It exposes a real issue but we can not.
+                                                                                                                x_test_multiple ( )
+                                                                                                                    {
+                                                                                                                        ONE=$( ${ resources.temporary }/temporary/null/null ) &&
+                                                                                                                            TWO=$( ${ resources.temporary }/temporary/null/null ) &&
+                                                                                                                            assert_not_equals ${ environment-variable "ONE" } ${ environment-variable "TWO" } "The two temporary invocations should generate different values." &&
+                                                                                                                            assert_matches "^/build/[a-zA-Z0-9]{8}\.resource\$" "${ environment-variable "ONE" }" "The first invocation should be OK." &&
+                                                                                                                            assert_matches "^/build/[a-zA-Z0-9]{8}\.resource\$" "${ environment-variable "TWO" }" "The second invocation should be OK."
                                                                                                                     }
                                                                                                     '' ;
                                                                                         } ;
