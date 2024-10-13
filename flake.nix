@@ -8,7 +8,7 @@
     outputs =
         { environment-variable2 , flake-utils , nixpkgs , self } :
             let
-                environment-variable = builtins.trace ( builtins.typeOf "hi" ) ( name : builtins.concatStringsSep "" [ "$" "{" ( builtins.toString name ) "}" ] ) ;
+                environment-variable = builtins.trace ( builtins.typeOf environment-variable2 ) ( name : builtins.concatStringsSep "" [ "$" "{" ( builtins.toString name ) "}" ] ) ;
                 fun =
                     system :
                         let
