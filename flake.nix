@@ -1,13 +1,14 @@
 {
     inputs =
         {
-            environment-variable.url = "/tmp/tmp.cWQ1yyN0hn/environment-variable" ;
+            environment-variable2.url = "/tmp/tmp.cWQ1yyN0hn/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils?rev=b1d9ab70662946ef0850d488da1c9019f3a9752a" ;
             nixpkgs.url = "github:NixOs/nixpkgs?rev=9afce28a1719e35c295fe8b379a491659acd9cd6" ;
         } ;
     outputs =
-        { environment-variable , flake-utils , nixpkgs , self } :
+        { environment-variable2 , flake-utils , nixpkgs , self } :
             let
+                environment-variable = name : builtins.concatStringsSep "" [ "$" "{" ( builtins.toString name ) "}" ] ;
                 fun =
                     system :
                         let
