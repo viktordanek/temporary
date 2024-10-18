@@ -8,10 +8,10 @@
     outputs =
         { environment-variable-lib , flake-utils , nixpkgs , self } :
             let
-                environment-variable = environment-variable-lib.lib ;
                 fun =
                     system :
                         let
+                            environment-variable = builtins.getAttr system ( builtins.getAttr "lib" environment-variable-lib ) ;
                             has-standard-input =
                                  strip
                                      ''
@@ -568,7 +568,7 @@
                                                                                                         test_diff ( )
                                                                                                             {
                                                                                                                 ${ pkgs.coreutils }/bin/echo ${ environment-variable "OBSERVED_DIRECTORY" } &&
-                                                                                                                    ${ pkgs.coreutils }/bin/cat /build/debug &&
+                                                                                                                    ## ${ pkgs.coreutils }/bin/cat /build/debug &&
                                                                                                                     assert_equals "" "$( ${ pkgs.diffutils }/bin/diff --brief --recursive ${ environment-variable "EXPECTED_DIRECTORY" } ${ environment-variable "OBSERVED_DIRECTORY" } )" "We expect expected to exactly equal observed."
                                                                                                             } &&
                                                                                                                 test_expected_observed ( )
