@@ -604,7 +604,8 @@
                                                                             # The service probably works but we should consider it broken until we can come up with a working test strategy.
                                                                             # ${ resources.util }/scripts/service ${ resources.service } &&
                                                                             ${ pkgs.coreutils }/bin/sleep 15s &&
-                                                                            ${ pkgs.coreutils }/bin/true ${ pkgs.bash_unit }/bin/bash_unit ${ resources.util }/scripts/test.sh
+                                                                            export PATH=${ pkgs.coreutils }/bin &&
+                                                                            ${ pkgs.bash_unit }/bin/bash_unit ${ resources.util }/scripts/test.sh
                                                                     ''
                                                             )
                                                     ] ;
