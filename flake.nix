@@ -1,21 +1,20 @@
 {
     inputs =
         {
+            environment-variable-lib.url = "github:victordanek/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils?rev=b1d9ab70662946ef0850d488da1c9019f3a9752a" ;
+            has-standard-input-lib.url = "github:victordanek/has-standard-input" ;
             nixpkgs.url = "github:NixOs/nixpkgs?rev=9afce28a1719e35c295fe8b379a491659acd9cd6" ;
+            strip-lib.url = "github:victordanek/strip" ;
         } ;
     outputs =
-        { flake-utils , nixpkgs , self } :
+        { environment-variable-lib , flake-utils , has-standard-input-lib , nixpkgs , self , strip-lib } :
             let
                 fun =
                     system :
                         let
-                            environment-variable = name : builtins.concatStringsSep "" [ "$" "{" ( builtins.toString name ) "}" ] ;
-                            has-standard-input =
-                                 strip
-                                     ''
-                                         [ -t 0 ] || [[ "$( ${ pkgs.coreutils }/bin/readlink /proc/self/fd/0 )" == pipe:* ]]
-                                     '' ;
+                            environment-variable = builtins.getAttr system ( builtins.getAttr "lib" environment-variable-lib ) ;
+                            has-standard-input = builtins.getAttr system ( builtins.getAttr "lib" has-standard-input-lib ) ;
                             lib =
                                 {
                                     at ? "/run/wrappers/bin/at" ,
@@ -235,31 +234,18 @@
                                                         '' ;
                                         } ;
                             pkgs = import nixpkgs { system = system ; } ;
-                            strip =
-                                string :
-                                    let
-                                        first = builtins.substring 0 1 string ;
-                                        head = builtins.substring 0 ( length - 1 ) string ;
-                                        last = builtins.substring ( length - 1 ) 1 string ;
-                                        length = builtins.stringLength string ;
-                                        tail = builtins.substring 1 ( length - 1 ) string ;
-                                        whitespace = [ " " "\t" "\n" "\r" "\f" ] ;
-                                        in
-                                            if length == 0 then string
-                                            else if builtins.any ( w : w == first ) whitespace then strip tail
-                                            else if builtins.any ( w : w == last ) whitespace then strip head
-                                            else string ;
-
+                            strip = builtins.getAttr system ( builtins.getAttr "lib" strip-lib ) ;
                             in
                                 {
-                                    checks =
-                                        {
-                                            simple =
-                                                pkgs.stdenv.mkDerivation
-                                                    {
-                                                        name = "checks" ;
-                                                        src = ./. ;
-                                                        buildCommand =
+                                    checks.testLib =
+                                        pkgs.stdenv.mkDerivation
+                                            {
+                                                name = "test-lib" ;
+                                                builder = "${pkgs.bash}/bin/bash" ;
+                                                args =
+                                                    [
+                                                        "-c"
+                                                        (
                                                             let
                                                                 at =
                                                                     pkgs.writeShellScript
@@ -567,7 +553,6 @@
                                                                                                         test_diff ( )
                                                                                                             {
                                                                                                                 ${ pkgs.coreutils }/bin/echo ${ environment-variable "OBSERVED_DIRECTORY" } &&
-                                                                                                                    ${ pkgs.coreutils }/bin/cat /build/debug &&
                                                                                                                     assert_equals "" "$( ${ pkgs.diffutils }/bin/diff --brief --recursive ${ environment-variable "EXPECTED_DIRECTORY" } ${ environment-variable "OBSERVED_DIRECTORY" } )" "We expect expected to exactly equal observed."
                                                                                                             } &&
                                                                                                                 test_expected_observed ( )
@@ -619,10 +604,12 @@
                                                                             # The service probably works but we should consider it broken until we can come up with a working test strategy.
                                                                             # ${ resources.util }/scripts/service ${ resources.service } &&
                                                                             ${ pkgs.coreutils }/bin/sleep 15s &&
+                                                                            export PATH=${ pkgs.coreutils }/bin &&
                                                                             ${ pkgs.bash_unit }/bin/bash_unit ${ resources.util }/scripts/test.sh
-                                                                    '' ;
-                                                    } ;
-                                        } ;
+                                                                    ''
+                                                            )
+                                                    ] ;
+                                            } ;
                                     lib = lib ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
