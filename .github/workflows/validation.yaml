@@ -5,7 +5,6 @@ on:
     branches:
 jobs:
   check:
-    if: false # this does not work on ubuntu-latest because it involves setting up virtual machines and ubuntu-latest does not support setting up virtual machines
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -15,5 +14,7 @@ jobs:
         run: |
           curl -L https://nixos.org/nix/install | sh
           source ~/.nix-profile/etc/profile.d/nix.sh
+      - name: Verify Nix installation
+        run: /home/runner/.nix-profile/bin/nix --version  # Check if Nix is available
       - name: Run Nix Flake Check
-        run: timeout nix flake check
+        run: /home/runner/.nix-profile/bin/nix --extra-experimental-features nix-command --extra-experimental-features flakes flake check
