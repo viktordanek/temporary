@@ -3,21 +3,18 @@
         {
             environment-variable-lib.url = "/tmp/tmp.cWQ1yyN0hn/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils?rev=b1d9ab70662946ef0850d488da1c9019f3a9752a" ;
+            has-standard-input-lib.url = "/tmp/tmp.cWQ1yyN0hn/has-standard-input" ;
             nixpkgs.url = "github:NixOs/nixpkgs?rev=9afce28a1719e35c295fe8b379a491659acd9cd6" ;
             strip-lib.url = "/tmp/tmp.cWQ1yyN0hn/strip" ;
         } ;
     outputs =
-        { environment-variable-lib , flake-utils , nixpkgs , self , strip-lib } :
+        { environment-variable-lib , flake-utils , has-standard-input-lib , nixpkgs , self , strip-lib } :
             let
                 fun =
                     system :
                         let
                             environment-variable = builtins.getAttr system ( builtins.getAttr "lib" environment-variable-lib ) ;
-                            has-standard-input =
-                                 strip
-                                     ''
-                                         [ -t 0 ] || [[ "$( ${ pkgs.coreutils }/bin/readlink /proc/self/fd/0 )" == pipe:* ]]
-                                     '' ;
+                            has-standard-input = builtins.getAttr system ( builtins.getAttr "lib" has-standard-input-lib ) ;
                             lib =
                                 {
                                     at ? "/run/wrappers/bin/at" ,
