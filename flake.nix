@@ -2,9 +2,9 @@
     inputs =
         {
             environment-variable-lib.url = "github:viktordanek/environment-variable" ;
-            flake-utils.url = "github:numtide/flake-utils?rev=b1d9ab70662946ef0850d488da1c9019f3a9752a" ;
+            flake-utils.url = "github:numtide/flake-utils" ;
             has-standard-input-lib.url = "github:viktordanek/has-standard-input" ;
-            nixpkgs.url = "github:NixOs/nixpkgs?rev=9afce28a1719e35c295fe8b379a491659acd9cd6" ;
+            nixpkgs.url = "github:NixOs/nixpkgs" ;
             strip-lib.url = "github:viktordanek/strip" ;
         } ;
     outputs =
