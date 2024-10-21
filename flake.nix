@@ -550,6 +550,10 @@
                                                                                             test =
                                                                                                 { pkgs , ... } : target :
                                                                                                     ''
+                                                                                                        test_fail ( )
+                                                                                                            {
+                                                                                                                fail wtf
+                                                                                                            } &&
                                                                                                         test_diff ( )
                                                                                                             {
                                                                                                                 ${ pkgs.coreutils }/bin/echo ${ environment-variable "OBSERVED_DIRECTORY" } &&
