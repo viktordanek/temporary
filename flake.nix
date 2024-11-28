@@ -31,9 +31,9 @@
                                     pkgs.stdenv.mkDerivation
                                         {
                                             name = "temporary-implementation" ;
-                                            src = ./. ;
                                             nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                            installPhase = builtins.import ( self + ./scripts/implementation/install-phase.sh ) ;
+                                            src = ./. ;
+                                            installPhase = "${ self }/scripts/implementation/install-phase.sh" ;
                                         } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
@@ -42,8 +42,9 @@
                                         pkgs.stdenv.mkDerivation
                                             {
                                                 name = "temporary-test" ;
+                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                 src = ./. ;
-                                                installPhase = builtins.import ( self + ./scripts/test/install-phase.sh ) ;
+                                                installPhase = "${ pkgs.bash }/bin/bash ${ self }/scripts/test/install-phase.sh" ;
                                             } ;
                                     lib = lib ;
                                 } ;
