@@ -51,25 +51,32 @@
                                                                                     ] ;
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) scripts ) ) ;
                                                                 } ;
-                                                            in "export ${ target }=$out && ${ pkgs.bash }/bin/bash ${ self }/scripts/implementation/install-phase.sh && ${ builtins.concatStringsSep "&& " dependencies.scripts }" ;
+                                                            in
+                                                                ''
+                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                        export ${ target }=$out &&
+                                                                        ${ builtins.concatStringsSep " && " dependencies }
+                                                                '' ;
                                                 } ;
                                         in
                                             let
                                                 mapper =
                                                     path : name : value :
-                                                        if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
-                                                        else if builtins.typeOf value == "string" then "${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/${ builtins.concatStringsSep "/" path }/${ name }/${ value }"
-                                                        else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nore a string but a ${ builtins.typeOf value }." ;
+                                                        if builtins.typeOf value == "path" then string path name
+                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
+                                                        else if builtins.typeOf value == "string" then string path name
+                                                        else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
+                                                string = path : name : "${ builtins.concatStringsSep "/" path }/${ name }" ;
                                                     in
                                                         {
-                                                            scripts = scripts : builtins.mapAttrs ( mapper [ "scripts" ] ) scripts ;
+                                                            scripts = scripts : builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" target "}" ] ) "scripts" ] ) scripts ;
                                                         } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
                                     checks.testLib =
                                         let
-                                            resource =
+                                            resources =
                                                 lib
                                                     {
                                                         scripts =
@@ -83,7 +90,13 @@
                                                         name = "temporary-test" ;
                                                         nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                         src = ./. ;
-                                                        installPhase = "${ pkgs.bash }/bin/bash ${ self }/scripts/test/install-phase.sh" ;
+                                                        installPhase =
+                                                            ''
+                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                    ${ pkgs.coreutils }/bin/mkdir $out/observed &&
+                                                                    ${ pkgs.coreutils }/bin/mkdir $out/observed/scripts &&
+                                                                    ${ resources.scripts.foobar } 15c6bfd8dfb34f3facd8ef13eee33a53614d1f41f206da61517d6a4be6dfd63f2839ae6559053328fad41f0f1658dd14c22718d1dc81753897e780b8e922cc39 > $out/observed/scripts/foobar
+                                                            '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
