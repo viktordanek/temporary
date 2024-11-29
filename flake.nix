@@ -95,7 +95,12 @@
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/observed &&
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/observed/scripts &&
-                                                                    ${ resources.scripts.foobar } 15c6bfd8dfb34f3facd8ef13eee33a53614d1f41f206da61517d6a4be6dfd63f2839ae6559053328fad41f0f1658dd14c22718d1dc81753897e780b8e922cc39 > $out/observed/scripts/foobar
+                                                                    ${ resources.scripts.foobar } 15c6bfd8dfb34f3facd8ef13eee33a53614d1f41f206da61517d6a4be6dfd63f2839ae6559053328fad41f0f1658dd14c22718d1dc81753897e780b8e922cc39 > $out/observed/scripts/foobar &&
+                                                                    ${ pkgs.diffutils }/bin/diff ./expected $out/observed ) > $out/diff &&
+                                                                    if [ ! -z "$( ${ pkgs.coreutils }/bin/cat $out/diff )" ]
+                                                                    then
+                                                                        ${ pkgs.coreutils }/bin/cat $out/diff
+                                                                    fi
                                                             '' ;
                                                     } ;
                                     lib = lib ;
