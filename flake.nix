@@ -33,7 +33,7 @@
                                             name = "temporary-implementation" ;
                                             nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                             src = ./. ;
-                                            installPhase = "${ self }/scripts/implementation/install-phase.sh" ;
+                                            installPhase = "${ pkgs.bash }/bin/bash ${ self }/scripts/implementation/install-phase.sh" ;
                                         } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
