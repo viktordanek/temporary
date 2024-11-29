@@ -72,7 +72,10 @@
                                             resource =
                                                 lib
                                                     {
-                                                        scripts = { } ;
+                                                        scripts =
+                                                            {
+                                                                foobar = self + "./scripts/test/scripts/foobar.sh" ;
+                                                            } ;
                                                     } ;
                                             in
                                                 pkgs.stdenv.mkDerivation
