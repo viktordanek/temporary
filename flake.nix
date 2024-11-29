@@ -14,7 +14,7 @@
                                 {
                                     scripts ? { } ,
                                     scripts-uuid ? "7c9f23ad0b1508d651c6aff49f936fa2ce6e7eef7930e1cc01508ced9a23042ac8ef01baa8d816b4d52f0af38a4b0c27bedaa4c3a16dc66bfdb1421f9d0209a1" ,
-                                    target ? 
+                                    target ? "accc6302a7852e378f2f672c66cfd30b2d442fd2be68a77374bbd3282341cb4fd99eded94e66ec8802fccc4e933451c4d0bdaff782119408267594f6f194bfce"
                                 } :
                                     let
                                         derivation =
@@ -29,17 +29,29 @@
                                                                 {
                                                                     scripts =
                                                                         let
-                                                                            lambda =
-                                                                                path : name : value :
-                                                                                    ""
                                                                             mapper =
                                                                                 path : name : value :
-                                                                                    if builtins.typeOf value == "lambda" then lambda path name value
-                                                                                    else if builtins.typeOf value == "path" then lambda path name ( builtins.import value )
-                                                                                    else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                                    if builtins.typeOf value == "path" then string path name ( builtins.import value )
+                                                                                    else if builtins.typeOf value == "set" then
+                                                                                        ''
+                                                                                            ${ pkgs.coreutils }/bin/mkdir $out/scripts/${ builtins.concatStringsSep "/" path }
+                                                                                        ''
+                                                                                        ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
+                                                                                    else if builtins.typeOf value == "string" then string path name value
                                                                                     else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is a ${ builtins.typeOf value }.  It should be either a lambda, path, or a set." ;
+                                                                            string =
+                                                                                path : name : value :
+                                                                                    [
+                                                                                        ''
+                                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript name value } $out/scripts/${ builtins.concatStringsSep "/" path }/${ name }.sh
+                                                                                        ''
+                                                                                        ''
+                                                                                            makeWrapper $out/scripts/${ builtins.concatStringsSep "/" path }/${ name }.sh $out/scripts/${ builtins.concatStringsSep "/" path }/${ name } --prefix PATH ""
+                                                                                        ''
+                                                                                    ] ;
+                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) scripts ) ) ;
                                                                 } ;
-                                                            in "${ pkgs.bash }/bin/bash ${ self }/scripts/implementation/install-phase.sh" ;
+                                                            in "${ pkgs.bash }/bin/bash ${ self }/scripts/implementation/install-phase.sh && ${ builtins.concatStringsSep "&& " dependencies.scripts }" ;
                                                 } ;
                                         in null ;
                             pkgs = import nixpkgs { system = system ; } ;
