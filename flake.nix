@@ -12,6 +12,7 @@
                         let
                             lib =
                                 {
+                                    scripts ? { }
                                 } :
                                     let
                                         derivation =
@@ -27,13 +28,20 @@
                             in
                                 {
                                     checks.testLib =
-                                        pkgs.stdenv.mkDerivation
-                                            {
-                                                name = "temporary-test" ;
-                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                src = ./. ;
-                                                installPhase = "${ pkgs.bash }/bin/bash ${ self }/scripts/test/install-phase.sh" ;
-                                            } ;
+                                        let
+                                            resource =
+                                                lib
+                                                    {
+                                                        scripts = { } ;
+                                                    } ;
+                                            in
+                                                pkgs.stdenv.mkDerivation
+                                                    {
+                                                        name = "temporary-test" ;
+                                                        nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                        src = ./. ;
+                                                        installPhase = "${ pkgs.bash }/bin/bash ${ self }/scripts/test/install-phase.sh" ;
+                                                    } ;
                                     lib = lib ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
