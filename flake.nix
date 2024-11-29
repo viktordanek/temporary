@@ -34,26 +34,36 @@
                                                                                     if builtins.typeOf value == "path" then string path name ( builtins.import value )
                                                                                     else if builtins.typeOf value == "set" then
                                                                                         ''
-                                                                                            ${ pkgs.coreutils }/bin/mkdir $out/scripts/${ builtins.concatStringsSep "/" path }
+                                                                                            ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }
                                                                                         ''
                                                                                         ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                                     else if builtins.typeOf value == "string" then string path name value
-                                                                                    else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is a ${ builtins.typeOf value }.  It should be either a lambda, path, or a set." ;
+                                                                                    else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, or string but is a ${ builtins.typeOf value }." ;
                                                                             string =
                                                                                 path : name : value :
                                                                                     [
                                                                                         ''
-                                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript name value } $out/scripts/${ builtins.concatStringsSep "/" path }/${ name }.sh
+                                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript name value } ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }/${ name }.sh
                                                                                         ''
                                                                                         ''
-                                                                                            makeWrapper $out/scripts/${ builtins.concatStringsSep "/" path }/${ name }.sh $out/scripts/${ builtins.concatStringsSep "/" path }/${ name } --prefix PATH ""
+                                                                                            makeWrapper ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }/${ name }.sh ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }/${ name } --prefix PATH ""
                                                                                         ''
                                                                                     ] ;
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) scripts ) ) ;
                                                                 } ;
-                                                            in "${ pkgs.bash }/bin/bash ${ self }/scripts/implementation/install-phase.sh && ${ builtins.concatStringsSep "&& " dependencies.scripts }" ;
+                                                            in "export ${ target }=$out && ${ pkgs.bash }/bin/bash ${ self }/scripts/implementation/install-phase.sh && ${ builtins.concatStringsSep "&& " dependencies.scripts }" ;
                                                 } ;
-                                        in null ;
+                                        in
+                                            let
+                                                mapper =
+                                                    path : name : value :
+                                                        if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
+                                                        else if builtins.typeOf value == "string" then "${ builtins.concatStringsSep "" [ "$" "{" target "}" }/${ builtins.concatStringsSep "/" path }/${ name }/${ value }"
+                                                        else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nore a string but a ${ builtins.typeOf value }."
+                                                    in
+                                                        {
+                                                            scripts = scripts : builtins.mapAttrs ( mapper [ "scripts" ] ) scripts ;
+                                                        } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
