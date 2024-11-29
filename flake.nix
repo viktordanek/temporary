@@ -59,7 +59,7 @@
                                                     path : name : value :
                                                         if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
                                                         else if builtins.typeOf value == "string" then "${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/${ builtins.concatStringsSep "/" path }/${ name }/${ value }"
-                                                        else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nore a string but a ${ builtins.typeOf value }."
+                                                        else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nore a string but a ${ builtins.typeOf value }." ;
                                                     in
                                                         {
                                                             scripts = scripts : builtins.mapAttrs ( mapper [ "scripts" ] ) scripts ;
