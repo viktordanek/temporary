@@ -80,16 +80,16 @@
                                         in
                                             let
                                                 lambda = path : name : "${ builtins.concatStringsSep "/" path }/${ name }/init" ;
-                                                    in
-                                                        {
-                                                            temporary = builtins.mapAttrs ( mapper [ ] ) temporary ;
-                                                        } ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name
                                                         else if builtins.typeOf value == "path" then lambda path name
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
+                                                in
+                                                    {
+                                                        temporary = builtins.mapAttrs ( mapper [ ] ) temporary ;
+                                                    } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
