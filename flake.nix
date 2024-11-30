@@ -13,8 +13,7 @@
                             lib =
                                 {
                                     scripts ? { } ,
-                                    target ? "accc6302a7852e378f2f672c66cfd30b2d442fd2be68a77374bbd3282341cb4fd99eded94e66ec8802fccc4e933451c4d0bdaff782119408267594f6f194bfce" ,
-                                    temporary-uuid ? "7c9f23ad0b1508d651c6aff49f936fa2ce6e7eef7930e1cc01508ced9a23042ac8ef01baa8d816b4d52f0af38a4b0c27bedaa4c3a16dc66bfdb1421f9d0209a1"
+                                    target ? "accc6302a7852e378f2f672c66cfd30b2d442fd2be68a77374bbd3282341cb4fd99eded94e66ec8802fccc4e933451c4d0bdaff782119408267594f6f194bfce"
                                 } :
                                     let
                                         derivation =
@@ -31,17 +30,34 @@
                                                                         let
                                                                             lambda =
                                                                                 path : name : value :
-                                                                                    [
-                                                                                        ''
-                                                                                            ${ pkgs.coreutils }/bin/mkdir ${ pkgs.concatStringsSep "/" path }/${ name }
-                                                                                        ''
-                                                                                        ''
-                                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" init } ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh
-                                                                                        ''
-                                                                                        ''
-                                                                                            makeWrapper ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh ${ pkgs.concatStringsSep "/" path }/${ name }/init
-                                                                                        ''
-                                                                                    ] ;
+                                                                                    let
+                                                                                        result =
+                                                                                            let
+                                                                                                identity =
+                                                                                                    {
+                                                                                                        init ? builtins.null ,
+                                                                                                        release ? builtins.null
+                                                                                                    } :
+                                                                                                        {
+                                                                                                            init =
+                                                                                                                if builtins.typeOf init == "lambda" then init { target = target ; }
+                                                                                                                else if builtins.typeOf init == "null" then ""
+                                                                                                                else if builtins.typeOf init == "path"  then builtins.import init { target = target ; }
+                                                                                                                else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null, path, nor a string but a ${ builtins.typeOf init }." ;
+                                                                                                        } ;
+                                                                                                in identity ( value builtins.null ) ;
+                                                                                        in
+                                                                                            [
+                                                                                                ''
+                                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ pkgs.concatStringsSep "/" path }/${ name }
+                                                                                                ''
+                                                                                                ''
+                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" results.init } ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh
+                                                                                                ''
+                                                                                                ''
+                                                                                                    makeWrapper ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh ${ pkgs.concatStringsSep "/" path }/${ name }/init
+                                                                                                ''
+                                                                                            ] ;
                                                                             mapper =
                                                                                 path : name : value :
                                                                                     if builtins.typeOf value == "lambda" then lambda path name value
@@ -51,7 +67,7 @@
                                                                                             ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }
                                                                                         ''
                                                                                         ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
-                                                                                    else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, path, nor a set but is a ${ builtins.typeOf value }." ;
+                                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, path, nor a set but is a ${ builtins.typeOf value }." ;
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) scripts ) ) ;
                                                                 } ;
                                                             in
