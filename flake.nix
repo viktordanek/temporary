@@ -33,10 +33,13 @@
                                                                                 path : name : value :
                                                                                     [
                                                                                         ''
-                                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript name value } ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }/${ name }.sh
+                                                                                            ${ pkgs.coreutils }/bin/mkdir ${ pkgs.concatStringsSep "/" path }/${ name }
                                                                                         ''
                                                                                         ''
-                                                                                            makeWrapper ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }/${ name }.sh ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }/${ name } --prefix PATH ""
+                                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" init } ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh
+                                                                                        ''
+                                                                                        ''
+                                                                                            makeWrapper ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh ${ pkgs.concatStringsSep "/" path }/${ name }/init
                                                                                         ''
                                                                                     ] ;
                                                                             mapper =
