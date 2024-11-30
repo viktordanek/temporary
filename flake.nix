@@ -72,7 +72,8 @@
 
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                export ${ target }=$out
+                                                                export ${ target }=$out &&
+                                                                ${ builtins.concatStringsSep " && " ( builtins.attrValues dependencies ) }
                                                         '' ;
                                                 } ;
                                         in
