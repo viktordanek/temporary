@@ -83,7 +83,7 @@
                                                         if builtins.typeOf value == "lambda" then lambda path name
                                                         else if builtins.typeOf value == "path" then lambda path name
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
+                                                        else builtins.throw "The temporary defined at  is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
                                                 in
                                                     {
                                                         temporary = builtins.mapAttrs ( mapper [ dependencies ] ) temporary ;
