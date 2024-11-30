@@ -41,7 +41,7 @@
                                                                     in
                                                                         [
                                                                             ''
-                                                                                ${ pkgs.coreutils }/bin/mkdir ${ pkgs.concatStringsSep "/" path }/${ name }
+                                                                                ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
                                                                             ''
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh
