@@ -32,24 +32,37 @@
                                                                                 } :
                                                                                     {
                                                                                         init =
-                                                                                            if builtins.typeOf init == "lambda" then init { target = target ; }
-                                                                                            else if builtins.typeOf init == "null" then ""
-                                                                                            else if builtins.typeOf init == "path"  then builtins.import init { target = target ; }
+                                                                                            if builtins.typeOf init == "null" then init
+                                                                                            else if builtins.typeOf init == "path"  then builtins.import init
+                                                                                            else if builtins.typeOf init == "string" then init
                                                                                             else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null, path, nor a string but a ${ builtins.typeOf init }." ;
                                                                                     } ;
                                                                             in identity ( value builtins.null ) ;
                                                                     in
-                                                                        [
-                                                                            ''
-                                                                                ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
-                                                                            ''
-                                                                            ''
-                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ builtins.concatStringsSep "/" path }/${ name }/init.sh
-                                                                            ''
-                                                                            ''
-                                                                                makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/init.sh ${ builtins.concatStringsSep "/" path }/${ name }/init
-                                                                            ''
-                                                                        ] ;
+                                                                        builtins.concatLists
+                                                                            [
+                                                                                ''
+                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
+                                                                                ''
+                                                                                (
+                                                                                    if builtins.typeOf result.init == "null" then [ ]
+                                                                                    else
+                                                                                        [
+                                                                                            ''
+                                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ builtins.concatStringsSep "/" path }/${ name }/init.sh
+                                                                                            ''
+                                                                                        ]
+                                                                                )
+                                                                                (
+                                                                                    if builtins.typeOf result.init == "null" then [ ]
+                                                                                    else
+                                                                                        [
+                                                                                            ''
+                                                                                                makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/init.sh ${ builtins.concatStringsSep "/" path }/${ name }/init
+                                                                                            ''
+                                                                                        ]
+                                                                                )
+                                                                            ] ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
