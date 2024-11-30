@@ -91,7 +91,7 @@
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ store }=$out &&
-                                                                ${ builtins.trace "INSTALL_PHASE - ${ builtins.typeOf dependencies }" true
+                                                                ${ builtins.trace "INSTALL_PHASE - ${ builtins.typeOf dependencies }" true }
                                                         '' ;
                                                 } ;
                                         in
