@@ -70,11 +70,11 @@
                                                                 else if builtins.typeOf value == "set" then
                                                                     builtins.concatLists
                                                                         [
-                                                                            [
-                                                                                ''
-                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
-                                                                                ''
-                                                                            ]
+                                                                            # [
+                                                                            #    ''
+                                                                            #        ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
+                                                                            #    ''
+                                                                            # ]
                                                                             # ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                         ]
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, path, nor a set but is a ${ builtins.typeOf value }." ;
