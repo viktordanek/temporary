@@ -91,7 +91,7 @@
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ store }=$out &&
-                                                                echo ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues dependencies ) ) }
+                                                                ${ builtins.trace "HI" "true" }
                                                         '' ;
                                                 } ;
                                         in
