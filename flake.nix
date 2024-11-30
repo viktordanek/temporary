@@ -102,7 +102,7 @@
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                         else if builtins.typeOf value == "string" then string path name
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
-                                                in builtins.mapAttrs ( mapper [ ] ) derivation ;
+                                                in builtins.mapAttrs ( mapper [ ] ) dependencies ;
                                                 string = path : name : "${ builtins.concatStringsSep "/" path }/${ name }" ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
