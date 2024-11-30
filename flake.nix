@@ -47,7 +47,7 @@
                                                                                 ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ builtins.concatStringsSep "/" path }/${ name }/init.sh
                                                                             ''
                                                                             ''
-                                                                                makeWrapper ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh ${ builtins.concatStringsSep "/" path }/${ name }/init
+                                                                                makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/init.sh ${ builtins.concatStringsSep "/" path }/${ name }/init
                                                                             ''
                                                                         ] ;
                                                         mapper =
