@@ -112,7 +112,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    
+                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources } &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
