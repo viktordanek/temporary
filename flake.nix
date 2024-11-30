@@ -78,7 +78,7 @@
                                                 } ;
                                         in
                                             let
-                                                lambda = path : name : "" ;
+                                                lambda = path : name : "${ builtins.toString derivation }" ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name
