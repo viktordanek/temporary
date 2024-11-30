@@ -37,7 +37,7 @@
                                                                                             else if builtins.typeOf init == "string" then init
                                                                                             else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null, path, nor a string but a ${ builtins.typeOf init }." ;
                                                                                     } ;
-                                                                            in identity ( value builtins.null ) ;
+                                                                            in builtins.trace "Hi2" ( identity ( value builtins.null ) ) ;
                                                                     in
                                                                         builtins.concatLists
                                                                             [
@@ -105,7 +105,7 @@
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
                                                 in
                                                     {
-                                                        temporary = builtins.trace "HI2" ( builtins.mapAttrs ( mapper [ ( builtins.toString derivation ) "temporary" ] ) temporary ) ;
+                                                        temporary = builtins.mapAttrs ( mapper [ ( builtins.toString derivation ) "temporary" ] ) temporary ;
                                                     } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
