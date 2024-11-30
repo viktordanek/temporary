@@ -88,7 +88,7 @@
                                                 string = path : name : "${ builtins.concatStringsSep "/" path }/${ name }/init" ;
                                                     in
                                                         {
-                                                            temporary = builtins.mapAttrs ( mapper [ ] ) temporary
+                                                            temporary = builtins.mapAttrs ( mapper [ ] ) temporary ;
                                                         } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
