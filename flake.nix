@@ -72,8 +72,7 @@
 
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                export ${ target }=$out &&
-                                                                ${ builtins.concatStringsSep " && " dependencies }
+                                                                export ${ target }=$out
                                                         '' ;
                                                 } ;
                                         in
