@@ -53,15 +53,15 @@
                                                                                 #            ''
                                                                                 #        ]
                                                                                 # )
-                                                                                # (
-                                                                                #   if builtins.typeOf result.init == "null" then [ ]
-                                                                                #     else
-                                                                                #        [
-                                                                                #            ''
-                                                                                #                makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/init.sh ${ builtins.concatStringsSep "/" path }/${ name }/init
-                                                                                #            ''
-                                                                                #        ]
-                                                                                # )
+                                                                                (
+                                                                                  if builtins.typeOf result.init == "null" then [ ]
+                                                                                    else
+                                                                                       [
+                                                                                           ''
+                                                                                               makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/init.sh ${ builtins.concatStringsSep "/" path }/${ name }/init
+                                                                                           ''
+                                                                                       ]
+                                                                                )
                                                                             ] ;
                                                         mapper =
                                                             path : name : value :
