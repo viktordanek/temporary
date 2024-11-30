@@ -12,8 +12,7 @@
                         let
                             lib =
                                 {
-                                    derivation ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
-                                    target ? "accc6302a7852e378f2f672c66cfd30b2d442fd2be68a77374bbd3282341cb4fd99eded94e66ec8802fccc4e933451c4d0bdaff782119408267594f6f194bfce" ,
+                                    store ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
                                     temporary ? { }
                                 } :
                                     let
@@ -66,7 +65,7 @@
                                                                             ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                         ]
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, path, nor a set but is a ${ builtins.typeOf value }." ;
-                                                        in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" derivation "}" ] ) "temporary" ] ) temporary ) ) ;
+                                                        in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" store "}" ] ) "temporary" ] ) temporary ) ) ;
                                             } ;
                                         derivation =
                                             pkgs.stdenv.mkDerivation
@@ -78,7 +77,7 @@
 
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                export ${ derivation }=$out &&
+                                                                export ${ store }=$out &&
                                                                 ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues dependencies ) ) }
                                                         '' ;
                                                 } ;
