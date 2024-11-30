@@ -131,7 +131,6 @@
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources.temporary } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources.temporary ) } &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.temporary.null } &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
