@@ -52,7 +52,7 @@
                                                                                                     ${ pkgs.coreutils }/bin/mkdir ${ pkgs.concatStringsSep "/" path }/${ name }
                                                                                                 ''
                                                                                                 ''
-                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" results.init } ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh
+                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh
                                                                                                 ''
                                                                                                 ''
                                                                                                     makeWrapper ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh ${ pkgs.concatStringsSep "/" path }/${ name }/init
