@@ -41,18 +41,18 @@
                                                                     in
                                                                         builtins.concatLists
                                                                             [
-                                                                                # ''
-                                                                                #    ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
-                                                                                # ''
-                                                                                # (
-                                                                                #    if builtins.typeOf result.init == "null" then [ ]
-                                                                                #    else
-                                                                                #        [
-                                                                                #            ''
-                                                                                #                ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ builtins.concatStringsSep "/" path }/${ name }/init.sh
-                                                                                #            ''
-                                                                                #        ]
-                                                                                # )
+                                                                                ''
+                                                                                   ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
+                                                                                ''
+                                                                                (
+                                                                                   if builtins.typeOf result.init == "null" then [ ]
+                                                                                   else
+                                                                                       [
+                                                                                           ''
+                                                                                               ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ builtins.concatStringsSep "/" path }/${ name }/init.sh
+                                                                                           ''
+                                                                                       ]
+                                                                                )
                                                                                 (
                                                                                   if builtins.typeOf result.init == "null" then [ ]
                                                                                     else
