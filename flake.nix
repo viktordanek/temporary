@@ -78,7 +78,7 @@
                                                 } ;
                                         in
                                             let
-                                                lambda = path : name : "${ builtins.concatStringsSep "/" path }/${ name }/init" ;
+                                                lambda = path : name : "${ builtins.concatStringsSep "/" path }" ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name
