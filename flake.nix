@@ -69,6 +69,7 @@
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     src = ./. ;
                                                     installPhase =
+
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ target }=$out &&
