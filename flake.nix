@@ -91,7 +91,7 @@
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ store }=$out &&
-                                                                ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues dependencies ) ) }
+                                                                echo ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues dependencies ) ) }
                                                         '' ;
                                                 } ;
                                         in
