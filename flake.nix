@@ -86,7 +86,7 @@
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
                                                 in
                                                     {
-                                                        temporary = builtins.mapAttrs ( mapper [ "wtf" ] ) temporary ;
+                                                        temporary = builtins.mapAttrs ( mapper [ "wtf" ( builtins.toString derivation ) ] ) temporary ;
                                                     } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
