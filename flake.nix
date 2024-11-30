@@ -77,7 +77,7 @@
                                                 } ;
                                         in
                                             let
-                                                lambda = path : name : "${ builtins.toString derivation }" ;
+                                                lambda = path : name : "${ builtins.concatStringsSep "/" path }/${ name }/init.sh ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name
