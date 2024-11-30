@@ -88,7 +88,7 @@
                                                 string = path : name : "${ builtins.concatStringsSep "/" path }/${ name }" ;
                                                     in
                                                         {
-                                                            scripts = scripts : builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" target "}" ] ) "scripts" ] ) scripts ;
+                                                            temporary = scripts : builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" target "}" ] ) "temporary" ] ) scripts ;
                                                         } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
@@ -112,7 +112,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo WTF &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.temporary.null } &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
