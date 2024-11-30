@@ -85,7 +85,7 @@
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
                                                         else if builtins.typeOf value == "string" then string path name
                                                         else builtins.throw "The script defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
-                                                string = path : name : "${ builtins.concatStringsSep "/" path }/${ name }" ;
+                                                string = path : name : "${ builtins.concatStringsSep "/" path }/${ name }/init" ;
                                                     in
                                                         {
                                                             temporary = scripts : builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" target "}" ] ) "temporary" ] ) scripts ;
@@ -112,7 +112,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.temporary.null } &&
+                                                                    
                                                                     exit 1
                                                             '' ;
                                                     } ;
