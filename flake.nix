@@ -100,13 +100,11 @@
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name
-                                                        else if builtins.typeOf value == "path" then lambda path name
+                                                        else if builtins.typeOf value == "null" then lambda path name
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                        else if builtins.typeOf value == "string" then string path name
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a path, set, nor a string but a ${ builtins.typeOf value }." ;
-                                                in
-                                                    {
-                                                        temporary = builtins.mapAttrs ( mapper [ ( builtins.toString derivation ) "temporary" ] ) temporary ;
-                                                    } ;
+                                                in builtins.mapAttrs ( mapper [ ] ) derivation ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
