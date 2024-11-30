@@ -98,6 +98,10 @@
                                             resources =
                                                 lib
                                                     {
+                                                        temporary =
+                                                            {
+                                                                null = ignore : { } ;
+                                                            } ;
                                                     } ;
                                             in
                                                 pkgs.stdenv.mkDerivation
@@ -107,7 +111,9 @@
                                                         src = ./. ;
                                                         installPhase =
                                                             ''
-                                                                ${ pkgs.coreutils }/bin/mkdir $out
+                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                    ${ pkgs.coreutils }/bin/echo WTF &&
+                                                                    exit 1
                                                             '' ;
                                                     } ;
                                     lib = lib ;
