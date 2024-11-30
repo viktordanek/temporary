@@ -21,7 +21,7 @@
                                                 temporary =
                                                     let
                                                         lambda =
-                                                            path : name : value : builtins.trace "HI" (
+                                                            path : name : value : builtins.trace "HI ${ builtins.typeOf path } - ${ builtins.typeOf name } - ${ builtins.typeOf value }" (
                                                                 let
                                                                     result =
                                                                         let
