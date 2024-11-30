@@ -16,6 +16,52 @@
                                     temporary ? { }
                                 } :
                                     let
+                                        dependencies =
+                                            {
+                                                temporary =
+                                                    let
+                                                        lambda =
+                                                            path : name : value :
+                                                                let
+                                                                    result =
+                                                                        let
+                                                                            identity =
+                                                                                {
+                                                                                    init ? builtins.null ,
+                                                                                    release ? builtins.null
+                                                                                } :
+                                                                                    {
+                                                                                        init =
+                                                                                            if builtins.typeOf init == "lambda" then init { target = target ; }
+                                                                                            else if builtins.typeOf init == "null" then ""
+                                                                                            else if builtins.typeOf init == "path"  then builtins.import init { target = target ; }
+                                                                                            else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null, path, nor a string but a ${ builtins.typeOf init }." ;
+                                                                                    } ;
+                                                                            in identity ( value builtins.null ) ;
+                                                                    in
+                                                                        [
+                                                                            ''
+                                                                                ${ pkgs.coreutils }/bin/mkdir ${ pkgs.concatStringsSep "/" path }/${ name }
+                                                                            ''
+                                                                            ''
+                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh
+                                                                            ''
+                                                                            ''
+                                                                                makeWrapper ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh ${ pkgs.concatStringsSep "/" path }/${ name }/init
+                                                                            ''
+                                                                        ] ;
+                                                        mapper =
+                                                            path : name : value :
+                                                                if builtins.typeOf value == "lambda" then lambda path name value
+                                                                else if builtins.typeOf value == "path" then lambda path name ( builtins.import value )
+                                                                else if builtins.typeOf value == "set" then
+                                                                    ''
+                                                                        ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }
+                                                                    ''
+                                                                    ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
+                                                                else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, path, nor a set but is a ${ builtins.typeOf value }." ;
+                                                        in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ;
+                                            } ;
                                         derivation =
                                             pkgs.stdenv.mkDerivation
                                                 {
@@ -23,59 +69,11 @@
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     src = ./. ;
                                                     installPhase =
-                                                        let
-                                                            dependencies =
-                                                                {
-                                                                    temporary =
-                                                                        let
-                                                                            lambda =
-                                                                                path : name : value :
-                                                                                    let
-                                                                                        result =
-                                                                                            let
-                                                                                                identity =
-                                                                                                    {
-                                                                                                        init ? builtins.null ,
-                                                                                                        release ? builtins.null
-                                                                                                    } :
-                                                                                                        {
-                                                                                                            init =
-                                                                                                                if builtins.typeOf init == "lambda" then init { target = target ; }
-                                                                                                                else if builtins.typeOf init == "null" then ""
-                                                                                                                else if builtins.typeOf init == "path"  then builtins.import init { target = target ; }
-                                                                                                                else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null, path, nor a string but a ${ builtins.typeOf init }." ;
-                                                                                                        } ;
-                                                                                                in identity ( value builtins.null ) ;
-                                                                                        in
-                                                                                            [
-                                                                                                ''
-                                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ pkgs.concatStringsSep "/" path }/${ name }
-                                                                                                ''
-                                                                                                ''
-                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "init" result.init } ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh
-                                                                                                ''
-                                                                                                ''
-                                                                                                    makeWrapper ${ pkgs.concatStringsSep "/" path }/${ name }/init.sh ${ pkgs.concatStringsSep "/" path }/${ name }/init
-                                                                                                ''
-                                                                                            ] ;
-                                                                            mapper =
-                                                                                path : name : value :
-                                                                                    if builtins.typeOf value == "lambda" then lambda path name value
-                                                                                    else if builtins.typeOf value == "path" then lambda path name ( builtins.import value )
-                                                                                    else if builtins.typeOf value == "set" then
-                                                                                        ''
-                                                                                            ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "" [ "$" "{" target "}" ] }/scripts/${ builtins.concatStringsSep "/" path }
-                                                                                        ''
-                                                                                        ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
-                                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, path, nor a set but is a ${ builtins.typeOf value }." ;
-                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ;
-                                                                } ;
-                                                            in
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                        export ${ target }=$out &&
-                                                                        ${ builtins.concatStringsSep " && " dependencies }
-                                                                '' ;
+                                                        ''
+                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                export ${ target }=$out &&
+                                                                ${ builtins.concatStringsSep " && " dependencies }
+                                                        '' ;
                                                 } ;
                                         in
                                             let
