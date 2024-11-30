@@ -32,12 +32,12 @@
                                                                                 } :
                                                                                     {
                                                                                         init =
-                                                                                            if builtins.typeOf init == "null" then init
-                                                                                            else if builtins.typeOf init == "path"  then builtins.import init
-                                                                                            else if builtins.typeOf init == "string" then init
+                                                                                            if builtins.typeOf init == "null" then builtins.trace "A1" init
+                                                                                            else if builtins.typeOf init == "path" then builtins.trace "A2" ( builtins.import init )
+                                                                                            else if builtins.typeOf init == "string" then builtins.trace "A3" init
                                                                                             else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null, path, nor a string but a ${ builtins.typeOf init }." ;
                                                                                     } ;
-                                                                            in builtins.trace "Hi2" ( identity ( value builtins.null ) ) ;
+                                                                            in identity ( value builtins.null ) ;
                                                                     in
                                                                         builtins.concatLists
                                                                             [
