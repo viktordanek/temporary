@@ -102,7 +102,7 @@
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ store }=$out &&
-                                                                ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" store "}" ] ) ] ) result ) ) ) }
+                                                                ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" store "}" ] ) ] ) dependencies ) ) ) }
                                                         '' ;
                                                 } ;
                                         in
