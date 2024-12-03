@@ -34,33 +34,33 @@
                                                                                     else if builtins.typeOf init == "path" then init
                                                                                     else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null nor a path but a ${ builtins.typeOf init }." ;
                                                                             } ;
+                                                                    script =
+                                                                        {
+                                                                            executable ,
+                                                                            sets ? { }
+                                                                        } :
+                                                                            path : name : binary :
+                                                                                builtins.concatStringsSep
+                                                                                    " "
+                                                                                    (
+                                                                                        builtins.concatLists
+                                                                                            [
+                                                                                                "makeWrapper"
+                                                                                                ( "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }" )
+                                                                                                (
+                                                                                                    if builtins.typeOf executable == "path" then executable
+                                                                                                    else builtins.throw "The executable is not a path but a ${ builtins.typeOf executable }"
+                                                                                                )
+                                                                                                (
+                                                                                                    if
+                                                                                                        builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
+                                                                                                        then
+                                                                                                        builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set" "'${ name }'" "'${ value }'" ] ) )
+                                                                                                    else builtins.throw "The sets is not a set of strings."
+                                                                                                )
+                                                                                            ]
+                                                                                    ) ;
                                                                     in ignore : identity ( value script ) ;
-                                                        script =
-                                                            {
-                                                                executable ,
-                                                                sets ? { }
-                                                            } :
-                                                                path : name : binary :
-                                                                    builtins.concatStringsSep
-                                                                        " "
-                                                                        (
-                                                                            builtins.concatLists
-                                                                                [
-                                                                                    "makeWrapper"
-                                                                                    ( "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }" )
-                                                                                    (
-                                                                                        if builtins.typeOf executable == "path" then executable
-                                                                                        else builtins.throw "The executable is not a path but a ${ builtins.typeOf executable }"
-                                                                                    )
-                                                                                    (
-                                                                                        if
-                                                                                            builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
-                                                                                            then
-                                                                                            builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set" "'${ name }'" "'${ value }'" ] ) )
-                                                                                        else builtins.throw "The sets is not a set of strings."
-                                                                                    )
-                                                                                ]
-                                                                        ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
@@ -116,8 +116,8 @@
                                                         if builtins.typeOf value == "lambda" then lambda path name
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                         else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
-                                                # in builtins.mapAttrs ( mapper [ ] ) dependencies ;
-                                                in builtins.trace dependencies { wtf = 1 ; } ;
+                                                in builtins.mapAttrs ( mapper [ ] ) dependencies ;
+                                                # in builtins.trace dependencies { wtf = 1 ; } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
