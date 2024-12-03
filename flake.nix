@@ -45,8 +45,7 @@
                                                                                         else builtins.throw "The sets is not a set of strings."
                                                                                     )
                                                                                 ]
-                                                                        )
-                                                                } ;
+                                                                        ) ;
                                                         lambda =
                                                             path : name : value :
                                                                 let
