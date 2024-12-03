@@ -127,7 +127,11 @@
                                                     {
                                                         temporary =
                                                             {
-
+                                                                directory =
+                                                                    script :
+                                                                        {
+                                                                            init = script { executable = self + "./test/directory/init.sh" ; sets = { CORE_UTILS = pkgs.coreutils ; } ; } ;
+                                                                        } ;
                                                             } ;
                                                     } ;
                                             in
@@ -139,7 +143,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources } &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
