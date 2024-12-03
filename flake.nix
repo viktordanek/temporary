@@ -18,8 +18,23 @@
                                     let
                                         dependencies =
                                             {
-                                                lambda =
+                                                temporary =
                                                     let
+                                                        lambda =
+                                                            path : name : value :
+                                                                let
+                                                                    identity =
+                                                                        {
+                                                                            init ? builtins.null ,
+                                                                            release ? builtins.null
+                                                                        } :
+                                                                            {
+                                                                                init =
+                                                                                    if builtins.typeOf init == "null" then builtins.null
+                                                                                    else if builtins.typeOf init == "path" then init
+                                                                                    else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null nor a path but a ${ builtins.typeOf init }." ;
+                                                                            } ;
+                                                                    in ignore : identity ( value script ) ;
                                                         script =
                                                             {
                                                                 executable ,
@@ -46,21 +61,6 @@
                                                                                     )
                                                                                 ]
                                                                         ) ;
-                                                        lambda =
-                                                            path : name : value :
-                                                                let
-                                                                    identity =
-                                                                        {
-                                                                            init ? builtins.null ,
-                                                                            release ? builtins.null
-                                                                        } :
-                                                                            {
-                                                                                init =
-                                                                                    if builtins.typeOf init == "null" then builtins.null
-                                                                                    else if builtins.typeOf init == "path" then init
-                                                                                    else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null nor a path but a ${ builtins.typeOf init }." ;
-                                                                            } ;
-                                                                    in ignore : identity ( value script ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
