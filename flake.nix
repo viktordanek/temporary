@@ -84,23 +84,21 @@
                                                                         computed = value builtins.null ;
                                                                         in
                                                                             builtins.concatLists
-                                                                                [
-                                                                                    ''
-                                                                                        ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
-                                                                                    ''
-                                                                                    (
-                                                                                        if builtins.typeOf computed.init == "null" then [ ]
-                                                                                        else if builtins.typeOf computed.init == "set" then 
-                                                                                        else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a string but is a ${ builtins.typeOf computed.init }."
-                                                                                    )
-                                                                                ]
+                                                                            [
+                                                                                ''
+                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
+                                                                                ''
+                                                                                (
+                                                                                    if computed.init == null then [ ]
+                                                                                    else computed.init path name "init"
+                                                                                )
+                                                                            ]
                                                                 else if builtins.typeOf value == "set" then
                                                                     builtins.concatLists
                                                                         [
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
                                                                             ''
-                                                                            (43
                                                                         ]
                                                                 else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                             in
