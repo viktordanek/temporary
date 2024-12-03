@@ -110,7 +110,7 @@
                                                 } ;
                                         in
                                             let
-                                                lambda = path : name : "wtf" ; # "${ builtins.concatStringsSep "/" path }/${ name }" ;
+                                                lambda = path : name : "${ builtins.concatStringsSep "/" path }/${ name }" ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name
@@ -143,7 +143,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources.lambda } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources ) } &&
                                                                     exit 1
                                                             '' ;
