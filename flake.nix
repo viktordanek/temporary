@@ -65,9 +65,8 @@
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
                                                                 else if builtins.typeOf value == "null" then lambda path name { }
-                                                                else if builtins.typeOf value == "path" then lambda path name ( builtins.import value )
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, null, path, nor a set but is a ${ builtins.typeOf value }." ;
+                                                                else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, null, nor a set but is a ${ builtins.typeOf value }." ;
                                                         in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ) ) ;
                                             } ;
                                         derivation =
@@ -91,26 +90,7 @@
                                                                                     ''
                                                                                     (
                                                                                         if builtins.typeOf computed.init == "null" then [ ]
-                                                                                        else if builtins.typeOf computed.init == "set" then
-                                                                                            let
-                                                                                                argv0 = computed.init.argv0 ;
-                                                                                                executable = computed.init.executable ;
-                                                                                                flags = computed.init.flags ;
-                                                                                                run-script = computed.init.run-script ;
-                                                                                                sets = computed.init.sets ;
-                                                                                                unsets = computed.init.unsets ;
-                                                                                                in
-                                                                                                    builtins.concatStringsSep
-                                                                                                        " "
-                                                                                                        [
-                                                                                                            "writeWrapper"
-                                                                                                            "${ builtins.concatStringsSep "/" path }/${ name }/init"
-                                                                                                            executable
-                                                                                                            argv0
-                                                                                                            flags
-                                                                                                            sets
-                                                                                                            unsets
-                                                                                                        ]
+                                                                                        else if builtins.typeOf computed.init == "set" then 
                                                                                         else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a string but is a ${ builtins.typeOf computed.init }."
                                                                                     )
                                                                                 ]
@@ -120,7 +100,7 @@
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
                                                                             ''
-                                                                            ( builtins.concatLists ( builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) ) value )
+                                                                            (43
                                                                         ]
                                                                 else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                             in
