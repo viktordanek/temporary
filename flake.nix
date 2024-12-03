@@ -130,7 +130,7 @@
                                                                 directory =
                                                                     script :
                                                                         {
-                                                                            init = script { environment = { CORE_UTILS = pkgs.coreutils ; } ; script = self + "./test/directory/init.sh" ; } ;
+                                                                            init = script { executable = self + "./test/directory/init.sh" ; sets = { CORE_UTILS = pkgs.coreutils ; } ; } ;
                                                                         } ;
                                                             } ;
                                                     } ;
@@ -143,6 +143,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources } &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
