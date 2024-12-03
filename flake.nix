@@ -22,12 +22,30 @@
                                                     let
                                                         script =
                                                             {
-                                                                environment ? { } ,
-                                                                script
+                                                                executable ,
+                                                                sets ? { }
                                                             } :
-                                                                {
-                                                                    environment = environment ;
-                                                                    script = script ;
+                                                                path : name : binary :
+                                                                    builtins.concatStringsSep
+                                                                        " "
+                                                                        (
+                                                                            builtins.concatLists
+                                                                                [
+                                                                                    "makeWrapper"
+                                                                                    ( "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }" )
+                                                                                    (
+                                                                                        if builtins.typeOf executable == "path" then executable
+                                                                                        else builtins.throw "The executable is not a path but a ${ builtins.typeOf executable }"
+                                                                                    )
+                                                                                    (
+                                                                                        if
+                                                                                            builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
+                                                                                            then
+                                                                                            builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set" "'${ name }'" "'${ value }'" ] ) )
+                                                                                        else builtins.throw "The sets is not a set of strings."
+                                                                                    )
+                                                                                ]
+                                                                        )
                                                                 } ;
                                                         lambda =
                                                             path : name : value :
@@ -74,18 +92,26 @@
                                                                                     ''
                                                                                     (
                                                                                         if builtins.typeOf computed.init == "null" then [ ]
-                                                                                        else if builtins.typeOf computed.init == "string" then
-                                                                                            ''
-                                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript name computed.init.script } ${ builtins.concatStringsSep "/" path }/${ name }/init.sh
-                                                                                            ''
-                                                                                        else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a string but is a ${ builtins.typeOf computed.init }."
-                                                                                    )
-                                                                                    (
-                                                                                        if builtins.typeOf computed.init == "null" then [ ]
-                                                                                        else if builtins.typeOf computed.init == "string" then
-                                                                                            ''
-                                                                                                writeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/init.sh ${ builtins.concatStringsSep "/" path }/${ name }/init --set ${ store } $out
-                                                                                            ''
+                                                                                        else if builtins.typeOf computed.init == "set" then
+                                                                                            let
+                                                                                                argv0 = computed.init.argv0 ;
+                                                                                                executable = computed.init.executable ;
+                                                                                                flags = computed.init.flags ;
+                                                                                                run-script = computed.init.run-script ;
+                                                                                                sets = computed.init.sets ;
+                                                                                                unsets = computed.init.unsets ;
+                                                                                                in
+                                                                                                    builtins.concatStringsSep
+                                                                                                        " "
+                                                                                                        [
+                                                                                                            "writeWrapper"
+                                                                                                            "${ builtins.concatStringsSep "/" path }/${ name }/init"
+                                                                                                            executable
+                                                                                                            argv0
+                                                                                                            flags
+                                                                                                            sets
+                                                                                                            unsets
+                                                                                                        ]
                                                                                         else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a string but is a ${ builtins.typeOf computed.init }."
                                                                                     )
                                                                                 ]
