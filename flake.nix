@@ -143,7 +143,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources.directory } &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
