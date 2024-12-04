@@ -29,7 +29,7 @@
                                                                             init ? builtins.null ,
                                                                             release ? builtins.null
                                                                         } :
-                                                                            builtins.trace "HI6" (
+                                                                            builtins.trace "HIB" (
                                                                             {
                                                                                 init =
                                                                                     builtins.trace "HIA" (
@@ -81,6 +81,7 @@
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     src = ./. ;
                                                     installPhase =
+                                                        builtins.trace "HIZ" (
                                                         let
                                                             mapper =
                                                                 path : name : value :
@@ -113,7 +114,7 @@
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ store }=$out &&
                                                                 ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ( builtins.concatStringsSep "" [ "$" "{" store "}" ] ) ] ) dependencies ) ) ) }
-                                                        '' ) ;
+                                                        '' ) ) ;
                                                 } ;
                                         in
                                             let
