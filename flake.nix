@@ -30,9 +30,10 @@
                                                                         } :
                                                                             {
                                                                                 init =
+                                                                                    builtins.trace "HI2" (
                                                                                     if builtins.typeOf init == "null" then builtins.null
                                                                                     else if builtins.typeOf init == "path" then init
-                                                                                    else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null nor a path but a ${ builtins.typeOf init }." ;
+                                                                                    else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null nor a path but a ${ builtins.typeOf init }." ) ;
                                                                             } ;
                                                                     script =
                                                                         {
@@ -61,7 +62,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ) ;
-                                                                    in builtins.trace "HI2 ${ name } ${ builtins.typeOf value } " ( ignore : identity ( value script ) ) ;
+                                                                    in ignore : identity ( value script ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
