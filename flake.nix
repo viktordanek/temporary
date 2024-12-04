@@ -31,7 +31,7 @@
                                                                         } :
                                                                             {
                                                                                 init =
-                                                                                    builtins.trace "HI4" (
+                                                                                    builtins.trace "HI4 A" (
                                                                                     if builtins.typeOf init == "null" then builtins.null
                                                                                     else if builtins.typeOf init == "path" then init
                                                                                     else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null nor a path but a ${ builtins.typeOf init }." ) ;
