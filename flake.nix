@@ -63,7 +63,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ) ;
-                                                                    in builtins.trace "HI3" ( ignore : builtins.trace "HI4" ( identity ( value script ) ) ) ) ;
+                                                                    in builtins.trace "HI3 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HI4" ( identity ( value script ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
