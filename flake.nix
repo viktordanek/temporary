@@ -21,8 +21,8 @@
                                                 temporary =
                                                     let
                                                         lambda =
-                                                            builtins.trace "HI2" (
                                                             path : name : value :
+                                                            builtins.trace "HI2 ${ builtins.typeOf path } ${ name }" (
                                                                 let
                                                                     identity =
                                                                         {
