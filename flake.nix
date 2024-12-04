@@ -133,7 +133,7 @@
                                                                 directory =
                                                                     script :
                                                                        {
-                                                                           init = script { executable = self + "./test/directory/init.sh" ; sets = { CORE_UTILS = pkgs.coreutils ; } ; } ;
+                                                                           init = builtins.trace "HI C" ( script { executable = self + "./test/directory/init.sh" ; sets = { CORE_UTILS = pkgs.coreutils ; } ; } ) ;
                                                                        } ;
                                                             } ;
                                                     } ;
