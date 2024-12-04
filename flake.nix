@@ -63,7 +63,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ) ;
-                                                                    in builtins.trace "HI4 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HI4" ( identity ( value script ) ) ) ) ;
+                                                                    in builtins.trace "HI4 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HI5" ( identity ( value script ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 builtins.trace "HI2" (
