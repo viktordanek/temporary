@@ -41,7 +41,7 @@
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
-                                                                            builtins.trace "HI5" (
+                                                                            builtins.trace "HI5A" (
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
