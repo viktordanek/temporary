@@ -22,7 +22,7 @@
                                                     let
                                                         lambda =
                                                             path : name : value :
-                                                            builtins.trace "HI4A ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" (
+                                                            builtins.trace "HI4 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" (
                                                                 let
                                                                     identity =
                                                                         {
@@ -67,7 +67,7 @@
                                                         mapper =
                                                             path : name : value :
                                                                 builtins.trace "HI2" (
-                                                                if builtins.typeOf value == "lambda" then builtins.trace "HI4B" ( lambda path name value )
+                                                                if builtins.typeOf value == "lambda" then builtins.trace "HI3" ( lambda path name value )
                                                                 else if builtins.typeOf value == "null" then lambda path name { }
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, null, nor a set but is a ${ builtins.typeOf value }." ) ;
