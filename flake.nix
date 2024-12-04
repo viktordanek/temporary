@@ -63,10 +63,10 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ) ;
-                                                                    in builtins.trace "HI3 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HI4" ( identity ( value script ) ) ) ) ;
+                                                                    in builtins.trace "HI4 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HI4" ( identity ( value script ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
-                                                                builtins.trace "HI D" (
+                                                                builtins.trace "HI 2" (
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
                                                                 else if builtins.typeOf value == "null" then lambda path name { }
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
