@@ -21,6 +21,7 @@
                                                 temporary =
                                                     let
                                                         lambda =
+                                                            builtins.trace "HI2" (
                                                             path : name : value :
                                                                 let
                                                                     identity =
@@ -30,7 +31,7 @@
                                                                         } :
                                                                             {
                                                                                 init =
-                                                                                    builtins.trace "HI2" (
+                                                                                    builtins.trace "HI3" (
                                                                                     if builtins.typeOf init == "null" then builtins.null
                                                                                     else if builtins.typeOf init == "path" then init
                                                                                     else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null nor a path but a ${ builtins.typeOf init }." ) ;
@@ -40,7 +41,7 @@
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
-                                                                            builtins.trace "HI3" (
+                                                                            builtins.trace "HI4" (
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
@@ -62,7 +63,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ) ;
-                                                                    in ignore : identity ( value script ) ;
+                                                                    in ignore : identity ( value script ) ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
