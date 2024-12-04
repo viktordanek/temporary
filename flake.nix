@@ -67,7 +67,7 @@
                                                         mapper =
                                                             path : name : value :
                                                                 builtins.trace "HI2" (
-                                                                if builtins.typeOf value == "lambda" then lambda path name value
+                                                                if builtins.typeOf value == "lambda" then builtins.trace "HIZ" ( lambda path name value )
                                                                 else if builtins.typeOf value == "null" then lambda path name { }
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, null, nor a set but is a ${ builtins.typeOf value }." ) ;
