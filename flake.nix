@@ -83,28 +83,29 @@
                                                         let
                                                             mapper =
                                                                 path : name : value :
-                                                                if builtins.typeOf value == "lambda" then
-                                                                    let
-                                                                        computed = builtins.trace "HIZ" ( value builtins.null ) ;
-                                                                        in
-                                                                            builtins.concatLists
+                                                                    builtins.trace "HIZ" (
+                                                                    if builtins.typeOf value == "lambda" then
+                                                                        let
+                                                                            computed = builtins.trace "HIZ" ( value builtins.null ) ;
+                                                                            in
+                                                                                builtins.concatLists
+                                                                                [
+                                                                                    ''
+                                                                                        ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
+                                                                                    ''
+                                                                                    (
+                                                                                        if computed.init == null then [ ]
+                                                                                        else computed.init path name "init"
+                                                                                    )
+                                                                                ]
+                                                                    else if builtins.typeOf value == "set" then
+                                                                        builtins.concatLists
                                                                             [
                                                                                 ''
-                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
+                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
                                                                                 ''
-                                                                                (
-                                                                                    if computed.init == null then [ ]
-                                                                                    else computed.init path name "init"
-                                                                                )
                                                                             ]
-                                                                else if builtins.typeOf value == "set" then
-                                                                    builtins.concatLists
-                                                                        [
-                                                                            ''
-                                                                                ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
-                                                                            ''
-                                                                        ]
-                                                                else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
+                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ) ;
                                                             in
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
