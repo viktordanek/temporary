@@ -22,7 +22,7 @@
                                                     let
                                                         lambda =
                                                             path : name : value :
-                                                            builtins.trace "HI2 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" (
+                                                            builtins.trace "HI3 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" (
                                                                 let
                                                                     identity =
                                                                         {
@@ -66,7 +66,7 @@
                                                                     in builtins.trace "HI4 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HI4" ( identity ( value script ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
-                                                                builtins.trace "HI 2" (
+                                                                builtins.trace "HI2" (
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
                                                                 else if builtins.typeOf value == "null" then lambda path name { }
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
