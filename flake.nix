@@ -39,6 +39,7 @@
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
+                                                                            builtins.trace "HI3" (
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
@@ -59,7 +60,7 @@
                                                                                                     else builtins.throw "The sets is not a set of strings."
                                                                                                 )
                                                                                             ]
-                                                                                    ) ;
+                                                                                    ) ) ;
                                                                     in builtins.trace "HI2 ${ name } ${ builtins.typeOf value } " ( ignore : identity ( value script ) ) ;
                                                         mapper =
                                                             path : name : value :
