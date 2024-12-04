@@ -60,7 +60,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
-                                                                    in builtins.trace "HI2" ( ignore : identity ( value script ) ) ;
+                                                                    in builtins.trace "HI2 ${ name } " ( ignore : identity ( value script ) ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
