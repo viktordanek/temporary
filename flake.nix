@@ -22,7 +22,7 @@
                                                     let
                                                         lambda =
                                                             path : name : value :
-                                                            builtins.trace "HI2 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name }" (
+                                                            builtins.trace "HI2 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" (
                                                                 let
                                                                     identity =
                                                                         {
