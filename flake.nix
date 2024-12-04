@@ -41,7 +41,7 @@
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
-                                                                            builtins.trace "HI5A" (
+                                                                            builtins.trace "HIA" (
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
@@ -63,7 +63,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ) ;
-                                                                    in builtins.trace "HI5 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HI5" ( identity ( value script ) ) ) ) ;
+                                                                    in builtins.trace "HI5 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HIZ" ( identity ( value script ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 builtins.trace "HI2" (
