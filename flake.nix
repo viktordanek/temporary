@@ -22,27 +22,24 @@
                                                     let
                                                         lambda =
                                                             path : name : value :
-                                                            builtins.trace "HI4 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" (
                                                                 let
                                                                     identity =
                                                                         {
                                                                             init ? builtins.null ,
                                                                             release ? builtins.null
                                                                         } :
-                                                                            builtins.trace "HIB" (
                                                                             {
                                                                                 init =
                                                                                     builtins.trace "HIA" (
                                                                                     if builtins.typeOf init == "null" then builtins.null
                                                                                     else if builtins.typeOf init == "path" then init
                                                                                     else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a null nor a path but a ${ builtins.typeOf init }." ) ;
-                                                                            } ) ;
+                                                                            } ;
                                                                     script =
                                                                         {
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
-                                                                            builtins.trace "HIA" (
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
@@ -63,7 +60,7 @@
                                                                                                     else builtins.throw "The sets is not a set of strings."
                                                                                                 )
                                                                                             ]
-                                                                                    ) ) ;
+                                                                                    ) ;
                                                                     in builtins.trace "HI5 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HIZ" ( identity ( value script ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
