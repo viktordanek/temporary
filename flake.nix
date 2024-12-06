@@ -67,7 +67,7 @@
                                                                     in builtins.trace "HI5 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HIZ" ( identity ( value script ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
-                                                                builtins.trace "HI2 ${ resources }" (
+                                                                builtins.trace "HI2" (
                                                                 if builtins.typeOf value == "lambda" then builtins.trace "HI3" ( lambda path name value )
                                                                 else if builtins.typeOf value == "null" then lambda path name { }
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
@@ -123,7 +123,7 @@
                                                         if builtins.typeOf value == "lambda" then builtins.trace "HI A" "${ builtins.concatStringsSep "/" path }/${ name }"
                                                         else if builtins.typeOf value == "set" then builtins.trace "HI B" ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value )
                                                         else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ) ;
-                                                in { } ;
+                                                in builtins.mapAttrs ( mapper [ ] ) dependencies ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
