@@ -129,7 +129,7 @@
                                                                 directory =
                                                                     script :
                                                                         {
-                                                                            temporary = script { init = pkgs.writeShellScript "directory" "${ pkgs.coreutils }/bin/mkdir " ; } ;
+                                                                            temporary = script { } ;
                                                                         } ;
                                                             } ;
                                                     } ;
