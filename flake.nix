@@ -105,7 +105,7 @@
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ store }=$out &&
-                                                                ${ builtins.contStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) ;
+                                                                ${ builtins.contStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) }
                                                         '' ;
                                                 } ;
                                         in
