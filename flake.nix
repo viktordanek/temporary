@@ -93,8 +93,8 @@
                                                                                         ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
                                                                                     ''
                                                                                     (
-                                                                                        if computed.init == null then [ ]
-                                                                                        else computed.init path name "init"
+                                                                                        # if computed.init == null then [ ]
+                                                                                        # else computed.init path name "init"
                                                                                     )
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
