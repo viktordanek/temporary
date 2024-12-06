@@ -144,6 +144,7 @@
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources ) } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources.temporary } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources.temporary ) } &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
