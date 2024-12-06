@@ -133,7 +133,7 @@
                                                                 directory =
                                                                     script :
                                                                         {
-                                                                            temporary = script { } ;
+                                                                            init = script { } ;
                                                                         } ;
                                                             } ;
                                                     } ;
