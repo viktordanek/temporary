@@ -102,11 +102,11 @@
                                                                             ]
                                                                     else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                             in
+                                                        builtins.trace "HI" (
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                export ${ store }=$out &&
-                                                                ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) }
-                                                        '' ;
+                                                                export ${ store }=$out
+                                                        '' ) ;
                                                 } ;
                                         in
                                             let
