@@ -79,7 +79,6 @@
                                                         let
                                                             mapper =
                                                                 path : name : value :
-                                                                    builtins.trace "HIZ" (
                                                                     if builtins.typeOf value == "lambda" then
                                                                         let
                                                                             computed = builtins.trace "HIZ" ( value builtins.null ) ;
@@ -101,7 +100,7 @@
                                                                                     ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
                                                                                 ''
                                                                             ]
-                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ) ;
+                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                             in
                                                         builtins.trace "HIZ" (
                                                         ''
