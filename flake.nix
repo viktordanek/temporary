@@ -81,7 +81,7 @@
                                                                 path : name : value :
                                                                     if builtins.typeOf value == "lambda" then
                                                                         let
-                                                                            computed = builtins.trace "HIZ" ( value builtins.null ) ;
+                                                                            computed = value builtins.null ;
                                                                             in
                                                                                 builtins.concatLists
                                                                                 [
