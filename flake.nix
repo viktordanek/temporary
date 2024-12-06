@@ -114,7 +114,7 @@
                                                         if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" path }/${ name }"
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                         else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
-                                                in builtins.mapAttrs ( mapper [ ] ) dependencies ;
+                                                in builtins.mapAttrs ( mapper [ ] ) { } ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
@@ -142,6 +142,7 @@
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources ) } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources.temporary } &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
