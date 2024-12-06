@@ -76,7 +76,6 @@
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     src = ./. ;
                                                     installPhase =
-                                                        builtins.trace "HIZ" (
                                                         let
                                                             mapper =
                                                                 path : name : value :
@@ -108,7 +107,7 @@
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ store }=$out
-                                                        '' ) ) ;
+                                                        '' ) ;
                                                 } ;
                                         in
                                             let
