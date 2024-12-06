@@ -67,7 +67,7 @@
                                                                     in builtins.trace "HI5 ${ builtins.typeOf path } ${ builtins.typeOf name } ${ name } ${ builtins.typeOf value }" ( ignore : builtins.trace "HIZ" ( identity ( value script ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
-                                                                builtins.trace "HI2" (
+                                                                builtins.trace "HI2 ${ resources }" (
                                                                 if builtins.typeOf value == "lambda" then builtins.trace "HI3" ( lambda path name value )
                                                                 else if builtins.typeOf value == "null" then lambda path name { }
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
