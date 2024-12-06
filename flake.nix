@@ -128,6 +128,7 @@
                                                                 directory =
                                                                     script :
                                                                         {
+                                                                            temporary = script { } ;
                                                                         } ;
                                                             } ;
                                                     } ;
