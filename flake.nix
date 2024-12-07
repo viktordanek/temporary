@@ -109,7 +109,6 @@
                                                                             ]
                                                                     else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                             in
-                                                        builtins.trace ( builtins.typeOf ( ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ).temporary ) )
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                 export ${ store }=$out
