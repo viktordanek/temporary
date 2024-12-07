@@ -112,8 +112,7 @@
                                                         builtins.trace ( builtins.typeOf ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) )
                                                         ''
                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                export ${ store }=$out &&
-                                                                ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) }
+                                                                export ${ store }=$out
                                                         '' ;
                                                 } ;
                                         in
