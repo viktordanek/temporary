@@ -101,8 +101,11 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 ''
-                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
+                                                                                    ${ pkgs.coreutils }/bin/true
                                                                                 ''
+                                                                                # ''
+                                                                                #     ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }
+                                                                                # ''
                                                                             ]
                                                                     else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                             in
