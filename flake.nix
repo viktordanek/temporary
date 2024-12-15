@@ -95,7 +95,7 @@
                                                                                         ''
                                                                                         (
                                                                                             if computed.init == null then [ ]
-                                                                                            else computed.init path name "init"
+                                                                                            else [ ( computed.init path name "init" ) ]
                                                                                         )
                                                                                     ]
                                                                                 ]
