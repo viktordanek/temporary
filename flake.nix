@@ -40,7 +40,7 @@
                                                                             } ;
                                                                     script =
                                                                         {
-                                                                            executable ,
+                                                                            executable ? builtins.null ,
                                                                             sets ? { }
                                                                         } :
                                                                             path : name : binary :
