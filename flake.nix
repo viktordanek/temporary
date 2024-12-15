@@ -139,7 +139,6 @@
                                             resources =
                                                 lib
                                                     {
-                                                        target = "TARGET" ;
                                                         temporary =
                                                             {
                                                                 directory =
