@@ -123,6 +123,8 @@
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out
+                                                                        export ${ store }=$out &&
+                                                                        ${ pkgs.coreutils }/bin/echo "${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) dependencies ) ) ) }" > $out/command.sh
                                                                 '' ;
                                                 } ;
                                         in
@@ -159,7 +161,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo TEST ${ builtins.typeOf resources } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources ) } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources.temporary } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources.temporary ) } &&
