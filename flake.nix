@@ -50,9 +50,9 @@
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 "makeWrapper"
-                                                                                                ( "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }" )
+                                                                                                "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
                                                                                                 (
-                                                                                                    if builtins.typeOf executable == "path" then executable
+                                                                                                    if builtins.typeOf executable == "path" then builtins.toString executable
                                                                                                     else builtins.throw "The executable is not a path but a ${ builtins.typeOf executable }"
                                                                                                 )
                                                                                                 (
