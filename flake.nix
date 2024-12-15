@@ -118,9 +118,7 @@
                                                                 '' ;
                                                             in
                                                                 ''
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                        export ${ store }=$out &&
-                                                                        ${ pkgs.coreutils }/bin/echo "${ builtins.concatStringsSep " && \n\t\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) }" > $out/command.sh
+                                                                    ${ pkgs.coreutils }/bin/echo "${ builtins.concatStringsSep " && \n\t\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) }" > $out/command.sh
                                                                 '' ;
                                                 } ;
                                         in
