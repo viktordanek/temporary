@@ -42,7 +42,7 @@
                                                                         {
                                                                             executable ? builtins.null ,
                                                                             sets ? { }
-                                 f                                       } :
+                                                                        } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
