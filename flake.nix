@@ -139,12 +139,13 @@
                                             resources =
                                                 lib
                                                     {
+                                                        target = "TARGET" ;
                                                         temporary =
                                                             {
                                                                 directory =
                                                                     script :
                                                                         {
-                                                                            init = script { executable = pkgs.writeShellScript "directory" ( builtins.import self + "scripts/test/directory/init.sh" } ;
+                                                                            init = script { executable = pkgs.writeShellScript "directory" ( builtins.import self + "scripts/test/directory/init.sh" ; } ;
                                                                         } ;
                                                             } ;
                                                     } ;
