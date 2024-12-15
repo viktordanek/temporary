@@ -30,12 +30,12 @@
                                                                         } :
                                                                             {
                                                                                 init =
-                                                                                    if builtins.typeOf init == "null" then builtins.null
-                                                                                    else if builtins.typeOf init == "lamda" then init
+                                                                                    if builtins.typeOf init == "lamda" then init
+                                                                                    else if builtins.typeOf init == "null" then builtins.null
                                                                                     else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf init }." ;
                                                                                 release =
-                                                                                    if builtins.typeOf release == "null" then builtins.null
-                                                                                    else if builtins.typeOf release == "path" then init
+                                                                                    if builtins.typeOf release == "path" then init
+                                                                                    else if builtins.typeOf release == "null" then builtins.null
                                                                                     else builtins.throw "The release defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf release }." ;
                                                                             } ;
                                                                     script =
