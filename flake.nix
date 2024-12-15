@@ -94,9 +94,7 @@
                                                                                 builtins.concatLists
                                                                                 [
                                                                                     [
-                                                                                        ''
-                                                                                           ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }
-                                                                                        ''
+                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }"
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
@@ -124,7 +122,8 @@
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out
                                                                         export ${ store }=$out &&
-                                                                        ${ pkgs.coreutils }/bin/echo "${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) }" > $out/command.sh
+                                                                        ${ pkgs.coreutils }/bin/echo "${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out
+                                                                        +" ] ) dependencies ) ) ) }" > $out/command.sh
                                                                 '' ;
                                                 } ;
                                         in
