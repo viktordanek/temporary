@@ -160,8 +160,7 @@
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources.temporary } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources.temporary ) } &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf resources.temporary.directory } &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.temporary.directory } &&
-                                                                    exit 1
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.temporary.directory }
                                                             '' ;
                                                     } ;
                                     lib = lib ;
