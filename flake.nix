@@ -57,15 +57,15 @@
                                                                                                             "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
                                                                                                             ( builtins.toString executable )
                                                                                                         ]
-                                                                                                    else builtins.throw "The executable is neighther a null nor a path but a ${ builtins.typeOf executable }"
+                                                                                                    else builtins.throw "The executable is neither a null nor a path but a ${ builtins.typeOf executable }"
                                                                                                 )
-                                                                                                # (
-                                                                                                #     if
-                                                                                                #         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
-                                                                                                #         then
-                                                                                                #             builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set" "'${ name }'" "'${ value }'" ] ) )
-                                                                                                #     else builtins.throw "The sets is not a set of strings."
-                                                                                                # )
+                                                                                                (
+                                                                                                    if
+                                                                                                        builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
+                                                                                                        then
+                                                                                                            builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set" "'${ name }'" "'${ value }'" ] ) )
+                                                                                                    else builtins.throw "The sets is not a set of strings."
+                                                                                                )
                                                                                             ]
                                                                                     ) ;
                                                                     in ignore : identity ( value script ) ;
