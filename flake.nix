@@ -59,7 +59,6 @@
                                                                                                         ]
                                                                                                     else builtins.throw "The executable is neighther a null nor a path but a ${ builtins.typeOf executable }"
                                                                                                 )
-                                                                                                ]
                                                                                                 # (
                                                                                                 #     if
                                                                                                 #         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
