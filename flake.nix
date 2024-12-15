@@ -144,7 +144,7 @@
                                                                 directory =
                                                                     script :
                                                                         {
-                                                                            init = script { } ;
+                                                                            init = script { executable = pkgs.writeShellScript "directory" ( builtins.import self + "scripts/test/directory/init.sh" } ;
                                                                         } ;
                                                             } ;
                                                     } ;
