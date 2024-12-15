@@ -50,8 +50,7 @@
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 (
-                                                                                                    if builtins.typeOf executable == "null" then [ ]
-                                                                                                    else if builtins.typeOf executable == "set" then
+                                                                                                    if builtins.typeOf executable == "set" then
                                                                                                         [
                                                                                                             "makeWrapper"
                                                                                                             "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
@@ -105,7 +104,7 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }"
+                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/AA" path }"
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
