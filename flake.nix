@@ -49,7 +49,9 @@
                                                                                     (
                                                                                         builtins.concatLists
                                                                                             [
-                                                                                                "makeWrapper"
+                                                                                                [
+                                                                                                    "makeWrapper"
+                                                                                                ]
                                                                                                 # "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
                                                                                                 # (
                                                                                                 #    if builtins.typeOf executable == "path" then builtins.toString executable
