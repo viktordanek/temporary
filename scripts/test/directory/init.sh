@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mkdir ${TARGET}
+${COREUTILS}/mkdir ${TARGET}
