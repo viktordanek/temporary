@@ -101,6 +101,10 @@
                                                                                         if computed.init == null then [ ]
                                                                                         else [ ( computed.init path name "init" ) ]
                                                                                     )
+                                                                                    (
+                                                                                        if computed.release == null then [ ]
+                                                                                        else [ ( computed.release path name "release" ) ]
+                                                                                    )
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
                                                                         builtins.concatLists
@@ -137,6 +141,7 @@
                                                                     script :
                                                                         {
                                                                             init = script { executable = pkgs.writeShellScript "directory" ( self + "scripts/test/directory/init.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
+                                                                            release = script { executable = pkgs.writeShellScript "directory" ( self + "scripts/test/directory/release.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
                                                                         } ;
                                                             } ;
                                                     } ;
