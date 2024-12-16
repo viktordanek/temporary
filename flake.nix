@@ -103,7 +103,7 @@
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
-                                                                                        elsle [ ( computed.release path name "release" ]
+                                                                                        else [ ( computed.release path name "release" ]
                                                                                     )
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
