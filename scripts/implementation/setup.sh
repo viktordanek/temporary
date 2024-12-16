@@ -8,4 +8,5 @@ RESOURCE=$( ${COREUTILS}/bin/mktemp --directory ${TEMPORARY_MASK} ) &&
   if [ -x ${STORE}/release ]
   then
     ${COREUTILS}/bin/ln --symbolic ${STORE}/release ${RESOURCE}/release
-  fi
+  fi &&
+  ${COREUTILS}/bin/ln --symbolic ${TEARDOWN} ${RESOURCE}/teardown
