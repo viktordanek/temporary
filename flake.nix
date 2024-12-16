@@ -93,7 +93,8 @@
                                                                                 builtins.concatLists
                                                                                 [
                                                                                     [
-                                                                                        "BBBB${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }"
+                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }"
+                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }"
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
@@ -104,7 +105,7 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 [
-                                                                                    "AAAA ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }"
+                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }"
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
