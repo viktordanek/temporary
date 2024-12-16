@@ -39,6 +39,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     fi &&
     ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
+    ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
     ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} ]
