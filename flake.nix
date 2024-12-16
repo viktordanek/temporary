@@ -106,8 +106,8 @@
                                                                                         else [ ( computed.release path name "release" ) ]
                                                                                     )
                                                                                     [
-                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
-                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ self + "/scripts/implementation.sh" }"
+                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
+                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ self + "/scripts/implementation/setup.sh" }"
                                                                                         "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh ${ builtins.concatStringsSep "/" path }/${ name }/setup"
                                                                                     ]
                                                                                 ]
