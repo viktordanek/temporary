@@ -14,6 +14,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
   ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
+  ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
   ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid &&
   if [ -x ${INIT} ]
   then
