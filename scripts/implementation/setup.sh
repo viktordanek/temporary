@@ -1,12 +1,12 @@
 #!/bin/sh
 
 RESOURCE=$( ${COREUTILS}/bin/mktemp --directory ${TEMPORARY_MASK} ) &&
-  if [ -x ${STORE}/init ]
+  if [ -x ${INIT} ]
   then
-    ${COREUTILS}/bin/ln --symbolic ${STORE}/init ${RESOURCE}/init
+    ${COREUTILS}/bin/ln --symbolic ${INIT} ${RESOURCE}/init
   fi &&
-  if [ -x ${STORE}/release ]
+  if [ -x ${RELEASE} ]
   then
-    ${COREUTILS}/bin/ln --symbolic ${STORE}/release ${RESOURCE}/release
+    ${COREUTILS}/bin/ln --symbolic ${RELEASE} ${RESOURCE}/release
   fi &&
   ${COREUTILS}/bin/ln --symbolic ${TEARDOWN} ${RESOURCE}/teardown-synch
