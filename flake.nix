@@ -109,7 +109,7 @@
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
                                                                                         "${ pkgs.coreutils }/bin/chmod 0550 ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
-                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh ${ builtins.concatStringsSep "/" path }/${ name }/setup --set COREUTILS ${ pkgs.coreutils } --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }"
+                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh ${ builtins.concatStringsSep "/" path }/${ name }/setup --set COREUTILS ${ pkgs.coreutils } --set STORE ${ builtins.concatStringsSep "/" path }/${ name } --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }"
                                                                                     ]
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
