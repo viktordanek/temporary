@@ -54,8 +54,8 @@
                                                                                                     if builtins.typeOf executable == "set" then
                                                                                                         [
                                                                                                             "makeWrapper"
-                                                                                                            "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
                                                                                                             ( builtins.toString executable )
+                                                                                                            "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
                                                                                                         ]
                                                                                                     else builtins.throw "The executable is neither a null nor a set but a ${ builtins.typeOf executable }"
                                                                                                 )
