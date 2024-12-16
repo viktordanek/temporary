@@ -5,9 +5,15 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
   then
-    ${TEE} > ${RESOURCE}/init.input &&
+    PARENT_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 ) &&
+      TARGET_PID=$( ${PS} -p ${PARENT_PID} -o pid | ${TAIL} --lines 1 ) &&
+      ${TEE} > ${RESOURCE}/init.input &&
       ${CHMOD} 0400 ${RESOURCE}/init.input
+  else
+    TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
   fi &&
+  ${ECHO} ${TARGET_PID} > ${RESOURCE}/${TARGET_PID}.pid &&
+  ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID}.pid &&
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RESOURCE}/init
@@ -35,7 +41,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   if [ -z "${STATUS}" ] || [ ${STATUS} ]
   then
     ${RESOURCE}/teardown-asynch &&
-    ${ECHO} ${TARGET}
+      ${ECHO} ${TARGET}
   else
     BROKEN=$( ${MKTEMP} --dry-run -t ${BROKEN_RESOURCE_MASK} ) &&
       ${MV} ${RESOURCE} ${BROKEN} &&
