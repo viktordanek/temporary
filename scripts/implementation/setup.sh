@@ -41,12 +41,13 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
     ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status &&
-    ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr
+    ${ECHO} HI ZZZA${TARGET_PID// /}B > /dev/stderr
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} ]
   then
+    ${ECHO} HI ZZZA${TARGET_PID// /}B > /dev/stderr &&
     ${RESOURCE}/teardown-asynch &&
-      ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
+      ${ECHO} HI ZZZA${TARGET_PID// /}B > /dev/stderr &&
       ${ECHO} ${TARGET}
   else
     BROKEN=$( ${MKTEMP} --dry-run -t ${BROKEN_RESOURCE_MASK} ) &&
