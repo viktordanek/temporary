@@ -44,7 +44,7 @@
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
-                                                                            path : name : binary :                                                                                                            ( builtins.toString executable )
+                                                                            path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
@@ -141,7 +141,7 @@
                                                                     script :
                                                                         {
                                                                             init = script { executable = pkgs.writeShellScript "directory" ( self + "scripts/test/directory/init.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
-                                                                            # release = script { executable = pkgs.writeShellScript "directory" ( self + "scripts/test/directory/release.sh ) ; set = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
+                                                                            release = script { executable = pkgs.writeShellScript "directory" ( self + "scripts/test/directory/release.sh ) ; set = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
                                                                         } ;
                                                             } ;
                                                     } ;
