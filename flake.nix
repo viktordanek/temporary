@@ -13,6 +13,7 @@
                             lib =
                                 {
                                     store ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
+                                    target ,
                                     temporary ? { }
                                 } :
                                     let
@@ -139,6 +140,7 @@
                                             resources =
                                                 lib
                                                     {
+                                                        target = "dd5a179bc5029515f2201644eefd29b8ce4d753a969e8d3a54bf2f459e248f2ec6bee22480caa5ea943addb784e569a4b8dbcccda91c2c7c6b187e1fbdc5cd4d" ;
                                                         temporary =
                                                             {
                                                                 directory =
