@@ -111,18 +111,8 @@
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
                                                                     else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
-                                                            xxx =
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                        export ${ store }=$out &&
-                                                                        ${ builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) dependencies ) ) ) }
-                                                                '' ;
                                                             in
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                        export ${ store }=$out &&
-                                                                        ${ pkgs.coreutils }/bin/echo "${ builtins.concatStringsSep " && \n\t\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) }" > $out/command.sh
-                                                                '' ;
+                                                                builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) ;
                                                 } ;
                                         in
                                             let
