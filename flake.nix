@@ -93,7 +93,7 @@
                                                                                 builtins.concatLists
                                                                                 [
                                                                                     [
-                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }"
+                                                                                        "BBBB${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }"
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
@@ -104,7 +104,7 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/AA" path }"
+                                                                                    "AAAA ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }"
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
