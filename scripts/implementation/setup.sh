@@ -9,4 +9,4 @@ RESOURCE=$( ${COREUTILS}/bin/mktemp --directory ${TEMPORARY_MASK} ) &&
   then
     ${COREUTILS}/bin/ln --symbolic ${STORE}/release ${RESOURCE}/release
   fi &&
-  ${COREUTILS}/bin/ln --symbolic ${TEARDOWN} ${RESOURCE}/teardown
+  ${COREUTILS}/bin/ln --symbolic ${TEARDOWN} ${RESOURCE}/teardown-synch
