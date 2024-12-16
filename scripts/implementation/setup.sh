@@ -44,7 +44,8 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} ]
   then
-    ${SH} ${RESOURCE}/teardown-asynch &&
+    ${RESOURCE}/teardown-asynch &&
+      ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
       ${ECHO} ${TARGET}
   else
     BROKEN=$( ${MKTEMP} --dry-run -t ${BROKEN_RESOURCE_MASK} ) &&
