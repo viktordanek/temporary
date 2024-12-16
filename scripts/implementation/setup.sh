@@ -12,9 +12,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   else
     TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
   fi &&
-  ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
   ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
-  ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
   ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid &&
   if [ -x ${INIT} ]
   then
@@ -37,17 +35,12 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     then
         STATUS=${?}
     fi &&
-    ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
-    ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
-    ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status &&
-    ${ECHO} HI ZZZA${TARGET_PID// /}B > /dev/stderr
+    ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} ]
   then
-    ${ECHO} HI 1ZZZA${TARGET_PID// /}B > /dev/stderr &&
     ${RESOURCE}/teardown-asynch &&
-      ${ECHO} HI 2ZZZA${TARGET_PID// /}B ${RESOURCE}/teardown-asynch > /dev/stderr &&
       ${ECHO} ${!TARGET}
   else
     BROKEN=$( ${MKTEMP} --dry-run -t ${BROKEN_RESOURCE_MASK} ) &&
