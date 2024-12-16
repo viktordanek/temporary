@@ -105,6 +105,9 @@
                                                                                         if computed.release == null then [ ]
                                                                                         else [ ( computed.release path name "release" ) ]
                                                                                     )
+                                                                                    [
+                                                                                        "makeWrapper ${ self + "/scripts/implementation/setup.sh" ) ${ builtins.concatStringsSep "/" path }/${ name }"
+                                                                                    ]
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
                                                                         builtins.concatLists
