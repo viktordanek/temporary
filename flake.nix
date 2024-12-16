@@ -106,7 +106,9 @@
                                                                                         else [ ( computed.release path name "release" ) ]
                                                                                     )
                                                                                     [
-                                                                                        "makeWrapper ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }"
+                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
+                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ self + "/scripts/implementation.sh" }"
+                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh" ${ builtins.concatStringsSep "/" path }/${ name }/setup"
                                                                                     ]
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
