@@ -1,12 +1,44 @@
 #!/bin/sh
 
-RESOURCE=$( ${COREUTILS}/bin/mktemp --directory ${TEMPORARY_MASK} ) &&
+RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
+  ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
+  ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
+  if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
+  then
+    ${TEE} > ${RESOURCE}/init.input &&
+      ${CHMOD} 0400 ${RESOURCE}/init.input
+  fi &&
   if [ -x ${INIT} ]
   then
-    ${COREUTILS}/bin/ln --symbolic ${INIT} ${RESOURCE}/init
+    ${LN} --symbolic ${INIT} ${RESOURCE}/init
   fi &&
   if [ -x ${RELEASE} ]
   then
-    ${COREUTILS}/bin/ln --symbolic ${RELEASE} ${RESOURCE}/release
+    ${LN} --symbolic ${RELEASE} ${RESOURCE}/release
   fi &&
-  ${COREUTILS}/bin/ln --symbolic ${TEARDOWN} ${RESOURCE}/teardown-synch
+  ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch &&
+  ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch &&
+  declare ${TARGET}=${RESOURCE}/target &&
+  export ${TARGET} &&
+  if [ -x ${INIT} ]
+  then
+    if [ ! -f ${RESOURCE}/init.arguments ] && ${CAT} ${RESOURCE}/init.input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.out 2> ${RESOURCE}/init.err
+    then
+      STATUS=${?}
+    elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.out 2> ${RESOURCE}/init.err
+    then
+        STATUS=${?}
+    fi &&
+    ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
+    ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status &&
+  fi &&
+  if [ -z "${STATUS}" ] || [ ${STATUS} ]
+  then
+    ${RESOURCE}/teardown-asynch &&
+    ${ECHO} ${TARGET}
+  else
+    BROKEN=$( ${MKTEMP} --dry-run -t ${BROKEN_RESOURCE_MASK} ) &&
+      ${MV} ${RESOURCE} ${BROKEN} &&
+      ${ECHO} ${BROKEN} &&
+      exit ${ERROR}
+  fi

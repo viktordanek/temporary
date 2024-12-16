@@ -15,6 +15,7 @@
                                     store ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
                                     target ,
                                     temporary ? { } ,
+                                    temporary-initialization-error ? 64 ,
                                     temporary-resource-mask ? "temporary.XXXXXXXX"
                                 } :
                                     let
@@ -109,7 +110,7 @@
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
                                                                                         "${ pkgs.coreutils }/bin/chmod 0550 ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
-                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh ${ builtins.concatStringsSep "/" path }/${ name }/setup --set COREUTILS ${ pkgs.coreutils } --set INIT ${ builtins.concatStringsSep "/" path }/${ name }/init  --set RELEASE ${ builtins.concatStringsSep "/" path }/${ name }/release --set TEARDOWN_ASYNCH ${ self + "/scripts/implementation/teardown-asynch.sh" } --set TEARDOWN_SYNCH ${ self + "/scripts/implementation/teardown-synch.sh" } --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }"
+                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh ${ builtins.concatStringsSep "/" path }/${ name }/setup --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set ECHO ${ pkgs.coreutils }/bin/echo --set ERROR ${ builtins.toString temporary-initialization-error } --set INIT ${ builtins.concatStringsSep "/" path }/${ name }/init --set LN ${ pkgs.coreutils }/bin/ln --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set MV ${ pkgs.coreutils }/bin/mv --set READLINK ${ pkgs.coreutils }/bin/readlink --set RELEASE ${ builtins.concatStringsSep "/" path }/${ name }/release --set TEARDOWN_ASYNCH ${ self + "/scripts/implementation/teardown-asynch.sh" } --set TEARDOWN_SYNCH ${ self + "/scripts/implementation/teardown-synch.sh" } --set TEE ${ pkgs.coreutils }/bin/tee --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }"
                                                                                     ]
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
