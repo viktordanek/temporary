@@ -48,10 +48,10 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} HI 1ZZZA${TARGET_PID// /}B > /dev/stderr &&
     ${RESOURCE}/teardown-asynch &&
       ${ECHO} HI 2ZZZA${TARGET_PID// /}B ${RESOURCE}/teardown-asynch > /dev/stderr &&
-      ${ECHO} ${TARGET}
+      ${ECHO} ${!TARGET}
   else
     BROKEN=$( ${MKTEMP} --dry-run -t ${BROKEN_RESOURCE_MASK} ) &&
       ${MV} ${RESOURCE} ${BROKEN} &&
       ${ECHO} ${BROKEN} &&
-      exit ${ERROR}
+      exit ${!ERROR}
   fi
