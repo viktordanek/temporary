@@ -12,7 +12,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   else
     TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
   fi &&
-  ${ECHO} HI > /dev/stderr &&
+  ${ECHO} HI A${TARGET_PID// /}B > /dev/stderr &&
   ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
   ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid &&
   if [ -x ${INIT} ]
