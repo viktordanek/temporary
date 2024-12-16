@@ -115,7 +115,7 @@
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-asynch.sh" } ${ builtins.concatStringsSep "/" patb }/${ name }/teardown-asynch.sh"
                                                                                         "${ pkgs.coreutils }/bin/chmod 0550 ${ builtins.concatStringsSep "/" patb }/${ name }/teardown-asynch.sh"
-                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" patb }/${ name }/teardown-asynch.sh ${ builtins.concatStringsSep "/" patb }/${ name }/teardown-asynch --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${ pkgs.coreutils }/bin/echo --set NICE ${ pkgs.coreutils }/bin/nice"
+                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/teardown-asynch.sh ${ builtins.concatStringsSep "/" patb }/${ name }/teardown-asynch --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${ pkgs.coreutils }/bin/echo --set NICE ${ pkgs.coreutils }/bin/nice"
                                                                                     ]
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
