@@ -188,7 +188,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/find $( ${ resources.temporary.directory } ) &&
+                                                                    ${ pkgs.findutils }/bin/find $( ${ resources.temporary.directory } ) &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
