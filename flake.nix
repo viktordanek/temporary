@@ -167,7 +167,7 @@
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/tee &
                                                                 '' ;
-                                                        target = "dd5a179bc5029515f2201644eefd29b8ce4d753a969e8d3a54bf2f459e248f2ec6bee22480caa5ea943addb784e569a4b8dbcccda91c2c7c6b187e1fbdc5cd4d" ;
+                                                        target = "TARGET" ;
                                                         temporary =
                                                             {
                                                                 temporary =
