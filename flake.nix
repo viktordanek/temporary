@@ -188,7 +188,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.findutils }/bin/echo $( ${ resources.temporary.temporary } ) &&
+                                                                    ${ pkgs.coreutils }/bin/echo $( ${ resources.temporary.temporary } ) &&
                                                                     ${ pkgs.coreutils }/bin/cat /build/expected
                                                                     exit 1
                                                             '' ;
