@@ -173,9 +173,9 @@
                                                                 temporary =
                                                                     script :
                                                                         {
-                                                                            init = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/init.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
-                                                                            release = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/release.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
-                                                                            post = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/post.sh" ) ; } ;
+                                                                            init = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/init.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; } ; } ;
+                                                                            release = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/release.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; } ; } ;
+                                                                            post = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/post.sh" ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" } ; } ;
                                                                         } ;
                                                             } ;
                                                     } ;
@@ -188,7 +188,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.findqutils }/bin/find $( ${ resources.temporary.temporary } ) &&
+                                                                    ${ pkgs.findutils }/bin/find $( ${ resources.temporary.temporary } ) &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
