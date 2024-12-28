@@ -173,7 +173,7 @@
                                                                 temporary =
                                                                     script :
                                                                         {
-                                                                            init = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/init.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; } ; } ;
+                                                                            init = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/init.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE="${ pkgs.coreutils }/bin/tee" ; } ; } ;
                                                                             release = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/release.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; } ; } ;
                                                                             post = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/post.sh" ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; } ; } ;
                                                                         } ;
@@ -188,7 +188,8 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.findutils }/bin/find $( ${ resources.temporary.temporary } ) &&
+                                                                    ${ pkgs.findutils }/bin/echo $( ${ resources.temporary.temporary } ) &&
+                                                                    ${ pkgs.coreutils }/bin/cat /build/expected
                                                                     exit 1
                                                             '' ;
                                                     } ;
