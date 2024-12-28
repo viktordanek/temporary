@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RESOURCE=$( ${DIRNAME} ) &&
+export RESOURCE=$( ${DIRNAME} ) &&
   exec 200>${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
@@ -18,13 +18,14 @@ RESOURCE=$( ${DIRNAME} ) &&
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.out ${RESOURCE}/release.err ${RESOURCE}/release.status &&
-    if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
+    if [ -f ${RESOURCE}/post ]
     then
-      ${RM} --recursive --force ${RESOURCE}
-    else
-      BROKEN=$( ${MKTEMP} --dry-run -t ${BROKEN_RESOURCE_MASK} ) &&
-        ${MV} ${RESOURCE} ${BROKEN} &&
-        exit ${!ERROR}
+      ${RESOURCE}/post
+    fi &&
+    ${RM} --recursive --force ${RESOURCE} &&
+    if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
+    then
+      exit ${ERROR}
     fi
   else
     ${ECHO} Unable to acquire an exclusive lock &&

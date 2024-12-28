@@ -12,8 +12,6 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   else
     TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
   fi &&
-  ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
-  ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid &&
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RESOURCE}/init
@@ -38,13 +36,14 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status
   fi &&
-  if [ -z "${STATUS}" ] || [ ${STATUS} ]
+  if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
-    ${RESOURCE}/teardown-asynch &&
+    ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
+      ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
+      ${RESOURCE}/teardown-asynch &&
       ${ECHO} ${!TARGET}
   else
-    BROKEN=$( ${MKTEMP} --dry-run -t ${BROKEN_RESOURCE_MASK} ) &&
-      ${MV} ${RESOURCE} ${BROKEN} &&
-      ${ECHO} ${BROKEN} &&
-      exit ${!ERROR}
+    ${RESOURCE}/teardown-asynch &&
+      ${ECHO} ${!TARGET}
+      exit ${ERROR}
   fi
