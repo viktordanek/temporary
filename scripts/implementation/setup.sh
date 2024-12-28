@@ -23,7 +23,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch &&
   declare ${TARGET}=${RESOURCE}/target &&
-  export ${TARGET} &&
+  export ${!TARGET} &&
   if [ -x ${INIT} ]
   then
     if [ ! -f ${RESOURCE}/init.arguments ] && ${CAT} ${RESOURCE}/init.input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.out 2> ${RESOURCE}/init.err
