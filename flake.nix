@@ -167,7 +167,7 @@
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/tee &
                                                                 '' ;
-                                                        target = "TARGET" ;
+                                                        target = "TARGET2" ;
                                                         temporary =
                                                             {
                                                                 temporary =
