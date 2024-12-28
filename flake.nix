@@ -170,12 +170,12 @@
                                                         target = "dd5a179bc5029515f2201644eefd29b8ce4d753a969e8d3a54bf2f459e248f2ec6bee22480caa5ea943addb784e569a4b8dbcccda91c2c7c6b187e1fbdc5cd4d" ;
                                                         temporary =
                                                             {
-                                                                directory =
+                                                                temporary =
                                                                     script :
                                                                         {
-                                                                            init = script { executable = pkgs.writeShellScript "directory" ( self + "scripts/test/directory/init.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
-                                                                            release = script { executable = pkgs.writeShellScript "directory" ( self + "scripts/test/directory/release.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
-                                                                            post = script { executable = pkgs.writeShellScript "post" ( self + "scripts/test/directory/post.sh" ) ; } ;
+                                                                            init = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/init.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
+                                                                            release = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/release.sh" ) ; sets = { COREUTILS = builtins.toString pkgs.coreutils ; } ; } ;
+                                                                            post = script { executable = pkgs.writeShellScript "temporary" ( self + "scripts/test/temporary/post.sh" ) ; } ;
                                                                         } ;
                                                             } ;
                                                     } ;
@@ -188,7 +188,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.findutils }/bin/find $( ${ resources.temporary.directory } ) &&
+                                                                    ${ pkgs.findqutils }/bin/find $( ${ resources.temporary.temporary } ) &&
                                                                     exit 1
                                                             '' ;
                                                     } ;

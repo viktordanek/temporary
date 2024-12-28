@@ -1,0 +1,4 @@
+#!/bin/sh
+
+${ECHO} RELEASE_ARGUMENTS=${@} >> ${TARGET} &&
+  ${ECHO} RELEASE_TARGET=${TARGET} >> ${TARGET}
