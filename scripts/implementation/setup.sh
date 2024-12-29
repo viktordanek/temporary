@@ -28,10 +28,10 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     if [ ! -f ${RESOURCE}/init.arguments ] && ${CAT} ${RESOURCE}/init.input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.out 2> ${RESOURCE}/init.err
     then
-      STATUS=${?}
+      STATUS=${?}-a
     elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.out 2> ${RESOURCE}/init.err
     then
-        STATUS=${?}
+        STATUS=${?}-b
     fi &&
     ${ECHO} ${STATUS}-00 > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status
