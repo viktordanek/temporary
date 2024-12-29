@@ -14,7 +14,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   if [ -x ${INIT} ]
   then
-    ${LN} --symbolic ${INIT} ${RESOURCE}/init
+    ${LN} --symbolic ${INIT} ${RESOURCE}/init.sh
   fi &&
   if [ -x ${RELEASE} ]
   then
