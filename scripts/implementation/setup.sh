@@ -38,7 +38,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
         then
           ${ECHO} WTF >> /build/debug
         fi &&
-        ${ECHO}
+        ${ECHO} nope >> /build/debug
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
