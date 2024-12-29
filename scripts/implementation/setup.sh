@@ -33,7 +33,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     then
         STATUS=${?}
     fi &&
-    ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
+    ${ECHO} ${STATUS}-00 > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
