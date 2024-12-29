@@ -188,13 +188,17 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    TEMPORARY=$( ${ resources.temporary.temporary } ) &&
-                                                                    ${ pkgs.coreutils }/bin/echo TEMPORARY: &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.temporary.temporary } &&
-                                                                    ${ pkgs.coreutils }/bin/echo $TEMPORARY &&
-                                                                    ${ pkgs.coreutils }/bin/echo INIT STATUS &&
-                                                                    ${ pkgs.coreutils }/bin/echo $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status &&
-                                                                    ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status &&
+                                                                    if TEMPORARY=$( ${ resources.temporary.temporary } ) &&
+                                                                    then
+                                                                        ${ pkgs.coreutils }/bin/echo TEMPORARY: &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ resources.temporary.temporary } &&
+                                                                            ${ pkgs.coreutils }/bin/echo $TEMPORARY &&
+                                                                            ${ pkgs.coreutils }/bin/echo INIT STATUS &&
+                                                                            ${ pkgs.coreutils }/bin/echo $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status &&
+                                                                            ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status
+                                                                    else
+                                                                        ${ pkgs.coreutils }/bin/echo NOT TODAY
+                                                                    fi &&
                                                                     exit 1
                                                             '' ;
                                                     } ;
