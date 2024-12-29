@@ -191,7 +191,8 @@
                                                                     TEMPORARY=$( ${ resources.temporary.temporary } ) &&
                                                                     ${ pkgs.coreutils }/bin/echo TEMPORARY: &&
                                                                     ${ pkgs.coreutils }/bin/echo $TEMPORARY &&
-                                                                    ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status &&
+                                                                   ${ pkgs.coreutils }/bin/echo INIT STATUS &&
+                                                                    ${ pkgs.coreutils }/bin/echo $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status &&
                                                                     ${ pkgs.coreutils }/bin/cat $TEMPORARY &&
                                                                     exit 1
                                                             '' ;
