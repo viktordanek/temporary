@@ -187,8 +187,10 @@
                                                         src = ./. ;
                                                         installPhase =
                                                             ''
-                                                                ${ pkgs.coreutils }/bin/mkdir $out &&\
+                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                    ${ pkgs.coreutils }/bin/echo BEGIN TEMPORARY &&
                                                                     TEMPORARY=$( ${ resources.temporary.temporary } ) &&
+                                                                    ${ pkgs.coreutils }/bin/echo END TEMPORARY &&
                                                                     # ${ pkgs.coreutils }/bin/cat ${ resources.temporary.temporary } &&
                                                                     # ${ pkgs.coreutils }/bin/echo $TEMPORARY &&
                                                                     # ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY ) &&
