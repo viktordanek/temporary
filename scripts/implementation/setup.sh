@@ -7,8 +7,8 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     PARENT_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 ) &&
       TARGET_PID=$( ${PS} -p ${PARENT_PID} -o pid | ${TAIL} --lines 1 ) &&
-      ${TEE} > ${RESOURCE}/init.input &&
-      ${CHMOD} 0400 ${RESOURCE}/init.input
+      ${TEE} > ${RESOURCE}/init.standard-input &&
+      ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
     TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
   fi &&
@@ -26,15 +26,15 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   export ${TARGET} &&
   if [ -x ${INIT} ]
   then
-    if [ ! -f ${RESOURCE}/init.arguments ] && ${CAT} ${RESOURCE}/init.input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.out 2> ${RESOURCE}/init.err
+    if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.standard-input ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
       STATUS=${?}
-    elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.out 2> ${RESOURCE}/init.err
+    elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
         STATUS=${?}
     fi &&
-    ${ECHO} ${STATUS}-${INIT}-00 > ${RESOURCE}/init.status &&
-    ${CHMOD} 0400 ${RESOURCE}/init.out ${RESOURCE}/init.err ${RESOURCE}/init.status
+    ${ECHO} ${STATUS}-${INIT} > ${RESOURCE}/init.status &&
+    ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
