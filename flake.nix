@@ -192,7 +192,7 @@
                                                                     ${ pkgs.coreutils }/bin/cat ${ resources.temporary.temporary } &&
                                                                     ${ pkgs.coreutils }/bin/echo $TEMPORARY &&
                                                                     ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY ) &&
-                                                                    ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init &&
+                                                                    ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.sh &&
                                                                     ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.out &&
                                                                     ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status &&
                                                                     ${ pkgs.coreutils }/bin/cat $TEMPORARY &&
