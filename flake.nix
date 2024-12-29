@@ -188,7 +188,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    if TEMPORARY=$( ${ resources.temporary.temporary } )
+                                                                    if TEMPORARY=$( ${ resources.temporary.temporary } arguments )
                                                                     then
                                                                         ${ pkgs.coreutils }/bin/echo TEMPORARY: &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ resources.temporary.temporary } &&
