@@ -28,10 +28,12 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      STATUS=${?}-aa
+      STATUS=${?}
     elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      STATUS=${?}--bb
+      STATUS=${?}
+    else
+      ${ECHO} FOUND > /build/debug
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
