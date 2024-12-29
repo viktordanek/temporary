@@ -190,8 +190,10 @@
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&\
                                                                     TEMPORARY=$( ${ resources.temporary.temporary } ) &&
                                                                     ${ pkgs.coreutils }/bin/cat ${ resources.temporary.temporary } &&
-                                                                    ${ pkgs.coreutils }/bin/echo $TEMPORARY &&\
+                                                                    ${ pkgs.coreutils }/bin/echo $TEMPORARY &&
                                                                     ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY ) &&
+                                                                    ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.out &&
+                                                                    ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status &&
                                                                     ${ pkgs.coreutils }/bin/cat $TEMPORARY &&
                                                                     exit 1
                                                             '' ;
