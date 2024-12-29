@@ -31,9 +31,11 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       STATUS=${?}
     elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-        STATUS=${?}
+      STATUS=${?}
+    else
+      STATUS=11
     fi &&
-    ${ECHO} ${STATUS}-11 > ${RESOURCE}/init.status &&
+    ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
