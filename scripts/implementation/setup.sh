@@ -33,7 +33,11 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     then
       STATUS=${?}
     else
-      ${ECHO} FOUND > /build/debug
+      ${ECHO} FOUND > /build/debug &&
+        if ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
+        then
+          ${ECHO} WTF >> /build/debug
+        fi
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
