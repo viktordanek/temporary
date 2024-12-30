@@ -1,4 +1,5 @@
 #!/bin/sh
 
 ${ECHO} RELEASE_ARGUMENTS=${@} >> ${TARGET} &&
-  ${ECHO} RELEASE_TARGET=${TARGET} >> ${TARGET}
+  ${ECHO} RELEASE_TARGET=${TARGET} >> ${TARGET} &&
+  exit ${RELEASE_EXIT_CODE}

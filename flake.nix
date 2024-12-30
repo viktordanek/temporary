@@ -171,12 +171,24 @@
                                                         temporary =
                                                             {
                                                                 temporary =
-                                                                    script :
-                                                                        {
-                                                                            init = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/init.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE="${ pkgs.coreutils }/bin/tee" ; } ; } ;
-                                                                            release = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/release.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; } ; } ;
-                                                                            post = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/post.sh" ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; } ; } ;
-                                                                        } ;
+                                                                    {
+                                                                        # STANDARD INPUT
+                                                                        yes =
+                                                                            {
+                                                                                # INIT EXIT CODE
+                                                                                "0" =
+                                                                                    {
+                                                                                        # RELEASE EXIT CODE
+                                                                                        "0" =
+                                                                                            script :
+                                                                                                {
+                                                                                                    init = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/init.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; TEE="${ pkgs.coreutils }/bin/tee" ; } ; } ;
+                                                                                                    release = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/release.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; } ; } ;
+                                                                                                    post = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/post.sh" ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CODE = "df61554d4807a8b9e25d9b6bef422dc47820c13f28b3bbc027fc10dc887a65f0bb9dfb78c059f23a86157d520def4b8dd58aeeda6f4b2d77d64c94449f332a03" ; } ; } ;
+                                                                                                } ;
+                                                                                    } ;
+                                                                            } ;
+                                                                    } ;
                                                             } ;
                                                     } ;
                                             in
@@ -188,7 +200,12 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    TEMPORARY=$( ${ resources.temporary.temporary } arguments )
+                                                                    export ECHO=${ pkgs.coreutils }/bin/echo &&
+                                                                    export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
+                                                                    export TEMP1=${ resources.temporary.temporary.yes."0"."0" } &&
+                                                                    ${ pkgs.bash }/bin/bash -c ${ pkgs.writeShellScript "execute" ( self + "/scripts/test/execute.sh" ) } &&
+                                                                    ${ pkgs.findutils }/bin/find /build.expected
+
                                                             '' ;
                                                     } ;
                                     lib = lib ;
