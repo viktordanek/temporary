@@ -230,7 +230,7 @@
                                                             init = pkgs.writeShellScript "temporary" "" ;
                                                         } ;
                                                 } ;
-                                        }
+                                        } ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
 }
