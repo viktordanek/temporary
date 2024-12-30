@@ -188,23 +188,7 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    if TEMPORARY=$( ${ resources.temporary.temporary } arguments )
-                                                                    then
-                                                                        ${ pkgs.coreutils }/bin/echo TEMPORARY: &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ resources.temporary.temporary } &&
-                                                                            ${ pkgs.coreutils }/bin/echo $TEMPORARY &&
-                                                                            ${ pkgs.coreutils }/bin/echo FIND &&
-                                                                            ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY ) &&
-                                                                            ${ pkgs.coreutils }/bin/echo INIT STATUS &&
-                                                                            ${ pkgs.coreutils }/bin/echo $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status &&
-                                                                            ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.status
-                                                                            ${ pkgs.coreutils }/bin/echo INIT SCRIPT &&
-                                                                            ${ pkgs.coreutils }/bin/echo $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.sh &&
-                                                                            ${ pkgs.coreutils }/bin/cat $( ${ pkgs.coreutils }/bin/dirname $TEMPORARY )/init.sh
-                                                                    else
-                                                                        ${ pkgs.coreutils }/bin/echo NOT TODAY
-                                                                    fi &&
-                                                                    exit 1
+                                                                    TEMPORARY=$( ${ resources.temporary.temporary } arguments )
                                                             '' ;
                                                     } ;
                                     lib = lib ;
