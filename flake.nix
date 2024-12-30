@@ -203,7 +203,7 @@
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
                                                                     export TEMP1=${ resources.temporary.temporary.yes."0"."0" } &&
-                                                                    ${ pkgs.writeShellScript "expected" ( self + "/scripts/test/execute.sh" ) } &&
+                                                                    ${ pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/execute.sh" ) ) } &&
                                                                     ${ pkgs.findutils }/bin/find /build/expected
 
                                                             '' ;
