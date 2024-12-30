@@ -204,7 +204,7 @@
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
                                                                     export TEMP1=${ resources.temporary.temporary.yes."0"."0" } &&
                                                                     ${ pkgs.writeShellScript "execute" ( self + "/scripts/test/execute.sh" ) } &&
-                                                                    ${ pkgs.findutils }/bin/find /build.expected
+                                                                    ${ pkgs.findutils }/bin/find /build/expected
 
                                                             '' ;
                                                     } ;
