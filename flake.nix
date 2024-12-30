@@ -228,7 +228,7 @@
                                                     temporary =
                                                         {
                                                             init = pkgs.writeShellScript "temporary" "" ;
-                                                        }
+                                                        } ;
                                                 } ;
                                         }
                                 } ;
