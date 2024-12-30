@@ -173,7 +173,7 @@
                                                                 temporary =
                                                                     script :
                                                                         {
-                                                                            init = script { executable = self.test.temporary.init ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE="${ pkgs.coreutils }/bin/tee" ; } ; } ;
+                                                                            init = script { executable = self ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE="${ pkgs.coreutils }/bin/tee" ; } ; } ;
                                                                             # init =
                                                                             #     script
                                                                             #         {
