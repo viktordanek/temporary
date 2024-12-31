@@ -36,15 +36,14 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
   fi &&
-  ${RESOURCE}/teardown-asynch.sh &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
-      ${RESOURCE}/teardown-asynch &&
+      ${RESOURCE}/teardown-asynch.sh &&
       ${ECHO} ${!TARGET}
   else
-    ${RESOURCE}/teardown-asynch &&
+    ${RESOURCE}/teardown-asynch.sh &&
       ${ECHO} ${!TARGET}
       exit ${ERROR}
   fi
