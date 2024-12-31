@@ -4,7 +4,7 @@ ${ECHO} ${STANDARD_OUTPUT} &&
   TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b} &&
   ${ECHO} ${TARGET} >&2 &&
   IFS="/" read -ra TEMPORARY_PATH_ARRAY <<< "${TEMPORARY_PATH}" &&
-  INIT_EXIT_STATUS=${TEMPORARY_PATH_ARRAY[4]} &&
+  INIT_EXIT_STATUS=${TEMPORARY_PATH_ARRAY[2]} &&
   ${ECHO} ${INIT_EXIT_STATUS} >&2 &&
   if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
   then
