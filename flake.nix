@@ -204,8 +204,9 @@
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
                                                                     export TEMP_1=${ resources.temporary.temporary.yes."0"."0" } &&
                                                                     ${ pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/execute.sh" ) ) } &&
-                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
-                                                                    ${ pkgs.findutils }/bin/find /build -name init.standard-output -exec ${ pkgs.coreutils }/bin/cat {} \;
+                                                                    ${ pkgs.coreutils }/bin/sleep 10s && \;
+                                                                    ${ pkgs.findutils }/bin/find /build &&
+                                                                    ${ pkgs.findutils }/bin/find /build -name init.standard-output -exec ${ pkgs.coreutils }/bin/cat {}${ pkgs.coreutils }/bin/cat {} \;
                                                                     exit 100
 
                                                             '' ;
