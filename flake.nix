@@ -214,7 +214,7 @@
                                                                     ${ pkgs.findutils }/bin/find /build -name target -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     ${ pkgs.findutils }/bin/find /build -name init.standard-output -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     ${ pkgs.findutils }/bin/find /build -name init.standard-error -exec ${ pkgs.coreutils }/bin/cat {} \; &&
-                                                                    ${ pkgs.coreutils }/bin/cat /build/expected &&
+                                                                    ${ pkgs.findutils }/bin/find /build -name init.status -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     exit 100
 
                                                             '' ;
