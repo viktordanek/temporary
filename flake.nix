@@ -211,7 +211,6 @@
                                                                     export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&
                                                                     ${ pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/execute.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
-                                                                    ${ pkgs.coreutils }/bin/cat $TEMP_1 &&
                                                                     exit 100
 
                                                             '' ;
