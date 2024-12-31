@@ -166,8 +166,7 @@
                                                             pkgs.writeShellScript
                                                                 "at"
                                                                 ''
-                                                                    ${ pkgs.coreutils }/bin/echo 2 >> /build/debug &&
-                                                                    ${ pkgs.coreutils }/bin/cat &
+                                                                    ${ pkgs.coreutils }/bin/cat | ${ pkgs.coreutils }/bin/tee >( ${ pkgs.bash }/bin/bash & )
                                                                 '' ;
                                                         target = "e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d" ;
                                                         temporary =
