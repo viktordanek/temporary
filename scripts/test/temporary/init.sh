@@ -1,7 +1,9 @@
 #!/bin/sh
 
-${ECHO} HI &&
-${ECHO} INIT_ARGUMENTS=${@} > ${TARGET} &&
+${ECHO} INIT_TARGET=${TARGET} &&
+  ${ECHO} INIT_TARGET=${TARGET} >&2 &&
+  ${ECHO} INIT_TARGET=${TARGET} > ${TARGET} &&
+  ${ECHO} INIT_ARGUMENTS=${@} > ${TARGET} &&
   if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
   then
     INIT_HAS_STANDARD_INPUT=true
