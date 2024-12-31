@@ -18,10 +18,10 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   if [ -x ${RELEASE} ]
   then
-    ${LN} --symbolic ${RELEASE} ${RESOURCE}/release
+    ${LN} --symbolic ${RELEASE} ${RESOURCE}/release.sh
   fi &&
-  ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch &&
-  ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch &&
+  ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
+  ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
   declare ${TARGET}=${RESOURCE}/target &&
   export ${TARGET} &&
   if [ -x ${INIT} ]
@@ -32,17 +32,11 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
       STATUS=${?}
-    else
-      ${ECHO} FOUND > /build/debug &&
-        if ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
-        then
-          ${ECHO} WTF >> /build/debug
-        fi &&
-        ${ECHO} ${INIT} $( ${CAT} ${RESOURCE}/init.arguments )  >> /build/debug
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
   fi &&
+  ${RESOURCE}/teardown-asynch.sh &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
