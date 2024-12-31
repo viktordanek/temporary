@@ -206,7 +206,7 @@
                                                                     ${ pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/execute.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.findutils }/bin/find /build &&
-                                                                    ${ pkgs.findutils }/bin/find /build -name init.standard-output -exec ${ pkgs.coreutils }/bin/cat {}${ pkgs.coreutils }/bin/cat {} \;
+                                                                    ${ pkgs.findutils }/bin/find /build -name init.standard-error -exec ${ pkgs.coreutils }/bin/cat {} \;
                                                                     exit 100
 
                                                             '' ;
