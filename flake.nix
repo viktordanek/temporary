@@ -173,20 +173,24 @@
                                                             {
                                                                 temporary =
                                                                     {
-                                                                        # STANDARD INPUT
+                                                                        # ARGUMENT
                                                                         yes =
                                                                             {
-                                                                                # INIT EXIT CODE
-                                                                                "0" =
+                                                                                # STANDARD INPUT
+                                                                                yes =
                                                                                     {
-                                                                                        # RELEASE EXIT CODE
+                                                                                        # INIT EXIT CODE
                                                                                         "0" =
-                                                                                            script :
-                                                                                                {
-                                                                                                    init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; STANDARD_ERROR = "7cc1c238512a2ef539d1a449c0bf25a1bdcdb438167863af722155dc077b102edca8b36922989ccc06b31da75551ead3aaea3ef977848874130c121ce0e847a4" ; STANDARD_OUTPUT = "7d67ac07d63ef9145d392a657cec5c22075d8bcc93e910143a468d3833abf05c9fccb36ae6e1ec64344cea62fadd9684d99615ad646c8aa6b6935bf35b0e9266" ; TEE="${ pkgs.coreutils }/bin/tee" ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; } ; } ;
-                                                                                                    release = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/release.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; } ; } ;
-                                                                                                    post = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/post.sh" ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CODE = "df61554d4807a8b9e25d9b6bef422dc47820c13f28b3bbc027fc10dc887a65f0bb9dfb78c059f23a86157d520def4b8dd58aeeda6f4b2d77d64c94449f332a03" ; } ; } ;
-                                                                                                } ;
+                                                                                            {
+                                                                                                # RELEASE EXIT CODE
+                                                                                                "0" =
+                                                                                                    script :
+                                                                                                        {
+                                                                                                            init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; STANDARD_ERROR = "7cc1c238512a2ef539d1a449c0bf25a1bdcdb438167863af722155dc077b102edca8b36922989ccc06b31da75551ead3aaea3ef977848874130c121ce0e847a4" ; STANDARD_OUTPUT = "7d67ac07d63ef9145d392a657cec5c22075d8bcc93e910143a468d3833abf05c9fccb36ae6e1ec64344cea62fadd9684d99615ad646c8aa6b6935bf35b0e9266" ; TEE="${ pkgs.coreutils }/bin/tee" ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; } ; } ;
+                                                                                                            release = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/release.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; } ; } ;
+                                                                                                            post = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/post.sh" ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CODE = "df61554d4807a8b9e25d9b6bef422dc47820c13f28b3bbc027fc10dc887a65f0bb9dfb78c059f23a86157d520def4b8dd58aeeda6f4b2d77d64c94449f332a03" ; } ; } ;
+                                                                                                        } ;
+                                                                                            } ;
                                                                                     } ;
                                                                             } ;
                                                                     } ;
@@ -207,8 +211,7 @@
                                                                     export TEMP_1=${ resources.temporary.temporary.yes."0"."0" } &&
                                                                     ${ pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/execute.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
-                                                                    ${ pkgs.findutils }/bin/find /build &&
-                                                                    ${ pkgs.findutils }/bin/find /build -name init.standard-error -exec ${ pkgs.coreutils }/bin/cat {} \;
+                                                                    ${ pkgs.findutils }/bin/find $TEMP_1 &&
                                                                     exit 100
 
                                                             '' ;
