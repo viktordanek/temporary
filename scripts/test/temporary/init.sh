@@ -6,7 +6,6 @@ ${ECHO} ${STANDARD_OUTPUT} &&
   IFS="/" read -ra TEMPORARY_PATH_ARRAY <<< "${TEMPORARY_PATH}" &&
   INIT_EXIT_STATUS=${TEMPORARY_PATH_ARRAY[4]} &&
   ${ECHO} ${INIT_EXIT_STATUS} >&2 &&
-  ${ECHO} ${TEMPORARY_PATH} >&2 &&
   if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
   then
     INIT_HAS_STANDARD_INPUT=true
