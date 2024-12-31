@@ -1,4 +1,4 @@
-${ECHO} 2 >> /build/debug &&
+${ECHO} 2b >> /build/debug &&
 export RESOURCE=$( ${DIRNAME} ) &&
   exec 200>${RESOURCE}/lock &&
   if ${FLOCK} 200
