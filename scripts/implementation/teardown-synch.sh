@@ -21,13 +21,14 @@ exec 200>${RESOURCE}/lock &&
     else
       STATUS=${?}
     fi &&
-    ${ECHO} 2 FLOCKED MID 1 >> /build/debug
+    ${ECHO} 2 FLOCKED MID 2 >> /build/debug
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.out ${RESOURCE}/release.err ${RESOURCE}/release.status &&
     if [ -f ${RESOURCE}/post ]
     then
       ${RESOURCE}/post
     fi &&
+    ${ECHO} 2 FLOCKED MID 3 >> /build/debug
     ${RM} --recursive --force ${RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
