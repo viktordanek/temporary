@@ -14,13 +14,14 @@ exec 200>${RESOURCE}/lock &&
         ${RM} ${PID_FILE} &&
       ${ECHO} "2 RM" >> /build/debug
     done &&
-    ${ECHO} 2 FLOCKED MID >> /build/debug
+    ${ECHO} 2 FLOCKED MID 1 >> /build/debug
     if ${RESOURCE}/release > ${RESOURCE}/release.out 2> ${RESOURCE}/release.err
     then
       STATUS=${?}
     else
       STATUS=${?}
     fi &&
+    ${ECHO} 2 FLOCKED MID 1 >> /build/debug
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.out ${RESOURCE}/release.err ${RESOURCE}/release.status &&
     if [ -f ${RESOURCE}/post ]
