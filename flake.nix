@@ -207,6 +207,8 @@
                                                         installPhase =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                    ${ pkgs.coreutils }/bin/mkdir $out/result &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
                                                                     export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&
@@ -221,9 +223,11 @@
                                                                     export EXPECTED=${ self + "/expected" } &&
                                                                     export OBSERVED=/build/expected &&
                                                                     # ${ pkgs.coreutils }/bin/cat ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/test.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0500 $out/test.sh &&
-                                                                    ${ pkgs.bash }/bin/bash $out/test.sh > $out/test.standard-output 2> $out/test.standard-input &&
+                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
+                                                                    ${ pkgs.coreutils }/bin/chmod 0500 $out/bin/test.sh &&
+                                                                    ${ pkgs.bash }/bin/bash $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-input &&
+                                                                    ${ pkgs.coreutils }/bin/cat $out/test.standard-output &&
+                                                                    ${ pkgs.coreutils }/bin/cat $out/test.standard-error &&
                                                                     exit 100
 
                                                             '' ;
