@@ -28,7 +28,7 @@ exec 200>${RESOURCE}/lock &&
     then
       ${RESOURCE}/post
     fi &&
-    ${ECHO} 2 FLOCKED MID 3 >> /build/debug &&
+    ${ECHO} 2 FLOCKED MID 3 ${RESOURCE} >> /build/debug &&
     ${FIND} ${RESOURCE} >> /build/debug &&
     ${RM} --recursive --force ${RESOURCE} &&
     ${ECHO} 2 FLOCKED MID 4 ${STATUS} >> /build/debug &&
