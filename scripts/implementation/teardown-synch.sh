@@ -6,7 +6,6 @@ exec 200>${RESOURCE}/lock &&
     ${ECHO} 2 "FLOCKED ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f " >> /build/debug &&
     ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
-      ${ECHO} 2 "FLOCKED PID= >> /build/debug &&
       PID=$( ${BASENAME} ${PID_FILE*.%}) &&
         ${TAIL} --follow ${PID} &&
         ${RM} ${PID_FILE}
