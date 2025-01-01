@@ -29,7 +29,7 @@ exec 200>${RESOURCE}/lock &&
       ${RESOURCE}/post
     fi &&
     ${ECHO} 2 FLOCKED MID 3 ${RESOURCE} >> /build/debug &&
-    ${ECHO} \${FIND} \${RESOURCE} >> /build/debug &&
+    ${ECHO} >> /build/debug &&
     ${RM} --recursive --force ${RESOURCE} &&
     ${ECHO} 2 FLOCKED MID 4 ${STATUS} >> /build/debug &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
