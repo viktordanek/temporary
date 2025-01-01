@@ -8,8 +8,11 @@ exec 200>${RESOURCE}/lock &&
     do
       ${ECHO} "2 FIND ${BASENAME}  - ${PID_FILE} - ${TAIL} - ${RM}" >> /build/debug &&
       PID=$( ${BASENAME} ${PID_FILE*.%}) &&
+      ${ECHO} "2 PID" >> /build/debug &&
         ${TAIL} --follow ${PID} &&
-        ${RM} ${PID_FILE}
+      ${ECHO} "2 TAIL" >> /build/debug &&
+        ${RM} ${PID_FILE} &&
+      ${ECHO} "2 RM" >> /build/debug
     done &&
     ${ECHO} 2 FLOCKED MID >> /build/debug
     if ${RESOURCE}/release > ${RESOURCE}/release.out 2> ${RESOURCE}/release.err
