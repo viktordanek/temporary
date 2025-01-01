@@ -26,7 +26,8 @@ exec 200>${RESOURCE}/lock &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
-    fi
+    fi &&
+    ${ECHO} 2 FLOCKED >> /build/debug &&
   else
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
