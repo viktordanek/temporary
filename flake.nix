@@ -228,6 +228,7 @@
                                                                     ${ pkgs.bash }/bin/bash $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-error &&
                                                                     ${ pkgs.coreutils }/bin/cat $out/test.standard-output &&
                                                                     ${ pkgs.coreutils }/bin/cat $out/test.standard-error &&
+                                                                    ${ pkgs.coreutils }/bin/echo YEAH &&
                                                                     exit 100
 
                                                             '' ;
