@@ -1,6 +1,5 @@
-# export RESOURCE=$( ${DIRNAME} ${0} ) &&
-  exec 200>${RESOURCE}/lock &&
 ${ECHO} "200>${RESOURCE}/lock" >> /build/debug &&
+exec 200>${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
     ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
