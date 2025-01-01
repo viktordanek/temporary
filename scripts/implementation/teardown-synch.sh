@@ -9,7 +9,7 @@ exec 200>${RESOURCE}/lock &&
       ${ECHO} "2 FIND ${BASENAME}  - ${PID_FILE} - ${TAIL} - ${RM} - ${PID_FILE%.*}" >> /build/debug &&
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
       ${ECHO} "2 PID=${PID}" >> /build/debug &&
-        ${TAIL} --follow ${PID} &&
+        ${TAIL} --follow /dev/null --pid ${PID} &&
       ${ECHO} "2 TAIL" >> /build/debug &&
         ${RM} ${PID_FILE} &&
       ${ECHO} "2 RM" >> /build/debug
