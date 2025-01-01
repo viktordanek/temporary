@@ -1,3 +1,5 @@
+#!/bin/sh
+
 test_fail( )
   {
     fail "WTF"
