@@ -29,4 +29,5 @@ export RESOURCE=$( ${DIRNAME} ${0} ) &&
   else
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
-  fi
+  fi &&
+  ${ECHO} 4 >> /build/debug &&
