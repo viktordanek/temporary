@@ -30,6 +30,7 @@ ${ECHO} 3.1 ${RESOURCE} >> /build/debug &&
       exit ${ERROR}
     fi
   else
+    ${ECHO} 3.2 >> /build/debug &&
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
   fi &&
