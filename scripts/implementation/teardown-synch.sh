@@ -23,7 +23,7 @@ exec 200>${RESOURCE}/lock &&
     fi &&
     ${ECHO} 2 FLOCKED MID 2 >> /build/debug
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
-    ${CHMOD} 0400 ${RESOURCE}/release.out ${RESOURCE}/release.err ${RESOURCE}/release.status &&
+    ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
     if [ -f ${RESOURCE}/post ]
     then
       ${RESOURCE}/post
