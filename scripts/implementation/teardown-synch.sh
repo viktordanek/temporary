@@ -3,7 +3,7 @@
 export RESOURCE=$( ${DIRNAME} ${0} ) &&
 ${ECHO} 3.1 exec 200GT${RESOURCE}/lock >> /build/debug &&
   exec 200>${RESOURCE}/lock &&
-${ECHO} 3.1 exec 200GT${RESOURCE}/lock >> /build/debug &&
+${ECHO} ${FLOCK} 200 >> /build/debug &&
   if ${FLOCK} 200
   then
     ${ECHO} 3.11 >> /build/debug &&
