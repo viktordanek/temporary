@@ -43,6 +43,7 @@ RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       ${RESOURCE}/teardown-asynch.sh &&
       ${ECHO} ${!TARGET}
   else
+    ${ECHO} "0" >> /build/debug &&
     ${RESOURCE}/teardown-asynch.sh &&
       ${ECHO} ${!TARGET}
       exit ${ERROR}
