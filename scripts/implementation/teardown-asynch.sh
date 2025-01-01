@@ -1,4 +1,4 @@
-TEARDOWN_SYNCH=$( ${DIRNAME} ${0} )/teardown-synch &&
+TEARDOWN_SYNCH=$( ${DIRNAME} ${0} )/teardown-synch.sh &&
 ${ECHO} 1 ${0} ${TEARDOWN_SYNCH} >> /build/debug &&
 cat ${TEARDOWN_SYNCH} >> /build/debug &&
 ${ECHO} >> /build/debug &&
