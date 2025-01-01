@@ -31,7 +31,7 @@ exec 200>${RESOURCE}/lock &&
     ${ECHO} 2 FLOCKED MID 3 >> /build/debug
     ${RM} --recursive --force ${RESOURCE} &&
     ${ECHO} 2 FLOCKED MID 4 ${STATUS} >> /build/debug &&
-    find ${RESOURCE} &&
+    ${FIND} ${RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
