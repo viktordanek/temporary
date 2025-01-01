@@ -1,4 +1,4 @@
-${ECHO} "200>${RESOURCE}/lock" >> /build/debug &&
+${ECHO} "2 200>${RESOURCE}/lock" >> /build/debug &&
 exec 200>${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
