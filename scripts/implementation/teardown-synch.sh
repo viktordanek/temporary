@@ -1,10 +1,5 @@
-# ${ECHO} 3 >> /build/debug &&
-# ${ECHO} export RESOURCE=\$\( ${DIRNAME} ${0} \) >> /build/debug &&
 export RESOURCE=$( ${DIRNAME} ${0} ) &&
-${ECHO} "3.1a exec 200>${RESOURCE}/lock" >> /build/debug &&
   exec 200>${RESOURCE}/lock &&
-${ECHO} "3.1b exec 200>${RESOURCE}/lock" >> /build/debug &&
-${ECHO} ${FLOCK} 200 >> /build/debug &&
   if ${FLOCK} 200
   then
     ${ECHO} 3.11 >> /build/debug &&
@@ -32,7 +27,6 @@ ${ECHO} ${FLOCK} 200 >> /build/debug &&
       exit ${ERROR}
     fi
   else
-    ${ECHO} 3.2 >> /build/debug &&
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
   fi &&
