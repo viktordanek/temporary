@@ -15,7 +15,7 @@ exec 200>${RESOURCE}/lock &&
       ${ECHO} "2 RM" >> /build/debug
     done &&
     ${ECHO} 2 FLOCKED MID 1 >> /build/debug
-    if ${RESOURCE}/release.sh > ${RESOURCE}/release.out 2> ${RESOURCE}/release.err
+    if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
     then
       STATUS=${?}
     else
@@ -29,7 +29,7 @@ exec 200>${RESOURCE}/lock &&
       ${RESOURCE}/post
     fi &&
     ${ECHO} 2 FLOCKED MID 3 ${RESOURCE} >> /build/debug &&
-    ${FIND} ${RESOURCE} >> /build/debug &&
+    ${FIND} ${RESOURCE} -name release.standard-error -exec cat {} \; >> /build/debug &&
     ${RM} --recursive --force ${RESOURCE} &&
     ${ECHO} 2 FLOCKED MID 4 ${STATUS} >> /build/debug &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
