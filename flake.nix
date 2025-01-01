@@ -225,7 +225,7 @@
                                                                     # ${ pkgs.coreutils }/bin/cat ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0500 $out/bin/test.sh &&
-                                                                    ${ pkgs.bash }/bin/bash $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-input &&
+                                                                    ${ pkgs.bash }/bin/bash $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-error &&
                                                                     ${ pkgs.coreutils }/bin/cat $out/test.standard-output &&
                                                                     ${ pkgs.coreutils }/bin/cat $out/test.standard-error &&
                                                                     exit 100
