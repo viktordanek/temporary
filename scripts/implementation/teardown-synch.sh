@@ -10,6 +10,7 @@ exec 200>${RESOURCE}/lock &&
         ${TAIL} --follow ${PID} &&
         ${RM} ${PID_FILE}
     done &&
+    ${ECHO} 2 FLOCKED MID >> /build/debug
     if ${RESOURCE}/release > ${RESOURCE}/release.out 2> ${RESOURCE}/release.err
     then
       STATUS=${?}
@@ -27,7 +28,7 @@ exec 200>${RESOURCE}/lock &&
     then
       exit ${ERROR}
     fi &&
-    ${ECHO} 2 FLOCKED >> /build/debug
+    ${ECHO} 2 FLOCKED FINAL >> /build/debug
   else
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
