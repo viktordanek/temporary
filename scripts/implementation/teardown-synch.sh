@@ -15,7 +15,7 @@ exec 200>${RESOURCE}/lock &&
       ${ECHO} "2 RM" >> /build/debug
     done &&
     ${ECHO} 2 FLOCKED MID 1 >> /build/debug
-    if ${RESOURCE}/release > ${RESOURCE}/release.out 2> ${RESOURCE}/release.err
+    if ${RESOURCE}/release.sh > ${RESOURCE}/release.out 2> ${RESOURCE}/release.err
     then
       STATUS=${?}
     else
