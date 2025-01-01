@@ -3,7 +3,7 @@ ${ECHO} "2 ${FLOCK} 200" >> /build/debug &&
 exec 200>${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
-    ${ECHO} 2 FLOCKED >> /build/debug &&
+    ${ECHO} 2 "FLOCKED ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f " >> /build/debug &&
     ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE*.%}) &&
