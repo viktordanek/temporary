@@ -1,7 +1,7 @@
 ${ECHO} 3 >> /build/debug &&
 ${ECHO} export RESOURCE=\$\( ${DIRNAME} ${0} \) >> /build/debug &&
-export RESOURCE=$( ${DIRNAME} ) &&
-${ECHO} 3.1 ${RESOURCE} >> /build/debug &&
+export RESOURCE2=$( ${DIRNAME} ${0} ) &&
+${ECHO} 3.1 ${RESOURCE2} >> /build/debug &&
   exec 200>${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
