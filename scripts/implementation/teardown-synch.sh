@@ -30,7 +30,7 @@ exec 200>${RESOURCE}/lock &&
     fi &&
     ${ECHO} 2 FLOCKED MID 3 >> /build/debug
     ${RM} --recursive --force ${RESOURCE} &&
-    ${ECHO} 2 FLOCKED MID 4 >> /build/debug
+    ${ECHO} 2 FLOCKED MID 4 ${STATUS} >> /build/debug
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
