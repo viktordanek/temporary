@@ -29,7 +29,7 @@ exec 200>${RESOURCE}/lock &&
       ${RESOURCE}/post
     fi &&
     ${ECHO} 2 FLOCKED MID 3 ${RESOURCE} >> /build/debug &&
-    ${FIND} ${RESOURCE} -name release.standard-error -exec ${CAT} {} \; >> /build/debug &&
+    ${FIND} ${RESOURCE} -name release.standard-error >> /build/debug &&
     ${RM} --recursive --force ${RESOURCE} &&
     ${ECHO} 2 FLOCKED MID 4 ${STATUS} >> /build/debug &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
