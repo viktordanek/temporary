@@ -1,8 +1,8 @@
-test_fail ( )
+test_fail( )
   {
     fail "WTF"
   } &&
-test_same ( )
+test_same( )
   {
     asserts_equal "" "$( ${DIFF} --brief --recursive ${EXPECTED} ${OBSERVED} ) }" "We expect the expected and observed files to be exactly identical."
   }
