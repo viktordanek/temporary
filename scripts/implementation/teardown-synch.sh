@@ -27,7 +27,7 @@ exec 200>${RESOURCE}/lock &&
     then
       exit ${ERROR}
     fi &&
-    ${ECHO} 2 FLOCKED >> /build/debug &&
+    ${ECHO} 2 FLOCKED >> /build/debug
   else
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
