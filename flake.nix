@@ -220,7 +220,7 @@
                                                                     export DIFF=${ pkgs.coreutils }/bin/diff &&
                                                                     export EXPECTED=${ self + "/expected" } &&
                                                                     export OBSERVED=/build/expected &&
-                                                                    ${ pkgs.coreutils }/bin/cat ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } **
+                                                                    # ${ pkgs.coreutils }/bin/cat ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } **
                                                                     ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } &&
                                                                     exit 100
 
