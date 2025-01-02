@@ -210,7 +210,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0500 $out/bin/re-expectate.sh &&
-                                                                    makeWrapper $out/bin/re-expectate $out/bin/re-expectate.sh --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.coreutils }/bin/git &&
+                                                                    makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.coreutils }/bin/git &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
                                                                     export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&
