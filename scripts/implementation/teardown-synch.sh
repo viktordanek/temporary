@@ -16,7 +16,7 @@ exec 200>${RESOURCE}/lock &&
     else
       STATUS=${?}
     fi &&
-    ${ECHO} 2 >> /build/debug &&
+    ${ECHO} 2 ${STATUS} >> /build/debug &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
     if [ -f ${RESOURCE}/post ]
