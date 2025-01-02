@@ -6,5 +6,5 @@ test_fail( )
   } &&
 test_same( )
   {
-    assert_equal "" "$( ${DIFF} --brief --recursive ${EXPECTED} ${OBSERVED} ) }" "We expect the expected and observed files to be exactly identical."
+    asserts_equal "" "$( ${DIFF} --brief --recursive ${EXPECTED} ${OBSERVED} ) }" "We expect the expected and observed files to be exactly identical."
   }
