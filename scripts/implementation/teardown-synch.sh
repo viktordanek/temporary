@@ -10,7 +10,7 @@ exec 200>${RESOURCE}/lock &&
     done &&
     ${ECHO} 2 - ${RESOURCE}/release.sh >> /build/debug &&
     ${ECHO} 2 - BEFORE >> /build/debug &&
-    ${CAT} ${RESOURCE}/release.sh >> /build/debug &&
+    ${CAT} ${RESOURCE}/release.standard-error >> /build/debug &&
     ${ECHO} 2 - AFTER>> /build/debug &&
     if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
     then
