@@ -9,15 +9,15 @@ exec 200>${RESOURCE}/lock &&
         ${RM} ${PID_FILE}
     done &&
     ${ECHO} 2 - ${RESOURCE}/release.sh >> /build/debug &&
-    ${ECHO} 2 - BEFORE >> /build/debug &&
-    ${CAT} ${RESOURCE}/release.standard-error >> /build/debug &&
-    ${ECHO} 2 - AFTER>> /build/debug &&
     if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
     then
       STATUS=${?}
     else
       STATUS=${?}
     fi &&
+        ${ECHO} 2 - BEFORE >> /build/debug &&
+        ${CAT} ${RESOURCE}/release.standard-error >> /build/debug &&
+        ${ECHO} 2 - AFTER>> /build/debug &&
     ${ECHO} 2 - ${STATUS} >> /build/debug &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
