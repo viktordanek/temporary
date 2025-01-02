@@ -189,7 +189,7 @@
                                                                                                         {
                                                                                                             init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; STANDARD_ERROR = "7cc1c238512a2ef539d1a449c0bf25a1bdcdb438167863af722155dc077b102edca8b36922989ccc06b31da75551ead3aaea3ef977848874130c121ce0e847a4" ; STANDARD_OUTPUT = "7d67ac07d63ef9145d392a657cec5c22075d8bcc93e910143a468d3833abf05c9fccb36ae6e1ec64344cea62fadd9684d99615ad646c8aa6b6935bf35b0e9266" ; TEE="${ pkgs.coreutils }/bin/tee" ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; } ; } ;
                                                                                                             release = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/release.sh" ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; } ; } ;
-                                                                                                            post = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/post.sh" ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CODE = "df61554d4807a8b9e25d9b6bef422dc47820c13f28b3bbc027fc10dc887a65f0bb9dfb78c059f23a86157d520def4b8dd58aeeda6f4b2d77d64c94449f332a03" ; } ; } ;
+                                                                                                            post = script { executable = pkgs.writeShellScript "temporary" ( self + "/scripts/test/temporary/post.sh" ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; MKDIR = "${ pkgs.coreutils }/bin/mkdir" ; } ; } ;
                                                                                                         } ;
                                                                                             } ;
                                                                                     } ;
@@ -208,7 +208,8 @@
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out/result &&
+                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
+                                                                    makeWrapper $out/bin/re-expectate $out/bin/re-expectate.sh --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.coreutils }/bin/git &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
                                                                     export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&
@@ -226,12 +227,10 @@
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
                                                                     # ${ pkgs.coreutils }/bin/chmod +x $out/bin/test.sh &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-error &&
-                                                                    ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh &&
-                                                                    ${ pkgs.coreutils }/bin/cat $out/test.standard-output &&
-                                                                    ${ pkgs.coreutils }/bin/cat $out/test.standard-error &&
-                                                                    ${ pkgs.coreutils }/bin/echo YEAH &&
-                                                                    exit 100
-
+                                                                    if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
+                                                                    then
+                                                                        ${ pkgs.coreutils }/bin/cat $out/bin/re-expectate
+                                                                    fi
                                                             '' ;
                                                     } ;
                                     lib = lib ;
