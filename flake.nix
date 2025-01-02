@@ -213,7 +213,6 @@
                                                                     export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&
                                                                     ${ pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } &&
                                                                     # ${ pkgs.coreutils }/bin/sleep 1m &&
-                                                                    ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                     # ${ pkgs.findutils }/bin/find /build -name target -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     # ${ pkgs.findutils }/bin/find /build -name init.standard-output -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     # ${ pkgs.findutils }/bin/find /build -name init.standard-error -exec ${ pkgs.coreutils }/bin/cat {} \; &&
@@ -228,10 +227,11 @@
                                                                     ${ pkgs.coreutils }/bin/echo ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-error &&
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
-                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
-                                                                        makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed
-                                                                        ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
+                                                                        ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
+                                                                            makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed
+                                                                            ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                     fi &&
                                                                     exit 100
                                                             '' ;
