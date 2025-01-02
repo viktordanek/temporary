@@ -211,20 +211,9 @@
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
                                                                     export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&
-                                                                    ${ pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } &&
-                                                                    # ${ pkgs.coreutils }/bin/sleep 1m &&
-                                                                    # ${ pkgs.findutils }/bin/find /build -name target -exec ${ pkgs.coreutils }/bin/cat {} \; &&
-                                                                    # ${ pkgs.findutils }/bin/find /build -name init.standard-output -exec ${ pkgs.coreutils }/bin/cat {} \; &&
-                                                                    # ${ pkgs.findutils }/bin/find /build -name init.standard-error -exec ${ pkgs.coreutils }/bin/cat {} \; &&
-                                                                    # ${ pkgs.findutils }/bin/find /build -name init.status -exec ${ pkgs.coreutils }/bin/cat {} \; &&
-                                                                    # ${ pkgs.findutils }/bin/find /build -name release.status -exec ${ pkgs.coreutils }/bin/cat {} \; &&
-                                                                    export DIFF=${ pkgs.diffutils }/bin/diff &&
-                                                                    export EXPECTED=${ self + "/expected" } &&
-                                                                    export OBSERVED=$out/observed &&
-                                                                    # ${ pkgs.coreutils }/bin/cat ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } &&
+                                                                    ${ pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } &&
+                                                                    ${ pkgs.coreutils }/bin/sleep 1m &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
-                                                                    # ${ pkgs.coreutils }/bin/chmod +x $out/bin/test.sh &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-error &&
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
                                                                         ${ pkgs.findutils }/bin/find /build &&
