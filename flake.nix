@@ -220,7 +220,7 @@
                                                                     # ${ pkgs.findutils }/bin/find /build -name release.status -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     export DIFF=${ pkgs.diffutils }/bin/diff &&
                                                                     export EXPECTED=${ self + "/expected" } &&
-                                                                    export OBSERVED=/build/observed &&
+                                                                    export OBSERVED=$out/observed &&
                                                                     # ${ pkgs.coreutils }/bin/cat ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
                                                                     # ${ pkgs.coreutils }/bin/chmod +x $out/bin/test.sh &&
@@ -229,7 +229,7 @@
                                                                     then
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
                                                                         ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
-                                                                        makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED /build/observed
+                                                                        makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED "out/observed
                                                                         ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                     fi &&
                                                                     exit 100
