@@ -1,4 +1,4 @@
-${ECHO} 2 >> /build/debug &&
+${ECHO} 2 - >> /build/debug &&
 exec 200>${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
@@ -8,7 +8,7 @@ exec 200>${RESOURCE}/lock &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
     done &&
-    ${ECHO} 2 ${RESOURCE}/release.sh >> /build/debug &&
+    ${ECHO} 2 - ${RESOURCE}/release.sh >> /build/debug &&
     ${CAT} ${RESOURCE}/release.sh &&
     if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
     then
@@ -16,7 +16,7 @@ exec 200>${RESOURCE}/lock &&
     else
       STATUS=${?}
     fi &&
-    ${ECHO} 2 ${STATUS} >> /build/debug &&
+    ${ECHO} 2 - ${STATUS} >> /build/debug &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
     if [ -f ${RESOURCE}/post ]
@@ -32,4 +32,4 @@ exec 200>${RESOURCE}/lock &&
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
   fi &&
-  ${ECHO} 2 >> /build/debug
+  ${ECHO} 2 - >> /build/debug
