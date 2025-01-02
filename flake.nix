@@ -222,7 +222,7 @@
                                                                     # ${ pkgs.findutils }/bin/find /build -name init.status -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     # ${ pkgs.findutils }/bin/find /build -name release.status -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     export DIFF=${ pkgs.diffutils }/bin/diff &&
-                                                                    export EXPECTED=${ self + "/expected" } &&
+                                                                    export EXPECTED=${ builtins.readFile ( self + "/expected" ) } &&
                                                                     export OBSERVED=/build/observed &&
                                                                     # ${ pkgs.coreutils }/bin/cat ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
