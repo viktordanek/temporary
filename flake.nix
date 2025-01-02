@@ -221,7 +221,7 @@
                                                                     # ${ pkgs.findutils }/bin/find /build -name init.standard-error -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     # ${ pkgs.findutils }/bin/find /build -name init.status -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                     # ${ pkgs.findutils }/bin/find /build -name release.status -exec ${ pkgs.coreutils }/bin/cat {} \; &&
-                                                                    export DIFF=${ pkgs.coreutils }/bin/diff &&
+                                                                    export DIFF=${ pkgs.diffutils }/bin/diff &&
                                                                     export EXPECTED=${ self + "/expected" } &&
                                                                     export OBSERVED=/build/expected &&
                                                                     # ${ pkgs.coreutils }/bin/cat ${ pkgs.writeShellScript "test" ( builtins.readFile ( self + "/scripts/test/util/test.sh" ) ) } &&
