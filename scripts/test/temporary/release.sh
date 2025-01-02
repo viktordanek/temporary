@@ -1,2 +1,2 @@
-${ECHO} > /build/release &&
+${ECHO} 3 >> /build/debug &&
 exit 0
