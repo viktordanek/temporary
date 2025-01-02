@@ -231,7 +231,8 @@
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
                                                                         ${ pkgs.coreutils }/bin/cat $out/bin/re-expectate
-                                                                    fi
+                                                                    fi &&
+                                                                    exit 100
                                                             '' ;
                                                     } ;
                                     lib = lib ;
