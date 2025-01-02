@@ -9,6 +9,7 @@ exec 200>${RESOURCE}/lock &&
         ${RM} ${PID_FILE}
     done &&
     ${ECHO} 2 ${RESOURCE}/release.sh >> /build/debug &&
+    cat ${RESOURCE}/release.sh &&
     if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
     then
       STATUS=${?}
