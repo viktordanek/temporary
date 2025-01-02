@@ -227,6 +227,7 @@
                                                                     ${ pkgs.coreutils }/bin/echo ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-error &&
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
+                                                                        ${ pkgs.findutils }/bin/find /build &&
                                                                         ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
