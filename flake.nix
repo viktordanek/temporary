@@ -230,7 +230,7 @@
                                                                     ${ pkgs.coreutils }/bin/echo ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh > $out/test.standard-output 2> $out/test.standard-error &&
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
-                                                                        ${ pkgs.coreutils }/bin/cat $out/bin/re-expectate
+                                                                        ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                     fi &&
                                                                     exit 100
                                                             '' ;
