@@ -214,6 +214,7 @@
                                                                     ${ pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
+                                                                    ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                     export DIFF=${ pkgs.diffutils }/bin/diff &&
                                                                     export EXPECTED=${ self + "/expected" } &&
                                                                     export OBSERVED=$out/observed &&
@@ -221,7 +222,6 @@
                                                                     then
                                                                         ${ pkgs.coreutils }/bin/cat /build/debug &&
                                                                         # ${ pkgs.findutils }/bin/find /build &&
-                                                                        ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
                                                                             makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
