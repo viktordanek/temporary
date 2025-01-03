@@ -25,4 +25,5 @@ ${ECHO} 2 - ${TARGET} >> /build/observed/debug &&
   ${ECHO} RELEASE__RELEASE_EXIT_STATUS=${RELEASE_EXIT_STATUS} >> ${TARGET} &&
   ${ECHO} RELEASE__VARIABLE=${VARIABLE} >> ${TARGET} &&
   ${ECHO} RELEASE__TARGET=${TARGET} >> ${TARGET} &&
+${ECHO} 2 - FINISHED >> /build/observed/debug &&
   exit ${RELEASE_EXIT_STATUS}
