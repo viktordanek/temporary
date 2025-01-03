@@ -1,28 +1,25 @@
 1 -
-1 - /build/tmp.Ik7LT5q0CT/target
-1 - FINISHED
-1 -
-1 - /build/tmp.Ik7LT5q0CT/target
+1 - /build/tmp.908OMBq2Mn/target
 1 - FINISHED
 2 -
-2 - /build/tmp.Ik7LT5q0CT/target
+2 - /build/tmp.908OMBq2Mn/target
 2 - FINISHED
-3 - /build/observed/temporary/temporary/yes/yes /build/tmp.Ik7LT5q0CT/target
+3 - /build/observed/temporary/yes/yes/0 /build/tmp.908OMBq2Mn/target
 INIT__HAS_STANDARD_INPUT=true
-INIT__STANDARD_INPUT=
-INIT__INIT_ARGUMENT_STATUS=temporary
+INIT__STANDARD_INPUT=614d5db27e7230bccb87dad7dc87d9aa1965f9378dec5f854731a1b296be2ea21b0525ab73619d3f45214522a484674b4ac2bfd73ee43b2549dafd5ee456e65
+INIT__INIT_ARGUMENT_STATUS=yes
 INIT__INIT_STANDARD_INPUT_ARGUMENT_STATUS=yes
-INIT__INIT_EXIT_STATUS=yes
+INIT__INIT_EXIT_STATUS=0
 INIT__RELEASE_EXIT_STATUS=0
 INIT__VARIABLE=7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb
-INIT__TARGET=/build/tmp.Ik7LT5q0CT/target
+INIT__TARGET=/build/tmp.908OMBq2Mn/target
 RELEASE__HAS_STANDARD_INPUT=false
 RELEASE__STANDARD_INPUT=
-RELEASE__RELEASE_ARGUMENT_STATUS=temporary
+RELEASE__RELEASE_ARGUMENT_STATUS=yes
 RELEASE__RELEASE_STANDARD_INPUT_ARGUMENT_STATUS=yes
-RELEASE__INIT_EXIT_STATUS=yes
+RELEASE__INIT_EXIT_STATUS=0
 RELEASE__RELEASE_EXIT_STATUS=0
 RELEASE__VARIABLE=
-RELEASE__TARGET=/build/tmp.Ik7LT5q0CT/target
-/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat /build/tmp.Ik7LT5q0CT/target temporary/yes/yes/0 >> /build/observed/temporary/temporary/yes/yes/0
-3 - /build/observed/temporary/temporary/yes/yes /build/tmp.Ik7LT5q0CT/target
+RELEASE__TARGET=/build/tmp.908OMBq2Mn/target
+/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat /build/tmp.908OMBq2Mn/target yes/yes/0/0 >> /build/observed/temporary/yes/yes/0/0
+3 - /build/observed/temporary/yes/yes/0 /build/tmp.908OMBq2Mn/target
