@@ -210,7 +210,10 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
-                                                                    export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&
+                                                                    export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&\
+                                                                    ${ pkgs.coreutils }/bin/cp ( self + "/scripts/test/util/observed.sh ) $out/bin/observed &&
+                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed.sh &&
+                                                                    makeWrapper $out/bin/observed.sh $out/bin/observed --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --SET WC ${ pkgs.coreutils }/bin/wc &&
                                                                     ${ pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
