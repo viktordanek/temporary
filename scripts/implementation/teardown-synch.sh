@@ -18,7 +18,8 @@ exec 200>${RESOURCE}/lock &&
     ${ECHO} 2 - ${STATUS} >> /build/debug &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
-        ${ECHO} 2 - BEFORE ${RESOURCE}/post >> /build/debug &&
+        ${ECHO} 2 - BEFORE ${RESOURCE}/post.sh >> /build/debug &&
+        ${FIND} ${RESOURCE} &&
     if [ -f ${RESOURCE}/post.sh ]
     then
       ${RESOURCE}/post.sh
