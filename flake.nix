@@ -214,6 +214,7 @@
                                                                     ${ pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
+                                                                    export DIFF=${ pkgs.coreutils }/bin/diff &&
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
                                                                         ${ pkgs.coreutils }/bin/cat /build/debug &&
