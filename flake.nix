@@ -44,7 +44,7 @@
                                                                                     else if builtins.typeOf release == "null" then builtins.null
                                                                                     else builtins.throw "The release defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf release }." ;
                                                                                 post =
-                                                                                    if builtins.typeOf post == "lambda" then post
+                                                                                    if builtins.typeOf post == "lambda" then builtins.trace "YES post is defined and is a lambda" post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
                                                                                     else builtins.throw "The post defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf post }." ;
                                                                             } ;
