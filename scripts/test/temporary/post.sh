@@ -9,4 +9,5 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   echo 3 - /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS} ${TARGET} >> /build/observed/debug &&
   ${CAT} ${TARGET} >> /build/observed/debug &&
   ${CAT} ${TARGET} >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS} &&
+  echo "${CAT} ${TARGET} >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}" >> /build/observed/debug &&
   echo 3 - /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS} ${TARGET} >> /build/observed/debug
