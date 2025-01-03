@@ -8,7 +8,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     PARENT_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 ) &&
       # TARGET_PID=$( ${PS} -p ${PARENT_PID} -o pid | ${TAIL} --lines 1 ) &&
       # TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
-      TARGET_PID=52i
+      TARGET_PID=99
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
