@@ -1,4 +1,4 @@
 
 /nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find /build/ -mindepth 1 -maxdepth 1 -type d -name temporary.*
 
-/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find /build/ -mindepth 1 -maxdepth 1 -type d -name temporary.* -exec /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/wc
+      1      10     128

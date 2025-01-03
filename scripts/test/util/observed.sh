@@ -1,7 +1,4 @@
 ${MKDIR} --parents /build/observed/temporary &&
-  ${FIND} /build/ -mindepth 1 -maxdepth 1 -type d -name "temporary.*" >> /build/observed/temporary/debug &&
-  echo >> /build/observed/temporary/debug &&
-  echo ${FIND} /build/ -mindepth 1 -maxdepth 1 -type d -name "temporary.*" >> /build/observed/temporary/debug &&
   echo >> /build/observed/temporary/debug &&
   echo ${FIND} /build/ -mindepth 1 -maxdepth 1 -type d -name "temporary.*" | ${WC} >> /build/observed/temporary/debug &&
   ${FIND} /build/ -mindepth 1 -maxdepth 1 -type d -name "temporary.*" | ${WC} > /build/observed/temporary/precount &&
