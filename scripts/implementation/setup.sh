@@ -20,6 +20,10 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     ${LN} --symbolic ${RELEASE} ${RESOURCE}/release.sh
   fi &&
+  if [ -x ${POST} ]
+   then
+     ${LN} --symbolic ${POST} ${RESOURCE}/post.sh
+   fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
   declare ${TARGET}=${RESOURCE}/target &&
