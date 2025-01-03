@@ -43,15 +43,11 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} > ${RESOURCE}/DEBUG_C_${TARGET_PID// /}.pid${STATUS}z &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
-    ${ECHO} > ${RESOURCE}/DEBUG_A &&
+    ${ECHO} "${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid" >> ${RESOURCE}/target &&
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
-    ${ECHO} > ${RESOURCE}/DEBUG_D &&
       ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
-    ${ECHO} > ${RESOURCE}/DEBUG_E &&
       ${RESOURCE}/teardown-asynch.sh &&
-    ${ECHO} > ${RESOURCE}/DEBUG_F &&
-      ${ECHO} ${!TARGET} &&
-    ${ECHO} > ${RESOURCE}/DEBUG_G
+      ${ECHO} ${!TARGET}
   else
     ${ECHO} > ${RESOURCE}/DEBUG_B &&
      ${RESOURCE}/teardown-asynch.sh &&
