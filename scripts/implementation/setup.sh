@@ -40,7 +40,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
   fi &&
-  ${ECHO} > ${RESOURCE}/DEBUG_C_${TARGET_PID} &&
+  ${ECHO} > ${RESOURCE}/DEBUG_C_${TARGET_PID// /} &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} > ${RESOURCE}/DEBUG_A &&
