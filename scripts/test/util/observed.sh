@@ -1,3 +1,4 @@
+${MKDIR} --parents /build/observe &&
 echo O - 1 ${$} >> /build/observed/debug &&
 ${MKDIR} --parents /build/observed/temporary &&
   ${FIND} /build/ -mindepth 1 -maxdepth 1 -type d -name "tmp.*" | ${WC} > /build/observed/temporary/precount &&
