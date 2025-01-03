@@ -1,3 +1,3 @@
 ${GIT} rm -rf expected &&
-  ${CP} --recursive ${OBSERVED} expected &&
+  ${CP} --recursive ${OBSERVED}/* expected &&
   ${GIT} add expected
