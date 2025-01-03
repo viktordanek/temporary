@@ -44,7 +44,7 @@
                                                                                     else if builtins.typeOf release == "null" then builtins.null
                                                                                     else builtins.throw "The release defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf release }." ;
                                                                                 post =
-                                                                                    if builtins.typeOf post == "lambda" then builtins.trace "YES post is defined and is a lambda" post
+                                                                                    if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
                                                                                     else builtins.throw "The post defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf post }." ;
                                                                             } ;
@@ -116,7 +116,7 @@
                                                                                     )
                                                                                     (
                                                                                         if computed.post == null then [ ]
-                                                                                        else builtins.trace "YES computed.post is defined and is not null:  ${ ( computed.post path name "post.sh" ) }" [ ( computed.post path name "post.sh" ) ]
+                                                                                        else [ ( computed.post path name "post.sh" ) ]
                                                                                     )
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
