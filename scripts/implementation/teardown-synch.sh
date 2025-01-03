@@ -19,10 +19,11 @@ exec 200>${RESOURCE}/lock &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
         ${ECHO} 2 - BEFORE ${RESOURCE}/post >> /build/debug &&
-        ${CAT} ${RESOURCE}/post >> /build/debug &&
     if [ -f ${RESOURCE}/post ]
     then
       ${RESOURCE}/post
+    else
+      ${ECHO} 2 - FAILED >> /build/debug
     fi &&
             ${ECHO} 2 - AFTER>> /build/debug &&
     ${RM} --recursive --force ${RESOURCE} &&
