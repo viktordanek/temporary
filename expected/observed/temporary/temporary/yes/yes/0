@@ -1,13 +1,3 @@
-1 -
-1 - /build/tmp.Ik7LT5q0CT/target
-1 - FINISHED
-1 -
-1 - /build/tmp.Ik7LT5q0CT/target
-1 - FINISHED
-2 -
-2 - /build/tmp.Ik7LT5q0CT/target
-2 - FINISHED
-3 - /build/observed/temporary/temporary/yes/yes /build/tmp.Ik7LT5q0CT/target
 INIT__HAS_STANDARD_INPUT=true
 INIT__STANDARD_INPUT=
 INIT__INIT_ARGUMENT_STATUS=temporary
@@ -24,5 +14,3 @@ RELEASE__INIT_EXIT_STATUS=yes
 RELEASE__RELEASE_EXIT_STATUS=0
 RELEASE__VARIABLE=
 RELEASE__TARGET=/build/tmp.Ik7LT5q0CT/target
-/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat /build/tmp.Ik7LT5q0CT/target temporary/yes/yes/0 >> /build/observed/temporary/temporary/yes/yes/0
-3 - /build/observed/temporary/temporary/yes/yes /build/tmp.Ik7LT5q0CT/target
