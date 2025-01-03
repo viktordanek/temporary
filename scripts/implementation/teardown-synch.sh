@@ -15,16 +15,15 @@ exec 200>${RESOURCE}/lock &&
     else
       STATUS=${?}
     fi &&
-        ${ECHO} 2 - BEFORE >> /build/debug &&
-        ${CAT} ${RESOURCE}/release.standard-error >> /build/debug &&
-        ${ECHO} 2 - AFTER>> /build/debug &&
     ${ECHO} 2 - ${STATUS} >> /build/debug &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
+        ${ECHO} 2 - BEFORE ${RESOURCE}/post >> /build/debug &&
     if [ -f ${RESOURCE}/post ]
     then
       ${RESOURCE}/post
     fi &&
+            ${ECHO} 2 - AFTER>> /build/debug &&
     ${RM} --recursive --force ${RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
