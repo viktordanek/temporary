@@ -9,7 +9,8 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   ${SED} -e "s#${TARGET}#\${TARGET}#" -e w/build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/target ${RESOURCE}/target > /dev/null &&
   ${FIND} ${RESOURCE} -name "*.pid" | while read PID_FILE
   do
-    ${CAT} ${PID_FILE} ${RESOURCE}/init.standard-error >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/$( ${CAT} ${PID_FILE} ).pid
+    ${CAT} ${PID_FILE} ${RESOURCE}/init.standard-error >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/PID.pid
+  done &&
   if [ -f ${RESOURCE}/init.standard-error ]
   then
     ${CAT} ${RESOURCE}/init.standard-error >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/init.standard-error
