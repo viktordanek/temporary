@@ -167,7 +167,7 @@
                                                                 "at"
                                                                 ''
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                        ${ pkgs.coreutils }/bin/cat $TEMP_FILE &&
+                                                                        ${ pkgs.coreutils }/bin/cat > $TEMP_FILE &&
                                                                         ${ pkgs.bash }/bin/bash $TEMP_FILE &
                                                                     # FOOBAR=$( ${ pkgs.coreutils }/bin/tee ) &&
                                                                     # ${ pkgs.bash }/bin/bash -c "$FOOBAR &"
