@@ -21,7 +21,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   fi &&
   if [ -f ${RESOURCE}/release.standard-error ]
   then
-    ${CAT} ${RESOURCE}/release.standard-error >> /build/observed/temporary/${RELEASE_ARGUMENT_STATUS}/${RELEASE_STANDARD_INPUT_STATUS}/${RELEASE_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/release.standard-error
+    ${CAT} ${RESOURCE}/release.standard-error >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/release.standard-error
   fi &&
   if [ -f ${RESOURCE}/release.standard-output ]
   then
