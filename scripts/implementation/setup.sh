@@ -1,5 +1,3 @@
-#!/bin/sh
-
 export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
@@ -44,6 +42,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
+    ${ECHO} "S - 1 ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid" >> /build/observed/debug &&
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
       ${RESOURCE}/teardown-asynch.sh &&
