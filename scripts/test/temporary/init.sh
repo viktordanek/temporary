@@ -1,4 +1,4 @@
-echo 1 - A > /build/observed/debug &&
+echo 1 - A >> /build/observed/debug &&
 ${ECHO} INIT_STANDARD_OUTPUT=${STANDARD_OUTPUT} &&
   ${ECHO} INIT_STANDARD_ERROR=${STANDARD_ERROR} >&2 &&
   TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d} &&
@@ -23,5 +23,5 @@ ${ECHO} INIT_STANDARD_OUTPUT=${STANDARD_OUTPUT} &&
   ${ECHO} INIT__INIT_EXIT_STATUS=${INIT_EXIT_STATUS} >> ${TARGET} &&
   ${ECHO} INIT__RELEASE_EXIT_STATUS=${RELEASE_EXIT_STATUS} >> ${TARGET} &&
   ${ECHO} INIT__VARIABLE=${VARIABLE} >> ${TARGET} &&
-echo 1 - Z > /build/observed/debug &&
+echo 1 - Z >> /build/observed/debug &&
   exit ${INIT_EXIT_STATUS}
