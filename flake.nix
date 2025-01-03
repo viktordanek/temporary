@@ -220,6 +220,7 @@
                                                                     ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                     export DIFF=${ pkgs.diffutils }/bin/diff &&
                                                                     export EXPECTED=${ self + "/expected" } &&
+                                                                    export FIND=${ pkgs.findutils }/bin/find &&
                                                                     export OBSERVED=$out/observed &&
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
