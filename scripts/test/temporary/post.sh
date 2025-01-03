@@ -11,7 +11,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   then
     ${CAT} ${RESOURCE}/init.standard-error >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/init.standard-error
   fi &&
-  fi  if [ -f ${RESOURCE}/init.standard-output ]
+  if [ -f ${RESOURCE}/init.standard-output ]
   then
     ${CAT} ${RESOURCE}/init.standard-output >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/init.standard-output
   fi &&
