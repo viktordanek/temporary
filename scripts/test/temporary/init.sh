@@ -23,4 +23,8 @@ ${ECHO} INIT_STANDARD_OUTPUT=${STANDARD_OUTPUT} &&
   ${ECHO} INIT__RELEASE_EXIT_STATUS=${RELEASE_EXIT_STATUS} >> ${TARGET} &&
   ${ECHO} INIT__VARIABLE=${VARIABLE} >> ${TARGET} &&
   ${ECHO} INIT__TARGET=${TARGET} >> ${TARGET} &&
+    ${FIND} ${RESOURCE} -name "*.pid" | while read PID_FILE
+    do
+      ${CAT} ${PID_FILE} ${RESOURCE}/init.standard-error >> /build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS}/PID.pid
+    done &&
   exit ${INIT_EXIT_STATUS}
