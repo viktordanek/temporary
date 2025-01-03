@@ -21,7 +21,7 @@ exec 200>${RESOURCE}/lock &&
         ${ECHO} 2 - BEFORE ${RESOURCE}/post >> /build/debug &&
     if [ -f ${RESOURCE}/post ]
     then
-      ${RESOURCE}/post
+      ${RESOURCE}/post.sh
     else
       ${ECHO} 2 - FAILED >> /build/debug
     fi &&
