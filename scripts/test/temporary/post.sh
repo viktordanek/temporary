@@ -1,3 +1,4 @@
+echo 4 - >> /build/debug &&
 echo > /build/post &&
 IFS="/" read -ra TEMPORARY_PATH_ARRAY <<< "${TEMPORARY_PATH}" &&
   INIT_ARGUMENT_STATUS=${TEMPORARY_PATH_ARRAY[0]} &&
