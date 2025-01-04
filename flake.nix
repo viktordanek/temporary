@@ -168,7 +168,6 @@
                                                                 ''
                                                                     LOG_FILE="/build/observed/debug" &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-
                                                                     if [ -t 0 ]; then
                                                                         echo "No input on stdin (stdin is a terminal)" >> "$LOG_FILE"
                                                                     else
