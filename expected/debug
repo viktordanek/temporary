@@ -1,15 +1,14 @@
 O - 1 a 52
 1 - A
 1 - Z
-S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.IWDkmXv9NT/52.pid
-S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.IWDkmXv9NT/52.pid
-S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.IWDkmXv9NT/52.pid
+S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.24Q3Q9PD6R/52.pid
+S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.24Q3Q9PD6R/52.pid
+S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.24Q3Q9PD6R/52.pid
 TA - 1
-TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/3nx9400kqrfa74v44wg3ciilz73g0l0z-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/jcirva3zf4n2mv3m0s77hv367j34xlp3-at now >> /build/observed/debug 2>&1
-Reading stdin...
+TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/zxc3nsd5w49n1azzwqy8yic2q18c57pz-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/98ijqckf9aaig2yfjx4hzhg76xg0q1hp-at now >> /build/observed/debug 2>&1
 Captured stdin:
-/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/3nx9400kqrfa74v44wg3ciilz73g0l0z-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch
+/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/zxc3nsd5w49n1azzwqy8yic2q18c57pz-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch
 Mock at finished.
 TA - 3
-S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.IWDkmXv9NT/52.pid
+S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.24Q3Q9PD6R/52.pid
 O - 1 z 52
