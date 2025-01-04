@@ -166,7 +166,6 @@
                                                             pkgs.writeShellScript
                                                                 "at"
                                                                 ''
-                                                                    #!/bin/bash
                                                                     LOG_FILE="/build/observed/debug"
                                                                     TEMP_FILE=$(mktemp)
 
