@@ -167,7 +167,7 @@
                                                                 "at"
                                                                 ''
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                        ${ pkgs.coreutils }/bin/echo "# MOCK AT RECEIVED" > $TEMP_FILE &&
+                                                                        ${ pkgs.coreutils }/bin/echo "# MOCK AT RECEIVED" >> $TEMP_FILE &&
                                                                         ${ pkgs.coreutils }/bin/cat >> $TEMP_FILE &&
                                                                     ${ pkgs.coreutils }/bin/echo "AT - \"$( ${ pkgs.coreutils }/bin/cat $TEMP_FILE )\"" >> /build/observed/debug &&
                                                                         ${ pkgs.bash }/bin/bash $TEMP_FILE &
