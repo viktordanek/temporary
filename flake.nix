@@ -168,7 +168,7 @@
                                                                 ''
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
                                                                         ${ pkgs.coreutils }/bin/echo "# BEFORE MOCK AT RECEIVED" >> $TEMP_FILE &&
-                                                                        ${ pkgs.coreutils }/bin/echo "$( ${ pkgs.coreutils }/bin/cat )" >> $TEMP_FILE &&
+                                                                        ${ pkgs.coreutils }/bin/echo "$( ${ pkgs.coreutils }/bin/tee )" >> $TEMP_FILE &&
                                                                         ${ pkgs.coreutils }/bin/echo "# AFTER MOCK AT RECEIVED" >> $TEMP_FILE &&
                                                                     ${ pkgs.coreutils }/bin/echo "AT - \"$( ${ pkgs.coreutils }/bin/cat $TEMP_FILE )\"" >> /build/observed/debug &&
                                                                         ${ pkgs.bash }/bin/bash $TEMP_FILE &
