@@ -167,8 +167,9 @@
                                                                 "at"
                                                                 ''
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                        ${ pkgs.coreutils }/bin/cat > "$TEMP_FILE" &&
-                                                                    ${ pkgs.coreutils }/bin/echo "AT - 3 \"$( ${ pkgs.coreutils }/bin/cat $TEMP_FILE )\"" >> /build/observed/debug &&
+                                                                        ${ pkgs.coreutils }/bin/echo "# MOCK AT RECEIVED" > $TEMP_FILE &&
+                                                                        ${ pkgs.coreutils }/bin/cat >> $TEMP_FILE &&
+                                                                    ${ pkgs.coreutils }/bin/echo "AT - \"$( ${ pkgs.coreutils }/bin/cat $TEMP_FILE )\"" >> /build/observed/debug &&
                                                                         ${ pkgs.bash }/bin/bash $TEMP_FILE &
                                                                 '' ;
                                                         target = "e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d" ;
