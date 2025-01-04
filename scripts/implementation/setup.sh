@@ -48,7 +48,6 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
     ${ECHO} "S - 3 ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid" >> /build/observed/debug &&
       ${RESOURCE}/teardown-asynch.sh &&
-    ${ECHO} "S - 4 ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid" >> /build/observed/debug &&
       ${ECHO} ${!TARGET}
   else
     ${ECHO} > ${RESOURCE}/DEBUG_B &&
