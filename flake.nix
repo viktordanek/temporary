@@ -177,7 +177,7 @@
                                                                         yes =
                                                                             {
                                                                                 # STANDARD INPUT
-                                                                                yes =
+                                                                                "614d5db27e7230bccb87dad7dc87d9aa1965f9378dec5f854731a1b296be2ea21b0525ab73619d3f45214522a484674b4ac2bfd73ee43b2549dafd5ee456e65" =
                                                                                     {
                                                                                         # INIT EXIT CODE
                                                                                         "0" =
