@@ -1,14 +1,13 @@
 O - 1 a 52
 1 - A
 1 - Z
-S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Yf6OC3Fhch/52.pid
-S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Yf6OC3Fhch/52.pid
-S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Yf6OC3Fhch/52.pid
+S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.r7ynlqQTla/52.pid
+S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.r7ynlqQTla/52.pid
+S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.r7ynlqQTla/52.pid
 TA - 1
-TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/v4yf1vgmiyrb567r1bznp9qkkyllvkd1-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/nms282wqh7fbb1d7x8jck7iq0y4hsmvd-at now >> /build/observed/debug 2>&1
-Captured stdin:
-/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/v4yf1vgmiyrb567r1bznp9qkkyllvkd1-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch
+TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/fryv6gxl77lm8hrkmhc9qlz077c8mwgn-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/dwckf2hm8q3pllscwz0w9wldhr8r1bsk-at now >> /build/observed/debug 2>&1
+/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/fryv6gxl77lm8hrkmhc9qlz077c8mwgn-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch
 Mock at finished.
 TA - 3
-S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Yf6OC3Fhch/52.pid
+S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.r7ynlqQTla/52.pid
 O - 1 z 52
