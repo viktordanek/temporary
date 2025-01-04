@@ -1,15 +1,16 @@
 O - 1 a 52
 1 - A
 1 - Z
-S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Py8pX6DfW0/52.pid
-S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Py8pX6DfW0/52.pid
-S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Py8pX6DfW0/52.pid
+S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Bp3x47ccUK/52.pid
+S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Bp3x47ccUK/52.pid
+S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Bp3x47ccUK/52.pid
 TA - 1
-TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/dhhlxsdldqafsdw1aa6vx8mbhyfqym7l-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/kjydgc23qgr5481h8wy7gmcxzkv3d6z4-at now >> /build/observed/debug 2>&1
-AT=/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/dhhlxsdldqafsdw1aa6vx8mbhyfqym7l-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch
-/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/dhhlxsdldqafsdw1aa6vx8mbhyfqym7l-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch
-AT=/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/dhhlxsdldqafsdw1aa6vx8mbhyfqym7l-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch
-/nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash /build/tmp.nKdvbiyviu &
+TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/gpmnyxyw5yl9fwg98a5wrrkzaglddvg7-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/xc7v62znyvmi93fss6955gk07ds92hjy-at now >> /build/observed/debug 2>&1
 TA - 3
-S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Py8pX6DfW0/52.pid
+S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Bp3x47ccUK/52.pid
+TS - 1
 O - 1 z 52
+TS - a 52
+TS - z 52
+2 -
+3 -
