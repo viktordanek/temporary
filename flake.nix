@@ -167,7 +167,7 @@
                                                                 "at"
                                                                 ''
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                        ${ pkgs.gnused }/bin/sed -e "s@^@# BEFORE @" -w$TEMP_FILE >> /build/observed/debug 2>&1 &&
+                                                                        ${ pkgs.gnused }/bin/sed -e "s@^@# BEFORE @" -e w$TEMP_FILE >> /build/observed/debug 2>&1 &&
                                                                     ${ pkgs.coreutils }/bin/echo "AT - \"$( ${ pkgs.coreutils }/bin/cat $TEMP_FILE )\"" >> /build/observed/debug &&
                                                                         ${ pkgs.bash }/bin/bash $TEMP_FILE &
                                                                 '' ;
