@@ -169,7 +169,6 @@
                                                                     LOG_FILE="/build/observed/debug" &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
                                                                     ${ pkgs.coreutils }/bin/cat > "$TEMP_FILE" &&
-                                                                        echo "Captured stdin:" >> "$LOG_FILE"
                                                                         cat "$TEMP_FILE" >> "$LOG_FILE"
 
                                                                     echo "Mock at finished." >> "$LOG_FILE"
