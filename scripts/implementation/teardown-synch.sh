@@ -5,7 +5,6 @@ exec 200>${RESOURCE}/lock &&
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
-        echo "TS - z ${PID}" >> /build/observed/debug &&
         ${RM} ${PID_FILE}
     done &&
     if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
