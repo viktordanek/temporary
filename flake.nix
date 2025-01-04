@@ -166,6 +166,29 @@
                                                             pkgs.writeShellScript
                                                                 "at"
                                                                 ''
+                                                                    #!/bin/bash
+                                                                    LOG_FILE="/build/observed/debug"
+                                                                    TEMP_FILE=$(mktemp)
+
+                                                                    # Log everything explicitly
+                                                                    echo "Mock at invoked at $(date)" >> "$LOG_FILE"
+                                                                    echo "Checking stdin availability..." >> "$LOG_FILE"
+
+                                                                    if [ -t 0 ]; then
+                                                                        echo "No input on stdin (stdin is a terminal)" >> "$LOG_FILE"
+                                                                    else
+                                                                        echo "Reading stdin..." >> "$LOG_FILE"
+                                                                        cat > "$TEMP_FILE"
+                                                                        echo "Captured stdin:" >> "$LOG_FILE"
+                                                                        cat "$TEMP_FILE" >> "$LOG_FILE"
+                                                                    fi
+
+                                                                    echo "Mock at finished." >> "$LOG_FILE"
+                                                                '' ;
+                                                        at2 =
+                                                            pkgs.writeShellScript
+                                                                "at"
+                                                                ''
                                                                   if [ -t 0 ] || [[ "$( ${ pkgs.coreutils }/bin/readlink /proc/self/fd/0 )" == pipe:* ]]
                                                                   then
                                                                     INIT_HAS_STANDARD_INPUT=true
