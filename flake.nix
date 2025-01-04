@@ -172,7 +172,7 @@
                                                                     ${ pkgs.coreutils }/bin/echo AT=$( ${ pkgs.coreutils }/bin/cat $TEMP_FILE ) &&
                                                                     ${ pkgs.coreutils }/bin/cat $TEMP_FILE >> "$LOG_FILE" &&
                                                                     ${ pkgs.coreutils }/bin/echo AT=$( ${ pkgs.coreutils }/bin/cat $TEMP_FILE ) &&
-                                                                    ${ pkgs.bash }/bin/bash ${TEMP_FILE} &
+                                                                    ${ pkgs.bash }/bin/bash $TEMP_FILE &
                                                                 '' ;
                                                         # at2 =
                                                         #    pkgs.writeShellScript
