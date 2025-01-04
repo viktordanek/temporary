@@ -166,11 +166,11 @@
                                                             pkgs.writeShellScript
                                                                 "at"
                                                                 ''
-                                                                    ${ pkgs.coreutils }/bin/echo AT - 1 > /build/observed/debug &&
+                                                                    ${ pkgs.coreutils }/bin/echo AT - 1 >> /build/observed/debug &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                    ${ pkgs.coreutils }/bin/echo AT - 2 > /build/observed/debug &&
+                                                                    ${ pkgs.coreutils }/bin/echo AT - 2 >> /build/observed/debug &&
                                                                         ${ pkgs.coreutils }/bin/cat > $TEMP_FILE &&
-                                                                    ${ pkgs.coreutils }/bin/echo AT - 3 > /build/observed/debug &&
+                                                                    ${ pkgs.coreutils }/bin/echo AT - 3 >> /build/observed/debug &&
                                                                         ${ pkgs.bash }/bin/bash $TEMP_FILE &
                                                                     # FOOBAR=$( ${ pkgs.coreutils }/bin/tee ) &&
                                                                     # ${ pkgs.bash }/bin/bash -c "$FOOBAR &"
