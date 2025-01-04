@@ -177,7 +177,7 @@
                                                                         yes =
                                                                             {
                                                                                 # STANDARD INPUT
-                                                                                "614d5db27e7230bccb87dad7dc87d9aa1965f9378dec5f854731a1b296be2ea21b0525ab73619d3f45214522a484674b4ac2bfd73ee43b2549dafd5ee456e65" =
+                                                                                a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5 =
                                                                                     {
                                                                                         # INIT EXIT CODE
                                                                                         "0" =
@@ -209,7 +209,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
-                                                                    export TEMP_1=${ resources.temporary.temporary.yes.yes."0"."0" } &&
+                                                                    export TEMP_1=${ resources.temporary.temporary.yes.a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5."0"."0" } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed.sh" } $out/bin/observed.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed.sh &&
                                                                     makeWrapper $out/bin/observed.sh $out/bin/observed --set CAT ${ pkgs.coreutils }/bin/cat --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set WC ${ pkgs.coreutils }/bin/wc &&
