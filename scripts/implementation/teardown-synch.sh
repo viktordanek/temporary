@@ -4,7 +4,6 @@ exec 200>${RESOURCE}/lock &&
     ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
-        echo "TS - a ${PID}" >> /build/observed/debug &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         echo "TS - z ${PID}" >> /build/observed/debug &&
         ${RM} ${PID_FILE}
