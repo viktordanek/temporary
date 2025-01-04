@@ -1,53 +1,12 @@
 O - 1 a 52
 1 - A
 1 - Z
-S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Cp0EgN6wXl/52.pid
-S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Cp0EgN6wXl/52.pid
-S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Cp0EgN6wXl/52.pid
+S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.PxXrgR8Ckt/52.pid
+S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.PxXrgR8Ckt/52.pid
+S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.PxXrgR8Ckt/52.pid
 TA - 1
-TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/vvq6mlsq1kmaarybxg4zzb2lykr3ylyx-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/mvipryng6zkh6yr42rmxapn2mknmarbw-at now >> /build/observed/debug 2>&1
+TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/70ib88rqvsjnjwn5w042g0b2j3ak102d-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/vgiqwkc1zljrnfn2f908igmlv81nsg2v-at now >> /build/observed/debug 2>&1
 TA - 3
-/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed: invalid option -- 'w'
-Usage: /nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed [OPTION]... {script-only-if-no-other-script} [input-file]...
-
-  -n, --quiet, --silent
-                 suppress automatic printing of pattern space
-      --debug
-                 annotate program execution
-  -e script, --expression=script
-                 add the script to the commands to be executed
-  -f script-file, --file=script-file
-                 add the contents of script-file to the commands to be executed
-  --follow-symlinks
-                 follow symlinks when processing in place
-  -i[SUFFIX], --in-place[=SUFFIX]
-                 edit files in place (makes backup if SUFFIX supplied)
-  -l N, --line-length=N
-                 specify the desired line-wrap length for the `l' command
-  --posix
-                 disable all GNU extensions.
-  -E, -r, --regexp-extended
-                 use extended regular expressions in the script
-                 (for portability use POSIX -E).
-  -s, --separate
-                 consider files as separate rather than as a single,
-                 continuous long stream.
-      --sandbox
-                 operate in sandbox mode (disable e/r/w commands).
-  -u, --unbuffered
-                 load minimal amounts of data from the input files and flush
-                 the output buffers more often
-  -z, --null-data
-                 separate lines by NUL characters
-      --help     display this help and exit
-      --version  output version information and exit
-
-If no -e, --expression, -f, or --file option is given, then the first
-non-option argument is taken as the sed script to interpret.  All
-remaining arguments are names of input files; if no input files are
-specified, then the standard input is read.
-
-GNU sed home page: <https://www.gnu.org/software/sed/>.
-General help using GNU software: <https://www.gnu.org/gethelp/>.
-S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Cp0EgN6wXl/52.pid
+S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.PxXrgR8Ckt/52.pid
 O - 1 z 52
+AT - ""
