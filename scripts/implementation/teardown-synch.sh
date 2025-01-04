@@ -1,3 +1,4 @@
+echo "TS - 1" >> /build/observed/debug &&
 exec 200>${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
