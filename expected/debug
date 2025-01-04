@@ -1,3 +1,12 @@
+O - 1 a 52
+1 - A
+1 - Z
+S - 1 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.N8uBTNf2qD/52.pid
+S - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.N8uBTNf2qD/52.pid
+S - 3 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.N8uBTNf2qD/52.pid
+TA - 1
+TA - 2 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo "/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice --adjustment 19 /nix/store/k8rzv9fm4bra6hhxjbqk1kv1q8wsd046-temporary-implementation/temporary/temporary/yes/yes/0/0/teardown-synch" | /nix/store/2v63xz84m2nqhbv1fxlgh413iz3xm8jh-at now >> /build/observed/debug 2>&1
+TA - 3
 /nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed: -e expression #2, char 7: unknown option to `s'
-S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.Fl8jvH0d6b/52.pid
+S - 4 /nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo 52 > /build/tmp.N8uBTNf2qD/52.pid
 O - 1 z 52
