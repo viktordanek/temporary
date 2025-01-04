@@ -169,8 +169,7 @@
                                                                     LOG_FILE="/build/observed/debug" &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
                                                                     ${ pkgs.coreutils }/bin/cat > "$TEMP_FILE" &&
-                                                                    ${ pkgs.coreutils }/bin/cat "$TEMP_FILE" >> "$LOG_FILE" &&
-                                                                    echo "Mock at finished." >> "$LOG_FILE"
+                                                                    ${ pkgs.coreutils }/bin/cat "$TEMP_FILE" >> "$LOG_FILE"
                                                                 '' ;
                                                         # at2 =
                                                         #    pkgs.writeShellScript
