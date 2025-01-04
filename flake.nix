@@ -166,7 +166,7 @@
                                                             pkgs.writeShellScript
                                                                 "at"
                                                                 ''
-                                                                    LOG_FILE="/build/observed/debug"
+                                                                    LOG_FILE="/build/observed/debug" &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp )
 
                                                                     # Log everything explicitly
