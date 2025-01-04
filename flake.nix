@@ -168,14 +168,10 @@
                                                                 ''
                                                                     LOG_FILE="/build/observed/debug" &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                    if [ -t 0 ]; then
-                                                                        echo "No input on stdin (stdin is a terminal)" >> "$LOG_FILE"
-                                                                    else
                                                                         echo "Reading stdin..." >> "$LOG_FILE"
                                                                         cat > "$TEMP_FILE"
                                                                         echo "Captured stdin:" >> "$LOG_FILE"
                                                                         cat "$TEMP_FILE" >> "$LOG_FILE"
-                                                                    fi
 
                                                                     echo "Mock at finished." >> "$LOG_FILE"
                                                                 '' ;
