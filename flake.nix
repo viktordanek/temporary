@@ -166,8 +166,17 @@
                                                             pkgs.writeShellScript
                                                                 "at"
                                                                 ''
+                                                                  if [ -t 0 ] || [[ "$( ${ pkgs.coreutils }/bin/readlink /proc/self/fd/0 )" == pipe:* ]]
+                                                                  then
+                                                                    INIT_HAS_STANDARD_INPUT=true
+                                                                      INIT_STANDARD_INPUT=$( ${ pkgs.coreutils }/bin/tee )
+                                                                  else
+                                                                    INIT_HAS_STANDARD_INPUT=false &&
+                                                                      INIT_STANDARD_INPUT=
+                                                                  fi &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                        ${ pkgs.coreutils }/bin/cat > $TEMP_FILE &&
+                                                                        ${ pkgs.coreutils }/bin/echo "# HAS STANDARD INPUT=$INIT_HAS_STANDARD_INPUT" > $TEMP_FILE &&
+                                                                        ${ pkgs.coreutils }/bin/cat $INIT_STANDARD_INPUT >> $TEMP_FILE &&
                                                                     ${ pkgs.coreutils }/bin/echo "AT - \"$( ${ pkgs.coreutils }/bin/cat $TEMP_FILE )\"" >> /build/observed/debug &&
                                                                         ${ pkgs.bash }/bin/bash $TEMP_FILE &
                                                                 '' ;
