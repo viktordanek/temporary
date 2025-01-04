@@ -168,7 +168,6 @@
                                                                 ''
                                                                     LOG_FILE="/build/observed/debug" &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                        echo "Reading stdin..." >> "$LOG_FILE"
                                                                         cat > "$TEMP_FILE"
                                                                         echo "Captured stdin:" >> "$LOG_FILE"
                                                                         cat "$TEMP_FILE" >> "$LOG_FILE"
