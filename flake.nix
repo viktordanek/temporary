@@ -168,7 +168,6 @@
                                                                 ''
                                                                     LOG_FILE="/build/observed/debug" &&
                                                                     TEMP_FILE=$( ${ pkgs.coreutils }/bin/mktemp ) &&
-                                                                    # Log everything explicitly
                                                                     echo "Mock at invoked at $(date)" >> "$LOG_FILE"
                                                                     echo "Checking stdin availability..." >> "$LOG_FILE"
 
