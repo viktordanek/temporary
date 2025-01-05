@@ -61,4 +61,5 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     -e "s#I_A_INIT_STANDARD_OUTPUT=.*\$#I_A_INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" \
     -e "s#I_A_INIT_STANDARD_ERROR=.*\$#I_A_INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" \
     -e w${DIRECTORY}/target.post \
-    ${DIRECTORY}/target
+    ${DIRECTORY}/target &&
+    ${DIFF} ${DIRECTORY}/target ${DIRECTORY}/target.post > ${DIRECTORY}/target.diff
