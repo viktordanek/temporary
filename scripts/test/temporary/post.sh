@@ -41,12 +41,10 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     A_INIT_HAS_STANDARD_INPUT=y
   fi &&
   ${SED} -e "s#^INIT_STANDARD_ERROR=.*\$#INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" -e w${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error &&
-  ${ECHO} ${TEMPORARY_PATH} >> ${DIRECTORY}/debug_temporary &&
-  ${ECHO} ${A_INIT_STANDARD_ERROR} ${A_INIT_STANDARD_OUTPUT} >> ${DIRECTORY}/debug_b &&
-  ${ECHO} "${DIFF} ${DIRECTORY}/standard-error ${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff 2> ${DIRECTORY}/debuga" >> ${DIRECTORY}/debug_command &&
-  ${DIFF} ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff 2> ${DIRECTORY}/debuga &&
-  ${SED} -e "s#^INIT_STANDARD_OUTPUT=.*\$#INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" -e w${DIRECTORY}/init.standard-output.post ${DIRECTORY}/init.standard-output >> ${DIRECTORY}/debug 2>&1 &&
-  ${DIFF} --brief ${DIRECTORY}/init.standard-output ${DIRECTORY}/init.standard-output.post > ${DIRECTORY}/init.standard-output.diff >> ${DIRECTORY}/debug 2>&1 &&
+  ${ECHO} "${DIFF} ${DIRECTORY}/standard-error ${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff &&
+  ${DIFF} ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff &&
+  ${SED} -e "s#^INIT_STANDARD_OUTPUT=.*\$#INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" -e w${DIRECTORY}/init.standard-output.post ${DIRECTORY}/init.standard-output &&
+  ${DIFF} --brief ${DIRECTORY}/init.standard-output ${DIRECTORY}/init.standard-output.post > ${DIRECTORY}/init.standard-output.diff &&
   ${SED} \
     -e "s#I_HAS_STANDARD_INPUT=[y|n]#I_HAS_STANDARD_INPUT=${A_INIT_HAS_STANDARD_INPUT}#" \
     -e "s#I_STANDARD_INPUT=[.]*#I_STANDARD_INPUT=${A_INIT_STANDARD_INPUT}#" \
