@@ -62,7 +62,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     -e "s#^I_A_INIT_STANDARD_ERROR=.*\$#I_A_INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" \
     -e "s#^I_A_INIT_EXIT=.*\$#I_A_INIT_EXIT=${A_INIT_EXIT}#" \
     -e "s#^I_A_RELEASE_EXIT=.*\$#I_A_RELEASE_EXIT=${A_RELEASE_EXIT}#" \
-    -e "s#^I_VARIABLE=.*\$#PASTE=${INIT_VARIABLE}#" \
+    -e "s#^I_VARIABLE=.*\$#I_VARIABLE=${INIT_VARIABLE}#" \
     -e w${DIRECTORY}/target.post \
     ${DIRECTORY}/target &&
     ${DIFF} ${DIRECTORY}/target ${DIRECTORY}/target.post > ${DIRECTORY}/target.diff
