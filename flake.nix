@@ -179,20 +179,24 @@
                                                                                 # STANDARD INPUT
                                                                                 a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5 =
                                                                                     {
-                                                                                        # INIT STANDARD ERROR
-                                                                                        cfe4dd624ceaacae4a8a0bb7d3f264891f8f6875f4bac31d13217ae56f4c51ec15c7f16a55c062fbe7ed195b75ec8fd834048f47505147dd9a60e7433eac0690 =
+                                                                                        # INIT STANDARD OUTPUT
+                                                                                        c1a1d44e9462dc604a7606aec582efb4520ef7eccf6f554e71bbbd0418d15da535cfe1b35a1c80b07ebd2f063199517e338cffb9fc7a83d9a4448be282ed2ef8 =
                                                                                             {
-                                                                                                # INIT EXIT CODE
-                                                                                                "0" =
+                                                                                                # INIT STANDARD ERROR
+                                                                                                cfe4dd624ceaacae4a8a0bb7d3f264891f8f6875f4bac31d13217ae56f4c51ec15c7f16a55c062fbe7ed195b75ec8fd834048f47505147dd9a60e7433eac0690 =
                                                                                                     {
-                                                                                                        # RELEASE EXIT CODE
+                                                                                                        # INIT EXIT CODE
                                                                                                         "0" =
-                                                                                                            script :
-                                                                                                                {
-                                                                                                                    init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; STANDARD_ERROR = "7cc1c238512a2ef539d1a449c0bf25a1bdcdb438167863af722155dc077b102edca8b36922989ccc06b31da75551ead3aaea3ef977848874130c121ce0e847a4" ; STANDARD_OUTPUT = "7d67ac07d63ef9145d392a657cec5c22075d8bcc93e910143a468d3833abf05c9fccb36ae6e1ec64344cea62fadd9684d99615ad646c8aa6b6935bf35b0e9266" ; TEE="${ pkgs.coreutils }/bin/tee" ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ;  FIND = "${ pkgs.findutils }/bin/find" ; } ; } ;
-                                                                                                                    release = script { executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; FIND = "${ pkgs.findutils }/bin/find" ; } ; } ;
-                                                                                                                    post = script { executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; DIFF = "${ pkgs.diffutils }/bin/diff" ; MKDIR = "${ pkgs.coreutils }/bin/mkdir" ; SED = "${ pkgs.gnused }/bin/sed" ; } ; } ;
-                                                                                                                } ;
+                                                                                                            {
+                                                                                                                # RELEASE EXIT CODE
+                                                                                                                "0" =
+                                                                                                                    script :
+                                                                                                                        {
+                                                                                                                            init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; STANDARD_ERROR = "7cc1c238512a2ef539d1a449c0bf25a1bdcdb438167863af722155dc077b102edca8b36922989ccc06b31da75551ead3aaea3ef977848874130c121ce0e847a4" ; STANDARD_OUTPUT = "7d67ac07d63ef9145d392a657cec5c22075d8bcc93e910143a468d3833abf05c9fccb36ae6e1ec64344cea62fadd9684d99615ad646c8aa6b6935bf35b0e9266" ; TEE="${ pkgs.coreutils }/bin/tee" ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ;  FIND = "${ pkgs.findutils }/bin/find" ; } ; } ;
+                                                                                                                            release = script { executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; FIND = "${ pkgs.findutils }/bin/find" ; } ; } ;
+                                                                                                                            post = script { executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; DIFF = "${ pkgs.diffutils }/bin/diff" ; MKDIR = "${ pkgs.coreutils }/bin/mkdir" ; SED = "${ pkgs.gnused }/bin/sed" ; } ; } ;
+                                                                                                                        } ;
+                                                                                                            } ;
                                                                                                     } ;
                                                                                             } ;
                                                                                     } ;
@@ -213,7 +217,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
-                                                                    export TEMP_1=${ resources.temporary.temporary.yes.a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5.cfe4dd624ceaacae4a8a0bb7d3f264891f8f6875f4bac31d13217ae56f4c51ec15c7f16a55c062fbe7ed195b75ec8fd834048f47505147dd9a60e7433eac0690."0"."0" } &&
+                                                                    export TEMP_1=${ resources.temporary.temporary.yes.a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5.c1a1d44e9462dc604a7606aec582efb4520ef7eccf6f554e71bbbd0418d15da535cfe1b35a1c80b07ebd2f063199517e338cffb9fc7a83d9a4448be282ed2ef8.cfe4dd624ceaacae4a8a0bb7d3f264891f8f6875f4bac31d13217ae56f4c51ec15c7f16a55c062fbe7ed195b75ec8fd834048f47505147dd9a60e7433eac0690."0"."0" } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed.sh" } $out/bin/observed.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed.sh &&
                                                                     makeWrapper $out/bin/observed.sh $out/bin/observed --set CAT ${ pkgs.coreutils }/bin/cat --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set WC ${ pkgs.coreutils }/bin/wc &&
