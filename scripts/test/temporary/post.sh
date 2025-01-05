@@ -65,4 +65,5 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     -e "s#^I_VARIABLE=.*\$#I_VARIABLE=${INIT_VARIABLE}#" \
     -e w${DIRECTORY}/target.post \
     ${DIRECTORY}/target &&
-    ${DIFF} ${DIRECTORY}/target ${DIRECTORY}/target.post > ${DIRECTORY}/target.diff
+  ${DIFF} ${DIRECTORY}/target ${DIRECTORY}/target.post > ${DIRECTORY}/target.diff &&
+  ${CAT} ${DIRECTORY}/*.diff > ${DIRECTORY}/diff
