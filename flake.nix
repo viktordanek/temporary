@@ -60,7 +60,13 @@
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 (
-                                                                                                    if builtins.typeOf executable == "set" then
+                                                                                                    if builtins.typeOf executable == "lambda" then
+                                                                                                        [
+                                                                                                            "makeWrapper"
+                                                                                                            ( builtins.toString ( executable harvest  ) )
+                                                                                                            "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
+                                                                                                        ]
+                                                                                                    else if builtins.typeOf executable == "set" then
                                                                                                         [
                                                                                                             "makeWrapper"
                                                                                                             ( builtins.toString executable )
