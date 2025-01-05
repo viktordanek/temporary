@@ -42,7 +42,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     A_INIT_HAS_STANDARD_INPUT=y
   fi &&
   ${SED} -e "s#^INIT_STANDARD_ERROR=.*\$#INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" -e w${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error &&
-  ${DIFF} --brief --report-identical-files ${DIRECTORY}/standard-error ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff &&
+  ${DIFF} --brief --report-identical-files ${DIRECTORY}/standard-error ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff > ${DIRECTORY}/debug 2>&1 &&
   ${SED} -e "s#^INIT_STANDARD_OUTPUT=.*\$#INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" -e w${DIRECTORY}/init.standard-output.post ${DIRECTORY}/init.standard-output &&
   ${DIFF} --brief --report-identical-files ${DIRECTORY}/standard-error ${DIRECTORY}/init.standard-output ${DIRECTORY}/init.standard-output.post > ${DIRECTORY}/init.standard-output.diff &&
   ${SED} \
