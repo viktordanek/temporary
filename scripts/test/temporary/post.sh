@@ -1,7 +1,6 @@
 TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b}
   IFS="/" read -ra TEMPORARY_PATH_ARRAY <<< "${TEMPORARY_PATH}" &&
   INIT_ARGUMENT_STATUS=${TEMPORARY_PATH_ARRAY[0]} &&
-  INIT_ARGUMENT_STATUS=${TEMPORARY_PATH_ARRAY[0]} &&
   INIT_STANDARD_INPUT_STATUS=${TEMPORARY_PATH_ARRAY[1]} &&
   A_INIT_STANDARD_OUTPUT=${TEMPORARY_PATH_ARRAY[2]} &&
   A_INIT_STANDARD_ERROR=${TEMPORARY_PATH_ARRAY[3]} &&
@@ -42,7 +41,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     A_INIT_HAS_STANDARD_INPUT=y
   fi &&
   ${SED} -e "s#^INIT_STANDARD_ERROR=.*\$#INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" -e w${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error &&
-  ${DIFF} --brief ${DIRECTORY}/standard-error ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff 2> ${DIRECTORY}/debuga &&
+  ${DIFF} --brief ${DIRECTORY}/standard-error ${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff 2> ${DIRECTORY}/debuga &&
   ${SED} -e "s#^INIT_STANDARD_OUTPUT=.*\$#INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" -e w${DIRECTORY}/init.standard-output.post ${DIRECTORY}/init.standard-output >> ${DIRECTORY}/debug 2>&1 &&
   ${DIFF} --brief ${DIRECTORY}/standard-error ${DIRECTORY}/init.standard-output ${DIRECTORY}/init.standard-output.post > ${DIRECTORY}/init.standard-output.diff >> ${DIRECTORY}/debug 2>&1 &&
   ${SED} \
