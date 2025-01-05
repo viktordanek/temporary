@@ -213,7 +213,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
                                                                     export MKDIR=${ pkgs.coreutils }/bin/mkdir &&
-                                                                    export TEMP_1=${ resources.temporary.temporary.yes.a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5."0"."0" } &&
+                                                                    export TEMP_1=${ resources.temporary.temporary.yes.a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5.cfe4dd624ceaacae4a8a0bb7d3f264891f8f6875f4bac31d13217ae56f4c51ec15c7f16a55c062fbe7ed195b75ec8fd834048f47505147dd9a60e7433eac0690."0" } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed.sh" } $out/bin/observed.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed.sh &&
                                                                     makeWrapper $out/bin/observed.sh $out/bin/observed --set CAT ${ pkgs.coreutils }/bin/cat --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set WC ${ pkgs.coreutils }/bin/wc &&
