@@ -36,11 +36,11 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   then
     ${CAT} ${RESOURCE}/release.status >> ${DIRECTORY}/release.status
   fi &&
-  if [ -z "A_INIT_STANDARD_INPUT" ]
+  if [ -z "A_STANDARD_INPUT" ]
   then
-    A_INIT_HAS_STANDARD_INPUT=n
+    A_HAS_STANDARD_INPUT=n
   else
-    A_INIT_HAS_STANDARD_INPUT=y
+    A_HAS_STANDARD_INPUT=y
   fi &&
   ${SED} -e "s#^INIT_STANDARD_ERROR=.*\$#INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" -e w${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error &&
   ${DIFF} ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff &&
