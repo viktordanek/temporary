@@ -227,8 +227,7 @@
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
                                                                             makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
-                                                                    fi &&
-                                                                    exit 100
+                                                                    fi
                                                             '' ;
                                                     } ;
                                     lib = lib ;
