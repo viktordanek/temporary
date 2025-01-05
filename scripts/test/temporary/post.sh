@@ -47,8 +47,8 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   ${DIFF} --brief ${DIRECTORY}/init.standard-output ${DIRECTORY}/init.standard-output.post > ${DIRECTORY}/init.standard-output.diff &&
   ${SED} -e "s#^INIT_EXIT_STATUS=.*\$#INIT_EXIT_STATUS=${A_INIT_EXIT_STATUS}#" -e w${DIRECTORY}/init.status.post ${DIRECTORY}/init.status &&
   ${DIFF} --brief ${DIRECTORY}/init.status ${DIRECTORY}/init.status.post > ${DIRECTORY}/init.status.diff &&
-  ${SED} -e "s#^RELEASE_STANDARD_ERROR=.*\$#RELEASE_STANDARD_ERROR=${A_RELEASE_STANDARD_ERROR}#" -e w${DIRECTORY}/RELEASE.standard-error.post ${DIRECTORY}/RELEASE.standard-error &&
-  ${DIFF} ${DIRECTORY}/RELEASE.standard-error ${DIRECTORY}/RELEASE.standard-error.post > ${DIRECTORY}/RELEASE.standard-error.diff &&
+  ${SED} -e "s#^RELEASE_STANDARD_ERROR=.*\$#RELEASE_STANDARD_ERROR=${A_RELEASE_STANDARD_ERROR}#" -e w${DIRECTORY}/release.standard-error.post ${DIRECTORY}/release.standard-error &&
+  ${DIFF} ${DIRECTORY}/release.standard-error ${DIRECTORY}/release.standard-error.post > ${DIRECTORY}/release.standard-error.diff &&
   # ${SED} -e "s#^RELEASE_STANDARD_OUTPUT=.*\$#RELEASE_STANDARD_OUTPUT=${A_RELEASE_STANDARD_OUTPUT}#" -e w${DIRECTORY}/RELEASE.standard-output.post ${DIRECTORY}/RELEASE.standard-output &&
   # ${DIFF} --brief ${DIRECTORY}/RELEASE.standard-output ${DIRECTORY}/RELEASE.standard-output.post > ${DIRECTORY}/RELEASE.standard-output.diff &&
   # ${SED} -e "s#^RELEASE_EXIT_STATUS=.*\$#RELEASE_EXIT_STATUS=${A_RELEASE_EXIT_STATUS}#" -e w${DIRECTORY}/RELEASE.status.post ${DIRECTORY}/RELEASE.status &&
