@@ -187,6 +187,46 @@
                                                                                 a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5 =
                                                                                     {
                                                                                         # INIT TYPEOF
+                                                                                        lambda =
+                                                                                            {
+                                                                                                # RELEASE TYPEOF
+                                                                                                lambda =
+                                                                                                    {
+                                                                                                        # POST TYPEOF
+                                                                                                            lambda =
+                                                                                                                {
+                                                                                                                    # INIT STANDARD OUTPUT
+                                                                                                                    c1a1d44e9462dc604a7606aec582efb4520ef7eccf6f554e71bbbd0418d15da535cfe1b35a1c80b07ebd2f063199517e338cffb9fc7a83d9a4448be282ed2ef8 =
+                                                                                                                        {
+                                                                                                                            # INIT STANDARD ERROR
+                                                                                                                            cfe4dd624ceaacae4a8a0bb7d3f264891f8f6875f4bac31d13217ae56f4c51ec15c7f16a55c062fbe7ed195b75ec8fd834048f47505147dd9a60e7433eac0690 =
+                                                                                                                                {
+                                                                                                                                    # RELEASE STANDARD OUTPUT
+                                                                                                                                    e4461e42ac0b68527fa277c4b2e469e374df02c406490c61a22005d27822392e94f07d435924911c83cc74c5b08cc40c7402668e0b55d4b32405f5dea8fd12c1 =
+                                                                                                                                        {
+                                                                                                                                            # RELEASE STANDARD ERROR
+                                                                                                                                            d469c6b44fed89a5a86b1d9fe50a6039fcba8c6e85cfb7f4bf41c4d3b19f026f719df09cf70f8d6a63773edd2dc8a4223696189b46e144839635d0b78aabbd59 =
+                                                                                                                                                {
+                                                                                                                                                    # INIT EXIT CODE
+                                                                                                                                                    "0" =
+                                                                                                                                                        {
+                                                                                                                                                            # RELEASE EXIT CODE
+                                                                                                                                                            "0" =
+                                                                                                                                                                script :
+                                                                                                                                                                    {
+                                                                                                                                                                        init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; TEE="${ pkgs.coreutils }/bin/tee" ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; } ; } ;
+                                                                                                                                                                        release = script { executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; VARIABLE = "c8cd7fff64e375b956a9385eb9cfeae43187d906f44a3f76082c8e8708225511c0ccee3756df1b3ab8024ebaf75b1138eef8d65ec536eaf8ac5b1b7a11b51038" ; } ; } ;
+                                                                                                                                                                        post = script { executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; DIFF = "${ pkgs.diffutils }/bin/diff" ; INIT_VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; MKDIR = "${ pkgs.coreutils }/bin/mkdir" ; PASTE = "e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" ; SED = "${ pkgs.gnused }/bin/sed" ; } ; } ;
+                                                                                                                                                                    } ;
+                                                                                                                                                        } ;
+                                                                                                                                                } ;
+                                                                                                                                        } ;
+                                                                                                                                } ;
+                                                                                                                        } ;
+                                                                                                            } ;
+                                                                                                    } ;
+                                                                                            } ;
+                                                                                        # INIT TYPEOF
                                                                                         string =
                                                                                             {
                                                                                                 # RELEASE TYPEOF
