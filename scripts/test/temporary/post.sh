@@ -7,9 +7,9 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   A_RELEASE_STANDARD_OUTPUT=${TEMPORARY_PATH_ARRAY[4]} &&
   A_RELEASE_STANDARD_ERROR=${TEMPORARY_PATH_ARRAY[5]} &&
   A_INIT_EXIT_STATUS=${TEMPORARY_PATH_ARRAY[6]} &&
-  RELEASE_EXIT_STATUS=${TEMPORARY_PATH_ARRAY[7]} &&
+  A_RELEASE_EXIT_STATUS=${TEMPORARY_PATH_ARRAY[7]} &&
   TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d} &&
-  DIRECTORY=/build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${A_INIT_STANDARD_OUTPUT}/${A_INIT_STANDARD_ERROR}/${A_INIT_EXIT_STATUS}/${RELEASE_EXIT_STATUS} &&
+  DIRECTORY=/build/observed/temporary/${INIT_ARGUMENT_STATUS}/${INIT_STANDARD_INPUT_STATUS}/${A_INIT_STANDARD_OUTPUT}/${A_INIT_STANDARD_ERROR}/${A_INIT_EXIT_STATUS}/${A_RELEASE_EXIT_STATUS} &&
   ${MKDIR} --parents ${DIRECTORY} &&
   ${SED} -e "s#${TARGET}#\${TARGET}#" -e w${DIRECTORY}/target ${RESOURCE}/target > /dev/null &&
   if [ -f ${RESOURCE}/init.standard-error ]
@@ -52,8 +52,8 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   ${DIFF} ${DIRECTORY}/release.standard-error ${DIRECTORY}/release.standard-error.post > ${DIRECTORY}/release.standard-error.diff &&
   ${SED} -e "s#^RELEASE_STANDARD_OUTPUT=.*\$#RELEASE_STANDARD_OUTPUT=${A_RELEASE_STANDARD_OUTPUT}#" -e w${DIRECTORY}/release.standard-output.post ${DIRECTORY}/release.standard-output &&
   ${DIFF} --brief ${DIRECTORY}/release.standard-output ${DIRECTORY}/release.standard-output.post > ${DIRECTORY}/release.standard-output.diff &&
-  # ${SED} -e "s#^RELEASE_EXIT_STATUS=.*\$#RELEASE_EXIT_STATUS=${A_RELEASE_EXIT_STATUS}#" -e w${DIRECTORY}/RELEASE.status.post ${DIRECTORY}/RELEASE.status &&
-  # ${DIFF} --brief ${DIRECTORY}/RELEASE.status ${DIRECTORY}/RELEASE.status.post > ${DIRECTORY}/RELEASE.status.diff &&
+  ${SED} -e "s#^RELEASE_EXIT_STATUS=.*\$#RELEASE_EXIT_STATUS=${A_RELEASE_EXIT_STATUS}#" -e w${DIRECTORY}/release.status.post ${DIRECTORY}/release.status &&
+  ${DIFF} --brief ${DIRECTORY}/release.status ${DIRECTORY}/release.status.post > ${DIRECTORY}/release.status.diff &&
   ${SED} \
     -e "s#I_HAS_STANDARD_INPUT=[y|n]#I_HAS_STANDARD_INPUT=${A_INIT_HAS_STANDARD_INPUT}#" \
     -e "s#I_STANDARD_INPUT=[.]*#I_STANDARD_INPUT=${A_INIT_STANDARD_INPUT}#" \
