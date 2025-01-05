@@ -45,7 +45,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   ${SED} -e "s#^INIT_STANDARD_OUTPUT=.*\$#INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" -e w${DIRECTORY}/init.standard-output.post ${DIRECTORY}/init.standard-output &&
   ${DIFF} --brief ${DIRECTORY}/init.standard-output ${DIRECTORY}/init.standard-output.post > ${DIRECTORY}/init.standard-output.diff &&
   ${SED} -e "s#^INIT_EXIT_STATUS=.*\$#INIT_EXIT_STATUS=${A_INIT_EXIT_STATUS}#" -e w${DIRECTORY}/init.status.post ${DIRECTORY}/init.status &&
-  ${DIFF} --brief ${DIRECTORY}/init.status ${DIRECTORY}/init.statatus.post > ${DIRECTORY}/init.status.diff &&
+  ${DIFF} --brief ${DIRECTORY}/init.status ${DIRECTORY}/init.status.post > ${DIRECTORY}/init.status.diff &&
   ${SED} \
     -e "s#I_HAS_STANDARD_INPUT=[y|n]#I_HAS_STANDARD_INPUT=${A_INIT_HAS_STANDARD_INPUT}#" \
     -e "s#I_STANDARD_INPUT=[.]*#I_STANDARD_INPUT=${A_INIT_STANDARD_INPUT}#" \
