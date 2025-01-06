@@ -21,6 +21,8 @@
                                     temporary-resource-mask ? "temporary.XXXXXXXX"
                                 } :
                                     let
+
+
                                         dependencies =
                                             {
                                                 temporary =
@@ -53,7 +55,7 @@
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
-                                                                            derivation : path : name : binary :
+                                                                            path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
@@ -73,17 +75,12 @@
                                                                                                         builtins.typeOf sets == "lambda" &&
                                                                                                             builtins.typeOf ( sets ( harvest "$OUT" ) ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets ( harvest "$OUT" ) ) )
                                                                                                     then
-                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest "$OUT6" ) ) ) )
+                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest "$out" ) ) ) )
                                                                                                     else if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
                                                                                                         then
                                                                                                             builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) sets ) )
                                                                                                     else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
-                                                                                                )
-                                                                                                (
-                                                                                                    [
-                                                                                                        "--set OUT6 $out"
-                                                                                                    ]
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
@@ -96,6 +93,7 @@
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, null, nor a set but is a ${ builtins.typeOf value }." ;
                                                         in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
                                             } ;
+
                                         derivation =
                                             pkgs.stdenv.mkDerivation
                                                 {
@@ -118,15 +116,15 @@
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
-                                                                                        else [ (  let x = computed.init "$OUT" path name "init.sh" ; in builtins.trace x x ) ]
+                                                                                        else [ (  let x = computed.init path name "init.sh" ; in builtins.trace x x ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
-                                                                                        else [ ( computed.release "$out" path name "release.sh" ) ]
+                                                                                        else [ ( computed.release path name "release.sh" ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.post == null then [ ]
-                                                                                        else [ ( computed.post "$out" path name "post.sh" ) ]
+                                                                                        else [ ( computed.post path name "post.sh" ) ]
                                                                                     )
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
