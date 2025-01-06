@@ -82,7 +82,7 @@
                                                                                                 )
                                                                                                 (
                                                                                                     [
-                                                                                                        "--set OUT2 '$out'"
+                                                                                                        "--set 'OUT2' '$out'"
                                                                                                     ]
                                                                                                 )
                                                                                             ]
