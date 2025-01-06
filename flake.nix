@@ -153,16 +153,12 @@
                                                 } ;
                                         harvest =
                                             let
-                                                process =
-                                                    visited : path : dependencies :
-                                                        if builtins.elem path visited then builtins.throw "Cycle detected in dependencies: ${builtins.toJSON visited}"
-                                                        else builtins.mapAttrs ( mapper path ) dependencies ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" path }/${ name }/setup"
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                         else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
-                                                in process [ ] [ ( builtins.toString derivation ) ] dependencies ;
+                                                in builtins.mapAttrs ( mapper [ ( builtins.toString derivation ) ] ) dependencies ;
                                         in harvest ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
@@ -217,7 +213,7 @@
                                                                                                                                                             "0" =
                                                                                                                                                                 script :
                                                                                                                                                                     {
-                                                                                                                                                                        init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = harvest : { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; TEE="${ pkgs.coreutils }/bin/tee" ; TOKEN = let x = builtins.typeOf harvest.temporary.util.token ; in builtins.trace x x ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; } ; } ;
+                                                                                                                                                                        init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = harvest : { ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; TEE="${ pkgs.coreutils }/bin/tee" ; TOKEN = let x = builtins.typeOf harvest.temporary.util ; in builtins.trace x x ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; } ; } ;
                                                                                                                                                                         release = script { executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ; sets = { ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; VARIABLE = "c8cd7fff64e375b956a9385eb9cfeae43187d906f44a3f76082c8e8708225511c0ccee3756df1b3ab8024ebaf75b1138eef8d65ec536eaf8ac5b1b7a11b51038" ; } ; } ;
                                                                                                                                                                         post = script { executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; DIFF = "${ pkgs.diffutils }/bin/diff" ; INIT_VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; MKDIR = "${ pkgs.coreutils }/bin/mkdir" ; PASTE = "e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" ; RELEASE_VARIABLE = "c8cd7fff64e375b956a9385eb9cfeae43187d906f44a3f76082c8e8708225511c0ccee3756df1b3ab8024ebaf75b1138eef8d65ec536eaf8ac5b1b7a11b51038" ; SED = "${ pkgs.gnused }/bin/sed" ; } ; } ;
                                                                                                                                                                     } ;
