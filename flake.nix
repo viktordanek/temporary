@@ -82,7 +82,7 @@
                                                                                                 )
                                                                                                 (
                                                                                                     [
-                                                                                                        "--set OUT5 $( ${ pkgs.coreutils }/bin/dirname . )"
+                                                                                                        "--set OUT5 $out"
                                                                                                     ]
                                                                                                 )
                                                                                             ]
