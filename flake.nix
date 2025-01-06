@@ -118,7 +118,7 @@
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
-                                                                                        else [ ( computed.init "$OUT" path name "init.sh" ) ]
+                                                                                        else [ (  let x = computed.init "$OUT" path name "init.sh" ; in builtins.trace x x ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
