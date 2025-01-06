@@ -71,7 +71,7 @@
                                                                                                 (
                                                                                                     if
                                                                                                         builtins.typeOf sets == "lambda" &&
-                                                                                                            builtins.typeOf ( sets ( harvest ( builtins.toString derivation ) ) ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets ( harvest "$put" ) ) )
+                                                                                                            builtins.typeOf ( sets ( harvest ( builtins.toString derivation ) ) ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets ( harvest ( builtins.toString derivation ) ) ) )
                                                                                                     then
                                                                                                         builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest ( builtins.toString derivation ) ) ) ) )
                                                                                                     else if
