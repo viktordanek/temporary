@@ -109,8 +109,8 @@
                                                                                 builtins.concatLists
                                                                                 [
                                                                                     [
-                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }"
-                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }"
+                                                                                        "${ pkgs.coreutils }/bin/mkdir --parents ${ builtins.concatStringsSep "/" path }"
+                                                                                        "${ pkgs.coreutils }/bin/mkdir --parents ${ builtins.concatStringsSep "/" path }/${ name }"
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
@@ -187,7 +187,7 @@
                                                                                 a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5 =
                                                                                     {
                                                                                         # INIT TYPEOF
-                                                                                        foobar =
+                                                                                        lambda =
                                                                                             {
                                                                                                 # RELEASE TYPEOF
                                                                                                 string =
