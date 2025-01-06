@@ -1,0 +1,11 @@
+if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
+then
+  HAS_STANDARD_INPUT=y &&
+    STANDAD_INPUT=$( ${TEE} )
+  else
+    HAS_STANDARD_INPUT=n &&
+      STANDARD_INPUT=
+fi &&
+  TARGET=${d236c19c5526a697bf88c5b76e24b4ada9c9cf51e6948a05b6a1f44bb980b3bdeb550120339425e92eed7d22931b68a7382647705814314216c508df34f77a2f} &&
+    ${ECHO} ${HAS_STANDARD_INPUT}-${STANDARD_INPUT}-${@} > ${TARGET} &&
+    ${CHMOD} 0400 ${TARGET}
