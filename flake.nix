@@ -82,11 +82,6 @@
                                                                                                             builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ value }" ] ) sets ) )
                                                                                                     else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
                                                                                                 )
-                                                                                                (
-                                                                                                    [
-                                                                                                        "--run \"OUT4=$out\""
-                                                                                                    ]
-                                                                                                )
                                                                                             ]
                                                                                     ) ;
                                                                     in ignore : identity ( value script ) ;
