@@ -36,7 +36,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   then
     ${ECHO} I_TOKEN= >> ${TARGET}
   else
-    echo "I_TOKEN_1=${CAT} $( ${TOKEN} )" >> ${TARGET}
+    echo "I_TOKEN_1=$( ${CAT} $( ${TOKEN} )" >> ${TARGET}
   fi &&
   ${ECHO} I_VARIABLE=${VARIABLE} >> ${TARGET} &&
   exit ${A_INIT_EXIT}
