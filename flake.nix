@@ -113,7 +113,7 @@
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
-                                                                                        else [ ( computed.init "$out" path name "init.sh" ) ]
+                                                                                        else [ ( computed.init "$OUT" path name "init.sh" ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
