@@ -73,7 +73,7 @@
                                                                                                         builtins.typeOf sets == "lambda" &&
                                                                                                             builtins.typeOf ( sets ( harvest "$OUT" ) ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets ( harvest "$OUT" ) ) )
                                                                                                     then
-                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest "$( ${ pkgs.coreutils }/bin/basename . )" ) ) ) )
+                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest "$OUT4" ) ) ) )
                                                                                                     else if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
                                                                                                         then
@@ -82,7 +82,7 @@
                                                                                                 )
                                                                                                 (
                                                                                                     [
-                                                                                                        "--set 'OUT3' '$out'"
+                                                                                                        "--set 'OUT4' '$( ${ pkgs.coreutils }/bin/basename . )'"
                                                                                                     ]
                                                                                                 )
                                                                                             ]
