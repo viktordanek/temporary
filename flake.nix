@@ -21,17 +21,6 @@
                                     temporary-resource-mask ? "temporary.XXXXXXXX"
                                 } :
                                     let
-                                        derivation =
-                                            pkgs.stdenv.mkDerivation
-                                                {
-                                                    name = "temporary-implementation" ;
-                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                    src = ./. ;
-                                                    installPhase =
-                                                        let
-
-
-
                                         dependencies =
                                             {
                                                 temporary =
@@ -64,7 +53,7 @@
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
-                                                                            path : name : binary :
+                                                                            derivation : path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
@@ -82,9 +71,9 @@
                                                                                                 (
                                                                                                     if
                                                                                                         builtins.typeOf sets == "lambda" &&
-                                                                                                            builtins.typeOf ( sets ( harvest "$out" ) ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets ( harvest "$put" ) ) )
+                                                                                                            builtins.typeOf ( sets ( harvest ( builtins.toString derivation ) ) ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets ( harvest "$put" ) ) )
                                                                                                     then
-                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest "$out" ) ) ) )
+                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest ( builtins.toString derivation ) ) ) ) )
                                                                                                     else if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
                                                                                                         then
@@ -102,7 +91,14 @@
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, null, nor a set but is a ${ builtins.typeOf value }." ;
                                                         in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
                                             } ;
-
+                                        derivation =
+                                            pkgs.stdenv.mkDerivation
+                                                {
+                                                    name = "temporary-implementation" ;
+                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                    src = ./. ;
+                                                    installPhase =
+                                                        let
                                                             mapper =
                                                                 path : name : value :
                                                                     if builtins.typeOf value == "lambda" then
@@ -117,15 +113,15 @@
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
-                                                                                        else [ ( computed.init path name "init.sh" ) ]
+                                                                                        else [ ( computed.init "$out" path name "init.sh" ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
-                                                                                        else [ ( computed.release path name "release.sh" ) ]
+                                                                                        else [ ( computed.release "$out" path name "release.sh" ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.post == null then [ ]
-                                                                                        else [ ( computed.post path name "post.sh" ) ]
+                                                                                        else [ ( computed.post "$out" path name "post.sh" ) ]
                                                                                     )
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
