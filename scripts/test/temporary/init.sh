@@ -39,10 +39,12 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
       ${ECHO} I_TOKEN_13= >> ${TARGET} &&
       ${ECHO} I_TOKEN_14= >> ${TARGET}
   else
-    echo "I_TOKEN_11=$( ${CAT} $( ${TOKEN} ) )" >> ${TARGET} &&
-      echo "I_TOKEN_12=$( ${CAT} $( ${TOKEN} arguments ) )" >> ${TARGET} &&
-      echo "I_TOKEN_13=$( ${CAT} $( ${ECHO} standard input | ${TOKEN} ) )" >> ${TARGET} &&
-      echo "I_TOKEN_13=$( ${CAT} $( ${ECHO} standard input | ${TOKEN} arguments ) )" >> ${TARGET}
+    TOKEN_ARGUMENTS=$( ${ECHO} -en "${TOKEN} arguments" | ${UUIDGEN} ) &&
+      TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${TOKEN} standard input" | ${UUIDGEN} ) &&
+      echo "I_TOKEN_11=$( ${CAT} $( ${TOKEN} ) )" >> ${TARGET} &&
+      echo "I_TOKEN_12=$( ${CAT} $( ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET} &&
+      echo "I_TOKEN_13=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ) )" >> ${TARGET} &&
+      echo "I_TOKEN_13=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET}
   fi &&
   ${ECHO} I_VARIABLE=${VARIABLE} >> ${TARGET} &&
   exit ${A_INIT_EXIT}
