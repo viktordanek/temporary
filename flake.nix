@@ -79,7 +79,7 @@
                                                                                                     else if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
                                                                                                         then
-                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) sets ) )
+                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' ${ value }" ] ) sets ) )
                                                                                                     else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
                                                                                                 )
                                                                                             ]
