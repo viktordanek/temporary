@@ -82,7 +82,7 @@
                                                                                                 )
                                                                                                 (
                                                                                                     [
-                                                                                                        "--set 'OUT4' '$( ${ pkgs.coreutils }/bin/basename . )'"
+                                                                                                        "--set 'OUT4' '$( ${ pkgs.coreutils }/bin/dirname . )'"
                                                                                                     ]
                                                                                                 )
                                                                                             ]
