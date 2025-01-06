@@ -144,7 +144,7 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir --parents ${ builtins.concatStringsSep "/" path }"
+                                                                                    "if [ ! -d ${ builtins.concatStringsSep "/" path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path } ; fi"
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
