@@ -21,6 +21,17 @@
                                     temporary-resource-mask ? "temporary.XXXXXXXX"
                                 } :
                                     let
+                                        derivation =
+                                            pkgs.stdenv.mkDerivation
+                                                {
+                                                    name = "temporary-implementation" ;
+                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                    src = ./. ;
+                                                    installPhase =
+                                                        let
+
+
+
                                         dependencies =
                                             {
                                                 temporary =
@@ -91,14 +102,7 @@
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, null, nor a set but is a ${ builtins.typeOf value }." ;
                                                         in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
                                             } ;
-                                        derivation =
-                                            pkgs.stdenv.mkDerivation
-                                                {
-                                                    name = "temporary-implementation" ;
-                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                    src = ./. ;
-                                                    installPhase =
-                                                        let
+
                                                             mapper =
                                                                 path : name : value :
                                                                     if builtins.typeOf value == "lambda" then
