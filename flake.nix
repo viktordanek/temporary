@@ -54,34 +54,44 @@
                                                                             sets ? { }
                                                                         } :
                                                                             path : name : binary :
-                                                                                builtins.concatStringsSep
-                                                                                    " "
-                                                                                    (
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                (
-                                                                                                    if builtins.typeOf executable == "set" then
-                                                                                                        [
-                                                                                                            "makeWrapper"
-                                                                                                            ( builtins.toString executable )
-                                                                                                            "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
-                                                                                                        ]
-                                                                                                    else builtins.throw "The executable is not a set but a ${ builtins.typeOf executable }"
-                                                                                                )
-                                                                                                (
-                                                                                                    if
-                                                                                                        builtins.typeOf sets == "lambda" &&
-                                                                                                            builtins.typeOf ( sets harvest ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets harvest ) )
-                                                                                                    then
-                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets harvest ) ) )
-                                                                                                    else if
-                                                                                                        builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
-                                                                                                        then
-                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) sets ) )
-                                                                                                    else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
-                                                                                                )
-                                                                                            ]
-                                                                                    ) ;
+                                                                                let
+                                                                                    harvest =
+                                                                                        let
+                                                                                            mapper =
+                                                                                                path : name : value :
+                                                                                                    if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" path }/${ name }/setup"
+                                                                                                    else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
+                                                                                            in builtins.mapAttrs ( mapper [ ( builtins.toString derivation ) ] ) { temporary = temporary ; } ;
+                                                                                    in
+                                                                                        builtins.concatStringsSep
+                                                                                            " "
+                                                                                            (
+                                                                                                builtins.concatLists
+                                                                                                    [
+                                                                                                        (
+                                                                                                            if builtins.typeOf executable == "set" then
+                                                                                                                [
+                                                                                                                    "makeWrapper"
+                                                                                                                    ( builtins.toString executable )
+                                                                                                                    "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
+                                                                                                                ]
+                                                                                                            else builtins.throw "The executable is not a set but a ${ builtins.typeOf executable }"
+                                                                                                        )
+                                                                                                        (
+                                                                                                            if
+                                                                                                                builtins.typeOf sets == "lambda" &&
+                                                                                                                    builtins.typeOf ( sets harvest ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets harvest ) )
+                                                                                                            then
+                                                                                                                builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets harvest ) ) )
+                                                                                                            else if
+                                                                                                                builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
+                                                                                                                then
+                                                                                                                    builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) sets ) )
+                                                                                                            else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
+                                                                                                        )
+                                                                                                    ]
+                                                                                            ) ;
                                                                     in ignore : identity ( value script ) ;
                                                         mapper =
                                                             path : name : value :
