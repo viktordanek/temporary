@@ -44,7 +44,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
       echo "R_TOKEN_11=$( ${CAT} $( ${TOKEN} ) )" >> ${TARGET} &&
       echo "R_TOKEN_12=$( ${CAT} $( ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET} &&
       echo "R_TOKEN_13=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ) )" >> ${TARGET} &&
-      echo "R_TOKEN_13=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET}
+      echo "R_TOKEN_14=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET}
   fi &&
   ${ECHO} R_VARIABLE=${VARIABLE} >> ${TARGET} &&
   exit ${A_RELEASE_EXIT}
