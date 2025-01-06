@@ -109,8 +109,8 @@
                                                                                 builtins.concatLists
                                                                                 [
                                                                                     [
-                                                                                        "${ pkgs.coreutils }/bin/mkdir --parents ${ builtins.concatStringsSep "/" path }"
-                                                                                        "${ pkgs.coreutils }/bin/mkdir --parents ${ builtins.concatStringsSep "/" path }/${ name }"
+                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }"
+                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }"
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
