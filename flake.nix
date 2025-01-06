@@ -71,9 +71,9 @@
                                                                                                 (
                                                                                                     if
                                                                                                         builtins.typeOf sets == "lambda" &&
-                                                                                                            builtins.typeOf ( sets ( harvest ( builtins.toString derivation ) ) ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets ( harvest ( builtins.toString derivation ) ) ) )
+                                                                                                            builtins.typeOf ( sets ( harvest "${OUT}" ) ) == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues ( sets ( harvest "${OUT}" ) ) )
                                                                                                     then
-                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest ( builtins.toString derivation ) ) ) ) )
+                                                                                                        builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set '${ name }' '${ value }'" ] ) ( sets ( harvest "${OUT2}" ) ) ) )
                                                                                                     else if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
                                                                                                         then
@@ -82,7 +82,7 @@
                                                                                                 )
                                                                                                 (
                                                                                                     [
-                                                                                                        "--set OUT $out"
+                                                                                                        "--set OUT2 $out"
                                                                                                     ]
                                                                                                 )
                                                                                             ]
