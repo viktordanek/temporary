@@ -51,6 +51,12 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   INIT_TOKEN_12=tp:token-si:-a:${INIT_TOKEN_ARGUMENTS} &&
   INIT_TOKEN_13=tp:token-si:${INIT_TOKEN_STANDARD_INPUT}-a: &&
   INIT_TOKEN_14=tp:token-si:${INIT_TOKEN_STANDARD_INPUT}-a:${INIT_TOKEN_ARGUMENTS} &&
+  RELEASE_TOKEN_ARGUMENTS=$( ${ECHO} -en "${RELEASE_VARIABLE} arguments" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+  RELEASE_TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${RELEASE_VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+  RELEASE_TOKEN_11=tp:token-si:-a: &&
+  RELEASE_TOKEN_12=tp:token-si:-a:${RELEASE_TOKEN_ARGUMENTS} &&
+  RELEASE_TOKEN_13=tp:token-si:${RELEASE_TOKEN_STANDARD_INPUT}-a: &&
+  RELEASE_TOKEN_14=tp:token-si:${RELEASE_TOKEN_STANDARD_INPUT}-a:${RELEASE_TOKEN_ARGUMENTS} &&
   ${SED} -e "s#^INIT_STANDARD_ERROR=.*\$#INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" -e w${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error &&
   ${DIFF} ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff &&
   ${SED} -e "s#^INIT_STANDARD_OUTPUT=.*\$#INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" -e w${DIRECTORY}/init.standard-output.post ${DIRECTORY}/init.standard-output &&
