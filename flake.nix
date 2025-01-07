@@ -258,7 +258,6 @@
                                                                     $out/bin/observed &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name "target" -exec ${ pkgs.gnugrep }/bin/grep "^PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c\$" {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/postcount
-                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -type f -name "target" -exec ${ pkgs.gnugrep }/bin/grep --with-filename "^PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c\$" {} \; > /build/observed/temporary/post.debug
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
                                                                     ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                     export DIFF=${ pkgs.diffutils }/bin/diff &&
