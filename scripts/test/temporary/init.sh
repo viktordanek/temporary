@@ -41,7 +41,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
       ${ECHO} I_TOKEN_13= >> ${TARGET} &&
       ${ECHO} I_TOKEN_14= >> ${TARGET}
   else
-    TOKEN_ARGUMENTS="\$\( ${ECHO} -en \"${VARIABLE} arguments\" | ${SHA512SUM} | ${CUT} --bytes -128 \)" &&
+    TOKEN_ARGUMENTS=$( ${ECHO} -en \"${VARIABLE} arguments\" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
       ${ECHO} I_TOKEN_ARGUMENTS=${TOKEN_ARGUMENTS} >> ${TARGET} &&
       TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
       ${ECHO} I_TOKEN_STANDARD_INPUT=${TOKEN_STANDARD_INPUT} >> ${TARGET} &&
