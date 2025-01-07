@@ -19,8 +19,9 @@ exec 200>${RESOURCE}/lock &&
     then
       ${RESOURCE}/post.sh
     fi &&
-    echo >> /build/observed/debug &&
+    echo "1: ${RM} --recursive --force ${RESOURCE}" >> /build/observed/debug &&
     ${RM} --recursive --force ${RESOURCE} &&
+    echo "2: ${RM} --recursive --force ${RESOURCE}" >> /build/observed/debug &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
