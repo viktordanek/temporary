@@ -34,14 +34,10 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} I_A_RELEASE_EXIT=${A_RELEASE_EXIT} >> ${TARGET} &&
   if [ -z "${TOKEN}" ]
   then
-    ${ECHO} I_TOKEN_ARGUMENTS= &&
-      ${ECHO} I_TOKEN_STANDARD_INPUT= &&
-      ${ECHO} I_TOKEN_11= >> ${TARGET} &&
-      ${ECHO} I_TOKEN_12= >> ${TARGET} &&
-      ${ECHO} I_TOKEN_13= >> ${TARGET} &&
-      ${ECHO} I_TOKEN_14= >> ${TARGET}
+    ${ECHO} I_HAS_TOKEN=n >> ${TARGET} &&
   else
-    TOKEN_ARGUMENTS=$( ${ECHO} -en \"${VARIABLE} arguments\" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+    ${ECHO} I_HAS_TOKEN=y >> ${TARGET} &&
+      TOKEN_ARGUMENTS=$( ${ECHO} -en \"${VARIABLE} arguments\" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
       ${ECHO} I_TOKEN_ARGUMENTS=${TOKEN_ARGUMENTS} >> ${TARGET} &&
       TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
       ${ECHO} I_TOKEN_STANDARD_INPUT=${TOKEN_STANDARD_INPUT} >> ${TARGET} &&
