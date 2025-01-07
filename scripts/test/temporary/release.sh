@@ -32,19 +32,16 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} I_A_RELEASE_STANDARD_ERROR=${A_RELEASE_STANDARD_ERROR} >> ${TARGET} &&
   ${ECHO} R_A_INIT_EXIT=${A_INIT_EXIT} >> ${TARGET} &&
   ${ECHO} R_A_RELEASE_EXIT=${A_RELEASE_EXIT} >> ${TARGET} &&
-  if [ -z "${TOKEN}" ]
+  if [ ! -z "${TOKEN}" ]
   then
-    ${ECHO} R_TOKEN_11= >> ${TARGET} &&
-      ${ECHO} R_TOKEN_12= >> ${TARGET} &&
-      ${ECHO} R_TOKEN_13= >> ${TARGET} &&
-      ${ECHO} R_TOKEN_14= >> ${TARGET}
-  else
-    TOKEN_ARGUMENTS=$( ${ECHO} -en "${TOKEN} arguments" | ${UUIDGEN} ) &&
-      TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${TOKEN} standard input" | ${UUIDGEN} ) &&
-      echo "R_TOKEN_11=$( ${CAT} $( ${TOKEN} ) )" >> ${TARGET} &&
-      echo "R_TOKEN_12=$( ${CAT} $( ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET} &&
-      echo "R_TOKEN_13=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ) )" >> ${TARGET} &&
-      echo "R_TOKEN_14=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET}
+    TOKEN_ARGUMENTS=$( ${ECHO} -en "${VARIABLE} arguments" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+      ${ECHO} R_TOKEN_ARGUMENTS=${TOKEN_ARGUMENTS} >> ${TARGET} &&
+      TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+      ${ECHO} R_TOKEN_STANDARD_INPUT=${TOKEN_STANDARD_INPUT} >> ${TARGET} &&
+      ${ECHO} "R_TOKEN_11=$( ${CAT} $( ${TOKEN} ) )" >> ${TARGET} &&
+      ${ECHO} "R_TOKEN_12=$( ${CAT} $( ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET} &&
+      ${ECHO} "R_TOKEN_13=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ) )" >> ${TARGET} &&
+      ${ECHO} "R_TOKEN_14=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET}
   fi &&
   ${ECHO} R_VARIABLE=${VARIABLE} >> ${TARGET} &&
   exit ${A_RELEASE_EXIT}
