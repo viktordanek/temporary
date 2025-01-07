@@ -2,4 +2,4 @@ ${MKDIR} --parents /build/observed/temporary &&
   ${FIND} /build -mindepth 1 -type f -name "target" -exec ${GREP} "$PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" \; | ${WC} --lines > /build/observed/temporary/precount &&
   T1=$( ${ECHO} a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5 | ${TEMP_1} 4b8acd28e3e0d5366c84d3a5e3bae5fce663b88c31d98a4304897c7b37c344fa1acf58242673faec8664b2937c515d59109a2546b3a6f32dfad9c567e309c374 )
   ${ECHO} PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c >> ${T1}
-  ${FIND} /build -mindepth 1 -type f -name "target" > /build/observed/temporary/midcount
+  ${FIND} /build -mindepth 1 -type f -name "target" -exec ${GREP} "PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" > /build/observed/temporary/midcount
