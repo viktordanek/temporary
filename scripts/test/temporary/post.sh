@@ -45,8 +45,8 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   else
     A_HAS_STANDARD_INPUT=y
   fi &&
-  INIT_TOKEN_ARGUMENTS=$( ${ECHO} "${INIT_VARIABLE} arguments" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
-  INIT_TOKEN_STANDARD_INPUT=$( ${ECHO} "${INIT_VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+  INIT_TOKEN_ARGUMENTS=$( ${ECHO} -en "${INIT_VARIABLE} arguments" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+  INIT_TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${INIT_VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
   INIT_TOKEN_11=token-n-- &&
   INIT_TOKEN_12=token-n--${INIT_TOKEN_ARGUMENTS} &&
   INIT_TOKEN_13=token-y-${INIT_TOKEN_STANDARD_INPUT}- &&
