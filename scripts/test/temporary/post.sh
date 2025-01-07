@@ -47,6 +47,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   fi &&
   INIT_TOKEN_ARGUMENTS=$( ${ECHO} "${INIT_VARIABLE} arguments" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
   INIT_TOKEN_STANDARD_INPUT=$( ${ECHO} "${INIT_VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+  INIT_TOKEN_11=token-n-${INIT_TOKEN_STANDARD_INPUT}-${INIT_TOKEN_ARGUMENTS} &&
   ${SED} -e "s#^INIT_STANDARD_ERROR=.*\$#INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" -e w${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error &&
   ${DIFF} ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff &&
   ${SED} -e "s#^INIT_STANDARD_OUTPUT=.*\$#INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" -e w${DIRECTORY}/init.standard-output.post ${DIRECTORY}/init.standard-output &&
@@ -71,6 +72,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     -e "s#^I_A_RELEASE_EXIT=.*\$#I_A_RELEASE_EXIT=${A_RELEASE_EXIT}#" \
     -e "s#^I_TOKEN_ARGUMENTS=.*\$#I_TOKEN_ARGUMENTS=wrong#" \
     -e "s#^I_TOKEN_STANDARD_INPUT=.*\$#I_TOKEN_ARGUMENTS=${INIT_TOKEN_STANDARD_INPUT}#" \
+    -e "s#^I_TOKEN_11=.*\$#I_TOKEN_11=${INIT_TOKEN_11}#" \
     -e "s#^I_VARIABLE=.*\$#I_VARIABLE=${INIT_VARIABLE}#" \
     -e "s#^PASTE=.*\$#PASTE=${PASTE}#" \
     -e "s#^R_HAS_STANDARD_INPUT=[y|n]\$#R_HAS_STANDARD_INPUT=${A_HAS_STANDARD_INPUT}#" \
