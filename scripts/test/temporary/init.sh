@@ -32,9 +32,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} I_A_RELEASE_STANDARD_ERROR=${A_RELEASE_STANDARD_ERROR} >> ${TARGET} &&
   ${ECHO} I_A_INIT_EXIT=${A_INIT_EXIT} >> ${TARGET} &&
   ${ECHO} I_A_RELEASE_EXIT=${A_RELEASE_EXIT} >> ${TARGET} &&
-  if [ -z "${TOKEN}" ]
-  then
-    ${ECHO} I_HAS_TOKEN=n >> ${TARGET}
+  if [ ! -z "${TOKEN}" ]
   else
     ${ECHO} I_HAS_TOKEN=y >> ${TARGET} &&
       TOKEN_ARGUMENTS=$( ${ECHO} -en \"${VARIABLE} arguments\" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
