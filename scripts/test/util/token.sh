@@ -1,7 +1,7 @@
 if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
 then
   HAS_STANDARD_INPUT=y &&
-    STANDAD_INPUT=$( ${TEE} )
+    STANDARD_INPUT=$( ${TEE} )
   else
     HAS_STANDARD_INPUT=n &&
       STANDARD_INPUT=
