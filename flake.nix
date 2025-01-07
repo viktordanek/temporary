@@ -257,6 +257,7 @@
                                                                     makeWrapper $out/bin/observed.sh $out/bin/observed --set CAT ${ pkgs.coreutils }/bin/cat --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set WC ${ pkgs.coreutils }/bin/wc &&
                                                                     $out/bin/observed &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
+                                                                    ${ pkgs.findutils }/bin/find /build -mindepth 1 -type f -name "target" -exec ${ pkgs.gnugrep }/bin/grep "^PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c\$" {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/postcount
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
                                                                     ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                     export DIFF=${ pkgs.diffutils }/bin/diff &&
