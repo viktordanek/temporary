@@ -19,6 +19,7 @@ exec 200>${RESOURCE}/lock &&
     then
       ${RESOURCE}/post.sh
     fi &&
+    echo >> /build/observed/debug &&
     ${RM} --recursive --force ${RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
