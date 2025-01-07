@@ -39,7 +39,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
       ${ECHO} I_TOKEN_13= >> ${TARGET} &&
       ${ECHO} I_TOKEN_14= >> ${TARGET}
   else
-    TOKEN_ARGUMENTS=$( ${ECHO} -en "${TOKEN} arguments" | ${SHA512SUM} ) &&
+    TOKEN_ARGUMENTS="\$\( ${ECHO} -en "${TOKEN} arguments" | ${SHA512SUM} \)" &&
       TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${TOKEN} standard input" | ${SHA512SUM} ) &&
       # echo "I_TOKEN_11=$( ${CAT} $( ${TOKEN} ) )" >> ${TARGET} &&
       # echo "I_TOKEN_12=$( ${CAT} $( ${TOKEN} ${TOKEN_ARGUMENTS} ) )" >> ${TARGET} &&
