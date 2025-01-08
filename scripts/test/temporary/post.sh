@@ -112,7 +112,7 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   then
     if [ -d ${ALPHA_DIRECTORY} ]
     then
-      ${DIFF} ${DIRECTORY} ${ALPHA_DIRECTORY} >> /build/observed/temporary/diff
+      ${DIFF} --recursive ${DIRECTORY} ${ALPHA_DIRECTORY} >> /build/observed/temporary/diff
     else
       ${MKDIR} --parents ${ALPHA_DIRECTORY} &&
         ${MV} ${DIRECTORY}/* ${ALPHA_DIRECTORY}
