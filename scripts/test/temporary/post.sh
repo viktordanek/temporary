@@ -107,10 +107,9 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     ${DIRECTORY}/target &&
   ${DIFF} ${DIRECTORY}/target ${DIRECTORY}/target.post > ${DIRECTORY}/target.diff &&
   ${CAT} ${DIRECTORY}/*.diff > ${DIRECTORY}/diff &&
-  exec 201 > /build/observed/temporary/lock &&
+  exec 201> /build/observed/temporary/lock &&
   if ${FLOCK} 201
   then
-          ${ECHO} 1 - >> /build/observed/temporary/debug &&
     if [ -d ${ALPHA_DIRECTORY} ]
     then
       ${DIFF} --recursive ${DIRECTORY} ${ALPHA_DIRECTORY} >> /build/observed/temporary/diff
