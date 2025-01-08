@@ -11,8 +11,8 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
   A_INIT_EXIT=${TEMPORARY_PATH_ARRAY[8]} &&
   A_RELEASE_EXIT=${TEMPORARY_PATH_ARRAY[9]} &&
   TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d} &&
-  DIRECTORY=/build/observed/temporary/${A_INIT_ARGUMENT}/${A_INIT_STANDARD_INPUT}/${A_INIT_TYPEOF}/${A_RELEASE_TYPEOF}/${A_POST_TYPEOF}/${A_INIT_STANDARD_OUTPUT}/${A_INIT_STANDARD_ERROR}/${A_INIT_EXIT}/${A_RELEASE_EXIT} &&
-  ${MKDIR} --parents ${DIRECTORY} &&
+  DIRECTORY=$( ${MKTEMP} --directory ) &&
+  ALPHA_DIRECTORY=/build/observed/temporary/${A_INIT_ARGUMENT}/${A_INIT_STANDARD_INPUT}/${A_INIT_TYPEOF}/${A_RELEASE_TYPEOF}/${A_POST_TYPEOF}/${A_INIT_STANDARD_OUTPUT}/${A_INIT_STANDARD_ERROR}/${A_INIT_EXIT}/${A_RELEASE_EXIT} &&
   ${SED} -e "s#${TARGET}#\${TARGET}#" -e w${DIRECTORY}/target ${RESOURCE}/target > /dev/null &&
   if [ -f ${RESOURCE}/init.standard-error ]
   then
@@ -106,4 +106,10 @@ TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1
     -e w${DIRECTORY}/target.post \
     ${DIRECTORY}/target &&
   ${DIFF} ${DIRECTORY}/target ${DIRECTORY}/target.post > ${DIRECTORY}/target.diff &&
-  ${CAT} ${DIRECTORY}/*.diff > ${DIRECTORY}/diff
+  ${CAT} ${DIRECTORY}/*.diff > ${DIRECTORY}/diff &&
+  if [ -d ${ALPHA_DIRECTORY} ]
+  then
+  else
+    ${MKDIR} --parents ${ALPHA_DIRECTORY} &&
+      ${MV} ${DIRECTORY}/* ${ALPHA_DIRECTORY}
+  fi
