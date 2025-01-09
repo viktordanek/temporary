@@ -254,8 +254,7 @@
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed.sh &&
                                                                     makeWrapper $out/bin/observed.sh $out/bin/observed --set CAT ${ pkgs.coreutils }/bin/cat --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set SEQ ${ pkgs.coreutils }/bin/seq --set WC ${ pkgs.coreutils }/bin/wc &&
                                                                     ${ pkgs.coreutils }/bin/mkdir --parents /build/observed/temporary &&
-                                                                    ${ pkgs.findutils }/bin/find /build/tmp.* -type f -mindepth 1 -maxdepth 1 -name "target" -exec { pkgs.gnugrep }/bin/grep "^PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c\$" \; | ${ pkgs.coreutils }/bin/wc
-                                                                     --lines > /build/observed/temporary/precount &&
+                                                                    ${ pkgs.findutils }/bin/find /build/tmp.* -type f -mindepth 1 -maxdepth 1 -name "target" -exec { pkgs.gnugrep }/bin/grep "^PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c\$" \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/precount &&
                                                                     ${ pkgs.coreutils }/bin/seq 1 | while read I
                                                                     do
                                                                         $out/bin/observed \
