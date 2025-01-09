@@ -264,7 +264,7 @@
                                                                     export OBSERVED=$out/observed &&
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
-                                                                        ${ pkgs.findutil }/bin/find -maxdepth 1 $EXPECTED $OBSERVED &&
+                                                                        ${ pkgs.findutils }/bin/find -maxdepth 1 $EXPECTED $OBSERVED &&
                                                                         ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
                                                                             makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
