@@ -192,7 +192,7 @@
                                                                         in [ command ]
                                                                 else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                 else builtins.throw "The test value at ${ builtins.concatStringsSep "/" path }/name is neither a lambda or a set but a ${ builtins.typeOf value }." ;
-                                                        in pkgs.writeShellScript "retester" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ) ;
+                                                        in pkgs.writeShellScript "retester" ( builtins.typeOf ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ;
                                                     temporary =
                                                             {
                                                                 temporary =
