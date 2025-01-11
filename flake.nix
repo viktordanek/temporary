@@ -237,6 +237,10 @@
                                                             } ;
                                                         temporary-path = "bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b" ;
                                                     } ;
+                                                retester =
+                                                    let
+                                                        mapper = builtins.null ;
+                                                        in pkgs.writeShellScript "retester" "" ;
                                             in
                                                 pkgs.stdenv.mkDerivation
                                                     {
@@ -277,8 +281,10 @@
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
                                                                             makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ retester }
                                                                             exit 1
-                                                                    fi
+                                                                    fi &&
+                                                                    exit 2
                                                             '' ;
                                                     } ;
                                     lib = lib ;
