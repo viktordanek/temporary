@@ -186,7 +186,7 @@
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then
                                                                     let
-                                                                        stuff = "${ pkgs.coreutils }/bin/echo HI ${ builtins.toString ( builtins.length path ) }" ;
+                                                                        stuff = "${ pkgs.coreutils }/bin/echo HI AAA${ builtins.toString ( builtins.length path ) }BBB" ;
                                                                         command = "${ builtins.concatStringsSep "." path } ${ builtins.elemAt path 8 }" ;
                                                                         init-typeOf = if builtins.elemAt path 0 == "" then "if ${ command } ; then ${ pkgs.coreutils }/bin/echo /build/temporary/observed/debug ; fi" else "${ pkgs.coreutils }/bin/echo PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c > $( ${ standard-input } )" ;
                                                                         standard-input = if builtins.elemAt path 9 == "" then "${ command }" else "${ pkgs.coreutils }/bin/echo ${ builtins.elemAt path 9 } | ${ command }" ;
