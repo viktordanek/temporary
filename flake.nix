@@ -294,7 +294,7 @@
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                             exit 1
                                                                     fi &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ retester } &&
+                                                                    ${ pkgs.coreutils }/bin/echo '${ retester }' &&
                                                                     exit 2
                                                             '' ;
                                                     } ;
