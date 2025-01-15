@@ -207,8 +207,10 @@
                                                         in builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ) ;
                                                     temporary2 =
                                                         let
+                                                            # convert list of all possibilites to { name , value } tuple
                                                             list =
                                                                 let
+                                                                    # list of all the 2304 combination of steps
                                                                     list =
                                                                         let
                                                                             generator = index : ( builtins.elemAt list index ) // { index = builtins.toString index ; } ;
@@ -334,13 +336,13 @@
                                                                                                                 post = post ;
                                                                                                             } ;
                                                                                             } ;
-                                                                            in builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
+                                                                    in builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
                                                                     mapper = { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , value } :
                                                                         {
                                                                             "${ arguments }"."${ standard-input }"."${ init-typeOf }"."${ init-standard-output }"."${ init-standard-error }"."${ init-status }"."${ release-typeOf }"."${ release-standard-output }"."${ release-standard-error }"."${ release-status }" = value ;
                                                                         } ;
                                                                     in builtins.map mapper list ;
-                                                            in null ;
+                                                            in builtins.foldl' lib.defaultMerge { } list ;
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
