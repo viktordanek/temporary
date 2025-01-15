@@ -335,7 +335,7 @@
                                                                                                             } ;
                                                                                             } ;
                                                                             in builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
-                                                                    mapper = builtins.map ( { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , value } :
+                                                                    mapper = { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , value } :
                                                                         {
                                                                             "${ arguments }"."${ standard-input }"."${ init-typeOf }"."${ init-standard-output }"."${ init-standard-error }"."${ init-status }"."${ release-typeOf }"."${ release-standard-output }"."${ release-standard-error }"."${ release-status }" = value ;
                                                                         } ;
