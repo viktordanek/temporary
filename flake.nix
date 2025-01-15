@@ -340,6 +340,7 @@
                                                                             "${ arguments }"."${ standard-input }"."${ init-typeOf }"."${ init-standard-output }"."${ init-standard-error }"."${ init-status }"."${ release-typeOf }"."${ release-standard-output }"."${ release-standard-error }"."${ release-status }" = value ;
                                                                         } ;
                                                                     in builtins.map mapper list ;
+                                                            in null ;
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
