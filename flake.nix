@@ -264,31 +264,75 @@
                                                                                                 release-standard-error = if release-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "false" ] ) ;
                                                                                                 release-status = if release-status then "0" else builtins.toString ( 1 + ( mod ( rand index ) 254 ) ) ;
                                                                                                 value =
-                                                                                                    script :
-                                                                                                        {
-                                                                                                            init =
-                                                                                                                script
-                                                                                                                    {
-                                                                                                                        executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
-                                                                                                                        sets =
-                                                                                                                            harvest :
+                                                                                                    let
+                                                                                                        init =
+                                                                                                            {
+                                                                                                                lambda =
+                                                                                                                    script :
+                                                                                                                        {
+                                                                                                                            init =
                                                                                                                                 {
-                                                                                                                                    CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                                                    CUT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                                    ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                                    SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
-                                                                                                                                    TEE="${ pkgs.coreutils }/bin/tee" ;
-                                                                                                                                    TOKEN = if init-typeOf == "lambda" then harvest.temporary.util.token else "";
-                                                                                                                                    VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "init" ] ) ;
+                                                                                                                                    executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                                                    sets =
+                                                                                                                                        harvest :
+                                                                                                                                            {
+                                                                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                                                CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                                SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
+                                                                                                                                                TEE="${ pkgs.coreutils }/bin/tee" ;
+                                                                                                                                                TOKEN = harvest.temporary.util.token ;
+                                                                                                                                                VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "init" ] ) ;
+                                                                                                                                            } ;
                                                                                                                                 } ;
-                                                                                                            release =
-                                                                                                                script
+                                                                                                                        } ;
+                                                                                                            } ;
+                                                                                                        release =
+                                                                                                            {
+                                                                                                                lambda =
+                                                                                                                    script :
+                                                                                                                            script
+                                                                                                                            {
+                                                                                                                                executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                                                sets =
+                                                                                                                                    harvest :
+                                                                                                                                    {
+                                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                        SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
+                                                                                                                                        TEE="${ pkgs.coreutils }/bin/tee" ;
+                                                                                                                                        TOKEN = harvest.temporary.util.token ;
+                                                                                                                                        VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "release" ] ) ;
+                                                                                                                                    } ;
+                                                                                                                            } ;
+                                                                                                            } ;
+                                                                                                        post =
+                                                                                                            {
+                                                                                                                executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
+                                                                                                                sets =
                                                                                                                     {
-                                                                                                                        executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
-                                                                                                                        sets =
-                                                                                                                            harvest : { CAT = "${ pkgs.coreutils }/bin/cat" ;  CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; TEE="${ pkgs.coreutils }/bin/tee" ; TOKEN = harvest.temporary.util.token ; VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "release" ] ) ; } ; } ;
-                                                                                                            post = script { executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CUT = "${ pkgs.coreutils }/bin/cut" ; DIFF = "${ pkgs.diffutils }/bin/diff" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; FLOCK = "${ pkgs.flock }/bin/flock" ; INIT_VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "init" ] ) ; MKDIR = "${ pkgs.coreutils }/bin/mkdir" ; MKTEMP = "${ pkgs.coreutils }/bin/mktemp" ; MV = "${ pkgs.coreutils }/bin/mv" ; PASTE = "e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" ; RELEASE_VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "release" ] ) ; SED = "${ pkgs.gnused }/bin/sed" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; } ; } ;
-                                                                                                        } ;
+                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                        DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                        FLOCK = "${ pkgs.flock }/bin/flock" ;
+                                                                                                                        INIT_VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "init" ] ) ;
+                                                                                                                        MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                                        MKTEMP = "${ pkgs.coreutils }/bin/mktemp" ;
+                                                                                                                        MV = "${ pkgs.coreutils }/bin/mv" ;
+                                                                                                                        PASTE = "e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" ;
+                                                                                                                        RELEASE_VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "release" ] ) ;
+                                                                                                                        SED = "${ pkgs.gnused }/bin/sed" ;
+                                                                                                                        SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
+                                                                                                                    } ;
+                                                                                                            } ;
+                                                                                                        in
+                                                                                                            {
+                                                                                                                init = init.lambda ;
+                                                                                                                release = release.lambda ;
+                                                                                                                post = post ;
+                                                                                                            } ;
                                                                                             } ;
                                                                             in builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
                                                                     mapper = builtins.map ( { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , value } :
