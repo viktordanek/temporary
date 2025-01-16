@@ -205,6 +205,15 @@
                                                                 else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                 else builtins.throw "The test value at ${ builtins.concatStringsSep "/" path }/name is neither a lambda or a set but a ${ builtins.typeOf value }." ;
                                                         in builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ) ;
+                                                    retester2 =
+                                                        value :
+                                                            let
+                                                                command = "" ;
+                                                                init-typeOf = if init-typeOf then "if ${ command } ; then ${ pkgs.coreutils }/bin/echo /build/temporary/observed/debug ; fi" else "${ pkgs.coreutils }/bin/echo PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c > $( ${ standard-input } )" ;
+                                                                
+                                                                standard-input = if value.standard-input == "" then "${ command }" else "${ pkgs.coreutils }/bin/echo ${ value.standard-input }| ${ command }" ;
+                                                            in [ standard-input ]
+
                                                     temporary2 =
                                                         let
                                                             generator = index : ( builtins.elemAt list index ) // { index = builtins.toString index ; } ;
@@ -331,7 +340,6 @@
                                                                                             } ;
                                                                             } ;
                                                     in builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
-
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
