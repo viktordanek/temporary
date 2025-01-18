@@ -246,7 +246,7 @@
                                                                             else if current == "release standard error" then [ ( builtins.map ( p : p // { release-standard-error= false ; } ) previous ) ( builtins.map ( p : p // { release-standard-error = true ; } ) previous ) ]
                                                                             else if current == "release status" then [ ( builtins.map ( p : p // { release-status = false ; } ) previous ) ( builtins.map ( p : p // { release-status = true ; } ) previous ) ]
                                                                             else builtins.throw "Unexpected level current" ;
-                                                                    in builtins.foldl' reducer { } levels ;
+                                                                    in builtins.foldl' reducer [ ] levels ;
                                                             mapper =
                                                                 { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , index } :
                                                                     let
