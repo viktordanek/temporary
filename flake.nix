@@ -208,11 +208,10 @@
                                                     retester2 =
                                                         value :
                                                             let
-                                                                command = "" ;
-                                                                init-typeOf = if init-typeOf then "if ${ command } ; then ${ pkgs.coreutils }/bin/echo /build/temporary/observed/debug ; fi" else "${ pkgs.coreutils }/bin/echo PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c > $( ${ standard-input } )" ;
-                                                                
-                                                                standard-input = if value.standard-input == "" then "${ command }" else "${ pkgs.coreutils }/bin/echo ${ value.standard-input }| ${ command }" ;
-                                                            in [ standard-input ] ;
+                                                                command = value.name ;
+                                                                init-status = if value.init-status == "0" then "${ pkgs.coreutils }/bin/echo ${ value.paste } > $( ${ standard-input } )" else "if ${ standard-input } ; then ${ pkgs.coreutils }/bin/echo ${ command } did not error >&2" ;
+                                                                standard-input = if value.standard-output == "" then command else "${ pkgs.coreutils }/bin/echo ${ value.standard-input } | ${ command }" ;
+                                                            in [ init-status ] ;
                                                     temporary2 =
                                                         let
                                                             generator = index : ( builtins.elemAt list index ) // { index = builtins.toString index ; } ;
@@ -263,6 +262,7 @@
                                                                                 init-standard-output = if init-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard output" "false" ] ) ;
                                                                                 init-standard-error = if init-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard error" "false" ] ) ;
                                                                                 init-status = if init-status then "0" else builtins.toString ( 1 + ( mod ( rand index ) 254 ) ) ;
+                                                                                paste = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "paste" ] ) ;
                                                                                 release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
                                                                                 release-standard-output = if release-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard output" "false" ] ) ;
                                                                                 release-standard-error = if release-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "false" ] ) ;
@@ -339,12 +339,14 @@
                                                                                             } ;
                                                                             in
                                                                                 {
+                                                                                    name = builtins.concatStringsSep "" [ "$" "{" ( builtins.concatStringsSep "." [ arguments standard-input init-typeOf init-standard-output init-standard-error release-typeOf release-standard-output release-standard-error release-status ] ) "}" ] ;
                                                                                     arguments = arguments ;
                                                                                     standard-input = standard-input ;
                                                                                     init-typeOf = init-typeOf ;
                                                                                     init-standard-output = init-standard-output ;
                                                                                     init-standard-error = init-standard-error ;
                                                                                     init-status = init-status ;
+                                                                                    paste = paste ;
                                                                                     release-typeOf = release-typeOf ;
                                                                                     release-standard-output = release-standard-output ;
                                                                                     release-standard-error = release-standard-error ;
