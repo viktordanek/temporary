@@ -240,6 +240,7 @@
                                                                                 init-status = "0" ;
                                                                             } ;
                                                                     in builtins.map mapper list ;
+                                                            in list ;
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
