@@ -252,40 +252,61 @@
                                                                                             else builtins.throw "Unexpected level current" ;
                                                                                     in builtins.foldl' reducer [ ] levels ;
                                                                             in builtins.genList generator ( builtins.length list ) ;
-                                                            mapper =
-                                                                { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , index-number , index-string } :
-                                                                    let
-                                                                        mod = a : b : a - ( ( a / b ) * b ) ;
-                                                                        rand =
-                                                                            number :
-                                                                                let
-                                                                                    list = builtins.genList ( index : builtins.fromJSON ( builtins.substring index 1 string ) ) ( builtins.stringLength string ) ;
-                                                                                    string = builtins.replacesStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( builtins.substring 0 3 ( builtins.hashString "sha512" ( builtins.toString number ) ) ) ;
-                                                                                    in builtins.foldl' ( previous : current : 100 * previous + current ) 0 index ;
-
-                                                                        arguments = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "arguments" ] ) else "" ;
-                                                                        standard-input = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "standard input" ] ) else "" ;
-                                                                        init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
-                                                                        init-standard-output = if init-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "init standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard output" "false" ] ) ;
-                                                                        init-standard-error = if init-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "init standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard error" "false" ] ) ;
-                                                                        init-status = if init-status then "0" else builtins.toString ( 1 + ( mod ( rand index-number ) 254 ) ) ;
-                                                                        paste = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index-string "paste" ] ) ;
-                                                                        release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
-                                                                        release-standard-output = if release-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "release standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard output" "false" ] ) ;
-                                                                        release-standard-error = if release-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "release standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "false" ] ) ;
-                                                                        release-status = if release-status then "0" else builtins.toString ( 1 + ( mod ( rand index-number ) 254 ) ) ;
-                                                                        value =
+                                                                    mapper =
+                                                                        { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , index-number , index-string } :
                                                                             let
-                                                                                init =
-                                                                                    {
-                                                                                        lambda =
-                                                                                            script :
-                                                                                                {
-                                                                                                    init =
+                                                                                mod = a : b : a - ( ( a / b ) * b ) ;
+                                                                                rand =
+                                                                                    number :
+                                                                                        let
+                                                                                            list = builtins.genList ( index : builtins.fromJSON ( builtins.substring index 1 string ) ) ( builtins.stringLength string ) ;
+                                                                                            string = builtins.replacesStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( builtins.substring 0 3 ( builtins.hashString "sha512" ( builtins.toString number ) ) ) ;
+                                                                                            in builtins.foldl' ( previous : current : 100 * previous + current ) 0 index ;
+
+                                                                                arguments = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "arguments" ] ) else "" ;
+                                                                                standard-input = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "standard input" ] ) else "" ;
+                                                                                init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
+                                                                                init-standard-output = if init-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "init standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard output" "false" ] ) ;
+                                                                                init-standard-error = if init-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "init standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard error" "false" ] ) ;
+                                                                                init-status = if init-status then "0" else builtins.toString ( 1 + ( mod ( rand index-number ) 254 ) ) ;
+                                                                                paste = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index-string "paste" ] ) ;
+                                                                                release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
+                                                                                release-standard-output = if release-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "release standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard output" "false" ] ) ;
+                                                                                release-standard-error = if release-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "release standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "false" ] ) ;
+                                                                                release-status = if release-status then "0" else builtins.toString ( 1 + ( mod ( rand index-number ) 254 ) ) ;
+                                                                                value =
+                                                                                    let
+                                                                                        init =
+                                                                                            {
+                                                                                                lambda =
+                                                                                                    script :
                                                                                                         {
-                                                                                                            executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
-                                                                                                            sets =
-                                                                                                                harvest :
+                                                                                                            init =
+                                                                                                                {
+                                                                                                                    executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                                    sets =
+                                                                                                                        harvest :
+                                                                                                                            {
+                                                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                                CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
+                                                                                                                                TEE="${ pkgs.coreutils }/bin/tee" ;
+                                                                                                                                TOKEN = harvest.temporary.util.token ;
+                                                                                                                                VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "init" ] ) ;
+                                                                                                                            } ;
+                                                                                                                } ;
+                                                                                                        } ;
+                                                                                            } ;
+                                                                                        release =
+                                                                                            {
+                                                                                                lambda =
+                                                                                                    script :
+                                                                                                            script
+                                                                                                            {
+                                                                                                                executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                                sets =
+                                                                                                                    harvest :
                                                                                                                     {
                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                                         CUT = "${ pkgs.coreutils }/bin/cut" ;
@@ -293,72 +314,51 @@
                                                                                                                         SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
                                                                                                                         TEE="${ pkgs.coreutils }/bin/tee" ;
                                                                                                                         TOKEN = harvest.temporary.util.token ;
-                                                                                                                        VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "init" ] ) ;
+                                                                                                                        VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "release" ] ) ;
                                                                                                                     } ;
-                                                                                                        } ;
-                                                                                                } ;
-                                                                                    } ;
-                                                                                release =
-                                                                                    {
-                                                                                        lambda =
-                                                                                            script :
-                                                                                                    script
-                                                                                                    {
-                                                                                                        executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
-                                                                                                        sets =
-                                                                                                            harvest :
-                                                                                                            {
-                                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                                CUT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
-                                                                                                                TEE="${ pkgs.coreutils }/bin/tee" ;
-                                                                                                                TOKEN = harvest.temporary.util.token ;
-                                                                                                                VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "release" ] ) ;
                                                                                                             } ;
-                                                                                                    } ;
-                                                                                    } ;
-                                                                                post =
-                                                                                    {
-                                                                                        executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
-                                                                                        sets =
-                                                                                            {
-                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                CUT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                DIFF = "${ pkgs.diffutils }/bin/diff" ;
-                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                FLOCK = "${ pkgs.flock }/bin/flock" ;
-                                                                                                INIT_VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "init" ] ) ;
-                                                                                                MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
-                                                                                                MKTEMP = "${ pkgs.coreutils }/bin/mktemp" ;
-                                                                                                MV = "${ pkgs.coreutils }/bin/mv" ;
-                                                                                                PASTE = "e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" ;
-                                                                                                RELEASE_VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "release" ] ) ;
-                                                                                                SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
                                                                                             } ;
-                                                                                    } ;
+                                                                                        post =
+                                                                                            {
+                                                                                                executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
+                                                                                                sets =
+                                                                                                    {
+                                                                                                        CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                        DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                        FLOCK = "${ pkgs.flock }/bin/flock" ;
+                                                                                                        INIT_VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "init" ] ) ;
+                                                                                                        MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                        MKTEMP = "${ pkgs.coreutils }/bin/mktemp" ;
+                                                                                                        MV = "${ pkgs.coreutils }/bin/mv" ;
+                                                                                                        PASTE = "e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" ;
+                                                                                                        RELEASE_VARIABLE = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "release" ] ) ;
+                                                                                                        SED = "${ pkgs.gnused }/bin/sed" ;
+                                                                                                        SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
+                                                                                                    } ;
+                                                                                            } ;
+                                                                                        in
+                                                                                            {
+                                                                                                init = init.lambda ;
+                                                                                                release = release.lambda ;
+                                                                                                post = post ;
+                                                                                            } ;
                                                                                 in
                                                                                     {
-                                                                                        init = init.lambda ;
-                                                                                        release = release.lambda ;
-                                                                                        post = post ;
+                                                                                        name = builtins.concatStringsSep "" [ "$" "{" ( builtins.concatStringsSep "." [ arguments standard-input init-typeOf init-standard-output init-standard-error release-typeOf release-standard-output release-standard-error release-status ] ) "}" ] ;
+                                                                                        arguments = arguments ;
+                                                                                        standard-input = standard-input ;
+                                                                                        init-typeOf = init-typeOf ;
+                                                                                        init-standard-output = init-standard-output ;
+                                                                                        init-standard-error = init-standard-error ;
+                                                                                        init-status = init-status ;
+                                                                                        paste = paste ;
+                                                                                        release-typeOf = release-typeOf ;
+                                                                                        release-standard-output = release-standard-output ;
+                                                                                        release-standard-error = release-standard-error ;
                                                                                     } ;
-                                                                        in
-                                                                            {
-                                                                                name = builtins.concatStringsSep "" [ "$" "{" ( builtins.concatStringsSep "." [ arguments standard-input init-typeOf init-standard-output init-standard-error release-typeOf release-standard-output release-standard-error release-status ] ) "}" ] ;
-                                                                                arguments = arguments ;
-                                                                                standard-input = standard-input ;
-                                                                                init-typeOf = init-typeOf ;
-                                                                                init-standard-output = init-standard-output ;
-                                                                                init-standard-error = init-standard-error ;
-                                                                                init-status = init-status ;
-                                                                                paste = paste ;
-                                                                                release-typeOf = release-typeOf ;
-                                                                                release-standard-output = release-standard-output ;
-                                                                                release-standard-error = release-standard-error ;
-                                                                            } ;
-                                                            in builtins.map mapper list ;
+                                                                    in builtins.map mapper list ;
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
