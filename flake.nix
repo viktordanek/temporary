@@ -213,7 +213,6 @@
                                                                 
                                                                 standard-input = if value.standard-input == "" then "${ command }" else "${ pkgs.coreutils }/bin/echo ${ value.standard-input }| ${ command }" ;
                                                             in [ standard-input ] ;
-
                                                     temporary2 =
                                                         let
                                                             generator = index : ( builtins.elemAt list index ) // { index = builtins.toString index ; } ;
@@ -257,7 +256,7 @@
                                                                                     string = builtins.replacesStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( builtins.substring 0 3 ( builtins.hashString "sha512" ( builtins.toString number ) ) ) ;
                                                                                     in builtins.foldl' ( previous : current : 100 * previous + current ) 0 index ;
                                                                         in
-                                                                            {
+                                                                            let
                                                                                 arguments = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "arguments" ] ) else "" ;
                                                                                 standard-input = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "standard input" ] ) else "" ;
                                                                                 init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
@@ -339,6 +338,19 @@
                                                                                                 post = post ;
                                                                                             } ;
                                                                             } ;
+                                                                            in
+                                                                                {
+                                                                                    arguments = arguments ;
+                                                                                    standard-input = standard-input ;
+                                                                                    init-typeOf = init-typeOf ;
+                                                                                    init-standard-output = init-standard-output ;
+                                                                                    init-standard-error = init-standard-error ;
+                                                                                    init-status = init-status ;
+                                                                                    release-typeOf = release-typeOf ;
+                                                                                    release-standard-output = release-standard-output ;
+                                                                                    release-standard-error = release-standard-error ;
+                                                                                    release-status = release-status ;
+                                                                                } ;
                                                     in builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
                                                     temporary =
                                                         {
