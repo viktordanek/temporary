@@ -238,7 +238,8 @@
                                                                                 name = "name" ;
                                                                                 standard-output = "" ;
                                                                                 init-status = "0" ;
-                                                                            }
+                                                                            } ;
+                                                                    in builtins.map mapper list ;
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
