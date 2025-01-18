@@ -213,7 +213,7 @@
                                                                         command = value.name ;
                                                                         init-status = if value.init-status == "0" then "${ pkgs.coreutils }/bin/echo ${ value.paste } > $( ${ standard-input } )" else "if ${ standard-input } ; then ${ pkgs.coreutils }/bin/echo ${ command } did not error >&2" ;
                                                                         standard-input = if value.standard-output == "" then command else "${ pkgs.coreutils }/bin/echo ${ value.standard-input } | ${ command }" ;
-                                                                    in init-status ;
+                                                                    in command ;
                                                             in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary2 ) ;
                                                     temporary2 =
                                                         let
