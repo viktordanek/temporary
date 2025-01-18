@@ -214,7 +214,31 @@
                                                                         init-status = if value.init-status == "0" then "${ pkgs.coreutils }/bin/echo ${ value.paste } > $( ${ standard-input } )" else "if ${ standard-input } ; then ${ pkgs.coreutils }/bin/echo ${ command } did not error >&2" ;
                                                                         standard-input = if value.standard-output == "" then command else "${ pkgs.coreutils }/bin/echo ${ value.standard-input } | ${ command }" ;
                                                                     in builtins.typeOf value ;
-                                                            in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary ) ;
+                                                            in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ;
+                                                    temporary-2 =
+                                                        let
+                                                            list =
+                                                                let
+                                                                    list =
+                                                                        let
+                                                                            generator = index : ( builtins.elemAt index list ) // { index = index ; } ;
+                                                                            list =
+                                                                                let
+                                                                                    levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
+                                                                                    reducer =
+                                                                                        previous : current :
+                                                                                            if current == "init-typeOf" || current == "release-typeOf" then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
+                                                                                            else if current == "arguments" || current == "standard-input" || current == "init-standard-output" || current == "init-standard-error" || current == "release-standard-output" || current == "release-standard-error" then [ ( builtins.map ( p : p // { "current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
+                                                                                            else builtins.throw "We were not expecting this level:  ${ current }."
+                                                                                    in builtins.foldl' reducer [ ] levels ;
+                                                                            in builtins.genList generator ( builtins.length list ) ;
+                                                                    mapper =
+                                                                        { ... } :
+                                                                            {
+                                                                                name = "name" ;
+                                                                                standard-output = "" ;
+                                                                                init-status = "0" ;
+                                                                            }
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
@@ -304,7 +328,7 @@
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                             exit 1
                                                                     fi &&
-                                                                    ${ pkgs.coreutils }/bin/echo '${ pkgs.writeShellScript "retester.sh" retester }' &&
+                                                                    ${ pkgs.coreutils }/bin/echo '${ pkgs.writeShellScript "retester.sh" retester2 }' &&
                                                                     exit 2
                                                             '' ;
                                                     } ;
