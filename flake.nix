@@ -261,8 +261,7 @@
                                                                                         let
                                                                                             list = builtins.genList ( index : builtins.fromJSON ( builtins.substring index 1 string ) ) ( builtins.stringLength string ) ;
                                                                                             string = builtins.replacesStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( builtins.substring 0 3 ( builtins.hashString "sha512" ( builtins.toString number ) ) ) ;
-                                                                                            in builtins.foldl' ( previous : current : 100 * previous + current ) 0 index ;
-
+                                                                                            in builtins.foldl' ( previous : current : 100 * previous + current ) 0 list ;
                                                                                 arguments = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "arguments" ] ) else "" ;
                                                                                 standard-input = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "standard input" ] ) else "" ;
                                                                                 init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
