@@ -219,28 +219,25 @@
                                                         let
                                                             list =
                                                                 let
+                                                                    generator = index : ( builtins.elemAt list index ) ;
                                                                     list =
                                                                         let
-                                                                            generator = index : ( builtins.elemAt list index ) ;
-                                                                            list =
-                                                                                let
-                                                                                    levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
-                                                                                    reducer =
-                                                                                        previous : current :
-                                                                                            if current == "init-typeOf" || current == "release-typeOf" then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
-                                                                                            else if current == "arguments" || current == "standard-input" || current == "init-standard-output" || current == "init-standard-error" ||current == "init-status" || current == "release-standard-output" || current == "release-standard-error" || current == "release-status" then [ ( builtins.map ( p : p // { "current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
-                                                                                            else builtins.throw "We were not expecting this level:  ${ current }." ;
-                                                                                    in builtins.foldl' reducer [ ] levels ;
-                                                                            in builtins.genList generator ( builtins.length list ) ;
-                                                                    mapper =
-                                                                        { ... } :
-                                                                            {
-                                                                                name = "name" ;
-                                                                                standard-output = "" ;
-                                                                                init-status = "0" ;
-                                                                            } ;
-                                                                    in builtins.map mapper list ;
-                                                            in list ;
+                                                                            levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
+                                                                            reducer =
+                                                                                previous : current :
+                                                                                    if current == "init-typeOf" || current == "release-typeOf" then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
+                                                                                    else if current == "arguments" || current == "standard-input" || current == "init-standard-output" || current == "init-standard-error" ||current == "init-status" || current == "release-standard-output" || current == "release-standard-error" || current == "release-status" then [ ( builtins.map ( p : p // { "current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
+                                                                                    else builtins.throw "We were not expecting this level:  ${ current }." ;
+                                                                            in builtins.foldl' reducer [ ] levels ;
+                                                                    in builtins.genList generator ( builtins.length list ) ;
+                                                            mapper =
+                                                                { ... } :
+                                                                    {
+                                                                        name = "name" ;
+                                                                        standard-output = "" ;
+                                                                        init-status = "0" ;
+                                                                    } ;
+                                                            in builtins.map mapper list ;
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
