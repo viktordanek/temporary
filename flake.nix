@@ -229,7 +229,7 @@
                                                                                         previous : current :
                                                                                             if current == "init-typeOf" || current == "release-typeOf" then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
                                                                                             else if current == "arguments" || current == "standard-input" || current == "init-standard-output" || current == "init-standard-error" || current == "release-standard-output" || current == "release-standard-error" then [ ( builtins.map ( p : p // { "current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
-                                                                                            else builtins.throw "We were not expecting this level:  ${ current }."
+                                                                                            else builtins.throw "We were not expecting this level:  ${ current }." ;
                                                                                     in builtins.foldl' reducer [ ] levels ;
                                                                             in builtins.genList generator ( builtins.length list ) ;
                                                                     mapper =
