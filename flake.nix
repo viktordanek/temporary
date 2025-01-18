@@ -217,7 +217,7 @@
                                                             in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary2 ) ;
                                                     temporary2 =
                                                         let
-                                                            generator = {} ; # index : ( builtins.elemAt list index ) // { index = builtins.toString index ; } ;
+                                                            generator = index : {} ; # index : ( builtins.elemAt list index ) // { index = builtins.toString index ; } ;
                                                             list =
                                                                 let
                                                                     levels =
