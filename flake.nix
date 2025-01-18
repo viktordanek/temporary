@@ -191,91 +191,90 @@
                                                             } ;
                                                         temporary-path = "bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b" ;
                                                     } ;
-                                                retester =
-                                                    let
-                                                        mapper =
-                                                            path : name : value :
-                                                                if builtins.typeOf value == "lambda" then
-                                                                    let
-                                                                        stuff = "${ pkgs.coreutils }/bin/echo \"HI AAA${ builtins.toString ( builtins.length path ) }BBB:  ${ builtins.concatStringsSep " \ " path }\"" ;
-                                                                        command = "\${ ${ builtins.concatStringsSep "." path } ${ builtins.elemAt path 7 } \}" ;
-                                                                        init-typeOf = if builtins.elemAt path 0 == "" then "if ${ command } ; then ${ pkgs.coreutils }/bin/echo /build/temporary/observed/debug ; fi" else "${ pkgs.coreutils }/bin/echo PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c > $( ${ standard-input } )" ;
-                                                                        standard-input = if builtins.elemAt path 8 == "" then "${ command }" else "${ pkgs.coreutils }/bin/echo ${ builtins.elemAt path 8 } | ${ command }" ;
-                                                                        in [ standard-input ]
-                                                                else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                else builtins.throw "The test value at ${ builtins.concatStringsSep "/" path }/name is neither a lambda or a set but a ${ builtins.typeOf value }." ;
-                                                        in builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ) ;
-                                                    retester-2 =
+                                            retester =
+                                                let
+                                                    mapper =
+                                                        path : name : value :
+                                                            if builtins.typeOf value == "lambda" then
+                                                                let
+                                                                    stuff = "${ pkgs.coreutils }/bin/echo \"HI AAA${ builtins.toString ( builtins.length path ) }BBB:  ${ builtins.concatStringsSep " \ " path }\"" ;
+                                                                    command = "\${ ${ builtins.concatStringsSep "." path } ${ builtins.elemAt path 7 } \}" ;
+                                                                    init-typeOf = if builtins.elemAt path 0 == "" then "if ${ command } ; then ${ pkgs.coreutils }/bin/echo /build/temporary/observed/debug ; fi" else "${ pkgs.coreutils }/bin/echo PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c > $( ${ standard-input } )" ;
+                                                                    standard-input = if builtins.elemAt path 8 == "" then "${ command }" else "${ pkgs.coreutils }/bin/echo ${ builtins.elemAt path 8 } | ${ command }" ;
+                                                                    in [ standard-input ]
+                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                            else builtins.throw "The test value at ${ builtins.concatStringsSep "/" path }/name is neither a lambda or a set but a ${ builtins.typeOf value }." ;
+                                                    in builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ) ;
+                                            retester-2 =
+                                                let
+                                                    mapper =
+                                                        value :
+                                                            let
+                                                                command = value.name ;
+                                                                init-status = if value.init-status == "0" then "${ pkgs.coreutils }/bin/echo ${ value.paste } > $( ${ standard-input } )" else "if ${ standard-input } ; then ${ pkgs.coreutils }/bin/echo ${ command } did not error >&2" ;
+                                                                standard-input = if value.standard-output == "" then command else "${ pkgs.coreutils }/bin/echo ${ value.standard-input } | ${ command }" ;
+                                                            in builtins.typeOf value ;
+                                                    in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ;
+                                            temporary-2 =
+                                                let
+                                                    list =
                                                         let
-                                                            mapper =
-                                                                value :
-                                                                    let
-                                                                        command = value.name ;
-                                                                        init-status = if value.init-status == "0" then "${ pkgs.coreutils }/bin/echo ${ value.paste } > $( ${ standard-input } )" else "if ${ standard-input } ; then ${ pkgs.coreutils }/bin/echo ${ command } did not error >&2" ;
-                                                                        standard-input = if value.standard-output == "" then command else "${ pkgs.coreutils }/bin/echo ${ value.standard-input } | ${ command }" ;
-                                                                    in builtins.typeOf value ;
-                                                            in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ;
-                                                    temporary-2 =
-                                                        let
+                                                            generator = index : ( builtins.elemAt list index ) ;
                                                             list =
                                                                 let
-                                                                    generator = index : ( builtins.elemAt list index ) ;
-                                                                    list =
-                                                                        let
-                                                                            levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
-                                                                            reducer =
-                                                                                previous : current :
-                                                                                    if current == "init-typeOf" || current == "release-typeOf" then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
-                                                                                    else if current == "arguments" || current == "standard-input" || current == "init-standard-output" || current == "init-standard-error" ||current == "init-status" || current == "release-standard-output" || current == "release-standard-error" || current == "release-status" then [ ( builtins.map ( p : p // { "current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
-                                                                                    else builtins.throw "We were not expecting this level:  ${ current }." ;
-                                                                            in builtins.foldl' reducer [ ] levels ;
-                                                                    in builtins.genList generator ( builtins.length list ) ;
-                                                            mapper =
-                                                                { ... } :
-                                                                    {
-                                                                        name = "name" ;
-                                                                        standard-output = "" ;
-                                                                        init-status = "0" ;
-                                                                    } ;
-                                                            in builtins.map mapper list ;
-                                                    temporary =
+                                                                    levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
+                                                                    reducer =
+                                                                        previous : current :
+                                                                            if current == "init-typeOf" || current == "release-typeOf" then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
+                                                                            else if current == "arguments" || current == "standard-input" || current == "init-standard-output" || current == "init-standard-error" ||current == "init-status" || current == "release-standard-output" || current == "release-standard-error" || current == "release-status" then [ ( builtins.map ( p : p // { "current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
+                                                                            else builtins.throw "We were not expecting this level:  ${ current }." ;
+                                                                    in builtins.foldl' reducer [ ] levels ;
+                                                            in builtins.genList generator ( builtins.length list ) ;
+                                                    mapper =
+                                                        { ... } :
+                                                            {
+                                                                name = "name" ;
+                                                                standard-output = "" ;
+                                                                init-status = "0" ;
+                                                            } ;
+                                                    in builtins.map mapper list ;
+                                            temporary =
+                                                {
+                                                    # INIT TYPEOF X3
+                                                    lambda =
                                                         {
-                                                            # INIT TYPEOF X3
+                                                            # RELEASE TYPEOF X3
                                                             lambda =
                                                                 {
-                                                                    # RELEASE TYPEOF X3
-                                                                    lambda =
+                                                                    # INIT STANDARD OUTPUT X2
+                                                                    c1a1d44e9462dc604a7606aec582efb4520ef7eccf6f554e71bbbd0418d15da535cfe1b35a1c80b07ebd2f063199517e338cffb9fc7a83d9a4448be282ed2ef8 =
                                                                         {
-                                                                            # INIT STANDARD OUTPUT X2
-                                                                            c1a1d44e9462dc604a7606aec582efb4520ef7eccf6f554e71bbbd0418d15da535cfe1b35a1c80b07ebd2f063199517e338cffb9fc7a83d9a4448be282ed2ef8 =
+                                                                            # INIT STANDARD ERROR X2
+                                                                            cfe4dd624ceaacae4a8a0bb7d3f264891f8f6875f4bac31d13217ae56f4c51ec15c7f16a55c062fbe7ed195b75ec8fd834048f47505147dd9a60e7433eac0690 =
                                                                                 {
-                                                                                    # INIT STANDARD ERROR X2
-                                                                                    cfe4dd624ceaacae4a8a0bb7d3f264891f8f6875f4bac31d13217ae56f4c51ec15c7f16a55c062fbe7ed195b75ec8fd834048f47505147dd9a60e7433eac0690 =
+                                                                                    # RELEASE STANDARD OUTPUT X2
+                                                                                    e4461e42ac0b68527fa277c4b2e469e374df02c406490c61a22005d27822392e94f07d435924911c83cc74c5b08cc40c7402668e0b55d4b32405f5dea8fd12c1 =
                                                                                         {
-                                                                                            # RELEASE STANDARD OUTPUT X2
-                                                                                            e4461e42ac0b68527fa277c4b2e469e374df02c406490c61a22005d27822392e94f07d435924911c83cc74c5b08cc40c7402668e0b55d4b32405f5dea8fd12c1 =
+                                                                                            # RELEASE STANDARD ERROR X2
+                                                                                            d469c6b44fed89a5a86b1d9fe50a6039fcba8c6e85cfb7f4bf41c4d3b19f026f719df09cf70f8d6a63773edd2dc8a4223696189b46e144839635d0b78aabbd59 =
                                                                                                 {
-                                                                                                    # RELEASE STANDARD ERROR X2
-                                                                                                    d469c6b44fed89a5a86b1d9fe50a6039fcba8c6e85cfb7f4bf41c4d3b19f026f719df09cf70f8d6a63773edd2dc8a4223696189b46e144839635d0b78aabbd59 =
+                                                                                                    # INIT EXIT CODE X2
+                                                                                                    "0" =
                                                                                                         {
-                                                                                                            # INIT EXIT CODE X2
+                                                                                                            # RELEASE EXIT CODE X2
                                                                                                             "0" =
                                                                                                                 {
-                                                                                                                    # RELEASE EXIT CODE X2
-                                                                                                                    "0" =
+                                                                                                                    # ARGUMENT X2
+                                                                                                                    yes =
                                                                                                                         {
-                                                                                                                            # ARGUMENT X2
-                                                                                                                            yes =
-                                                                                                                                {
-                                                                                                                                    # STANDARD INPUT X2
-                                                                                                                                    a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5 =
-                                                                                                                                        script :
-                                                                                                                                            {
-                                                                                                                                                init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = harvest : { CAT = "${ pkgs.coreutils }/bin/cat" ;  CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; TEE="${ pkgs.coreutils }/bin/tee" ; TOKEN = harvest.temporary.util.token ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; } ; } ;
-                                                                                                                                                release = script { executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ; sets = harvest : { CAT = "${ pkgs.coreutils }/bin/cat" ;  CUT = "${ pkgs.coreutils }/bin/cut" ;ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; TEE="${ pkgs.coreutils }/bin/tee" ; TOKEN = harvest.temporary.util.token ; VARIABLE = "c8cd7fff64e375b956a9385eb9cfeae43187d906f44a3f76082c8e8708225511c0ccee3756df1b3ab8024ebaf75b1138eef8d65ec536eaf8ac5b1b7a11b51038" ; } ; } ;
-                                                                                                                                                post = script { executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CUT = "${ pkgs.coreutils }/bin/cut" ; DIFF = "${ pkgs.diffutils }/bin/diff" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; FLOCK = "${ pkgs.flock }/bin/flock" ; INIT_VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; MKDIR = "${ pkgs.coreutils }/bin/mkdir" ; MKTEMP = "${ pkgs.coreutils }/bin/mktemp" ; MV = "${ pkgs.coreutils }/bin/mv" ; PASTE = "e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" ; RELEASE_VARIABLE = "c8cd7fff64e375b956a9385eb9cfeae43187d906f44a3f76082c8e8708225511c0ccee3756df1b3ab8024ebaf75b1138eef8d65ec536eaf8ac5b1b7a11b51038" ; SED = "${ pkgs.gnused }/bin/sed" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; } ; } ;
-                                                                                                                                            } ;
-                                                                                                                                } ;
+                                                                                                                            # STANDARD INPUT X2
+                                                                                                                            a8ad9cc2bff00c3e8ba9922b1525482a452d51c21132762aa403305e7f72f9177af81d432ba96f3b7344389d5445ed03546c396d01eed6056a3b2725f1cbc9a5 =
+                                                                                                                                script :
+                                                                                                                                    {
+                                                                                                                                        init = script { executable = pkgs.writeShellScript "temporary-init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = harvest : { CAT = "${ pkgs.coreutils }/bin/cat" ;  CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; INIT_EXIT_CODE = "0" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; TEE="${ pkgs.coreutils }/bin/tee" ; TOKEN = harvest.temporary.util.token ; VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; } ; } ;
+                                                                                                                                        release = script { executable = pkgs.writeShellScript "temporary-release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ; sets = harvest : { CAT = "${ pkgs.coreutils }/bin/cat" ;  CUT = "${ pkgs.coreutils }/bin/cut" ;ECHO = "${ pkgs.coreutils }/bin/echo" ; RELEASE_EXIT_CODE = "0" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; TEE="${ pkgs.coreutils }/bin/tee" ; TOKEN = harvest.temporary.util.token ; VARIABLE = "c8cd7fff64e375b956a9385eb9cfeae43187d906f44a3f76082c8e8708225511c0ccee3756df1b3ab8024ebaf75b1138eef8d65ec536eaf8ac5b1b7a11b51038" ; } ; } ;
+                                                                                                                                        post = script { executable = pkgs.writeShellScript "temporary-post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CUT = "${ pkgs.coreutils }/bin/cut" ; DIFF = "${ pkgs.diffutils }/bin/diff" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; FLOCK = "${ pkgs.flock }/bin/flock" ; INIT_VARIABLE = "7a09c789507b0564945c2fce0e0e42c6e574dd7a1ef2201b0344ca57a4fd65f3e7347a49622ed16793611eb9ae3c54cdf4d52cf3f04f0be3da814b359db159fb" ; MKDIR = "${ pkgs.coreutils }/bin/mkdir" ; MKTEMP = "${ pkgs.coreutils }/bin/mktemp" ; MV = "${ pkgs.coreutils }/bin/mv" ; PASTE = "e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c" ; RELEASE_VARIABLE = "c8cd7fff64e375b956a9385eb9cfeae43187d906f44a3f76082c8e8708225511c0ccee3756df1b3ab8024ebaf75b1138eef8d65ec536eaf8ac5b1b7a11b51038" ; SED = "${ pkgs.gnused }/bin/sed" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; } ; } ;
+                                                                                                                                    } ;
                                                                                                                         } ;
                                                                                                                 } ;
                                                                                                         } ;
@@ -285,6 +284,7 @@
                                                                         } ;
                                                                 } ;
                                                         } ;
+                                                } ;
                                             in
                                                 pkgs.stdenv.mkDerivation
                                                     {
