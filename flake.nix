@@ -217,38 +217,43 @@
                                                             in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary2 ) ;
                                                     temporary2 =
                                                         let
-                                                            generator = index : ( builtins.elemAt list index ) // { index = builtins.toString index ; } ;
                                                             list =
                                                                 let
-                                                                    levels =
-                                                                        [
-                                                                            "arguments"
-                                                                            "standard input"
-                                                                            "init typeOf"
-                                                                            "init standard output"
-                                                                            "init standard error"
-                                                                            "init status"
-                                                                            "release typeOf"
-                                                                            "release standard output"
-                                                                            "release standard error"
-                                                                            "release status"
-                                                                        ] ;
-                                                                    reducer =
-                                                                        previous : current :
-                                                                            if current == "arguments" then [ ( builtins.map ( p : p // { arguments = false ; } ) previous ) ( builtins.map ( p : p // { arguments = true ; } ) previous ) ]
-                                                                            else if current == "standard input" then [ ( builtins.map ( p : p // { standard-input = false ; } ) previous ) ( builtins.map ( p : p // { standard-input = true ; } ) previous ) ]
-                                                                            else if current == "init typeOf" then [ ( builtins.map ( p : p // { init-typeOf = false ; } ) previous ) ( builtins.map ( p : p // { init-typeOf = true ; } ) previous ) ( builtins.map ( p : p // { init-typeOf = null ; } ) previous )]
-                                                                            else if current == "init standard output" then [ ( builtins.map ( p : p // { init-standard-output = false ; } ) previous ) ( builtins.map ( p : p // { init-standard-output = true ; } ) previous ) ]
-                                                                            else if current == "init standard error" then [ ( builtins.map ( p : p // { init-standard-error= false ; } ) previous ) ( builtins.map ( p : p // { init-standard-error = true ; } ) previous ) ]
-                                                                            else if current == "init status" then [ ( builtins.map ( p : p // { init-status = false ; } ) previous ) ( builtins.map ( p : p // { init-status = true ; } ) previous ) ]
-                                                                            else if current == "release typeOf" then [ ( builtins.map ( p : p // { release-typeOf = false ; } ) previous ) ( builtins.map ( p : p // { release-typeOf = true ; } ) previous ) ( builtins.map ( p : p // { release-typeOf = null ; } ) previous )]
-                                                                            else if current == "release standard output" then [ ( builtins.map ( p : p // { release-standard-output = false ; } ) previous ) ( builtins.map ( p : p // { release-standard-output = true ; } ) previous ) ]
-                                                                            else if current == "release standard error" then [ ( builtins.map ( p : p // { release-standard-error= false ; } ) previous ) ( builtins.map ( p : p // { release-standard-error = true ; } ) previous ) ]
-                                                                            else if current == "release status" then [ ( builtins.map ( p : p // { release-status = false ; } ) previous ) ( builtins.map ( p : p // { release-status = true ; } ) previous ) ]
-                                                                            else builtins.throw "Unexpected level current" ;
-                                                                    in builtins.foldl' reducer [ ] levels ;
+                                                                    list =
+                                                                        let
+                                                                            generator = index : ( builtins.elemAt list index ) // { index-number = index ; index-string = builtins.toString index ; } ;
+                                                                            list =
+                                                                                let
+                                                                                    levels =
+                                                                                        [
+                                                                                            "arguments"
+                                                                                            "standard input"
+                                                                                            "init typeOf"
+                                                                                            "init standard output"
+                                                                                            "init standard error"
+                                                                                            "init status"
+                                                                                            "release typeOf"
+                                                                                            "release standard output"
+                                                                                            "release standard error"
+                                                                                            "release status"
+                                                                                        ] ;
+                                                                                    reducer =
+                                                                                        previous : current :
+                                                                                            if current == "arguments" then [ ( builtins.map ( p : p // { arguments = false ; } ) previous ) ( builtins.map ( p : p // { arguments = true ; } ) previous ) ]
+                                                                                            else if current == "standard input" then [ ( builtins.map ( p : p // { standard-input = false ; } ) previous ) ( builtins.map ( p : p // { standard-input = true ; } ) previous ) ]
+                                                                                            else if current == "init typeOf" then [ ( builtins.map ( p : p // { init-typeOf = false ; } ) previous ) ( builtins.map ( p : p // { init-typeOf = true ; } ) previous ) ( builtins.map ( p : p // { init-typeOf = null ; } ) previous )]
+                                                                                            else if current == "init standard output" then [ ( builtins.map ( p : p // { init-standard-output = false ; } ) previous ) ( builtins.map ( p : p // { init-standard-output = true ; } ) previous ) ]
+                                                                                            else if current == "init standard error" then [ ( builtins.map ( p : p // { init-standard-error= false ; } ) previous ) ( builtins.map ( p : p // { init-standard-error = true ; } ) previous ) ]
+                                                                                            else if current == "init status" then [ ( builtins.map ( p : p // { init-status = false ; } ) previous ) ( builtins.map ( p : p // { init-status = true ; } ) previous ) ]
+                                                                                            else if current == "release typeOf" then [ ( builtins.map ( p : p // { release-typeOf = false ; } ) previous ) ( builtins.map ( p : p // { release-typeOf = true ; } ) previous ) ( builtins.map ( p : p // { release-typeOf = null ; } ) previous )]
+                                                                                            else if current == "release standard output" then [ ( builtins.map ( p : p // { release-standard-output = false ; } ) previous ) ( builtins.map ( p : p // { release-standard-output = true ; } ) previous ) ]
+                                                                                            else if current == "release standard error" then [ ( builtins.map ( p : p // { release-standard-error= false ; } ) previous ) ( builtins.map ( p : p // { release-standard-error = true ; } ) previous ) ]
+                                                                                            else if current == "release status" then [ ( builtins.map ( p : p // { release-status = false ; } ) previous ) ( builtins.map ( p : p // { release-status = true ; } ) previous ) ]
+                                                                                            else builtins.throw "Unexpected level current" ;
+                                                                                    in builtins.foldl' reducer [ ] levels ;
+                                                                            in builtins.genList generator ( builtins.length list ) ;
                                                             mapper =
-                                                                { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , index } :
+                                                                { arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , index-number , index-string } :
                                                                     let
                                                                         mod = a : b : a - ( ( a / b ) * b ) ;
                                                                         rand =
@@ -259,17 +264,17 @@
                                                                                     in builtins.foldl' ( previous : current : 100 * previous + current ) 0 index ;
                                                                         in
                                                                             let
-                                                                                arguments = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "arguments" ] ) else "" ;
-                                                                                standard-input = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "standard input" ] ) else "" ;
+                                                                                arguments = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "arguments" ] ) else "" ;
+                                                                                standard-input = if arguments then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "standard input" ] ) else "" ;
                                                                                 init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
-                                                                                init-standard-output = if init-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard output" "false" ] ) ;
-                                                                                init-standard-error = if init-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard error" "false" ] ) ;
-                                                                                init-status = if init-status then "0" else builtins.toString ( 1 + ( mod ( rand index ) 254 ) ) ;
-                                                                                paste = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index "paste" ] ) ;
+                                                                                init-standard-output = if init-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "init standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard output" "false" ] ) ;
+                                                                                init-standard-error = if init-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "init standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "init standard error" "false" ] ) ;
+                                                                                init-status = if init-status then "0" else builtins.toString ( 1 + ( mod ( rand index-number ) 254 ) ) ;
+                                                                                paste = builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ index-string "paste" ] ) ;
                                                                                 release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
-                                                                                release-standard-output = if release-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard output" "false" ] ) ;
-                                                                                release-standard-error = if release-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "false" ] ) ;
-                                                                                release-status = if release-status then "0" else builtins.toString ( 1 + ( mod ( rand index ) 254 ) ) ;
+                                                                                release-standard-output = if release-standard-output then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "release standard output" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard output" "false" ] ) ;
+                                                                                release-standard-error = if release-standard-error then builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index-string "release standard error" "true" ] ) else builtins.hashString "sha512sum" ( builtins.concatStringSep "-" [ index "release standard error" "false" ] ) ;
+                                                                                release-status = if release-status then "0" else builtins.toString ( 1 + ( mod ( rand index-number ) 254 ) ) ;
                                                                                 value =
                                                                                     let
                                                                                         init =
@@ -353,7 +358,6 @@
                                                                                     release-typeOf = release-typeOf ;
                                                                                     release-standard-output = release-standard-output ;
                                                                                     release-standard-error = release-standard-error ;
-                                                                                    release-status = release-status ;
                                                                                 } ;
                                                     in builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
                                                     temporary =
