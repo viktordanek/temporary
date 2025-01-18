@@ -221,7 +221,7 @@
                                                                 let
                                                                     list =
                                                                         let
-                                                                            generator = index : ( builtins.elemAt list index ) // { index = index ; } ;
+                                                                            generator = index : ( builtins.elemAt list index ) ;
                                                                             list =
                                                                                 let
                                                                                     levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
