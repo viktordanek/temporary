@@ -205,6 +205,8 @@
                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                             else builtins.throw "The test value at ${ builtins.concatStringsSep "/" path }/name is neither a lambda or a set but a ${ builtins.typeOf value }." ;
                                                     in builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ) ;
+
+
                                             temporary-2 =
                                                 let
                                                     list =
@@ -317,7 +319,7 @@
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                             exit 1
                                                                     fi &&
-                                                                    ${ pkgs.coreutils }/bin/echo '${ pkgs.writeShellScript "retester.sh" retester }' &&
+                                                                    ${ pkgs.coreutils }/bin/echo '${ pkgs.writeShellScript "retester.sh" retester-2 }' &&
                                                                     exit 2
                                                             '' ;
                                                     } ;
