@@ -337,7 +337,6 @@
                                                                                                 release = release.lambda ;
                                                                                                 post = post ;
                                                                                             } ;
-                                                                            } ;
                                                                             in
                                                                                 {
                                                                                     arguments = arguments ;
