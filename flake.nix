@@ -205,16 +205,6 @@
                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                             else builtins.throw "The test value at ${ builtins.concatStringsSep "/" path }/name is neither a lambda or a set but a ${ builtins.typeOf value }." ;
                                                     in builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ) ;
-                                            retester-2 =
-                                                let
-                                                    mapper =
-                                                        value :
-                                                            let
-                                                                command = value.name ;
-                                                                init-status = if value.init-status == "0" then "${ pkgs.coreutils }/bin/echo ${ value.paste } > $( ${ standard-input } )" else "if ${ standard-input } ; then ${ pkgs.coreutils }/bin/echo ${ command } did not error >&2" ;
-                                                                standard-input = if value.standard-output == "" then command else "${ pkgs.coreutils }/bin/echo ${ value.standard-input } | ${ command }" ;
-                                                            in builtins.typeOf value ;
-                                                    in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ;
                                             temporary-2 =
                                                 let
                                                     list =
