@@ -327,7 +327,7 @@
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                             exit 1
                                                                     fi &&
-                                                                    ${ pkgs.coreutils }/bin/echo '${ pkgs.writeShellScript "retester.sh" retester2 }' &&
+                                                                    ${ pkgs.coreutils }/bin/echo '${ pkgs.writeShellScript "retester.sh" retester-2 }' &&
                                                                     exit 2
                                                             '' ;
                                                     } ;
