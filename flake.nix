@@ -217,10 +217,7 @@
                                                             in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary2 ) ;
                                                     temporary2 =
                                                         let
-                                                            generator =
-                                                                index :
-                                                                    ( builtins.elemAt list index )
-                                                                    // { index = builtins.toString index ; } ;
+                                                            generator = index : ( builtins.elemAt list index ) // { index = builtins.toString index ; } ;
                                                             list =
                                                                 let
                                                                     levels =
@@ -358,7 +355,7 @@
                                                                                     release-standard-error = release-standard-error ;
                                                                                     release-status = release-status ;
                                                                                 } ;
-                                                    in builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
+                                                    in [ ] ; # builtins.map mapper ( builtins.genList generator ( builtins.length list ) ) ;
                                                     temporary =
                                                         {
                                                             # INIT TYPEOF X3
