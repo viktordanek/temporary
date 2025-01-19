@@ -202,7 +202,7 @@
                                                             if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
                                                             else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
                                                             else builtins.throw "We were not expecting ${ current }." ;
-                                                    in builtins.foldl' reducer [ [ ] ] levels ;
+                                                    in builtins.foldl' reducer [ { } ] levels ;
                                             temporary =
                                                 {
                                                     # INIT TYPEOF X3
