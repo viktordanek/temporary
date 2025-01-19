@@ -196,10 +196,7 @@
                                                     mapper =
                                                         { command , has-standard-input , standard-input , init-status , paste , file , ... } :
                                                             let
-                                                                standard-input-wrap = if has-standard-input then "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ command }" else command ;
-                                                                in
-                                                                    if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } | $( ${ standard-input-wrap } )"
-                                                                    else "if ! ${ standard-input-wrap } > /build/observed/${ file } ; then ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "@" "}" ] } >> /build/observed/${ file } ; fi" ;
+                                                                in "" ;
                                                     in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
