@@ -194,9 +194,9 @@
                                             retester-2 =
                                                 let
                                                     mapper =
-                                                        { command , has-standard-input , standard-input , init-status , paste , file , ... } :
+                                                        value :
                                                             let
-                                                                in "" ;
+                                                                in builtins.trace ( builtins.typeOf value ) "" ;
                                                     in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
