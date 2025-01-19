@@ -193,8 +193,7 @@
                                                     } ;
                                             retester-2 =
                                                 let
-                                                    mapper = builtins.typeOf ;
-                                                    in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
+                                                    in builtins.toFile "re-observe" ( builtins.toJSON temporary-2 ) ;
                                             temporary-2 =
                                                 let
                                                     levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
@@ -293,7 +292,7 @@
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                             exit 1
                                                                     fi &&
-                                                                    ${ pkgs.coreutils }/bin/echo '${ pkgs.writeShellScript "retester.sh" retester-2 }' &&
+                                                                    ${ pkgs.coreutils }/bin/echo '${ retester-2 }' &&
                                                                     exit 2
                                                             '' ;
                                                     } ;
