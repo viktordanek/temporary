@@ -194,8 +194,10 @@
                                             retester-2 =
                                                 let
                                                     mapper =
-                                                        { command } :
-                                                            command ;
+                                                        { command , has-arguments , arguments } :
+                                                            let
+                                                                args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
+                                                                in args ;
                                                     in builtins.toFile "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
@@ -238,6 +240,8 @@
                                                                 in
                                                                 {
                                                                     command = builtins.concatStringsSep "" [ "$" "{" " " ( builtins.concatStringsSep "." ( builtins.map ( v : builtins.concatStringsSep "" [ "\"" v "\"" ] ) [ values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) ) " " "}" ] ;
+                                                                    has-arguments = arguments ;
+                                                                    arguments = values.arguments ;
                                                                 } ;
                                                     in builtins.map mapper list ;
                                             temporary =
