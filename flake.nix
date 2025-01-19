@@ -215,7 +215,7 @@
                                                     mapper =
                                                         { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status } :
                                                             let
-                                                                hash = string : builtins.hashString ( builtins.concatStringsSep "-" [ ( builtins.toString index ) string ] ) ;
+                                                                hash = string : builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ ( builtins.toString index ) string ] ) ;
                                                                 mod = a : b : a - b * ( a / b ) ;
                                                                 rand =
                                                                     string :
