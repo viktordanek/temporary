@@ -193,11 +193,11 @@
                                                     } ;
                                             retester-2 =
                                                 let
-                                                    mapper =
+                                                    mapper2 =
                                                         value :
                                                             let
                                                                 in builtins.trace ( builtins.typeOf value ) "" ;
-                                                    in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
+                                                    in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper2 temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
                                                     list =
