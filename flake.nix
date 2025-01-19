@@ -200,6 +200,7 @@
                                                     reducer =
                                                         previous : current :
                                                             if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then builtins.concatLists [ ( builtins.map ( p : ( builtins.trace ( builtins.toJSON previous ) p ) // { "${ current }" = true ; } ) previous ) ]
+                                                            else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then builtins.concatLists [ ( builtins.map ( p : ( builtins.trace ( builtins.toJSON previous ) p ) // { "${ current }" = true ; } ) previous ) ]
                                                             else builtins.throw "We were not expecting ${ current }." ;
                                                     in builtins.foldl' reducer [ { } ] levels ;
                                             temporary =
