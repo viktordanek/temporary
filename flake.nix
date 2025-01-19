@@ -200,7 +200,7 @@
                                                                 in
                                                                     if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } | $( ${ standard-input-wrap } )"
                                                                     else "if ! ${ standard-input-wrap } > /build/observed/${ file } ; then ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "@" "}" ] } >> /build/observed/${ file } ; fi" ;
-                                                    in pkgs.writeShellScript "retester" "" ; # ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
+                                                    in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
                                                     list =
