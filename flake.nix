@@ -229,11 +229,11 @@
                                                                         init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
                                                                         init-standard-output = if init-standard-output then hash "init-standard-output true" else hash "init-standard-output false" ;
                                                                         init-standard-error = if init-standard-error then hash "init-standard-error true" else hash "init-standard-error false" ;
-                                                                        init-status = if init-status then "0" else ( mod ( rand "init-status" ) 254 ) + 1 ;
+                                                                        init-status = if init-status then "0" else builtins.toString ( ( mod ( rand "init-status" ) 254 ) + 1 ) ;
                                                                         release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
                                                                         release-standard-output = if release-standard-output then hash "release-standard-output true" else hash "release-standard-output false" ;
                                                                         release-standard-error = if release-standard-error then hash "release-standard-error true" else hash "release-standard-error false" ;
-                                                                        release-status = if release-status then "0" else ( mod ( rand "release-status" ) 254 ) + 1 ;
+                                                                        release-status = if release-status then "0" else builtins.toString ( ( mod ( rand "release-status" ) 254 ) + 1 ) ;
                                                                     } ;
                                                                 in
                                                                 {
