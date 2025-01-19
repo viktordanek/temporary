@@ -221,7 +221,7 @@
                                                                     string :
                                                                         let
                                                                             str = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( hash string ) ;
-                                                                            in builtins.foldl' ( previous : next : previous + next ) 0 ( builtins.genList ( index : builtins.fromJSON ( builtins.substring index ( index + 1 ) str ) ) ) ( builtins.stringLength str ) ) ;
+                                                                            in builtins.foldl' ( previous : next : previous + next ) 0 ( builtins.genList ( index : builtins.fromJSON ( builtins.substring index ( index + 1 ) str ) ) ( builtins.stringLength str ) ) ;
                                                                 values =
                                                                     {
                                                                         arguments = if arguments then hash "arguments" else "" ;
