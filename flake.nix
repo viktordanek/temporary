@@ -193,7 +193,7 @@
                                                     } ;
                                             retester-2 =
                                                 let
-                                                    in builtins.toFile "re-observe" ( builtins.toJSON temporary-2 ) ;
+                                                    in builtins.toFile "re-observe" ( builtins.typeOf temporary-2 ) ;
                                             temporary-2 =
                                                 let
                                                     levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
