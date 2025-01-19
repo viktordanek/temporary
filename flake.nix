@@ -197,13 +197,17 @@
                                                     in builtins.toFile "re-observe" ( builtins.concatStringsSep "\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
-                                                    levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
-                                                    reducer =
-                                                        previous : current :
-                                                            if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
-                                                            else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
-                                                            else builtins.throw "We were not expecting ${ current }." ;
-                                                    in builtins.foldl' reducer [ { } ] levels ;
+                                                    generator = index : ( builtins.elemAt list index ) // { index = index ; } ;
+                                                    list =
+                                                        let
+                                                            levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
+                                                            reducer =
+                                                                previous : current :
+                                                                    if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
+                                                                    else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
+                                                                    else builtins.throw "We were not expecting ${ current }." ;
+                                                            in builtins.foldl' reducer [ { } ] levels ;
+                                                    in builtins.genList generator ( builtins.length list ) ;
                                             temporary =
                                                 {
                                                     # INIT TYPEOF X3
