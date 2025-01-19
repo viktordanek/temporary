@@ -193,7 +193,7 @@
                                                     } ;
                                             retester-2 =
                                                 let
-                                                    mapper = builtins.toJSON ;
+                                                    mapper = builtins.typeOf ;
                                                     in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
