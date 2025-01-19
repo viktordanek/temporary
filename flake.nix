@@ -199,7 +199,7 @@
                                                                 args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
                                                                 stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
                                                                 in stdin ;
-                                                    in builtins.toFile "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
+                                                    in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
                                                     list =
