@@ -191,20 +191,6 @@
                                                             } ;
                                                         temporary-path = "bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b" ;
                                                     } ;
-                                            retester =
-                                                let
-                                                    mapper =
-                                                        path : name : value :
-                                                            if builtins.typeOf value == "lambda" then
-                                                                let
-                                                                    stuff = "${ pkgs.coreutils }/bin/echo \"HI AAA${ builtins.toString ( builtins.length path ) }BBB:  ${ builtins.concatStringsSep " \ " path }\"" ;
-                                                                    command = "\${ ${ builtins.concatStringsSep "." path } ${ builtins.elemAt path 7 } \}" ;
-                                                                    init-typeOf = if builtins.elemAt path 0 == "" then "if ${ command } ; then ${ pkgs.coreutils }/bin/echo /build/temporary/observed/debug ; fi" else "${ pkgs.coreutils }/bin/echo PASTE=e83f3c739d0d155db02acce1e98e6b2ac3d0c0c9d965f80118e122401f74e33ff42942716c729ce8e45ab9ecd2d97ef868bffefc0fae56d79efe5c9438a44f1c > $( ${ standard-input } )" ;
-                                                                    standard-input = if builtins.elemAt path 8 == "" then "${ command }" else "${ pkgs.coreutils }/bin/echo ${ builtins.elemAt path 8 } | ${ command }" ;
-                                                                    in [ standard-input ]
-                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                            else builtins.throw "The test value at ${ builtins.concatStringsSep "/" path }/name is neither a lambda or a set but a ${ builtins.typeOf value }." ;
-                                                    in builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) ) ) ;
                                             retester-2 =
                                                 let
                                                     mapper =
