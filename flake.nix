@@ -194,7 +194,7 @@
                                             retester-2 =
                                                 let
                                                     mapper = builtins.toJSON ;
-                                                    in builtins.toFile "re-observe" ( builtins.map mapper temporary-2 ) ;
+                                                    in builtins.toFile "re-observe" ( builtins.concatStringsSep "\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
                                                     levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
