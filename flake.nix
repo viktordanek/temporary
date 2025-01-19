@@ -167,6 +167,15 @@
                                 {
                                     checks.testLib =
                                         let
+                                            re-observe =
+                                                let
+                                                    mapper =
+                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste } :
+                                                            let
+                                                                args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
+                                                                stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
+                                                                in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
+                                                    in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             resources =
                                                 lib
                                                     {
@@ -191,15 +200,6 @@
                                                             } ;
                                                         temporary-path = "bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b" ;
                                                     } ;
-                                            retester-2 =
-                                                let
-                                                    mapper =
-                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste } :
-                                                            let
-                                                                args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
-                                                                stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
-                                                                in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
-                                                    in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
                                                     list =
@@ -338,7 +338,7 @@
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                             exit 1
                                                                     fi &&
-                                                                    ${ pkgs.coreutils }/bin/echo '${ retester-2 }' &&
+                                                                    ${ pkgs.coreutils }/bin/echo '${ re-observe }' &&
                                                                     exit 2
                                                             '' ;
                                                     } ;
