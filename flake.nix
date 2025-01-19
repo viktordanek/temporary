@@ -199,7 +199,7 @@
                                                     levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
                                                     reducer =
                                                         previous : current :
-                                                            if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then [ ] # [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
+                                                            if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ]
                                                             else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then [ ] # [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
                                                             else builtins.throw "We were not expecting ${ current }." ;
                                                     in builtins.foldl' reducer [ ] levels ;
