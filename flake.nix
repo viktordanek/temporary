@@ -194,11 +194,11 @@
                                             retester-2 =
                                                 let
                                                     mapper =
-                                                        { command , has-arguments , arguments , has-standard-input , standard-input } :
+                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste } :
                                                             let
                                                                 args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
                                                                 stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
-                                                                in stdin ;
+                                                                in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "if ! ${ stdin } then ; exit 64 ; fi" ;
                                                     in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
@@ -245,6 +245,8 @@
                                                                     arguments = values.arguments ;
                                                                     has-standard-input = standard-input ;
                                                                     standard-input = values.standard-input ;
+                                                                    init-status = init-status ;
+                                                                    paste = hash "paste" ;
                                                                 } ;
                                                     in builtins.map mapper list ;
                                             temporary =
