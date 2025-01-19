@@ -199,7 +199,7 @@
                                                 let
                                                     levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
                                                     reducer =
-                                                        previous : current :
+                                                        current : previous :
                                                             if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) ) ( builtins.map ( p : p // { "${ current }" = false ; } ) ) ]
                                                             else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then [ ( builtins.map ( p : p // { "${ current }" = true ; } ) ) ( builtins.map ( p : p // { "${ current }" = false ; } ) ) ( builtins.map ( p : p // { "${ current }" = null ; } ) ) ]
                                                             else builtins.throw "We were not expecting ${ current }." ;
