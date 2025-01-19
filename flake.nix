@@ -193,21 +193,53 @@
                                                     } ;
                                             retester-2 =
                                                 let
-                                                    mapper = builtins.toJSON ;
-                                                    in builtins.toFile "re-observe" ( builtins.concatStringsSep "\n" ( builtins.map mapper temporary-2 ) ) ;
+                                                    mapper =
+                                                        { command } :
+                                                            command ;
+                                                    in builtins.toFile "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
-                                                    generator = index : ( builtins.elemAt list index ) // { index = index ; } ;
                                                     list =
                                                         let
-                                                            levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
-                                                            reducer =
-                                                                previous : current :
-                                                                    if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
-                                                                    else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
-                                                                    else builtins.throw "We were not expecting ${ current }." ;
-                                                            in builtins.foldl' reducer [ { } ] levels ;
-                                                    in builtins.genList generator ( builtins.length list ) ;
+                                                            generator = index : ( builtins.elemAt list index ) // { index = index ; } ;
+                                                            list =
+                                                                let
+                                                                    levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
+                                                                    reducer =
+                                                                        previous : current :
+                                                                            if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
+                                                                            else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
+                                                                            else builtins.throw "We were not expecting ${ current }." ;
+                                                                    in builtins.foldl' reducer [ { } ] levels ;
+                                                            in builtins.genList generator ( builtins.length list ) ;
+                                                    mapper =
+                                                        { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status } :
+                                                            let
+                                                                hash = string : builtins.hashString ( builtins.concatStringsSep "-" [ ( builtins.toString index ) string ] ) ;
+                                                                mod = a : b : a - b * ( a / b ) ;
+                                                                rand =
+                                                                    string :
+                                                                        let
+                                                                            str = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "08" "09" "10" "11" "12" "13" "14" "15" ] ( hash string ) ;
+                                                                            in builtins.foldl' ( previous : next : previous + next ) 0 ( builtins.genList ( index : builtins.fromJSON ( builtins.substring index ( i ( i + 1 ) str ) ) ) ( builtins.stringLength str ) ) ;
+                                                                values =
+                                                                    {
+                                                                        arguments = if arguments then hash "arguments" else "" ;
+                                                                        standard-input = if standard-input then hash "standard-input" else "" ;
+                                                                        init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
+                                                                        init-standard-output = if init-standard-output then hash "init-standard-output true" else hash "init-standard-output false" ;
+                                                                        init-standard-error = if init-standard-error then hash "init-standard-error true" else hash "init-standard-error false" ;
+                                                                        init-status = if init-status then "0" else ( mod ( rand "init-status" ) 254 ) + 1 ;
+                                                                        release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
+                                                                        release-standard-output = if release-standard-output then hash "release-standard-output true" else hash "release-standard-output false" ;
+                                                                        release-standard-error = if release-standard-error then hash "release-standard-error true" else hash "release-standard-error false" ;
+                                                                        release-status = if release-status then "0" else ( mod ( rand "release-status" ) 254 ) + 1 ;
+                                                                    } ;
+                                                                in
+                                                                {
+                                                                    command = builtins.concatStringsSep "" [ "$" "{" " " ( builtins.concatStringsSep "." [ values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release.typeOf values.release.standard-output values.release-standard-error values.release-status ] ) " " "}" ] ;
+                                                                } ;
+                                                    in builtins.map mapper list ;
                                             temporary =
                                                 {
                                                     # INIT TYPEOF X3
