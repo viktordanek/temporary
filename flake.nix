@@ -243,7 +243,7 @@
                                                                     command = builtins.concatStringsSep "" [ "$" "{" " " ( builtins.concatStringsSep "." ( builtins.map ( v : builtins.concatStringsSep "" [ "\"" v "\"" ] ) [ values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) ) " " "}" ] ;
                                                                     has-arguments = arguments ;
                                                                     arguments = values.arguments ;
-                                                                    has-standard-input = has-standard-input ;
+                                                                    has-standard-input = standard-input ;
                                                                     standard-input = values.standard-input ;
                                                                 } ;
                                                     in builtins.map mapper list ;
