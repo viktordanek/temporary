@@ -208,13 +208,13 @@
                                             retester-2 =
                                                 let
                                                     mapper =
-                                                        value :
+                                                        { command , has-standard-input , standard-input , init-status , paste , file , ... } :
                                                             let
-                                                                command = value.name ;
-                                                                init-status = if value.init-status == "0" then "${ pkgs.coreutils }/bin/echo ${ value.paste } > $( ${ standard-input } )" else "if ${ standard-input } ; then ${ pkgs.coreutils }/bin/echo ${ command } did not error >&2" ;
-                                                                standard-input = if value.standard-output == "" then command else "${ pkgs.coreutils }/bin/echo ${ value.standard-input } | ${ command }" ;
-                                                            in builtins.typeOf value ;
-                                                    in builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ;
+                                                                standard-input-wrap = if has-standard-input then "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ command }" else command ;
+                                                                in
+                                                                    if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } | $( ${ standard-input-wrap } )"
+                                                                    else "if ! ${ standard-input-wrap } > /build/observed/${ file } ; then ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "@" "}" ] } >> /build/observed/${ file } ; fi" ;
+                                                    in pkgs.writeShellScript "retester" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
                                                     list =
@@ -233,9 +233,12 @@
                                                     mapper =
                                                         { ... } :
                                                             {
-                                                                name = "name" ;
-                                                                standard-output = "" ;
-                                                                init-status = "0" ;
+                                                                command = "my-command" ;
+                                                                has-standard-input = false ;
+                                                                standard-input = null ;
+                                                                init-status = true ;
+                                                                paste = "afdsasfasd" ;
+                                                                file = null ;
                                                             } ;
                                                     in builtins.map mapper list ;
                                             temporary =
