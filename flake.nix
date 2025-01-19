@@ -197,7 +197,7 @@
                                                         value :
                                                             let
                                                                 in builtins.trace ( builtins.typeOf value ) "" ;
-                                                    in pkgs.writeShellScript "re-observe" "" ; # ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
+                                                    in pkgs.writeShellScript "re-observe" ( builtins.trace ( builtins.typeOf temporary-2 ) "" ) ; # ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
                                                     list =
