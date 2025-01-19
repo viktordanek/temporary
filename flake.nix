@@ -216,7 +216,7 @@
                                                         { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status } :
                                                             let
                                                                 hash = string : builtins.hashString "sha512" ( builtins.concatStringsSep "-" [ ( builtins.toString index ) string ] ) ;
-                                                                mod = a : b : 16 ; # a - b * ( a / b ) ;
+                                                                mod = a : b : a - b * ( a / b ) ;
                                                                 rand =
                                                                     string :
                                                                         let
