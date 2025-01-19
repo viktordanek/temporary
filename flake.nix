@@ -194,10 +194,11 @@
                                             retester-2 =
                                                 let
                                                     mapper =
-                                                        { command , has-arguments , arguments } :
+                                                        { command , has-arguments , arguments , has-standard-input , standard-input } :
                                                             let
                                                                 args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
-                                                                in args ;
+                                                                stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
+                                                                in stdin ;
                                                     in builtins.toFile "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
                                             temporary-2 =
                                                 let
@@ -242,6 +243,8 @@
                                                                     command = builtins.concatStringsSep "" [ "$" "{" " " ( builtins.concatStringsSep "." ( builtins.map ( v : builtins.concatStringsSep "" [ "\"" v "\"" ] ) [ values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) ) " " "}" ] ;
                                                                     has-arguments = arguments ;
                                                                     arguments = values.arguments ;
+                                                                    has-standard-input = has-standard-input ;
+                                                                    standard-input = values.standard-input ;
                                                                 } ;
                                                     in builtins.map mapper list ;
                                             temporary =
