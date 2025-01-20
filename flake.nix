@@ -170,7 +170,7 @@
                                             re-observate =
                                                 let
                                                     mapper =
-                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste } :
+                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste , set } :
                                                             let
                                                                 args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
                                                                 stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
