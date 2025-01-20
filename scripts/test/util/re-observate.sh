@@ -1,1 +1,1 @@
-${CAT} ${OBSERVATE} > scripts/test/util/observed.sh
+
