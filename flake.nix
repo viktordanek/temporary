@@ -230,7 +230,7 @@
                                                                             in builtins.foldl' ( previous : next : previous + next ) 0 ( builtins.genList ( index : builtins.fromJSON ( builtins.substring index 1 str ) ) ( builtins.stringLength str ) ) ;
                                                                 values =
                                                                     {
-                                                                        arguments = if arguments then hash "arguments" else "NOPE" ;
+                                                                        arguments = if arguments then "hash \"arguments\"" else "NOPE" ;
                                                                         standard-input = if standard-input then hash "standard-input" else "" ;
                                                                         init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
                                                                         init-standard-output = if init-standard-output then hash "init-standard-output true" else hash "init-standard-output false" ;
