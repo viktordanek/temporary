@@ -342,6 +342,8 @@
                                                         src = ./. ;
                                                         installPhase =
                                                             ''
+
+exit 22 &&
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
@@ -349,7 +351,6 @@
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed.sh" } $out/bin/observed.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed.sh &&
                                                                     makeWrapper $out/bin/observed.sh $out/bin/observed --set CAT ${ pkgs.coreutils }/bin/cat --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set SEQ ${ pkgs.coreutils }/bin/seq --set WC ${ pkgs.coreutils }/bin/wc &&
-                                                                    exit 22 &&
                                                                     ${ pkgs.coreutils }/bin/mkdir --parents /build/observed/temporary &&
 
 
