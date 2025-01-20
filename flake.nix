@@ -352,12 +352,15 @@
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
                                                                     makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
-                                                                    ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
 
+                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
+                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
                                                                     ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
+
+                                                                    ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
 
                                                                     export DIFF=${ pkgs.diffutils }/bin/diff &&
                                                                     export EXPECTED=${ self + "/expected" } &&
