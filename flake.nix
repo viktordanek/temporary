@@ -266,7 +266,7 @@
                                                                                                             SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
                                                                                                             TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                             TOKEN = harvest.temporary.util.token ;
-                                                                                                            VARIABLE = hash variable ;
+                                                                                                            VARIABLE = hash "sets - ${ variable }" ;
                                                                                                         } ;
                                                                                                 string =
                                                                                                     variable :
@@ -275,8 +275,7 @@
                                                                                                             CUT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                             ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                             TEE = "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                            TOKEN = harvest.temporary.util.token ;
-                                                                                                            VARIABLE = hash variable ;
+                                                                                                            VARIABLE = hash "sets - ${ variable }" ;
                                                                                                         } ;
                                                                                             } ;
                                                                                         in
