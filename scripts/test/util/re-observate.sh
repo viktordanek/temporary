@@ -1,2 +1,3 @@
-${CP} ${OUT}/bin/re-observate observate.sh &&
+${CP} ${OUT}/bin/observate observe.sh &&
+  ${CP} ${OUT}/bin/observe observe &&
   ${CP} ${OBSERVATE} observate
