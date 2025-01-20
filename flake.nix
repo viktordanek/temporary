@@ -340,7 +340,7 @@
                                                                             exit 1
                                                                     fi &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate &&
+                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
                                                                     makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set BASH ${ pkgs.bash }/bin/bash --set GREP ${ pkgs.gnugrep }/bin/grep --sleep ${ pkgs.coreutils }/bin/sleep &&
                                                                     ${ pkgs.coreutils }/bin/echo $out/bin/re-observate &&
                                                                     exit 2
