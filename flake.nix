@@ -190,7 +190,7 @@
                                                             {
                                                                 temporary =
                                                                     let
-                                                                        reducer = previous : current : lib.recursiveUpdate previous {} ;
+                                                                        reducer = previous : current : lib.recursiveUpdate previous ( builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames current.set ) ) current.set ) ;
                                                                         in builtins.foldl' reducer { } temporary ;
                                                                 util =
                                                                     {
