@@ -1,3 +1,3 @@
-${CP} ${OUT}/bin/observate observe.sh &&
-  ${CP} ${OUT}/bin/observate observe &&
+${CP} ${OUT}/bin/observate scripts/test/util/observed.sh &&
+  ${CP} ${OUT}/bin/observate scripts/test/util/observed &&
   ${CP} ${OBSERVATE} observate-temporary

@@ -343,7 +343,7 @@
                                                                     makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CP ${ pkgs.coreutils }/bin/cp --set OUT $out --set OBSERVATE ${ re-observate } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observate.sh" } $out/bin/observate.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observate.sh &&
-                                                                    makeWrapper $out/bin/observate.sh $out/bin/observate --set BASH ${ pkgs.bash }/bin/bash --set GREP ${ pkgs.gnugrep }/bin/grep --set SLEEP ${ pkgs.coreutils }/bin/sleep &&
+                                                                    makeWrapper $out/bin/observate.sh $out/bin/observate --set BASH ${ pkgs.bash }/bin/bash --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
                                                                     ${ pkgs.coreutils }/bin/echo $out/bin/re-observate &&
                                                                     exit 2
                                                             '' ;
