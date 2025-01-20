@@ -190,7 +190,7 @@
                                                             {
                                                                 temporary =
                                                                     let
-                                                                        reducer = previous : current : lib.mergeAttrs previous {} ;
+                                                                        reducer = previous : current : lib.recursiveUpdate previous {} ;
                                                                         in builtins.foldl' reducer { } temporary ;
                                                                 util =
                                                                     {
