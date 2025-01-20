@@ -190,7 +190,7 @@
                                                             {
                                                                 temporary =
                                                                     let
-                                                                        reducer = previous : current : builtins.trace "HI - ${ builtins.toString ( builtins.length ( builtins.attrNames current.set ) ) } - ${ builtins.typeOf ( true ) } " ( lib.recursiveUpdate previous current.set ) ;
+                                                                        reducer = previous : current : builtins.trace "HI - ${ builtins.toString ( builtins.length ( builtins.attrNames current.set ) ) } - ${ builtins.typeOf ( lib ) } " ( lib.recursiveUpdate previous current.set ) ;
                                                                         in builtins.foldl' reducer { } temporary ;
                                                                 util =
                                                                     {
