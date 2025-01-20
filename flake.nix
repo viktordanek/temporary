@@ -190,7 +190,7 @@
                                                             {
                                                                 temporary =
                                                                     let
-                                                                        reducer = previous : current : builtins.trace "HI - ${ builtins.typeOf previous } - ${ builtins.typeOf current } - ${ builtins.concatStringsSep " ; " ( builtins.attrNames current ) } - ${ builtins.typeOf current.paste }" ( lib.mergeAttrs previous current.set ) ;
+                                                                        reducer = previous : current : builtins.trace "HI - ${ builtins.typeOf previous } - ${ builtins.typeOf current } - ${ builtins.concatStringsSep " ; " ( builtins.attrNames current ) } - ${ builtins.typeOf current.paste } - ${ current.paste } " ( lib.mergeAttrs previous current.set ) ;
                                                                         in builtins.foldl' reducer { } temporary ;
                                                                 util =
                                                                     {
