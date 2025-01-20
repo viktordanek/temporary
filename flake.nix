@@ -342,8 +342,6 @@
                                                         src = ./. ;
                                                         installPhase =
                                                             ''
-
-exit 22 &&
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                     export ECHO=${ pkgs.coreutils }/bin/echo &&
@@ -358,9 +356,6 @@ exit 22 &&
                                                                     ${ pkgs.findutils }/bin/find -mindepth 1 -maxdepth 1 -type f -name temporary /build/*.tmp -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
 
                                                                     exit 33 &&
-                                                                    ${ pkgs.gnugrep }/bin/grep -c "${ pkgs.writeShellScript "observe" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } && ${ pkgs.gnugrep }/bin/grep \"^temporary/\" /build/*.tmp/temporary\" | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
-                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
-                                                                    ${ pkgs.gnugrep }/bin/grep "^temporary/" /build/*.tmp/temporary" | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
                                                                     ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
