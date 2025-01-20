@@ -343,7 +343,7 @@
                                                                     fi &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/script/test/util/re-observate.sh } $out/bin/re-observate.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
-                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CP ${ pkgs.coreutils }/bin/cp --set REOBSERVATE ${ reobservate } &&
+                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CP ${ pkgs.coreutils }/bin/cp --set REOBSERVATE ${ re-observate } &&
                                                                     ${ pkgs.coreutils }/bin/echo $out/bin/re-observate &&
                                                                     exit 2
                                                             '' ;
