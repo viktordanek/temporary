@@ -252,7 +252,7 @@
                                                                     paste = hash "paste" ;
                                                                     set =
                                                                         {
-                                                                            "${ arguments }"."${ standard-input }"."${ init-typeOf }"."${ init-standard-output }"."${ init-status }"."${ release-typeOf }"."${ release-standard-output }"."${ release-standard-error }"."${ release-status }" =
+                                                                            "${ values.arguments }"."${ values.standard-input }"."${ values.init-typeOf }"."${ values.init-standard-output }"."${ values.init-status }"."${ values.release-typeOf }"."${ values.release-standard-output }"."${ values.release-standard-error }"."${ values.release-status }" =
                                                                                 script :
                                                                                     let
                                                                                         sets =
