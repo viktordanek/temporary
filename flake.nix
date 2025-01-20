@@ -351,7 +351,7 @@
                                                                     makeWrapper $out/bin/observed.sh $out/bin/observed --set CAT ${ pkgs.coreutils }/bin/cat --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set SEQ ${ pkgs.coreutils }/bin/seq --set WC ${ pkgs.coreutils }/bin/wc &&
                                                                     ${ pkgs.coreutils }/bin/mkdir --parents /build/observed/temporary &&
 
-                                                                    ${ pkgs.findutils }/bin/find -mindepth 1 -maxdepth 1 -type f -name temporary /build/*.tmp -exec ${ pkgs.gnugrep }/bin/grep "^temporary/" {} \;" | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
+                                                                    ${ pkgs.findutils }/bin/find -mindepth 1 -maxdepth 1 -type f -name temporary /build/*.tmp -exec ${ pkgs.gnugrep }/bin/grep "^temporary/" \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
 
                                                                     exit 33 &&
                                                                     ${ pkgs.gnugrep }/bin/grep -c "${ pkgs.writeShellScript "observe" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } && ${ pkgs.gnugrep }/bin/grep \"^temporary/\" /build/*.tmp/temporary\" | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
