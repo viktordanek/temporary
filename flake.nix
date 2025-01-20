@@ -352,7 +352,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir --parents /build/observed/temporary &&
 
                                                                     ${ pkgs.gnugrep }/bin/grep "^temporary/" /build/*.tmp/temporary" | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-                                                                    ${ pkgs.gnugrep }/bin/grep -c "${ pkgs.writeShellScript "observe" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } && ${ pkgs.gnugrep }/bin/grep \"^temporary/\" /build/*.tmp/temporary" | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
+                                                                    ${ pkgs.gnugrep }/bin/grep -c "${ pkgs.writeShellScript "observe" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } && ${ pkgs.gnugrep }/bin/grep \"^temporary/\" /build/*.tmp/temporary\" | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.gnugrep }/bin/grep "^temporary/" /build/*.tmp/temporary" | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
