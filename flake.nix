@@ -352,8 +352,8 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir --parents /build/observed/temporary &&
 
                                                                     ${ pkgs.coreutils }/bin/echo ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-                                                                    exit 44 &&
                                                                     ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observe" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.coreutils }/bin/echo ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
+                                                                    exit 44 &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
