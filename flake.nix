@@ -345,6 +345,7 @@
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observate.sh &&
                                                                     makeWrapper $out/bin/observate.sh $out/bin/observate --set BASH ${ pkgs.bash }/bin/bash --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
                                                                     ${ pkgs.coreutils }/bin/echo $out/bin/re-observate &&
+                                                                    ${ pkgs.coreutils }/bin/echo $out &&
                                                                     exit 2
                                                             '' ;
                                                     } ;
