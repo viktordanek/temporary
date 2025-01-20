@@ -356,9 +356,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed &&
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-                                                                    export FOOBAR=${ pkgs.writeShellScript "observed.find" ( builtins.readFile ( self + "/scripts/test/util/observed.sh" ) ) } &&
-                                                                    ${ pkgs.coreutils }/bin/echo FOOBAR=$FOOBAR &&
-                                                                    ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( builtins.import ( self + "/scripts/test/util/observed.sh" ) ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
+                                                                    ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( ( builtins.import ( self + "/scripts/test/util/observed.sh" ) ) resources ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
