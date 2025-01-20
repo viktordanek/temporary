@@ -175,8 +175,7 @@
                                                                 args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
                                                                 stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
                                                                 in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
-                                                    string = builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary-2 ) ;
-                                                    in pkgs.writeShellScript "re-observate" string ;
+                                                    in pkgs.writeShellScript "observate" ( builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary-2 ) ) ;
                                             resources =
                                                 lib
                                                     {
@@ -341,10 +340,7 @@
                                                                     fi &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
-                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CP ${ pkgs.coreutils }/bin/cp --set OUT $out &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observate.sh" } $out/bin/observate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observate.sh &&
-                                                                    makeWrapper $out/bin/observate.sh $out/bin/observate --set BASH ${ pkgs.bash }/bin/bash --set GREP ${ pkgs.gnugrep }/bin/grep --set OBSERVATE ${ re-observate } --set SLEEP ${ pkgs.coreutils }/bin/sleep &&
+                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CP ${ pkgs.coreutils }/bin/cp --set OUT $out --set OBSERVATE ${ observate } &&
                                                                     ${ pkgs.coreutils }/bin/echo $out/bin/re-observate &&
                                                                     exit 2
                                                             '' ;
