@@ -167,15 +167,18 @@
                                 {
                                     checks.testLib =
                                         let
-                                            re-observe =
+                                            re-observate =
                                                 let
-                                                    mapper =
-                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste } :
-                                                            let
-                                                                args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
-                                                                stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
-                                                                in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
-                                                    in pkgs.writeShellScript "re-observe" ( builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary-2 ) ) ;
+                                                    observe =
+                                                        let
+                                                            mapper =
+                                                                { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste } :
+                                                                    let
+                                                                        args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
+                                                                        stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
+                                                                        in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
+                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary-2 ) ;
+                                                    count = label : "${ pkgs.grep }/bin/grep \"^temporary/\" /build/tmp.*/temporary | ${ pkgs.coreutils }/bin/wc >/build/observed/temporary/count.${ label }" ;
                                             resources =
                                                 lib
                                                     {
@@ -338,7 +341,10 @@
                                                                             ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
                                                                             exit 1
                                                                     fi &&
-                                                                    ${ pkgs.coreutils }/bin/echo '${ re-observe }' &&
+                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/script/test/util/re-observate.sh } $out/bin/re-observate.sh &&
+                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
+                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CP ${ pkgs.coreutils }/bin/cp --set REOBSERVATE ${ reobservate } &&
+                                                                    ${ pkgs.coreutils }/bin/echo $out/bin/re-observate &&
                                                                     exit 2
                                                             '' ;
                                                     } ;

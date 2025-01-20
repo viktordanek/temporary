@@ -1,0 +1,1 @@
+${CP} ${REOBSERVATE} observe.sh
