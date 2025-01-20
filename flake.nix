@@ -250,7 +250,8 @@
                                                                     standard-input = values.standard-input ;
                                                                     init-status = init-status ;
                                                                     paste = hash "paste" ;
-                                                                    set =
+                                                                    set = { } ;
+                                                                    set2 =
                                                                         {
                                                                             "${ values.arguments }"."${ values.standard-input }"."${ values.init-typeOf }"."${ values.init-standard-output }"."${ values.init-status }"."${ values.release-typeOf }"."${ values.release-standard-output }"."${ values.release-standard-error }"."${ values.release-status }" =
                                                                                 script :
