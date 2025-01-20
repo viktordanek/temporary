@@ -362,8 +362,7 @@
                                                                     export EXPECTED=${ self + "/expected" } &&
                                                                     export FIND=${ pkgs.findutils }/bin/find &&
                                                                     export OBSERVED=$out/observed &&
-                                                                    exit 44 &&
-                                                                    if true
+                                                                    if ${ pkgs.coreutils }/bin/true
                                                                     # if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
                                                                         ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
