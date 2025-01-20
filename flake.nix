@@ -365,21 +365,16 @@
                                                                     export OBSERVED=$out/observed &&
                                                                     if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
-                                                                        ${ pkgs.coreutils }/bin/echo EXPECTED &&
-                                                                         ${ pkgs.findutils }/bin/find $EXPECTED -maxdepth 1  &&
-                                                                       ${ pkgs.coreutils }/bin/echo OBSERVED &&
-                                                                        ${ pkgs.findutils }/bin/find $OBSERVED -maxdepth 1  &&
                                                                         ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
                                                                             makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
-                                                                            ${ pkgs.coreutils }/bin/echo $out/bin/re-expectate
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
+                                                                            makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
+                                                                            ${ pkgs.coreutils }/bin/echo $out &&
+                                                                            ${ pkgs.coreutils }/bin/echo $out
                                                                             exit 1
-                                                                    fi &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
-                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
-                                                                    ${ pkgs.coreutils }/bin/echo $out &&
-                                                                    exit 22
+                                                                    fi
                                                             '' ;
                                                     } ;
                                     lib = lib ;
