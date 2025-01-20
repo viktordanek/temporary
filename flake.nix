@@ -363,7 +363,8 @@
                                                                     export EXPECTED=${ self + "/expected" } &&
                                                                     export FIND=${ pkgs.findutils }/bin/find &&
                                                                     export OBSERVED=$out/observed &&
-                                                                    if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh || false
+                                                                    if true
+                                                                    # if ! ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                                     then
                                                                         ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
@@ -372,7 +373,6 @@
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
                                                                             makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
                                                                             ${ pkgs.coreutils }/bin/echo $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo $out
                                                                             exit 1
                                                                     fi
                                                             '' ;
