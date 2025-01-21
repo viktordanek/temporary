@@ -292,7 +292,7 @@
                                                                                             if init-typeOf == true then
                                                                                                 if release-typeOf == true then
                                                                                                     {
-                                                                                                        init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
+                                                                                                        init = builtins.trace "HI" ( sets.lambda "init" "/scripts/test/temporary/init.sh" ) ;
                                                                                                         release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
                                                                                                         post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
