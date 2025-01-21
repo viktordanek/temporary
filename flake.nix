@@ -54,13 +54,14 @@
                                                                             sets ? { }
                                                                         } :
                                                                             path : name : binary :
+                                                                                builtins.trace "Z5" (
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 (
-                                                                                                    if builtins.typeOf executable == "set" && builtins.hasAttr "__toString" executable then
+                                                                                                    if builtins.typeOf executable == "set" then
                                                                                                         [
                                                                                                             "makeWrapper"
                                                                                                             ( builtins.toString executable )
@@ -81,7 +82,7 @@
                                                                                                     else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
                                                                                                 )
                                                                                             ]
-                                                                                    ) ;
+                                                                                    ) ) ;
                                                                     in ignore : identity ( value script ) ;
                                                         mapper =
                                                             path : name : value :
