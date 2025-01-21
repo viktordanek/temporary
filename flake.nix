@@ -278,7 +278,7 @@
                                                                                                             VARIABLE = hash "sets - ${ variable }" ;
                                                                                                         } ;
                                                                                             } ;
-                                                                                        xxx =
+                                                                                        in
                                                                                             if init-typeOf == true then
                                                                                                 if release-typeOf == true then
                                                                                                     {
@@ -330,7 +330,6 @@
                                                                                                     {
                                                                                                         post = sets.string "post" ;
                                                                                                     } ;
-                                                                                        in { } ;
                                                                         } ;
                                                                 } ;
                                                     in builtins.map mapper list ;
