@@ -262,8 +262,9 @@
                                                                                                         script
                                                                                                             ( builtins.trace "HI url=${ url } variable=${ variable }"
                                                                                                             {
-                                                                                                                executable = builtins.trace "HI" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
+                                                                                                                executable = builtins.trace "HI Z1" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
                                                                                                                 sets =
+                                                                                                                    builtins.trace "HI Z2"
                                                                                                                     {
                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                                         CUT = "${ pkgs.coreutils }/bin/cut" ;
