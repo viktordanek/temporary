@@ -286,7 +286,7 @@
                                                                                                                         TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                                         VARIABLE = hash "sets - ${ variable }" ;
                                                                                                                     } ;
-                                                                                                            } ) ;
+                                                                                                            } ;
                                                                                             } ;
                                                                                         in
                                                                                             if init-typeOf == true then
