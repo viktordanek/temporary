@@ -260,6 +260,7 @@
                                                                                                 lambda =
                                                                                                     variable : url : harvest :
                                                                                                         script
+                                                                                                            ( builtins.trace "HI url=${ url } variable=${ variable }"
                                                                                                             {
                                                                                                                 executable = pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ;
                                                                                                                 sets =
@@ -272,7 +273,7 @@
                                                                                                                         TOKEN = harvest.temporary.util.token ;
                                                                                                                         VARIABLE = hash "sets - ${ variable }" ;
                                                                                                                     } ;
-                                                                                                            } ;
+                                                                                                            } ) ;
                                                                                                 string =
                                                                                                     variable : url :
                                                                                                         script
