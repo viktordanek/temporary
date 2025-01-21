@@ -276,8 +276,9 @@
                                                                                                 string =
                                                                                                     url : variable :
                                                                                                         script
+                                                                                                            ( builtins.trace "HI"
                                                                                                             {
-                                                                                                                executable = builtins.trace "HI" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
+                                                                                                                executable = pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ;
                                                                                                                 sets =
                                                                                                                     {
                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cat" ;
@@ -286,7 +287,7 @@
                                                                                                                         TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                                         VARIABLE = hash "sets - ${ variable }" ;
                                                                                                                     } ;
-                                                                                                            } ;
+                                                                                                            } ) ;
                                                                                             } ;
                                                                                         in
                                                                                             if init-typeOf == true then
