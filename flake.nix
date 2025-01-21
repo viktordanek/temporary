@@ -284,51 +284,51 @@
                                                                                                     {
                                                                                                         init = sets.lambda "init" ;
                                                                                                         release = sets.lambda "release" ;
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     }
                                                                                                 else if release-typeOf == false then
                                                                                                     {
                                                                                                         init = sets.lambda "init" ;
                                                                                                         release = sets.string "release" ;
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     }
                                                                                                 else
                                                                                                     {
                                                                                                         init = sets.lambda "init" ;
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     }
                                                                                             else if init-typeOf == false then
                                                                                                 if release-typeOf == true then
                                                                                                     {
                                                                                                         init = sets.string "init" ;
                                                                                                         release = sets.lambda "release" ;
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     }
                                                                                                 else if release-typeOf == false then
                                                                                                     {
                                                                                                         init = sets.string "init" ;
                                                                                                         release = sets.string "release" ;
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     }
                                                                                                 else
                                                                                                     {
                                                                                                         init = sets.string "init" ;
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     }
                                                                                             else
                                                                                                 if release-typeOf == true then
                                                                                                     {
                                                                                                         release = sets.lambda "release" ;
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     }
                                                                                                 else if release-typeOf == false  then
                                                                                                     {
                                                                                                         release = sets.string "init" ;
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     }
                                                                                                 else
                                                                                                     {
-                                                                                                        post = sets.string "post" ;
+                                                                                                        # post = sets.string "post" ;
                                                                                                     } ;
                                                                         } ;
                                                                 } ;
