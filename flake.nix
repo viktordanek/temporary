@@ -193,7 +193,6 @@
                                                                         reducer = previous : current : pkgs.lib.recursiveUpdate previous current.set ;
                                                                         in builtins.trace "HI" ( builtins.foldl' reducer { } t2 ) ;
                                                                 util =
-                                                                    builtins.trace "WTF UTIL"
                                                                     {
                                                                         token =
                                                                             script :
