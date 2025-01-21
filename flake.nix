@@ -274,7 +274,7 @@
                                                                                                                     } ;
                                                                                                             } ;
                                                                                                 string =
-                                                                                                    url : variable :
+                                                                                                    variable : url :
                                                                                                         script
                                                                                                             ( builtins.trace "HI url=${ url } variable=${ variable }"
                                                                                                             {
