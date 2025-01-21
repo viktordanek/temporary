@@ -277,7 +277,7 @@
                                                                                                     url : variable :
                                                                                                         script
                                                                                                             {
-                                                                                                                executable = pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ;
+                                                                                                                executable = builtins.trace "HI" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
                                                                                                                 sets =
                                                                                                                     {
                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cat" ;
@@ -292,7 +292,7 @@
                                                                                             if init-typeOf == true then
                                                                                                 if release-typeOf == true then
                                                                                                     {
-                                                                                                        init = builtins.trace "HI" ( sets.lambda "init" "/scripts/test/temporary/init.sh" ) ;
+                                                                                                        init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
                                                                                                         release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
                                                                                                         post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
