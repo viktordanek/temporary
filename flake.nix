@@ -54,7 +54,7 @@
                                                                             sets ? { }
                                                                         } :
                                                                             builtins.trace "Z5" (
-                                                                            path : ( builtins.trace "Z6" ( name : binary :
+                                                                            path : name : ( builtins.trace "Z6" ( binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
