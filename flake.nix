@@ -276,7 +276,7 @@
                                                                                                 string =
                                                                                                     url : variable :
                                                                                                         script
-                                                                                                            ( builtins.trace "HI"
+                                                                                                            ( builtins.trace "HI ${ variable }"
                                                                                                             {
                                                                                                                 executable = pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ;
                                                                                                                 sets =
