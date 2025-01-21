@@ -188,18 +188,10 @@
                                                         target = "e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d" ;
                                                         temporary =
                                                             {
-                                                                temporary2 =
+                                                                temporary =
                                                                     let
                                                                         reducer = previous : current : pkgs.lib.recursiveUpdate previous current.set ;
                                                                         in builtins.foldl' reducer { } temporary ;
-                                                               temporary =
-                                                                    {
-                                                                        token =
-                                                                            script :
-                                                                                {
-                                                                                    init = script { executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ; sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ; } ;
-                                                                                } ;
-                                                                    } ;
                                                                 util =
                                                                     {
                                                                         token =
@@ -365,7 +357,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
                                                                     ${ pkgs.coreutils }/bin/echo ${ builtins.trace "${ builtins.concatStringsSep " / " ( builtins.attrNames resources.temporary ) }" "HI" } &&
-                                                                    ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( ( builtins.import ( self + "/scripts/test/util/observed.sh" ) ) {} ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
+                                                                    ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( ( builtins.import ( self + "/scripts/test/util/observed.sh" ) ) resources ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
