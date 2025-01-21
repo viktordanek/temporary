@@ -118,15 +118,18 @@
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
-                                                                                        else [ (  computed.init path name "init.sh" ) ]
+                                                                                        # else [ (  computed.init path name "init.sh" ) ]
+                                                                                        else [ ]
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
-                                                                                        else [ ( computed.release path name "release.sh" ) ]
+                                                                                        # else [ ( computed.release path name "release.sh" ) ]
+                                                                                        else [ ]
                                                                                     )
                                                                                     (
                                                                                         if computed.post == null then [ ]
-                                                                                        else [ ( computed.post path name "post.sh" ) ]
+                                                                                        # else [ ( computed.post path name "post.sh" ) ]
+                                                                                        else [ ]
                                                                                     )
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
