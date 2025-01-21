@@ -279,7 +279,7 @@
                                                                                                     variable : url :
                                                                                                         script
                                                                                                             {
-                                                                                                                executable = pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ;
+                                                                                                                executable = builtins.trace "HI Z3" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
                                                                                                                 sets =
                                                                                                                     {
                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cat" ;
