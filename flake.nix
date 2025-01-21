@@ -85,7 +85,7 @@
                                                                                                         )
                                                                                                     ]
                                                                                             ) ) ) ) ;
-                                                                                in path : name : binary : "${ pkgs.coreutils }/bin/true" ;
+                                                                                in path : name : "${ pkgs.coreutils }/bin/true" ;
                                                                     in ignore : identity ( value script ) ;
                                                         mapper =
                                                             path : name : value :
