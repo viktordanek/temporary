@@ -188,10 +188,18 @@
                                                         target = "e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d" ;
                                                         temporary =
                                                             {
-                                                                temporary =
+                                                                temporary2 =
                                                                     let
                                                                         reducer = previous : current : pkgs.lib.recursiveUpdate previous current.set ;
                                                                         in builtins.foldl' reducer { } temporary ;
+                                                               temporary =
+                                                                    {
+                                                                        token =
+                                                                            script :
+                                                                                {
+                                                                                    init = script { executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ; sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ; } ;
+                                                                                } ;
+                                                                    } ;
                                                                 util =
                                                                     {
                                                                         token =
