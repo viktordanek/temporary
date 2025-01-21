@@ -331,7 +331,7 @@
                                                                                                         release = sets.lambda "release" "scripts/test/temporary/release.sh" ;
                                                                                                         post = sets.string "post" "scripts/test/temporary/post.sh" ;
                                                                                                     }
-                                                                                                else if release-typeOf == false  then
+                                                                                                else if release-typeOf == false then
                                                                                                     {
                                                                                                         release = sets.string "release" "scripts/test/temporary/release.sh" ;
                                                                                                         post = sets.string "post" "scripts/test/temporary/post.sh" ;
@@ -365,7 +365,6 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed &&
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.trace "${ builtins.concatStringsSep " / " ( builtins.attrNames resources.temporary ) }" "HI" } &&
                                                                     ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( ( builtins.import ( self + "/scripts/test/util/observed.sh" ) ) resources ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
