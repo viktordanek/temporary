@@ -191,7 +191,7 @@
                                                                 temporary =
                                                                     let
                                                                         reducer = previous : current : pkgs.lib.recursiveUpdate previous current.set ;
-                                                                        in builtins.foldl' reducer { } temporary ;
+                                                                        in builtins.trace "HI" ( builtins.foldl' reducer { } temporary ) ;
                                                                 util =
                                                                     {
                                                                         token =
