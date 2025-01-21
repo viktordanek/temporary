@@ -53,8 +53,8 @@
                                                                             executable ,
                                                                             sets ? { }
                                                                         } :
+                                                                            builtins.trace "Z5" (
                                                                             path : name : binary :
-                                                                                builtins.trace "Z5" (
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
