@@ -256,7 +256,6 @@
                                                                                 script :
                                                                                     let
                                                                                         sets =
-                                                                                            builtins.trace "HI"
                                                                                             {
                                                                                                 lambda =
                                                                                                     url : variable : harvest :
@@ -293,53 +292,53 @@
                                                                                             if init-typeOf == true then
                                                                                                 if release-typeOf == true then
                                                                                                     {
-                                                                                                        init = sets.lambda "init" "scripts/test/temporary/init.sh" ;
-                                                                                                        release = sets.lambda "release" "scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
+                                                                                                        release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
                                                                                                 else if release-typeOf == false then
                                                                                                     {
-                                                                                                        init = sets.lambda "init" "scripts/test/temporary/init.sh" ;
-                                                                                                        release = sets.string "release" "scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
+                                                                                                        release = sets.string "release" "/scripts/test/temporary/release.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
                                                                                                 else
                                                                                                     {
-                                                                                                        init = sets.lambda "init" "scripts/test/temporary/init.sh" ;
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
                                                                                             else if init-typeOf == false then
                                                                                                 if release-typeOf == true then
                                                                                                     {
-                                                                                                        init = sets.string "init" "scripts/test/temporary/init.sh" ;
-                                                                                                        release = sets.lambda "release" "scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        init = sets.string "init" "/scripts/test/temporary/init.sh" ;
+                                                                                                        release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
                                                                                                 else if release-typeOf == false then
                                                                                                     {
-                                                                                                        init = sets.string "init" "scripts/test/temporary/init.sh" ;
-                                                                                                        release = sets.string "release" "scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        init = sets.string "init" "/scripts/test/temporary/init.sh" ;
+                                                                                                        release = sets.string "release" "/scripts/test/temporary/release.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
                                                                                                 else
                                                                                                     {
-                                                                                                        init = sets.string "init" "scripts/test/temporary/init.sh" ;
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        init = sets.string "init" "/scripts/test/temporary/init.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
                                                                                             else
                                                                                                 if release-typeOf == true then
                                                                                                     {
-                                                                                                        release = sets.lambda "release" "scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
                                                                                                 else if release-typeOf == false then
                                                                                                     {
-                                                                                                        release = sets.string "release" "scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        release = sets.string "release" "/scripts/test/temporary/release.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     }
                                                                                                 else
                                                                                                     {
-                                                                                                        post = sets.string "post" "scripts/test/temporary/post.sh" ;
+                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     } ;
                                                                         } ;
                                                                 } ;
