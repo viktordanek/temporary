@@ -258,7 +258,7 @@
                                                                                         sets =
                                                                                             {
                                                                                                 lambda =
-                                                                                                    url : variable : harvest :
+                                                                                                    variable : url : harvest :
                                                                                                         script
                                                                                                             {
                                                                                                                 executable = pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ;
@@ -276,7 +276,6 @@
                                                                                                 string =
                                                                                                     variable : url :
                                                                                                         script
-                                                                                                            ( builtins.trace "HI url=${ url } variable=${ variable }"
                                                                                                             {
                                                                                                                 executable = pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ;
                                                                                                                 sets =
