@@ -256,6 +256,7 @@
                                                                                 script :
                                                                                     let
                                                                                         sets =
+                                                                                            builtins.trace "HI"
                                                                                             {
                                                                                                 lambda =
                                                                                                     url : variable : harvest :
