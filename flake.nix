@@ -190,7 +190,7 @@
                                                             {
                                                                 temporary =
                                                                     let
-                                                                        reducer = previous : current : pkgs.lib.recursiveUpdate previous current.set ;
+                                                                        reducer = builtins.trace "HI" ( previous : current : pkgs.lib.recursiveUpdate previous current.set ) ;
                                                                         in builtins.foldl' reducer { } temporary ;
                                                                 util =
                                                                     {
