@@ -281,6 +281,7 @@
                                                                                                             {
                                                                                                                 executable = builtins.trace "HI Z3" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
                                                                                                                 sets =
+                                                                                                                    builtins.trace "HI Z4"
                                                                                                                     {
                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                                         CUT = "${ pkgs.coreutils }/bin/cut" ;
