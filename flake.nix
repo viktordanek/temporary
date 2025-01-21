@@ -54,7 +54,7 @@
                                                                             sets ? { }
                                                                         } :
                                                                             builtins.trace "Z5" (
-                                                                            path : name : binary :
+                                                                            path : ( builtins.trace "Z6" ( name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
@@ -82,7 +82,7 @@
                                                                                                     else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
                                                                                                 )
                                                                                             ]
-                                                                                    ) ) ;
+                                                                                    ) ) ) ) ;
                                                                     in ignore : identity ( value script ) ;
                                                         mapper =
                                                             path : name : value :
