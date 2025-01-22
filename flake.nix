@@ -177,7 +177,7 @@
                                             re-observate =
                                                 let
                                                     mapper =
-                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste , set } :
+                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste , set , values } :
                                                             let
                                                                 args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
                                                                 echo = builtins.concatStringsSep "" [ "$" "{" " " "echo" " " "}" ] ;
