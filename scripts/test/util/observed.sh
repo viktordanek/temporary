@@ -3,4 +3,5 @@ resources
 echo
 :
 ''
-${ resources."."".""."lambda"."adoi"."gibj"."20"."null"."klpi"."giih"."0" } &&
+${ echo } gden > $( ${ resources."temporary"."temporary"."chpn"."peep"."lambda"."ocfo"."llid"."0"."lambda"."bnkp"."eehl"."0" } chpn )
+''
