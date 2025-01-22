@@ -376,7 +376,7 @@
 
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed &&
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
-                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
+                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre
                                                             '' ;
                                                     } ;
                                     lib = lib ;
