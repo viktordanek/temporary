@@ -253,7 +253,7 @@
                                                                     } ;
                                                                 in
                                                                 {
-                                                                    command = builtins.concatStringsSep "" [ "$" "{" " " "resources" "." ( builtins.concatStringsSep "." ( builtins.map ( v : builtins.concatStringsSep "" [ "\"" v "\"" ] ) [ "temporary" "temporary" values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) ) " " "}" ] ;
+                                                                    command = builtins.concatStringsSep "" [ "$" "{" " " "resources" "." ( builtins.concatStringsSep "." [ "temporary" "temporary" values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) " " "}" ] ;
                                                                     has-arguments = arguments ;
                                                                     arguments = values.arguments ;
                                                                     has-standard-input = standard-input ;
@@ -378,7 +378,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed &&
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-                                                                    ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( builtins.import ( self + "/scripts/test/util/observed.nix" ) resources.temporary.temporary "${ pkgs.coreutils }/bin/echo" ) }"
+                                                                    ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( builtins.import ( self + "/scripts/test/util/observed.nix" ) resources "${ pkgs.coreutils }/bin/echo" ) }"
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
@@ -389,7 +389,7 @@
                                                                     export FIND=${ pkgs.findutils }/bin/find &&
                                                                     export OBSERVED=$out/observed &&
                                                                     ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh &&
-                                                                    exit 9
+                                                                    exit 1
                                                             '' ;
                                                     } ;
                                     lib = lib ;
