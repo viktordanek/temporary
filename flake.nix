@@ -363,7 +363,7 @@
                                                         src = ./. ;
                                                         wtf =
                                                             ''
-                                                                    # ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( builtins.import ( self + "/scripts/test/util/observed.sh" ) resources "${ pkgs.coreutils }/bin/echo" ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
+                                                                    # ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( builtins.import ( self + "/scripts/test/util/observed.nix" ) resources "${ pkgs.coreutils }/bin/echo" ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
                                                             '' ;
                                                         installPhase =
                                                             ''
