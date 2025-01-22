@@ -369,6 +369,10 @@
                                                             '' ;
                                                         installPhase =
                                                             ''
+                                                                ${ pkgs.coreutils }/bin/mkdir $out
+                                                            '' ;
+                                                        installPhase2 =
+                                                            ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     exit 10 &&
                                                                     ${ pkgs.coreutils }/bin/echo $out &&
