@@ -389,7 +389,7 @@
                                                                     export FIND=${ pkgs.findutils }/bin/find &&
                                                                     export OBSERVED=$out/observed &&
                                                                     ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh &&
-                                                                    exit 1
+                                                                    exit 10
                                                             '' ;
                                                     } ;
                                     lib = lib ;
