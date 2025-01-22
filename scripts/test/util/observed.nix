@@ -1,7 +1,7 @@
-resources
+temporary
 :
 echo
 :
 ''
-${ echo } gden > $( ${ echo } chpn )
+${ echo } gden > $( ${ temporary."chpn"."peep"."lambda"."ocfo"."llid"."0"."lambda"."bnkp"."eehl"."0" } chpn )
 ''
