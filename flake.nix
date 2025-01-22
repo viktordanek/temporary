@@ -362,23 +362,34 @@
                                                         nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                         src = ./. ;
                                                         installPhase =
-                                                            ''
-                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo $out &&
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
-                                                                    makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
-                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
+                                                            let
+                                                                mapper =
+                                                                    { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste , set , values } :
+                                                                        let
+                                                                            call = builtins.toString resources.temporary.temporary."${ values.arguments }"."${ values.standard-input }"."${ values.init-typeOf }"."${ values.init-standard-output }"."${ values.init-standard-error }"."${ values.init-status }"."${ values.release-typeOf }"."${ values.release-standard-output }"."${ values.release-standard-error }"."${ values.release-status }" ;
+                                                                            args = if has-arguments then "${ call } ${ arguments }" else "${ command }" ;
+                                                                            echo = builtins.concatStringsSep "" [ "$" "{" " " "echo" " " "}" ] ;
+                                                                            stdin = if has-standard-input then args else "${ echo } ${ standard-input } | ${ args }" ;
+                                                                            in if init-status then "${ echo } ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
+                                                                string = builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary ) ;
+                                                                in
+                                                                    ''
+                                                                        ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                            ${ pkgs.coreutils }/bin/echo $out &&
+                                                                            ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
+                                                                            makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
+                                                                            makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
 
-                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
-                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
-                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-                                                                    ${ pkgs.bash }/bin/bash -c ""
-                                                            '' ;
+                                                                            ${ pkgs.coreutils }/bin/mkdir /build/observed &&
+                                                                            ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
+                                                                            ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
+                                                                            ${ builtins.map ( t :  ) temporary }
+                                                                    '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
