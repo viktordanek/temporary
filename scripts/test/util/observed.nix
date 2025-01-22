@@ -1,4 +1,4 @@
-resources
+temporary
 :
 echo
 :
