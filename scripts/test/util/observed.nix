@@ -1,1 +1,1 @@
-resources:echo:''${ echo }''
+resources:echo:''''
