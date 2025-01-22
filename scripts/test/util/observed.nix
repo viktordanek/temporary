@@ -1,1 +1,1 @@
-resources:echo:''''
+resources:echo:""
