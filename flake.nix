@@ -379,6 +379,16 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
                                                                     ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( builtins.import ( self + "/scripts/test/util/observed.nix" ) resources.temporary.temporary "${ pkgs.coreutils }/bin/echo" ) }"
+                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
+                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
+
+                                                                    ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
+
+                                                                    export DIFF=${ pkgs.diffutils }/bin/diff &&
+                                                                    export EXPECTED=${ self + "/expected" } &&
+                                                                    export FIND=${ pkgs.findutils }/bin/find &&
+                                                                    export OBSERVED=$out/observed &&
+                                                                    ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                             '' ;
                                                     } ;
                                     lib = lib ;
