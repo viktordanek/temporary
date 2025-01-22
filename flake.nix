@@ -353,6 +353,7 @@
                                                                                                         post = sets.string "post" "/scripts/test/temporary/post.sh" ;
                                                                                                     } ;
                                                                         } ;
+                                                                    values = values ;
                                                                 } ;
                                                     in builtins.map mapper list ;
                                             in
