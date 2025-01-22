@@ -182,7 +182,8 @@
                                                                 args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
                                                                 stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
                                                                 in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
-                                                    in pkgs.writeShellScript "observate" ( builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary ) ) ;
+                                                    string = builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary ) ;
+                                                    in pkgs.writeShellScript "observate" ( builtins.concatStringsSep "\n" [ "resources" ":" "echo" ":" "''" string "''" ] ) ;
                                             resources =
                                                 lib
                                                     {
@@ -375,7 +376,6 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed &&
                                                                     ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-                                                                    # ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed"                   ( let x = ( ( builtins.import ( self + "/scripts/test/util/observed.sh" ) ) resources "${ pkgs.coreutils }/bin/echo" ) ; in builtins.trace x "#x" )              } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
                                                                     ${ pkgs.coreutils }/bin/sleep 10s &&
                                                                     ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
