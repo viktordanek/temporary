@@ -222,7 +222,8 @@
                                                                     levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
                                                                     reducer =
                                                                         previous : current :
-                                                                            if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
+                                                                            if builtins.any ( c : c == current ) [ "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ]
+                                                                            else if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-status" "release-status" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
                                                                             else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
                                                                             else builtins.throw "We were not expecting ${ current }." ;
                                                                     in builtins.foldl' reducer [ { } ] levels ;
@@ -239,16 +240,16 @@
                                                                             in builtins.foldl' ( previous : next : previous + next ) 0 ( builtins.genList ( index : builtins.fromJSON ( builtins.substring index 1 str ) ) ( builtins.stringLength str ) ) ;
                                                                 values =
                                                                     {
-                                                                        arguments = if arguments then hash "arguments" else "" ;
-                                                                        standard-input = if standard-input then hash "standard-input" else "" ;
+                                                                        arguments = if arguments then hash "arguments" else "qqqq" ;
+                                                                        standard-input = if standard-input then hash "standard-input" else "qqqq" ;
                                                                         init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
-                                                                        init-standard-output = if init-standard-output then hash "init-standard-output true" else hash "init-standard-output false" ;
-                                                                        init-standard-error = if init-standard-error then hash "init-standard-error true" else hash "init-standard-error false" ;
-                                                                        init-status = if init-status then "0" else builtins.toString ( ( mod ( rand "init-status" ) 254 ) + 1 ) ;
+                                                                        init-standard-output = hash "init-standard-output true" ;
+                                                                        init-standard-error = hash "init-standard-error true" ;
+                                                                        init-status = if init-status then "rrr0" else "rrr${ builtins.toString ( ( mod ( rand "init-status" ) 9 ) + 1 ) }" ;
                                                                         release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
-                                                                        release-standard-output = if release-standard-output then hash "release-standard-output true" else hash "release-standard-output false" ;
-                                                                        release-standard-error = if release-standard-error then hash "release-standard-error true" else hash "release-standard-error false" ;
-                                                                        release-status = if release-status then "0" else builtins.toString ( ( mod ( rand "release-status" ) 254 ) + 1 ) ;
+                                                                        release-standard-output = hash "release-standard-output true" ;
+                                                                        release-standard-error = hash "release-standard-error true" ;
+                                                                        release-status = if release-status then "rrr0" else "rrr${ builtins.toString ( ( mod ( rand "release-status" ) 9 ) + 1 ) }" ;
                                                                     } ;
                                                                 in
                                                                 {
