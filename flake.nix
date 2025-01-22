@@ -180,8 +180,9 @@
                                                         { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste , set } :
                                                             let
                                                                 args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
-                                                                stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
-                                                                in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
+                                                                echo = builtins.concatStringsSep "" [ "$" "{" " " "echo" " " "}" ] ;
+                                                                stdin = if has-standard-input then args else "${ echo } ${ standard-input } | ${ args }" ;
+                                                                in if init-status then "${ echo } ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
                                                     string = builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary ) ;
                                                     in builtins.toFile "re-observate.nix" ( builtins.concatStringsSep "\n" [ "resources" ":" "echo" ":" "''" string "''" ] ) ;
                                             resources =
