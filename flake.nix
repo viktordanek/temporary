@@ -183,7 +183,7 @@
                                                                 stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
                                                                 in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
                                                     string = builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary ) ;
-                                                    in pkgs.writeShellScript "observate" ( builtins.concatStringsSep "\n" [ "resources" ":" "echo" ":" "''" string "''" ] ) ;
+                                                    in pkgs.writeShellScript "re-observate" ( builtins.concatStringsSep "\n" [ "resources" ":" "echo" ":" "''" string "''" ] ) ;
                                             resources =
                                                 lib
                                                     {
@@ -251,7 +251,7 @@
                                                                     } ;
                                                                 in
                                                                 {
-                                                                    command = builtins.concatStringsSep "" [ "$" "{" " " ( builtins.concatStringsSep "." ( builtins.map ( v : builtins.concatStringsSep "" [ "\"" v "\"" ] ) [ "resources" "temporary" "temporary" values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) ) " " "}" ] ;
+                                                                    command = builtins.concatStringsSep "" [ "$" "{" " " "resources" "." ( builtins.concatStringsSep "." ( builtins.map ( v : builtins.concatStringsSep "" [ "\"" v "\"" ] ) [ "temporary" "temporary" values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) ) " " "}" ] ;
                                                                     has-arguments = arguments ;
                                                                     arguments = values.arguments ;
                                                                     has-standard-input = standard-input ;
