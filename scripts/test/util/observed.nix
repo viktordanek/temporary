@@ -3,6 +3,6 @@ temporary
 echo
 :
 ''
-${ echo } gden > $( ${ temporary.chpn.peep.lambda.ocfo.llid.qqq0.lambda.bnkp.eehl.qqq0 } chpn )
+${ temporary.chpn.peep.lambda.ocfo.llid.qqq0.lambda.bnkp.eehl.qqq0 } chpn
 
 ''
