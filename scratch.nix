@@ -8,7 +8,6 @@
                                                         installPhase2 =
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    exit 10 &&
                                                                     ${ pkgs.coreutils }/bin/echo $out &&
                                                                     ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
