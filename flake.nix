@@ -245,11 +245,11 @@
                                                                         init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
                                                                         init-standard-output = hash "init-standard-output true" ;
                                                                         init-standard-error = hash "init-standard-error true" ;
-                                                                        init-status = if init-status then "rrr0" else "rrr${ builtins.toString ( ( mod ( rand "init-status" ) 9 ) + 1 ) }" ;
+                                                                        init-status = if init-status then "qqq0" else "qqq${ builtins.toString ( ( mod ( rand "init-status" ) 9 ) + 1 ) }" ;
                                                                         release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
                                                                         release-standard-output = hash "release-standard-output true" ;
                                                                         release-standard-error = hash "release-standard-error true" ;
-                                                                        release-status = if release-status then "rrr0" else "rrr${ builtins.toString ( ( mod ( rand "release-status" ) 9 ) + 1 ) }" ;
+                                                                        release-status = if release-status then "qqq0" else "qqq${ builtins.toString ( ( mod ( rand "release-status" ) 9 ) + 1 ) }" ;
                                                                     } ;
                                                                 in
                                                                 {
@@ -388,7 +388,8 @@
                                                                     export EXPECTED=${ self + "/expected" } &&
                                                                     export FIND=${ pkgs.findutils }/bin/find &&
                                                                     export OBSERVED=$out/observed &&
-                                                                    ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
+                                                                    ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh &&
+                                                                    exit 9
                                                             '' ;
                                                     } ;
                                     lib = lib ;
