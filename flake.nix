@@ -183,7 +183,7 @@
                                                                 stdin = if has-standard-input then args else "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ args }" ;
                                                                 in if init-status then "${ pkgs.coreutils }/bin/echo ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
                                                     string = builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary ) ;
-                                                    in builtins.concatStringsSep "\n" [ "resources" ":" "echo" ":" "''" string "''" ] ;
+                                                    in builtins.toFile "re-observate.nix" ( builtins.concatStringsSep "\n" [ "resources" ":" "echo" ":" "''" string "''" ] ) ;
                                             resources =
                                                 lib
                                                     {
