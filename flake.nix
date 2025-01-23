@@ -233,6 +233,97 @@
                                                             let
                                                                 hash = string : builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.substring 0 4 ( builtins.hashString "md5" ( builtins.concatStringsSep "-" [ ( builtins.toString index ) string ] ) ) ) ;
                                                                 mod = a : b : a - b * ( a / b ) ;
+                                                                lambda =
+                                                                    script :
+                                                                        let
+                                                                            sets =
+                                                                                {
+                                                                                    lambda =
+                                                                                        variable : url : harvest :
+                                                                                            script
+                                                                                                ( builtins.trace "HI url=${ url } variable=${ variable }"
+                                                                                                {
+                                                                                                    executable = builtins.trace "HI Z1" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
+                                                                                                    sets =
+                                                                                                        builtins.trace "HI Z2"
+                                                                                                        {
+                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                            CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                            SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
+                                                                                                            TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                            TOKEN = harvest.temporary.util.token ;
+                                                                                                            VARIABLE = hash "sets - ${ variable }" ;
+                                                                                                        } ;
+                                                                                                } ) ;
+                                                                                    string =
+                                                                                        variable : url :
+                                                                                            script
+                                                                                                {
+                                                                                                    executable = builtins.trace "HI Z3" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
+                                                                                                    sets =
+                                                                                                        builtins.trace "HI Z4"
+                                                                                                        {
+                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                            CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                            TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                            VARIABLE = hash "sets - ${ variable }" ;
+                                                                                                        } ;
+                                                                                                } ;
+                                                                                } ;
+                                                                            in
+                                                                                if init-typeOf == true then
+                                                                                    if release-typeOf == true then
+                                                                                        {
+                                                                                            init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
+                                                                                            release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        }
+                                                                                    else if release-typeOf == false then
+                                                                                        {
+                                                                                            init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
+                                                                                            release = sets.string "release" "/scripts/test/temporary/release.sh" ;
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        }
+                                                                                    else
+                                                                                        {
+                                                                                            init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        }
+                                                                                else if init-typeOf == false then
+                                                                                    if release-typeOf == true then
+                                                                                        {
+                                                                                            init = sets.string "init" "/scripts/test/temporary/init.sh" ;
+                                                                                            release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        }
+                                                                                    else if release-typeOf == false then
+                                                                                        {
+                                                                                            init = sets.string "init" "/scripts/test/temporary/init.sh" ;
+                                                                                            release = sets.string "release" "/scripts/test/temporary/release.sh" ;
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        }
+                                                                                    else
+                                                                                        {
+                                                                                            init = sets.string "init" "/scripts/test/temporary/init.sh" ;
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        }
+                                                                                else
+                                                                                    if release-typeOf == true then
+                                                                                        {
+                                                                                            release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        }
+                                                                                    else if release-typeOf == false then
+                                                                                        {
+                                                                                            release = sets.string "release" "/scripts/test/temporary/release.sh" ;
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        }
+                                                                                    else
+                                                                                        {
+                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
+                                                                                        } ;
                                                                 rand =
                                                                     string :
                                                                         let
@@ -253,7 +344,7 @@
                                                                     } ;
                                                                 in
                                                                 {
-                                                                    lambda = null ;
+                                                                    lambda = lambda ;
                                                                     command = builtins.concatStringsSep "" [ "$" "{" " " "resources" "." ( builtins.concatStringsSep "." [ "temporary" "temporary" values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) " " "}" ] ;
                                                                     has-arguments = arguments ;
                                                                     arguments = values.arguments ;
@@ -263,97 +354,7 @@
                                                                     paste = hash "paste" ;
                                                                     set =
                                                                         {
-                                                                            "${ values.arguments }"."${ values.standard-input }"."${ values.init-typeOf }"."${ values.init-standard-output }"."${ values.init-standard-error }"."${ values.init-status }"."${ values.release-typeOf }"."${ values.release-standard-output }"."${ values.release-standard-error }"."${ values.release-status }" =
-                                                                                script :
-                                                                                    let
-                                                                                        sets =
-                                                                                            {
-                                                                                                lambda =
-                                                                                                    variable : url : harvest :
-                                                                                                        script
-                                                                                                            ( builtins.trace "HI url=${ url } variable=${ variable }"
-                                                                                                            {
-                                                                                                                executable = builtins.trace "HI Z1" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
-                                                                                                                sets =
-                                                                                                                    builtins.trace "HI Z2"
-                                                                                                                    {
-                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                        SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
-                                                                                                                        TEE = "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                                        TOKEN = harvest.temporary.util.token ;
-                                                                                                                        VARIABLE = hash "sets - ${ variable }" ;
-                                                                                                                    } ;
-                                                                                                            } ) ;
-                                                                                                string =
-                                                                                                    variable : url :
-                                                                                                        script
-                                                                                                            {
-                                                                                                                executable = builtins.trace "HI Z3" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
-                                                                                                                sets =
-                                                                                                                    builtins.trace "HI Z4"
-                                                                                                                    {
-                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                        TEE = "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                                        VARIABLE = hash "sets - ${ variable }" ;
-                                                                                                                    } ;
-                                                                                                            } ;
-                                                                                            } ;
-                                                                                        in
-                                                                                            if init-typeOf == true then
-                                                                                                if release-typeOf == true then
-                                                                                                    {
-                                                                                                        init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
-                                                                                                        release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    }
-                                                                                                else if release-typeOf == false then
-                                                                                                    {
-                                                                                                        init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
-                                                                                                        release = sets.string "release" "/scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    }
-                                                                                                else
-                                                                                                    {
-                                                                                                        init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    }
-                                                                                            else if init-typeOf == false then
-                                                                                                if release-typeOf == true then
-                                                                                                    {
-                                                                                                        init = sets.string "init" "/scripts/test/temporary/init.sh" ;
-                                                                                                        release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    }
-                                                                                                else if release-typeOf == false then
-                                                                                                    {
-                                                                                                        init = sets.string "init" "/scripts/test/temporary/init.sh" ;
-                                                                                                        release = sets.string "release" "/scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    }
-                                                                                                else
-                                                                                                    {
-                                                                                                        init = sets.string "init" "/scripts/test/temporary/init.sh" ;
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    }
-                                                                                            else
-                                                                                                if release-typeOf == true then
-                                                                                                    {
-                                                                                                        release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    }
-                                                                                                else if release-typeOf == false then
-                                                                                                    {
-                                                                                                        release = sets.string "release" "/scripts/test/temporary/release.sh" ;
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    }
-                                                                                                else
-                                                                                                    {
-                                                                                                        post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                                    } ;
+                                                                            "${ values.arguments }"."${ values.standard-input }"."${ values.init-typeOf }"."${ values.init-standard-output }"."${ values.init-standard-error }"."${ values.init-status }"."${ values.release-typeOf }"."${ values.release-standard-output }"."${ values.release-standard-error }"."${ values.release-status }" = lambda ;
                                                                         } ;
                                                                 } ;
                                                     in builtins.map mapper list ;
