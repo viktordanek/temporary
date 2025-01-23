@@ -365,39 +365,59 @@
                                                         nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                         src = ./. ;
                                                         installPhase =
-                                                            ''
-                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo $out &&
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
-                                                                    makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
-                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed-external.sh" } $out/bin/observed-external.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-external.sh &&
-                                                                    makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
+                                                            let
+                                                                mapper =
+                                                                    path : name : value :
+                                                                        if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                        else if builtins.typeOf value == "string" then
+                                                                            let
+                                                                                echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
+                                                                                command = value builtins.ignore ;
+                                                                                arguments = if builtins.elemAt path 0 == "qqqq" then false else builtins.elemAt path 0 ;
+                                                                                standard-input = if builtins.elemAt path 1 == "qqqq" then false else builtins.elemAt path 1 ;
+                                                                                init-exit = if builtins.substring 3 1 ( builtins.elemAt path 5 ) == "qqq0" then true else false ;
+                                                                                with-arguments = if builtins.elemAt path 0 == "qqqq" then command else "${ command } ${ builtins.elemAt path 0 }" ;
+                                                                                with-standard-input = if builtins.elemAt path 1 == "qqqq" then command else "${ echo } ${ builtins.elemAt path 1 } | ${ command }" ;
+                                                                                with-init-exit = if builtins.substring 3 1 ( builtins.elemAt path 5 ) == "qqq0" then "${ echo } ${ builtins.hashString "sha512" with-standard-input } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
+                                                                                in [ with-init-exit ]
+                                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
+                                                                 in
+                                                                    ''
+                                                                        ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                            ${ pkgs.coreutils }/bin/echo $out &&
+                                                                            ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
+                                                                            makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
+                                                                            makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed-external.sh" } $out/bin/observed-external.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-external.sh &&
+                                                                            makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observed-internal" ( builtins.concatStringsSep "&&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary.temporary ) ) ) ) } $out/bin/observed-internal.sh &&
+                                                                            makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/bash &&
+                                                                            $out/bin/observed-external &&
 
-#                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
-#                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
-#                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-#
-#
-#
-#                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
-#                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
+        #                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
+        #                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
+        #                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
+        #
+        #
+        #
+        #                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
+        #                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
-                                                                    ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
+                                                                            ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
 
-                                                                    export DIFF=${ pkgs.diffutils }/bin/diff &&
-                                                                    export EXPECTED=${ self + "/expected" } &&
-                                                                    export FIND=${ pkgs.findutils }/bin/find &&
-                                                                    export OBSERVED=$out/observed &&
-                                                                    ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh &&
-                                                                    exit 10
-                                                            '' ;
+                                                                            export DIFF=${ pkgs.diffutils }/bin/diff &&
+                                                                            export EXPECTED=${ self + "/expected" } &&
+                                                                            export FIND=${ pkgs.findutils }/bin/find &&
+                                                                            export OBSERVED=$out/observed &&
+                                                                            ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh &&
+                                                                            exit 10
+                                                                    '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
