@@ -343,6 +343,7 @@
                                                                         release-standard-output = hash "release-standard-output true" ;
                                                                         release-standard-error = hash "release-standard-error true" ;
                                                                         release-status = if release-status then "qqq0" else "qqq${ builtins.toString ( ( mod ( rand "release-status" ) 9 ) + 1 ) }" ;
+                                                                        tag = hash "tag" ;
                                                                     } ;
                                                                 in
                                                                 {
@@ -356,7 +357,7 @@
                                                                     paste = hash "paste" ;
                                                                     set =
                                                                         {
-                                                                            "${ values.arguments }"."${ values.standard-input }"."${ values.init-typeOf }"."${ values.init-standard-error }"."${ values.init-status }"."${ values.release-typeOf }"."${ values.release-standard-output }"."${ values.release-standard-error }"."${ values.release-status }" = lambda ;
+                                                                            ${ values.arguments }.${ values.standard-input }.${ values.init-status }.${ values.tag } = lambda ;
                                                                         } ;
                                                                 } ;
                                                     in builtins.map mapper list ;
