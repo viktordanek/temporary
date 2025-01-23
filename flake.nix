@@ -197,10 +197,6 @@
                                                         target = "e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d" ;
                                                         temporary =
                                                             {
-                                                                # temporary =
-                                                                    let
-                                                                        mapper = builtins.map ( v : { name = v.name ; value = v.value ; } ) temporary ;
-                                                                        in builtins.listToAttrs ( builtins.map mapper temporary ) ;
                                                                 util =
                                                                     {
                                                                         token =
@@ -212,153 +208,6 @@
                                                             } ;
                                                         temporary-path = "bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b" ;
                                                     } ;
-                                            temporary =
-                                                let
-                                                    list =
-                                                        let
-                                                            generator = index : ( builtins.elemAt list index ) // { index = index ; } ;
-                                                            list =
-                                                                let
-                                                                    levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
-                                                                    reducer =
-                                                                        previous : current :
-                                                                            if builtins.any ( c : c == current ) [ "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ]
-                                                                            else if builtins.any ( c : c == current ) [ "arguments" "standard-input" "init-status" "release-status" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ]
-                                                                            else if builtins.any ( c : c == current ) [ "init-typeOf" "release-typeOf" ] then builtins.concatLists [ ( builtins.map ( p : p // { "${ current }" = true ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = false ; } ) previous ) ( builtins.map ( p : p // { "${ current }" = null ; } ) previous ) ]
-                                                                            else builtins.throw "We were not expecting ${ current }." ;
-                                                                    in builtins.foldl' reducer [ { } ] levels ;
-                                                            in builtins.genList generator ( builtins.length list ) ;
-                                                    mapper =
-                                                        { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status } :
-                                                            let
-                                                                hash = string : builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.substring 0 4 ( builtins.hashString "md5" ( builtins.concatStringsSep "-" [ ( builtins.toString index ) string ] ) ) ) ;
-                                                                mod = a : b : a - b * ( a / b ) ;
-                                                                lambda =
-                                                                    script :
-                                                                        let
-                                                                            sets =
-                                                                                {
-                                                                                    lambda =
-                                                                                        variable : url : harvest :
-                                                                                            script
-                                                                                                ( builtins.trace "HI url=${ url } variable=${ variable }"
-                                                                                                {
-                                                                                                    executable = builtins.trace "HI Z1" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
-                                                                                                    sets =
-                                                                                                        builtins.trace "HI Z2"
-                                                                                                        {
-                                                                                                            INIT_STANDARD_OUTPUT = init-standard-output ;
-                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                            CUT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                            SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
-                                                                                                            TEE = "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                            TOKEN = harvest.temporary.util.token ;
-                                                                                                            VARIABLE = hash "sets - ${ variable }" ;
-                                                                                                        } ;
-                                                                                                } ) ;
-                                                                                    string =
-                                                                                        variable : url :
-                                                                                            script
-                                                                                                {
-                                                                                                    executable = builtins.trace "HI Z3" ( pkgs.writeShellScript variable ( builtins.readFile ( self + url ) ) ) ;
-                                                                                                    sets =
-                                                                                                        builtins.trace "HI Z4"
-                                                                                                        {
-                                                                                                            INIT_STANDARD_OUTPUT = init-standard-output ;
-                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                            CUT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                            TEE = "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                            VARIABLE = hash "sets - ${ variable }" ;
-                                                                                                        } ;
-                                                                                                } ;
-                                                                                } ;
-                                                                            in
-                                                                                if init-typeOf == true then
-                                                                                    if release-typeOf == true then
-                                                                                        {
-                                                                                            init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
-                                                                                            release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        }
-                                                                                    else if release-typeOf == false then
-                                                                                        {
-                                                                                            init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
-                                                                                            release = sets.string "release" "/scripts/test/temporary/release.sh" ;
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        }
-                                                                                    else
-                                                                                        {
-                                                                                            init = sets.lambda "init" "/scripts/test/temporary/init.sh" ;
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        }
-                                                                                else if init-typeOf == false then
-                                                                                    if release-typeOf == true then
-                                                                                        {
-                                                                                            init = sets.string "init" "/scripts/test/temporary/init.sh" ;
-                                                                                            release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        }
-                                                                                    else if release-typeOf == false then
-                                                                                        {
-                                                                                            init = sets.string "init" "/scripts/test/temporary/init.sh" ;
-                                                                                            release = sets.string "release" "/scripts/test/temporary/release.sh" ;
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        }
-                                                                                    else
-                                                                                        {
-                                                                                            init = sets.string "init" "/scripts/test/temporary/init.sh" ;
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        }
-                                                                                else
-                                                                                    if release-typeOf == true then
-                                                                                        {
-                                                                                            release = sets.lambda "release" "/scripts/test/temporary/release.sh" ;
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        }
-                                                                                    else if release-typeOf == false then
-                                                                                        {
-                                                                                            release = sets.string "release" "/scripts/test/temporary/release.sh" ;
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        }
-                                                                                    else
-                                                                                        {
-                                                                                            post = sets.string "post" "/scripts/test/temporary/post.sh" ;
-                                                                                        } ;
-                                                                rand =
-                                                                    string :
-                                                                        let
-                                                                            str = builtins.replaceStrings [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( hash string ) ;
-                                                                            in builtins.foldl' ( previous : next : previous + next ) 0 ( builtins.genList ( index : builtins.fromJSON ( builtins.substring index 1 str ) ) ( builtins.stringLength str ) ) ;
-                                                                values =
-                                                                    {
-                                                                        arguments = if arguments then hash "arguments" else "qqqq" ;
-                                                                        standard-input = if standard-input then hash "standard-input" else "qqqq" ;
-                                                                        init-typeOf = if init-typeOf == true then "lambda" else if init-typeOf == false then "string" else "null" ;
-                                                                        init-standard-output = hash "init-standard-output true" ;
-                                                                        init-standard-error = hash "init-standard-error true" ;
-                                                                        init-status = if init-status then "qqq0" else "qqq${ builtins.toString ( ( mod ( rand "init-status" ) 9 ) + 1 ) }" ;
-                                                                        release-typeOf = if release-typeOf == true then "lambda" else if release-typeOf == false then "string" else "null" ;
-                                                                        release-standard-output = hash "release-standard-output true" ;
-                                                                        release-standard-error = hash "release-standard-error true" ;
-                                                                        release-status = if release-status then "qqq0" else "qqq${ builtins.toString ( ( mod ( rand "release-status" ) 9 ) + 1 ) }" ;
-                                                                        tag = "${ arguments }-${ standard-input }-${ init-status }" ;
-                                                                    } ;
-                                                                in
-                                                                {
-                                                                    lambda = lambda ;
-                                                                    command = builtins.concatStringsSep "" [ "$" "{" " " "resources" "." ( builtins.concatStringsSep "." [ "temporary" "temporary" values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) " " "}" ] ;
-                                                                    has-arguments = arguments ;
-                                                                    arguments = values.arguments ;
-                                                                    has-standard-input = standard-input ;
-                                                                    standard-input = values.standard-input ;
-                                                                    init-status = init-status ;
-                                                                    paste = hash "paste" ;
-                                                                    name = values.tag ;
-                                                                    value = lambda ;
-                                                                } ;
-                                                    in builtins.map mapper list ;
                                             in
                                                 pkgs.stdenv.mkDerivation
                                                     {
@@ -395,19 +244,10 @@
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed-external.sh" } $out/bin/observed-external.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-external.sh &&
                                                                             makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observed-internal" ( builtins.concatStringsSep "&&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ) ) } $out/bin/observed-internal.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-internal.sh &&
-                                                                            makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/bash &&
+                                                                            # ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-internal.sh &&
+                                                                            # makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/bash &&
                                                                             # $out/bin/observed-external &&
 
-        #                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
-        #                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
-        #                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-        #
-        #
-        #
-        #                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
-        #                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
 
