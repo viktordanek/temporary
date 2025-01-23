@@ -200,7 +200,8 @@
                                                                                                     in
                                                                                                         if builtins.any ( c : current == c ) [ "tag" "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then builtins.genList generator 1
                                                                                                         else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" ] then builtins.genList 2
-                                                                                                        else if builtins.any ( c : current == c ) [ "init-typeOf" "release-typeOf" ] then builtins.genList 3 ;
+                                                                                                        else if builtins.any ( c : current == c ) [ "init-typeOf" "release-typeOf" ] then builtins.genList 3
+                                                                                                        else builtins.throw "The level ${ current } is unexpected." ;
                                                                                         in builtins.foldl' reducer [ { } ] levels ;
                                                                                 generator = index : builtins.elemeAt list index // { index = index ; } ;
                                                                                 in builtins.genList generator ( builtins.length list ) ;
