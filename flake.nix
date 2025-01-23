@@ -355,7 +355,7 @@
                                                                     standard-input = values.standard-input ;
                                                                     init-status = init-status ;
                                                                     paste = hash "paste" ;
-                                                                    name = tag ;
+                                                                    name = values.tag ;
                                                                     value = lambda ;
                                                                 } ;
                                                     in builtins.map mapper list ;
