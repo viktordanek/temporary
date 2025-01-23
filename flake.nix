@@ -357,7 +357,7 @@
                                                                     paste = hash "paste" ;
                                                                     set =
                                                                         {
-                                                                            ${ values.arguments }.${ values.standard-input }.${ values.init-status }.${ values.tag } = lambda ;
+                                                                            "${ values.arguments }"."${ values.standard-input }"."${ values.init-status }"."${ values.tag }" = lambda ;
                                                                         } ;
                                                                 } ;
                                                     in builtins.map mapper list ;
