@@ -228,6 +228,7 @@
                                                                                                         init = script { executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ; sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ; } ;
                                                                                                     } ;
                                                                                         } ;
+                                                                        in builtins.map mapper list ;
                                                                 util =
                                                                     {
                                                                         token =
