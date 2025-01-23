@@ -253,6 +253,7 @@
                                                                     } ;
                                                                 in
                                                                 {
+                                                                    lambda = null ;
                                                                     command = builtins.concatStringsSep "" [ "$" "{" " " "resources" "." ( builtins.concatStringsSep "." [ "temporary" "temporary" values.arguments values.standard-input values.init-typeOf values.init-standard-output values.init-standard-error values.init-status values.release-typeOf values.release-standard-output values.release-standard-error values.release-status ] ) " " "}" ] ;
                                                                     has-arguments = arguments ;
                                                                     arguments = values.arguments ;
@@ -374,15 +375,19 @@
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
                                                                     makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
+                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed-external.sh" } $out/bin/observed-external.sh &&
+                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-external.sh &&
+                                                                    makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
+                                                                    ${ builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary ) }
 
-                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
-                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
-                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-
-                                                                    
-
-                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
-                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
+#                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
+#                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
+#                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
+#
+#
+#
+#                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
+#                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
 
                                                                     ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
 
