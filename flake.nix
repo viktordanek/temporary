@@ -199,8 +199,8 @@
                                                             {
                                                                 temporary =
                                                                     let
-                                                                        reducer = previous : current : pkgs.lib.recursiveUpdate previous current.set ;
-                                                                        in builtins.foldl' reducer { } temporary ;
+                                                                        mapper = builtins.map ( v : { name = v.name ; value = v.value ; } ) temporary ;
+                                                                        in builtins.listToAttrs ( builtins.map mapper temporary ) ;
                                                                 util =
                                                                     {
                                                                         token =
@@ -355,10 +355,8 @@
                                                                     standard-input = values.standard-input ;
                                                                     init-status = init-status ;
                                                                     paste = hash "paste" ;
-                                                                    set =
-                                                                        {
-                                                                            "${ values.tag }" = lambda ;
-                                                                        } ;
+                                                                    name = tag ;
+                                                                    value = lambda ;
                                                                 } ;
                                                     in builtins.map mapper list ;
                                             in
