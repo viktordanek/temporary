@@ -174,17 +174,6 @@
                                 {
                                     checks.testLib =
                                         let
-                                            re-observate =
-                                                let
-                                                    mapper =
-                                                        { command , has-arguments , arguments , has-standard-input , standard-input , init-status , paste , lambda , name , value } :
-                                                            let
-                                                                args = if has-arguments then "${ command } ${ arguments }" else "${ command }" ;
-                                                                echo = builtins.concatStringsSep "" [ "$" "{" " " "echo" " " "}" ] ;
-                                                                stdin = if has-standard-input then args else "${ echo } ${ standard-input } | ${ args }" ;
-                                                                in if init-status then "${ echo } ${ paste } > $( ${ stdin } )" else "! ${ stdin }" ;
-                                                    string = builtins.concatStringsSep " &&\n\t" ( builtins.map mapper temporary ) ;
-                                                    in builtins.toFile "re-observate.nix" ( builtins.concatStringsSep "\n" [ "resources" ":" "echo" ":" "''" string "''" ] ) ;
                                             resources =
                                                 lib
                                                     {
