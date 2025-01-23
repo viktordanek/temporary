@@ -247,6 +247,7 @@
                                                                                                     sets =
                                                                                                         builtins.trace "HI Z2"
                                                                                                         {
+                                                                                                            INIT_STANDARD_OUTPUT = init-standard-output ;
                                                                                                             CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                             CUT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                             ECHO = "${ pkgs.coreutils }/bin/echo" ;
@@ -264,6 +265,7 @@
                                                                                                     sets =
                                                                                                         builtins.trace "HI Z4"
                                                                                                         {
+                                                                                                            INIT_STANDARD_OUTPUT = init-standard-output ;
                                                                                                             CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                             CUT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                             ECHO = "${ pkgs.coreutils }/bin/echo" ;
@@ -354,7 +356,7 @@
                                                                     paste = hash "paste" ;
                                                                     set =
                                                                         {
-                                                                            "${ values.arguments }"."${ values.standard-input }"."${ values.init-typeOf }"."${ values.init-standard-output }"."${ values.init-standard-error }"."${ values.init-status }"."${ values.release-typeOf }"."${ values.release-standard-output }"."${ values.release-standard-error }"."${ values.release-status }" = lambda ;
+                                                                            "${ values.arguments }"."${ values.standard-input }"."${ values.init-typeOf }"."${ values.init-standard-error }"."${ values.init-status }"."${ values.release-typeOf }"."${ values.release-standard-output }"."${ values.release-standard-error }"."${ values.release-status }" = lambda ;
                                                                         } ;
                                                                 } ;
                                                     in builtins.map mapper list ;
