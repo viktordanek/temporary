@@ -378,7 +378,6 @@
                                                                     ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed-external.sh" } $out/bin/observed-external.sh &&
                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-external.sh &&
                                                                     makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
-                                                                    ${ builtins.concatStringsSep " &&\n" ( builtins.map mapper temporary ) }
 
 #                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
 #                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
