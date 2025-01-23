@@ -343,7 +343,7 @@
                                                                         release-standard-output = hash "release-standard-output true" ;
                                                                         release-standard-error = hash "release-standard-error true" ;
                                                                         release-status = if release-status then "qqq0" else "qqq${ builtins.toString ( ( mod ( rand "release-status" ) 9 ) + 1 ) }" ;
-                                                                        tag = hash "tag" ;
+                                                                        tag = "${ arguments }-${ standard-input }-${ init-status }" ;
                                                                     } ;
                                                                 in
                                                                 {
@@ -357,7 +357,7 @@
                                                                     paste = hash "paste" ;
                                                                     set =
                                                                         {
-                                                                            "${ values.arguments }"."${ values.standard-input }"."${ values.init-status }"."${ values.tag }" = lambda ;
+                                                                            "${ values.tag }" = lambda ;
                                                                         } ;
                                                                 } ;
                                                     in builtins.map mapper list ;
@@ -376,9 +376,10 @@
                                                                             let
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                 command = value ;
-                                                                                with-arguments = if builtins.elemAt path 0 == "qqqq" then command else "${ command } ${ builtins.elemAt path 0 }" ;
-                                                                                with-standard-input = if builtins.elemAt path 1 == "qqqq" then command else "${ echo } ${ builtins.elemAt path 1 } | ${ command }" ;
-                                                                                with-init-exit = if builtins.substring 3 1 ( builtins.elemAt path 2 ) == "qqq0" then "${ echo } ${ builtins.hashString "sha512" with-standard-input } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
+                                                                                p = builtins.genList ( index : builtins.substring ( 4 * index ) 4 ( builtins.elemAt path 0 ) ) 3 ;
+                                                                                # with-arguments = if builtins.elemAt p 0 == "qqqq" then command else "${ command } ${ builtins.elemAt p 0 }" ;
+                                                                                # with-standard-input = if builtins.elemAt p 1 == "qqqq" then command else "${ echo } ${ builtins.elemAt p 1 } | ${ command }" ;
+                                                                                # with-init-exit = if builtins.elemAt p 2 == "qqq0" then "${ echo } ${ builtins.hashString "sha512" with-standard-input } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 in [ with-init-exit ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
