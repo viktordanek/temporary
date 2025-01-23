@@ -33,3 +33,5 @@
                                                                     export OBSERVED=$out/observed &&
                                                                     ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
                                                             '' ;
+
+                                                                            ${ builtins.concatStringsSep "&&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ) } &&
