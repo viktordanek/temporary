@@ -378,10 +378,10 @@
                                                                                 command = value ;
                                                                                 arguments = if builtins.elemAt path 0 == "qqqq" then false else builtins.elemAt path 0 ;
                                                                                 standard-input = if builtins.elemAt path 1 == "qqqq" then false else builtins.elemAt path 1 ;
-                                                                                init-exit = if builtins.substring 3 1 ( builtins.elemAt path 3 ) == "qqq0" then true else false ;
+                                                                                init-exit = if builtins.substring 3 1 ( builtins.elemAt path 2 ) == "qqq0" then true else false ;
                                                                                 with-arguments = if builtins.elemAt path 0 == "qqqq" then command else "${ command } ${ builtins.elemAt path 0 }" ;
                                                                                 with-standard-input = if builtins.elemAt path 1 == "qqqq" then command else "${ echo } ${ builtins.elemAt path 1 } | ${ command }" ;
-                                                                                with-init-exit = if builtins.substring 3 1 ( builtins.elemAt path 3 ) == "qqq0" then "${ echo } ${ builtins.hashString "sha512" with-standard-input } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
+                                                                                with-init-exit = if builtins.substring 3 1 ( builtins.elemAt path 2 ) == "qqq0" then "${ echo } ${ builtins.hashString "sha512" with-standard-input } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 string = "${ echo } ${ with-init-exit } >> $out/bin/observed-internal.sh" ;
                                                                                 in [ string ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
