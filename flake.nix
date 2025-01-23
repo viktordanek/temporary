@@ -377,9 +377,9 @@
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                 command = value ;
                                                                                 p = builtins.genList ( index : builtins.substring ( 4 * index ) 4 ( builtins.elemAt path 0 ) ) 3 ;
-                                                                                # with-arguments = if builtins.elemAt p 0 == "qqqq" then command else "${ command } ${ builtins.elemAt p 0 }" ;
-                                                                                # with-standard-input = if builtins.elemAt p 1 == "qqqq" then command else "${ echo } ${ builtins.elemAt p 1 } | ${ command }" ;
-                                                                                # with-init-exit = if builtins.elemAt p 2 == "qqq0" then "${ echo } ${ builtins.hashString "sha512" with-standard-input } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
+                                                                                with-arguments = if builtins.elemAt p 0 == "qqqq" then command else "${ command } ${ builtins.elemAt p 0 }" ;
+                                                                                with-standard-input = if builtins.elemAt p 1 == "qqqq" then command else "${ echo } ${ builtins.elemAt p 1 } | ${ command }" ;
+                                                                                with-init-exit = if builtins.elemAt p 2 == "qqq0" then "${ echo } ${ builtins.hashString "sha512" with-standard-input } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 in [ with-init-exit ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
