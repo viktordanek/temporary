@@ -186,6 +186,47 @@
                                                         target = "e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d" ;
                                                         temporary =
                                                             {
+                                                                temporary =
+                                                                    let
+                                                                        list =
+                                                                            let
+                                                                                list =
+                                                                                    let
+                                                                                        levels = [ "tag" "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
+                                                                                        reducer =
+                                                                                            previous : current :
+                                                                                                let
+                                                                                                    generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) ;
+                                                                                                    in
+                                                                                                        if builtins.any ( c : current == c ) [ "tag" "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then builtins.genList generator 1
+                                                                                                        else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" ] then builtins.genList 2
+                                                                                                        else if builtins.any ( c : current == c ) [ "init-typeOf" "release-typeOf" ] then builtins.genList 3 ;
+                                                                                        in builtins.foldl' reducer [ { } ] levels ;
+                                                                                generator = index : builtins.elemeAt list index // { index = index ; } ;
+                                                                                in builtins.genList generator ( builtins.length list ) ;
+                                                                        mapper =
+                                                                            { index , tag , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-error , release-status } :
+                                                                                let
+                                                                                    hash = string : builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hasString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
+                                                                                    mod = a : b : a - ( b * ( a / b ) ) ;
+                                                                                    rand =
+                                                                                        string : n :
+                                                                                            let
+                                                                                                list =
+                                                                                                    let
+                                                                                                        generator = index : builtins.fromJSON ( builtins.substring index 1 str ) ;
+                                                                                                        str = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( builtins.hashString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
+                                                                                                        in builtins.genList generator ( builtins.stringLength str ) ;
+                                                                                                reducer = previous : current : mod ( previous * 16 + current ) n ;
+                                                                                    in
+                                                                                        {
+                                                                                            name = tag ;
+                                                                                            value =
+                                                                                                script :
+                                                                                                    {
+                                                                                                        init = script { executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ; sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ; } ;
+                                                                                                    } ;
+                                                                                        } ;
                                                                 util =
                                                                     {
                                                                         token =
