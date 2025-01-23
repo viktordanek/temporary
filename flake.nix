@@ -219,6 +219,7 @@
                                                                                                         str = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( builtins.hashString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
                                                                                                         in builtins.genList generator ( builtins.stringLength str ) ;
                                                                                                 reducer = previous : current : mod ( previous * 16 + current ) n ;
+                                                                                                in builtins.foldl' reducer 0 list ;
                                                                                     in
                                                                                         {
                                                                                             name = tag ;
