@@ -203,7 +203,7 @@
                                                                                                         else if builtins.any ( c : current == c ) [ "init-typeOf" "release-typeOf" ] then builtins.genList generator 3
                                                                                                         else builtins.throw "The level ${ current } is unexpected." ;
                                                                                         in builtins.trace "FOUND IT ${ builtins.typeOf ( builtins.elemAt ( builtins.foldl' reducer [ { } ] levels ) 0 ) }" ( builtins.foldl' reducer [ { } ] levels ) ;
-                                                                                generator = index : ( builtins.trace "HI ${ builtins.toString index } ${ builtins.typeOf ( builtins.elemAt list index ) }" ( builtins.elemAt list index ) ) // { index = index ; } ;
+                                                                                generator = index : ( builtins.trace "HI ${ builtins.toString index } ${ builtins.toJSON ( builtins.elemAt list index ) }" ( builtins.elemAt list index ) ) // { index = index ; } ;
                                                                                 in builtins.genList generator ( builtins.length list ) ;
                                                                         mapper =
                                                                             { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-error , release-status } :
