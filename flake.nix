@@ -192,7 +192,7 @@
                                                                             let
                                                                                 list =
                                                                                     let
-                                                                                        levels = [ "arguments" "standard-input" "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" "speed" ] ;
+                                                                                        levels = [ "arguments" "standard-input" "init-typeOf "init-standard-output" "init-standard-error" "init-status" "release-standard-output" "release-standard-error" "release-status" "speed" ] ;
                                                                                         reducer =
                                                                                             previous : current :
                                                                                                 let
@@ -204,7 +204,7 @@
                                                                                                        generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
                                                                                                     in
                                                                                                         if builtins.any ( c : current == c ) [ "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" "speed" ] then expand 1
-                                                                                                        else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" "speed" ] then expand 2
+                                                                                                        else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-typeOf" "init-status" "release-status" "speed" ] then expand 2
                                                                                                         else if builtins.any ( c : current == c ) [ "init-typeOf" "release-typeOf" ] then expand 3
                                                                                                         else builtins.throw "The level ${ current } is unexpected." ;
                                                                                         in builtins.trace "FOUND IT 1 ${ builtins.typeOf ( builtins.elemAt ( builtins.foldl' reducer [ { } ] levels ) 0 ) }" ( builtins.foldl' reducer [ { } ] levels ) ;
