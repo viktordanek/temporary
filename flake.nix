@@ -196,10 +196,10 @@
                                                                                         reducer =
                                                                                             previous : current :
                                                                                                 let
-                                                                                                    generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
+                                                                                                    generator = index : builtins.trace "FOUND IT 3" ( builtins.map ( p : p // { "${ current }" = index ; } ) previous  ) ;
                                                                                                     in
                                                                                                         if builtins.any ( c : current == c ) [ "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then builtins.genList generator 1
-                                                                                                        else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" ] then builtins.trace "FOUND IT 2 ${ current } ${ builtins.toString ( builtins.length ( builtins.genList generator 2 ) ) }" ( builtins.genList generator 2 )
+                                                                                                        else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" ] then builtins.genList generator 2
                                                                                                         else if builtins.any ( c : current == c ) [ "init-typeOf" "release-typeOf" ] then builtins.genList generator 3
                                                                                                         else builtins.throw "The level ${ current } is unexpected." ;
                                                                                         in builtins.trace "FOUND IT 1 ${ builtins.typeOf ( builtins.elemAt ( builtins.foldl' reducer [ { } ] levels ) 0 ) }" ( builtins.foldl' reducer [ { } ] levels ) ;
