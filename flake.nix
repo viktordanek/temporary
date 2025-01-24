@@ -200,7 +200,7 @@
                                                                                                         n :
                                                                                                             let
                                                                                                                 generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
-                                                                                                                in builtins.concatLists ( builtins.concatLists ( builtins.genList generator n ) ) ;
+                                                                                                                in builtins.concatLists ( builtins.genList generator n ) ;
                                                                                                     in
                                                                                                         if builtins.any ( c : current == c ) [ "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then expand 1
                                                                                                         else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" ] then expand 2
