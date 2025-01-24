@@ -211,7 +211,7 @@
                                                                                 generator = index : ( builtins.trace "HI ${ builtins.toString index } ${ builtins.typeOf ( builtins.elemAt list index ) }" ( builtins.elemAt list index ) ) // { index = index ; } ;
                                                                                 in builtins.genList generator ( builtins.length list ) ;
                                                                         mapper =
-                                                                            { index , arguments , standard-input , init-standard-output , init-standard-error , init-status , release-standard-output , release-standard-error , release-status , speed } :
+                                                                            { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-standard-output , release-standard-error , release-status , speed } :
                                                                                 let
                                                                                     hash = string : builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hashString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
                                                                                     mod = a : b : a - ( b * ( a / b ) ) ;
