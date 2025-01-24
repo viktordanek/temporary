@@ -228,17 +228,6 @@
                                                                                                     init = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
                                                                                                     release = pkgs.writeShellScript "release" ( builtings.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
                                                                                                     post = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/script/test/temporary/post.sh" ) ) ;
-                                                                                                    sets =
-                                                                                                        let
-                                                                                                            string =
-                                                                                                                {
-                                                                                                                    INIT_STANDARD_OUTPUT = init-standard-output ;
-                                                                                                                    INIT_ 
-                                                                                                                } ;
-                                                                                                            in
-                                                                                                                {
-                                                                                                                    lambda = harvest : string //
-                                                                                                                } ;
                                                                                                     in
                                                                                                         script :
                                                                                                             {
