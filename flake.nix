@@ -192,13 +192,13 @@
                                                                             let
                                                                                 list =
                                                                                     let
-                                                                                        levels = [ "tag" "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
+                                                                                        levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
                                                                                         reducer =
                                                                                             previous : current :
                                                                                                 let
                                                                                                     generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) ;
                                                                                                     in
-                                                                                                        if builtins.any ( c : current == c ) [ "tag" "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then builtins.genList generator 1
+                                                                                                        if builtins.any ( c : current == c ) [ "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then builtins.genList generator 1
                                                                                                         else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" ] then builtins.genList 2
                                                                                                         else if builtins.any ( c : current == c ) [ "init-typeOf" "release-typeOf" ] then builtins.genList 3
                                                                                                         else builtins.throw "The level ${ current } is unexpected." ;
@@ -206,7 +206,7 @@
                                                                                 generator = index : builtins.elemeAt list index // { index = index ; } ;
                                                                                 in builtins.genList generator ( builtins.length list ) ;
                                                                         mapper =
-                                                                            { index , tag , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-error , release-status } :
+                                                                            { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-error , release-status } :
                                                                                 let
                                                                                     hash = string : builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hasString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
                                                                                     mod = a : b : a - ( b * ( a / b ) ) ;
@@ -222,12 +222,28 @@
                                                                                                 in builtins.foldl' reducer 0 list ;
                                                                                     in
                                                                                         {
-                                                                                            name = tag ;
+                                                                                            name = hash "tag" ;
                                                                                             value =
-                                                                                                script :
-                                                                                                    {
-                                                                                                        init = script { executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ; sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ; } ;
-                                                                                                    } ;
+                                                                                                let
+                                                                                                    init = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                    release = pkgs.writeShellScript "release" ( builtings.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                    post = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/script/test/temporary/post.sh" ) ) ;
+                                                                                                    sets =
+                                                                                                        let
+                                                                                                            string =
+                                                                                                                {
+                                                                                                                    INIT_STANDARD_OUTPUT = init-standard-output ;
+                                                                                                                    INIT_ 
+                                                                                                                } ;
+                                                                                                            in
+                                                                                                                {
+                                                                                                                    lambda = harvest : string //
+                                                                                                                } ;
+                                                                                                    in
+                                                                                                        script :
+                                                                                                            {
+                                                                                                                init = script { executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ; sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ; } ;
+                                                                                                            } ;
                                                                                         } ;
                                                                         in builtins.map mapper list ;
                                                                 util =
