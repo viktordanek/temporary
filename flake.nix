@@ -196,7 +196,7 @@
                                                                                         reducer =
                                                                                             previous : current :
                                                                                                 let
-                                                                                                    generator = index : builtins.trace "FOUND IT 3" ( builtins.map ( p : p // { "${ current }" = index ; } ) previous  ) ;
+                                                                                                    generator = index : builtins.trace "FOUND IT 3 ${ current } ${ index }" ( builtins.map ( p : p // { "${ current }" = index ; } ) previous  ) ;
                                                                                                     in
                                                                                                         if builtins.any ( c : current == c ) [ "init-standard-output" "init-standard-error" "release-standard-output" "release-standard-error" ] then builtins.genList generator 1
                                                                                                         else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" ] then builtins.genList generator 2
