@@ -236,7 +236,40 @@
                                                                                                     in
                                                                                                         script :
                                                                                                             {
-                                                                                                                init = script { executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ; sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ; } ;
+                                                                                                                init =
+                                                                                                                    script
+                                                                                                                        {
+                                                                                                                            executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                                            sets =
+                                                                                                                                harvest :
+                                                                                                                                    {
+                                                                                                                                        CHMOD = "${ pkgs.coreutils }/bin/chmod" ;
+                                                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                        TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                                                        TOKEN_1 = harvest.temporary.util.token ;
+                                                                                                                                    } ;
+                                                                                                                        } ;
+                                                                                                                release =
+                                                                                                                    script
+                                                                                                                        {
+                                                                                                                            executable = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                                            sets =
+                                                                                                                                harvest :
+                                                                                                                                    {
+
+                                                                                                                                    } ;
+                                                                                                                        } ;
+                                                                                                                post =
+                                                                                                                    script
+                                                                                                                        {
+                                                                                                                            executable = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
+                                                                                                                            sets =
+                                                                                                                                harvest :
+                                                                                                                                    {
+
+                                                                                                                                    } ;
+                                                                                                                        } ;
                                                                                                             } ;
                                                                                         } ;
                                                                         in builtins.listToAttrs ( builtins.map mapper list ) ;
