@@ -350,8 +350,9 @@
                                                                             makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observed-internal" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "resources" "temporary" ] ) resources.temporary.temporary ) ) ) ) } $out/bin/observed-internal.sh &&
                                                                             makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/echo &&
+                                                                            ${ pkgs.coreutils }/bin/echo 000 &&
                                                                             $out/bin/observed-external &&
-
+                                                                            ${ pkgs.coreutils }/bin/echo 001 &&
 
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
 
