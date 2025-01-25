@@ -329,12 +329,12 @@
                                                                                 standard-input =
                                                                                     let
                                                                                         standard-input = builtins.elemAt path 4 ;
-                                                                                        in if standard-input == "_" then arguments else "${ echo } ${ standard-input } | ${ arguments }" ;
+                                                                                        in if standard-input == "_" then "${ arguments } NO ${ standard-input }" else "${ echo } ${ standard-input } | ${ arguments } YES ${ standard-input }" ;
                                                                                 status =
                                                                                     let
                                                                                         status = builtins.elemAt path 2 ;
                                                                                         in if status == "0" then "${ echo } ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) } | $( ${ standard-input } )" else "! ${ standard-input }" ;
-                                                                                in [ "${ echo }" ( builtins.concatStringsSep " " [ "#" ( builtins.concatStringsSep " / " path ) ] ) status status ]
+                                                                                in [ "#" ( builtins.concatStringsSep " " [ "#" ( builtins.concatStringsSep " / " path ) ] ) status status ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
                                                                     ''
