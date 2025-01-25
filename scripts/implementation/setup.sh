@@ -5,12 +5,10 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if [ -t 0 ]
   then
-    ${ECHO} WITHOUT STANDARD INPUT 2>&2
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= )
   elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
-    ${ECHO} WITH STANDARD INPUT AS A PIPE >&2
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       TARGET_PID=${PARENT_PID} &&
       # TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
@@ -19,7 +17,6 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
-    ${ECHO} WITH STANDARD INPUT AS A TERMINAL >&2
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       TARGET_PID=${PARENT_PID} &&
       # TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
