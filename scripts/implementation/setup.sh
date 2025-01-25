@@ -3,9 +3,19 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RESOURCE}/temporary &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
-  if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
+  if [ -t 0 ]
   then
-    ${ECHO} WITH STANDARD INPUT >&2
+    ${ECHO} WITH STANDARD INPUT AS A TERMINAL >&2
+    PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
+      TARGET_PID=${PARENT_PID} &&
+      # TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
+      # TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
+      # TARGET_PID=99
+      ${TEE} > ${RESOURCE}/init.standard-input &&
+      ${CHMOD} 0400 ${RESOURCE}/init.standard-input
+  elif [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
+  then
+    ${ECHO} WITH STANDARD INPUT AS A PIPE >&2
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       TARGET_PID=${PARENT_PID} &&
       # TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
