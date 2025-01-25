@@ -226,7 +226,7 @@
                                                                                                                 in builtins.genList generator ( builtins.stringLength str ) ;
                                                                                                         reducer = previous : current : mod ( previous * 16 + current ) n ;
                                                                                                         in builtins.foldl' reducer 0 list ;
-                                                                                            status = if init-status == 0 then "0" else builtins.toString ( 1 + rand ( init-status 254 ) ) ;
+                                                                                            status = if init-status == 0 then "0" else builtins.toString ( 1 + ( rand init-status 254 ) ) ;
                                                                                             in
                                                                                                 {
                                                                                                     "_${ status }"."_${ hash arguments }"."-${ hash standard-input }"."${ hash "name" }" =
