@@ -192,103 +192,105 @@
                                                                             let
                                                                                 list =
                                                                                     let
-                                                                                        levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" "speed" ] ;
-                                                                                        reducer =
-                                                                                            previous : current :
-                                                                                                let
-                                                                                                    expand =
-                                                                                                        n :
-                                                                                                            let
-                                                                                                                generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
-                                                                                                                in builtins.concatLists ( builtins.genList generator n ) ;
-                                                                                                       generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
-                                                                                                    in
-                                                                                                        if builtins.any ( c : current == c ) [ "init-typeOf" "init-standard-output" "init-standard-error" "release-standard-output" "release-typeOf" "release-standard-error" "speed" ] then expand 1
-                                                                                                        else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" "speed" ] then expand 2
-                                                                                                        else builtins.throw "The level ${ current } is unexpected." ;
-                                                                                        in builtins.foldl' reducer [ { } ] levels ;
-                                                                                generator = index : builtins.elemAt list index // { index = index ; } ;
-                                                                                in builtins.genList generator ( builtins.length list ) ;
-                                                                        mapper =
-                                                                            { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
-                                                                                let
-                                                                                    hash = string : builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hashString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
-                                                                                    mod = a : b : a - ( b * ( a / b ) ) ;
-                                                                                    rand =
-                                                                                        string : n :
+                                                                                        list =
                                                                                             let
-                                                                                                list =
+                                                                                                levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" "speed" ] ;
+                                                                                                reducer =
+                                                                                                    previous : current :
+                                                                                                        let
+                                                                                                            expand =
+                                                                                                                n :
+                                                                                                                    let
+                                                                                                                        generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
+                                                                                                                        in builtins.concatLists ( builtins.genList generator n ) ;
+                                                                                                               generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
+                                                                                                            in
+                                                                                                                if builtins.any ( c : current == c ) [ "init-typeOf" "init-standard-output" "init-standard-error" "release-standard-output" "release-typeOf" "release-standard-error" "speed" ] then expand 1
+                                                                                                                else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" "speed" ] then expand 2
+                                                                                                                else builtins.throw "The level ${ current } is unexpected." ;
+                                                                                                in builtins.foldl' reducer [ { } ] levels ;
+                                                                                        generator = index : builtins.elemAt list index // { index = index ; } ;
+                                                                                        in builtins.genList generator ( builtins.length list ) ;
+                                                                                mapper =
+                                                                                    { index , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
+                                                                                        let
+                                                                                            hash = string : builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hashString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
+                                                                                            mod = a : b : a - ( b * ( a / b ) ) ;
+                                                                                            rand =
+                                                                                                string : n :
                                                                                                     let
-                                                                                                        generator = index : builtins.fromJSON ( builtins.substring index 1 str ) ;
-                                                                                                        str = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( builtins.hashString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
-                                                                                                        in builtins.genList generator ( builtins.stringLength str ) ;
-                                                                                                reducer = previous : current : mod ( previous * 16 + current ) n ;
-                                                                                                in builtins.foldl' reducer 0 list ;
-                                                                                    in
-                                                                                        {
-                                                                                            name = hash "name" ;
-                                                                                            value =
-                                                                                                let
-                                                                                                    init = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
-                                                                                                    release = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
-                                                                                                    post = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/script/test/temporary/post.sh" ) ) ;
-                                                                                                    in
-                                                                                                        script :
-                                                                                                            {
-                                                                                                                init =
-                                                                                                                    script
-                                                                                                                        {
-                                                                                                                            executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
-                                                                                                                            sets =
-                                                                                                                                harvest :
-                                                                                                                                    {
-                                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                                        TYPEOF = "lambda" ;
-                                                                                                                                        STANDARD_OUTPUT = hash init-standard-output ;
-                                                                                                                                        STANDARD_ERROR = hash init-standard-error ;
-                                                                                                                                        STATUS = if init-status == 0 then "0" else builtins.toString ( 1 + rand ( init-status 254 ) ) ;
-                                                                                                                                        TOKEN_ARGUMENTS = hash "token arguments" ;
-                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token standard input" ;
-                                                                                                                                        TOKEN_1 = harvest.temporary.util.token ;
-                                                                                                                                    } ;
-                                                                                                                        } ;
-                                                                                                                release =
-                                                                                                                    script
-                                                                                                                        {
-                                                                                                                            executable = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
-                                                                                                                            sets =
-                                                                                                                                harvest :
-                                                                                                                                    {
-                                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                                        TYPEOF = "lambda" ;
-                                                                                                                                        STANDARD_OUTPUT = hash release-standard-output ;
-                                                                                                                                        STANDARD_ERROR = hash release-standard-error ;
-                                                                                                                                        STATUS = if release-status == 0 then "0" else builtins.toString ( 1 + rand ( release-status 254 ) ) ;
-                                                                                                                                        TOKEN_ARGUMENTS = hash "token arguments" ;
-                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token standard input" ;
-                                                                                                                                        TOKEN_1 = harvest.temporary.util.token ;
-                                                                                                                                    } ;
-                                                                                                                        } ;
-                                                                                                                post =
-                                                                                                                    script
-                                                                                                                        {
-                                                                                                                            executable = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
-                                                                                                                            sets =
-                                                                                                                                harvest :
-                                                                                                                                    {
-                                                                                                                                        DIFF = "${ pkgs.diffutils }/bin/diff" ;
-                                                                                                                                        FIND = "${ pkgs.findutils }/bin/find" ;
-                                                                                                                                        FLOCK = "${ pkgs.coreutils }/bin/flock" ;
-                                                                                                                                        MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
-                                                                                                                                        OBSERVED = harvest.temporary.util.post ;
-                                                                                                                                        WC = "${ pkgs.coreutils }/bin/wc" ;
-                                                                                                                                    } ;
-                                                                                                                        } ;
-                                                                                                            } ;
-                                                                                        } ;
-                                                                        in builtins.listToAttrs ( builtins.map mapper list ) ;
+                                                                                                        list =
+                                                                                                            let
+                                                                                                                generator = index : builtins.fromJSON ( builtins.substring index 1 str ) ;
+                                                                                                                str = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f" ] [ "00" "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" ] ( builtins.hashString "sha512" ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string ] ) ) ) ;
+                                                                                                                in builtins.genList generator ( builtins.stringLength str ) ;
+                                                                                                        reducer = previous : current : mod ( previous * 16 + current ) n ;
+                                                                                                        in builtins.foldl' reducer 0 list ;
+                                                                                            in
+                                                                                                {
+                                                                                                    "_${ init-status }"."_${ arguments }"."-${ standard-input }"."${ hash "name" }" =
+                                                                                                        let
+                                                                                                            init = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                            release = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                            post = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/script/test/temporary/post.sh" ) ) ;
+                                                                                                            in
+                                                                                                                script :
+                                                                                                                    {
+                                                                                                                        init =
+                                                                                                                            script
+                                                                                                                                {
+                                                                                                                                    executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                                                    sets =
+                                                                                                                                        harvest :
+                                                                                                                                            {
+                                                                                                                                                CAT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                                TYPEOF = "lambda" ;
+                                                                                                                                                STANDARD_OUTPUT = hash init-standard-output ;
+                                                                                                                                                STANDARD_ERROR = hash init-standard-error ;
+                                                                                                                                                STATUS = if init-status == 0 then "0" else builtins.toString ( 1 + rand ( init-status 254 ) ) ;
+                                                                                                                                                TOKEN_ARGUMENTS = hash "token arguments" ;
+                                                                                                                                                TOKEN_STANDARD_INPUT = hash "token standard input" ;
+                                                                                                                                                TOKEN_1 = harvest.temporary.util.token ;
+                                                                                                                                            } ;
+                                                                                                                                } ;
+                                                                                                                        release =
+                                                                                                                            script
+                                                                                                                                {
+                                                                                                                                    executable = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                                                    sets =
+                                                                                                                                        harvest :
+                                                                                                                                            {
+                                                                                                                                                CAT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                                TYPEOF = "lambda" ;
+                                                                                                                                                STANDARD_OUTPUT = hash release-standard-output ;
+                                                                                                                                                STANDARD_ERROR = hash release-standard-error ;
+                                                                                                                                                STATUS = if release-status == 0 then "0" else builtins.toString ( 1 + rand ( release-status 254 ) ) ;
+                                                                                                                                                TOKEN_ARGUMENTS = hash "token arguments" ;
+                                                                                                                                                TOKEN_STANDARD_INPUT = hash "token standard input" ;
+                                                                                                                                                TOKEN_1 = harvest.temporary.util.token ;
+                                                                                                                                            } ;
+                                                                                                                                } ;
+                                                                                                                        post =
+                                                                                                                            script
+                                                                                                                                {
+                                                                                                                                    executable = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
+                                                                                                                                    sets =
+                                                                                                                                        harvest :
+                                                                                                                                            {
+                                                                                                                                                DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                                                                FIND = "${ pkgs.findutils }/bin/find" ;
+                                                                                                                                                FLOCK = "${ pkgs.coreutils }/bin/flock" ;
+                                                                                                                                                MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                                                                OBSERVED = harvest.temporary.util.post ;
+                                                                                                                                                WC = "${ pkgs.coreutils }/bin/wc" ;
+                                                                                                                                            } ;
+                                                                                                                                } ;
+                                                                                                                    } ;
+                                                                                                } ;
+                                                                                in builtins.map mapper list ;
+                                                                        in builtins.foldl' pkgs.lib.recursiveUpdate {} list ;
                                                                 util =
                                                                     {
                                                                         post =
