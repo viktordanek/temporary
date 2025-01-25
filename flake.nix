@@ -324,12 +324,13 @@
                                                                         if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
-                                                                                arguments = "${ value } ${ builtins.substring 1 128 ( builtins.elemAt path 1 ) }" ;
-                                                                                standard-input = "${ echo } ${ builtins.elemAt path 2 } ${ builtins.substring 1 128 ( builtins.elemAt path 2 ) }" ;
-
-
+                                                                                arguments = "${ value } ${ builtins.elemAt path 1 }" ;
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
-                                                                                in [ value ]
+                                                                                standard-input =
+                                                                                    let
+                                                                                        standard-input = builtins.elemAt path 2 ;
+                                                                                        in if standard-input == "-" then arguments else "${ echo } ${ standard-input } | ${ arguments }" ;
+                                                                                in [ standard-input ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
                                                                     ''
