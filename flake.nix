@@ -324,11 +324,11 @@
                                                                         if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
-                                                                                arguments = "${ value } ${ builtins.elemAt path 1 }" ;
+                                                                                arguments = "${ value } ${ builtins.elemAt path 3 }" ;
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                 standard-input =
                                                                                     let
-                                                                                        standard-input = builtins.elemAt path 2 ;
+                                                                                        standard-input = builtins.elemAt path 4 ;
                                                                                         in if standard-input == "-" then arguments else "${ echo } ${ standard-input } | ${ arguments }" ;
                                                                                 in [ standard-input ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
