@@ -118,8 +118,8 @@
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
-                                                                                        # else [ (  computed.init path name "init.sh" ) ]
-                                                                                        else [ ]
+                                                                                        else [ (  computed.init path name "init.sh" ) ]
+                                                                                        # else [ ]
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
