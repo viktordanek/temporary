@@ -5,14 +5,14 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
   then
-    PARENT_PID=$( ${PS} -p ${$} -o ppid | ${TAIL} --lines 1 ) &&
-      TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid | ${TAIL} --lines 1 ) &&
+    PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
+      TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
       # TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
       # TARGET_PID=99
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
-    TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
+    TARGET_PID=$( ${PS} -p ${$} -o pid= )
   fi &&
   if [ -x ${INIT} ]
   then
