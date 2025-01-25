@@ -329,7 +329,7 @@
                                                                                 standard-input =
                                                                                     let
                                                                                         standard-input = builtins.elemAt path 4 ;
-                                                                                        in if standard-input == "_" then "${ arguments } NO ${ standard-input }" else "${ echo } ${ standard-input } | ${ arguments } YES ${ standard-input }" ;
+                                                                                        in if standard-input == "_" then arguments else "${ echo } ${ standard-input } | ${ arguments }" ;
                                                                                 status =
                                                                                     let
                                                                                         status = builtins.elemAt path 2 ;
