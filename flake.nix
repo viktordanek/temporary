@@ -205,8 +205,8 @@
                                                                                                                         in builtins.concatLists ( builtins.genList generator n ) ;
                                                                                                                generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
                                                                                                             in
-                                                                                                                if builtins.any ( c : current == c ) [ "init-typeOf" "init-standard-output" "init-standard-error" "release-standard-output" "release-typeOf" "release-standard-error" "speed" ] then expand 1
-                                                                                                                else if builtins.any ( c : current == c ) [ "arguments" "standard-input" "init-status" "release-status" "speed" ] then expand 2
+                                                                                                                if builtins.any ( c : current == c ) [ "arguments" "init-typeOf" "init-standard-output" "init-standard-error" "release-standard-output" "release-typeOf" "release-standard-error" "speed" ] then expand 1
+                                                                                                                else if builtins.any ( c : current == c ) [ "standard-input" "init-status" "release-status" "speed" ] then expand 2
                                                                                                                 else builtins.throw "The level ${ current } is unexpected." ;
                                                                                                 in builtins.foldl' reducer [ { } ] levels ;
                                                                                         generator = index : builtins.elemAt list index // { index = index ; } ;
