@@ -1,133 +1,21 @@
-TEMPORARY_PATH=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b}
-  IFS="/" read -ra TEMPORARY_PATH_ARRAY <<< "${TEMPORARY_PATH}" &&
-  if [ ${TEMPORARY_PATH_ARRAY[0]} == "qqqq" ]
-  then
-    A_INIT_ARGUMENT=
-  else
-    A_INIT_ARGUMENT=${TEMPORARY_PATH_ARRAY[0]}
-  fi &&
-  if [ ${TEMPORARY_PATH_ARRAY[1]} == "qqqq" ]
-  then
-     A_INIT_STANDARD_INPUT=
-  else
-     A_INIT_STANDARD_INPUT=${TEMPORARY_PATH_ARRAY[1]}
-  fi &&
-  A_INIT_TYPEOF=${TEMPORARY_PATH_ARRAY[2]} &&
-  A_INIT_STANDARD_OUTPUT=${TEMPORARY_PATH_ARRAY[3]} &&
-  A_INIT_STANDARD_ERROR=${TEMPORARY_PATH_ARRAY[4} &&
-  A_INIT_EXIT=${TEMPORARY_PATH_ARRAY[5]: -1} &&
-  A_RELEASE_TYPEOF=${TEMPORARY_PATH_ARRAY[6]} &&
-  A_RELEASE_STANDARD_OUTPUT=${TEMPORARY_PATH_ARRAY[7]} &&
-  A_RELEASE_STANDARD_ERROR=${TEMPORARY_PATH_ARRAY[8]} &&
-  A_RELEASE_EXIT=${TEMPORARY_PATH_ARRAY[9]: -1} &&
-  TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d} &&
-  DIRECTORY=$( ${MKTEMP} --directory ) &&
-  ALPHA_DIRECTORY=/build/observed/temporary/${A_INIT_ARGUMENT}/${A_INIT_STANDARD_INPUT}/${A_INIT_TYPEOF}/${A_RELEASE_TYPEOF}/${A_POST_TYPEOF}/${A_INIT_STANDARD_OUTPUT}/${A_INIT_STANDARD_ERROR}/${A_INIT_EXIT}/${A_RELEASE_EXIT} &&
-  ${SED} -e "s#${TARGET}#\${TARGET}#" -e w${DIRECTORY}/target ${RESOURCE}/target > /dev/null &&
-  if [ -f ${RESOURCE}/init.standard-error ]
-  then
-    ${CAT} ${RESOURCE}/init.standard-error >> ${DIRECTORY}/init.standard-error
-  fi &&
-  if [ -f ${RESOURCE}/init.standard-output ]
-  then
-    ${CAT} ${RESOURCE}/init.standard-output >> ${DIRECTORY}/init.standard-output
-  fi &&
-  if [ -f ${RESOURCE}/init.status ]
-  then
-    ${CAT} ${RESOURCE}/init.status >> ${DIRECTORY}/init.status
-  fi &&
-  if [ -f ${RESOURCE}/release.standard-error ]
-  then
-    ${CAT} ${RESOURCE}/release.standard-error >> ${DIRECTORY}/release.standard-error
-  fi &&
-  if [ -f ${RESOURCE}/release.standard-output ]
-  then
-    ${CAT} ${RESOURCE}/release.standard-output >> ${DIRECTORY}/release.standard-output
-  fi &&
-  if [ -f ${RESOURCE}/release.status ]
-  then
-    ${CAT} ${RESOURCE}/release.status >> ${DIRECTORY}/release.status
-  fi &&
-  if [ -z "A_STANDARD_INPUT" ]
-  then
-    A_HAS_STANDARD_INPUT=n
-  else
-    A_HAS_STANDARD_INPUT=y
-  fi &&
-  INIT_TOKEN_ARGUMENTS=$( ${ECHO} -en "${INIT_VARIABLE} arguments" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
-  INIT_TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${INIT_VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
-  INIT_TOKEN_11=tp:token-si:-a: &&
-  INIT_TOKEN_12=tp:token-si:-a:${INIT_TOKEN_ARGUMENTS} &&
-  INIT_TOKEN_13=tp:token-si:${INIT_TOKEN_STANDARD_INPUT}-a: &&
-  INIT_TOKEN_14=tp:token-si:${INIT_TOKEN_STANDARD_INPUT}-a:${INIT_TOKEN_ARGUMENTS} &&
-  RELEASE_TOKEN_ARGUMENTS=$( ${ECHO} -en "${RELEASE_VARIABLE} arguments" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
-  RELEASE_TOKEN_STANDARD_INPUT=$( ${ECHO} -en "${RELEASE_VARIABLE} standard input" | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
-  RELEASE_TOKEN_11=tp:token-si:-a: &&
-  RELEASE_TOKEN_12=tp:token-si:-a:${RELEASE_TOKEN_ARGUMENTS} &&
-  RELEASE_TOKEN_13=tp:token-si:${RELEASE_TOKEN_STANDARD_INPUT}-a: &&
-  RELEASE_TOKEN_14=tp:token-si:${RELEASE_TOKEN_STANDARD_INPUT}-a:${RELEASE_TOKEN_ARGUMENTS} &&
-  ${SED} -e "s#^INIT_STANDARD_ERROR=.*\$#INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" -e w${DIRECTORY}/init.standard-error.post ${DIRECTORY}/init.standard-error &&
-  ${DIFF} ${DIRECTORY}/init.standard-error ${DIRECTORY}/init.standard-error.post > ${DIRECTORY}/init.standard-error.diff &&
-  ${SED} -e "s#^INIT_STANDARD_OUTPUT=.*\$#INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" -e w${DIRECTORY}/init.standard-output.post ${DIRECTORY}/init.standard-output &&
-  ${DIFF} --brief ${DIRECTORY}/init.standard-output ${DIRECTORY}/init.standard-output.post > ${DIRECTORY}/init.standard-output.diff &&
-  ${SED} -e "s#^INIT_EXIT=.*\$#INIT_EXIT=${A_INIT_EXIT}#" -e w${DIRECTORY}/init.status.post ${DIRECTORY}/init.status &&
-  ${DIFF} --brief ${DIRECTORY}/init.status ${DIRECTORY}/init.status.post > ${DIRECTORY}/init.status.diff &&
-  ${SED} -e "s#^RELEASE_STANDARD_ERROR=.*\$#RELEASE_STANDARD_ERROR=${A_RELEASE_STANDARD_ERROR}#" -e w${DIRECTORY}/release.standard-error.post ${DIRECTORY}/release.standard-error &&
-  ${DIFF} ${DIRECTORY}/release.standard-error ${DIRECTORY}/release.standard-error.post > ${DIRECTORY}/release.standard-error.diff &&
-  ${SED} -e "s#^RELEASE_STANDARD_OUTPUT=.*\$#RELEASE_STANDARD_OUTPUT=${A_RELEASE_STANDARD_OUTPUT}#" -e w${DIRECTORY}/release.standard-output.post ${DIRECTORY}/release.standard-output &&
-  ${DIFF} --brief ${DIRECTORY}/release.standard-output ${DIRECTORY}/release.standard-output.post > ${DIRECTORY}/release.standard-output.diff &&
-  ${SED} -e "s#^RELEASE_EXIT=.*\$#RELEASE_EXIT=${A_RELEASE_EXIT}#" -e w${DIRECTORY}/release.status.post ${DIRECTORY}/release.status &&
-  ${DIFF} --brief ${DIRECTORY}/release.status ${DIRECTORY}/release.status.post > ${DIRECTORY}/release.status.diff &&
-  ${SED} \
-    -e "s#^I_HAS_STANDARD_INPUT=[y|n]\$#I_HAS_STANDARD_INPUT=${A_HAS_STANDARD_INPUT}#" \
-    -e "s#^I_STANDARD_INPUT=[.]*\$#I_STANDARD_INPUT=${A_STANDARD_INPUT}#" \
-    -e "s#^I_A_INIT_STANDARD_INPUT=.*\$#I_A_INIT_STANDARD_INPUT=${A_INIT_STANDARD_INPUT}#" \
-    -e "s#^I_A_INIT_STANDARD_OUTPUT=.*\$#I_A_INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" \
-    -e "s#^I_A_INIT_STANDARD_ERROR=.*\$#I_A_INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" \
-    -e "s#^I_A_RELEASE_STANDARD_OUTPUT=.*\$#I_A_RELEASE_STANDARD_OUTPUT=${A_RELEASE_STANDARD_OUTPUT}#" \
-    -e "s#^I_A_RELEASE_STANDARD_ERROR=.*\$#I_A_RELEASE_STANDARD_ERROR=${A_RELEASE_STANDARD_ERROR}#" \
-    -e "s#^I_A_INIT_EXIT=.*\$#I_A_INIT_EXIT=${A_INIT_EXIT}#" \
-    -e "s#^I_A_RELEASE_EXIT=.*\$#I_A_RELEASE_EXIT=${A_RELEASE_EXIT}#" \
-    -e "s#^I_TOKEN_ARGUMENTS=.*\$#I_TOKEN_ARGUMENTS=${INIT_TOKEN_ARGUMENTS}#" \
-    -e "s#^I_TOKEN_STANDARD_INPUT=.*\$#I_TOKEN_STANDARD_INPUT=${INIT_TOKEN_STANDARD_INPUT}#" \
-    -e "s#^I_TOKEN_11=.*\$#I_TOKEN_11=${INIT_TOKEN_11}#" \
-    -e "s#^I_TOKEN_12=.*\$#I_TOKEN_12=${INIT_TOKEN_12}#" \
-    -e "s#^I_TOKEN_13=.*\$#I_TOKEN_13=${INIT_TOKEN_13}#" \
-    -e "s#^I_TOKEN_14=.*\$#I_TOKEN_14=${INIT_TOKEN_14}#" \
-    -e "s#^I_VARIABLE=.*\$#I_VARIABLE=${INIT_VARIABLE}#" \
-    -e "s#^PASTE=.*\$#PASTE=${PASTE}#" \
-    -e "s#^R_HAS_STANDARD_INPUT=[y|n]\$#R_HAS_STANDARD_INPUT=${A_HAS_STANDARD_INPUT}#" \
-    -e "s#^R_STANDARD_INPUT=[.]*\$#R_STANDARD_INPUT=${A_STANDARD_INPUT}#" \
-    -e "s#^R_A_INIT_STANDARD_INPUT=.*\$#R_A_INIT_STANDARD_INPUT=${A_INIT_STANDARD_INPUT}#" \
-    -e "s#^R_A_INIT_STANDARD_OUTPUT=.*\$#R_A_INIT_STANDARD_OUTPUT=${A_INIT_STANDARD_OUTPUT}#" \
-    -e "s#^R_A_INIT_STANDARD_ERROR=.*\$#R_A_INIT_STANDARD_ERROR=${A_INIT_STANDARD_ERROR}#" \
-    -e "s#^R_A_RELEASE_STANDARD_OUTPUT=.*\$#R_A_RELEASE_STANDARD_OUTPUT=${A_RELEASE_STANDARD_OUTPUT}#" \
-    -e "s#^R_A_RELEASE_STANDARD_ERROR=.*\$#R_A_RELEASE_STANDARD_ERROR=${A_RELEASE_STANDARD_ERROR}#" \
-    -e "s#^R_A_INIT_EXIT=.*\$#R_A_INIT_EXIT=${A_INIT_EXIT}#" \
-    -e "s#^R_TOKEN_ARGUMENTS=.*\$#R_TOKEN_ARGUMENTS=${RELEASE_TOKEN_ARGUMENTS}#" \
-    -e "s#^R_TOKEN_STANDARD_INPUT=.*\$#R_TOKEN_STANDARD_INPUT=${RELEASE_TOKEN_STANDARD_INPUT}#" \
-    -e "s#^R_TOKEN_11=.*\$#R_TOKEN_11=${RELEASE_TOKEN_11}#" \
-    -e "s#^R_TOKEN_12=.*\$#R_TOKEN_12=${RELEASE_TOKEN_12}#" \
-    -e "s#^R_TOKEN_13=.*\$#R_TOKEN_13=${RELEASE_TOKEN_13}#" \
-    -e "s#^R_TOKEN_14=.*\$#R_TOKEN_14=${RELEASE_TOKEN_14}#" \
-    -e "s#^R_VARIABLE=.*\$#R_VARIABLE=${RELEASE_VARIABLE}#" \
-    -e "s#^R_A_RELEASE_EXIT=.*\$#R_A_RELEASE_EXIT=${A_RELEASE_EXIT}#" \
-    -e "s#^R_VARIABLE=.*\$#R_VARIABLE=${RELEASE_VARIABLE}#" \
-    -e w${DIRECTORY}/target.post \
-    ${DIRECTORY}/target &&
-  ${DIFF} ${DIRECTORY}/target ${DIRECTORY}/target.post > ${DIRECTORY}/target.diff &&
-  ${CAT} ${DIRECTORY}/*.diff > ${DIRECTORY}/diff &&
-  exec 201> /build/observed/temporary/lock &&
-  if ${FLOCK} 201
-  then
-    if [ -d ${ALPHA_DIRECTORY} ]
+  NAME=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b} &&
+    if [ ! -d /build/observed ]
     then
-      ${DIFF} --recursive ${DIRECTORY} ${ALPHA_DIRECTORY} >> /build/observed/temporary/diff
+      ${MKDIR} /build/observed
+    fi &&
+    if [ ! -d /build/observed/temporary ]
+    then
+      ${MKDIR} /build/observed/temporary
+    fi &&
+    if [ ! -d /build/observed/temporary/${NAME} ]
+    then
+      ${MKDIR} /build/observed/temporary/${NAME}
+    fi &&
+    ${FLOCK} 200 &&
+    if [ -f /build/observed/temporary/${NAME}/observed ]
+    then
+      INDEX=$( ${FIND} /build/observed/temporary/${NAME} -mindepth 1 -maxdepth 1 -type f -name observed.* | ${WC} --lines ) &&
+        ${DIFF} /build/observed/temporary/${NAME}/observed $( ${OBSERVED} ) >
     else
-      ${MKDIR} --parents ${ALPHA_DIRECTORY} &&
-        ${MV} ${DIRECTORY}/* ${ALPHA_DIRECTORY}
+      ${DIFF} -
     fi
-  else
-    ${ECHO} Lock Problem >> /build/observed/temporary/lock.problem
-  fi &&
-  ${RM} /build/observed/temporary/lock

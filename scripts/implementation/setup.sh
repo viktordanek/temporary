@@ -1,4 +1,6 @@
 export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
+  ${ECHO} ${TEMPORARY_PATH} > ${RESOURCE}/temporary &&
+  ${CHMOD} 0400 ${RESOURCE}/temporary &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]

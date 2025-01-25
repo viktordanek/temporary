@@ -227,7 +227,7 @@
                                                                                                 in builtins.foldl' reducer 0 list ;
                                                                                     in
                                                                                         {
-                                                                                            name = hash "tag" ;
+                                                                                            name = hash "name" ;
                                                                                             value =
                                                                                                 let
                                                                                                     init = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
@@ -243,10 +243,14 @@
                                                                                                                             sets =
                                                                                                                                 harvest :
                                                                                                                                     {
-                                                                                                                                        CHMOD = "${ pkgs.coreutils }/bin/chmod" ;
-                                                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                                        TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                                                        TYPEOF = "lambda" ;
+                                                                                                                                        STANDARD_OUTPUT = hash init-standard-output ;
+                                                                                                                                        STANDARD_ERROR = hash init-standard-error ;
+                                                                                                                                        STATUS = if init-status == 0 then "0" else builtins.toString ( 1 + rand ( init-status 254 ) ) ;
+                                                                                                                                        TOKEN_ARGUMENTS = hash "token arguments" ;
+                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token standard input" ;
                                                                                                                                         TOKEN_1 = harvest.temporary.util.token ;
                                                                                                                                     } ;
                                                                                                                         } ;
@@ -257,7 +261,15 @@
                                                                                                                             sets =
                                                                                                                                 harvest :
                                                                                                                                     {
-
+                                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                        TYPEOF = "lambda" ;
+                                                                                                                                        STANDARD_OUTPUT = hash release-standard-output ;
+                                                                                                                                        STANDARD_ERROR = hash release-standard-error ;
+                                                                                                                                        STATUS = if release-status == 0 then "0" else builtins.toString ( 1 + rand ( release-status 254 ) ) ;
+                                                                                                                                        TOKEN_ARGUMENTS = hash "token arguments" ;
+                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token standard input" ;
+                                                                                                                                        TOKEN_1 = harvest.temporary.util.token ;
                                                                                                                                     } ;
                                                                                                                         } ;
                                                                                                                 post =
@@ -267,7 +279,12 @@
                                                                                                                             sets =
                                                                                                                                 harvest :
                                                                                                                                     {
-
+                                                                                                                                        DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                                                        FIND = "${ pkgs.findutils }/bin/find" ;
+                                                                                                                                        FLOCK = "${ pkgs.coreutils }/bin/flock" ;
+                                                                                                                                        MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                                                        OBSERVED = harvest.temporary.util.post ;
+                                                                                                                                        WC = "${ pkgs.coreutils }/bin/wc" ;
                                                                                                                                     } ;
                                                                                                                         } ;
                                                                                                             } ;
@@ -275,6 +292,14 @@
                                                                         in builtins.listToAttrs ( builtins.map mapper list ) ;
                                                                 util =
                                                                     {
+                                                                        post =
+                                                                            {
+                                                                                observed =
+                                                                                    script :
+                                                                                        {
+                                                                                            init = script { executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self "/scripts/test/util/post/observed/init.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CHMOD = "${ pkgs.coreutils }/bin/chmod" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; } ; } ;
+                                                                                        } ;
+                                                                            } ;
                                                                         token =
                                                                             script :
                                                                                 {
