@@ -13,7 +13,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       # TARGET_PID=99
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
-  elif [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
+  elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
     ${ECHO} WITH STANDARD INPUT AS A PIPE >&2
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
