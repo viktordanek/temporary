@@ -14,7 +14,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
-      TARGET_PID=$( ${PS} -p ${PARENT_ID} -o pid= )
+      TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= )
   fi &&
   if [ -x ${INIT} ]
   then
