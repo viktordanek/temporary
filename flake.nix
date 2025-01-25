@@ -330,7 +330,11 @@
                                                                                     let
                                                                                         standard-input = builtins.elemAt path 4 ;
                                                                                         in if standard-input == "_" then arguments else "${ echo } ${ standard-input } | ${ arguments }" ;
-                                                                                in [ standard-input ]
+                                                                                status =
+                                                                                    let
+                                                                                        status = builtins.elemAt path 2 ;
+                                                                                        in if status == "0" then "${ echo } | $( ${ standard-input } )" else "! ${ standard-input }" ;
+                                                                                in [ status ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
                                                                     ''
