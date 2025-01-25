@@ -325,7 +325,7 @@
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
                                                                                 arguments = "${ value } ${ builtins.substring 1 128 ( builtins.elemAt path 1 ) }" ;
-                                                                                standard-input = "${ echo } ${ builtins.substring 1 128 ( builtins.elemAt path 2 ) }"
+                                                                                standard-input = "${ echo } ${ builtins.substring 1 128 ( builtins.elemAt path 2 ) }" ;
 
 
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
