@@ -229,7 +229,7 @@
                                                                                             status = if init-status == 0 then "0" else builtins.toString ( 1 + ( rand init-status 254 ) ) ;
                                                                                             in
                                                                                                 {
-                                                                                                    "${ status }"."${ hash arguments }"."_${ hash standard-input }"."${ hash "name" }" =
+                                                                                                    "${ status }"."${ hash arguments }"."${ if standard-input then hash standard-input else "_" }"."${ hash "name" }" =
                                                                                                         let
                                                                                                             init = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
                                                                                                             release = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
@@ -325,7 +325,7 @@
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
                                                                                 arguments = "${ value } ${ builtins.substring 1 128 ( builtins.elemAt path 1 ) }" ;
-                                                                                standard-input = "${ echo } ${ builtins.substring 1 128 ( builtins.elemAt path 2 ) }" ;
+                                                                                standard-input = "${ echo } ${ builtins.elemAt path 2 } ${ builtins.substring 1 128 ( builtins.elemAt path 2 ) }" ;
 
 
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
