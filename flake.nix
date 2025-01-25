@@ -229,7 +229,7 @@
                                                                                             status = if init-status == 0 then "0" else builtins.toString ( 1 + ( rand init-status 254 ) ) ;
                                                                                             in
                                                                                                 {
-                                                                                                    "_${ status }"."_${ hash arguments }"."-${ hash standard-input }"."${ hash "name" }" =
+                                                                                                    "${ status }"."${ hash arguments }"."_${ hash standard-input }"."${ hash "name" }" =
                                                                                                         let
                                                                                                             init = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
                                                                                                             release = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
