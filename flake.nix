@@ -357,7 +357,6 @@
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observed-internal" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "resources" "temporary" ] ) resources.temporary.temporary ) ) ) ) } $out/bin/observed-internal.sh &&
                                                                             makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/echo &&
                                                                             $out/bin/observed-external &&
-                                                                            ${ pkgs.coreutils }/bin/echo 001 &&
                                                                             # ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                             # export DIFF=${ pkgs.diffutils }/bin/diff &&
                                                                             # export EXPECTED=${ self + "/expected" } &&
