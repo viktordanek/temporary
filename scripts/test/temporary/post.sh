@@ -15,7 +15,8 @@ NAME=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea0
   ${FLOCK} 200 &&
   if [ -f /build/observed/temporary/${NAME}/observed ]
   then
-    INDEX=$( ${FIND} /build/observed/temporary/${NAME} -mindepth 1 -maxdepth 1 -type f -name observed.* | ${WC} --lines ) &&
-      ${DIFF} /build/observed/temporary/${NAME}/observed $( ${OBSERVED} ) >
+    INDEX=$( ${FIND} /build/observed/temporary/${NAME} -mindepth 1 -maxdepth 1 -type f -name observed.* | ${WC} --lines )
+  else
+    ${MV} $( ${OBSERVED} ${@} ) /build/observed/temporary/${NAME}/observed
   fi &&
   ${RM} /build/observed/temporary/${NAME}/lock.post
