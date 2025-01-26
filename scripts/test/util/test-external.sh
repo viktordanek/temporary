@@ -1,4 +1,6 @@
-if [ ! -z "$( ${BASH_UNIT} ${TEST_INTERNAL} )" ]
-then
-  exit 64
-fi
+RESULTS=$( ${BASH_UNIT} ${TEST_INTERNAL} ) &&
+  if [ ! -z "${RESULTS}" ]
+  then
+    ${ECHO} "${RESULTS}" &&
+      exit 64
+  fi
