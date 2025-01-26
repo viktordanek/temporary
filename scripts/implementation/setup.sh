@@ -58,7 +58,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
-    ${ECHO} "STATUS IS BLANK? \"${STATUS}"" >&2 &&
+    ${ECHO} "STATUS IS BLANK? \"${STATUS}\"" >&2 &&
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
       ${RESOURCE}/teardown-asynch.sh &&
