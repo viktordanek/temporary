@@ -340,7 +340,7 @@
                                                                                     let
                                                                                         status = builtins.elemAt path 2 ;
                                                                                         in if status == "0" then "${ echo } ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) } > $( ${ standard-input } )" else "! ${ standard-input }" ;
-                                                                                in [ "#" ( builtins.concatStringsSep " " [ "# ${ echo }" ( builtins.concatStringsSep " / " path ) ">&2" ] ) status status ]
+                                                                                in [ "#" ( builtins.concatStringsSep " " [ "# " ( builtins.concatStringsSep " / " path ) ">&2" ] ) status status ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
                                                                     ''
