@@ -59,7 +59,6 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     if [ -x ${INIT} ]
     then
-      ${ECHO} INIT=${INIT} IS OK >&2 &&
       ${ECHO} ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) >&2
     fi &&
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
