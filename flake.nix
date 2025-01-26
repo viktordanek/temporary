@@ -358,7 +358,7 @@
                                                                             makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/echo &&
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test-external.sh" } $out/bin/test-external.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/test-external.sh &&
-                                                                            makeWrapper $out/bin/test-external.sh $out/bin/test-external --set BASH_UNIT ${ pkgs.bash_unit }/bin/bash-unit --set DIFF ${ pkgs.diffutils }/bin/diff --set EXPECTED ${ self + "/expected" } --set FIND ${ pkgs.findutils }/bin/find --set OBSERVED $out/observed --set TEST_INTERNAL ${ self + "/scripts/test/util/test-internal.sh } &&
+                                                                            makeWrapper $out/bin/test-external.sh $out/bin/test-external --set BASH_UNIT ${ pkgs.bash_unit }/bin/bash-unit --set DIFF ${ pkgs.diffutils }/bin/diff --set EXPECTED ${ self + "/expected" } --set FIND ${ pkgs.findutils }/bin/find --set OBSERVED $out/observed --set TEST_INTERNAL ${ self + "/scripts/test/util/test-internal.sh" } &&
                                                                             $out/bin/observed-external &&
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                             $out/bin/test-external &&
