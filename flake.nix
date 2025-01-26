@@ -118,8 +118,8 @@
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
-                                                                                        # else [ ( computed.release path name "release.sh" ) ]
-                                                                                        else [ ]
+                                                                                        else [ ( computed.release path name "release.sh" ) ]
+                                                                                        # else [ ]
                                                                                     )
                                                                                     (
                                                                                         if computed.post == null then [ ]
