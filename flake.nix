@@ -273,6 +273,9 @@
                                                                                                                                     sets =
                                                                                                                                         harvest :
                                                                                                                                             {
+                                                                                                                                                FLOCK = "${ pkgs.flockutils }/bin/flock" ;
+                                                                                                                                                MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                                                                MV = "${ pkgs.coreutils }/bin/mv" ;
                                                                                                                                             } ;
                                                                                                                                 } ;
                                                                                                                     } ;
