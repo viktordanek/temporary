@@ -15,7 +15,7 @@ exec 200>${RESOURCE}/lock.teardown &&
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
-    if [ -f ${RESOURCE}/post.sh ]
+    if [ -L ${RESOURCE}/post.sh ]
     then
       ${RESOURCE}/post.sh || ${TRUE}
     fi &&
