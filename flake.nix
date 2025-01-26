@@ -273,9 +273,11 @@
                                                                                                                                     sets =
                                                                                                                                         harvest :
                                                                                                                                             {
+                                                                                                                                                FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                                                                 FLOCK = "${ pkgs.flock }/bin/flock" ;
                                                                                                                                                 MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
                                                                                                                                                 MV = "${ pkgs.coreutils }/bin/mv" ;
+                                                                                                                                                RM = "${ pkgs.coreutils }/bin/rm" ;
                                                                                                                                             } ;
                                                                                                                                 } ;
                                                                                                                     } ;
