@@ -1,4 +1,4 @@
-exec 200>${RESOURCE}/lock &&
+exec 200>${RESOURCE}/lock.teardown &&
   if ${FLOCK} 200
   then
     ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
@@ -23,7 +23,8 @@ exec 200>${RESOURCE}/lock &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
-    fi
+    fi &&
+    ${RM} ${RESOURCE}/lock.teardown
   else
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
