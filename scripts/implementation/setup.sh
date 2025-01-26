@@ -59,11 +59,13 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   echo STATUS=${STATUS} >&2 &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
+  echo 1:STATUS=${STATUS} >&2 &&
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
       ${RESOURCE}/teardown-asynch.sh &&
       ${ECHO} ${!TARGET}
   else
+  echo 2:STATUS=${STATUS} ERROR=${ERROR} >&2 &&
     ${ECHO} > ${RESOURCE}/DEBUG_B &&
      ${RESOURCE}/teardown-asynch.sh &&
       ${ECHO} ${!TARGET}
