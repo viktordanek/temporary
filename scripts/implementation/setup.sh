@@ -47,7 +47,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} BEFORE >> ${RESOURCE}/debug &&
   if [ -x ${INIT} ]
   then
-    ${ECHO} 1 ${TARGET} >> ${RESOURCE}/debug &&
+    ${ECHO} 1 TARGET=${TARGET} >> ${RESOURCE}/debug &&
     if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
       ${ECHO} BEFORE 1.1 >> ${RESOURCE}/debug &&

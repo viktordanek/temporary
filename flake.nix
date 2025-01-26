@@ -243,8 +243,8 @@
                                                                                                                                                 CAT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                                                 ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                                                 TYPEOF = "lambda" ;
-                                                                                                                                                STANDARD_OUTPUT = hash init-standard-output ;
-                                                                                                                                                STANDARD_ERROR = hash init-standard-error ;
+                                                                                                                                                STANDARD_OUTPUT = hash "init-standard-output" ;
+                                                                                                                                                STANDARD_ERROR = hash "init-standard-error" ;
                                                                                                                                                 STATUS = status ;
                                                                                                                                                 TOKEN_ARGUMENTS = hash "token arguments" ;
                                                                                                                                                 TOKEN_STANDARD_INPUT = hash "token standard input" ;
