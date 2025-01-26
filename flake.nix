@@ -277,6 +277,7 @@
                                                                                                                                                 FLOCK = "${ pkgs.flock }/bin/flock" ;
                                                                                                                                                 MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
                                                                                                                                                 MV = "${ pkgs.coreutils }/bin/mv" ;
+                                                                                                                                                OBSERVED = harvest.temporary.util.post.observed ;
                                                                                                                                                 RM = "${ pkgs.coreutils }/bin/rm" ;
                                                                                                                                             } ;
                                                                                                                                 } ;
