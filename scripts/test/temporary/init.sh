@@ -25,4 +25,5 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} INIT_TOKEN_13=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN_1} ) ) >> ${TARGET} &&
   ${ECHO} INIT_TOKEN_14=$( ${CAT} $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN_1} ${TOKEN_ARGUMENTS} ) ) >> ${TARGET} &&
   ${ECHO} IN INIT STATUS=${STATUS} >> /build/debug &&
+  ${ECHO} IN INIT TARGET=${TARGET} >> /build/debug &&
   exit ${STATUS}
