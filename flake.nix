@@ -344,6 +344,11 @@
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
                                                                     ''
+                                                                        cleanup ( )
+                                                                            {
+                                                                                ${ pkgs.coreutils }/bin/cat /build/debug
+                                                                            } &&
+                                                                        trap cleanup EXIT &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                             ${ pkgs.coreutils }/bin/echo $out &&
                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
