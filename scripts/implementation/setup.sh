@@ -60,7 +60,8 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     if [ -x ${INIT} ]
     then
-      ${ECHO} INIT=${INIT} IS OK >&2
+      ${ECHO} INIT=${INIT} IS OK >&2 &&
+      ${ECHO} ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) >&2
     else
       ${ECHO} INIT=${INIT} IS NOT OK >&2
     fi &&
