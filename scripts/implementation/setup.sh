@@ -1,5 +1,5 @@
 export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
-  export ${!TARGET}=${RESOURCE}/target &&
+  export "$(printf '%s' "$TARGET")=${RESOURCE}/target" &&
   ${ECHO} ${TEMPORARY_PATH} > ${RESOURCE}/temporary &&
   ${CHMOD} 0400 ${RESOURCE}/temporary &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
