@@ -42,7 +42,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
    fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
-  ${ECHO} IN SETUP declare ${TARGET}=${RESOURCE}/target >> /build/debug &&
+  ${ECHO} IN SETUP declare ${TARGET}=${RESOURCE}/target > /build/debug &&
   ${ECHO} IN SETUP export ${TARGET} >> /build/debug &&
   declare ${TARGET}=${RESOURCE}/target &&
   export ${TARGET} &&
