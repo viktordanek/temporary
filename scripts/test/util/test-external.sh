@@ -1,7 +1,5 @@
 RESULTS=$( ${BASH_UNIT} ${TEST_INTERNAL} ) &&
-  ${ECHO} "${?}" &&
-  if [ ! -z "${RESULTS}" ]
+  if [ ! -z "$( ${BASH_UNIT} ${TEST_INTERNAL} )" ]
   then
-    ${ECHO} "${RESULTS}" &&
-      exit 64
+    exit 64
   fi
