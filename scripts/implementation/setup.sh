@@ -49,11 +49,14 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
+      ${ECHO} BEFORE 1 >> ${RESOURCE}/debug &&
       STATUS=${?}
     elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
+      ${ECHO} BEFORE 2 >> ${RESOURCE}/debug &&
       STATUS=${?}
     else
+      ${ECHO} BEFORE 3 >> ${RESOURCE}/debug &&
       STATUS=${?}
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
