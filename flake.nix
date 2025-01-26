@@ -358,7 +358,7 @@
                                                                             makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/echo &&
                                                                             $out/bin/observed-external &&
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
-                                                                            # export DIFF=${ pkgs.diffutils }/bin/diff &&
+                                                                            export DIFF=${ pkgs.diffutils }/bin/diff &&
                                                                             # export EXPECTED=${ self + "/expected" } &&
                                                                             # export FIND=${ pkgs.findutils }/bin/find &&
                                                                             # export OBSERVED=$out/observed &&
