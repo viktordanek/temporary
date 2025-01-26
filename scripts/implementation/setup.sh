@@ -58,6 +58,12 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
+    if [ -x ${INIT} ]
+    then
+      ${ECHO} INIT=${INIT} IS OK >&2
+    else
+      ${ECHO} INIT=${INIT} IS NOT OK >&2
+    fi &&
     ${ECHO} "STATUS IS BLANK? \"${STATUS}\"" >&2 &&
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
