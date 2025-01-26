@@ -281,6 +281,7 @@
                                                                                                                                                 FLOCK = "${ pkgs.coreutils }/bin/flock" ;
                                                                                                                                                 MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
                                                                                                                                                 OBSERVED = harvest.temporary.util.post ;
+                                                                                                                                                RM = "${ pkgs.coreutils }/bin/rm" ;
                                                                                                                                                 WC = "${ pkgs.coreutils }/bin/wc" ;
                                                                                                                                             } ;
                                                                                                                                 } ;
