@@ -115,12 +115,10 @@
                                                                                     (
                                                                                         if computed.init == null then [ ]
                                                                                         else [ (  computed.init path name "init.sh" ) ]
-                                                                                        # else [ ]
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
-                                                                                        # else [ ( computed.release path name "release.sh" ) ]
-                                                                                        else [ ]
+                                                                                        else [ ( computed.release path name "release.sh" ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.post == null then [ ]
