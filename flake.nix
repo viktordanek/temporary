@@ -262,7 +262,7 @@
                                                                                                                                                 TYPEOF = "lambda" ;
                                                                                                                                                 STANDARD_OUTPUT = hash release-standard-output ;
                                                                                                                                                 STANDARD_ERROR = hash release-standard-error ;
-                                                                                                                                                STATUS = if release-status == 0 then "0" else builtins.toString ( 1 + rand ( release-status 254 ) ) ;
+                                                                                                                                                STATUS = if release-status == 0 then "0" else builtins.toString ( 1 + ( rand release-status 254 ) ) ;
                                                                                                                                                 TOKEN_ARGUMENTS = hash "token arguments" ;
                                                                                                                                                 TOKEN_STANDARD_INPUT = hash "token standard input" ;
                                                                                                                                                 TOKEN_1 = harvest.temporary.util.token ;
