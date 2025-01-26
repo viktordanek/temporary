@@ -48,15 +48,12 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      STATUS=${?} &&
-        ${ECHO} IN SETUP WITH STANDARD_INPUT STATUS=${STATUS} >&2
+      STATUS=${?}
     elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      STATUS=${?} &&
-        ${ECHO} IN SETUP WITHOUT STANDARD_INPUT STATUS=${STATUS} >&2
+      STATUS=${?}
     else
-      STATUS=${?} &&
-          ${ECHO} IN SETUP NNOT STATUS=${STATUS} >&2
+      STATUS=${?}
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
@@ -67,10 +64,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     then
       ${ECHO} INIT=${INIT} IS OK >&2 &&
       ${ECHO} ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) >&2
-    else
-      ${ECHO} INIT=${INIT} IS NOT OK >&2
     fi &&
-    ${ECHO} "STATUS IS BLANK? \"${STATUS}\"" >&2 &&
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
       ${RESOURCE}/teardown-asynch.sh &&
