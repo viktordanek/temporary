@@ -42,18 +42,18 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
    fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
-  ${ECHO} IN SETUP declare ${TARGET}=${RESOURCE}/target > /build/debug &&
-  ${ECHO} IN SETUP export ${TARGET} >> /build/debug &&
   declare ${TARGET}=${RESOURCE}/target &&
   export ${TARGET} &&
   if [ -x ${INIT} ]
   then
     if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      STATUS=${?}
+      STATUS=${?} &&
+        ${ECHO} IN SETUP WITH STANDARD_INPUT STATUS=${STATUS}
     elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      STATUS=${?}
+      STATUS=${?} &&
+        ${ECHO} IN SETUP WITHOUT STANDARD_INPUT STATUS=${STATUS}
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
