@@ -44,6 +44,8 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
   declare ${TARGET}=${RESOURCE}/target &&
   export ${TARGET} &&
+  declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
+  export ${TEMPORARY_PATH} &&
   ${ECHO} BEFORE >> ${RESOURCE}/debug &&
   if [ -x ${INIT} ]
   then
