@@ -295,7 +295,17 @@
                                                                                 observed =
                                                                                     script :
                                                                                         {
-                                                                                            init = script { executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self "/scripts/test/util/post/observed/init.sh" ) ) ; sets = { CAT = "${ pkgs.coreutils }/bin/cat" ; CHMOD = "${ pkgs.coreutils }/bin/chmod" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; } ; } ;
+                                                                                            init =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self "/scripts/test/util/post/observed/init.sh" ) ) ;
+                                                                                                        sets =
+                                                                                                            {
+                                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                CHMOD = "${ pkgs.coreutils }/bin/chmod" ;
+                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                            } ;
+                                                                                                    } ;
                                                                                         } ;
                                                                             } ;
                                                                         token =
