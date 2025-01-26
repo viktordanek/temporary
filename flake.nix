@@ -356,16 +356,12 @@
                                                                             makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observed-internal" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "resources" "temporary" ] ) resources.temporary.temporary ) ) ) ) } $out/bin/observed-internal.sh &&
                                                                             makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/echo &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test-external.sh" } $out/bin/test-external.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/test-external.sh &&
+                                                                            makeWrapper $out/bin/test-external.sh $out/bin/test-external --set BASH_UNIT ${ pkgs.bash_unit }/bin/bash-unit --set DIFF ${ pkgs.diffutils }/bin/diff --set EXPECTED ${ self + "/expected" } --set FIND ${ pkgs.findutils }/bin/find --set OBSERVED $out/observed --set TEST_INTERNAL ${ self + "/scripts/test/util/test-internal.sh } &&
                                                                             $out/bin/observed-external &&
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
-                                                                            export DIFF=${ pkgs.diffutils }/bin/diff &&
-                                                                            export EXPECTED=${ self + "/expected" } &&
-                                                                            export FIND=${ pkgs.findutils }/bin/find &&
-                                                                            export OBSERVED=$out/observed &&
-                                                                            if [ ! -z "$( ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh )" ]
-                                                                            then
-                                                                               exit 64
-                                                                            fi &&
+                                                                            $out/bin/test-external &&
                                                                             exit 10
                                                                     '' ;
                                                     } ;
