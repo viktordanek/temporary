@@ -4,6 +4,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RESOURCE}/temporary &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
+  ${ECHO} ONE >> ${RESOURCE}/debug &&
   if [ -t 0 ]
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
@@ -26,6 +27,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   fi &&
+  ${ECHO} TWO >> ${RESOURCE}/debug &&
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RESOURCE}/init.sh
@@ -37,7 +39,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   if [ -x ${POST} ]
    then
      ${LN} --symbolic ${POST} ${RESOURCE}/post.sh
-   fi &&
+  fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
   declare ${TARGET}=${RESOURCE}/target &&
