@@ -27,6 +27,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     ${ECHO} POST_SH=$( ${READLINK} --canonicalize ${@}/post.sh ) >> ${TARGET}
   fi &&
   ${ECHO} TEARDOWN_ASYNCH=$( ${READLINK} --canonicalize ${@}/teardown-asynch.sh ) >> ${TARGET} &&
-  ${ECHO} TEARDOWN_SYNCH=$( ${READLINK} ) --canonicalize ${@}/teardown-synch.sh ) >> ${TARGET} &&
+  ${ECHO} TEARDOWN_SYNCH=$( ${READLINK} --canonicalize ${@}/teardown-synch.sh ) >> ${TARGET} &&
   ${CAT} ${@}/target >> ${TARGET} &&
   ${CHMOD} 0400 ${TARGET}
