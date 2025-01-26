@@ -54,11 +54,12 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     then
       STATUS=${?} &&
         ${ECHO} IN SETUP WITHOUT STANDARD_INPUT STATUS=${STATUS} >&2
+    else
+      STATUS=${?} &&
+          ${ECHO} IN SETUP NNOT STATUS=${STATUS} >&2
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
-  else
-    STATUS=${?}
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
