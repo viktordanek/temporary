@@ -330,12 +330,12 @@
                                                                         if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
-                                                                                arguments = "${ value } ${ builtins.elemAt path 3 }" ;
+                                                                                arguments = "${ pkgs.coreutils }/bin/timeout 1m ${ value } ${ builtins.elemAt path 3 }" ;
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                 standard-input =
                                                                                     let
                                                                                         standard-input = builtins.elemAt path 4 ;
-                                                                                        in if standard-input == "_" then arguments else "${ echo } ${ standard-input } | ${ arguments }" ;
+                                                                                        in if standard-input == "_" then arguments else "${ pkgs.coreutils }/bin/timeout 1m ${ echo } ${ standard-input } | ${ arguments }" ;
                                                                                 status =
                                                                                     let
                                                                                         status = builtins.elemAt path 2 ;

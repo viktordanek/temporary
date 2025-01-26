@@ -41,6 +41,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
   declare ${TARGET}=${RESOURCE}/target &&
   export ${TARGET} &&
+  ${ECHO} BEFORE > ${RESOURCE}/debug &&
   if [ -x ${INIT} ]
   then
     if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
@@ -55,6 +56,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
   fi &&
+  ${ECHO} AFTER >> ${RESOURCE}/debug &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
