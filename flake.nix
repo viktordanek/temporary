@@ -119,12 +119,10 @@
                                                                                     (
                                                                                         if computed.release == null then [ ]
                                                                                         else [ ( computed.release path name "release.sh" ) ]
-                                                                                        # else [ ]
                                                                                     )
                                                                                     (
                                                                                         if computed.post == null then [ ]
-                                                                                        # else [ ( computed.post path name "post.sh" ) ]
-                                                                                        else [ ]
+                                                                                        else [ ( computed.post path name "post.sh" ) ]
                                                                                     )
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/setup.sh"
