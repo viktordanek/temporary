@@ -1,5 +1,5 @@
 RESULTS=$( ${BASH_UNIT} ${TEST_INTERNAL} ) &&
-  ${ECHO} "?" &&
+  ${ECHO} "${?}" &&
   if [ ! -z "${RESULTS}" ]
   then
     ${ECHO} "${RESULTS}" &&
