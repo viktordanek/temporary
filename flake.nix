@@ -273,13 +273,6 @@
                                                                                                                                     sets =
                                                                                                                                         harvest :
                                                                                                                                             {
-                                                                                                                                                DIFF = "${ pkgs.diffutils }/bin/diff" ;
-                                                                                                                                                FIND = "${ pkgs.findutils }/bin/find" ;
-                                                                                                                                                FLOCK = "${ pkgs.coreutils }/bin/flock" ;
-                                                                                                                                                MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
-                                                                                                                                                OBSERVED = harvest.temporary.util.post ;
-                                                                                                                                                RM = "${ pkgs.coreutils }/bin/rm" ;
-                                                                                                                                                WC = "${ pkgs.coreutils }/bin/wc" ;
                                                                                                                                             } ;
                                                                                                                                 } ;
                                                                                                                     } ;
