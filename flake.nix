@@ -281,6 +281,7 @@
                                                                                                                                         SED = "${ pkgs.gnused }/bin/sed" ;
                                                                                                                                         SORT = "${ pkgs.coreutils }/bin/sort" ;
                                                                                                                                         TOUCH = "${ pkgs.coreutils }/bin/touch" ;
+                                                                                                                                        WC = "${ pkgs.coreutils }/bin/wc" ;
                                                                                                                                     } ;
                                                                                                                         } ;
                                                                                                             } ;
