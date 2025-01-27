@@ -21,7 +21,7 @@ exec 200> ${RRRR}/lock.teardown &&
     ${CHMOD} 0400 ${RRRR}/release.standard-output ${RRRR}/release.standard-error ${RRRR}/release.status &&
     if [ -L ${RRRR}/post.sh ]
     then
-      ${RESOURCE}/post.sh || ${TRUE}
+      ${RRRR}/post.sh || ${TRUE}
     fi &&
     ${RM} --recursive --force ${RRRR} &&
     ${ECHO} IN TEARDOWN_SYNCH >> /build/debug &&

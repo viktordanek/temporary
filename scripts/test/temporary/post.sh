@@ -13,5 +13,5 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   then
     INDEX=$( ${FIND} /build/observed/temporary/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -type f -name observed.* | ${WC} --lines )
   else
-    ${MV} $( ${OBSERVED} ${RESOURCE} ) /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed
+    touch /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed
   fi
