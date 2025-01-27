@@ -12,6 +12,6 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   then
     ${MKDIR} /build/observed/temporary/observed
   fi &&
-  ${MKDIR} --parents /build/observed/temporary/observed/${TEMPORARY_ARRAY} &&
-  ${MV} $( ${OBSERVED} ${@} ) /build/observed/temporary/observed/${TEMPORARY_ARRAY}/observed
+  ${MKDIR} --parents /build/observed/temporary/observed/&&
+  ${MV} $( ${OBSERVED} ${@} ) /build/observed/temporary/observed/XXXX
 
