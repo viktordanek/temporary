@@ -279,6 +279,7 @@
                                                                                                                                         OBSERVED = harvest.temporary.util.post.observed ;
                                                                                                                                         RM = "${ pkgs.coreutils }/bin/rm" ;
                                                                                                                                         SED = "${ pkgs.gnused }/bin/sed" ;
+                                                                                                                                        SORT = "${ pkgs.coreutils }/bin/sort" ;
                                                                                                                                         TOUCH = "${ pkgs.coreutils }/bin/touch" ;
                                                                                                                                     } ;
                                                                                                                         } ;
