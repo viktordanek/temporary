@@ -363,7 +363,7 @@
                                                                             makeWrapper $out/bin/test-external.sh $out/bin/test-external --set BASH_UNIT ${ pkgs.bash_unit }/bin/bash_unit --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set EXPECTED ${ self + "/expected" } --set FIND ${ pkgs.findutils }/bin/find --set OBSERVED $out/observed --set TEST_INTERNAL ${ self + "/scripts/test/util/test-internal.sh" } &&
                                                                             $out/bin/observed-external &&
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
-                                                                            ${ pkgs.coreutils }/bin/touch /build/observed/.gitignore &&
+                                                                            ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore &&
                                                                             $out/bin/test-external &&
                                                                             exit 11
                                                                     '' ;
