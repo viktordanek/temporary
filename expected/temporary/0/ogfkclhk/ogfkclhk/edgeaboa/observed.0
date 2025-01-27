@@ -39,17 +39,11 @@ STANDARD_OUTPUT=plpijdil
 
 <
 release.status
-<
 0
-init.arguments
->
-ogfkclhk
-
 >
 
 <
 target
-<
 99d44209
 RELEASE_=true
 RELEASE_NAME=0/ogfkclhk/ogfkclhk/edgeaboa
@@ -62,20 +56,26 @@ RELEASE_STANDARD_ERROR=oldfdkbh
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=hkblpamd
 RELEASE_TOKEN_STANDARD_INPUT=pgkchokj
-init.standard-error
->
-STANDARD_ERROR=paojibng
-
 >
 
 <
 temporary
-<
 bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
-init.standard-input
 >
-ogfkclhk
 
+<
+init.arguments
+ogfkclhk
+>
+
+<
+init.standard-error
+STANDARD_ERROR=paojibng
+>
+
+<
+init.standard-input
+ogfkclhk
 >
 
 <
