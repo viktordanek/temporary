@@ -22,14 +22,13 @@ exec 200> ${RRRR}/lock.teardown &&
     if [ -L ${RRRR}/post.sh ]
     then
       cat ${RRRR}/post.sh >> /build/debug &&
-      ${RESOURCE}/post.sh || ${TRUE}
+      ${RRRR}/post.sh || ${TRUE}
     fi &&
     ${RM} --recursive --force ${RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
-    fi &&
-    ${RM} ${RESOURCE}/lock.teardown
+    fi
   else
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
