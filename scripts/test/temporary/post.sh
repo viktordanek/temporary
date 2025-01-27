@@ -10,5 +10,5 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   fi &&
   ${TOUCH} /build/observed/temporary/FLAG &&
   ${SED} -e "s#^#INIT_#" ${RESOURCE}/init.standard-ouput > /build/observed/temporary/observed &&
-  ${CAT}
+  ${SED} -e "s#^#INIT_#" ${RESOURCE}/init.standard-error > /build/observed/temporary/observed
 
