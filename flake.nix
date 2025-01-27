@@ -272,6 +272,7 @@
                                                                                                                             sets =
                                                                                                                                 harvest :
                                                                                                                                     {
+                                                                                                                                        CP = "${ pkgs.coreutils }/bin/cp" ;
                                                                                                                                         DIFF = "${ pkgs.diffutils }/bin/diff" ;
                                                                                                                                         FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                                                         FLOCK = "${ pkgs.flock }/bin/flock" ;
