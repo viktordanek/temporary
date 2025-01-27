@@ -16,10 +16,10 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   do
     BASE=$( ${BASENAME} ${FILE} ) &&
       ${ECHO} "<" >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX} &&
-        ${ECHO} ${BASE} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX} &&
-        ${CAT} ${FILE} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX} &&
-        ${ECHO} ">" >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX} &&
-        ${ECHO} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX}
+      ${ECHO} ${BASE} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX} &&
+      ${CAT} ${FILE} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX} &&
+      ${ECHO} ">" >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX} &&
+      ${ECHO} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.${INDEX}
     done &&
     ${RM} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/lock
 
