@@ -23,7 +23,7 @@ exec 200> ${RRRR}/lock.teardown &&
     then
       ${RESOURCE}/post.sh || ${TRUE}
     fi &&
-    ${RM} --recursive --force ${RESOURCE} &&
+    ${RM} --recursive --force ${RRRR} &&
     ${ECHO} IN TEARDOWN_SYNCH >> /build/debug &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
