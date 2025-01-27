@@ -253,13 +253,14 @@
                                                                                                                                     {
                                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                                        TYPEOF = "lambda" ;
-                                                                                                                                        STANDARD_OUTPUT = hash release-standard-output ;
-                                                                                                                                        STANDARD_ERROR = hash release-standard-error ;
-                                                                                                                                        STATUS = if release-status == 0 then "0" else builtins.toString ( 1 + ( rand release-status 254 ) ) ;
+                                                                                                                                        GREP = "${ pkgs.gnugrep }/bin/grep" ;
+                                                                                                                                        STANDARD_ERROR = hash "init-standard-error" ;
+                                                                                                                                        STANDARD_OUTPUT = hash "init-standard-output" ;
+                                                                                                                                        STATUS = status ;
                                                                                                                                         TOKEN_ARGUMENTS = hash "token arguments" ;
                                                                                                                                         TOKEN_STANDARD_INPUT = hash "token standard input" ;
                                                                                                                                         TOKEN_1 = harvest.temporary.util.token ;
+                                                                                                                                        TYPEOF = "lambda" ;
                                                                                                                                     } ;
                                                                                                                         } ;
                                                                                                                 post =
