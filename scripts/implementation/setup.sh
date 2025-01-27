@@ -67,7 +67,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   else
     ${ECHO} BEFORE 2 >> ${RESOURCE}/debug
   fi &&
-  ${ECHO} AFTER >> ${RESOURCE}/debug &&
+  ${ECHO} "AFTER \"${STATUS}\"" >> ${RESOURCE}/debug &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
