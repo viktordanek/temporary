@@ -8,9 +8,9 @@ exec 200> ${RRRR}/lock.teardown &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
     done &&
-    if [ -L ${RESOURCE}/release.sh ]
+    if [ -L ${RRRR}/release.sh ]
     then
-      if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
+      if ${RRRR}/release.sh > ${RRRR}/release.standard-output 2> ${RRRR}/release.standard-error
       then
         STATUS=${?}
       else
