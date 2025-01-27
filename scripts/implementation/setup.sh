@@ -5,23 +5,16 @@ RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
   if [ -t 0 ]
   then
-    PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
-      TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= )
+    TARGET_PID=$( ${PS} -p ${$} -o ppid= ) &&
   elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
-      # TARGET_PID=${PARENT_PID} &&
       TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
-      # TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
-      # TARGET_PID=99
       ${TEE} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   else
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
-      # TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
-      # TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
-      # TARGET_PID=99
       ${TEE} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   fi &&
