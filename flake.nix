@@ -358,6 +358,7 @@
                                                                             ${ pkgs.findutils }/bin/find /build -name "*.pid" -exec ${ pkgs.coreutils }/bin/cat {} \; | sort --numeric &&
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                             $out/bin/test-external &&
+                                                                            ${ pkgs.coreutils }/bin/cat /build/debug &&
                                                                             exit 10
                                                                     '' ;
                                                     } ;
