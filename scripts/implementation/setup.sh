@@ -1,4 +1,4 @@
-export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
+RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} ${TEMPORARY_PATH} > ${RESOURCE}/temporary &&
   ${CHMOD} 0400 ${RESOURCE}/temporary &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
@@ -39,6 +39,8 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
+  declare ${RESOURCE}=${RESOURCE} &&
+  export ${RESOURCE} &&
   declare ${TARGET}=${RESOURCE}/target &&
   export ${TARGET} &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&

@@ -8,21 +8,21 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   then
     ${ECHO} INIT_STANDARD_INPUT=$( ${CAT} ${@}/init.standard-input ) >> ${TARGET}
   fi &&
-  if [ -l ${@}/init.sh ]
+  if [ -L ${@}/init.sh ]
   then
     ${ECHO} INIT_SH=$( ${READLINK} --canonicalize ${@}/init.sh ) >> ${TARGET} &&
       ${ECHO} INIT_STANDARD_OUTPUT=$( ${CAT} ${@}/init.standard-output ) >> ${TARGET} &&
       ${ECHO} INIT_STANDARD_ERROR=$( ${CAT} ${@}/init.standard-error ) >> ${TARGET} &&
       ${ECHO} INIT_STATUS=$( ${CAT} ${@}/init.status ) >> ${TARGET}
   fi &&
-  if [ -l ${@}/release.sh ]
+  if [ -L ${@}/release.sh ]
   then
     ${ECHO} RELEASE_SH=$( ${READLINK} --canonicalize ${@}/RELEASE.sh ) >> ${TARGET} &&
       ${ECHO} RELEASE_STANDARD_OUTPUT=$( ${CAT} ${@}/init.standard-output ) >> ${TARGET} &&
       ${ECHO} RELEASE_STANDARD_ERROR=$( ${CAT} ${@}/init.standard-error ) >> ${TARGET} &&
       ${ECHO} RELEASE_STATUS=$( ${CAT} ${@}/init.status ) >> ${TARGET}
   fi &&
-  if [ -l ${@}/init.sh ]
+  if [ -L ${@}/init.sh ]
   then
     ${ECHO} POST_SH=$( ${READLINK} --canonicalize ${@}/post.sh ) >> ${TARGET}
   fi &&

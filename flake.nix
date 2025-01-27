@@ -13,6 +13,7 @@
                             lib =
                                 {
                                     at ? "${ pkgs.at }/bin/at" ,
+                                    resource ,
                                     store ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
                                     target ,
                                     temporary ? { } ,
@@ -176,6 +177,7 @@
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/cat | ${ pkgs.bash }/bin/bash &
                                                                 '' ;
+                                                        resource = "ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2079e75f60e62d24e178552a074c42a0ca449fcddf9716a3a95d44426299" ;
                                                         target = "e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d" ;
                                                         temporary =
                                                             {
@@ -235,11 +237,11 @@
                                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                                         GREP = "${ pkgs.gnugrep }/bin/grep" ;
-                                                                                                                                        STANDARD_ERROR = hash "init-standard-error" ;
-                                                                                                                                        STANDARD_OUTPUT = hash "init-standard-output" ;
+                                                                                                                                        STANDARD_ERROR = hash "init-standard-error init" ;
+                                                                                                                                        STANDARD_OUTPUT = hash "init-standard-output init" ;
                                                                                                                                         STATUS = status ;
-                                                                                                                                        TOKEN_ARGUMENTS = hash "token arguments" ;
-                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token standard input" ;
+                                                                                                                                        TOKEN_ARGUMENTS = hash "token init arguments" ;
+                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token init standard input" ;
                                                                                                                                         TOKEN_1 = harvest.temporary.util.token ;
                                                                                                                                         TYPEOF = "lambda" ;
                                                                                                                                    } ;
@@ -254,11 +256,11 @@
                                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                                         GREP = "${ pkgs.gnugrep }/bin/grep" ;
-                                                                                                                                        STANDARD_ERROR = hash "init-standard-error" ;
-                                                                                                                                        STANDARD_OUTPUT = hash "init-standard-output" ;
+                                                                                                                                        STANDARD_ERROR = hash "init-standard-error release " ;
+                                                                                                                                        STANDARD_OUTPUT = hash "init-standard-outpu releaset" ;
                                                                                                                                         STATUS = status ;
-                                                                                                                                        TOKEN_ARGUMENTS = hash "token arguments" ;
-                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token standard input" ;
+                                                                                                                                        TOKEN_ARGUMENTS = hash "token release arguments" ;
+                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token release standard input" ;
                                                                                                                                         TOKEN_1 = harvest.temporary.util.token ;
                                                                                                                                         TYPEOF = "lambda" ;
                                                                                                                                     } ;
