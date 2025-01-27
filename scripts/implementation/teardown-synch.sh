@@ -24,6 +24,7 @@ exec 200> ${RRRR}/lock.teardown &&
       ${RESOURCE}/post.sh || ${TRUE}
     fi &&
     ${RM} --recursive --force ${RESOURCE} &&
+    ${ECHO} IN TEARDOWN_SYNCH >> /build/debug &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
