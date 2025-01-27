@@ -9,13 +9,10 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   then
     ${MKDIR} /build/observed/temporary
   fi &&
-  ${MKDIR} --parents /build/observed/temporary/${TEMPORARY_PATH_ARRAY}
-  exec 200>/build/observed/temporary/${TEMPORARY_PATH_ARRAY}/lock.post
-  ${FLOCK} 200 &&
+  ${MKDIR} --parents /build/observed/temporary/${TEMPORARY_PATH_ARRAY} &&
   if [ -f /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed ]
   then
     INDEX=$( ${FIND} /build/observed/temporary/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -type f -name observed.* | ${WC} --lines )
   else
     ${MV} $( ${OBSERVED} ${TARGET} ) /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed
-  fi &&
-  ${RM} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/lock.post
+  fi

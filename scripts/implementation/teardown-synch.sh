@@ -7,11 +7,14 @@ exec 200>${RESOURCE}/lock.teardown &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
     done &&
-    if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
+    if [ -L ${RESOURCE}/release.sh ]
     then
-      STATUS=${?}
-    else
-      STATUS=${?}
+      if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
+      then
+        STATUS=${?}
+      else
+        STATUS=${?}
+      fi
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
     ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
