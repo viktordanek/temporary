@@ -7,5 +7,4 @@ do
     ${CAT} ${FILE} >> ${TARGET} &&
     ${ECHO} ">" >> ${TARGET} &&
     ${ECHO} >> ${TARGET}
-  done &&
-  ${CHMOD} 0400 ${TARGET}
+  done
