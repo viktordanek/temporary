@@ -1,21 +1,6 @@
 init.standard-output
 STANDARD_OUTPUT=fncjolmo
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/nikhcflm/nikhcflm/cajdkpjh/teardown-synch.sh"  "$@" 
-
 init.arguments
 nikhcflm
 
@@ -34,19 +19,7 @@ RELEASE_STANDARD_ERROR=ohghnapb
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=bejijanf
 RELEASE_TOKEN_STANDARD_INPUT=klpindcm
-RESOURCE=/build/temporary.m8nHTk87
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.rKK2P0Oa
 
 init.status
 0
@@ -54,75 +27,25 @@ init.status
 release.standard-error
 STANDARD_ERROR=ohghnapb
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='jfdjaenh'
-export STANDARD_OUTPUT='fncjolmo'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='gjkicofd'
-export TOKEN_STANDARD_INPUT='dheinbef'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=mcplinpo
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/nikhcflm/nikhcflm/cajdkpjh/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/nikhcflm/nikhcflm/cajdkpjh/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=jfdjaenh
 
 init.standard-input
 nikhcflm
+
+lock.teardown
+
+release.status
+0
 
 init.standard-output
 STANDARD_OUTPUT=fncjolmo
 
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='ohghnapb'
-export STANDARD_OUTPUT='mcplinpo'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='bejijanf'
-export TOKEN_STANDARD_INPUT='klpindcm'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
-teardown-synch.sh
-
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/nikhcflm/nikhcflm/cajdkpjh/teardown-synch.sh"  "$@" 
-
-lock.teardown
 init.arguments
-
 nikhcflm
-
-release.status
-0
 
 temporary
 bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
@@ -139,19 +62,7 @@ RELEASE_STANDARD_ERROR=ohghnapb
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=bejijanf
 RELEASE_TOKEN_STANDARD_INPUT=klpindcm
-RESOURCE=/build/temporary.lAjzN1o8
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.ldgwraQY
 
 init.status
 0
@@ -159,29 +70,8 @@ init.status
 release.standard-error
 STANDARD_ERROR=ohghnapb
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='jfdjaenh'
-export STANDARD_OUTPUT='fncjolmo'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='gjkicofd'
-export TOKEN_STANDARD_INPUT='dheinbef'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=mcplinpo
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/nikhcflm/nikhcflm/cajdkpjh/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/nikhcflm/nikhcflm/cajdkpjh/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=jfdjaenh
@@ -189,20 +79,6 @@ STANDARD_ERROR=jfdjaenh
 init.standard-input
 nikhcflm
 
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='ohghnapb'
-export STANDARD_OUTPUT='mcplinpo'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='bejijanf'
-export TOKEN_STANDARD_INPUT='klpindcm'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
-
 lock.teardown
 
 release.status
@@ -210,21 +86,6 @@ release.status
 
 init.standard-output
 STANDARD_OUTPUT=igfpmepo
-
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ogfkclhk/ogfkclhk/edgeaboa/teardown-synch.sh"  "$@" 
 
 init.arguments
 ogfkclhk
@@ -244,19 +105,7 @@ RELEASE_STANDARD_ERROR=oldfdkbh
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=hkblpamd
 RELEASE_TOKEN_STANDARD_INPUT=pgkchokj
-RESOURCE=/build/temporary.tV0qhrtb
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.895f4u7i
 
 init.status
 0
@@ -264,29 +113,8 @@ init.status
 release.standard-error
 STANDARD_ERROR=oldfdkbh
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='paojibng'
-export STANDARD_OUTPUT='igfpmepo'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='obndkplj'
-export TOKEN_STANDARD_INPUT='bjckgcdi'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=plpijdil
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ogfkclhk/ogfkclhk/edgeaboa/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ogfkclhk/ogfkclhk/edgeaboa/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=paojibng
@@ -294,45 +122,16 @@ STANDARD_ERROR=paojibng
 init.standard-input
 ogfkclhk
 
-init.standard-output
-release.sh
-STANDARD_OUTPUT=igfpmepo
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='oldfdkbh'
-export STANDARD_OUTPUT='plpijdil'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='hkblpamd'
-export TOKEN_STANDARD_INPUT='pgkchokj'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
-
-
 lock.teardown
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ogfkclhk/ogfkclhk/edgeaboa/teardown-synch.sh"  "$@" 
-
 
 release.status
-init.arguments
 0
-ogfkclhk
 
+init.standard-output
+STANDARD_OUTPUT=igfpmepo
+
+init.arguments
+ogfkclhk
 
 temporary
 bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
@@ -349,19 +148,7 @@ RELEASE_STANDARD_ERROR=oldfdkbh
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=hkblpamd
 RELEASE_TOKEN_STANDARD_INPUT=pgkchokj
-RESOURCE=/build/temporary.MssKnsn4
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.PYHubprr
 
 init.status
 0
@@ -369,29 +156,8 @@ init.status
 release.standard-error
 STANDARD_ERROR=oldfdkbh
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='paojibng'
-export STANDARD_OUTPUT='igfpmepo'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='obndkplj'
-export TOKEN_STANDARD_INPUT='bjckgcdi'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=plpijdil
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ogfkclhk/ogfkclhk/edgeaboa/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ogfkclhk/ogfkclhk/edgeaboa/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=paojibng
@@ -399,20 +165,6 @@ STANDARD_ERROR=paojibng
 init.standard-input
 ogfkclhk
 
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='oldfdkbh'
-export STANDARD_OUTPUT='plpijdil'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='hkblpamd'
-export TOKEN_STANDARD_INPUT='pgkchokj'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
-
 lock.teardown
 
 release.status
@@ -421,21 +173,6 @@ release.status
 init.standard-output
 STANDARD_OUTPUT=kbnnpbpa
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/131/adfndlpp/adfndlpp/fbdhggme/teardown-synch.sh"  "$@" 
-
 init.arguments
 adfndlpp
 
@@ -453,7 +190,7 @@ INIT_STANDARD_ERROR=fkmiahbh
 INIT_STATUS=131
 INIT_TOKEN_ARGUMENTS=fncgfcnk
 INIT_TOKEN_STANDARD_INPUT=idnplnin
-RESOURCE=/build/temporary.Vs0f1gcB
+RESOURCE=/build/temporary.E4K5SkMN
 RELEASE_NAME=131/adfndlpp/adfndlpp/fbdhggme
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -464,19 +201,7 @@ RELEASE_STANDARD_ERROR=aaolmkkh
 RELEASE_STATUS=131
 RELEASE_TOKEN_ARGUMENTS=pecfodec
 RELEASE_TOKEN_STANDARD_INPUT=kgedbpoa
-RESOURCE=/build/temporary.Vs0f1gcB
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.E4K5SkMN
 
 init.status
 131
@@ -484,49 +209,14 @@ init.status
 release.standard-error
 STANDARD_ERROR=aaolmkkh
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='fkmiahbh'
-export STANDARD_OUTPUT='kbnnpbpa'
-export STATUS='131'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='fncgfcnk'
-export TOKEN_STANDARD_INPUT='idnplnin'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=afodippe
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/131/adfndlpp/adfndlpp/fbdhggme/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/131/adfndlpp/adfndlpp/fbdhggme/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=fkmiahbh
 
 init.standard-input
 adfndlpp
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='aaolmkkh'
-export STANDARD_OUTPUT='afodippe'
-export STATUS='131'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='pecfodec'
-export TOKEN_STANDARD_INPUT='kgedbpoa'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
@@ -536,21 +226,6 @@ release.status
 init.standard-output
 STANDARD_OUTPUT=kbnnpbpa
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/131/adfndlpp/adfndlpp/fbdhggme/teardown-synch.sh"  "$@" 
-
 init.arguments
 adfndlpp
 
@@ -568,7 +243,7 @@ INIT_STANDARD_ERROR=fkmiahbh
 INIT_STATUS=131
 INIT_TOKEN_ARGUMENTS=fncgfcnk
 INIT_TOKEN_STANDARD_INPUT=idnplnin
-RESOURCE=/build/temporary.KUOjur9o
+RESOURCE=/build/temporary.qlM0c2b7
 RELEASE_NAME=131/adfndlpp/adfndlpp/fbdhggme
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -579,19 +254,7 @@ RELEASE_STANDARD_ERROR=aaolmkkh
 RELEASE_STATUS=131
 RELEASE_TOKEN_ARGUMENTS=pecfodec
 RELEASE_TOKEN_STANDARD_INPUT=kgedbpoa
-RESOURCE=/build/temporary.KUOjur9o
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.qlM0c2b7
 
 init.status
 131
@@ -599,49 +262,14 @@ init.status
 release.standard-error
 STANDARD_ERROR=aaolmkkh
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='fkmiahbh'
-export STANDARD_OUTPUT='kbnnpbpa'
-export STATUS='131'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='fncgfcnk'
-export TOKEN_STANDARD_INPUT='idnplnin'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=afodippe
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/131/adfndlpp/adfndlpp/fbdhggme/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/131/adfndlpp/adfndlpp/fbdhggme/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=fkmiahbh
 
 init.standard-input
 adfndlpp
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='aaolmkkh'
-export STANDARD_OUTPUT='afodippe'
-export STATUS='131'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='pecfodec'
-export TOKEN_STANDARD_INPUT='kgedbpoa'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
@@ -651,21 +279,6 @@ release.status
 init.standard-output
 STANDARD_OUTPUT=nkjbifpm
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/14/eehpgola/_/dchkngmn/teardown-synch.sh"  "$@" 
-
 init.arguments
 eehpgola
 
@@ -683,7 +296,7 @@ INIT_STANDARD_ERROR=dkklijjh
 INIT_STATUS=14
 INIT_TOKEN_ARGUMENTS=bihjhblm
 INIT_TOKEN_STANDARD_INPUT=kcgddlol
-RESOURCE=/build/temporary.LxQbZf7Y
+RESOURCE=/build/temporary.HTY1S0dA
 RELEASE_NAME=14/eehpgola/_/dchkngmn
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -694,19 +307,7 @@ RELEASE_STANDARD_ERROR=jbdfnpbi
 RELEASE_STATUS=14
 RELEASE_TOKEN_ARGUMENTS=nhfhgodj
 RELEASE_TOKEN_STANDARD_INPUT=blghaoim
-RESOURCE=/build/temporary.LxQbZf7Y
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.HTY1S0dA
 
 init.status
 14
@@ -714,48 +315,13 @@ init.status
 release.standard-error
 STANDARD_ERROR=jbdfnpbi
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='dkklijjh'
-export STANDARD_OUTPUT='nkjbifpm'
-export STATUS='14'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='bihjhblm'
-export TOKEN_STANDARD_INPUT='kcgddlol'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=ionngilg
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/14/eehpgola/_/dchkngmn/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/14/eehpgola/_/dchkngmn/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=dkklijjh
 
 init.standard-input
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='jbdfnpbi'
-export STANDARD_OUTPUT='ionngilg'
-export STATUS='14'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='nhfhgodj'
-export TOKEN_STANDARD_INPUT='blghaoim'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
@@ -765,21 +331,6 @@ release.status
 init.standard-output
 STANDARD_OUTPUT=nkjbifpm
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/14/eehpgola/_/dchkngmn/teardown-synch.sh"  "$@" 
-
 init.arguments
 eehpgola
 
@@ -797,7 +348,7 @@ INIT_STANDARD_ERROR=dkklijjh
 INIT_STATUS=14
 INIT_TOKEN_ARGUMENTS=bihjhblm
 INIT_TOKEN_STANDARD_INPUT=kcgddlol
-RESOURCE=/build/temporary.eZOElS61
+RESOURCE=/build/temporary.hBT4xDo0
 RELEASE_NAME=14/eehpgola/_/dchkngmn
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -808,19 +359,7 @@ RELEASE_STANDARD_ERROR=jbdfnpbi
 RELEASE_STATUS=14
 RELEASE_TOKEN_ARGUMENTS=nhfhgodj
 RELEASE_TOKEN_STANDARD_INPUT=blghaoim
-RESOURCE=/build/temporary.eZOElS61
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.hBT4xDo0
 
 init.status
 14
@@ -828,48 +367,13 @@ init.status
 release.standard-error
 STANDARD_ERROR=jbdfnpbi
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='dkklijjh'
-export STANDARD_OUTPUT='nkjbifpm'
-export STATUS='14'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='bihjhblm'
-export TOKEN_STANDARD_INPUT='kcgddlol'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=ionngilg
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/14/eehpgola/_/dchkngmn/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/14/eehpgola/_/dchkngmn/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=dkklijjh
 
 init.standard-input
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='jbdfnpbi'
-export STANDARD_OUTPUT='ionngilg'
-export STATUS='14'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='nhfhgodj'
-export TOKEN_STANDARD_INPUT='blghaoim'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
@@ -879,21 +383,6 @@ release.status
 init.standard-output
 STANDARD_OUTPUT=mkgdllne
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/250/nljinoem/_/edfhbbca/teardown-synch.sh"  "$@" 
-
 init.arguments
 nljinoem
 
@@ -911,7 +400,7 @@ INIT_STANDARD_ERROR=kbdcnfom
 INIT_STATUS=250
 INIT_TOKEN_ARGUMENTS=dmacdnnl
 INIT_TOKEN_STANDARD_INPUT=gebfjdoe
-RESOURCE=/build/temporary.mR7E6m1g
+RESOURCE=/build/temporary.bLh48ba5
 RELEASE_NAME=250/nljinoem/_/edfhbbca
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -922,19 +411,7 @@ RELEASE_STANDARD_ERROR=bocjflcn
 RELEASE_STATUS=250
 RELEASE_TOKEN_ARGUMENTS=kehoabmd
 RELEASE_TOKEN_STANDARD_INPUT=abimdmdo
-RESOURCE=/build/temporary.mR7E6m1g
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.bLh48ba5
 
 init.status
 250
@@ -942,48 +419,13 @@ init.status
 release.standard-error
 STANDARD_ERROR=bocjflcn
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='kbdcnfom'
-export STANDARD_OUTPUT='mkgdllne'
-export STATUS='250'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='dmacdnnl'
-export TOKEN_STANDARD_INPUT='gebfjdoe'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=hicndlnc
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/250/nljinoem/_/edfhbbca/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/250/nljinoem/_/edfhbbca/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=kbdcnfom
 
 init.standard-input
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='bocjflcn'
-export STANDARD_OUTPUT='hicndlnc'
-export STATUS='250'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='kehoabmd'
-export TOKEN_STANDARD_INPUT='abimdmdo'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
@@ -993,21 +435,6 @@ release.status
 init.standard-output
 STANDARD_OUTPUT=mkgdllne
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/250/nljinoem/_/edfhbbca/teardown-synch.sh"  "$@" 
-
 init.arguments
 nljinoem
 
@@ -1025,7 +452,7 @@ INIT_STANDARD_ERROR=kbdcnfom
 INIT_STATUS=250
 INIT_TOKEN_ARGUMENTS=dmacdnnl
 INIT_TOKEN_STANDARD_INPUT=gebfjdoe
-RESOURCE=/build/temporary.Je4RtEED
+RESOURCE=/build/temporary.wHOv6yvo
 RELEASE_NAME=250/nljinoem/_/edfhbbca
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -1036,19 +463,7 @@ RELEASE_STANDARD_ERROR=bocjflcn
 RELEASE_STATUS=250
 RELEASE_TOKEN_ARGUMENTS=kehoabmd
 RELEASE_TOKEN_STANDARD_INPUT=abimdmdo
-RESOURCE=/build/temporary.Je4RtEED
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.wHOv6yvo
 
 init.status
 250
@@ -1056,48 +471,13 @@ init.status
 release.standard-error
 STANDARD_ERROR=bocjflcn
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='kbdcnfom'
-export STANDARD_OUTPUT='mkgdllne'
-export STATUS='250'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='dmacdnnl'
-export TOKEN_STANDARD_INPUT='gebfjdoe'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=hicndlnc
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/250/nljinoem/_/edfhbbca/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/250/nljinoem/_/edfhbbca/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=kbdcnfom
 
 init.standard-input
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='bocjflcn'
-export STANDARD_OUTPUT='hicndlnc'
-export STATUS='250'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='kehoabmd'
-export TOKEN_STANDARD_INPUT='abimdmdo'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
@@ -1107,21 +487,6 @@ release.status
 init.standard-output
 STANDARD_OUTPUT=mjoaegnl
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/63/ipajcene/ipajcene/fjgnamfl/teardown-synch.sh"  "$@" 
-
 init.arguments
 ipajcene
 
@@ -1139,7 +504,7 @@ INIT_STANDARD_ERROR=onfemfga
 INIT_STATUS=63
 INIT_TOKEN_ARGUMENTS=piplpeco
 INIT_TOKEN_STANDARD_INPUT=alhgokne
-RESOURCE=/build/temporary.POejIquY
+RESOURCE=/build/temporary.Vfhx6Huz
 RELEASE_NAME=63/ipajcene/ipajcene/fjgnamfl
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -1150,19 +515,7 @@ RELEASE_STANDARD_ERROR=ifjlblnf
 RELEASE_STATUS=63
 RELEASE_TOKEN_ARGUMENTS=capbkoek
 RELEASE_TOKEN_STANDARD_INPUT=mniiocdn
-RESOURCE=/build/temporary.POejIquY
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.Vfhx6Huz
 
 init.status
 63
@@ -1170,49 +523,14 @@ init.status
 release.standard-error
 STANDARD_ERROR=ifjlblnf
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='onfemfga'
-export STANDARD_OUTPUT='mjoaegnl'
-export STATUS='63'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='piplpeco'
-export TOKEN_STANDARD_INPUT='alhgokne'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=ocgdbgph
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/63/ipajcene/ipajcene/fjgnamfl/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/63/ipajcene/ipajcene/fjgnamfl/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=onfemfga
 
 init.standard-input
 ipajcene
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='ifjlblnf'
-export STANDARD_OUTPUT='ocgdbgph'
-export STATUS='63'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='capbkoek'
-export TOKEN_STANDARD_INPUT='mniiocdn'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
@@ -1222,21 +540,6 @@ release.status
 init.standard-output
 STANDARD_OUTPUT=mjoaegnl
 
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/63/ipajcene/ipajcene/fjgnamfl/teardown-synch.sh"  "$@" 
-
 init.arguments
 ipajcene
 
@@ -1254,7 +557,7 @@ INIT_STANDARD_ERROR=onfemfga
 INIT_STATUS=63
 INIT_TOKEN_ARGUMENTS=piplpeco
 INIT_TOKEN_STANDARD_INPUT=alhgokne
-RESOURCE=/build/temporary.mq9Xorqz
+RESOURCE=/build/temporary.zMLwW7I8
 RELEASE_NAME=63/ipajcene/ipajcene/fjgnamfl
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -1265,19 +568,7 @@ RELEASE_STANDARD_ERROR=ifjlblnf
 RELEASE_STATUS=63
 RELEASE_TOKEN_ARGUMENTS=capbkoek
 RELEASE_TOKEN_STANDARD_INPUT=mniiocdn
-RESOURCE=/build/temporary.mq9Xorqz
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.zMLwW7I8
 
 init.status
 63
@@ -1285,49 +576,14 @@ init.status
 release.standard-error
 STANDARD_ERROR=ifjlblnf
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='onfemfga'
-export STANDARD_OUTPUT='mjoaegnl'
-export STATUS='63'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='piplpeco'
-export TOKEN_STANDARD_INPUT='alhgokne'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
 release.standard-output
 STANDARD_OUTPUT=ocgdbgph
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/63/ipajcene/ipajcene/fjgnamfl/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/63/ipajcene/ipajcene/fjgnamfl/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=onfemfga
 
 init.standard-input
 ipajcene
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='ifjlblnf'
-export STANDARD_OUTPUT='ocgdbgph'
-export STATUS='63'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='capbkoek'
-export TOKEN_STANDARD_INPUT='mniiocdn'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
@@ -1336,21 +592,6 @@ release.status
 
 init.standard-output
 STANDARD_OUTPUT=cakbllph
-
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/fmilbcmj/_/ceajkpgg/teardown-synch.sh"  "$@" 
 
 init.arguments
 fmilbcmj
@@ -1370,99 +611,31 @@ RELEASE_STANDARD_ERROR=plfpopif
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=cjieamjc
 RELEASE_TOKEN_STANDARD_INPUT=ilojhfan
-RESOURCE=/build/temporary.0sz5N37X
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.cDh6ohUz
 
 init.status
 0
 
 release.standard-error
-STANDARD_ERROR=plfpopif
-
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='hmkngiob'
-export STANDARD_OUTPUT='cakbllph'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='fmgldlkk'
-export TOKEN_STANDARD_INPUT='oocmhjif'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
-release.standard-output
-STANDARD_OUTPUT=emhibpkn
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/fmilbcmj/_/ceajkpgg/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/fmilbcmj/_/ceajkpgg/teardown-asynch.sh"  "$@" 
-
-init.standard-error
 init.standard-output
-STANDARD_ERROR=hmkngiob
+STANDARD_ERROR=plfpopif
 STANDARD_OUTPUT=cakbllph
 
 
-init.standard-input
-teardown-synch.sh
-
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/fmilbcmj/_/ceajkpgg/teardown-synch.sh"  "$@" 
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='plfpopif'
-export STANDARD_OUTPUT='emhibpkn'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='cjieamjc'
-export TOKEN_STANDARD_INPUT='ilojhfan'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
+release.standard-output
 init.arguments
-
+STANDARD_OUTPUT=emhibpkn
 fmilbcmj
 
-lock.teardown
-temporary
 
+init.standard-error
+temporary
+STANDARD_ERROR=hmkngiob
 bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
 
-release.status
-0
-target
 
+init.standard-input
+target
 070e198c
 RELEASE_NAME=0/fmilbcmj/_/ceajkpgg
 RELEASE_HAS_STANDARD_INPUT=true
@@ -1474,69 +647,28 @@ RELEASE_STANDARD_ERROR=plfpopif
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=cjieamjc
 RELEASE_TOKEN_STANDARD_INPUT=ilojhfan
-RESOURCE=/build/temporary.SJbVhbjx
+RESOURCE=/build/temporary.pCqBI473
 
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
 
+lock.teardown
 init.status
 0
 
+
+release.status
 release.standard-error
+0
 STANDARD_ERROR=plfpopif
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='hmkngiob'
-export STANDARD_OUTPUT='cakbllph'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='fmgldlkk'
-export TOKEN_STANDARD_INPUT='oocmhjif'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
 
 release.standard-output
 STANDARD_OUTPUT=emhibpkn
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/fmilbcmj/_/ceajkpgg/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/fmilbcmj/_/ceajkpgg/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=hmkngiob
 
 init.standard-input
 
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='plfpopif'
-export STANDARD_OUTPUT='emhibpkn'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='cjieamjc'
-export TOKEN_STANDARD_INPUT='ilojhfan'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
-
 lock.teardown
 
 release.status
@@ -1544,21 +676,6 @@ release.status
 
 init.standard-output
 STANDARD_OUTPUT=clbbklhb
-
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ocnfgfeo/_/embopfck/teardown-synch.sh"  "$@" 
 
 init.arguments
 ocnfgfeo
@@ -1578,99 +695,31 @@ RELEASE_STANDARD_ERROR=ldcddlhp
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=hmbimnhl
 RELEASE_TOKEN_STANDARD_INPUT=labkdban
-RESOURCE=/build/temporary.5WE5az4n
-
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
+RESOURCE=/build/temporary.2hSnui7M
 
 init.status
 0
 
 release.standard-error
-STANDARD_ERROR=ldcddlhp
-
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='mffklbbc'
-export STANDARD_OUTPUT='clbbklhb'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='paogbepc'
-export TOKEN_STANDARD_INPUT='keomnncp'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
-
-release.standard-output
-STANDARD_OUTPUT=dkcihmei
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ocnfgfeo/_/embopfck/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ocnfgfeo/_/embopfck/teardown-asynch.sh"  "$@" 
-
-init.standard-error
 init.standard-output
-STANDARD_ERROR=mffklbbc
+STANDARD_ERROR=ldcddlhp
 STANDARD_OUTPUT=clbbklhb
 
 
-init.standard-input
-teardown-synch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export BASENAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/basename'
-export CHMOD='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/chmod'
-export DIRNAME='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/dirname'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export TAIL='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/tail'
-export TRUE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/true'
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cat'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ocnfgfeo/_/embopfck/teardown-synch.sh"  "$@" 
-
-
-release.sh
+release.standard-output
 init.arguments
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='ldcddlhp'
-export STANDARD_OUTPUT='dkcihmei'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='hmbimnhl'
-export TOKEN_STANDARD_INPUT='labkdban'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
+STANDARD_OUTPUT=dkcihmei
 ocnfgfeo
 
 
-lock.teardown
+init.standard-error
 temporary
+STANDARD_ERROR=mffklbbc
 bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
 
 
-release.status
+init.standard-input
 target
-0
-
 26afb28d
 RELEASE_NAME=0/ocnfgfeo/_/embopfck
 RELEASE_HAS_STANDARD_INPUT=true
@@ -1682,68 +731,27 @@ RELEASE_STANDARD_ERROR=ldcddlhp
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=hmbimnhl
 RELEASE_TOKEN_STANDARD_INPUT=labkdban
-RESOURCE=/build/temporary.xa46a3kQ
+RESOURCE=/build/temporary.54BPSn7q
 
-post.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export FIND='/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin/find'
-export FLOCK='/nix/store/skd3rjlinc7w0yknymp1m7wdjr9zi3kw-flock-0.4.0/bin/flock'
-export MKDIR='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mkdir'
-export MV='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/mv'
-export OBSERVED='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/post/observed/setup'
-export RM='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/rm'
-export SED='/nix/store/vmby25zqxnx94awvj0k7zn0rsd0zyrwg-gnused-4.9/bin/sed'
-export TOUCH='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/touch'
-exec "/nix/store/9nglz05jfpn7ddzxr9j7rxkp4klhawr7-post"  "$@" 
 
+lock.teardown
 init.status
 0
 
+
+release.status
 release.standard-error
+0
 STANDARD_ERROR=ldcddlhp
 
-init.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='mffklbbc'
-export STANDARD_OUTPUT='clbbklhb'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='paogbepc'
-export TOKEN_STANDARD_INPUT='keomnncp'
-export TYPEOF='lambda'
-exec "/nix/store/fps7fli22gahjgbzihwfw7h5m2yg5y16-init"  "$@" 
 
 release.standard-output
 STANDARD_OUTPUT=dkcihmei
-
-teardown-asynch.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export NICE='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/nice'
-export TEARDOWN_SYNCH='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ocnfgfeo/_/embopfck/teardown-synch'
-exec "/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/temporary/0/ocnfgfeo/_/embopfck/teardown-asynch.sh"  "$@" 
 
 init.standard-error
 STANDARD_ERROR=mffklbbc
 
 init.standard-input
-
-release.sh
-#! /nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash -e
-export CAT='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/cut'
-export ECHO='/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin/echo'
-export GREP='/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-gnugrep-3.11/bin/grep'
-export STANDARD_ERROR='ldcddlhp'
-export STANDARD_OUTPUT='dkcihmei'
-export STATUS='0'
-export TOKEN_1='/nix/store/disk7xkn56bq3sv8jgrzdfwykymnfsyf-temporary-implementation/temporary/util/token/setup'
-export TOKEN_ARGUMENTS='hmbimnhl'
-export TOKEN_STANDARD_INPUT='labkdban'
-export TYPEOF='lambda'
-exec "/nix/store/m0clyh5ldp6nzamncvwnzs41bjr0s2ng-release"  "$@" 
 
 lock.teardown
 
