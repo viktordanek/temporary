@@ -21,8 +21,7 @@ exec 200> ${RRRR}/lock.teardown &&
     ${CHMOD} 0400 ${RRRR}/release.standard-output ${RRRR}/release.standard-error ${RRRR}/release.status &&
     if [ -L ${RRRR}/post.sh ]
     then
-      cat ${RRRR}/post.sh >> /build/debug &&
-      ${RRRR}/post.sh || ${TRUE}
+      ${RESOURCE}/post.sh || ${TRUE}
     fi &&
     ${RM} --recursive --force ${RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
