@@ -12,8 +12,9 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -type f | ${SORT} | while read FILE
   do
     BASE=$( ${BASENAME} ${FILE} ) &&
-      ${ECHO} ${BASE} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed &&
-      ${CAT} ${FILE} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed &&
-      ${ECHO} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed
+      ${ECHO} "<" >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed
+        ${ECHO} ${BASE} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed &&
+        ${CAT} ${FILE} >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed &&
+        ${ECHO} ">" >> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed
     done
 
