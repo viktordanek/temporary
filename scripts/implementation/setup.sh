@@ -9,14 +9,14 @@ RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
-      TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
-      TARGET_PID=$( ${PS} -p ${TARGET_PID} -o ppid= ) &&
+      GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
+      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
       ${TEE} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   else
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
-      TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
-      TARGET_PID=$( ${PS} -p ${TARGET_PID} -o ppid= ) &&
+      GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
+      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
       ${TEE} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   fi &&
