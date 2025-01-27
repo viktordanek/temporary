@@ -19,9 +19,9 @@ exec 200> ${RRRR}/lock.teardown &&
     fi &&
     ${ECHO} ${STATUS} > ${RRRR}/release.status &&
     ${CHMOD} 0400 ${RRRR}/release.standard-output ${RRRR}/release.standard-error ${RRRR}/release.status &&
-    if [ -L ${RRRR}/post.sh ]
+    if [ -L ${RESOURCE}/post.sh ]
     then
-      ${RRRR}/post.sh || ${TRUE}
+      ${RESOURCE}/post.sh || ${TRUE}
     fi &&
     ${RM} --recursive --force ${RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
