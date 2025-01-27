@@ -1,19 +1,16 @@
 TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d} &&
   NAME=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b} &&
-  if [ -t 0 ] || [[ "$( ${READLINK} /proc/self/fd/0 )" == pipe:* ]]
+  if [ -t 0 ]
+  then
+    HAS_STANDARD_INPUT=false &&
+      STANDARD_INPUT=
+  elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
     HAS_STANDARD_INPUT=true
       STANDARD_INPUT=$( ${TEE} )
   else
-    HAS_STANDARD_INPUT=false &&
-      STANDARD_INPUT=
-  fi &&
-  ${ECHO} STANDARD_OUTPUT=${STANDARD_OUTPUT} &&
-  if [ -f ${TARGET} ]
-  then
-    ${ECHO} RELEASE_=true >> ${TARGET}
-  else
-    ${ECHO} RELEASE_=false >> ${TARGET}
+    HAS_STANDARD_INPUT=true
+      STANDARD_INPUT=$( ${TEE} )
   fi &&
   ${ECHO} RELEASE_NAME=${NAME} >> ${TARGET} &&
   ${ECHO} RELEASE_HAS_STANDARD_INPUT=${HAS_STANDARD_INPUT} >> ${TARGET} &&
