@@ -278,6 +278,7 @@
                                                                                                                                         MV = "${ pkgs.coreutils }/bin/mv" ;
                                                                                                                                         OBSERVED = harvest.temporary.util.post.observed ;
                                                                                                                                         RM = "${ pkgs.coreutils }/bin/rm" ;
+                                                                                                                                        TOUCH = "${ pkgs.coreutils }/bin/touch" ;
                                                                                                                                     } ;
                                                                                                                         } ;
                                                                                                             } ;
