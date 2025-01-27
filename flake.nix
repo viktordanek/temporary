@@ -362,7 +362,7 @@
                                                                             exit 10
                                                                     '' ;
                                                     } ;
-                           /nix/store/fm07a7iqxsnmf9s2x5kpanas7f63jyiz-temporary-test         lib = lib ;
+                                    lib = lib ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
 }
