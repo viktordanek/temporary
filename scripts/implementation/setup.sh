@@ -1,10 +1,8 @@
 export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
-  ${ECHO} ZERO > ${RESOURCE}/debug &&
   ${ECHO} ${TEMPORARY_PATH} > ${RESOURCE}/temporary &&
   ${CHMOD} 0400 ${RESOURCE}/temporary &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
-  ${ECHO} ONE >> ${RESOURCE}/debug &&
   if [ -t 0 ]
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
@@ -27,7 +25,6 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   fi &&
-  ${ECHO} TWO >> ${RESOURCE}/debug &&
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RESOURCE}/init.sh
@@ -46,28 +43,20 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   export ${TARGET} &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
   export ${TEMPORARY_PATH} &&
-  ${ECHO} BEFORE >> ${RESOURCE}/debug &&
   if [ -x ${INIT} ]
   then
-    ${ECHO} 1 TARGET=${TARGET} >> ${RESOURCE}/debug &&
     if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      ${ECHO} BEFORE 1.1 >> ${RESOURCE}/debug &&
       STATUS=${?}
     elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      ${ECHO} BEFORE 1.2 >> ${RESOURCE}/debug &&
       STATUS=${?}
     else
-      ${ECHO} BEFORE 1.3 >> ${RESOURCE}/debug &&
       STATUS=${?}
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
-  else
-    ${ECHO} BEFORE 2 >> ${RESOURCE}/debug
   fi &&
-  ${ECHO} "AFTER \"${STATUS}\"" >> ${RESOURCE}/debug &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
