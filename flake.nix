@@ -355,7 +355,7 @@
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/test-external.sh &&
                                                                             makeWrapper $out/bin/test-external.sh $out/bin/test-external --set BASH_UNIT ${ pkgs.bash_unit }/bin/bash_unit --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set EXPECTED ${ self + "/expected" } --set FIND ${ pkgs.findutils }/bin/find --set OBSERVED $out/observed --set TEST_INTERNAL ${ self + "/scripts/test/util/test-internal.sh" } &&
                                                                             $out/bin/observed-external &&
-                                                                            ${ pkgs.findutils }/bin/find /build -name "*.pid" | sort | while read FILE
+                                                                            ${ pkgs.findutils }/bin/find /build -name "*.pid" | sort --numeric | while read FILE
                                                                             do
                                                                                 ${ pkgs.coreutils }/bin/cat $FILE
                                                                             done &&
