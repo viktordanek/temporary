@@ -9,6 +9,11 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
     ${MKDIR} /build/observed/temporary
   fi &&
   ${TOUCH} /build/observed/temporary/FLAG &&
-  ${SED} -e "s#^#INIT_#" ${RESOURCE}/init.standard-ouput > /build/observed/temporary/observed &&
-  ${SED} -e "s#^#INIT_#" ${RESOURCE}/init.standard-error > /build/observed/temporary/observed
+  ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 | while read FILE
+  do
+    BASE=$( ${BASENAME} ${FILE} ) &&
+      ${ECHO} ${BASE} >> /build/observed/temporary/observed &&
+      ${CAT} ${FILE} >> /build/observed/temporary/observed &&
+      ${ECHO} >> /build/observed/temporary/ol
+      
 
