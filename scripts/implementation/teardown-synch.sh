@@ -1,5 +1,5 @@
 ${ECHO} "exec 200> ${RRRR}/lock.teardown" >> /build/debug &&
-exec 200>${RESOURCE}/lock.teardown &&
+exec 200> ${RRRR}/lock.teardown &&
   if ${FLOCK} 200
   then
     ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
