@@ -223,65 +223,61 @@
                                                                                             in
                                                                                                 {
                                                                                                     "${ status }"."${ hash arguments }"."${ if standard-input == 0 then hash standard-input else "_" }"."${ hash "name" }" =
-                                                                                                        let
-                                                                                                            init = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
-                                                                                                            release = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
-                                                                                                            post = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/script/test/temporary/post.sh" ) ) ;
-                                                                                                            in
-                                                                                                                script :
-                                                                                                                    {
-                                                                                                                        init =
-                                                                                                                            script
-                                                                                                                                {
-                                                                                                                                    executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
-                                                                                                                                    sets =
-                                                                                                                                        harvest :
-                                                                                                                                            {
-                                                                                                                                                CAT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                                                TYPEOF = "lambda" ;
-                                                                                                                                                STANDARD_OUTPUT = hash "init-standard-output" ;
-                                                                                                                                                STANDARD_ERROR = hash "init-standard-error" ;
-                                                                                                                                                STATUS = status ;
-                                                                                                                                                TOKEN_ARGUMENTS = hash "token arguments" ;
-                                                                                                                                                TOKEN_STANDARD_INPUT = hash "token standard input" ;
-                                                                                                                                                TOKEN_1 = harvest.temporary.util.token ;
-                                                                                                                                            } ;
-                                                                                                                                } ;
-                                                                                                                        release =
-                                                                                                                            script
-                                                                                                                                {
-                                                                                                                                    executable = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
-                                                                                                                                    sets =
-                                                                                                                                        harvest :
-                                                                                                                                            {
-                                                                                                                                                CAT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                                                TYPEOF = "lambda" ;
-                                                                                                                                                STANDARD_OUTPUT = hash release-standard-output ;
-                                                                                                                                                STANDARD_ERROR = hash release-standard-error ;
-                                                                                                                                                STATUS = if release-status == 0 then "0" else builtins.toString ( 1 + ( rand release-status 254 ) ) ;
-                                                                                                                                                TOKEN_ARGUMENTS = hash "token arguments" ;
-                                                                                                                                                TOKEN_STANDARD_INPUT = hash "token standard input" ;
-                                                                                                                                                TOKEN_1 = harvest.temporary.util.token ;
-                                                                                                                                            } ;
-                                                                                                                                } ;
-                                                                                                                        post =
-                                                                                                                            script
-                                                                                                                                {
-                                                                                                                                    executable = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
-                                                                                                                                    sets =
-                                                                                                                                        harvest :
-                                                                                                                                            {
-                                                                                                                                                FIND = "${ pkgs.findutils }/bin/find" ;
-                                                                                                                                                FLOCK = "${ pkgs.flock }/bin/flock" ;
-                                                                                                                                                MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
-                                                                                                                                                MV = "${ pkgs.coreutils }/bin/mv" ;
-                                                                                                                                                OBSERVED = harvest.temporary.util.post.observed ;
-                                                                                                                                                RM = "${ pkgs.coreutils }/bin/rm" ;
-                                                                                                                                            } ;
-                                                                                                                                } ;
-                                                                                                                    } ;
+                                                                                                        script :
+                                                                                                            {
+                                                                                                                init =
+                                                                                                                    script
+                                                                                                                        {
+                                                                                                                            executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                                            sets =
+                                                                                                                                harvest :
+                                                                                                                                    {
+                                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                        GREP = "${ pkgs.gnugrep }/bin/grep" ;
+                                                                                                                                        STANDARD_ERROR = hash "init-standard-error" ;
+                                                                                                                                        STANDARD_OUTPUT = hash "init-standard-output" ;
+                                                                                                                                        STATUS = status ;
+                                                                                                                                        TOKEN_ARGUMENTS = hash "token arguments" ;
+                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token standard input" ;
+                                                                                                                                        TOKEN_1 = harvest.temporary.util.token ;
+                                                                                                                                        TYPEOF = "lambda" ;
+                                                                                                                                   } ;
+                                                                                                                        } ;
+                                                                                                                release =
+                                                                                                                    script
+                                                                                                                        {
+                                                                                                                            executable = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                                            sets =
+                                                                                                                                harvest :
+                                                                                                                                    {
+                                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                        TYPEOF = "lambda" ;
+                                                                                                                                        STANDARD_OUTPUT = hash release-standard-output ;
+                                                                                                                                        STANDARD_ERROR = hash release-standard-error ;
+                                                                                                                                        STATUS = if release-status == 0 then "0" else builtins.toString ( 1 + ( rand release-status 254 ) ) ;
+                                                                                                                                        TOKEN_ARGUMENTS = hash "token arguments" ;
+                                                                                                                                        TOKEN_STANDARD_INPUT = hash "token standard input" ;
+                                                                                                                                        TOKEN_1 = harvest.temporary.util.token ;
+                                                                                                                                    } ;
+                                                                                                                        } ;
+                                                                                                                post =
+                                                                                                                    script
+                                                                                                                        {
+                                                                                                                            executable = pkgs.writeShellScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
+                                                                                                                            sets =
+                                                                                                                                harvest :
+                                                                                                                                    {
+                                                                                                                                        FIND = "${ pkgs.findutils }/bin/find" ;
+                                                                                                                                        FLOCK = "${ pkgs.flock }/bin/flock" ;
+                                                                                                                                        MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                                                        MV = "${ pkgs.coreutils }/bin/mv" ;
+                                                                                                                                        OBSERVED = harvest.temporary.util.post.observed ;
+                                                                                                                                        RM = "${ pkgs.coreutils }/bin/rm" ;
+                                                                                                                                    } ;
+                                                                                                                        } ;
+                                                                                                            } ;
                                                                                                 } ;
                                                                                 in builtins.map mapper list ;
                                                                         in builtins.foldl' pkgs.lib.recursiveUpdate {} list ;
