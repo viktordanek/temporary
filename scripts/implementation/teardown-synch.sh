@@ -2,7 +2,7 @@ ${ECHO} "exec 200> ${RRRR}/lock.teardown" >> /build/debug &&
 exec 200> ${RRRR}/lock.teardown &&
   if ${FLOCK} 200
   then
-    ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
+    ${FIND} ${RRRR} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
