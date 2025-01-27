@@ -1,8 +1,8 @@
-declare ${RESOURCE}=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
-  ${ECHO} ${TEMPORARY_PATH} > ${RESOURCE}/temporary &&
-  ${CHMOD} 0400 ${RESOURCE}/temporary &&
-  ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
-  ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
+RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
+  ${ECHO} ${TEMPORARY_PATH} > ${RRRR}/temporary &&
+  ${CHMOD} 0400 ${RRRR}/temporary &&
+  ${ECHO} "${@}" > ${RRRR}/init.arguments &&
+  ${CHMOD} 0400 ${RRRR}/init.arguments &&
   if [ -t 0 ]
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
@@ -14,57 +14,58 @@ declare ${RESOURCE}=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
       # TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
       # TARGET_PID=99
-      ${TEE} > ${RESOURCE}/init.standard-input &&
-      ${CHMOD} 0400 ${RESOURCE}/init.standard-input
+      ${TEE} > ${RRRR}/init.standard-input &&
+      ${CHMOD} 0400 ${RRRR}/init.standard-input
   else
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       TARGET_PID=${PARENT_PID} &&
       # TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
       # TARGET_PID=$( ${PS} -p ${$} -o pid | ${TAIL} --lines 1 )
       # TARGET_PID=99
-      ${TEE} > ${RESOURCE}/init.standard-input &&
-      ${CHMOD} 0400 ${RESOURCE}/init.standard-input
+      ${TEE} > ${RRRR}/init.standard-input &&
+      ${CHMOD} 0400 ${RRRR}/init.standard-input
   fi &&
   if [ -x ${INIT} ]
   then
-    ${LN} --symbolic ${INIT} ${RESOURCE}/init.sh
+    ${LN} --symbolic ${INIT} ${RRRR}/init.sh
   fi &&
   if [ -x ${RELEASE} ]
   then
-    ${LN} --symbolic ${RELEASE} ${RESOURCE}/release.sh
+    ${LN} --symbolic ${RELEASE} ${RRRR}/release.sh
   fi &&
   if [ -x ${POST} ]
    then
-     ${LN} --symbolic ${POST} ${RESOURCE}/post.sh
+     ${LN} --symbolic ${POST} ${RRRR}/post.sh
   fi &&
-  ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
-  ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
+  ${LN} --symbolic ${TEARDOWN_SYNCH} ${RRRR}/teardown-synch.sh &&
+  ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RRRR}/teardown-asynch.sh &&
+  declare RESOURCE=${RRRR} &&
   export ${RESOURCE} &&
-  declare ${TARGET}=${RESOURCE}/target &&
+  declare ${TARGET}=${RRRR}/target &&
   export ${TARGET} &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
   export ${TEMPORARY_PATH} &&
   if [ -x ${INIT} ]
   then
-    if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
+    if [ -f ${RRRR}/init.standard-input ] && ${CAT} ${RRRR}/init.standard-input | ${INIT} $( ${CAT} ${RRRR}/init.arguments ) > ${RRRR}/init.standard-output 2> ${RRRR}/init.standard-error
     then
       STATUS=${?}
-    elif ${INIT} $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
+    elif ${INIT} $( ${CAT} ${RRRR}/init.arguments ) > ${RRRR}/init.standard-output 2> ${RRRR}/init.standard-error
     then
       STATUS=${?}
     else
       STATUS=${?}
     fi &&
-    ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
-    ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
+    ${ECHO} ${STATUS} > ${RRRR}/init.status &&
+    ${CHMOD} 0400 ${RRRR}/init.standard-output ${RRRR}/init.standard-error ${RRRR}/init.status
   fi &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
-    ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
-      ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
-      ${RESOURCE}/teardown-asynch.sh &&
+    ${ECHO} ${TARGET_PID// /} > ${RRRR}/${TARGET_PID// /}.pid &&
+      ${CHMOD} 0400 ${RRRR}/${TARGET_PID// /}.pid
+      ${RRRR}/teardown-asynch.sh &&
       ${ECHO} ${!TARGET}
   else
-    ${RESOURCE}/teardown-asynch.sh &&
+    ${RRRR}/teardown-asynch.sh &&
       exit ${ERROR}
   fi
