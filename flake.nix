@@ -304,6 +304,7 @@
                                                                                                                 CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                                 CHMOD = "${ pkgs.coreutils }/bin/chmod" ;
                                                                                                                 ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                             } ;
                                                                                                     } ;
                                                                                         } ;
