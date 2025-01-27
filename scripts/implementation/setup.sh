@@ -1,4 +1,4 @@
-RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
+export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} ${TEMPORARY_PATH} > ${RRRR}/temporary &&
   ${CHMOD} 0400 ${RRRR}/temporary &&
   ${ECHO} "${@}" > ${RRRR}/init.arguments &&
