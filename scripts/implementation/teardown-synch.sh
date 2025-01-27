@@ -1,4 +1,4 @@
-${ECHO} "exec 200>${RESOURCE}/lock.teardown" >> /build/debug &&
+${ECHO} "exec 200> ${RRRR}/lock.teardown" >> /build/debug &&
 exec 200>${RESOURCE}/lock.teardown &&
   if ${FLOCK} 200
   then
