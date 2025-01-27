@@ -39,18 +39,18 @@ STANDARD_OUTPUT=mcplinpo
 
 <
 release.status
-<
 0
+>
+<
+
 init.arguments
->
 nikhcflm
-
+<
 >
-
-<
 target
-<
+
 4bb6c60e
+RELEASE_=true
 RELEASE_NAME=0/nikhcflm/nikhcflm/cajdkpjh
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -61,20 +61,21 @@ RELEASE_STANDARD_ERROR=ohghnapb
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=bejijanf
 RELEASE_TOKEN_STANDARD_INPUT=klpindcm
+>
+<
+
 init.standard-error
->
 STANDARD_ERROR=jfdjaenh
-
->
-
 <
+>
 temporary
-<
-bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
-init.standard-input
->
-nikhcflm
 
+bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
+>
+<
+
+init.standard-input
+nikhcflm
 >
 
 <
@@ -109,6 +110,7 @@ release.status
 <
 target
 4bb6c60e
+RELEASE_=true
 RELEASE_NAME=0/nikhcflm/nikhcflm/cajdkpjh
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=

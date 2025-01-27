@@ -14,66 +14,46 @@ init.standard-input
 
 <
 init.standard-output
-<
 STANDARD_OUTPUT=clbbklhb
-init.arguments
->
-ocnfgfeo
-
 >
 
 <
 init.status
-<
 0
-init.standard-error
->
-STANDARD_ERROR=mffklbbc
-
 >
 
-<
 <
 lock.teardown
-init.standard-input
->
 >
 
-
-<
 <
 release.standard-error
-init.standard-output
 STANDARD_ERROR=ldcddlhp
-STANDARD_OUTPUT=clbbklhb
->
 >
 
-
-<
 <
 release.standard-output
-init.status
 STANDARD_OUTPUT=dkcihmei
-0
->
 >
 
-
 <
+init.arguments
 <
+ocnfgfeo
 release.status
-lock.teardown
+>
 0
->
+
 >
 
-
 <
+init.standard-error
 <
+STANDARD_ERROR=mffklbbc
 target
-release.standard-error
+>
 26afb28d
+RELEASE_=true
 RELEASE_NAME=0/ocnfgfeo/_/embopfck
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -84,20 +64,41 @@ RELEASE_STANDARD_ERROR=ldcddlhp
 RELEASE_STATUS=0
 RELEASE_TOKEN_ARGUMENTS=hmbimnhl
 RELEASE_TOKEN_STANDARD_INPUT=labkdban
-STANDARD_ERROR=ldcddlhp
->
->
 
+>
 
 <
+init.standard-input
 <
 temporary
-release.standard-output
-bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
-STANDARD_OUTPUT=dkcihmei
 >
+bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
+
 >
 
+<
+init.standard-output
+STANDARD_OUTPUT=clbbklhb
+>
+
+<
+init.status
+0
+>
+
+<
+lock.teardown
+>
+
+<
+release.standard-error
+STANDARD_ERROR=ldcddlhp
+>
+
+<
+release.standard-output
+STANDARD_OUTPUT=dkcihmei
+>
 
 <
 release.status
@@ -107,6 +108,7 @@ release.status
 <
 target
 26afb28d
+RELEASE_=true
 RELEASE_NAME=0/ocnfgfeo/_/embopfck
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=

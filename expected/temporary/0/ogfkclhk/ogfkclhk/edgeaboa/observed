@@ -51,6 +51,7 @@ ogfkclhk
 target
 <
 99d44209
+RELEASE_=true
 RELEASE_NAME=0/ogfkclhk/ogfkclhk/edgeaboa
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
@@ -109,6 +110,7 @@ release.status
 <
 target
 99d44209
+RELEASE_=true
 RELEASE_NAME=0/ogfkclhk/ogfkclhk/edgeaboa
 RELEASE_HAS_STANDARD_INPUT=true
 RELEASE_STANDARD_INPUT=
