@@ -12,15 +12,15 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   exec 200> /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/lock &&
   ${FLOCK} 200 &&
   INDEX=$( ${FIND} /build/observed/temporary/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "observed*" | ${WC} --lines ) &&
-  if [ ${INDEX} == 0 ]
+  D=$( ${OBSERVED} ${RESOURCE} ) &&
+  if [ -f /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.yaml ]
   then
-    ${MV} $( ${OBSERVED} ${RESOURCE} ) /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.yaml
+      if [ ! -z "$( ${DIFF} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed ${D} )" ]
+      then
+        ${MV} ${D} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml
+      fi &&
   else
-    D=$( ${OBSERVED} ${RESOURCE} ) &&
-    if [ ! -z "$( ${DIFF} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed ${D} )" ]
-    then
-      ${MV} ${D} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml
-    fi &&
-    ${RM} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/lock
-  fi
+    ${MV} ${D} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/observed.yaml
+  fi &&
+  ${RM} /build/observed/temporary/${TEMPORARY_PATH_ARRAY}/lock
 
