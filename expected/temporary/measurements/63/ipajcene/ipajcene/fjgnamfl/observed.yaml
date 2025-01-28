@@ -1,62 +1,62 @@
-- file
-    name: init.arguments
-    contents: -
-      ipajcene
-- file
-    name: init.standard-error
-    contents: -
-      STANDARD_ERROR=onfemfga
-- file
-    name: init.standard-input
-    contents: -
-      ipajcene
-- file
-    name: init.standard-output
-    contents: -
-      STANDARD_OUTPUT=mjoaegnl
-- file
-    name: init.status
-    contents: -
-      63
-- file
-    name: lock.teardown
-- file
-    name: release.standard-error
-    contents: -
-      STANDARD_ERROR=ifjlblnf
-- file
-    name: release.standard-output
-    contents: -
-      STANDARD_OUTPUT=ocgdbgph
-- file
-    name: release.status
-    contents: -
-      63
-- file
-    name: target
-    contents: -
-      INIT_NAME=63/ipajcene/ipajcene/fjgnamfl
-      INIT_HAS_STANDARD_INPUT=true
-      INIT_STANDARD_INPUT=
-      INIT_ARGUMENTS=ipajcene
-      INIT_TYPEOF=lambda
-      INIT_STANDARD_OUTPUT=mjoaegnl
-      INIT_STANDARD_ERROR=onfemfga
-      INIT_STATUS=63
-      INIT_TOKEN_ARGUMENTS=piplpeco
-      INIT_TOKEN_STANDARD_INPUT=alhgokne
-      RELEASE_=true
-      RELEASE_NAME=63/ipajcene/ipajcene/fjgnamfl
-      RELEASE_HAS_STANDARD_INPUT=true
-      RELEASE_STANDARD_INPUT=
-      RELEASE_ARGUMENTS=
-      RELEASE_TYPEOF=lambda
-      RELEASE_STANDARD_OUTPUT=ocgdbgph
-      RELEASE_STANDARD_ERROR=ifjlblnf
-      RELEASE_STATUS=63
-      RELEASE_TOKEN_ARGUMENTS=capbkoek
-      RELEASE_TOKEN_STANDARD_INPUT=mniiocdn
-- file
-    name: temporary
-    contents: -
-      bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
+- file: normal
+  name: init.arguments
+  contents: -
+    ipajcene
+- file: normal
+  name: init.standard-error
+  contents: -
+    STANDARD_ERROR=onfemfga
+- file: normal
+  name: init.standard-input
+  contents: -
+    ipajcene
+- file: normal
+  name: init.standard-output
+  contents: -
+    STANDARD_OUTPUT=mjoaegnl
+- file: normal
+  name: init.status
+  contents: -
+    63
+- file: normal
+  name: lock.teardown
+- file: normal
+  name: release.standard-error
+  contents: -
+    STANDARD_ERROR=ifjlblnf
+- file: normal
+  name: release.standard-output
+  contents: -
+    STANDARD_OUTPUT=ocgdbgph
+- file: normal
+  name: release.status
+  contents: -
+    63
+- file: normal
+  name: target
+  contents: -
+    INIT_NAME=63/ipajcene/ipajcene/fjgnamfl
+    INIT_HAS_STANDARD_INPUT=true
+    INIT_STANDARD_INPUT=
+    INIT_ARGUMENTS=ipajcene
+    INIT_TYPEOF=lambda
+    INIT_STANDARD_OUTPUT=mjoaegnl
+    INIT_STANDARD_ERROR=onfemfga
+    INIT_STATUS=63
+    INIT_TOKEN_ARGUMENTS=piplpeco
+    INIT_TOKEN_STANDARD_INPUT=alhgokne
+    RELEASE_=true
+    RELEASE_NAME=63/ipajcene/ipajcene/fjgnamfl
+    RELEASE_HAS_STANDARD_INPUT=true
+    RELEASE_STANDARD_INPUT=
+    RELEASE_ARGUMENTS=
+    RELEASE_TYPEOF=lambda
+    RELEASE_STANDARD_OUTPUT=ocgdbgph
+    RELEASE_STANDARD_ERROR=ifjlblnf
+    RELEASE_STATUS=63
+    RELEASE_TOKEN_ARGUMENTS=capbkoek
+    RELEASE_TOKEN_STANDARD_INPUT=mniiocdn
+- file: normal
+  name: temporary
+  contents: -
+    bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b

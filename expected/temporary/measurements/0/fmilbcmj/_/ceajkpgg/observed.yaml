@@ -1,51 +1,51 @@
-- file
-    name: init.arguments
-    contents: -
-      fmilbcmj
-- file
-    name: init.standard-error
-    contents: -
-      STANDARD_ERROR=hmkngiob
-- file
-    name: init.standard-input
-- file
-    name: init.standard-output
-    contents: -
-      STANDARD_OUTPUT=cakbllph
-- file
-    name: init.status
-    contents: -
-      0
-- file
-    name: lock.teardown
-- file
-    name: release.standard-error
-    contents: -
-      STANDARD_ERROR=plfpopif
-- file
-    name: release.standard-output
-    contents: -
-      STANDARD_OUTPUT=emhibpkn
-- file
-    name: release.status
-    contents: -
-      0
-- file
-    name: target
-    contents: -
-      070e198c
-      RELEASE_=true
-      RELEASE_NAME=0/fmilbcmj/_/ceajkpgg
-      RELEASE_HAS_STANDARD_INPUT=true
-      RELEASE_STANDARD_INPUT=
-      RELEASE_ARGUMENTS=
-      RELEASE_TYPEOF=lambda
-      RELEASE_STANDARD_OUTPUT=emhibpkn
-      RELEASE_STANDARD_ERROR=plfpopif
-      RELEASE_STATUS=0
-      RELEASE_TOKEN_ARGUMENTS=cjieamjc
-      RELEASE_TOKEN_STANDARD_INPUT=ilojhfan
-- file
-    name: temporary
-    contents: -
-      bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
+- file: normal
+  name: init.arguments
+  contents: -
+    fmilbcmj
+- file: normal
+  name: init.standard-error
+  contents: -
+    STANDARD_ERROR=hmkngiob
+- file: normal
+  name: init.standard-input
+- file: normal
+  name: init.standard-output
+  contents: -
+    STANDARD_OUTPUT=cakbllph
+- file: normal
+  name: init.status
+  contents: -
+    0
+- file: normal
+  name: lock.teardown
+- file: normal
+  name: release.standard-error
+  contents: -
+    STANDARD_ERROR=plfpopif
+- file: normal
+  name: release.standard-output
+  contents: -
+    STANDARD_OUTPUT=emhibpkn
+- file: normal
+  name: release.status
+  contents: -
+    0
+- file: normal
+  name: target
+  contents: -
+    070e198c
+    RELEASE_=true
+    RELEASE_NAME=0/fmilbcmj/_/ceajkpgg
+    RELEASE_HAS_STANDARD_INPUT=true
+    RELEASE_STANDARD_INPUT=
+    RELEASE_ARGUMENTS=
+    RELEASE_TYPEOF=lambda
+    RELEASE_STANDARD_OUTPUT=emhibpkn
+    RELEASE_STANDARD_ERROR=plfpopif
+    RELEASE_STATUS=0
+    RELEASE_TOKEN_ARGUMENTS=cjieamjc
+    RELEASE_TOKEN_STANDARD_INPUT=ilojhfan
+- file: normal
+  name: temporary
+  contents: -
+    bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b

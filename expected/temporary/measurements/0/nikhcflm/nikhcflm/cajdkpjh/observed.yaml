@@ -1,53 +1,53 @@
-- file
-    name: init.arguments
-    contents: -
-      nikhcflm
-- file
-    name: init.standard-error
-    contents: -
-      STANDARD_ERROR=jfdjaenh
-- file
-    name: init.standard-input
-    contents: -
-      nikhcflm
-- file
-    name: init.standard-output
-    contents: -
-      STANDARD_OUTPUT=fncjolmo
-- file
-    name: init.status
-    contents: -
-      0
-- file
-    name: lock.teardown
-- file
-    name: release.standard-error
-    contents: -
-      STANDARD_ERROR=ohghnapb
-- file
-    name: release.standard-output
-    contents: -
-      STANDARD_OUTPUT=mcplinpo
-- file
-    name: release.status
-    contents: -
-      0
-- file
-    name: target
-    contents: -
-      4bb6c60e
-      RELEASE_=true
-      RELEASE_NAME=0/nikhcflm/nikhcflm/cajdkpjh
-      RELEASE_HAS_STANDARD_INPUT=true
-      RELEASE_STANDARD_INPUT=
-      RELEASE_ARGUMENTS=
-      RELEASE_TYPEOF=lambda
-      RELEASE_STANDARD_OUTPUT=mcplinpo
-      RELEASE_STANDARD_ERROR=ohghnapb
-      RELEASE_STATUS=0
-      RELEASE_TOKEN_ARGUMENTS=bejijanf
-      RELEASE_TOKEN_STANDARD_INPUT=klpindcm
-- file
-    name: temporary
-    contents: -
-      bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
+- file: normal
+  name: init.arguments
+  contents: -
+    nikhcflm
+- file: normal
+  name: init.standard-error
+  contents: -
+    STANDARD_ERROR=jfdjaenh
+- file: normal
+  name: init.standard-input
+  contents: -
+    nikhcflm
+- file: normal
+  name: init.standard-output
+  contents: -
+    STANDARD_OUTPUT=fncjolmo
+- file: normal
+  name: init.status
+  contents: -
+    0
+- file: normal
+  name: lock.teardown
+- file: normal
+  name: release.standard-error
+  contents: -
+    STANDARD_ERROR=ohghnapb
+- file: normal
+  name: release.standard-output
+  contents: -
+    STANDARD_OUTPUT=mcplinpo
+- file: normal
+  name: release.status
+  contents: -
+    0
+- file: normal
+  name: target
+  contents: -
+    4bb6c60e
+    RELEASE_=true
+    RELEASE_NAME=0/nikhcflm/nikhcflm/cajdkpjh
+    RELEASE_HAS_STANDARD_INPUT=true
+    RELEASE_STANDARD_INPUT=
+    RELEASE_ARGUMENTS=
+    RELEASE_TYPEOF=lambda
+    RELEASE_STANDARD_OUTPUT=mcplinpo
+    RELEASE_STANDARD_ERROR=ohghnapb
+    RELEASE_STATUS=0
+    RELEASE_TOKEN_ARGUMENTS=bejijanf
+    RELEASE_TOKEN_STANDARD_INPUT=klpindcm
+- file: normal
+  name: temporary
+  contents: -
+    bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
