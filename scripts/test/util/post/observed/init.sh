@@ -2,6 +2,11 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${FIND} ${@} -mindepth 1 -maxdepth 1 -type f | ${SORT} | while read FILE
   do
     BASE=$( ${BASENAME} ${FILE} ) &&
-      ${ECHO} "${BASE}: |" >> ${TARGET} &&
-      ${SED} -e "s#^#  #" ${FILE} >> ${TARGET}
+      if [ -z "$( ${CAT} ${FILE} )}" ]
+      then
+        ${ECHO} ${BASE}
+        ${SED} -e "s#^#  #" ${FILE} >> ${TARGET}
+      else
+        ${ECHO} "${BASE}: |" >> ${TARGET} &&
+      fi
     done
