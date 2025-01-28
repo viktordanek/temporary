@@ -27,7 +27,7 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   # cat $( dirname ${DE} )/init.standard-output >> /build/debug &&
   # cat $( dirname ${DE} )/init.status >> /build/debug &&
   # ${ECHO} >> /build/debug &&
-  # DO=$( ${OBSERVED} ${RESOURCE} ) &&
+  DO=$( ${OBSERVED} ${RESOURCE} ) &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   ${FLOCK} 200 &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "observed*" | ${WC} --lines ) &&
