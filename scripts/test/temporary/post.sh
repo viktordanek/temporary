@@ -16,7 +16,8 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   else
     ${ECHO} DE DOES NOT EXISTS >> /build/debug
   fi &&
-  ls $( dirname ${DE} ) >> /build/debug &&
+  # ls $( dirname ${DE} ) >> /build/debug &&
+  cat $( dirname ${DE} )/init.standard-error >> /build/debug &&
   ${ECHO} >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
