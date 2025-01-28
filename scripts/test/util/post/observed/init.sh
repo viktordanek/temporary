@@ -10,6 +10,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
         then
           ${ECHO} "  type: file" >> ${TARGET} &&
             ${CAT} ${FILE} | ${YQ} --yaml-output "[{contents:.}]" >> ${TARGET}
+            ${CAT} ${FILE} >> ${TARGET}
         else
           ${ECHO} "  type:  other" >> ${TARGET}
         fi
