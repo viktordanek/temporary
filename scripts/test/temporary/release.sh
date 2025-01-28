@@ -15,19 +15,19 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} ${STANDARD_OUTPUT} &&
   if [ -f ${TARGET} ]
   then
-    ${ECHO} "  _=true >> ${TARGET}
+    ${ECHO} "_=true >> ${TARGET}
   else
-    ${ECHO} "  _=false >> ${TARGET}
+    ${ECHO} "_=false >> ${TARGET}
   fi &&
-  ${ECHO} "  name: ${NAME}" >> ${TARGET} &&
-  ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
-  ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
-  ${ECHO} "  arguments : ${@}" >> ${TARGET} &&
-  ${ECHO} "  typeof: ${TYPEOF}" >> ${TARGET} &&
-  ${ECHO} "  standard-output: ${STANDARD_OUTPUT}" >> ${TARGET} &&
-  ${ECHO} "  standard-error: ${STANDARD_ERROR}" >> ${TARGET} &&
-  ${ECHO} "  status: ${STATUS}" >> ${TARGET} &&
-  ${ECHO} "  token_arguments: ${TOKEN_ARGUMENTS}" >> ${TARGET} &&
-  ${ECHO} "  token_standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "name: ${NAME}" >> ${TARGET} &&
+  ${ECHO} "has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "arguments : ${@}" >> ${TARGET} &&
+  ${ECHO} "typeof: ${TYPEOF}" >> ${TARGET} &&
+  ${ECHO} "standard-output: ${STANDARD_OUTPUT}" >> ${TARGET} &&
+  ${ECHO} "standard-error: ${STANDARD_ERROR}" >> ${TARGET} &&
+  ${ECHO} "status: ${STATUS}" >> ${TARGET} &&
+  ${ECHO} "token_arguments: ${TOKEN_ARGUMENTS}" >> ${TARGET} &&
+  ${ECHO} "token_standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}
