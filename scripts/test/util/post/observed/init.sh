@@ -2,10 +2,15 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${FIND} ${@} -mindepth 1 -maxdepth 1 -type f | ${SORT} | while read FILE
   do
     BASE=$( ${BASENAME} ${FILE} ) &&
-        ${ECHO} "- name: ${BASE}" >> ${TARGET}
-        if [ ! -z "$( ${CAT} ${FILE} )" ]
+        ${ECHO} "- name: ${BASE}" >> ${TARGET} &&
+        if [ -f ${FILE} ]
         then
-          ${ECHO} "  contents: |" >> ${TARGET} &&
-            ${SED} -e "s#^#    #" ${FILE} >> ${TARGET}
+          ${ECHO} "  type: file" >> ${TARGET} &&
+            ${YQ} --yaml-output ${FILE} "[contents:.]"
+        elif [ -L ${FILE} ]
+        then
+          ${ECHO} "  type: link" >> ${TARGET}
+        else
+          ${ECHO} "  type:  other" >> ${TARGET}
         fi
     done

@@ -12,23 +12,22 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     HAS_STANDARD_INPUT=true
       STANDARD_INPUT=$( ${TEE} )
   fi &&
-  ${ECHO} STANDARD_OUTPUT=${STANDARD_OUTPUT} &&
+  ${ECHO} ${STANDARD_OUTPUT} &&
   if [ -f ${TARGET} ]
   then
-    ${ECHO} RELEASE_=true >> ${TARGET}
+    ${ECHO} "  _=true >> ${TARGET}
   else
-    ${ECHO} RELEASE_=false >> ${TARGET}
+    ${ECHO} "  _=false >> ${TARGET}
   fi &&
-  ${ECHO} RELEASE_NAME=${NAME} >> ${TARGET} &&
-  ${ECHO} RELEASE_HAS_STANDARD_INPUT=${HAS_STANDARD_INPUT} >> ${TARGET} &&
-  ${ECHO} RELEASE_STANDARD_INPUT=${STANDARD_INPUT} >> ${TARGET} &&
-  ${ECHO} RELEASE_ARGUMENTS=${@} >> ${TARGET} &&
-  ${ECHO} RELEASE_TYPEOF=${TYPEOF} >> ${TARGET} &&
-  ${ECHO} RELEASE_STANDARD_OUTPUT=${STANDARD_OUTPUT} >> ${TARGET} &&
-  ${ECHO} RELEASE_STANDARD_ERROR=${STANDARD_ERROR} >> ${TARGET} &&
-  ${ECHO} RELEASE_STATUS=${STATUS} >> ${TARGET} &&
-  ${ECHO} RELEASE_TOKEN_ARGUMENTS=${TOKEN_ARGUMENTS} >> ${TARGET} &&
-  ${ECHO} RELEASE_TOKEN_STANDARD_INPUT=${TOKEN_STANDARD_INPUT} >> ${TARGET} &&
-  ${ECHO} STANDARD_ERROR=${STANDARD_ERROR} >&2 &&
-  RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2079e75f60e62d24e178552a074c42a0ca449fcddf9716a3a95d44426299} &&
+  ${ECHO} "  name: ${NAME}" >> ${TARGET} &&
+  ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "  arguments : ${@}" >> ${TARGET} &&
+  ${ECHO} "  typeof: ${TYPEOF}" >> ${TARGET} &&
+  ${ECHO} "  standard-output: ${STANDARD_OUTPUT}" >> ${TARGET} &&
+  ${ECHO} "  standard-error: ${STANDARD_ERROR}" >> ${TARGET} &&
+  ${ECHO} "  status: ${STATUS}" >> ${TARGET} &&
+  ${ECHO} "  token_arguments: ${TOKEN_ARGUMENTS} >> ${TARGET} &&
+  ${ECHO} "  token_standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}
