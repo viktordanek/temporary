@@ -7,6 +7,5 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
         if [ ! -z "$( ${CAT} ${FILE} )" ]
         then
           ${ECHO} "  contents: -" >> ${TARGET} &&
-            ${SED} -e "s#^#    #" ${FILE} >> ${TARGET}
         fi
     done
