@@ -304,6 +304,7 @@
                                                                                                         executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/post/expected/init.sh" ) ) ;
                                                                                                         sets =
                                                                                                             {
+                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                 SED = "${ pkgs.gnused }/bin/sed" ;
                                                                                                                 TEMPLATE = self + "/templates/expected/method.yaml" ;
                                                                                                             } ;
