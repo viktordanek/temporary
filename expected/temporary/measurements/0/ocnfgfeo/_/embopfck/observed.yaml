@@ -33,6 +33,16 @@
 - file:
   name: target
   contents: -
+    INIT_NAME=0/ocnfgfeo/_/embopfck
+    INIT_HAS_STANDARD_INPUT=true
+    INIT_STANDARD_INPUT=
+    INIT_ARGUMENTS=ocnfgfeo
+    INIT_TYPEOF=lambda
+    INIT_STANDARD_OUTPUT=clbbklhb
+    INIT_STANDARD_ERROR=mffklbbc
+    INIT_STATUS=0
+    INIT_TOKEN_ARGUMENTS=paogbepc
+    INIT_TOKEN_STANDARD_INPUT=keomnncp
     26afb28d
     RELEASE_=true
     RELEASE_NAME=0/ocnfgfeo/_/embopfck
