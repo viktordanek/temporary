@@ -294,6 +294,20 @@
                                                                     {
                                                                         post =
                                                                             {
+                                                                                expected =
+                                                                                    script :
+                                                                                        {
+                                                                                            init =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/post/expected/init.sh" ) ) ;
+                                                                                                        sets =
+                                                                                                            {
+                                                                                                                SED = "${ pkgs.gnused }/bin/sed" ;
+                                                                                                                TEMPLATE = self + "/templates/expected/method.yaml" ;
+                                                                                                            } ;
+                                                                                                    }
+                                                                                        } ;
                                                                                 observed =
                                                                                     script :
                                                                                         {

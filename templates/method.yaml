@@ -1,0 +1,10 @@
+- name: ${METHOD}.arguments
+  contents: |
+   ${ARGUMENTS}
+- name: ${METHOD}.standard-error
+    ${STANDARD_ERROR}
+- name: ${METHOD}.standard-input
+- name: ${METHOD}.standard-output
+  contents: STANDARD_OUTPUT=${STANDARD_OUTPUT
+- name: ${METHOD}.status |
+  contents: ${STATUS}
