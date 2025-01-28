@@ -5,7 +5,13 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
     ${MKDIR} /build/observed/temporary/measurements
   fi &&
   ${MKDIR} --parents /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} &&
-  DE=$( ${EXPECTED} ) &&
+  if [ -L ${RESOURCE}/init.sh ]
+  then
+    HAS_INIT=true
+  else
+    HAS_INIT=false
+  fi &&
+  DE=$( ${EXPECTED} ${HAS_INIT} ) &&
   DE_STATUS=${?} &&
   ${ECHO} > /build/debug &&
   ${ECHO} DE=${DE} >> /build/debug &&
