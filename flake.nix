@@ -300,7 +300,7 @@
                                                                                             init =
                                                                                                 script
                                                                                                     {
-                                                                                                        executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/post/expected/init.sh" ) ) ;
+                                                                                                        executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/post/expected/init.sh" ) ) ;
                                                                                                         sets =
                                                                                                             {
                                                                                                                 SED = "${ pkgs.gnused }/bin/sed" ;
