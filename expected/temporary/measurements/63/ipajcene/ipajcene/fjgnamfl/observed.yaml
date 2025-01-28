@@ -1,38 +1,38 @@
-- file:
+- file
     name: init.arguments
     contents: -
       ipajcene
-- file:
+- file
     name: init.standard-error
     contents: -
       STANDARD_ERROR=onfemfga
-- file:
+- file
     name: init.standard-input
     contents: -
       ipajcene
-- file:
+- file
     name: init.standard-output
     contents: -
       STANDARD_OUTPUT=mjoaegnl
-- file:
+- file
     name: init.status
     contents: -
       63
-- file:
+- file
     name: lock.teardown
-- file:
+- file
     name: release.standard-error
     contents: -
       STANDARD_ERROR=ifjlblnf
-- file:
+- file
     name: release.standard-output
     contents: -
       STANDARD_OUTPUT=ocgdbgph
-- file:
+- file
     name: release.status
     contents: -
       63
-- file:
+- file
     name: target
     contents: -
       INIT_NAME=63/ipajcene/ipajcene/fjgnamfl
@@ -56,7 +56,7 @@
       RELEASE_STATUS=63
       RELEASE_TOKEN_ARGUMENTS=capbkoek
       RELEASE_TOKEN_STANDARD_INPUT=mniiocdn
-- file:
+- file
     name: temporary
     contents: -
       bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
