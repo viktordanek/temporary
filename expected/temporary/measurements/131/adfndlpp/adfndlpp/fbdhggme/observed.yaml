@@ -1,38 +1,38 @@
-- file: normal
+- file:
   name: init.arguments
   contents: -
     adfndlpp
-- file: normal
+- file:
   name: init.standard-error
   contents: -
     STANDARD_ERROR=fkmiahbh
-- file: normal
+- file:
   name: init.standard-input
   contents: -
     adfndlpp
-- file: normal
+- file:
   name: init.standard-output
   contents: -
     STANDARD_OUTPUT=kbnnpbpa
-- file: normal
+- file:
   name: init.status
   contents: -
     131
-- file: normal
+- file:
   name: lock.teardown
-- file: normal
+- file:
   name: release.standard-error
   contents: -
     STANDARD_ERROR=aaolmkkh
-- file: normal
+- file:
   name: release.standard-output
   contents: -
     STANDARD_OUTPUT=afodippe
-- file: normal
+- file:
   name: release.status
   contents: -
     131
-- file: normal
+- file:
   name: target
   contents: -
     INIT_NAME=131/adfndlpp/adfndlpp/fbdhggme
@@ -56,7 +56,7 @@
     RELEASE_STATUS=131
     RELEASE_TOKEN_ARGUMENTS=pecfodec
     RELEASE_TOKEN_STANDARD_INPUT=kgedbpoa
-- file: normal
+- file:
   name: temporary
   contents: -
     bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b

@@ -1,36 +1,36 @@
-- file: normal
+- file:
   name: init.arguments
   contents: -
     nljinoem
-- file: normal
+- file:
   name: init.standard-error
   contents: -
     STANDARD_ERROR=kbdcnfom
-- file: normal
+- file:
   name: init.standard-input
-- file: normal
+- file:
   name: init.standard-output
   contents: -
     STANDARD_OUTPUT=mkgdllne
-- file: normal
+- file:
   name: init.status
   contents: -
     250
-- file: normal
+- file:
   name: lock.teardown
-- file: normal
+- file:
   name: release.standard-error
   contents: -
     STANDARD_ERROR=bocjflcn
-- file: normal
+- file:
   name: release.standard-output
   contents: -
     STANDARD_OUTPUT=hicndlnc
-- file: normal
+- file:
   name: release.status
   contents: -
     250
-- file: normal
+- file:
   name: target
   contents: -
     INIT_NAME=250/nljinoem/_/edfhbbca
@@ -54,7 +54,7 @@
     RELEASE_STATUS=250
     RELEASE_TOKEN_ARGUMENTS=kehoabmd
     RELEASE_TOKEN_STANDARD_INPUT=abimdmdo
-- file: normal
+- file:
   name: temporary
   contents: -
     bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
