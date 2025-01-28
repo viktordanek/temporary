@@ -329,6 +329,7 @@
                                                                                                                 ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                 FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                                 SED = "${ pkgs.gnused }/bin/sed" ;
+                                                                                                                YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                             } ;
                                                                                                     } ;
                                                                                         } ;
