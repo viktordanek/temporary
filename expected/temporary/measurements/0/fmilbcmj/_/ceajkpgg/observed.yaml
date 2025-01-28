@@ -1,28 +1,28 @@
 - name: init.arguments
-  contents: -
+  contents: |
     fmilbcmj
 - name: init.standard-error
-  contents: -
+  contents: |
     STANDARD_ERROR=hmkngiob
 - name: init.standard-input
 - name: init.standard-output
-  contents: -
+  contents: |
     STANDARD_OUTPUT=cakbllph
 - name: init.status
-  contents: -
+  contents: |
     0
 - name: lock.teardown
 - name: release.standard-error
-  contents: -
+  contents: |
     STANDARD_ERROR=plfpopif
 - name: release.standard-output
-  contents: -
+  contents: |
     STANDARD_OUTPUT=emhibpkn
 - name: release.status
-  contents: -
+  contents: |
     0
 - name: target
-  contents: -
+  contents: |
     INIT_NAME=0/fmilbcmj/_/ceajkpgg
     INIT_HAS_STANDARD_INPUT=true
     INIT_STANDARD_INPUT=
@@ -33,7 +33,7 @@
     INIT_STATUS=0
     INIT_TOKEN_ARGUMENTS=fmgldlkk
     INIT_TOKEN_STANDARD_INPUT=oocmhjif
-    070e198c
+    PASTE=070e198c
     RELEASE_=true
     RELEASE_NAME=0/fmilbcmj/_/ceajkpgg
     RELEASE_HAS_STANDARD_INPUT=true
@@ -46,5 +46,5 @@
     RELEASE_TOKEN_ARGUMENTS=cjieamjc
     RELEASE_TOKEN_STANDARD_INPUT=ilojhfan
 - name: temporary
-  contents: -
+  contents: |
     bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b

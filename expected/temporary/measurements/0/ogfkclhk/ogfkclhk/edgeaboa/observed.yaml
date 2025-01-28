@@ -1,30 +1,30 @@
 - name: init.arguments
-  contents: -
+  contents: |
     ogfkclhk
 - name: init.standard-error
-  contents: -
+  contents: |
     STANDARD_ERROR=paojibng
 - name: init.standard-input
-  contents: -
+  contents: |
     ogfkclhk
 - name: init.standard-output
-  contents: -
+  contents: |
     STANDARD_OUTPUT=igfpmepo
 - name: init.status
-  contents: -
+  contents: |
     0
 - name: lock.teardown
 - name: release.standard-error
-  contents: -
+  contents: |
     STANDARD_ERROR=oldfdkbh
 - name: release.standard-output
-  contents: -
+  contents: |
     STANDARD_OUTPUT=plpijdil
 - name: release.status
-  contents: -
+  contents: |
     0
 - name: target
-  contents: -
+  contents: |
     INIT_NAME=0/ogfkclhk/ogfkclhk/edgeaboa
     INIT_HAS_STANDARD_INPUT=true
     INIT_STANDARD_INPUT=ogfkclhk
@@ -35,7 +35,7 @@
     INIT_STATUS=0
     INIT_TOKEN_ARGUMENTS=obndkplj
     INIT_TOKEN_STANDARD_INPUT=bjckgcdi
-    99d44209
+    PASTE=99d44209
     RELEASE_=true
     RELEASE_NAME=0/ogfkclhk/ogfkclhk/edgeaboa
     RELEASE_HAS_STANDARD_INPUT=true
@@ -48,5 +48,5 @@
     RELEASE_TOKEN_ARGUMENTS=hkblpamd
     RELEASE_TOKEN_STANDARD_INPUT=pgkchokj
 - name: temporary
-  contents: -
+  contents: |
     bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b

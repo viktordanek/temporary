@@ -1,30 +1,30 @@
 - name: init.arguments
-  contents: -
+  contents: |
     nikhcflm
 - name: init.standard-error
-  contents: -
+  contents: |
     STANDARD_ERROR=jfdjaenh
 - name: init.standard-input
-  contents: -
+  contents: |
     nikhcflm
 - name: init.standard-output
-  contents: -
+  contents: |
     STANDARD_OUTPUT=fncjolmo
 - name: init.status
-  contents: -
+  contents: |
     0
 - name: lock.teardown
 - name: release.standard-error
-  contents: -
+  contents: |
     STANDARD_ERROR=ohghnapb
 - name: release.standard-output
-  contents: -
+  contents: |
     STANDARD_OUTPUT=mcplinpo
 - name: release.status
-  contents: -
+  contents: |
     0
 - name: target
-  contents: -
+  contents: |
     INIT_NAME=0/nikhcflm/nikhcflm/cajdkpjh
     INIT_HAS_STANDARD_INPUT=true
     INIT_STANDARD_INPUT=nikhcflm
@@ -35,7 +35,7 @@
     INIT_STATUS=0
     INIT_TOKEN_ARGUMENTS=gjkicofd
     INIT_TOKEN_STANDARD_INPUT=dheinbef
-    4bb6c60e
+    PASTE=4bb6c60e
     RELEASE_=true
     RELEASE_NAME=0/nikhcflm/nikhcflm/cajdkpjh
     RELEASE_HAS_STANDARD_INPUT=true
@@ -48,5 +48,5 @@
     RELEASE_TOKEN_ARGUMENTS=bejijanf
     RELEASE_TOKEN_STANDARD_INPUT=klpindcm
 - name: temporary
-  contents: -
+  contents: |
     bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b

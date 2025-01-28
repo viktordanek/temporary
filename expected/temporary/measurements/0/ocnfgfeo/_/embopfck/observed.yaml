@@ -1,28 +1,28 @@
 - name: init.arguments
-  contents: -
+  contents: |
     ocnfgfeo
 - name: init.standard-error
-  contents: -
+  contents: |
     STANDARD_ERROR=mffklbbc
 - name: init.standard-input
 - name: init.standard-output
-  contents: -
+  contents: |
     STANDARD_OUTPUT=clbbklhb
 - name: init.status
-  contents: -
+  contents: |
     0
 - name: lock.teardown
 - name: release.standard-error
-  contents: -
+  contents: |
     STANDARD_ERROR=ldcddlhp
 - name: release.standard-output
-  contents: -
+  contents: |
     STANDARD_OUTPUT=dkcihmei
 - name: release.status
-  contents: -
+  contents: |
     0
 - name: target
-  contents: -
+  contents: |
     INIT_NAME=0/ocnfgfeo/_/embopfck
     INIT_HAS_STANDARD_INPUT=true
     INIT_STANDARD_INPUT=
@@ -33,7 +33,7 @@
     INIT_STATUS=0
     INIT_TOKEN_ARGUMENTS=paogbepc
     INIT_TOKEN_STANDARD_INPUT=keomnncp
-    26afb28d
+    PASTE=26afb28d
     RELEASE_=true
     RELEASE_NAME=0/ocnfgfeo/_/embopfck
     RELEASE_HAS_STANDARD_INPUT=true
@@ -46,5 +46,5 @@
     RELEASE_TOKEN_ARGUMENTS=hmbimnhl
     RELEASE_TOKEN_STANDARD_INPUT=labkdban
 - name: temporary
-  contents: -
+  contents: |
     bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
