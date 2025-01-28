@@ -6,7 +6,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
         if [ -f ${FILE} ]
         then
           ${ECHO} "  type: file" >> ${TARGET} &&
-          ${YQ} --yaml-output "[{contents:.}]" >> ${TARGET}
+          ${YQ} --yaml-output "[{contents:.}]" ${FILE} >> ${TARGET}
         elif [ -L ${FILE} ]
         then
           ${ECHO} "  type: link" >> ${TARGET}
