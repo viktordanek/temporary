@@ -9,10 +9,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
         elif [ -f ${FILE} ]
         then
           ${ECHO} "  type: file" >> ${TARGET} &&
-            ${ECHO} >> /build/debug &&
-            ${ECHO} BASE=${BASE} >> /build/debug &&
-            ${CAT} ${FILE} >> /build/debug &&
-            ${CAT} ${FILE} | ${YQ} --yaml-output "[{contents:.}]" >> ${TARGET} 2>&1
+            ${CAT} ${FILE} | ${YQ} --yaml-output "{contents:.}" >> ${TARGET} 2>&1
         else
           ${ECHO} "  type:  other" >> ${TARGET}
         fi
