@@ -1,22 +1,74 @@
 - name: init.arguments
   type: file
+  contents:
+    mcpbeodk
+- name: init.sh
+  type: link
 - name: init.standard-error
   type: file
+  contents:
+    fkmiahbh
 - name: init.standard-input
   type: file
+  contents:
+    adfndlpp
 - name: init.standard-output
   type: file
+  contents:
+    kbnnpbpa
 - name: init.status
   type: file
+  contents:
+    131
 - name: lock.teardown
   type: file
+  contents:
+- name: post.sh
+  type: link
+- name: release.sh
+  type: link
 - name: release.standard-error
   type: file
+  contents:
+    ibnoninp
 - name: release.standard-output
   type: file
+  contents:
+    mbcocejc
 - name: release.status
   type: file
+  contents:
+    131
 - name: target
   type: file
+  contents:
+    init:
+      name: 131/mcpbeodk/adfndlpp/fbdhggme
+      has_standard_input: true
+      standard_input: 
+      arguments: mcpbeodk
+      typeof: lambda
+      standard_output: kbnnpbpa
+      standard_error: fkmiahbh
+      status: 131
+      token_arguments: fncgfcnk
+      token_standard_input: idnplnin
+    release:
+      name: 131/mcpbeodk/adfndlpp/fbdhggme
+      has_standard_input: true
+      standard_input: 
+      arguments: 
+      typeof: lambda
+      standard_output: mbcocejc
+      standard_error: ibnoninp
+      status: 131
+      token_arguments: pecfodec
+      token_standard_input: kgedbpoa
+- name: teardown-asynch.sh
+  type: link
+- name: teardown-synch.sh
+  type: link
 - name: temporary
   type: file
+  contents:
+    bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b

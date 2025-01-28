@@ -1,22 +1,75 @@
 - name: init.arguments
   type: file
+  contents:
+    kjhckglj
+- name: init.sh
+  type: link
 - name: init.standard-error
   type: file
+  contents:
+    jfdjaenh
 - name: init.standard-input
   type: file
+  contents:
+    nikhcflm
 - name: init.standard-output
   type: file
+  contents:
+    fncjolmo
 - name: init.status
   type: file
+  contents:
+    0
 - name: lock.teardown
   type: file
+  contents:
+- name: post.sh
+  type: link
+- name: release.sh
+  type: link
 - name: release.standard-error
   type: file
+  contents:
+    adfejjah
 - name: release.standard-output
   type: file
+  contents:
+    neocnphk
 - name: release.status
   type: file
+  contents:
+    0
 - name: target
   type: file
+  contents:
+    init:
+      name: 0/kjhckglj/nikhcflm/cajdkpjh
+      has_standard_input: true
+      standard_input: nikhcflm
+      arguments: kjhckglj
+      typeof: lambda
+      standard_output: fncjolmo
+      standard_error: jfdjaenh
+      status: 0
+      token_arguments: gjkicofd
+      token_standard_input: dheinbef
+    paste: e46d14ad
+    release:
+      name: 0/kjhckglj/nikhcflm/cajdkpjh
+      has_standard_input: true
+      standard_input: 
+      arguments: 
+      typeof: lambda
+      standard_output: neocnphk
+      standard_error: adfejjah
+      status: 0
+      token_arguments: bejijanf
+      token_standard_input: klpindcm
+- name: teardown-asynch.sh
+  type: link
+- name: teardown-synch.sh
+  type: link
 - name: temporary
   type: file
+  contents:
+    bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b
