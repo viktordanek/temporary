@@ -15,9 +15,9 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} ${STANDARD_OUTPUT} &&
   if [ -f ${TARGET} ]
   then
-    ${ECHO} "_=true >> ${TARGET}
+    ${ECHO} "init_is_null: false" >> ${TARGET}
   else
-    ${ECHO} "_=false >> ${TARGET}
+    ${ECHO} "init_is_null: true" >> ${TARGET}
   fi &&
   ${ECHO} "name: ${NAME}" >> ${TARGET} &&
   ${ECHO} "has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
