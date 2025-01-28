@@ -306,7 +306,7 @@
                                                                                                                 SED = "${ pkgs.gnused }/bin/sed" ;
                                                                                                                 TEMPLATE = self + "/templates/expected/method.yaml" ;
                                                                                                             } ;
-                                                                                                    }
+                                                                                                    } ;
                                                                                         } ;
                                                                                 observed =
                                                                                     script :
