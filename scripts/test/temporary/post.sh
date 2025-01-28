@@ -31,7 +31,12 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   ${FLOCK} 200 &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "observed*" | ${WC} --lines ) &&
-  ${TOUCH} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
+  if [ -z "${DO}" ]
+  then
+    echo no > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug
+  else
+    echo yes > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug
+  fi &&
   # if [ ! -z "$( ${DIFF} ${DE} ${DO} )" ]
   # then
   #   ${CP} ${DE} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/expected-${INDEX}.yaml
