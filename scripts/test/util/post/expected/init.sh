@@ -9,4 +9,4 @@ then
     -e "s#\${STANDARD_STATUS}#${INIT_STATUS}#" \
     ${TEMPLATE} \
     > ${TARGET}
-fi &&
+fi
