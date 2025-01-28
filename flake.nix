@@ -388,7 +388,8 @@
                                                                             $out/bin/observed-external &&
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                             ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore &&
-                                                                            $out/bin/test-external
+                                                                            $out/bin/test-external &&
+                                                                            cat /build/debug
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
