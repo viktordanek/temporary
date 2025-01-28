@@ -4,9 +4,9 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     BASE=$( ${BASENAME} ${FILE} ) &&
       if [ -z "$( ${CAT} ${FILE} )" ]
       then
-        ${ECHO} ${BASE} >> ${TARGET} &&
-          ${SED} -e "s#^#  #" ${FILE} >> ${TARGET}
+        ${ECHO} ${BASE} >> ${TARGET}
       else
-        ${ECHO} "${BASE}: |" >> ${TARGET}
+        ${ECHO} "${BASE}: |" >> ${TARGET} &&
+          ${SED} -e "s#^#  #" ${FILE} >> ${TARGET}
       fi
     done
