@@ -20,7 +20,7 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   # then
   #   ${ECHO} DE EXISTS >> /build/debug
   # else
-     ${ECHO} DE DOES NOT EXISTS >> /build/debug
+  #   ${ECHO} DE DOES NOT EXISTS >> /build/debug
   # fi &&
   # ls $( dirname ${DE} ) >> /build/debug &&
   # cat $( dirname ${DE} )/init.standard-error >> /build/debug &&
