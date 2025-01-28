@@ -1,9 +1,9 @@
 init.arguments: |
 init.standard-error: |
-init.standard-input: |
+init.standard-input
 init.standard-output: |
 init.status: |
-lock.teardown: |
+lock.teardown
 release.standard-error: |
 release.standard-output: |
 release.status: |
