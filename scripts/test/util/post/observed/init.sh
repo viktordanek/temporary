@@ -8,9 +8,9 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
           ${ECHO} "  type: link" >> ${TARGET}
         elif [ -f ${FILE} ]
         then
-          ${ECHO} >> /build/debug &&
-          ${ECHO} "  type: file" >> /build/debug &&
-            ${CAT} ${FILE} >> ${TARGET} &&
+          ${ECHO} "  type: file" >> ${TARGET} &&
+            ${ECHO} >> /build/debug &&
+            ${CAT} ${FILE} >> /build/debug &&
             ${CAT} ${FILE} | ${YQ} --yaml-output "[{contents:.}]" >> ${TARGET} 2>&1
         else
           ${ECHO} "  type:  other" >> ${TARGET}
