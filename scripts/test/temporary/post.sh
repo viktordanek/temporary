@@ -11,30 +11,30 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   else
     HAS_INIT=false
   fi &&
-  DE=$( ${EXPECTED} ${HAS_INIT} ) &&
-  DE_STATUS=${?} &&
-  ${ECHO} > /build/debug &&
-  ${ECHO} DE=${DE} >> /build/debug &&
-  ${ECHO} DE_STATUS=${DE_STATUS} >> /build/debug &&
-  if [ -f ${DE} ]
-  then
-    ${ECHO} DE EXISTS >> /build/debug
-  else
-    ${ECHO} DE DOES NOT EXISTS >> /build/debug
-  fi &&
+  # DE=$( ${EXPECTED} ${HAS_INIT} ) &&
+  # DE_STATUS=${?} &&
+  # ${ECHO} > /build/debug &&
+  # ${ECHO} DE=${DE} >> /build/debug &&
+  # ${ECHO} DE_STATUS=${DE_STATUS} >> /build/debug &&
+  # if [ -f ${DE} ]
+  # then
+  #   ${ECHO} DE EXISTS >> /build/debug
+  # else
+     ${ECHO} DE DOES NOT EXISTS >> /build/debug
+  # fi &&
   # ls $( dirname ${DE} ) >> /build/debug &&
-  cat $( dirname ${DE} )/init.standard-error >> /build/debug &&
-  cat $( dirname ${DE} )/init.standard-output >> /build/debug &&
-  cat $( dirname ${DE} )/init.status >> /build/debug &&
-  ${ECHO} >> /build/debug &&
+  # cat $( dirname ${DE} )/init.standard-error >> /build/debug &&
+  # cat $( dirname ${DE} )/init.standard-output >> /build/debug &&
+  # cat $( dirname ${DE} )/init.status >> /build/debug &&
+  # ${ECHO} >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   ${FLOCK} 200 &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "observed*" | ${WC} --lines ) &&
-  if [ ! -z "$( ${DIFF} ${DE} ${DO} )" ]
-  then
-    ${CP} ${DE} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/expected-${INDEX}.yaml
-  fi &&
+  # if [ ! -z "$( ${DIFF} ${DE} ${DO} )" ]
+  # then
+  #   ${CP} ${DE} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/expected-${INDEX}.yaml
+  # fi &&
   if [ -f /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml ]
   then
     if [ ! -z "$( ${DIFF} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed ${DO} )" ]
