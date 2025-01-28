@@ -224,7 +224,7 @@
                                                                                             status = if init-status == 0 then "0" else builtins.toString ( 1 + ( rand init-status 254 ) ) ;
                                                                                             in
                                                                                                 {
-                                                                                                    "${ status }"."${ hash arguments }"."${ if standard-input == 0 then hash standard-input else "_" }"."${ hash "name" }" =
+                                                                                                    "${ status }"."${ hash "arguments" }"."${ if standard-input == 0 then hash standard-input else "_" }"."${ hash "name" }" =
                                                                                                         script :
                                                                                                             {
                                                                                                                 init =
@@ -256,8 +256,8 @@
                                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                                         GREP = "${ pkgs.gnugrep }/bin/grep" ;
-                                                                                                                                        STANDARD_ERROR = hash "init-standard-error release " ;
-                                                                                                                                        STANDARD_OUTPUT = hash "init-standard-outpu releaset" ;
+                                                                                                                                        STANDARD_ERROR = hash "init-standard-error" ;
+                                                                                                                                        STANDARD_OUTPUT = hash "init-standard-output" ;
                                                                                                                                         STATUS = status ;
                                                                                                                                         TOKEN_ARGUMENTS = hash "token release arguments" ;
                                                                                                                                         TOKEN_STANDARD_INPUT = hash "token release standard input" ;
@@ -277,6 +277,11 @@
                                                                                                                                         EXPECTED = harvest.temporary.util.post.expected ;
                                                                                                                                         FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                                                         FLOCK = "${ pkgs.flock }/bin/flock" ;
+                                                                                                                                        INIT_ARGUMENTS = hash "arguments" ;
+                                                                                                                                        INIT_STANDARD_ERROR = hash "init-standard-error" ;
+                                                                                                                                        INIT_STANDARD_INPUT = if standard-input == 0 then hash standard-input else "_" ;
+                                                                                                                                        INIT_STANDARD_OUTPUT = hash "init-standard-output" ;
+                                                                                                                                        INIT_STATUS = status ;
                                                                                                                                         MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
                                                                                                                                         MV = "${ pkgs.coreutils }/bin/mv" ;
                                                                                                                                         OBSERVED = harvest.temporary.util.post.observed ;
