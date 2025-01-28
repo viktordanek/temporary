@@ -10,6 +10,12 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   ${ECHO} > /build/debug &&
   ${ECHO} DE=${DE} >> /build/debug &&
   ${ECHO} DE_STATUS=${DE_STATUS} >> /build/debug &&
+  if [ -f ${DE} ]
+  then
+    ${ECHO} DE EXISTS >> /build/debug
+  else
+    ${ECHO} DE DOES NOT EXISTS >> /build/debug
+  fi &&
   # ${CAT} ${DE} >> /build/debug &&
   ${ECHO} >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
