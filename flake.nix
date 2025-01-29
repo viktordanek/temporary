@@ -391,7 +391,7 @@
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                             ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore &&
                                                                             $out/bin/test-external &&
-                                                                            exit ${ builtins.toString 64 }
+                                                                            exit ${ builtins.toString 0 }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
