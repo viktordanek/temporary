@@ -3,22 +3,22 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   if [ -t 0 ]
   then
     HAS_STANDARD_INPUT=0false &&
-      STANDARD_INPUT=0
-  elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
+      STANDARD_INPUT=
+  elif [ -p /proc/self/fd/0 ]
   then
-    HAS_STANDARD_INPUT=1true
-      STANDARD_INPUT=1$( ${TEE} )
+    HAS_STANDARD_INPUT=true
+      STANDARD_INPUT=$( ${TEE} )
   else
-    HAS_STANDARD_INPUT=2true
-      STANDARD_INPUT=2$( ${TEE} )
+    HAS_STANDARD_INPUT=true
+      STANDARD_INPUT=$( ${TEE} )
   fi &&
   ${ECHO} ${STANDARD_OUTPUT} &&
   ${ECHO} "init:" > ${TARGET} &&
   ${ECHO} "  name: ${NAME}" >> ${TARGET} &&
-  ${ECHO} "  has_standard_input: 4${HAS_STANDARD_INPUT}" >> ${TARGET} &&
-  ${ECHO} "  standard_input: 4${STANDARD_INPUT}" >> ${TARGET} &&
-  ${ECHO} "  arguments: 4${@}" >> ${TARGET} &&
-  ${ECHO} "  typeof: 4${TYPEOF}" >> ${TARGET} &&
+  ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
+  ${ECHO} "  typeof: ${TYPEOF}" >> ${TARGET} &&
   ${ECHO} "  standard_output: ${STANDARD_OUTPUT}" >> ${TARGET} &&
   ${ECHO} "  standard_error: ${STANDARD_ERROR}" >> ${TARGET} &&
   ${ECHO} "  status: ${STATUS}" >> ${TARGET} &&
