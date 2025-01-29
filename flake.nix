@@ -237,7 +237,7 @@
                                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                                         GREP = "${ pkgs.gnugrep }/bin/grep" ;
-                                                                                                                                        SPEED = "${ if speed == 0 then "slow" else "falst" }" ;
+                                                                                                                                        SPEED = "${ if speed == 0 then "slow" else "fast" }" ;
                                                                                                                                         STANDARD_ERROR = hash "init-standard-error init" ;
                                                                                                                                         STANDARD_OUTPUT = hash "init-standard-output init" ;
                                                                                                                                         STATUS = status ;
@@ -257,6 +257,7 @@
                                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                                         GREP = "${ pkgs.gnugrep }/bin/grep" ;
+                                                                                                                                        SPEED = "${ if speed == 0 then "slow" else "fast" }" ;
                                                                                                                                         STANDARD_ERROR = hash "init-standard-error" ;
                                                                                                                                         STANDARD_OUTPUT = hash "init-standard-output" ;
                                                                                                                                         STATUS = status ;
