@@ -37,7 +37,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   declare ${TARGET}=${RRRR}/target &&
   export ${TARGET} &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
-  export ${TEMPORARY_PATH} &&
+  export ${TEMPORARY_PATH_ARRAY} &&
   ${ECHO} ${TEMPORARY_PATH} > ${RRRR}/temporary &&
   ${CHMOD} 0400 ${RRRR}/temporary &&
   if [ -x ${INIT} ]
