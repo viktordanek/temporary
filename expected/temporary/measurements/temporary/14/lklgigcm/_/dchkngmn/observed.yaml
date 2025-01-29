@@ -1,0 +1,75 @@
+- name: init.arguments
+  type: file
+  contents:
+    lklgigcm
+- name: init.sh
+  type: link
+- name: init.standard-error
+  type: file
+  contents:
+    dkklijjh
+- name: init.standard-input
+  type: file
+  contents:
+- name: init.standard-output
+  type: file
+  contents:
+    nkjbifpm
+- name: init.status
+  type: file
+  contents:
+    14
+- name: lock.teardown
+  type: file
+  contents:
+- name: post.sh
+  type: link
+- name: release.sh
+  type: link
+- name: release.standard-error
+  type: file
+  contents:
+    njgjgpff
+- name: release.standard-output
+  type: file
+  contents:
+    gcimklpl
+- name: release.status
+  type: file
+  contents:
+    14
+- name: target
+  type: file
+  contents:
+    init:
+      name: temporary/14/lklgigcm/_/dchkngmn
+      has_standard_input: true
+      standard_input: 
+      arguments: lklgigcm
+      typeof: lambda
+      standard_output: nkjbifpm
+      standard_error: dkklijjh
+      status: 14
+      speed: slow
+      token_arguments: bihjhblm
+      token_standard_input: kcgddlol
+    release:
+      name: temporary/14/lklgigcm/_/dchkngmn
+      has_standard_input: true
+      standard_input: 
+      arguments: 
+      typeof: lambda
+      standard_output: gcimklpl
+      standard_error: njgjgpff
+      speed: slow
+      status: 14
+      token_arguments: nhfhgodj
+      token_standard_input: blghaoim
+- name: teardown-asynch.sh
+  type: link
+- name: teardown-synch.sh
+  type: link
+- name: temporary
+  type: file
+  contents:
+    temporary/14/lklgigcm/_/dchkngmn

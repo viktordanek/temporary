@@ -1,0 +1,77 @@
+- name: init.arguments
+  type: file
+  contents:
+    hbchpdnj
+- name: init.sh
+  type: link
+- name: init.standard-error
+  type: file
+  contents:
+    paojibng
+- name: init.standard-input
+  type: file
+  contents:
+    ogfkclhk
+- name: init.standard-output
+  type: file
+  contents:
+    igfpmepo
+- name: init.status
+  type: file
+  contents:
+    0
+- name: lock.teardown
+  type: file
+  contents:
+- name: post.sh
+  type: link
+- name: release.sh
+  type: link
+- name: release.standard-error
+  type: file
+  contents:
+    edmfngio
+- name: release.standard-output
+  type: file
+  contents:
+    lohjahkn
+- name: release.status
+  type: file
+  contents:
+    0
+- name: target
+  type: file
+  contents:
+    init:
+      name: temporary/0/hbchpdnj/ogfkclhk/edgeaboa
+      has_standard_input: true
+      standard_input: ogfkclhk
+      arguments: hbchpdnj
+      typeof: lambda
+      standard_output: igfpmepo
+      standard_error: paojibng
+      status: 0
+      speed: slow
+      token_arguments: obndkplj
+      token_standard_input: bjckgcdi
+    paste: 69167cde
+    release:
+      name: temporary/0/hbchpdnj/ogfkclhk/edgeaboa
+      has_standard_input: true
+      standard_input: 
+      arguments: 
+      typeof: lambda
+      standard_output: lohjahkn
+      standard_error: edmfngio
+      speed: slow
+      status: 0
+      token_arguments: hkblpamd
+      token_standard_input: pgkchokj
+- name: teardown-asynch.sh
+  type: link
+- name: teardown-synch.sh
+  type: link
+- name: temporary
+  type: file
+  contents:
+    temporary/0/hbchpdnj/ogfkclhk/edgeaboa

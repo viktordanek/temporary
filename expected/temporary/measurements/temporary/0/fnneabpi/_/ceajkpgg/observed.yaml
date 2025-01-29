@@ -1,0 +1,76 @@
+- name: init.arguments
+  type: file
+  contents:
+    fnneabpi
+- name: init.sh
+  type: link
+- name: init.standard-error
+  type: file
+  contents:
+    hmkngiob
+- name: init.standard-input
+  type: file
+  contents:
+- name: init.standard-output
+  type: file
+  contents:
+    cakbllph
+- name: init.status
+  type: file
+  contents:
+    0
+- name: lock.teardown
+  type: file
+  contents:
+- name: post.sh
+  type: link
+- name: release.sh
+  type: link
+- name: release.standard-error
+  type: file
+  contents:
+    domgpcab
+- name: release.standard-output
+  type: file
+  contents:
+    fgobafbj
+- name: release.status
+  type: file
+  contents:
+    0
+- name: target
+  type: file
+  contents:
+    init:
+      name: temporary/0/fnneabpi/_/ceajkpgg
+      has_standard_input: true
+      standard_input: 
+      arguments: fnneabpi
+      typeof: lambda
+      standard_output: cakbllph
+      standard_error: hmkngiob
+      status: 0
+      speed: slow
+      token_arguments: fmgldlkk
+      token_standard_input: oocmhjif
+    paste: 69f62c45
+    release:
+      name: temporary/0/fnneabpi/_/ceajkpgg
+      has_standard_input: true
+      standard_input: 
+      arguments: 
+      typeof: lambda
+      standard_output: fgobafbj
+      standard_error: domgpcab
+      speed: slow
+      status: 0
+      token_arguments: cjieamjc
+      token_standard_input: ilojhfan
+- name: teardown-asynch.sh
+  type: link
+- name: teardown-synch.sh
+  type: link
+- name: temporary
+  type: file
+  contents:
+    temporary/0/fnneabpi/_/ceajkpgg
