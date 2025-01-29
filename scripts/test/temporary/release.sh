@@ -3,14 +3,14 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   if [ -t 0 ]
   then
     HAS_STANDARD_INPUT=1false &&
-      STANDARD_INPUT=1
+      STANDARD_INPUT=
   elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
-    HAS_STANDARD_INPUT=2true
-      STANDARD_INPUT=2$( ${TEE} )
+    HAS_STANDARD_INPUT=true
+      STANDARD_INPUT=$( ${TEE} )
   else
-    HAS_STANDARD_INPUT=3true
-      STANDARD_INPUT=3$( ${TEE} )
+    HAS_STANDARD_INPUT=true
+      STANDARD_INPUT=$( ${TEE} )
   fi &&
   ${ECHO} ${STANDARD_OUTPUT} &&
   ${ECHO} "release:" >> ${TARGET} &&
