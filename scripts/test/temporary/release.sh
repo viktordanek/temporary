@@ -2,14 +2,14 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   NAME=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b} &&
   if [ -t 0 ]
   then
-    HAS_STANDARD_INPUT=false &&
+    HAS_STANDARD_INPUT=1false &&
       STANDARD_INPUT=1
   elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
-    HAS_STANDARD_INPUT=true
+    HAS_STANDARD_INPUT=2true
       STANDARD_INPUT=2$( ${TEE} )
   else
-    HAS_STANDARD_INPUT=true
+    HAS_STANDARD_INPUT=3true
       STANDARD_INPUT=3$( ${TEE} )
   fi &&
   ${ECHO} ${STANDARD_OUTPUT} &&
