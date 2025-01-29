@@ -189,7 +189,7 @@
                                                                                     let
                                                                                         list =
                                                                                             let
-                                                                                                levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" "speed" ] ;
+                                                                                                levels = [ "arguments" "standard-input" "init-typeOf" "init-standard-output" "init-standard-error" "init-status" "release-typeOf" "release-standard-output" "release-standard-error" "release-status" ] ;
                                                                                                 reducer =
                                                                                                     previous : current :
                                                                                                         let
