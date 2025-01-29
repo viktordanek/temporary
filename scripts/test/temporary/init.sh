@@ -4,12 +4,12 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   then
     HAS_STANDARD_INPUT=false &&
       STANDARD_INPUT=
-  elif [ -p /proc/self/fd/0 ]
+  elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
-    HAS_STANDARD_INPUT=1
+    HAS_STANDARD_INPUT=true
       STANDARD_INPUT=$( ${TEE} )
   else
-    HAS_STANDARD_INPUT=2
+    HAS_STANDARD_INPUT=true
       STANDARD_INPUT=$( ${TEE} )
   fi &&
   ${ECHO} ${STANDARD_OUTPUT} &&
