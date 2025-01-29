@@ -18,7 +18,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "  has_standard_input: 4${HAS_STANDARD_INPUT}" >> ${TARGET} &&
   ${ECHO} "  standard_input: 4${STANDARD_INPUT}" >> ${TARGET} &&
   ${ECHO} "  arguments: 4${@}" >> ${TARGET} &&
-  ${ECHO} "  typeof: ${TYPEOF}" >> ${TARGET} &&
+  ${ECHO} "  typeof: 4${TYPEOF}" >> ${TARGET} &&
   ${ECHO} "  standard_output: ${STANDARD_OUTPUT}" >> ${TARGET} &&
   ${ECHO} "  standard_error: ${STANDARD_ERROR}" >> ${TARGET} &&
   ${ECHO} "  status: ${STATUS}" >> ${TARGET} &&
