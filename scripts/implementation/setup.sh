@@ -1,5 +1,4 @@
 export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
-  ${ECHO} ${TEMPORARY_PATH} > ${RRRR}/temporary &&
   ${CHMOD} 0400 ${RRRR}/temporary &&
   ${ECHO} "${@}" > ${RRRR}/init.arguments &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
@@ -40,6 +39,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   export ${TARGET} &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
   export ${TEMPORARY_PATH} &&
+  ${ECHO} ${TEMPORARY_PATH} > ${RRRR}/temporary &&
   if [ -x ${INIT} ]
   then
     if [ -f ${RRRR}/init.standard-input ] && ${CAT} ${RRRR}/init.standard-input | ${INIT} $( ${CAT} ${RRRR}/init.arguments ) > ${RRRR}/init.standard-output 2> ${RRRR}/init.standard-error
