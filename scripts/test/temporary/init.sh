@@ -3,7 +3,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   if [ -t 0 ]
   then
     HAS_STANDARD_INPUT=false &&
-      STANDARD_INPUT=FOUND
+      STANDARD_INPUT=
   elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
     HAS_STANDARD_INPUT=true
@@ -16,7 +16,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "init:" > ${TARGET} &&
   ${ECHO} "  name: ${NAME}" >> ${TARGET} &&
   ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
-  ${ECHO} "  standard_input: {STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
   ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
   ${ECHO} "  typeof: ${TYPEOF}" >> ${TARGET} &&
   ${ECHO} "  standard_output: ${STANDARD_OUTPUT}" >> ${TARGET} &&
