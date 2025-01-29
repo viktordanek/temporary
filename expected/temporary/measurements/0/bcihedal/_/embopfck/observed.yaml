@@ -50,7 +50,7 @@
       standard_output: clbbklhb
       standard_error: mffklbbc
       status: 0
-     speed: slow
+      speed: slow
       token_arguments: paogbepc
       token_standard_input: keomnncp
     paste: b7a83468
@@ -62,6 +62,7 @@
       typeof: lambda
       standard_output: blcfogmi
       standard_error: ehkfnmbh
+      speed: slow
       status: 0
       token_arguments: hmbimnhl
       token_standard_input: labkdban

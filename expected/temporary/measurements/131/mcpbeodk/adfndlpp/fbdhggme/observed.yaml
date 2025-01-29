@@ -51,7 +51,7 @@
       standard_output: kbnnpbpa
       standard_error: fkmiahbh
       status: 131
-     speed: slow
+      speed: slow
       token_arguments: fncgfcnk
       token_standard_input: idnplnin
     release:
@@ -62,6 +62,7 @@
       typeof: lambda
       standard_output: mbcocejc
       standard_error: ibnoninp
+      speed: slow
       status: 131
       token_arguments: pecfodec
       token_standard_input: kgedbpoa
