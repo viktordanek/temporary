@@ -3,7 +3,8 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
   if [ -t 0 ]
   then
-    TARGET_PID=$( ${PS} -p ${$} -o ppid= )
+    PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
+      TARGET_PID=$( ${PS} -p ${$} -o ppid= )
   elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
