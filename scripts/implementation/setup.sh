@@ -9,7 +9,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   elif [ -p /proc/self/fd/0 ]
   then
     TARGET_PID=${PARENT_PID} &&
-      ${TEE} ${RRRR}/init.standard-input &&
+      ${TEE} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   elif [ -f /proc/self/fd/0 ]
   then
