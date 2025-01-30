@@ -16,7 +16,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   else
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
-      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
+      TARGET_PID=${GRANDPARENT_PID} &&
       ${TEE} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   fi &&
