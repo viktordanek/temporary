@@ -377,6 +377,9 @@
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                             ${ pkgs.coreutils }/bin/echo $out &&
                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/diff.sh" } $out/bin/diff.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/diff.sh &&
+                                                                            makeWrapper $out/bin/diff.sh $out/bin/diff --set DIFF ${ pkgs.diffutils }/bin/diff --set SELF $out &&
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
                                                                             makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
@@ -392,7 +395,7 @@
                                                                             ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                             ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore &&
                                                                             $out/bin/test-external &&
-                                                                            exit ${ builtins.toString 0 }
+                                                                            exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
