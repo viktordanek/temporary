@@ -5,7 +5,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
   if [ -t 0 ]
   then
-      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
+    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
   elif [ -p /proc/self/fd/0 ]
   then
     TARGET_PID=${PARENT_PID} &&
@@ -17,8 +17,8 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       ${CAT} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   else
-      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
-        ${ECHO} WTF > ${RRRR}/init.standard-input
+    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
+      ${ECHO} WTF > ${RRRR}/init.standard-input
   fi &&
   if [ -x ${INIT} ]
   then
