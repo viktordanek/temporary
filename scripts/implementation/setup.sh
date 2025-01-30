@@ -5,15 +5,18 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
   if [ -t 0 ]
   then
-    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
+    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
+      ${ECHO} none > ${RRRR}/init.standard-input
   elif [ -p /proc/self/fd/0 ]
   then
     TARGET_PID=${PARENT_PID} &&
       ${TEE} > ${RRRR}/init.standard-input &&
+      ${ECHO} pipe > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   elif [ -f /proc/self/fd/0 ]
   then
     TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
+      ${ECHO} file > ${RRRR}/init.standard-input &&
       ${CAT} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   else
