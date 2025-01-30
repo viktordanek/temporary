@@ -3,26 +3,22 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
   PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
   GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
+  GREAT_GRANDPARENT_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
   if [ -t 0 ]
   then
-    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
-      ${ECHO} none > ${RRRR}/init.standard-input
+    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
   elif [ -p /proc/self/fd/0 ]
   then
-    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
-      TARGET_PID=$( ${PS} -p ${TARGET_PID} -o ppid= )
+    TARGET_PID=$( ${PS} -p ${GREAT_GRANDPARENT_PID} -o ppid= ) &&
       ${TEE} > ${RRRR}/init.standard-input &&
-      ${ECHO} pipe > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   elif [ -f /proc/self/fd/0 ]
   then
     TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
-      ${ECHO} file > ${RRRR}/init.standard-input &&
       ${CAT} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   else
-    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
-      ${ECHO} WTF > ${RRRR}/init.standard-input
+    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
   fi &&
   if [ -x ${INIT} ]
   then
