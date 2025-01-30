@@ -8,10 +8,14 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   then
     HAS_STANDARD_INPUT=false &&
       STANDARD_INPUT=
-  elif read -t 0
+  elif [ -p /proc/self/fd/0 ]
   then
     HAS_STANDARD_INPUT=true
       STANDARD_INPUT=$( ${TEE} )
+  elif [ -f /proc/self/fd/0 ]
+  then
+    HAS_STANDARD_INPUT-true
+      STANDARD_INPUT=$( ${CAT} )
   else
     HAS_STANDARD_INPUT=false
       STANDARD_INPUT=
