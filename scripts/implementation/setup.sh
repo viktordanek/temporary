@@ -1,12 +1,12 @@
 export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} "${@}" > ${RRRR}/init.arguments &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
-  if [ -t 0 ]
+  if [ -t 0 ] # NOT NEEDED
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
-      TARGET_PID=1$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
-  elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe # NOT NEEDED
+      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
+  elif read -t 0 # NOT NEEDED
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
