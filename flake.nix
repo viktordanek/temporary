@@ -198,7 +198,7 @@
                                                                                                                     let
                                                                                                                         generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
                                                                                                                         in builtins.concatLists ( builtins.genList generator n ) ;
-                                                                                                               generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
+                                                                                                                generator = index : builtins.map ( p : p // { "${ current }" = index ; } ) previous ;
                                                                                                             in
                                                                                                                 if builtins.any ( c : current == c ) [ "arguments" "init-typeOf" "init-standard-output" "init-standard-error" "release-standard-output" "release-typeOf" "release-standard-error" "speed" ] then expand 1
                                                                                                                 else if builtins.any ( c : current == c ) [ "standard-input" "init-status" "release-status" ] then expand 2
