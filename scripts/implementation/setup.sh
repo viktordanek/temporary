@@ -2,18 +2,22 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} "${@}" > ${RRRR}/init.arguments &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
   PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
-  GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&  if [ -t 0 ]
+  GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
+  if [ -t 0 ]
   then
-      TARGET_PID=1$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
-  elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
+      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
+  elif [ -p /proc/self/fd/0 ]
   then
     TARGET_PID=${PARENT_PID} &&
       ${TEE} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
-  else
+  elif [ -f /proc/self/fd/0 ]
     TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
       ${CAT} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
+  else
+    TARGET_PID=${PARENT_PID} &&
+      ${ECHO} WTF > ${RRRR}/init.standard-input
   fi &&
   if [ -x ${INIT} ]
   then
