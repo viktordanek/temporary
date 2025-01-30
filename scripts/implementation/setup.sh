@@ -6,7 +6,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
       TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
-  elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
+  elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe #
   then
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
@@ -16,7 +16,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   else # GOOD
     PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
       GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
-      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
+      TARGET_PID=1$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
       ${TEE} > ${RRRR}/init.standard-input &&
       ${CHMOD} 0400 ${RRRR}/init.standard-input
   fi &&
