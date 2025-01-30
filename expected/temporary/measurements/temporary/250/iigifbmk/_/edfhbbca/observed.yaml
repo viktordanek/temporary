@@ -8,9 +8,6 @@
   type: file
   contents:
     kbdcnfom
-- name: init.standard-input
-  type: file
-  contents:
 - name: init.standard-output
   type: file
   contents:
