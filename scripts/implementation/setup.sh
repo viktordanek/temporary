@@ -4,7 +4,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
   GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&  if [ -t 0 ]
   then
-      TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
+      TARGET_PID=1$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
   elif ${READLINK} /proc/self/fd/0 | ${GREP} -q pipe
   then
     TARGET_PID=${PARENT_PID} &&
