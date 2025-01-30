@@ -40,7 +40,7 @@
   contents:
     init:
       name: temporary/0/fnneabpi/_/ceajkpgg
-      has_standard_input: true
+      has_standard_input: false
       standard_input: 
       arguments: fnneabpi
       typeof: lambda

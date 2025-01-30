@@ -40,7 +40,7 @@
   contents:
     init:
       name: temporary/250/iigifbmk/_/edfhbbca
-      has_standard_input: true
+      has_standard_input: false
       standard_input: 
       arguments: iigifbmk
       typeof: lambda
