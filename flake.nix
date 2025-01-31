@@ -172,65 +172,68 @@
                                                 let
                                                     temporary =
                                                         let
-                                                            fields =
+                                                            rows =
                                                                 let
-                                                                    list =
+                                                                    fields =
                                                                         let
-                                                                            generator =
-                                                                                index :
-                                                                                    let
-                                                                                        elem = builtins.elemAt list index ;
-                                                                                        in
-                                                                                            {
-                                                                                                name = elem.name ;
-                                                                                                size = elem.size ;
-                                                                                                lambda = elem.lambda ;
-                                                                                                index = index ;
-                                                                                            } ;
                                                                             list =
                                                                                 let
-                                                                                    hash = index : string : val : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ index string val ] ) ) ) ;
-                                                                                    lambda = index : string : val : "lambda" ;
-                                                                                    status =
-                                                                                        index : string : val :
+                                                                                    generator =
+                                                                                        index :
+                                                                                            let
+                                                                                                elem = builtins.elemAt list index ;
+                                                                                                in
+                                                                                                    {
+                                                                                                        name = elem.name ;
+                                                                                                        size = elem.size ;
+                                                                                                        lambda = elem.lambda ;
+                                                                                                        index = index ;
+                                                                                                    } ;
+                                                                                    list =
                                                                                         let
-                                                                                            list =
+                                                                                            hash = index : string : val : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ index string val ] ) ) ) ;
+                                                                                            lambda = index : string : val : "lambda" ;
+                                                                                            status =
+                                                                                                index : string : val :
                                                                                                 let
-                                                                                                    generator = i : builtins.fromJSON ( builtins.substring i 1 ( builtins.replaceString [ "a" "b" "c" "d" "e" "f" ] [ "10" "11" "12" "13" "14" "15" ] ( hash index string val ) ) ) ;
-                                                                                                    in builtins.genList generator 8 ;
-                                                                                            reducer =
-                                                                                                let
-                                                                                                    mod = a : b : a - ( b * ( a / b ) ) ;
-                                                                                                    in previous : current : mod ( previous * 16 + current ) 255 ;
-                                                                                            in builtins.toString ( if val == 0 then 0 else ( builtins.foldl' reducer 0 list ) + 1 ) ;
-                                                                                    zero = index : string : val : if val == 0 then "_" else hash index string val ;
-                                                                                    in
-                                                                                        [
-                                                                                            { name = "arguments" ; size = 1 ; lambda = hash ; }
-                                                                                            { name = "standard-input" ; size = 2 ; lambda = zero ; }
-                                                                                            { name = "init-typeOf" ; size = 1 ; lambda = lambda ; }
-                                                                                            { name = "init-standard-output" ; size = 1 ; lambda = hash ; }
-                                                                                            { name = "init-standard-error" ; size = 1 ; lambda = hash ; }
-                                                                                            { name = "init-status" ; size = 2 ; lambda = status ; }
-                                                                                            { name = "release-typeOf" ; size = 1 ; lambda = lambda ; }
-                                                                                            { name = "release-standard-output" ; size = 1 ; lambda = hash ; }
-                                                                                            { name = "release-standard-error" ; size = 1 ; lambda = hash ; }
-                                                                                            { name = "release-status" ; size = 2 ; lambda = status ; }
-                                                                                        ] ;
-                                                                            in builtins.genList generator ( builtins.length list ) ;
-                                                                    mapper =
-                                                                        { name , size , lambda , index } :
-                                                                            {
-                                                                                name = name ;
-                                                                                size = size ;
-                                                                                lambda = lambda ;
-                                                                                index = index ;
-                                                                                cumulative-size =
-                                                                                    let
-                                                                                        sub = builtins.filter ( f : f.index <= index ) list ;
-                                                                                        in builtins.foldl' ( previous : current : previous * current ) 1 sub ;
-                                                                            } ;
-                                                                    in builtins.map mapper list ;
+                                                                                                    list =
+                                                                                                        let
+                                                                                                            generator = i : builtins.fromJSON ( builtins.substring i 1 ( builtins.replaceString [ "a" "b" "c" "d" "e" "f" ] [ "10" "11" "12" "13" "14" "15" ] ( hash index string val ) ) ) ;
+                                                                                                            in builtins.genList generator 8 ;
+                                                                                                    reducer =
+                                                                                                        let
+                                                                                                            mod = a : b : a - ( b * ( a / b ) ) ;
+                                                                                                            in previous : current : mod ( previous * 16 + current ) 255 ;
+                                                                                                    in builtins.toString ( if val == 0 then 0 else ( builtins.foldl' reducer 0 list ) + 1 ) ;
+                                                                                            zero = index : string : val : if val == 0 then "_" else hash index string val ;
+                                                                                            in
+                                                                                                [
+                                                                                                    { name = "arguments" ; size = 1 ; lambda = hash ; }
+                                                                                                    { name = "standard-input" ; size = 2 ; lambda = zero ; }
+                                                                                                    { name = "init-typeOf" ; size = 1 ; lambda = lambda ; }
+                                                                                                    { name = "init-standard-output" ; size = 1 ; lambda = hash ; }
+                                                                                                    { name = "init-standard-error" ; size = 1 ; lambda = hash ; }
+                                                                                                    { name = "init-status" ; size = 2 ; lambda = status ; }
+                                                                                                    { name = "release-typeOf" ; size = 1 ; lambda = lambda ; }
+                                                                                                    { name = "release-standard-output" ; size = 1 ; lambda = hash ; }
+                                                                                                    { name = "release-standard-error" ; size = 1 ; lambda = hash ; }
+                                                                                                    { name = "release-status" ; size = 2 ; lambda = status ; }
+                                                                                                ] ;
+                                                                                    in builtins.genList generator ( builtins.length list ) ;
+                                                                            mapper =
+                                                                                { name , size , lambda , index } :
+                                                                                    {
+                                                                                        name = name ;
+                                                                                        size = size ;
+                                                                                        lambda = lambda ;
+                                                                                        index = index ;
+                                                                                        cumulative-size =
+                                                                                            let
+                                                                                                sub = builtins.filter ( f : f.index <= index ) list ;
+                                                                                                in builtins.foldl' ( previous : current : previous * current ) 1 sub ;
+                                                                                    } ;
+                                                                            in builtins.map mapper list ;
+                                                                    in rows ;
                                                             in { } ;
                                                     in
                                                         lib
