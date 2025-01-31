@@ -293,6 +293,7 @@
                                                                                                                     STANDARD_ERROR = init-standard-error ;
                                                                                                                     STANDARD_OUTPUT = init-standard-output ;
                                                                                                                     STATUS = init-status ;
+                                                                                                                    TARGET = target ;
                                                                                                                     TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                                     TOKEN_ARGUMENTS = init-token-arguments ;
                                                                                                                     TOKEN_STANDARD_INPUT = init-token-standard-input ;
