@@ -1,5 +1,5 @@
 TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d} &&
-  ${ECHO} YES > ${TARGET} &&
+  ${ECHO} YES ${1} > ${TARGET} &&
   exit 0 &&
   ${FIND} ${1} -mindepth 1 -maxdepth 1 | ${SORT} | while read FILE
   do
