@@ -332,6 +332,7 @@
                                                                                                                 {
                                                                                                                     CP = "${ pkgs.coreutils }/bin/cp" ;
                                                                                                                     DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                                    FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                                     FLOCK = "${ pkgs.flock }/bin/flock" ;
                                                                                                                     MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
                                                                                                                     OBSERVED = harvest.temporary.util.post.observed ;
