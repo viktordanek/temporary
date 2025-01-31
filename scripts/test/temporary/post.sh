@@ -54,7 +54,7 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
     else
       echo 6:  yes >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
     fi &&
-    ${CAT} ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml &&
+    ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml &&
     echo 7 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
   fi &&
   echo 8 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
