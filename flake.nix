@@ -263,7 +263,7 @@
 
                                                                                     } ;
                                                                     } ;
-                                                            in builtins.foldl' reducer { } rows ;
+                                                            in builtins.foldl' reducer { } ( builtins.trace ( builtins.toJSON rows ) rows ) ;
                                                     in
                                                         lib
                                                             {
