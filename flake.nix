@@ -263,7 +263,7 @@
 
                                                                                     } ;
                                                                     } ;
-                                                            in builtins.foldl' reducer { } ( builtins.trace ( builtins.toJSON rows ) rows ) ;
+                                                            in builtins.foldl' reducer { } ( builtins.trace ( builtins.concatStringsSep "\n" ( builtins.attrNames ( builtins.elemAt rows 0 ) rows ) ) ) ;
                                                     in
                                                         lib
                                                             {
