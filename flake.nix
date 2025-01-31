@@ -252,6 +252,12 @@
                                                                                 in builtins.listToAttrs ( builtins.map mapper fields ) ;
                                                                     size = builtins.foldl' ( previous : current : previous * current.size ) 1 fields ;
                                                                     in builtins.genList generator size ;
+                                                            mapper =
+                                                                { index , arguments , standard-input , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
+                                                                    {
+                                                                        "${ init-status }"."${ arguments }"."${ standard-input }"."${ builtins.toString index }" =
+                                                                            null ;
+                                                                    }
                                                             in { } ;
                                                     in
                                                         lib
