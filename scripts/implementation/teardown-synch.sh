@@ -1,4 +1,3 @@
-sleep 1m &&
 exec 200> ${RRRR}/lock.teardown &&
   if ${FLOCK} 200
   then
@@ -23,6 +22,7 @@ exec 200> ${RRRR}/lock.teardown &&
     then
       ${RRRR}/post.sh || ${TRUE}
     fi &&
+sleep 1m &&
     ${RM} --recursive --force ${RRRR} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
