@@ -260,7 +260,7 @@
                                                                             in builtins.genList generator size ;
                                                                     mapper =
                                                                         {
-                                                                            name
+                                                                            name ,
                                                                             arguments ,
                                                                             standard-input ,
                                                                             init-typeOf ,
