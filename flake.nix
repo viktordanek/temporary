@@ -336,8 +336,8 @@
                                                                                                                     MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
                                                                                                                     OBSERVED = harvest.temporary.util.post.observed ;
                                                                                                                     RM = "${ pkgs.coreutils }/bin/rm" ;
-                                                                                                                }
-                                                                                                    }
+                                                                                                                } ;
+                                                                                                    } ;
                                                                                         } ;
                                                                             } ;
                                                                     in builtins.map mapper list ;
