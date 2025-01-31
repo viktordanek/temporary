@@ -1,3 +1,4 @@
+sleep 1m &&
 exec 200> ${RRRR}/lock.teardown &&
   if ${FLOCK} 200
   then
