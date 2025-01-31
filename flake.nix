@@ -170,7 +170,16 @@
                                         let
                                             resources =
                                                 let
-                                                    temporary = { } ;
+                                                    temporary =
+                                                        let
+                                                            fields =
+                                                                let
+                                                                    hash = index : string : val : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ index string val ] ) ) ) ;
+                                                                    in
+                                                                        [
+                                                                            { name = "arguments" ; size = 1 ; lambda = hash ; }
+                                                                        ] ;
+                                                            in { } ;
                                                     in
                                                         lib
                                                             {
