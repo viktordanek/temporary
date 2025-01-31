@@ -198,7 +198,7 @@
                                                                                                 let
                                                                                                     list =
                                                                                                         let
-                                                                                                            generator = i : builtins.fromJSON ( builtins.substring i 1 ( builtins.replaceString [ "a" "b" "c" "d" "e" "f" ] [ "10" "11" "12" "13" "14" "15" ] ( hash index string val ) ) ) ;
+                                                                                                            generator = i : builtins.fromJSON ( builtins.substring i 1 ( builtins.replaceStrings [ "a" "b" "c" "d" "e" "f" ] [ "10" "11" "12" "13" "14" "15" ] ( hash index string val ) ) ) ;
                                                                                                             in builtins.genList generator 8 ;
                                                                                                     reducer =
                                                                                                         let
