@@ -431,6 +431,24 @@
                                                                                         in if status == "0" then "${ echo } \"paste: ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) }\" >> $( ${ standard-input } )" else "! ${ standard-input }" ;
                                                                                 in [ "#" ( builtins.concatStringsSep " " [ "# ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] }" ( builtins.concatStringsSep " / " path ) ">&2" ] ) status status ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
+                                                                mapper2 =
+                                                                    path : name : value :
+                                                                        if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                        else if builtins.typeOf value == "string" then
+                                                                            let
+                                                                                arguments = "${ pkgs.coreutils }/bin/timeout 10s ${ value } ${ builtins.elemAt path 3 }" ;
+                                                                                echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
+                                                                                standard-input =
+                                                                                    let
+                                                                                        standard-input = builtins.elemAt path 4 ;
+                                                                                        in if standard-input == "_" then arguments else "${ pkgs.coreutils }/bin/timeout 10s ${ echo } ${ standard-input } | ${ arguments }" ;
+                                                                                status =
+                                                                                    let
+                                                                                        status = builtins.elemAt path 2 ;
+                                                                                        # in if status == "0" then "ALPHA=$( ${ standard-input } ) && ${ echo } \"paste: ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) }\" >> ${ builtins.concatStringsSep "" [ "$" "{" "ALPHA" "}" ] }" else "! ${ standard-input }" ;
+                                                                                        in if status == "0" then "${ echo } \"paste: ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) }\" >> $( ${ standard-input } )" else "! ${ standard-input }" ;
+                                                                                in [ "#" ( builtins.concatStringsSep " " [ "# ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] }" ( builtins.concatStringsSep " / " path ) ">&2" ] ) status status ]
+                                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
@@ -445,6 +463,11 @@
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed-external.sh" } $out/bin/observed-external.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-external.sh &&
                                                                             makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
+
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/script/test/util/re-observation.sh" } $out/bin/re-observate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
+                                                                            makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set ECHO ${ pkgs.coreutils }/bin/echo --set OBSERVATE_FILE ${ builtins.toFile "observed-internal.nix" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ ] resources ) ) ) ) ) } --set SED ${ pkgs.gnused }/bin/sed &&
+
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observed-internal" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists [ ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "resources" "temporary" ] ) resources.temporary.temporary ) ) ) [ "${ pkgs.coreutils }/bin/sleep 15s" "${ pkgs.findutils }/bin/find /build -mindepth 2 -maxdepth 2 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary {} \\; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" ] ] ) ) } $out/bin/observed-internal.sh &&
                                                                             makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/echo &&
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test-external.sh" } $out/bin/test-external.sh &&
