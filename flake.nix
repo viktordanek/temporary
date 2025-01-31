@@ -233,6 +233,23 @@
                                                                                                 in builtins.foldl' ( previous : current : previous * current ) 1 sub ;
                                                                                     } ;
                                                                             in builtins.map mapper list ;
+                                                                    generator =
+                                                                        index :
+                                                                            let
+                                                                                mapper =
+                                                                                    value :
+                                                                                        let
+                                                                                            val =
+                                                                                                let
+                                                                                                    div = a : b : a / b ;
+                                                                                                    mod = a : b : a - ( b * ( a / b ) ) ;
+                                                                                                    in mod ( div index value.cumulative-size ) value.size ;
+                                                                                            in
+                                                                                                {
+                                                                                                    name = value.name ;
+                                                                                                    value = value.lambda index value.name val ;
+                                                                                                } ;
+                                                                                in builtins.listToAttrs ( builtins.map mapper fields ) ;
                                                                     in rows ;
                                                             in { } ;
                                                     in
