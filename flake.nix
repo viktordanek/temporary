@@ -440,7 +440,7 @@
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "echo" "}" ] ;
                                                                                 standard-input =
                                                                                     let
-                                                                                        standard-input = builtins.elemAt path 2 ;
+                                                                                        standard-input = builtins.trace ( builtins.toJSON path ) ( builtins.elemAt path 2 ) ;
                                                                                         in if standard-input == "_" then arguments else "${ echo } ${ standard-input } | ${ arguments }" ;
                                                                                 status =
                                                                                     let
