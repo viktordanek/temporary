@@ -293,11 +293,30 @@
                                                                                                                     STANDARD_ERROR = init-standard-error ;
                                                                                                                     STANDARD_OUTPUT = init-standard-output ;
                                                                                                                     STATUS = init-status ;
-                                                                                                                    TARGET = target ;
                                                                                                                     TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                                     TOKEN_ARGUMENTS = init-token-arguments ;
                                                                                                                     TOKEN_STANDARD_INPUT = init-token-standard-input ;
                                                                                                                     TYPEOF = init-typeOf ;
+                                                                                                                } ;
+                                                                                                    } ;
+                                                                                            release =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                        sets =
+                                                                                                            harvest :
+                                                                                                                {
+                                                                                                                    CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                    ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                    NAME = name ;
+                                                                                                                    SPEED = speed ;
+                                                                                                                    STANDARD_ERROR = release-standard-error ;
+                                                                                                                    STANDARD_OUTPUT = release-standard-output ;
+                                                                                                                    STATUS = release-status ;
+                                                                                                                    TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                                    TOKEN_ARGUMENTS = release-token-arguments ;
+                                                                                                                    TOKEN_STANDARD_INPUT = release-token-standard-input ;
+                                                                                                                    TYPEOF = release-typeOf ;
                                                                                                                 } ;
                                                                                                     } ;
                                                                                         } ;
