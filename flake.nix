@@ -284,19 +284,20 @@
                                                                                                     {
                                                                                                         executable = pkgs.writeScript ( "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ) ;
                                                                                                         sets =
-                                                                                                            {
-                                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                NAME = name ;
-                                                                                                                SPEED = speed ;
-                                                                                                                STANDARD_ERROR = init-standard-error ;
-                                                                                                                STANDARD_OUTPUT = init-standard-output ;
-                                                                                                                STATUS = init-status ;
-                                                                                                                TEE = "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                                TOKEN_ARGUMENTS = init-token-arguments ;
-                                                                                                                TOKEN_STANDARD_INPUT = init-token-standard-input ;
-                                                                                                                TYPEOF = init-typeOf ;
-                                                                                                            } ;
+                                                                                                            harvest :
+                                                                                                                {
+                                                                                                                    CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                    ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                    NAME = name ;
+                                                                                                                    SPEED = speed ;
+                                                                                                                    STANDARD_ERROR = init-standard-error ;
+                                                                                                                    STANDARD_OUTPUT = init-standard-output ;
+                                                                                                                    STATUS = init-status ;
+                                                                                                                    TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                                    TOKEN_ARGUMENTS = init-token-arguments ;
+                                                                                                                    TOKEN_STANDARD_INPUT = init-token-standard-input ;
+                                                                                                                    TYPEOF = init-typeOf ;
+                                                                                                                } ;
                                                                                                     } ;
                                                                                         } ;
                                                                             } ;
