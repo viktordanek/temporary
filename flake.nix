@@ -297,7 +297,8 @@
                                                                                                                 TOKEN_STANDARD_INPUT = init-token-standard-input ;
                                                                                                                 TYPEOF = init-typeOf ;
                                                                                                             } ;
-                                                                                                    }
+                                                                                                    } ;
+                                                                                        } ;
                                                                             } ;
                                                                     in builtins.map mapper list ;
                                                             in builtins.foldl' pkgs.lib.recursiveUpdate { } rows ;
