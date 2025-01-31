@@ -257,7 +257,7 @@
                                                                     {
                                                                         "${ init-status }"."${ arguments }"."${ standard-input }"."${ builtins.toString index }" =
                                                                             null ;
-                                                                    }
+                                                                    } ;
                                                             in { } ;
                                                     in
                                                         lib
