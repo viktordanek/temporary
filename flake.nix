@@ -208,6 +208,7 @@
                                                                                             zero = index : string : val : if val == 0 then "_" else hash index string val ;
                                                                                             in
                                                                                                 [
+                                                                                                    { name = "name" ; size = 1 ; lambda = hash ; }
                                                                                                     { name = "arguments" ; size = 1 ; lambda = hash ; }
                                                                                                     { name = "standard-input" ; size = 2 ; lambda = zero ; }
                                                                                                     { name = "init-typeOf" ; size = 1 ; lambda = lambda ; }
@@ -253,9 +254,9 @@
                                                                     size = builtins.foldl' ( previous : current : previous * current.size ) 1 fields ;
                                                                     in builtins.genList generator size ;
                                                             reducer =
-                                                                { index , arguments , standard-input , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
+                                                                { name , arguments , standard-input , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
                                                                     {
-                                                                        "${ init-status }"."${ arguments }"."${ standard-input }"."${ builtins.toString index }" =
+                                                                        "${ init-status }"."${ arguments }"."${ standard-input }"."${ name }" =
                                                                             script :
                                                                                 script
                                                                                     {
