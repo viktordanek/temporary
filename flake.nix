@@ -246,7 +246,7 @@
                                                                                     arguments ,
                                                                                     standard-input ,
                                                                                     init-typeOf ,
-                                                                                    init-standard-input ,
+                                                                                    init-standard-output ,
                                                                                     init-standard-error ,
                                                                                     init-status ,
                                                                                     init-token-arguments ,
