@@ -1,3 +1,3 @@
-echo : resources :
-''
-''
+echo : resources : sleep : find : grep : wc :
+
+  ''
