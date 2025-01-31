@@ -323,6 +323,21 @@
                                                                                                                     TYPEOF = release-typeOf ;
                                                                                                                 } ;
                                                                                                     } ;
+                                                                                            post =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
+                                                                                                        sets =
+                                                                                                            harvest :
+                                                                                                                {
+                                                                                                                    CP = "${ pkgs.coreutils }/bin/cp" ;
+                                                                                                                    DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                                    FLOCK = "${ pkgs.flock }/bin/flock" ;
+                                                                                                                    MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                                    OBSERVED = harvest.temporary.util.post.observed ;
+                                                                                                                    RM = "${ pkgs.coreutils }/bin/rm" ;
+                                                                                                                }
+                                                                                                    }
                                                                                         } ;
                                                                             } ;
                                                                     in builtins.map mapper list ;
