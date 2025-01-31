@@ -217,6 +217,8 @@
                                                                                                             { name = "init-standard-output" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "init-standard-error" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "init-status" ; size = 2 ; lambda = status ; }
+                                                                                                            { name = "init-token-arguments" ; size = 1 ; lambda = hash ; }
+                                                                                                            { name = "init-token-standard-input" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-typeOf" ; size = 1 ; lambda = lambda ; }
                                                                                                             { name = "release-standard-output" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-standard-error" ; size = 1 ; lambda = hash ; }
@@ -257,13 +259,45 @@
                                                                             size = builtins.foldl' ( previous : current : previous * current.size ) 1 fields ;
                                                                             in builtins.genList generator size ;
                                                                     mapper =
-                                                                        { name , arguments , standard-input , init-typeOf , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
+                                                                        {
+                                                                            name
+                                                                            arguments ,
+                                                                            standard-input ,
+                                                                            init-typeOf ,
+                                                                            init-standard-output ,
+                                                                            init-standard-error ,
+                                                                            init-status ,
+                                                                            init-token-arguments ,
+                                                                            init-token-standard-input ,
+                                                                            release-typeOf ,
+                                                                            release-standard-output ,
+                                                                            release-standard-error ,
+                                                                            release-status ,
+                                                                            speed
+                                                                        } :
                                                                             {
                                                                                 "${ init-status }"."${ arguments }"."${ standard-input }"."${ name }" =
                                                                                     script :
                                                                                         {
-
-                                                                                        } ;
+                                                                                            init =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeScript ( "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ) ;
+                                                                                                        sets =
+                                                                                                            {
+                                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                NAME = name ;
+                                                                                                                SPEED = speed ;
+                                                                                                                STANDARD_ERROR = init-standard-error ;
+                                                                                                                STANDARD_OUTPUT = init-standard-output ;
+                                                                                                                STATUS = init-status ;
+                                                                                                                TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                                TOKEN_ARGUMENTS = init-token-arguments ;
+                                                                                                                TOKEN_STANDARD_INPUT = init-token-standard-input ;
+                                                                                                                TYPEOF = init-typeOf ;
+                                                                                                            } ;
+                                                                                                    }
                                                                             } ;
                                                                     in builtins.map mapper list ;
                                                             in builtins.foldl' pkgs.lib.recursiveUpdate { } rows ;
