@@ -261,10 +261,9 @@
                                                                             {
                                                                                 "${ init-status }"."${ arguments }"."${ standard-input }"."${ name }" =
                                                                                     script :
-                                                                                        script
-                                                                                            {
+                                                                                        {
 
-                                                                                            } ;
+                                                                                        } ;
                                                                             } ;
                                                                     in builtins.map mapper list ;
                                                             in builtins.foldl' pkgs.lib.recursiveUpdate { } rows ;
