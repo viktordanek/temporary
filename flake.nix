@@ -302,6 +302,9 @@
                                                                                                         } ;
                                                                                             } ;
                                                                                 } ;
+                                                                            ###
+
+                                                                            ###
                                                             size = builtins.foldl' ( previous : current : previous * current.size ) ( builtins.attrValues fields ) ;
                                                             in builtins.foldl' pkgs.lib.recursiveUpdate rows ;
                                                     in
