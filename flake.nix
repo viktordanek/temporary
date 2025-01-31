@@ -223,6 +223,8 @@
                                                                                                             { name = "release-standard-output" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-standard-error" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-status" ; size = 2 ; lambda = status ; }
+                                                                                                            { name = "release-token-arguments" ; size = 1 ; lambda = hash ; }
+                                                                                                            { name = "release-token-standard-input" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "speed" ; size = 1 ; lambda = index : string : val : builtins.elemAt [ "slow" "fast" ] val ; }
                                                                                                         ] ;
                                                                                             in builtins.genList generator ( builtins.length list ) ;
@@ -273,6 +275,8 @@
                                                                             release-standard-output ,
                                                                             release-standard-error ,
                                                                             release-status ,
+                                                                            release-token-arguments ,
+                                                                            release-token-standard-input ,
                                                                             speed
                                                                         } :
                                                                             {
