@@ -257,7 +257,7 @@
                                                                             size = builtins.foldl' ( previous : current : previous * current.size ) 1 fields ;
                                                                             in builtins.genList generator size ;
                                                                     mapper =
-                                                                        { name , arguments , standard-input , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
+                                                                        { name , arguments , standard-input , init-typeOf init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
                                                                             {
                                                                                 "${ init-status }"."${ arguments }"."${ standard-input }"."${ name }" =
                                                                                     script :
