@@ -30,35 +30,19 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   ${FLOCK} 200 &&
-  echo 1 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "observed*" | ${WC} --lines ) &&
-  echo 2 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   # if [ ! -z "$( ${DIFF} ${DE} ${DO} )" ]
   # then
   #   ${CP} ${DE} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/expected-${INDEX}.yaml
   # fi &&
-  echo 3 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   if [ -f /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml ]
   then
-    echo 4 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
     if [ ! -z "$( ${DIFF} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed ${DO} )" ]
     then
-      echo 5 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
       ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml
     fi
   else
-    echo "6:  ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml" >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
-    if [ -e ${DO} ]
-    then
-        echo 6:  yes file >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
-    else
-      echo 6:  no file >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
-      echo ${OBSERVED} >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
-      cat ${OBSERVED} >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
-    fi &&
-    ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml &&
-    echo 7 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
+    ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml
   fi &&
-  echo 8 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
-  echo ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
+  ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
 
