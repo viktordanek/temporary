@@ -47,9 +47,10 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
       ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml
     fi
   else
-    echo "6 DO=${DO}" >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
-    ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml
+    echo "6:  ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml" >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
+    ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml &&
+    echo 7 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
   fi &&
-  echo 7 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
+  echo 8 >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
 
