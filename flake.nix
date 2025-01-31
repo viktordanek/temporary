@@ -437,7 +437,7 @@
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
                                                                                 arguments = "resources.temporary.temporary.${ builtins.concatStringsSep " . " ( builtins.map ( x : builtins.concatStringsSep "" [ "\"" x "\"" ] ) path ) } ${ builtins.elemAt path 1 }" ;
-                                                                                echo = builtins.concatStringsSep "" [ "$" "{" "echo" "}" ] ;
+                                                                                echo = builtins.concatStringsSep "" [ "$" "{" " " "echo" " " "}" ] ;
                                                                                 standard-input =
                                                                                     let
                                                                                         standard-input = builtins.trace ( builtins.toJSON path ) ( builtins.elemAt path 2 ) ;
