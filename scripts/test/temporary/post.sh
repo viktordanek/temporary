@@ -29,8 +29,10 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   # ${ECHO} >> /build/debug &&
   echo M >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
+  echo N >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   ${FLOCK} 200 &&
+  echo O >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "observed*" | ${WC} --lines ) &&
   # if [ ! -z "$( ${DIFF} ${DE} ${DO} )" ]
   # then
