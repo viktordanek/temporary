@@ -34,19 +34,24 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   ${FLOCK} 200 &&
   echo O >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "observed*" | ${WC} --lines ) &&
+  echo P >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
   # if [ ! -z "$( ${DIFF} ${DE} ${DO} )" ]
   # then
   #   ${CP} ${DE} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/expected-${INDEX}.yaml
   # fi &&
   if [ -f /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml ]
   then
+  echo Q >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
     if [ ! -z "$( ${DIFF} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed ${DO} )" ]
     then
+  echo R >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
       ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml
     fi
   else
+  echo S >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
     ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml
   fi &&
+  echo T >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
   ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   echo Z >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug
 
