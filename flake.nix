@@ -330,6 +330,7 @@
                                                                                                         sets =
                                                                                                             harvest :
                                                                                                                 {
+                                                                                                                    CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                                     CP = "${ pkgs.coreutils }/bin/cp" ;
                                                                                                                     DIFF = "${ pkgs.diffutils }/bin/diff" ;
                                                                                                                     FIND = "${ pkgs.findutils }/bin/find" ;
