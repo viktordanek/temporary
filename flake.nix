@@ -219,13 +219,12 @@
                                                                                         ] ;
                                                                             in builtins.genList generator ( builtins.length list ) ;
                                                                     mapper =
-                                                                        { index , name , size , lambda , size } :
+                                                                        { name , size , lambda , index } :
                                                                             {
-                                                                                index = index ;
                                                                                 name = name ;
                                                                                 size = size ;
                                                                                 lambda = lambda ;
-                                                                                size = size ;
+                                                                                index = index ;
                                                                                 cumulative-size =
                                                                                     let
                                                                                         sub = builtins.filter ( f : f.index <= index ) list ;
