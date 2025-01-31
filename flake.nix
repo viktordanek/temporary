@@ -256,10 +256,11 @@
                                                                 { index , arguments , standard-input , init-standard-output , init-standard-error , init-status , release-typeOf , release-standard-output , release-standard-error , release-status , speed } :
                                                                     {
                                                                         "${ init-status }"."${ arguments }"."${ standard-input }"."${ builtins.toString index }" =
-                                                                            script
-                                                                                {
+                                                                            script :
+                                                                                script
+                                                                                    {
 
-                                                                                } ;
+                                                                                    } ;
                                                                     } ;
                                                             in builtins.map mapper rows ;
                                                     in
