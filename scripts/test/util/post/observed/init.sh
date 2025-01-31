@@ -3,6 +3,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${FIND} ${1} -mindepth 1 -maxdepth 1 >> ${TARGET} &&
   ${FIND} ${1} -mindepth 1 -maxdepth 1 | ${SORT} | while read FILE
   do
+      ${ECHO} YES 4 >> ${TARGET} &&
     BASE=$( ${BASENAME} ${FILE} ) &&
       ${ECHO} YES 5 >> ${TARGET} &&
         ${ECHO} "- name: ${BASE}" >> ${TARGET} &&
