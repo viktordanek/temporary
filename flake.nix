@@ -186,8 +186,8 @@
                                                                             reducer =
                                                                                 let
                                                                                     mod = a : b : a - ( b * ( a / b ) ) ;
-                                                                                    in previous : current : mod ( previous * 16 + current ) 254 ;
-                                                                            in builtins.toString ( if val == 0 then 0 else ) ;
+                                                                                    in previous : current : mod ( previous * 16 + current ) 255 ;
+                                                                            in builtins.toString ( if val == 0 then 0 else ( builtins.foldl' reducer 0 list ) + 1 ) ;
                                                                     zero = index : string : val : if val == 0 then "_" else hash index string val ;
                                                                     in
                                                                         [
