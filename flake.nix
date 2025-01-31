@@ -250,7 +250,8 @@
                                                                                                     value = value.lambda index value.name val ;
                                                                                                 } ;
                                                                                 in builtins.listToAttrs ( builtins.map mapper fields ) ;
-                                                                    in rows ;
+                                                                    size = builtins.foldl' ( previous : current : previous * current.size ) 1 fields ;
+                                                                    in builtins.genList generator size ;
                                                             in { } ;
                                                     in
                                                         lib
