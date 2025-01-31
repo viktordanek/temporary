@@ -436,7 +436,7 @@
                                                                         if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
-                                                                                arguments = "${ builtins.concatStringsSep " . " path }" "${ builtins.elemAt path 1 }" ;
+                                                                                arguments = "${ builtins.concatStringsSep " . " [] }" "${ builtins.elemAt path 1 }" ;
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "echo" "}" ] ;
                                                                                 standard-input =
                                                                                     let
