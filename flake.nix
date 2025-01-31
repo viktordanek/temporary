@@ -464,7 +464,7 @@
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-external.sh &&
                                                                             makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
 
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/script/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
                                                                             makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set ECHO ${ pkgs.coreutils }/bin/echo --set OBSERVATE_FILE ${ builtins.toFile "observed-internal.nix" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ ] ) resources.temporary.temporary ) ) ) ) } --set SED ${ pkgs.gnused }/bin/sed &&
 
