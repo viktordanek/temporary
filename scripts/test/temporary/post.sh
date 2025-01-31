@@ -27,6 +27,7 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   # cat $( dirname ${DE} )/init.standard-output >> /build/debug &&
   # cat $( dirname ${DE} )/init.status >> /build/debug &&
   # ${ECHO} >> /build/debug &&
+  echo M >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   ${FLOCK} 200 &&
@@ -45,5 +46,5 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
     ${CP} ${DO} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml
   fi &&
   ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
-  echo > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug
+  echo Z >> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/debug
 
