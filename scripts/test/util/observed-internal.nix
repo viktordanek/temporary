@@ -1,4 +1,4 @@
-echo : resources :
+resources : echo :
   ''
     # &&
     	${ echo } "paste: 5eb7b8c3" >> $( ${ echo } a4489178 | resources.temporary.temporary."0" . "03153142" . "a4489178" . "ff346f9f" 03153142 ) &&
