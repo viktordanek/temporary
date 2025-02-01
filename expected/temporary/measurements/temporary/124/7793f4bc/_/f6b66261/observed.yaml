@@ -56,7 +56,6 @@
           - 3cdc0701
           - e6f3a959
            epochs:
-           -
     release:
       name: temporary/124/7793f4bc/_/f6b66261
       has_standard_input: true
