@@ -384,7 +384,7 @@
                                                                                                                 ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                             } ;
                                                                                                     } ;
-                                                                                    }
+                                                                                    } ;
                                                                                 post =
                                                                                     {
                                                                                         expected =
