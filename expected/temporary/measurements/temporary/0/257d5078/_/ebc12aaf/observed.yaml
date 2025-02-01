@@ -1,47 +1,40 @@
 - name: init.arguments
   type: file
-  contents:
-    257d5078
+  contents: 257d5078
 - name: init.sh
   type: link
 - name: init.standard-error
   type: file
-  contents:
-    0f27b51f
+  contents: 0f27b51f
 - name: init.standard-output
   type: file
-  contents:
-    fd12b36e
+  contents: fd12b36e
 - name: init.status
   type: file
-  contents:
-    0
+  contents: 0
 - name: lock.teardown
   type: file
-  contents:
+  contents: null
 - name: post.sh
   type: link
 - name: release.sh
   type: link
 - name: release.standard-error
   type: file
-  contents:
-    f228638c
+  contents: f228638c
 - name: release.standard-output
   type: file
-  contents:
-    853762d9
+  contents: 853762d9
 - name: release.status
   type: file
-  contents:
-    0
+  contents: 0
 - name: target
   type: file
   contents:
     init:
       name: temporary/0/257d5078/_/ebc12aaf
       has_standard_input: false
-      standard_input: 
+      standard_input: null
       arguments: 257d5078
       typeof: lambda
       standard_output: fd12b36e
@@ -53,27 +46,14 @@
           arguments: 06f1438e
           standard_input: 97d05365
           pastes:
-          - c8e54077
-          - 762078e6
-           epochs:
-           -
-             - measurement1
-             - measurement2
-             - measurement3
-           -
-             - measurement1
-             - measurement2
-             - measurement3
-           -
-             - measurement1
-             - measurement2
-             - measurement3
+            - c8e54077
+            - 762078000000.0
     paste: 08dc653d
     release:
       name: temporary/0/257d5078/_/ebc12aaf
       has_standard_input: true
-      standard_input: 
-      arguments: 
+      standard_input: null
+      arguments: null
       typeof: lambda
       standard_output: 853762d9
       standard_error: f228638c
@@ -87,5 +67,4 @@
   type: link
 - name: temporary
   type: file
-  contents:
-    temporary/0/257d5078/_/ebc12aaf
+  contents: temporary/0/257d5078/_/ebc12aaf

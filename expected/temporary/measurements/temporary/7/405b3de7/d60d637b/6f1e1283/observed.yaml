@@ -1,51 +1,43 @@
 - name: init.arguments
   type: file
-  contents:
-    405b3de7
+  contents: 405b3de7
 - name: init.sh
   type: link
 - name: init.standard-error
   type: file
-  contents:
-    57af7a6c
+  contents: 57af7a6c
 - name: init.standard-input
   type: file
-  contents:
-    d60d637b
+  contents: d60d637b
 - name: init.standard-output
   type: file
-  contents:
-    fd438759
+  contents: fd438759
 - name: init.status
   type: file
-  contents:
-    7
+  contents: 7
 - name: lock.teardown
   type: file
-  contents:
+  contents: null
 - name: post.sh
   type: link
 - name: release.sh
   type: link
 - name: release.standard-error
   type: file
-  contents:
-    ef9d958b
+  contents: ef9d958b
 - name: release.standard-output
   type: file
-  contents:
-    8b32f6d4
+  contents: 8b32f6d4
 - name: release.status
   type: file
-  contents:
-    0
+  contents: 0
 - name: target
   type: file
   contents:
     init:
       name: temporary/7/405b3de7/d60d637b/6f1e1283
       has_standard_input: true
-      standard_input: 
+      standard_input: null
       arguments: 405b3de7
       typeof: lambda
       standard_output: fd438759
@@ -57,26 +49,13 @@
           arguments: 7483dddf
           standard_input: 37c4faaa
           pastes:
-          - f48238c0
-          - dbe1df18
-           epochs:
-           -
-             - measurement1
-             - measurement2
-             - measurement3
-           -
-             - measurement1
-             - measurement2
-             - measurement3
-           -
-             - measurement1
-             - measurement2
-             - measurement3
+            - f48238c0
+            - dbe1df18
     release:
       name: temporary/7/405b3de7/d60d637b/6f1e1283
       has_standard_input: true
-      standard_input: 
-      arguments: 
+      standard_input: null
+      arguments: null
       typeof: lambda
       standard_output: 8b32f6d4
       standard_error: ef9d958b
@@ -90,5 +69,4 @@
   type: link
 - name: temporary
   type: file
-  contents:
-    temporary/7/405b3de7/d60d637b/6f1e1283
+  contents: temporary/7/405b3de7/d60d637b/6f1e1283
