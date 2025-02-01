@@ -1,39 +1,37 @@
-- name: init.arguments
+- contents: 0bbfd5dd
+  name: init.arguments
   type: file
-  contents: 0bbfd5dd
 - name: init.sh
   type: link
-- name: init.standard-error
+- contents: b193568f
+  name: init.standard-error
   type: file
-  contents: b193568f
-- name: init.standard-input
+- contents: cdb0233e
+  name: init.standard-input
   type: file
-  contents: cdb0233e
-- name: init.standard-output
+- contents: b84e5649
+  name: init.standard-output
   type: file
-  contents: b84e5649
-- name: init.status
+- contents: 0
+  name: init.status
   type: file
-  contents: 0
-- name: lock.teardown
+- contents: null
+  name: lock.teardown
   type: file
-  contents: null
 - name: post.sh
   type: link
 - name: release.sh
   type: link
-- name: release.standard-error
+- contents: 5bd0cf55
+  name: release.standard-error
   type: file
-  contents: 5bd0cf55
-- name: release.standard-output
+- contents: b9dff630
+  name: release.standard-output
   type: file
-  contents: b9dff630
-- name: release.status
+- contents: 0
+  name: release.status
   type: file
-  contents: 0
-- name: target
-  type: file
-  contents:
+- contents:
     init:
       name: temporary/0/0bbfd5dd/cdb0233e/93266152
       has_standard_input: true
@@ -143,10 +141,12 @@
                 - util/token-e36f7b3e3f33888c4ff1bcc07ee3a50910ea9501b54f43d2176e41ef493488d15d4508755d32c92426aea623b5acd7ebd45f09c42e8928fe2a5b017d4cfbefea-a9fa2292
               - - util/token-e36f7b3e3f33888c4ff1bcc07ee3a50910ea9501b54f43d2176e41ef493488d15d4508755d32c92426aea623b5acd7ebd45f09c42e8928fe2a5b017d4cfbefea-176fd020a9fa2292
                 - util/token-e36f7b3e3f33888c4ff1bcc07ee3a50910ea9501b54f43d2176e41ef493488d15d4508755d32c92426aea623b5acd7ebd45f09c42e8928fe2a5b017d4cfbefea-176fd020a9fa2292
+  name: target
+  type: file
 - name: teardown-asynch.sh
   type: link
 - name: teardown-synch.sh
   type: link
-- name: temporary
+- contents: temporary/0/0bbfd5dd/cdb0233e/93266152
+  name: temporary
   type: file
-  contents: temporary/0/0bbfd5dd/cdb0233e/93266152

@@ -1,39 +1,37 @@
-- name: init.arguments
+- contents: 405b3de7
+  name: init.arguments
   type: file
-  contents: 405b3de7
 - name: init.sh
   type: link
-- name: init.standard-error
+- contents: 57af7a6c
+  name: init.standard-error
   type: file
-  contents: 57af7a6c
-- name: init.standard-input
+- contents: d60d637b
+  name: init.standard-input
   type: file
-  contents: d60d637b
-- name: init.standard-output
+- contents: fd438759
+  name: init.standard-output
   type: file
-  contents: fd438759
-- name: init.status
+- contents: 7
+  name: init.status
   type: file
-  contents: 7
-- name: lock.teardown
+- contents: null
+  name: lock.teardown
   type: file
-  contents: null
 - name: post.sh
   type: link
 - name: release.sh
   type: link
-- name: release.standard-error
+- contents: ef9d958b
+  name: release.standard-error
   type: file
-  contents: ef9d958b
-- name: release.standard-output
+- contents: 8b32f6d4
+  name: release.standard-output
   type: file
-  contents: 8b32f6d4
-- name: release.status
+- contents: 0
+  name: release.status
   type: file
-  contents: 0
-- name: target
-  type: file
-  contents:
+- contents:
     init:
       name: temporary/7/405b3de7/d60d637b/6f1e1283
       has_standard_input: true
@@ -142,10 +140,12 @@
                 - util/token-4f5513e351f353f500eec70af389c7bbcf0dcd20557afa892fcc75294495c56355dfbf1fcfe9b10abe20415047fa382d2ecb87ee436258108bb62bcdeced6d2d-48d0f39f
               - - util/token-4f5513e351f353f500eec70af389c7bbcf0dcd20557afa892fcc75294495c56355dfbf1fcfe9b10abe20415047fa382d2ecb87ee436258108bb62bcdeced6d2d-84b5603848d0f39f
                 - util/token-4f5513e351f353f500eec70af389c7bbcf0dcd20557afa892fcc75294495c56355dfbf1fcfe9b10abe20415047fa382d2ecb87ee436258108bb62bcdeced6d2d-84b5603848d0f39f
+  name: target
+  type: file
 - name: teardown-asynch.sh
   type: link
 - name: teardown-synch.sh
   type: link
-- name: temporary
+- contents: temporary/7/405b3de7/d60d637b/6f1e1283
+  name: temporary
   type: file
-  contents: temporary/7/405b3de7/d60d637b/6f1e1283

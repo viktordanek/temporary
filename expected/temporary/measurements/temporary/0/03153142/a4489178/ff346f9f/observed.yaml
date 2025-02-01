@@ -1,39 +1,37 @@
-- name: init.arguments
+- contents: 841314
+  name: init.arguments
   type: file
-  contents: 841314
 - name: init.sh
   type: link
-- name: init.standard-error
+- contents: 25735318
+  name: init.standard-error
   type: file
-  contents: 25735318
-- name: init.standard-input
+- contents: a4489178
+  name: init.standard-input
   type: file
-  contents: a4489178
-- name: init.standard-output
+- contents: 71cd7675
+  name: init.standard-output
   type: file
-  contents: 71cd7675
-- name: init.status
+- contents: 0
+  name: init.status
   type: file
-  contents: 0
-- name: lock.teardown
+- contents: null
+  name: lock.teardown
   type: file
-  contents: null
 - name: post.sh
   type: link
 - name: release.sh
   type: link
-- name: release.standard-error
+- contents: 8b03ad62
+  name: release.standard-error
   type: file
-  contents: 8b03ad62
-- name: release.standard-output
+- contents: 89825829
+  name: release.standard-output
   type: file
-  contents: 89825829
-- name: release.status
+- contents: 0
+  name: release.status
   type: file
-  contents: 0
-- name: target
-  type: file
-  contents:
+- contents:
     init:
       name: temporary/0/03153142/a4489178/ff346f9f
       has_standard_input: true
@@ -143,10 +141,12 @@
                 - util/token-6f8c44ab413870dee0c0875342cf88162d9787da71093a1116a7ebe7fc284a866b91666a2794cdb2f139d410c6595c49112d81317c11a48039bfb2140ba96a9c-d0cab731
               - - util/token-6f8c44ab413870dee0c0875342cf88162d9787da71093a1116a7ebe7fc284a866b91666a2794cdb2f139d410c6595c49112d81317c11a48039bfb2140ba96a9c-6d8b055ad0cab731
                 - util/token-6f8c44ab413870dee0c0875342cf88162d9787da71093a1116a7ebe7fc284a866b91666a2794cdb2f139d410c6595c49112d81317c11a48039bfb2140ba96a9c-6d8b055ad0cab731
+  name: target
+  type: file
 - name: teardown-asynch.sh
   type: link
 - name: teardown-synch.sh
   type: link
-- name: temporary
+- contents: temporary/0/03153142/a4489178/ff346f9f
+  name: temporary
   type: file
-  contents: temporary/0/03153142/a4489178/ff346f9f

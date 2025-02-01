@@ -1,39 +1,37 @@
-- name: init.arguments
+- contents: ce7c21e5
+  name: init.arguments
   type: file
-  contents: ce7c21e5
 - name: init.sh
   type: link
-- name: init.standard-error
+- contents: afac48a7
+  name: init.standard-error
   type: file
-  contents: afac48a7
-- name: init.standard-input
+- contents: 58119ee7
+  name: init.standard-input
   type: file
-  contents: 58119ee7
-- name: init.standard-output
+- contents: 05d3b4de
+  name: init.standard-output
   type: file
-  contents: 05d3b4de
-- name: init.status
+- contents: 231
+  name: init.status
   type: file
-  contents: 231
-- name: lock.teardown
+- contents: null
+  name: lock.teardown
   type: file
-  contents: null
 - name: post.sh
   type: link
 - name: release.sh
   type: link
-- name: release.standard-error
+- contents: 660acbd5
+  name: release.standard-error
   type: file
-  contents: 660acbd5
-- name: release.standard-output
+- contents: dd6e0373
+  name: release.standard-output
   type: file
-  contents: dd6e0373
-- name: release.status
+- contents: 0
+  name: release.status
   type: file
-  contents: 0
-- name: target
-  type: file
-  contents:
+- contents:
     init:
       name: temporary/231/ce7c21e5/58119ee7/20fece1c
       has_standard_input: true
@@ -142,10 +140,12 @@
                 - util/token-ddafed52e60e132f2756c77f5340c4ca0cb305ac0a7116723e22c1caabe84be51d33fbb4c179fccc9522acd25ff0755c2904a2069e4611bdb18f94863607c2e2-e9578808
               - - util/token-ddafed52e60e132f2756c77f5340c4ca0cb305ac0a7116723e22c1caabe84be51d33fbb4c179fccc9522acd25ff0755c2904a2069e4611bdb18f94863607c2e2-4fa29e62e9578808
                 - util/token-ddafed52e60e132f2756c77f5340c4ca0cb305ac0a7116723e22c1caabe84be51d33fbb4c179fccc9522acd25ff0755c2904a2069e4611bdb18f94863607c2e2-4fa29e62e9578808
+  name: target
+  type: file
 - name: teardown-asynch.sh
   type: link
 - name: teardown-synch.sh
   type: link
-- name: temporary
+- contents: temporary/231/ce7c21e5/58119ee7/20fece1c
+  name: temporary
   type: file
-  contents: temporary/231/ce7c21e5/58119ee7/20fece1c
