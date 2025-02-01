@@ -41,11 +41,5 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   TOKEN_12 = $( ${TOKEN} ${TOKEN_ARGUMENTS} ) &&
   TOKEN_13 = $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ) &&
   TOKEN_14 = $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ${TOKEN_ARGUMENTS} ) &&
-  ${ECHO} "    tokens:" >> ${TARGET} &&
-  ${ECHO} "      before:" >> ${TARGET} &&
-  ${ECHO} "      $( ${CAT} ${TOKEN_11})" >> ${TARGET} &&
-  ${ECHO} "      $( ${CAT} ${TOKEN_12})" >> ${TARGET} &&
-  ${ECHO} "      $( ${CAT} ${TOKEN_13})" >> ${TARGET} &&
-  ${ECHO} "      $( ${CAT} ${TOKEN_14})" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}
