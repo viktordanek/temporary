@@ -6,3 +6,6 @@
 - contents: f884fe60
   name: init.standard-error
   type: file
+- contents: f884fe60
+  name: init.standard-output
+  type: file

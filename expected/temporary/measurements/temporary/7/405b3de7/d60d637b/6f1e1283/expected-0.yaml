@@ -6,3 +6,6 @@
 - contents: 57af7a6c
   name: init.standard-error
   type: file
+- contents: 57af7a6c
+  name: init.standard-output
+  type: file
