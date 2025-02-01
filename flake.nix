@@ -232,7 +232,7 @@
                                                                                                 index = index ;
                                                                                                 cumulative-size =
                                                                                                     let
-                                                                                                        sub = builtins.filter ( f : f.index <= index ) list ;
+                                                                                                        sub = builtins.filter ( f : f.index < index ) list ;
                                                                                                         in builtins.foldl' ( previous : current : previous * current.size ) 1 sub ;
                                                                                             } ;
                                                                                     in builtins.map mapper list ;
