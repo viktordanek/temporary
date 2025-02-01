@@ -12,7 +12,12 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
           HASH=$( hash ${NAME} ${VAL} ) &&
           FIRST_DIGIT=${HASH:0:1} &&
           DECIMAL_VALUE=$(( 0x$FIRST_DIGIT )) &&
-          ${ECHO} $(( ${DECIMAL_VALUE} +1 ))
+          if [ ${VAL} == 0 ]
+          then
+            ${ECHO} ${VAL}
+          else
+            ${ECHO} $(( ${DECIMAL_VALUE} +1 ))
+          fi
       } &&
     ${JQ} \
       -n \
