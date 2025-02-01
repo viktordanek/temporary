@@ -9,7 +9,7 @@
 - contents: fd12b36e
   name: init.standard-output
   type: file
-- contents: '0'
+- contents: 0
   name: init.status
   type: file
 - contents: null
@@ -28,6 +28,6 @@
 - contents: 853762d9
   name: release.standard-output
   type: file
-- contents: '0'
+- contents: 0
   name: release.status
   type: file

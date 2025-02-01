@@ -9,7 +9,7 @@
 - contents: 05d3b4de
   name: init.standard-output
   type: file
-- contents: '0'
+- contents: 0
   name: init.status
   type: file
 - contents: null
@@ -28,6 +28,6 @@
 - contents: dd6e0373
   name: release.standard-output
   type: file
-- contents: '0'
+- contents: 0
   name: release.status
   type: file

@@ -9,7 +9,7 @@
 - contents: 71cd7675
   name: init.standard-output
   type: file
-- contents: '0'
+- contents: 0
   name: init.status
   type: file
 - contents: null
@@ -28,6 +28,6 @@
 - contents: '89825829'
   name: release.standard-output
   type: file
-- contents: '0'
+- contents: 0
   name: release.status
   type: file
