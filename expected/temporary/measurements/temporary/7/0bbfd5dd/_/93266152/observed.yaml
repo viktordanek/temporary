@@ -6,13 +6,10 @@
 - contents: b193568f
   name: init.standard-error
   type: file
-- contents: cdb0233e
-  name: init.standard-input
-  type: file
 - contents: b84e5649
   name: init.standard-output
   type: file
-- contents: 0
+- contents: 7
   name: init.status
   type: file
 - contents: null
@@ -33,14 +30,14 @@
   type: file
 - contents:
     init:
-      name: temporary/0/0bbfd5dd/cdb0233e/93266152
-      has_standard_input: true
-      standard_input: cdb0233e
+      name: temporary/7/0bbfd5dd/_/93266152
+      has_standard_input: false
+      standard_input: null
       arguments: 0bbfd5dd
       typeof: lambda
       standard_output: b84e5649
       standard_error: b193568f
-      status: 0
+      status: 7
       speed: slow
       tokens:
         temporary:
@@ -86,9 +83,8 @@
                 - util/token-770a886d22f5ff75bb274a0f824458faf5556bf7feab3d7163577600023000f7677b6548011140d51c5f89194babf77a36bf3fbbde7c789903d3060c135a3e8e-0b2d4323
               - - util/token-770a886d22f5ff75bb274a0f824458faf5556bf7feab3d7163577600023000f7677b6548011140d51c5f89194babf77a36bf3fbbde7c789903d3060c135a3e8e-fa1b15d90b2d4323
                 - util/token-770a886d22f5ff75bb274a0f824458faf5556bf7feab3d7163577600023000f7677b6548011140d51c5f89194babf77a36bf3fbbde7c789903d3060c135a3e8e-fa1b15d90b2d4323
-    paste: 24e518a5
     release:
-      name: temporary/0/0bbfd5dd/cdb0233e/93266152
+      name: temporary/7/0bbfd5dd/_/93266152
       has_standard_input: true
       standard_input: null
       arguments: null
@@ -147,6 +143,6 @@
   type: link
 - name: teardown-synch.sh
   type: link
-- contents: temporary/0/0bbfd5dd/cdb0233e/93266152
+- contents: temporary/7/0bbfd5dd/_/93266152
   name: temporary
   type: file
