@@ -306,7 +306,7 @@
                                                                                             release =
                                                                                                 script
                                                                                                     {
-                                                                                                        executable = pkgs.writeScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                        executable = pkgs.writeScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
                                                                                                         sets =
                                                                                                             harvest :
                                                                                                                 {
