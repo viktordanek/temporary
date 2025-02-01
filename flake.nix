@@ -214,7 +214,7 @@
                                                                                                             { name = "release-typeOf" ; size = 1 ; lambda = lambda ; }
                                                                                                             { name = "release-standard-output" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-standard-error" ; size = 1 ; lambda = hash ; }
-                                                                                                            { name = "release-status" ; size = 2 ; lambda = status ; }
+                                                                                                            { name = "release-status" ; size = 2 ; lambda = index : string : val : builtins.trace ( builtins.concatStringsSep "-" ( builtins.map builtins.toString [ index string val ] ) ) ( status index string val ) ; }
                                                                                                             { name = "release-token-arguments" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-token-standard-input" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-token-paste-1" ; size = 1 ; lambda = hash ; }
