@@ -372,6 +372,21 @@
                                                                         temporary = temporary ;
                                                                         util =
                                                                             {
+                                                                                identity =
+                                                                                    {
+                                                                                        script :
+                                                                                            {
+                                                                                                init =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/identity.sh" ) ) ;
+                                                                                                            set =
+                                                                                                                {
+                                                                                                                    ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                } ;
+                                                                                                        } ;
+                                                                                            } ;
+                                                                                    }
                                                                                 post =
                                                                                     {
                                                                                         expected =
