@@ -9,6 +9,6 @@
 - contents: env(STANDARD_OUTPUT)
   name: init.standard-output
   type: file
-- contents: d02a7bea
+- contents: '0'
   name: init.status
   type: file
