@@ -411,7 +411,7 @@
                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                         SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                        TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.toString ( builtins.fromJSON ( builtins.readFile ( self + "/templates/method.yaml" ) ) ) ) ;
+                                                                                                                        TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.toString ( builtins.fromJSON ( let x = builtins.readFile ( self + "/templates/method.yaml" ) ; in builtins.trace x x ) ) ) ;
                                                                                                                         YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                                     } ;
                                                                                                             } ;
