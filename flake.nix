@@ -195,7 +195,8 @@
                                                                                                 let
                                                                                                     hash = index : string : val : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ index string val ] ) ) ) ;
                                                                                                     lambda = index : string : val : "lambda" ;
-                                                                                                    status = index : string : val : builtins.toString ( if val == 0 then 0 else builtins.fromJSON ( builtins.replaceStrings [ "a" "b" "c" "d" "e" "f" ] [ "10" "11" "12" "13" "14" "15" ] ( builtins.substring 0 1 ( hash index string val ) ) ) ) ;
+                                                                                                    status = index : string : val : builtins.toString ( if val ==
+                                                                                                    0 then 0 else builtins.fromJSON ( builtins.replaceStrings [ "a" "b" "c" "d" "e" "f" ] [ "10" "11" "12" "13" "14" "15" ] ( builtins.substring 0 1 ( hash index string val ) ) ) ) ;
                                                                                                     zero = index : string : val : if val == 0 then "_" else hash index string val ;
                                                                                                     in
                                                                                                         [
@@ -278,6 +279,7 @@
                                                                             release-token-paste-2 ,
                                                                             speed
                                                                         } :
+                                                                            builtins.trace "${ index } - ${ release-status }"
                                                                             {
                                                                                 "${ init-status }"."${ arguments }"."${ standard-input }"."${ name }" =
                                                                                     script :
