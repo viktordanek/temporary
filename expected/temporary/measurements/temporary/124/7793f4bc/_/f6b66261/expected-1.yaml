@@ -1,3 +1,5 @@
-- contents: 4-init-arguments-0
+- contents: 7793f4bc
   name: init.arguments
   type: file
+- name: init.sh
+  type: link

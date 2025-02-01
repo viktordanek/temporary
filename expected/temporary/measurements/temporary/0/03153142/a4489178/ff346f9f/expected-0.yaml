@@ -1,3 +1,5 @@
-- contents: 3-init-arguments-0
+- contents: '03153142'
   name: init.arguments
   type: file
+- name: init.sh
+  type: link

@@ -1,3 +1,5 @@
-- contents: 7-init-arguments-0
+- contents: ce7c21e5
   name: init.arguments
   type: file
+- name: init.sh
+  type: link
