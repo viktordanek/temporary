@@ -9,7 +9,7 @@
 - contents: bee2fe8c
   name: init.standard-output
   type: file
-- contents: 1
+- contents: 0
   name: init.status
   type: file
 - contents: null
