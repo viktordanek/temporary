@@ -409,8 +409,10 @@
                                                                                                                 sets =
                                                                                                                     {
                                                                                                                         CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                         JQ = "${ pkgs.jq }/bin/jq" ;
+                                                                                                                        MD5SUM = "${ pkgs.coreutils }/bin/md5sum" ;
                                                                                                                         SED = "${ pkgs.gnused }/bin/sed" ;
                                                                                                                         TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.replaceStrings [ "\"env(INIT_ARGUMENTS)\"" ] [ "$INIT_ARGUMENTS" ] ( ( builtins.toJSON ( builtins.import ( self + "/templates/method.yaml" ) ) ) ) ) ;
                                                                                                                         YQ = "${ pkgs.yq }/bin/yq" ;
