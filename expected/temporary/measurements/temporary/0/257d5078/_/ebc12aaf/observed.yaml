@@ -48,10 +48,12 @@
       standard_error: 0f27b51f
       status: 0
       speed: slow
-      token_arguments: 06f1438e
-      token_standard_input: 97d05365
-      token_paste_1:  c8e54077
-      token_paste_2:  762078e6
+      tokens:
+        arguments: 06f1438e
+        standard_input: 97d05365
+        pastes:
+        - c8e54077
+        - 762078e6
     paste: 08dc653d
     release:
       name: temporary/0/257d5078/_/ebc12aaf

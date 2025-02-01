@@ -52,10 +52,12 @@
       standard_error: 25735318
       status: 0
       speed: slow
-      token_arguments: 59e4f3f3
-      token_standard_input: c7b27316
-      token_paste_1:  e648d700
-      token_paste_2:  629a5a2e
+      tokens:
+        arguments: 59e4f3f3
+        standard_input: c7b27316
+        pastes:
+        - e648d700
+        - 629a5a2e
     paste: 5eb7b8c3
     release:
       name: temporary/0/03153142/a4489178/ff346f9f

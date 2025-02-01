@@ -31,11 +31,12 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "  standard_error: ${STANDARD_ERROR}" >> ${TARGET} &&
   ${ECHO} "  status: ${STATUS}" >> ${TARGET} &&
   ${ECHO} "  speed: ${SPEED}" >> ${TARGET} &&
-  ${ECHO} "  tokens:" >> ${TARGET}
-  ${ECHO} "    arguments: ${TOKEN_ARGUMENTS}" >> ${TARGET} &&
-  ${ECHO} "    standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
-  ${ECHO} "    pastes:" >> ${TARGET} &&
-  ${ECHO} "    - ${TOKEN_PASTE_1}" >> ${TARGET} &&
-  ${ECHO} "    - ${TOKEN_PASTE_2}" >> ${TARGET} &&
+  ${ECHO} "  tokens:" >> ${TARGET} &&
+  ${ECHO} "    temporary:" >> ${TARGET} &&
+  ${ECHO} "      arguments: ${TOKEN_ARGUMENTS}" >> ${TARGET} &&
+  ${ECHO} "      standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "      pastes:" >> ${TARGET} &&
+  ${ECHO} "      - ${TOKEN_PASTE_1}" >> ${TARGET} &&
+  ${ECHO} "      - ${TOKEN_PASTE_2}" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}

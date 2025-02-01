@@ -52,10 +52,12 @@
       standard_error: afac48a7
       status: 231
       speed: slow
-      token_arguments: 9723f60e
-      token_standard_input: 857b71db
-      token_paste_1:  494112f3
-      token_paste_2:  512354ad
+      tokens:
+        arguments: 9723f60e
+        standard_input: 857b71db
+        pastes:
+        - 494112f3
+        - 512354ad
     release:
       name: temporary/231/ce7c21e5/58119ee7/20fece1c
       has_standard_input: true

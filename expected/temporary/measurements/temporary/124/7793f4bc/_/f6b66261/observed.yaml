@@ -48,10 +48,12 @@
       standard_error: 31b54d85
       status: 124
       speed: slow
-      token_arguments: 28da7afb
-      token_standard_input: b57ad28e
-      token_paste_1:  3cdc0701
-      token_paste_2:  e6f3a959
+      tokens:
+        arguments: 28da7afb
+        standard_input: b57ad28e
+        pastes:
+        - 3cdc0701
+        - e6f3a959
     release:
       name: temporary/124/7793f4bc/_/f6b66261
       has_standard_input: true

@@ -52,10 +52,12 @@
       standard_error: 57af7a6c
       status: 7
       speed: slow
-      token_arguments: 7483dddf
-      token_standard_input: 37c4faaa
-      token_paste_1:  f48238c0
-      token_paste_2:  dbe1df18
+      tokens:
+        arguments: 7483dddf
+        standard_input: 37c4faaa
+        pastes:
+        - f48238c0
+        - dbe1df18
     release:
       name: temporary/7/405b3de7/d60d637b/6f1e1283
       has_standard_input: true
