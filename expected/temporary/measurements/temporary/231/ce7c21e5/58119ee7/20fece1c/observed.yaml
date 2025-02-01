@@ -60,8 +60,6 @@
                 - util/token--
               - - util/token--
                 - util/token--
-              - measurement2
-              - measurement3
             - - - util/token--494112f3
                 - util/token--
               - - util/token--494112f3
@@ -70,8 +68,6 @@
                 - util/token--
               - - util/token--494112f3
                 - util/token--
-              - measurement2
-              - measurement3
             - - - util/token--494112f3
                 - util/token--512354ad
               - - util/token--494112f3
@@ -80,8 +76,6 @@
                 - util/token--512354ad
               - - util/token--494112f3
                 - util/token--512354ad
-              - measurement2
-              - measurement3
     release:
       name: temporary/231/ce7c21e5/58119ee7/20fece1c
       has_standard_input: true

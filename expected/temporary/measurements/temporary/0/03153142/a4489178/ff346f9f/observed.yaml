@@ -60,8 +60,6 @@
                 - util/token--
               - - util/token--
                 - util/token--
-              - measurement2
-              - measurement3
             - - - util/token--e648d700
                 - util/token--
               - - util/token--e648d700
@@ -70,8 +68,6 @@
                 - util/token--
               - - util/token--e648d700
                 - util/token--
-              - measurement2
-              - measurement3
             - - - util/token--e648d700
                 - util/token--629a5a2e
               - - util/token--e648d700
@@ -80,8 +76,6 @@
                 - util/token--629a5a2e
               - - util/token--e648d700
                 - util/token--629a5a2e
-              - measurement2
-              - measurement3
     paste: 5eb7b8c3
     release:
       name: temporary/0/03153142/a4489178/ff346f9f
