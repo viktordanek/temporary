@@ -351,6 +351,7 @@
                                                                                                                     CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                                     CP = "${ pkgs.coreutils }/bin/cp" ;
                                                                                                                     DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                                    ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                     EXPECTED = harvest.temporary.util.post.expected ;
                                                                                                                     FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                                     FLOCK = "${ pkgs.flock }/bin/flock" ;
