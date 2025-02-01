@@ -60,16 +60,15 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "            - $( ${CAT} ${TOKEN_1121} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_1122} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_131} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_132} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1211} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1212} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_141} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_142} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1221} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1222} )" >> ${TARGET} &&
   ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_1111} &&
   ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_1121} &&
-  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_121} &&
-  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_131} &&
-  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_141} &&
+  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_1211} &&
+  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_1221} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_1111} )" >> ${TARGET} &&
@@ -78,14 +77,14 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "            - $( ${CAT} ${TOKEN_1121} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_1122} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_131} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_132} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1211} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1212} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_141} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_142} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1221} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1222} )" >> ${TARGET} &&
   ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_1122} &&
-  ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_132} &&
-  ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_142} &&
+  ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_1212} &&
+  ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_1222} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_1111} )" >> ${TARGET} &&
@@ -94,10 +93,10 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "            - $( ${CAT} ${TOKEN_1121} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_1122} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_131} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_132} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1211} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1212} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_141} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_142} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1221} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1222} )" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}
