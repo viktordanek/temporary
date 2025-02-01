@@ -15,3 +15,7 @@
 - contents: null
   name: lock.teardown
   type: file
+- name: post.sh
+  type: link
+- name: release.sh
+  type: link
