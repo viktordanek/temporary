@@ -60,7 +60,8 @@
                 - util/token--
               - measurement2
               - measurement3
-            - - measurement1
+            - - - util/token--494112f3
+                - util/token--512354ad
               - measurement2
               - measurement3
     release:
