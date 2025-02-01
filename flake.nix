@@ -195,18 +195,7 @@
                                                                                                 let
                                                                                                     hash = index : string : val : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ index string val ] ) ) ) ;
                                                                                                     lambda = index : string : val : "lambda" ;
-                                                                                                    status =
-                                                                                                        index : string : val :
-                                                                                                        let
-                                                                                                            list =
-                                                                                                                let
-                                                                                                                    generator = i : builtins.fromJSON ( builtins.substring i 1 ( builtins.replaceStrings [ "a" "b" "c" "d" "e" "f" ] [ "10" "11" "12" "13" "14" "15" ] ( hash index string val ) ) ) ;
-                                                                                                                    in builtins.genList generator 8 ;
-                                                                                                            reducer =
-                                                                                                                let
-                                                                                                                    mod = a : b : a - ( b * ( a / b ) ) ;
-                                                                                                                    in previous : current : mod ( previous * 16 + current ) 255 ;
-                                                                                                            in builtins.toString ( if val == 0 then 0 else ( builtins.foldl' reducer 0 list ) + 1 ) ;
+                                                                                                    status = index : string : val : builtins.toString ( if val == 0 then 0 else builtins.fromJSON ( builtins.replaceStrings [ "a" "b" "c" "d" "e" "f" ] [ "10" "11" "12" "13" "14" "15" ] ( builtins.substring 0 1 ( hash index string val ) ) ) + 1 ;
                                                                                                     zero = index : string : val : if val == 0 then "_" else hash index string val ;
                                                                                                     in
                                                                                                         [
