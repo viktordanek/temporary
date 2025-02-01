@@ -210,6 +210,7 @@
                                                                                                     zero = index : string : val : if val == 0 then "_" else hash index string val ;
                                                                                                     in
                                                                                                         [
+                                                                                                            { name = "index" ; size = 1 ; lambda = index : string : val : index ; }
                                                                                                             { name = "name" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "arguments" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "standard-input" ; size = 2 ; lambda = zero ; }
