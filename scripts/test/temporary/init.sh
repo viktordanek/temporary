@@ -45,8 +45,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   TOKEN_FILE=$( ${IDENTITY} ${TOKEN_STANDARD_INPUT} ) &&
   TOKEN_1111=$( ${TOKEN_1} ) &&
   TOKEN_1112=$( ${TOKEN_1} ) &&
-  TOKEN_111=$( ${TOKEN_1} ) &&
-  TOKEN_112=$( ${TOKEN_1} ) &&
   TOKEN_121=$( ${TOKEN_1} ) &&
   TOKEN_122=$( ${TOKEN_1} ) &&
   TOKEN_131=$( ${TOKEN_1} ) &&
@@ -58,8 +56,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_1111} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_1112} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_111} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_112} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_121} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_122} )" >> ${TARGET} &&
@@ -87,7 +83,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_141} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_142} )" >> ${TARGET} &&
-  ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_112} &&
   ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_122} &&
   ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_132} &&
   ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_142} &&
