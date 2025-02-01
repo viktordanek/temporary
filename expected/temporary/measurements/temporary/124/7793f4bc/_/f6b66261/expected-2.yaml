@@ -22,3 +22,12 @@
 - contents: 7793f4bc
   name: release.arguments
   type: file
+- contents: 2b22f38a
+  name: release.standard-error
+  type: file
+- contents: 544678c7
+  name: release.standard-output
+  type: file
+- contents: '0'
+  name: release.status
+  type: file

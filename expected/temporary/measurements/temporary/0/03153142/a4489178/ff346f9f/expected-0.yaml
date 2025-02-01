@@ -22,3 +22,12 @@
 - contents: '03153142'
   name: release.arguments
   type: file
+- contents: 8b03ad62
+  name: release.standard-error
+  type: file
+- contents: '89825829'
+  name: release.standard-output
+  type: file
+- contents: '0'
+  name: release.status
+  type: file

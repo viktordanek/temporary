@@ -22,3 +22,12 @@
 - contents: 405b3de7
   name: release.arguments
   type: file
+- contents: ef9d958b
+  name: release.standard-error
+  type: file
+- contents: 8b32f6d4
+  name: release.standard-output
+  type: file
+- contents: '0'
+  name: release.status
+  type: file
