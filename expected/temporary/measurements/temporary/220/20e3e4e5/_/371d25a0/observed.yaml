@@ -50,6 +50,8 @@
       speed: slow
       token_arguments: 19941b68
       token_standard_input: 5328f3b3
+      token_paste_1:  2e5407ad
+      token_paste_2:  f4b2bf2a
     release:
       name: temporary/220/20e3e4e5/_/371d25a0
       has_standard_input: true
