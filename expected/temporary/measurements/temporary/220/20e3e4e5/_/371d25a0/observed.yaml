@@ -49,7 +49,8 @@
             - 2e5407ad
             - f4b2bf2a
           epochs:
-            - - measurement1
+            - - - tp:util/token-si:-a: null
+                - tp:util/token-si:-a: null
               - measurement2
               - measurement3
             - - measurement1
