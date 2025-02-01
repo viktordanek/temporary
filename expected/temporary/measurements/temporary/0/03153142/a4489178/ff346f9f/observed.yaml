@@ -51,7 +51,7 @@
           pastes:
             - e648d700
             - 629a5a2e
-          epochs:
+          measurements:
             - - - util/token--
                 - util/token--
               - measurement2

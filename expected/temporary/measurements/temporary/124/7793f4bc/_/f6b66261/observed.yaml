@@ -48,7 +48,7 @@
           pastes:
             - 3cdc0701
             - e6f3a959
-          epochs:
+          measurements:
             - - - util/token--
                 - util/token--
               - measurement2

@@ -48,7 +48,7 @@
           pastes:
             - 2e5407ad
             - f4b2bf2a
-          epochs:
+          measurements:
             - - - util/token--
                 - util/token--
               - measurement2

@@ -51,7 +51,7 @@
           pastes:
             - 0b2d4323
             - c50d8dbe
-          epochs:
+          measurements:
             - - - util/token--
                 - util/token--
               - measurement2
