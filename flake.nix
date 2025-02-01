@@ -379,7 +379,7 @@
                                                                                                 script
                                                                                                     {
                                                                                                         executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/identity.sh" ) ) ;
-                                                                                                        set =
+                                                                                                        sets =
                                                                                                             {
                                                                                                                 ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                             } ;
