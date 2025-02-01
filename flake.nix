@@ -307,6 +307,8 @@
                                                                                                                     STATUS = init-status ;
                                                                                                                     TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                                     TOKEN_ARGUMENTS = init-token-arguments ;
+                                                                                                                    TOKEN_PASTE_1 = init-token-paste-1 ;
+                                                                                                                    TOKEN_PASTE_2 = init-token-paste-2 ;
                                                                                                                     TOKEN_STANDARD_INPUT = init-token-standard-input ;
                                                                                                                     TYPEOF = init-typeOf ;
                                                                                                                 } ;

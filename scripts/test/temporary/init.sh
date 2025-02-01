@@ -33,5 +33,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "  speed: ${SPEED}" >> ${TARGET} &&
   ${ECHO} "  token_arguments: ${TOKEN_ARGUMENTS}" >> ${TARGET} &&
   ${ECHO} "  token_standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "  token_paste_1:  ${TOKEN_PASTE_1}" >> ${TARGET} &&
+  ${ECHO} "  token_paste_2:  ${TOKEN_PASTE_2}" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}
