@@ -60,8 +60,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_141} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_142} )" >> ${TARGET} &&
-  ${ECHO} "          - measurement2" >> ${TARGET} &&
-  ${ECHO} "          - measurement3" >> ${TARGET} &&
   ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_111} &&
   ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_121} &&
   ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_131} &&
@@ -79,8 +77,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_141} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_142} )" >> ${TARGET} &&
-  ${ECHO} "          - measurement2" >> ${TARGET} &&
-  ${ECHO} "          - measurement3" >> ${TARGET} &&
   ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_112} &&
   ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_122} &&
   ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_132} &&
@@ -98,7 +94,5 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_141} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_142} )" >> ${TARGET} &&
-  ${ECHO} "          - measurement2" >> ${TARGET} &&
-  ${ECHO} "          - measurement3" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}
