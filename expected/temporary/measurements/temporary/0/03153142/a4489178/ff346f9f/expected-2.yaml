@@ -9,7 +9,7 @@
 - contents: 71cd7675
   name: init.standard-output
   type: file
-- contents: 0
+- contents: 3
   name: init.status
   type: file
 - contents: null

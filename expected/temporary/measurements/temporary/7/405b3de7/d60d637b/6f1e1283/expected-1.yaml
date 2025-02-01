@@ -9,7 +9,7 @@
 - contents: fd438759
   name: init.standard-output
   type: file
-- contents: 0
+- contents: 6
   name: init.status
   type: file
 - contents: null
