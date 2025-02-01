@@ -279,7 +279,7 @@
                                                                             release-token-paste-2 ,
                                                                             speed
                                                                         } :
-                                                                            builtins.trace "${ builtins.toString index } - ${ builtins.toString release-status }"
+                                                                            builtins.trace " - ${ builtins.toString index } - ${ builtins.toString standard-input } - ${ builtins.toString init-status } - ${ builtins.toString release-status }"
                                                                             {
                                                                                 "${ init-status }"."${ arguments }"."${ standard-input }"."${ name }" =
                                                                                     script :
