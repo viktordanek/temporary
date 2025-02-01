@@ -51,6 +51,10 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   TOKEN_1212=$( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN_1} ) &&
   TOKEN_1221=$( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN_1} ${TOKEN_ARGUMENTS} ) &&
   TOKEN_1222=$( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN_1} ${TOKEN_ARGUMENTS} ) &&
+  TOKEN_1311=$( ${TOKEN_1} < ${TOKEN_FILE} ) &&
+  TOKEN_1312=$( ${TOKEN_1} < ${TOKEN_FILE} ) &&
+  TOKEN_1321=$( ${TOKEN_1} ${TOKEN_ARGUMENTS} < ${TOKEN_FILE} ) &&
+  TOKEN_1322=$( ${TOKEN_1} ${TOKEN_ARGUMENTS} < ${TOKEN_FILE} ) &&
   ${ECHO} "      measurements:" >> ${TARGET} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
