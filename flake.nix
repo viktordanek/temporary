@@ -384,7 +384,7 @@
                                                                                                             {
                                                                                                                 CUT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                 ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                UUIDGEN = "${ pkgs.libuuid }/bin/uuidgen" ;
+                                                                                                                SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
                                                                                                             } ;
                                                                                                     } ;
                                                                                     } ;
