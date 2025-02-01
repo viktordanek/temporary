@@ -412,7 +412,7 @@
                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                         JQ = "${ pkgs.jq }/bin/jq" ;
                                                                                                                         SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                        TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.replaceStrings [ "\"env(INIT_ARGUMENTS)\"" "\"" ] [ "env(INIT_ARGUMENTS)" "\\\"" ] ( ( builtins.toJSON ( builtins.import ( self + "/templates/method.yaml" ) ) ) ) ) ;
+                                                                                                                        TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.replaceStrings [ "\"env(INIT_ARGUMENTS)\"" ] [ "$INIT_ARGUMENTS" ] ( ( builtins.toJSON ( builtins.import ( self + "/templates/method.yaml" ) ) ) ) ) ;
                                                                                                                         YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                                     } ;
                                                                                                             } ;
