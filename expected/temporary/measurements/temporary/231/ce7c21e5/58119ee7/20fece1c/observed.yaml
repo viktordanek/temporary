@@ -53,11 +53,12 @@
       status: 231
       speed: slow
       tokens:
-        arguments: 9723f60e
-        standard_input: 857b71db
-        pastes:
-        - 494112f3
-        - 512354ad
+        temporary:
+          arguments: 9723f60e
+          standard_input: 857b71db
+          pastes:
+          - 494112f3
+          - 512354ad
     release:
       name: temporary/231/ce7c21e5/58119ee7/20fece1c
       has_standard_input: true

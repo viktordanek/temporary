@@ -49,11 +49,12 @@
       status: 220
       speed: slow
       tokens:
-        arguments: 19941b68
-        standard_input: 5328f3b3
-        pastes:
-        - 2e5407ad
-        - f4b2bf2a
+        temporary:
+          arguments: 19941b68
+          standard_input: 5328f3b3
+          pastes:
+          - 2e5407ad
+          - f4b2bf2a
     release:
       name: temporary/220/20e3e4e5/_/371d25a0
       has_standard_input: true

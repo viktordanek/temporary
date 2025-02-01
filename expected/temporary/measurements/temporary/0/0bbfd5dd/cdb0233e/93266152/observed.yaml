@@ -53,11 +53,12 @@
       status: 0
       speed: slow
       tokens:
-        arguments: fa1b15d9
-        standard_input: f147e124
-        pastes:
-        - 0b2d4323
-        - c50d8dbe
+        temporary:
+          arguments: fa1b15d9
+          standard_input: f147e124
+          pastes:
+          - 0b2d4323
+          - c50d8dbe
     paste: 24e518a5
     release:
       name: temporary/0/0bbfd5dd/cdb0233e/93266152

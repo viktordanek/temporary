@@ -49,11 +49,12 @@
       status: 124
       speed: slow
       tokens:
-        arguments: 28da7afb
-        standard_input: b57ad28e
-        pastes:
-        - 3cdc0701
-        - e6f3a959
+        temporary:
+          arguments: 28da7afb
+          standard_input: b57ad28e
+          pastes:
+          - 3cdc0701
+          - e6f3a959
     release:
       name: temporary/124/7793f4bc/_/f6b66261
       has_standard_input: true

@@ -49,11 +49,12 @@
       status: 0
       speed: slow
       tokens:
-        arguments: 06f1438e
-        standard_input: 97d05365
-        pastes:
-        - c8e54077
-        - 762078e6
+        temporary:
+          arguments: 06f1438e
+          standard_input: 97d05365
+          pastes:
+          - c8e54077
+          - 762078e6
     paste: 08dc653d
     release:
       name: temporary/0/257d5078/_/ebc12aaf

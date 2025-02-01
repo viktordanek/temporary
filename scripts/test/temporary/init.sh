@@ -38,5 +38,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "      pastes:" >> ${TARGET} &&
   ${ECHO} "      - ${TOKEN_PASTE_1}" >> ${TARGET} &&
   ${ECHO} "      - ${TOKEN_PASTE_2}" >> ${TARGET} &&
+  TOKEN_11=$( ${TOKEN} ) &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}
