@@ -98,8 +98,13 @@
       standard_error: 660acbd5
       speed: slow
       status: 0
-      token_arguments: 4fa29e62
-      token_standard_input: 4caccc02
+      tokens:
+        temporary:
+          arguments: 4fa29e62
+          standard_input: 4caccc02
+          pastes:
+            - e9578808
+            - 0271e66a
 - name: teardown-asynch.sh
   type: link
 - name: teardown-synch.sh

@@ -99,8 +99,13 @@
       standard_error: 8b03ad62
       speed: slow
       status: 0
-      token_arguments: 6d8b055a
-      token_standard_input: 1.7976931348623157e+308
+      tokens:
+        temporary:
+          arguments: 6d8b055a
+          standard_input: 1.7976931348623157e+308
+          pastes:
+            - d0cab731
+            - 786ef327
 - name: teardown-asynch.sh
   type: link
 - name: teardown-synch.sh

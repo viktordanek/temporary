@@ -95,8 +95,13 @@
       standard_error: 2b22f38a
       speed: slow
       status: 0
-      token_arguments: e829e376
-      token_standard_input: 29d9a15e
+      tokens:
+        temporary:
+          arguments: e829e376
+          standard_input: 29d9a15e
+          pastes:
+            - 88bdf20c
+            - 93113f51
 - name: teardown-asynch.sh
   type: link
 - name: teardown-synch.sh

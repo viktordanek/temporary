@@ -96,8 +96,13 @@
       standard_error: f228638c
       speed: slow
       status: 0
-      token_arguments: 0051af49
-      token_standard_input: 6449456d
+      tokens:
+        temporary:
+          arguments: 0051af49
+          standard_input: 6449456d
+          pastes:
+            - 68222770
+            - 79686310
 - name: teardown-asynch.sh
   type: link
 - name: teardown-synch.sh
