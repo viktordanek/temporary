@@ -15,7 +15,7 @@
 - name: init.standard-output
   type: file
   contents:
-    INIT 05d3b4de
+    05d3b4de
 - name: init.status
   type: file
   contents:
@@ -34,7 +34,7 @@
 - name: release.standard-output
   type: file
   contents:
-    RELEASE dd6e0373
+    dd6e0373
 - name: release.status
   type: file
   contents:

@@ -11,7 +11,7 @@
 - name: init.standard-output
   type: file
   contents:
-    INIT 3c01ec9b
+    3c01ec9b
 - name: init.status
   type: file
   contents:
@@ -30,7 +30,7 @@
 - name: release.standard-output
   type: file
   contents:
-    RELEASE c3b14e8b
+    c3b14e8b
 - name: release.status
   type: file
   contents:

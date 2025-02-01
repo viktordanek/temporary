@@ -11,7 +11,7 @@
 - name: init.standard-output
   type: file
   contents:
-    INIT bee2fe8c
+    bee2fe8c
 - name: init.status
   type: file
   contents:
@@ -30,7 +30,7 @@
 - name: release.standard-output
   type: file
   contents:
-    RELEASE 1309eb10
+    1309eb10
 - name: release.status
   type: file
   contents:

@@ -11,7 +11,7 @@
 - name: init.standard-output
   type: file
   contents:
-    INIT 82f18213
+    82f18213
 - name: init.status
   type: file
   contents:
@@ -30,7 +30,7 @@
 - name: release.standard-output
   type: file
   contents:
-    RELEASE 544678c7
+    544678c7
 - name: release.status
   type: file
   contents:
