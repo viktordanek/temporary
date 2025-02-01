@@ -47,7 +47,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "            - $( ${CAT} ${TOKEN_12} )" >> ${TARGET} &&
   ${ECHO} "          - measurement2" >> ${TARGET} &&
   ${ECHO} "          - measurement3" >> ${TARGET} &&
-  ${ECHO} "          - ${ECHO} ${TOKEN_PASTE_1} >> ${TOKEN_11} &&" >> ${TARGET} &&
+  ${ECHO} ${TOKEN_PASTE_1} >> ${TOKEN_11} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          - measurement1" >> ${TARGET} &&
   ${ECHO} "          - measurement2" >> ${TARGET} &&
