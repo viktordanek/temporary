@@ -59,6 +59,15 @@
            -
              - measurement1
              - measurement2
+             - measurement3
+           -
+             - measurement1
+             - measurement2
+             - measurement3
+           -
+             - measurement1
+             - measurement2
+             - measurement3
     paste: 0a8fa3cd
     release:
       name: temporary/0/6aed210f/_/fe28b6eb
