@@ -3,3 +3,6 @@
   type: file
 - name: init.sh
   type: link
+- contents: 1f27d201
+  name: init.standard-error
+  type: file
