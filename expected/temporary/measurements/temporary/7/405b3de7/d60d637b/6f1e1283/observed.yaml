@@ -60,6 +60,9 @@
           - f48238c0
           - dbe1df18
            epochs:
+           -
+             - measurement1
+             - measurement2
     release:
       name: temporary/7/405b3de7/d60d637b/6f1e1283
       has_standard_input: true

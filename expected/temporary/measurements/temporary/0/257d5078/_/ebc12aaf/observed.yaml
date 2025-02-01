@@ -56,6 +56,9 @@
           - c8e54077
           - 762078e6
            epochs:
+           -
+             - measurement1
+             - measurement2
     paste: 08dc653d
     release:
       name: temporary/0/257d5078/_/ebc12aaf

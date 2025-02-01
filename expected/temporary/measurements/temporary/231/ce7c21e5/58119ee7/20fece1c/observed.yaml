@@ -60,6 +60,9 @@
           - 494112f3
           - 512354ad
            epochs:
+           -
+             - measurement1
+             - measurement2
     release:
       name: temporary/231/ce7c21e5/58119ee7/20fece1c
       has_standard_input: true
