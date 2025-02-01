@@ -15,7 +15,7 @@
 - name: init.standard-output
   type: file
   contents:
-    b84e5649
+    INIT b84e5649
 - name: init.status
   type: file
   contents:
@@ -34,7 +34,7 @@
 - name: release.standard-output
   type: file
   contents:
-    b9dff630
+    RELEASE b9dff630
 - name: release.status
   type: file
   contents:
@@ -45,13 +45,26 @@
     init:
       name: temporary/0/0bbfd5dd/cdb0233e/93266152
       has_standard_input: true
+      standard_input: cdb0233e
+      arguments: 0bbfd5dd
+      typeof: lambda
+      standard_output: b84e5649
+      standard_error: b193568f
+      status: 0
+      speed: slow
+      token_arguments: fa1b15d9
+      token_standard_input: f147e124
+    paste: 24e518a5
+    release:
+      name: temporary/0/0bbfd5dd/cdb0233e/93266152
+      has_standard_input: true
       standard_input: 
       arguments: 
       typeof: lambda
       standard_output: b9dff630
       standard_error: 5bd0cf55
-      status: 0
       speed: slow
+      status: 0
       token_arguments: 176fd020
       token_standard_input: eab3a19a
 - name: teardown-asynch.sh
