@@ -56,6 +56,8 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "      measurements:" >> ${TARGET} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1111} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1112} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_111} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_112} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
@@ -67,12 +69,15 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "          -" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_141} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_142} )" >> ${TARGET} &&
-  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_111} &&
+  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_1111} &&
+  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_1111} &&
   ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_121} &&
   ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_131} &&
   ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_141} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1111} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1112} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_111} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_112} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
@@ -90,6 +95,8 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_142} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_1111} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_111} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_111} )" >> ${TARGET} &&
   ${ECHO} "            - $( ${CAT} ${TOKEN_112} )" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
