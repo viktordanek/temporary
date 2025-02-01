@@ -6,6 +6,9 @@
 - contents: 31b54d85
   name: init.standard-error
   type: file
-- contents: 31b54d85
+- contents: env(STANDARD_OUTPUT)
   name: init.standard-output
+  type: file
+- contents: d2ce9a4b
+  name: init.status
   type: file

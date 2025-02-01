@@ -6,6 +6,9 @@
 - contents: afac48a7
   name: init.standard-error
   type: file
-- contents: afac48a7
+- contents: env(STANDARD_OUTPUT)
   name: init.standard-output
+  type: file
+- contents: d02a7bea
+  name: init.status
   type: file
