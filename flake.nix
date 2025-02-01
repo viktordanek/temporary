@@ -324,6 +324,7 @@
                                                                                                                 {
                                                                                                                     CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                                     ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                    IDENTITY = harvest.temporary.util.identity ;
                                                                                                                     NAME = name ;
                                                                                                                     SPEED = speed ;
                                                                                                                     STANDARD_ERROR = release-standard-error ;
