@@ -1,3 +1,1 @@
-resources : echo :
-  ''
-   ''
+resources : echo : ""
