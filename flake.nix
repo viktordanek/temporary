@@ -266,6 +266,7 @@
                                                                             in builtins.genList generator size ;
                                                                     mapper =
                                                                         {
+                                                                            index ,
                                                                             name ,
                                                                             arguments ,
                                                                             standard-input ,
@@ -351,6 +352,7 @@
                                                                                                                     DIFF = "${ pkgs.diffutils }/bin/diff" ;
                                                                                                                     FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                                     FLOCK = "${ pkgs.flock }/bin/flock" ;
+                                                                                                                    INDEX = "${ builtins.toString index }" ;
                                                                                                                     MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
                                                                                                                     OBSERVED = harvest.temporary.util.post.observed ;
                                                                                                                     RM = "${ pkgs.coreutils }/bin/rm" ;
