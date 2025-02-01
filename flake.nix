@@ -414,7 +414,7 @@
                                                                                                                         JQ = "${ pkgs.jq }/bin/jq" ;
                                                                                                                         MD5SUM = "${ pkgs.coreutils }/bin/md5sum" ;
                                                                                                                         SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                        TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.replaceStrings [ "\"env(ARGUMENTS)\"" "\"env(STANDARD_ERROR)\"" "\"env(STANDARD_OUTPUT)\"" ] [ "$ARGUMENTS" "$STANDARD_ERROR" "$STANDARD_OUTPUT" ] ( ( builtins.toJSON ( builtins.import ( self + "/templates/method.yaml" ) ) ) ) ) ;
+                                                                                                                        TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.replaceStrings [ "\"env(ARGUMENTS)\"" "\"env(STANDARD_ERROR)\"" "\"env(STANDARD_OUTPUT)\" ""\"env(STATUS)\"" ] [ "$ARGUMENTS" "$STANDARD_ERROR" "$STANDARD_OUTPUT" "$STATUS" ] ( ( builtins.toJSON ( builtins.import ( self + "/templates/method.yaml" ) ) ) ) ) ;
                                                                                                                         YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                                     } ;
                                                                                                             } ;
