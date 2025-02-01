@@ -310,6 +310,7 @@
                                                                                                                     TOKEN_PASTE_1 = init-token-paste-1 ;
                                                                                                                     TOKEN_PASTE_2 = init-token-paste-2 ;
                                                                                                                     TOKEN_STANDARD_INPUT = init-token-standard-input ;
+                                                                                                                    TOKEN = harvest.temporary.util.token ;
                                                                                                                     TYPEOF = init-typeOf ;
                                                                                                                 } ;
                                                                                                     } ;

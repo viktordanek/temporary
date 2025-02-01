@@ -31,9 +31,21 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "  standard_error: ${STANDARD_ERROR}" >> ${TARGET} &&
   ${ECHO} "  status: ${STATUS}" >> ${TARGET} &&
   ${ECHO} "  speed: ${SPEED}" >> ${TARGET} &&
-  ${ECHO} "  token_arguments: ${TOKEN_ARGUMENTS}" >> ${TARGET} &&
-  ${ECHO} "  token_standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
-  ${ECHO} "  token_paste_1:  ${TOKEN_PASTE_1}" >> ${TARGET} &&
-  ${ECHO} "  token_paste_2:  ${TOKEN_PASTE_2}" >> ${TARGET} &&
+  ${ECHO} "  tokens:" >> ${TARGET}
+  ${ECHO} "    arguments: ${TOKEN_ARGUMENTS}" >> ${TARGET} &&
+  ${ECHO} "    standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "    pastes:" >> ${TARGET} &&
+  ${ECHO} "    - ${TOKEN_PASTE_1}" >> ${TARGET} &&
+  ${ECHO} "    - ${TOKEN_PASTE_2}" >> ${TARGET} &&
+  TOKEN_11 = $( ${TOKEN} ) &&
+  TOKEN_12 = $( ${TOKEN} ${TOKEN_ARGUMENTS} ) &&
+  TOKEN_13 = $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ) &&
+  TOKEN_14 = $( ${ECHO} ${TOKEN_STANDARD_INPUT} | ${TOKEN} ${TOKEN_ARGUMENTS} ) &&
+  ${ECHO} "    tokens:" >> ${TARGET} &&
+  ${ECHO} "      before:" >> ${TARGET} &&
+  ${ECHO} "      $( ${CAT} ${TOKEN_11})" >> ${TARGET} &&
+  ${ECHO} "      $( ${CAT} ${TOKEN_12})" >> ${TARGET} &&
+  ${ECHO} "      $( ${CAT} ${TOKEN_13})" >> ${TARGET} &&
+  ${ECHO} "      $( ${CAT} ${TOKEN_14})" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   exit ${STATUS}
