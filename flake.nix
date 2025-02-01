@@ -382,7 +382,9 @@
                                                                                                         executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/identity.sh" ) ) ;
                                                                                                         sets =
                                                                                                             {
+                                                                                                                CUT = "${ pkgs.coreutils }/bin/cut" ;
                                                                                                                 ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                UUIDGEN = "${ pkgs.libuuid }/bin/uuidgen" ;
                                                                                                             } ;
                                                                                                     } ;
                                                                                     } ;
