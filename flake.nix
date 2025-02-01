@@ -491,7 +491,11 @@
                                                                  in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo $out &&
+                                                                            cleanup ( )
+                                                                                {
+                                                                                    ${ pkgs.coreutils }/bin/echo $out
+                                                                                } &&
+                                                                            trap cleanup EXIT &&
                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/diff.sh" } $out/bin/diff.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/diff.sh &&
