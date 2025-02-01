@@ -1,3 +1,3 @@
 [
-  { name = "init.arguments" ; type = "file" ; contents = "${ builtins.concatStrings "" [ "$" "{" "INIT_ARGUMENTS" "}" ] }" ; }
+  { name = "init.arguments" ; type = "file" ; contents = "${ builtins.concatStringsSep "" [ "$" "{" "INIT_ARGUMENTS" "}" ] }" ; }
 ]
