@@ -219,12 +219,16 @@
                                                                                                             { name = "init-status" ; size = 2 ; lambda = status ; }
                                                                                                             { name = "init-token-arguments" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "init-token-standard-input" ; size = 1 ; lambda = hash ; }
+                                                                                                            { name = "init-token-paste-1" ; size = 1 ; lambda = hash ; }
+                                                                                                            { name = "init-token-paste-2" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-typeOf" ; size = 1 ; lambda = lambda ; }
                                                                                                             { name = "release-standard-output" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-standard-error" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-status" ; size = 2 ; lambda = status ; }
                                                                                                             { name = "release-token-arguments" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-token-standard-input" ; size = 1 ; lambda = hash ; }
+                                                                                                            { name = "release-token-paste-1" ; size = 1 ; lambda = hash ; }
+                                                                                                            { name = "release-token-paste-1" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "speed" ; size = 1 ; lambda = index : string : val : builtins.elemAt [ "slow" "fast" ] val ; }
                                                                                                         ] ;
                                                                                             in builtins.genList generator ( builtins.length list ) ;
@@ -271,12 +275,16 @@
                                                                             init-status ,
                                                                             init-token-arguments ,
                                                                             init-token-standard-input ,
+                                                                            init-token-paste-1 ,
+                                                                            init-token-paste-2 ,
                                                                             release-typeOf ,
                                                                             release-standard-output ,
                                                                             release-standard-error ,
                                                                             release-status ,
                                                                             release-token-arguments ,
                                                                             release-token-standard-input ,
+                                                                            release-token-paste-1 ,
+                                                                            release-token-paste-2 ,
                                                                             speed
                                                                         } :
                                                                             {
