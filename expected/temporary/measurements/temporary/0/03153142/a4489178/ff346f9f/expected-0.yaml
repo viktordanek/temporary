@@ -3,6 +3,6 @@
   type: file
 - name: init.sh
   type: link
-- contents: 15b2cb4e
+- contents: '25735318'
   name: init.standard-error
   type: file
