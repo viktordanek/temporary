@@ -9,7 +9,7 @@
 - contents: 3c01ec9b
   name: init.standard-output
   type: file
-- contents: 220
+- contents: 0
   name: init.status
   type: file
 - contents: null
@@ -30,14 +30,14 @@
   type: file
 - contents:
     init:
-      name: temporary/220/20e3e4e5/_/371d25a0
+      name: temporary/0/20e3e4e5/_/371d25a0
       has_standard_input: false
       standard_input: null
       arguments: 20e3e4e5
       typeof: lambda
       standard_output: 3c01ec9b
       standard_error: f884fe60
-      status: 220
+      status: 0
       speed: slow
       tokens:
         temporary:
@@ -83,8 +83,9 @@
                 - util/token-54cd9f38f5a8f9f3401908a6e82ff6ceb51fbe3aafa5c3d7363cc56a3f3242e1cc81dac96397a549183e8e43889132e8f045fcd9d7b56b073411fafb3d1ed856-2e5407ad
               - - util/token-54cd9f38f5a8f9f3401908a6e82ff6ceb51fbe3aafa5c3d7363cc56a3f3242e1cc81dac96397a549183e8e43889132e8f045fcd9d7b56b073411fafb3d1ed856-19941b682e5407ad
                 - util/token-54cd9f38f5a8f9f3401908a6e82ff6ceb51fbe3aafa5c3d7363cc56a3f3242e1cc81dac96397a549183e8e43889132e8f045fcd9d7b56b073411fafb3d1ed856-19941b682e5407ad
+    paste: 83c4b7f0
     release:
-      name: temporary/220/20e3e4e5/_/371d25a0
+      name: temporary/0/20e3e4e5/_/371d25a0
       has_standard_input: true
       standard_input: null
       arguments: null
@@ -143,6 +144,6 @@
   type: link
 - name: teardown-synch.sh
   type: link
-- contents: temporary/220/20e3e4e5/_/371d25a0
+- contents: temporary/0/20e3e4e5/_/371d25a0
   name: temporary
   type: file
