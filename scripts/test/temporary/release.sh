@@ -16,8 +16,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     HAS_STANDARD_INPUT=false
       STANDARD_INPUT=
   fi &&
-  ${ECHO} ${STANDARD_OUTPUT} &&
-  cat ${TARGET} &&
+  ${ECHO} RELEASE ${STANDARD_OUTPUT} &&
   ${ECHO} "release:" >> ${TARGET} &&
   ${ECHO} "  name: ${NAME}" >> ${TARGET} &&
   ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
@@ -31,5 +30,4 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "  token_arguments: ${TOKEN_ARGUMENTS}" >> ${TARGET} &&
   ${ECHO} "  token_standard_input: ${TOKEN_STANDARD_INPUT}" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
-  cat ${TARGET} >&2 &&
   exit ${STATUS}
