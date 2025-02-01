@@ -28,6 +28,6 @@
 - contents: dd6e0373
   name: release.standard-output
   type: file
-- contents: 0
+- contents: 11
   name: release.status
   type: file

@@ -27,6 +27,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
       --argjson INIT_STATUS $( val 4 2 "init-status") \
       --arg RELEASE_STANDARD_ERROR $( hash "release-standard-error" 0 ) \
       --arg RELEASE_STANDARD_OUTPUT $( hash "release-standard-output" 0 ) \
-      --argjson RELEASE_STATUS $( val 4 2 "release-status" ) \
+      --argjson RELEASE_STATUS $( val 8 2 "release-status" ) \
       "$( ${SED} ${TEMPLATE_FILE} -e "s#\"\$\(\w\+\)\"#\$\1#g" )" \
       > ${TARGET}

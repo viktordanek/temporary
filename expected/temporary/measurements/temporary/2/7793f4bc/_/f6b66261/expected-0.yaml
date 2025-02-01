@@ -28,6 +28,6 @@
 - contents: 544678c7
   name: release.standard-output
   type: file
-- contents: 0
+- contents: 8
   name: release.status
   type: file
