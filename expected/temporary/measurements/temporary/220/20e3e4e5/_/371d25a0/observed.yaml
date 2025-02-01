@@ -48,6 +48,16 @@
           pastes:
             - 2e5407ad
             - f4b2bf2a
+          epochs:
+            - - measurement1
+              - measurement2
+              - measurement3
+            - - measurement1
+              - measurement2
+              - measurement3
+            - - measurement1
+              - measurement2
+              - measurement3
     release:
       name: temporary/220/20e3e4e5/_/371d25a0
       has_standard_input: true

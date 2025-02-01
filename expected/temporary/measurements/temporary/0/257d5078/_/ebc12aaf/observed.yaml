@@ -48,6 +48,16 @@
           pastes:
             - c8e54077
             - 762078000000.0
+          epochs:
+            - - measurement1
+              - measurement2
+              - measurement3
+            - - measurement1
+              - measurement2
+              - measurement3
+            - - measurement1
+              - measurement2
+              - measurement3
     paste: 08dc653d
     release:
       name: temporary/0/257d5078/_/ebc12aaf
