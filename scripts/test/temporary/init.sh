@@ -42,7 +42,9 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   TOKEN_12=$( ${TOKEN} ) &&
   ${ECHO} "      epochs:" >> ${TARGET} &&
   ${ECHO} "        -" >> ${TARGET} &&
-  ${ECHO} "          - $( ${CAT} ${TOKEN_11} )" >> ${TARGET} &&
+  ${ECHO} "          -" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_11} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_12} )" >> ${TARGET} &&
   ${ECHO} "          - measurement2" >> ${TARGET} &&
   ${ECHO} "          - measurement3" >> ${TARGET} &&
   ${ECHO} "        -" >> ${TARGET} &&
