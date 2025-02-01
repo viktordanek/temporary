@@ -1,10 +1,11 @@
 [
-  { name = "init.arguments" ; type = "file" ; contents = "env(ARGUMENTS)" ; }
+  { name = "init.arguments" ; type = "file" ; contents = "$ARGUMENTS" ; }
   { name = "init.sh" ; type = "link" ; }
-  { name = "init.standard-error" ; type = "file" ; contents = "env(INIT_STANDARD_ERROR)" ; }
-  { name = "init.standard-output" ; type = "file" ; contents = "env(INIT_STANDARD_OUTPUT)" ; }
-  { name = "init.status" ; type = "file" ; contents = "env(INIT_STATUS)" ; }
+  { name = "init.standard-error" ; type = "file" ; contents = "$INIT_STANDARD_ERROR" ; }
+  { name = "init.standard-output" ; type = "file" ; contents = "$INIT_STANDARD_OUTPUT" ; }
+  { name = "init.status" ; type = "file" ; contents = "$INIT_STATUS" ; }
   { name = "lock.teardown" ; type = "file" ; contents = builtins.null ; }
   { name = "post.sh" ; type = "link" ; }
   { name = "release.sh" ; type = "link" ; }
+  { name = "release.arguments" ; type = "file" ; contents = "$ARGUMENTS" ; }
 ]

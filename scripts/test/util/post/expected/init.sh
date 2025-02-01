@@ -10,5 +10,5 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     --arg INIT_STANDARD_OUTPUT $( hash "init-standard-output" 0 ) \
     --arg INIT_STATUS "0" \
     --arg WTF "WTF" \
-    -f ${TEMPLATE_FILE} \
+    "$( ${SED} ${TEMPLATE_FILE} -e "s#\"\$\(\w\+\)\"#\$\1#g" )" \
     > ${TARGET}
