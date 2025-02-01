@@ -411,6 +411,7 @@
                                                                                                                         ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                         SED = "${ pkgs.gnused }/bin/sed" ;
                                                                                                                         TEMPLATE = self + "/templates/expected/method.yaml" ;
+                                                                                                                        YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                                     } ;
                                                                                                             } ;
                                                                                                 } ;
