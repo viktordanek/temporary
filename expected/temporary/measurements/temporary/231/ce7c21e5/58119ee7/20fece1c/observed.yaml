@@ -52,8 +52,8 @@
             - 494112f3
             - 512354ad
           epochs:
-            - - - tp:util/token-si:-a: null
-                - tp:util/token-si:-a: null
+            - - - util/token--
+                - util/token--
               - measurement2
               - measurement3
             - - measurement1

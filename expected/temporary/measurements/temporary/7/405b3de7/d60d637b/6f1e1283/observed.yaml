@@ -52,8 +52,8 @@
             - f48238c0
             - dbe1df18
           epochs:
-            - - - tp:util/token-si:-a: null
-                - tp:util/token-si:-a: null
+            - - - util/token--
+                - util/token--
               - measurement2
               - measurement3
             - - measurement1

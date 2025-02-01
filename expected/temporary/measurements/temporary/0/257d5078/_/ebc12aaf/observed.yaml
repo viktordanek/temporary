@@ -49,8 +49,8 @@
             - c8e54077
             - 762078000000.0
           epochs:
-            - - - tp:util/token-si:-a: null
-                - tp:util/token-si:-a: null
+            - - - util/token--
+                - util/token--
               - measurement2
               - measurement3
             - - measurement1

@@ -49,8 +49,8 @@
             - 0663a14d
             - ae2c17a0
           epochs:
-            - - - tp:util/token-si:-a: null
-                - tp:util/token-si:-a: null
+            - - - util/token--
+                - util/token--
               - measurement2
               - measurement3
             - - measurement1
