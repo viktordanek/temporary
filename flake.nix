@@ -193,7 +193,7 @@
                                                                                                             } ;
                                                                                             list =
                                                                                                 let
-                                                                                                    hash = index : string : val : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ index string val ] ) ) ) ;
+                                                                                                    hash = index : string : val : builtins.substring 0 8 ( builtins.hashString "md5" ( let x = builtins.concatStringsSep "" ( builtins.map builtins.toString [ index string val ] ) ; in builtins.trace x x  ) ) ;
                                                                                                     lambda = index : string : val : "lambda" ;
                                                                                                     status =
                                                                                                         index : string : val :

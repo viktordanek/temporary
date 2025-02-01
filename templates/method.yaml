@@ -1,3 +1,4 @@
 [
   { name = "init.arguments" ; type = "file" ; contents = "env(INIT_ARGUMENTS)" ; }
+  { name = "init.sh" ; type = "link" ; }
 ]
