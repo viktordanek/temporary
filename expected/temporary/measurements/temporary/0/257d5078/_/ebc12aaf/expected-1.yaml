@@ -3,12 +3,15 @@
   type: file
 - name: init.sh
   type: link
-- contents: 0f27b51f
+- contents: env(INIT_STANDARD_ERROR)
   name: init.standard-error
   type: file
-- contents: env(STANDARD_OUTPUT)
+- contents: env(INIT_STANDARD_OUTPUT)
   name: init.standard-output
   type: file
-- contents: '0'
+- contents: env(INIT_STATUS)
   name: init.status
+  type: file
+- contents: null
+  name: lock.teardown
   type: file
