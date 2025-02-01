@@ -38,27 +38,33 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "      pastes:" >> ${TARGET} &&
   ${ECHO} "      - ${TOKEN_PASTE_1}" >> ${TARGET} &&
   ${ECHO} "      - ${TOKEN_PASTE_2}" >> ${TARGET} &&
-  TOKEN_11=$( ${TOKEN} ) &&
-  TOKEN_12=$( ${TOKEN} ) &&
+  TOKEN_111=$( ${TOKEN_1} ) &&
+  TOKEN_112=$( ${TOKEN_1} ) &&
+  TOKEN_121=$( ${TOKEN_1} ) &&
+  TOKEN_122=$( ${TOKEN_1} ) &&
+  TOKEN_131=$( ${TOKEN_1} ) &&
+  TOKEN_132=$( ${TOKEN_1} ) &&
+  TOKEN_141=$( ${TOKEN_1} ) &&
+  TOKEN_142=$( ${TOKEN_1} ) &&
   ${ECHO} "      measurements:" >> ${TARGET} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_11} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_12} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_111} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_112} )" >> ${TARGET} &&
   ${ECHO} "          - measurement2" >> ${TARGET} &&
   ${ECHO} "          - measurement3" >> ${TARGET} &&
-  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_11} &&
+  ${ECHO} -n ${TOKEN_PASTE_1} >> ${TOKEN_111} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_11} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_12} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_111} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_112} )" >> ${TARGET} &&
   ${ECHO} "          - measurement2" >> ${TARGET} &&
   ${ECHO} "          - measurement3" >> ${TARGET} &&
-  ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_12} &&
+  ${ECHO} -n ${TOKEN_PASTE_2} >> ${TOKEN_112} &&
   ${ECHO} "        -" >> ${TARGET} &&
   ${ECHO} "          -" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_11} )" >> ${TARGET} &&
-  ${ECHO} "            - $( ${CAT} ${TOKEN_12} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_111} )" >> ${TARGET} &&
+  ${ECHO} "            - $( ${CAT} ${TOKEN_112} )" >> ${TARGET} &&
   ${ECHO} "          - measurement2" >> ${TARGET} &&
   ${ECHO} "          - measurement3" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
