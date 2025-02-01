@@ -54,8 +54,6 @@
           measurements:
             - - - util/token--
                 - util/token--
-                - util/token--
-                - util/token--
               - - util/token--
                 - util/token--
               - - util/token--
