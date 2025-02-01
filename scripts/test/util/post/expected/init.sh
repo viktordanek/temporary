@@ -5,14 +5,21 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     } &&
     val ( )
       {
-        ${ECHO} $(( ( ${INDEX} / ${1} ) % ${2} ))
+        CUMULATIVE_SIZE=${1} &&
+          SIZE=${2} &&
+          NAME=${3} &&
+          VAL=$(( ( ${INDEX} / ${CUMULATIVE_SIZE} ) % ${SIZE} )) &&
+          HASH=$( hash ${NAME} ${VAL} ) &&
+          FIRST_DIGIT="${HASH:0:1} &&
+          DECIMAL_VALUE=$(( 0x$FIRST_DIGIT )) &&
+          ${ECHO} $(( ${DECIMAL_VALUE} +1 ))
       } &&
     ${JQ} \
       -n \
       --arg ARGUMENTS $( hash "arguments" 0 ) \
       --arg INIT_STANDARD_ERROR $( hash "init-standard-error" 0 ) \
       --arg INIT_STANDARD_OUTPUT $( hash "init-standard-output" 0 ) \
-      --argjson INIT_STATUS $( val 4 2 ) \
+      --argjson INIT_STATUS $( val 4 2 "init-status") \
       --arg RELEASE_STANDARD_ERROR $( hash "release-standard-error" 0 ) \
       --arg RELEASE_STANDARD_OUTPUT $( hash "release-standard-output" 0 ) \
       --argjson RELEASE_STATUS 0 \
