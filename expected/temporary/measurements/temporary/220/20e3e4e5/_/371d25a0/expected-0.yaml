@@ -1,2 +1,3 @@
-5
-...
+- contents: WRONG
+  name: init.arguments
+  type: file
