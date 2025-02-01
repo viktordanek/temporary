@@ -1,0 +1,64 @@
+- name: init.arguments
+  type: file
+  contents:
+    03153142
+- name: init.sh
+  type: link
+- name: init.standard-error
+  type: file
+  contents:
+    25735318
+- name: init.standard-input
+  type: file
+  contents:
+    a4489178
+- name: init.standard-output
+  type: file
+  contents:
+    71cd7675
+- name: init.status
+  type: file
+  contents:
+    0
+- name: lock.teardown
+  type: file
+  contents:
+- name: post.sh
+  type: link
+- name: release.sh
+  type: link
+- name: release.standard-error
+  type: file
+  contents:
+    8b03ad62
+- name: release.standard-output
+  type: file
+  contents:
+    89825829
+- name: release.status
+  type: file
+  contents:
+    0
+- name: target
+  type: file
+  contents:
+    init:
+      name: temporary/0/03153142/a4489178/ff346f9f
+      has_standard_input: true
+      standard_input: 
+      arguments: 
+      typeof: lambda
+      standard_output: 89825829
+      standard_error: 8b03ad62
+      status: 0
+      speed: slow
+      token_arguments: 6d8b055a
+      token_standard_input: 02e66448
+- name: teardown-asynch.sh
+  type: link
+- name: teardown-synch.sh
+  type: link
+- name: temporary
+  type: file
+  contents:
+    temporary/0/03153142/a4489178/ff346f9f
