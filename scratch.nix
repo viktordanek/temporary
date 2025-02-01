@@ -1,37 +1,148 @@
-                                                        wtf =
-                                                            ''
-                                                                    # ${ pkgs.bash }/bin/bash -c "${ pkgs.writeShellScript "observed" ( builtins.import ( self + "/scripts/test/util/observed.nix" ) resources "${ pkgs.coreutils }/bin/echo" ) } && ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.mid" &&
-                                                                    ${ builtins.trace ( builtins.toString ( builtins.stringLength ( builtins.readFile ( self + "/scripts/test/util/observed.nix" ) ) ) ) "exit 2" }
-
-                                                            '' ;
-
-                                                        installPhase2 =
-                                                            ''
-                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo $out &&
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
-                                                                    makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
-                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
-                                                                    makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set OBSERVATE ${ re-observate } &&
-                                                                    ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test.sh" } $out/bin/test.sh &&
-
-                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed &&
-                                                                    ${ pkgs.coreutils }/bin/mkdir /build/observed/temporary &&
-                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.pre &&
-                                                                    exit 1 &&
-                                                                    ${ pkgs.coreutils }/bin/sleep 10s &&
-                                                                    ${ pkgs.findutils }/bin/find /build/*.tmp -mindepth 1 -maxdepth 1 -type f -name temporary -exec ${ pkgs.gnugrep }/bin/grep ^temporary/ {} \; | ${ pkgs.coreutils }/bin/wc --lines > /build/observed/temporary/count.post &&
-
-                                                                    ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
-
-                                                                    export DIFF=${ pkgs.diffutils }/bin/diff &&
-                                                                    export EXPECTED=${ self + "/expected" } &&
-                                                                    export FIND=${ pkgs.findutils }/bin/find &&
-                                                                    export OBSERVED=$out/observed &&
-                                                                    ${ pkgs.bash_unit }/bin/bash_unit $out/bin/test.sh
-                                                            '' ;
-
-                                                                            ${ builtins.concatStringsSep "&&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ) } &&
+trace: 4init-status1 - 20c4a8bf24d08c777776c57e19979bb4
+trace: 4init-status1 - 20c4a8bf24d08c777776c57e19979bb4
+trace: 4init-status1 - 20c4a8bf24d08c777776c57e19979bb4
+trace: 4init-status1 - 20c4a8bf24d08c777776c57e19979bb4
+trace: 4init-status1 - 20c4a8bf24d08c777776c57e19979bb4
+trace: 4init-status1 - 20c4a8bf24d08c777776c57e19979bb4
+trace: 4init-status1 - 20c4a8bf24d08c777776c57e19979bb4
+trace: 4init-status1 - 20c4a8bf24d08c777776c57e19979bb4
+trace: 5init-status1 - 01a824865abcdb88de4043a88570a91d
+trace: 5init-status1 - 01a824865abcdb88de4043a88570a91d
+trace: 5init-status1 - 01a824865abcdb88de4043a88570a91d
+trace: 5init-status1 - 01a824865abcdb88de4043a88570a91d
+trace: 5init-status1 - 01a824865abcdb88de4043a88570a91d
+trace: 5init-status1 - 01a824865abcdb88de4043a88570a91d
+trace: 5init-status1 - 01a824865abcdb88de4043a88570a91d
+trace: 5init-status1 - 01a824865abcdb88de4043a88570a91d
+trace: 6init-status1 - 6ac28f32f10bc44375a2916837294510
+trace: 6init-status1 - 6ac28f32f10bc44375a2916837294510
+trace: 6init-status1 - 6ac28f32f10bc44375a2916837294510
+trace: 6init-status1 - 6ac28f32f10bc44375a2916837294510
+trace: 6init-status1 - 6ac28f32f10bc44375a2916837294510
+trace: 6init-status1 - 6ac28f32f10bc44375a2916837294510
+trace: 6init-status1 - 6ac28f32f10bc44375a2916837294510
+trace: 6init-status1 - 6ac28f32f10bc44375a2916837294510
+trace: 7init-status1 - 3a2724bb36e5fca46399c48c8dc5d98a
+trace: 7init-status1 - 3a2724bb36e5fca46399c48c8dc5d98a
+trace: 7init-status1 - 3a2724bb36e5fca46399c48c8dc5d98a
+trace: 7init-status1 - 3a2724bb36e5fca46399c48c8dc5d98a
+trace: 7init-status1 - 3a2724bb36e5fca46399c48c8dc5d98a
+trace: 7init-status1 - 3a2724bb36e5fca46399c48c8dc5d98a
+trace: 7init-status1 - 3a2724bb36e5fca46399c48c8dc5d98a
+trace: 7init-status1 - 3a2724bb36e5fca46399c48c8dc5d98a
+trace: 0arguments0 - 257d5078a3ed744cf2bbfeb11c5e548f
+trace: 1arguments0 - 6aed210f08876af219d6484718242ee1
+trace: 2arguments0 - 0bbfd5dd5b03d01c0ae8fefbe66333a4
+trace: 3arguments0 - 031531427e960e872b84f74f79a6a082
+trace: 3standard-input1 - a4489178cbbdb73d16a4b888dc145d36
+trace: 3name0 - ff346f9f989f10ec2d7f15d12b7e3238
+trace: 2standard-input1 - cdb0233eebeb419240b382521c1550ed
+trace: 2name0 - 9326615203f5aa966ba4b506f4860c76
+trace: 0name0 - ebc12aafc2a62c69e3dd99cf9835ced1
+trace: 1name0 - fe28b6eb5bce7ffa236d031ac450c612
+trace: 4arguments0 - 7793f4bcd8937e437aac872bb84399a9
+trace: 4name0 - f6b662614839090908cc67d629852837
+trace: 5arguments0 - 20e3e4e524993436c8acb926f89f5620
+trace: 5name0 - 371d25a04d2177c73cf0ae07bb1d62f2
+trace: 7arguments0 - ce7c21e5ec23d7485afc021086939cc4
+trace: 7standard-input1 - 58119ee7057c7a3ece002d95a9195669
+trace: 7name0 - 20fece1cc73b88102a2112b2eadc5e57
+trace: 6arguments0 - 405b3de767e29a50ec0dd3c294c21aa5
+trace: 6standard-input1 - d60d637b627171ed2eb59ddb9fb16f6f
+trace: 6name0 - 6f1e1283116a3323dcc9d6c31b0189be
+trace: 3init-standard-error0 - 2573531878282c4e129ed41fc7517e7e
+trace: 3init-standard-output0 - 71cd767501ca7bf266f9853f178fa8c6
+trace: 3init-token-arguments0 - 59e4f3f3753a963c623d1fae8da5f33e
+trace: 3init-token-paste-10 - e648d700b92c59cb3e15a7f98d1e1223
+trace: 3init-token-paste-20 - 629a5a2e4f8d1fd5de83af35ed4e4acb
+trace: 3init-token-standard-input0 - c7b273166eada98e38c3cea72fbfb19d
+trace: 3release-standard-error0 - 8b03ad6268751f7622d8059063af6762
+trace: 3release-standard-output0 - 89825829de784e557011fde4f9a46cc5
+trace: 3release-token-arguments0 - 6d8b055a6cce605ee6e60c949fc0703c
+trace: 3release-token-paste-10 - d0cab731a41bf27e035fb5b37b725cd1
+trace: 3release-token-paste-20 - 786ef327d53f0396dee9370a2453efed
+trace: 3release-token-standard-input0 - 02e6644861c0e7220a2622f068b986b9
+trace: 2init-standard-error0 - b193568f1a24269339339f2900f3d6f5
+trace: 2init-standard-output0 - b84e56498c1f8efb8c33d5b04ed782a2
+trace: 2init-token-arguments0 - fa1b15d941d83a52ea349b2738925737
+trace: 2init-token-paste-10 - 0b2d4323e30c2bfc390123b0c71453ba
+trace: 2init-token-paste-20 - c50d8dbe7e9e7351f659a3bfdeecf1a5
+trace: 2init-token-standard-input0 - f147e124f0ec446f38ae1122b9520c5d
+trace: 2release-standard-error0 - 5bd0cf55b6eb1cfe92bf773b63e29c3b
+trace: 2release-standard-output0 - b9dff630a782f9ef2fd13dba69929025
+trace: 2release-token-arguments0 - 176fd02028bd84b7c03f7012b90e31d6
+trace: 2release-token-paste-10 - a9fa2292075367d13d699e3b5e97dc1b
+trace: 2release-token-paste-20 - ecfd0e69891858704156fc8167a4c30b
+trace: 2release-token-standard-input0 - eab3a19a8a31e4a3b1e41020e2546d66
+trace: 0init-standard-error0 - 0f27b51f308a9d95234cb07edf585a88
+trace: 0init-standard-output0 - fd12b36e5eb1fab4da86a817bd9ed952
+trace: 0init-token-arguments0 - 06f1438ef2a219a8aada8b13d9a98d50
+trace: 0init-token-paste-10 - c8e540771848778887e03589f706a642
+trace: 0init-token-paste-20 - 762078e6e94d80be4b5872710f286142
+trace: 0init-token-standard-input0 - 97d05365a60a7401dd42cf40996c6c41
+trace: 0release-standard-error0 - f228638c10b8248f570ea12cc0c5f93a
+trace: 0release-standard-output0 - 853762d91a93ee12a0212a6b8650ef88
+trace: 0release-token-arguments0 - 0051af4927eb4ab8639edf761eb79d86
+trace: 0release-token-paste-10 - 68222770d726adfd1a89bd0c2753a266
+trace: 0release-token-paste-20 - 796863104d14a816622142a9d2b0f13b
+trace: 0release-token-standard-input0 - 6449456dcb3023f94cbcddad7e4c4879
+trace: 1init-standard-error0 - 51fe787a16210cc2e5a237cec2381684
+trace: 1init-standard-output0 - bee2fe8c640d91841aef4ef56f20ed18
+trace: 1init-token-arguments0 - ba210bf77648d982cf4cf6cc8a165358
+trace: 1init-token-paste-10 - 0663a14d243e504da5af91ae6b9dc1de
+trace: 1init-token-paste-20 - ae2c17a07a68614f2f93e9a327758422
+trace: 1init-token-standard-input0 - 00aa89e3e04b3917835193027852af07
+trace: 1release-standard-error0 - 65df657424f0341257e78eafd19bf4f3
+trace: 1release-standard-output0 - 1309eb105835499caac9474f116c9043
+trace: 1release-token-arguments0 - 414e9b95b70d57d1b480ecf28439bd7c
+trace: 1release-token-paste-10 - 12b30cc9e01e827c7b5a8ebb1a6dff42
+trace: 1release-token-paste-20 - 96d62d732e28fbaf0fa180a6f16c2356
+trace: 1release-token-standard-input0 - 16078ceb313fdfd55f525bd1bd65f33d
+trace: 4init-standard-error0 - 31b54d85f3207ce64a94c69f886b3775
+trace: 4init-standard-output0 - 82f18213e8d4a90238442123c0e64201
+trace: 4init-token-arguments0 - 28da7afbe4aad4e89f3e7c0027f3a4e7
+trace: 4init-token-paste-10 - 3cdc0701451beebac5046d8336c815c1
+trace: 4init-token-paste-20 - e6f3a959d411e8a87be7bce190f109ba
+trace: 4init-token-standard-input0 - b57ad28e11d62d8a04a87184fc842ff7
+trace: 4release-standard-error0 - 2b22f38a9267b77f6845f478107dd9ff
+trace: 4release-standard-output0 - 544678c797db1dcb2e0edefc837723df
+trace: 4release-token-arguments0 - e829e376df71005f4074bd43a829b662
+trace: 4release-token-paste-10 - 88bdf20c36d1e910da2822b962c27077
+trace: 4release-token-paste-20 - 93113f51bf59dad1a50bf9d53f3e6301
+trace: 4release-token-standard-input0 - 29d9a15e1ce97a31c7774f015c6a98b4
+trace: 5init-standard-error0 - f884fe6086164da677e126b59fb6d4c0
+trace: 5init-standard-output0 - 3c01ec9bc84eb5e1f8ff4fbc5a589552
+trace: 5init-token-arguments0 - 19941b682824c73b2bb9b44f83afd6e8
+trace: 5init-token-paste-10 - 2e5407ad7665ee2290de0a43f474d80f
+trace: 5init-token-paste-20 - f4b2bf2a112d7acd81cf069ee1624832
+trace: 5init-token-standard-input0 - 5328f3b3b155b5827913f5a13c9a70e8
+trace: 5release-standard-error0 - 5744901b917431a995ec02648e40c055
+trace: 5release-standard-output0 - c3b14e8be62eae06ea3da004a9e76e64
+trace: 5release-token-arguments0 - fe5d1a0c99d560bc543c1d80b1e7285a
+trace: 5release-token-paste-10 - 07d8da08827f690ad8756382debdaf96
+trace: 5release-token-paste-20 - 998d39508340a4c09712866b9b0f3ffa
+trace: 5release-token-standard-input0 - 56528379aac10fd06f28cb9d20d92ab0
+trace: 7init-standard-error0 - afac48a783284a3400bf56e22eaddc3a
+trace: 7init-standard-output0 - 05d3b4de1359708f1a2d51f24f637cfd
+trace: 7init-token-arguments0 - 9723f60e5f225aca17d27adb317e1769
+trace: 7init-token-paste-10 - 494112f300e865fa650246b5691597e3
+trace: 7init-token-paste-20 - 512354ad661af50578f0e3b01c9a5244
+trace: 7init-token-standard-input0 - 857b71dbac107af2de161f6e4f457fdc
+trace: 7release-standard-error0 - 660acbd5ee82aff0ab53cbb119041d4f
+trace: 7release-standard-output0 - dd6e03731f816ce535ebcd5568721795
+trace: 7release-token-arguments0 - 4fa29e626d3dbcc7e9ecae181a129edc
+trace: 7release-token-paste-10 - e95788085f4757a91be555cc9ffcbf44
+trace: 7release-token-paste-20 - 0271e66ae3fccabe0cf3126c652f620d
+trace: 7release-token-standard-input0 - 4caccc028e90650f0a67eda3d1e91bf5
+trace: 6init-standard-error0 - 57af7a6c00f62a394e93c89af8b37b7f
+trace: 6init-standard-output0 - fd438759c896bafa8f82757863f451c5
+trace: 6init-token-arguments0 - 7483dddf4d121bc1b4c330af91f85f4d
+trace: 6init-token-paste-10 - f48238c0ad8c85cc4592d0f33b3acfed
+trace: 6init-token-paste-20 - dbe1df1821daa52e68e31128d17b255a
+trace: 6init-token-standard-input0 - 37c4faaa722c153295564eb2a1e71903
+trace: 6release-standard-error0 - ef9d958b1d461ebc1604b418abcadc57
+trace: 6release-standard-output0 - 8b32f6d43b1f763e7708a12ece3a6e44
+trace: 6release-token-arguments0 - 84b5603847d01aac2f8c0a94f1ff60e7
+trace: 6release-token-paste-10 - 48d0f39ffb7fae0cc03281afea33f4db
+trace: 6release-token-paste-20 - ef6b8be1ef78b74b96c88daa3fdce2b0
+trace: 6release-token-standard-input0 - f54f60699984f448e5b733f75642fb9c
