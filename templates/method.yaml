@@ -2,4 +2,5 @@
   { name = "init.arguments" ; type = "file" ; contents = "env(ARGUMENTS)" ; }
   { name = "init.sh" ; type = "link" ; }
   { name = "init.standard-error" ; type = "file" ; contents = "env(STANDARD_ERROR)" ; }
+  { name = "init.standard-output" ; type = "file" ; contents = "env(STANDARD_ERROR)" ; }
 ]
