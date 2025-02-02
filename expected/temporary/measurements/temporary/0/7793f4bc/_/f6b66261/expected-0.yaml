@@ -1,2 +1,3 @@
-- name: arguments
+- contents: wtf
+  name: arguments
   type: file
