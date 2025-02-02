@@ -203,7 +203,7 @@
                                                                     {
                                                                         name = "wrapper" ;
                                                                         source = ./. ;
-                                                                        nativeBuildInputs = [ pkgs.mkWrapper ] ;
+                                                                        nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                         installPhase =
                                                                             ''
                                                                                 install -Dm755 makeWrapper $out/bin/makeWrapper
