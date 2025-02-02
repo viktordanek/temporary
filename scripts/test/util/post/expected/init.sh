@@ -29,6 +29,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
       --arg RELEASE_STANDARD_INPUT $( hash "release-standard-input" 0 ) \
       --arg RELEASE_STANDARD_OUTPUT $( hash "release-standard-output" 0 ) \
       --argjson RELEASE_STATUS $( val 4 2 "release-status" ) \
-      --arg PASTE $( hash "paste" ) \
+      --arg NAME $( hash "name" ) \
       "$( ${SED} ${TEMPLATE_FILE} -e "s#\"\$\(\w\+\)\"#\$\1#g" )" \
       > ${TARGET}
