@@ -421,7 +421,7 @@
                                                                                                                             harvest :
                                                                                                                                 {
                                                                                                                                     JQ = "${ pkgs.jq }/bin/jq" ;
-                                                                                                                                    RAW = harvest.temporary.util.pots.expected.raw ;
+                                                                                                                                    RAW = harvest.temporary.util.post.expected.raw ;
                                                                                                                                     TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.toJSON ( builtins.import ( self + "/scripts/test/util/post/refined.json" ) ) ) ;
                                                                                                                                 } ;
                                                                                                                     } ;
