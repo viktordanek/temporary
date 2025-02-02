@@ -228,8 +228,8 @@
                                                                                                             { name = "release-token-standard-input" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-token-paste-1" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-token-paste-2" ; size = 1 ; lambda = hash ; }
-                                                                                                            { name = "speed" ; size = 2 ; lambda = index : string : val : builtins.elemAt [ "slow" "fast" ] val ; }
-                                                                                                            { name = "wtf" ; size = 2 ; lambda = hash ; }
+                                                                                                            { name = "speed" ; size = 1 ; lambda = index : string : val : builtins.elemAt [ "slow" "fast" ] val ; }
+                                                                                                            { name = "wtf" ; size = 1 ; lambda = hash ; }
                                                                                                         ] ;
                                                                                             in builtins.genList generator ( builtins.length list ) ;
                                                                                     mapper =
