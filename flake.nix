@@ -208,7 +208,7 @@
                                                                             ''
                                                                                 install -Dm755 makeWrapper $out/bin/makeWrapper
                                                                             '' ;
-                                                                    }
+                                                                    } ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
