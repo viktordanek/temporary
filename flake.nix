@@ -210,7 +210,7 @@
                                                                                                         [
                                                                                                             { name = "index" ; size = 1 ; lambda = index : string : val : index ; }
                                                                                                             { name = "name" ; size = 1 ; lambda = hash ; }
-                                                                                                            { name = "arguments" ; size = 1 ; lambda = hash ; }
+                                                                                                            { name = "arguments" ; size = 2 ; lambda = hash ; }
                                                                                                             { name = "standard-input" ; size = 2 ; lambda = zero ; }
                                                                                                             { name = "init-typeOf" ; size = 1 ; lambda = lambda ; }
                                                                                                             { name = "init-standard-output" ; size = 1 ; lambda = hash ; }
@@ -229,7 +229,6 @@
                                                                                                             { name = "release-token-paste-1" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "release-token-paste-2" ; size = 1 ; lambda = hash ; }
                                                                                                             { name = "speed" ; size = 1 ; lambda = index : string : val : builtins.elemAt [ "slow" "fast" ] val ; }
-                                                                                                            { name = "wtf" ; size = 1 ; lambda = hash ; }
                                                                                                         ] ;
                                                                                             in builtins.genList generator ( builtins.length list ) ;
                                                                                     mapper =
@@ -286,8 +285,7 @@
                                                                             release-token-standard-input ,
                                                                             release-token-paste-1 ,
                                                                             release-token-paste-2 ,
-                                                                            speed ,
-                                                                            wtf
+                                                                            speed
                                                                         } :
                                                                             {
                                                                                 "${ init-status }"."${ arguments }"."${ standard-input }"."${ name }" =
