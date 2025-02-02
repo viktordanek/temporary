@@ -34,3 +34,10 @@
 - contents: 15
   name: release.status
   type: file
+- name: teardown-asynch.sh
+  type: link
+- name: teardown-synch.sh
+  type: link
+- contents: temporary/$INIT_STATUS/$INIT_STAND_INPUT/$ARGUMENTS/$NAME
+  name: temporary
+  value: file
