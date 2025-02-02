@@ -36,4 +36,4 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     #  --argjson RELEASE_STATUS $( val 4 2 "release-status" ) \
     #  '[ { content : $ARGUMENTS , name : "arguments" , type : "file" , foobar : $TEMPLATE_FILE } ]' \
     #  > ${TARGET} &&
-    echo ${TEMPLATE_FILE} > ${TARGET}
+    echo "${TEMPLATE_FILE}" > ${TARGET}
