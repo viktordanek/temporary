@@ -1,43 +1,43 @@
-- contents: 20e3e4e5
-  name: init.arguments
+init_arguments:
+  contents: 20e3e4e5
   type: file
-- name: init.sh
+init_sh:
   type: link
-- contents: f884fe60
-  name: init.standard-error
+init_standard-error:
+  contents: f884fe60
   type: file
-- contents: INIT_STANDARD_INPUT
-  name: init.standard-input
+init_standard-input:
+  contents: INIT_STANDARD_INPUT
   type: file
-- contents: 3c01ec9b
-  name: init.standard-output
+init_standard-output:
+  contents: 3c01ec9b
   type: file
-- contents: 0
-  name: init.status
+init_status:
+  contents: 0
   type: file
-- contents: null
-  name: lock.teardown
+lock_teardown:
+  contents: null
   type: file
-- name: post.sh
+name:
+  contents: ff00db17
+  type: file
+post_sh:
   type: link
-- name: release.sh
+release_arguments:
+  contents: 20e3e4e5
+  type: file
+release_sh:
   type: link
-- contents: 20e3e4e5
-  name: release.arguments
+release_standard-error:
+  contents: 5744901b
   type: file
-- contents: 5744901b
-  name: release.standard-error
+release_standard-output:
+  contents: c3b14e8b
   type: file
-- contents: c3b14e8b
-  name: release.standard-output
+release_status:
+  contents: 15
   type: file
-- contents: 15
-  name: release.status
-  type: file
-- name: teardown-asynch.sh
+teardown-asynch_sh:
   type: link
-- name: teardown-synch.sh
+teardown-synch_sh:
   type: link
-- contents: ff00db17
-  name: name
-  value: file
