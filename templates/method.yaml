@@ -27,7 +27,7 @@
             speed = "slow" ;
             status = "$INIT_STATUS" ;
           } ;
-      }
+      } ;
   }
   { name = "teardown-asynch.sh" ; type = "link" ; }
   { name = "teardown-synch.sh" ; type = "link" ; }
