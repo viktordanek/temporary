@@ -63,7 +63,7 @@
                                                                                                 (
                                                                                                     if builtins.typeOf executable == "set" then
                                                                                                         [
-                                                                                                            "makeWrapper"
+                                                                                                            ( builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] )
                                                                                                             ( builtins.toString executable )
                                                                                                             "${ builtins.concatStringsSep "/" path }/${ name }/${ binary }"
                                                                                                         ]
