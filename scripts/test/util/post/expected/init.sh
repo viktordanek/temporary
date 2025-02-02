@@ -23,6 +23,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
       -n \
       --arg  ARGUMENTS $( hash "arguments" 0 ) \
       --arg INIT_STANDARD_ERROR $( hash "init-standard-error" 0 ) \
+      --arg INIT_STANDARD_INPUT $( hash "init-standard-input" 0 ) \
       --arg INIT_STANDARD_OUTPUT $( hash "init-standard-output" 0 ) \
       --argjson INIT_STATUS $( val 2 2 "init-status") \
       --arg RELEASE_STANDARD_ERROR $( hash "release-standard-error" 0 ) \
