@@ -214,7 +214,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "constructor" ( builtins.concatStringsSep " &&\n " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ "$out" ] ) dependencies ) ) ) ) } $out/bin/constructor.sh &&
-                                                                        makeWrapper $out/bin/constructor.sh $out/bin/constructor --set PATH ${ makeWrapper } &&
+                                                                        makeWrapper $out/bin/constructor.sh $out/bin/constructor --set PATH ${ wrapper } &&
                                                                         $out/bin/constructor &&
                                                                 '' ;
                                                 } ;
