@@ -483,9 +483,9 @@
                                                                                         in if status == "0" then "${ echo } \"paste: ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) }\" >> $( ${ standard-input } )" else "! ${ standard-input }" ;
                                                                                 in [ "#" ( builtins.concatStringsSep " " [ "# ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] }" ( builtins.concatStringsSep " / " path ) ">&2" ] ) status status ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
-                                                                mapper2 =
+                                                                mapper =
                                                                     path : name : value :
-                                                                        if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                        if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
                                                                                 arguments = "${ command } ${ builtins.elemAt path 1 }" ;
@@ -523,7 +523,7 @@
 
                                                                             ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
-                                                                            makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set ECHO ${ pkgs.coreutils }/bin/echo --set OBSERVATE_FILE ${ builtins.toFile "observed-internal.nix" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ ] ) resources.temporary.temporary ) ) ) ) } --set SED ${ pkgs.gnused }/bin/sed &&
+                                                                            makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set ECHO ${ pkgs.coreutils }/bin/echo --set OBSERVATE_FILE ${ builtins.toFile "observed-internal.nix" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ) ) } --set SED ${ pkgs.gnused }/bin/sed &&
 
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observed-internal" ( builtins.concatStringsSep " &&\n" [ ( builtins.import ( self + "/scripts/test/util/observed-internal.nix" ) resources "${ pkgs.coreutils }/bin/echo" ) "${ builtins.concatStringsSep "" [ "$" "{" "SLEEP" "}" ] } 10s" "${ builtins.concatStringsSep "" [ "$" "{" "FIND" "}" ] } /build -mindepth 2 -maxdepth 2 -type f -name temporary -exec ${ builtins.concatStringsSep "" [ "$" "{" "GREP" "}" ] } ^temporary {} \\; | ${ builtins.concatStringsSep "" [ "$" "{" "WC" "}" ] } --lines > /build/observed/temporary/count.mid" ] ) } $out/bin/observed-internal.sh &&
                                                                             makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
