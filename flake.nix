@@ -433,7 +433,7 @@
                                                                                                     init =
                                                                                                         script
                                                                                                             {
-                                                                                                                executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post/observed/init.sh" ) ) ;
+                                                                                                                executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post/observed.sh" ) ) ;
                                                                                                                 sets =
                                                                                                                     {
                                                                                                                         BASENAME = "${ pkgs.coreutils }/bin/basename" ;
