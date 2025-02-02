@@ -22,7 +22,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     # '[ { content : $ARGUMENTS , name : "arguments" , type : "file" , foobar : $FOOBAR } ]'
     ${JQ} \
       -n \
-      --arg TEMPLATE_FILE ${TEMPLATE_FILE} \
+      --arg TEMPLATE_FILE "${TEMPLATE_FILE}" \
       --arg FOOBAR fsdgsdfgdf \
       --arg ARGUMENTS $( hash "arguments" 0 ) \
       --arg INIT_STANDARD_ERROR $( hash "init-standard-error" 0 ) \
