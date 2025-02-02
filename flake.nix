@@ -416,7 +416,7 @@
                                                                                                             init =
                                                                                                                 script
                                                                                                                     {
-                                                                                                                        executable = pkgs.writeShellScipt "refined" ( builtins.readFile ( self + "/scripts/test/util/post/refined.sh" ) ) ;
+                                                                                                                        executable = pkgs.writeShellScript "refined" ( builtins.readFile ( self + "/scripts/test/util/post/refined.sh" ) ) ;
                                                                                                                         sets =
                                                                                                                             harvest :
                                                                                                                                 {
