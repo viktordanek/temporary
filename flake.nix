@@ -204,7 +204,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "construct" ( builtins.concatStringsSep " && " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ "$out" ] ) dependencies ) ) ) ) } $out/bin/constructor.sh &&
-                                                                        makeWrapper $out/bin/construct $out/bin/construct.sh &&
+                                                                        makeWrapper $out/bin/construct.sh $out/bin/construct &&
                                                                         $out/bin/construct
                                                                 '' ;
                                                 } ;
