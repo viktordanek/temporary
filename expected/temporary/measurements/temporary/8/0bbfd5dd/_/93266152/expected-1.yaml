@@ -38,6 +38,6 @@
   type: link
 - name: teardown-synch.sh
   type: link
-- contents: temporary/$INIT_STATUS/$INIT_STAND_INPUT/$ARGUMENTS/$NAME
-  name: temporary
+- contents: 957bc9c8
+  name: name
   value: file
