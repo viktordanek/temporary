@@ -20,7 +20,8 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
           fi
       } &&
     export ARGUMENTS="dafsasd" ;
-    export FOOBAR="dsfasfdas" ;
+    export HAS_FOOBAR=true ;
+    # export FOOBAR="dsfasfdas" ;
     # '[ { content : $ARGUMENTS , name : "arguments" , type : "file" , foobar : $FOOBAR } ]'
     ${JQ} \
      -n \
