@@ -12,5 +12,5 @@
   { name = "release.standard-error" ; type = "file" ; contents = "$RELEASE_STANDARD_ERROR" ; }
   { name = "release.standard-output" ; type = "file" ; contents = "$RELEASE_STANDARD_OUTPUT" ; }
   { name = "release.status" ; type = "file" ; contents = "$RELEASE_STATUS" ; }
-  { name = "paste" ; type = "file" ; contents = "$PASTE" ; } ;
+  { name = "paste" ; type = "file" ; contents = "$PASTE" ; }
 ]
