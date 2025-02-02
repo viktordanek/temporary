@@ -341,7 +341,7 @@
                                                                                                                     CP = "${ pkgs.coreutils }/bin/cp" ;
                                                                                                                     DIFF = "${ pkgs.diffutils }/bin/diff" ;
                                                                                                                     ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                    EXPECTED = harvest.temporary.util.post.expected ;
+                                                                                                                    EXPECTED = harvest.temporary.util.post.expected.raw ;
                                                                                                                     FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                                     FLOCK = "${ pkgs.flock }/bin/flock" ;
                                                                                                                     INDEX = "${ builtins.toString index }" ;
@@ -389,25 +389,28 @@
                                                                                 post =
                                                                                     {
                                                                                         expected =
-                                                                                            script :
-                                                                                                {
-                                                                                                    init =
-                                                                                                        script
-                                                                                                            {
-                                                                                                                executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/post/expected/init.sh" ) ) ;
-                                                                                                                sets =
+                                                                                            {
+                                                                                                raw =
+                                                                                                    script :
+                                                                                                        {
+                                                                                                            init =
+                                                                                                                script
                                                                                                                     {
-                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                                        CUT = "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                        JQ = "${ pkgs.jq }/bin/jq" ;
-                                                                                                                        MD5SUM = "${ pkgs.coreutils }/bin/md5sum" ;
-                                                                                                                        SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                        TEMPLATE_FILE = builtins.toFile "expected.json" ( ( builtins.toJSON ( builtins.import ( self + "/templates/method.yaml" ) ) ) ) ;
-                                                                                                                        YQ = "${ pkgs.yq }/bin/yq" ;
+                                                                                                                        executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/post/expected/init.sh" ) ) ;
+                                                                                                                        sets =
+                                                                                                                            {
+                                                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                                CUT = "${ pkgs.coreutils }/bin/cut" ;
+                                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                                JQ = "${ pkgs.jq }/bin/jq" ;
+                                                                                                                                MD5SUM = "${ pkgs.coreutils }/bin/md5sum" ;
+                                                                                                                                SED = "${ pkgs.gnused }/bin/sed" ;
+                                                                                                                                TEMPLATE_FILE = builtins.toFile "expected.json" ( ( builtins.toJSON ( builtins.import ( self + "/templates/method.yaml" ) ) ) ) ;
+                                                                                                                                YQ = "${ pkgs.yq }/bin/yq" ;
+                                                                                                                            } ;
                                                                                                                     } ;
-                                                                                                            } ;
-                                                                                                } ;
+                                                                                                        } ;
+                                                                                            } ;
                                                                                         observed =
                                                                                             script :
                                                                                                 {
