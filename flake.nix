@@ -262,7 +262,7 @@
                                                                                                         } ;
                                                                                         in builtins.listToAttrs ( builtins.map mapper fields ) ;
                                                                             size = builtins.foldl' ( previous : current : previous * current.size ) 1 fields ;
-                                                                            in builtins.genList generator ( builtins.trace ( "SIZE=${ builtins.toString size }" ) size ) ;
+                                                                            in builtins.genList generator size ;
                                                                     mapper =
                                                                         {
                                                                             index ,
@@ -414,7 +414,7 @@
                                                                                                                                 JQ = "${ pkgs.jq }/bin/jq" ;
                                                                                                                                 MD5SUM = "${ pkgs.coreutils }/bin/md5sum" ;
                                                                                                                                 SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                                TEMPLATE_FILE = let x = ( self + "/scripts/test/util/post/expected/init.json" ) ; in builtins.trace x x ;
+                                                                                                                                TEMPLATE_FILE = self + "/scripts/test/util/post/expected/init.json" ;
                                                                                                                                 YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                                             } ;
                                                                                                                     } ;
