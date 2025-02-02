@@ -405,7 +405,7 @@
                                                                                                                                 JQ = "${ pkgs.jq }/bin/jq" ;
                                                                                                                                 MD5SUM = "${ pkgs.coreutils }/bin/md5sum" ;
                                                                                                                                 SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                                TEMPLATE_FILE = let x = ( self + "/scripts/test/util/post/expected/init.json" ) in builtins.trace x x ;
+                                                                                                                                TEMPLATE_FILE = let x = ( self + "/scripts/test/util/post/expected/init.json" ) ; in builtins.trace x x ;
                                                                                                                                 YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                                             } ;
                                                                                                                     } ;
