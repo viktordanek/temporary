@@ -203,9 +203,9 @@
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                        ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "construct" ( builtins.concatStringsSep " &&\n " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ "$out" ] ) dependencies ) ) ) ) } $out/bin/constructor.sh &&
-                                                                        makeWrapper $out/bin/construct.sh $out/bin/construct &&
-                                                                        $out/bin/construct
+                                                                        ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "constructor" ( builtins.concatStringsSep " &&\n " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ "$out" ] ) dependencies ) ) ) ) } $out/bin/constructor.sh &&
+                                                                        makeWrapper $out/bin/constructor.sh $out/bin/constructor &&
+                                                                        $out/bin/constructor
                                                                 '' ;
                                                 } ;
                                         harvest =
