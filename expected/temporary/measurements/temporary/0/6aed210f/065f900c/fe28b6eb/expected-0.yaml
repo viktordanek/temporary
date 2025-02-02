@@ -6,6 +6,9 @@
 - contents: 51fe787a
   name: init.standard-error
   type: file
+- contents: INIT_STANDARD_INPUT
+  name: init.standard-input
+  type: file
 - contents: bee2fe8c
   name: init.standard-output
   type: file

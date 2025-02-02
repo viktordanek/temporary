@@ -6,6 +6,9 @@
 - contents: '25735318'
   name: init.standard-error
   type: file
+- contents: INIT_STANDARD_INPUT
+  name: init.standard-input
+  type: file
 - contents: 71cd7675
   name: init.standard-output
   type: file

@@ -6,6 +6,9 @@
 - contents: afac48a7
   name: init.standard-error
   type: file
+- contents: INIT_STANDARD_INPUT
+  name: init.standard-input
+  type: file
 - contents: 05d3b4de
   name: init.standard-output
   type: file
