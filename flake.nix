@@ -405,7 +405,7 @@
                                                                                                                                 JQ = "${ pkgs.jq }/bin/jq" ;
                                                                                                                                 MD5SUM = "${ pkgs.coreutils }/bin/md5sum" ;
                                                                                                                                 SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                                TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.toJSON ( builtins.import ( self + "/templates/method.yaml" ) ) ) ;
+                                                                                                                                TEMPLATE_FILE = self + "/scripts/test/util/post/expected/init.sh" ;
                                                                                                                                 YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                                             } ;
                                                                                                                     } ;
