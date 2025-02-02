@@ -14,5 +14,5 @@
   { name = "release.status" ; type = "file" ; contents = "$RELEASE_STATUS" ; }
   { name = "teardown-asynch.sh" ; type = "link" ; }
   { name = "teardown-synch.sh" ; type = "link" ; }
-  { name = "temporary" ; value = "file" ; contents = "temporary/$INIT_STATUS/$INIT_STAND_INPUT/$ARGUMENTS/$NAME" ; }
+  { name = "name" ; value = "file" ; contents = "$NAME" ; }
 ]
