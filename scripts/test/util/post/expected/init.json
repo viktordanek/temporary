@@ -1,1 +1,1 @@
-[]
+[ { content : env(ARGUMENTS) , name : "arguments" , type : "file" } ]
