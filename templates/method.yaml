@@ -2,6 +2,7 @@
   { name = "init.arguments" ; type = "file" ; contents = "$ARGUMENTS" ; }
   { name = "init.sh" ; type = "link" ; }
   { name = "init.standard-error" ; type = "file" ; contents = "$INIT_STANDARD_ERROR" ; }
+  { name = "init.standard-input" ; type = "file" ; contents = "INIT_STANDARD_INPUT" ; }
   { name = "init.standard-output" ; type = "file" ; contents = "$INIT_STANDARD_OUTPUT" ; }
   { name = "init.status" ; type = "file" ; contents = "$INIT_STATUS" ; }
   { name = "lock.teardown" ; type = "file" ; contents = builtins.null ; }
