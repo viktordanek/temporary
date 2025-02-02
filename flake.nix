@@ -286,7 +286,8 @@
                                                                             release-token-standard-input ,
                                                                             release-token-paste-1 ,
                                                                             release-token-paste-2 ,
-                                                                            speed
+                                                                            speed ,
+                                                                            wtf
                                                                         } :
                                                                             {
                                                                                 "${ init-status }"."${ arguments }"."${ standard-input }"."${ name }" =
