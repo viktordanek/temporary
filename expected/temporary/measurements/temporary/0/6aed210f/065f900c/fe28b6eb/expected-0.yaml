@@ -1,49 +1,43 @@
-init:
-  arguments:
-    contents: 6aed210f
-    type: file
-  sh:
-    type: link
-  standard-error:
-    contents: 51fe787a
-    type: file
-  standard-input:
-    contents: INIT_STANDARD_INPUT
-    type: file
-  standard-output:
-    contents: bee2fe8c
-    type: file
-  status:
-    contents: 0
-    type: file
-lock:
-  teardown:
-    contents: null
-    type: file
+init_arguments:
+  contents: 6aed210f
+  type: file
+init_sh:
+  type: link
+init_standard-error:
+  contents: 51fe787a
+  type: file
+init_standard-input:
+  contents: INIT_STANDARD_INPUT
+  type: file
+init_standard-output:
+  contents: bee2fe8c
+  type: file
+init_status:
+  contents: 0
+  type: file
+lock_teardown:
+  contents: null
+  type: file
 name:
   contents: 3d35e424
   type: file
-post:
-  sh:
-    type: link
-release:
-  arguments:
-    contents: 6aed210f
-    type: file
-  sh:
-    type: link
-  standard-error:
-    contents: 65df6574
-    type: file
-  standard-output:
-    contents: 1309eb10
-    type: file
-  status:
-    contents: 0
-    type: file
-teardown-asynch:
-  sh:
-    type: link
-teardown-synch:
-  sh:
-    type: link
+post_sh:
+  type: link
+release_arguments:
+  contents: 6aed210f
+  type: file
+release_sh:
+  type: link
+release_standard-error:
+  contents: 65df6574
+  type: file
+release_standard-output:
+  contents: 1309eb10
+  type: file
+release_status:
+  contents: 0
+  type: file
+teardown_asynch_sh:
+  type: link
+teardown_synch_sh:
+  type: link
