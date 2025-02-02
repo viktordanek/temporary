@@ -202,7 +202,7 @@
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                        install -m755 makeWrapper $out/bin/makeWrapper &&
+                                                                        # install -m755 makeWrapper $out/bin/makeWrapper &&
                                                                         ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "constructor" ( builtins.concatStringsSep " &&\n " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ "$out" ] ) dependencies ) ) ) ) } $out/bin/constructor.sh &&
                                                                         makeWrapper $out/bin/constructor.sh $out/bin/constructor --set SELF $out &&
                                                                         $out/bin/constructor &&
