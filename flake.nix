@@ -109,7 +109,7 @@
                                                                                 builtins.concatLists
                                                                                 [
                                                                                     [
-                                                                                        "source ${MAKE_WRAPPER}/nix-support/setup-hook"
+                                                                                        "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }/nix-support/setup-hook"
                                                                                     ]
                                                                                     [
                                                                                         "if [ ! -d ${ builtins.concatStringsSep "/" path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path } ; fi"
