@@ -9,7 +9,7 @@
 - contents: 3c01ec9b
   name: init.standard-output
   type: file
-- contents: 1
+- contents: 0
   name: init.status
   type: file
 - contents: null
@@ -28,6 +28,6 @@
 - contents: c3b14e8b
   name: release.standard-output
   type: file
-- contents: 0
+- contents: 15
   name: release.status
   type: file
