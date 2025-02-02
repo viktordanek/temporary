@@ -92,7 +92,6 @@
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, null, nor a set but is a ${ builtins.typeOf value }." ;
                                                         in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
                                             } ;
-
                                         derivation =
                                             pkgs.stdenv.mkDerivation
                                                 {
@@ -199,13 +198,24 @@
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
                                                                     else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
+                                                            wrapper =
+                                                                pkgs.stdenv.mkDerivation
+                                                                    {
+                                                                        name = "wrapper" ;
+                                                                        source = ./. ;
+                                                                        nativeBuildInputs = [ pkgs.mkWrapper ] ;
+                                                                        installPhase =
+                                                                            ''
+                                                                                install -Dm755 makeWrapper $out/bin/makeWrapper
+                                                                            '' ;
+                                                                    }
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "constructor" ( builtins.concatStringsSep " &&\n " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper2 [ "$out" ] ) dependencies ) ) ) ) } $out/bin/constructor.sh &&
-                                                                        makeWrapper $out/bin/constructor.sh $out/bin/constructor &&
-                                                                        $out/bin/constructor
+                                                                        makeWrapper $out/bin/constructor.sh $out/bin/constructor --set PATH ${ makeWrapper } &&
+                                                                        $out/bin/constructor &&
                                                                 '' ;
                                                 } ;
                                         harvest =
