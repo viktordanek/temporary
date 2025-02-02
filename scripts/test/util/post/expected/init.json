@@ -1,1 +1,3 @@
-[ { "name" : "arguments" , "type" : "file" } ]
+[
+  { "name" : "arguments" , "type" : "file" }
+]
