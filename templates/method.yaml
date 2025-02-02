@@ -14,5 +14,5 @@
   release.status = { type = "file" ; contents = "$RELEASE_STATUS" ; } ;
   teardown-asynch.sh = { type = "link" ; } ;
   teardown-synch.sh = { type = "link" ; } ;
-  name" ; value = "file" ; contents = "$NAME" ; } ;
+  name= { type = "file" ; contents = "$NAME" ; } ;
 }
