@@ -263,7 +263,7 @@
                                                                                                         } ;
                                                                                         in builtins.listToAttrs ( builtins.map mapper fields ) ;
                                                                             size = builtins.foldl' ( previous : current : previous * current.size ) 1 fields ;
-                                                                            in builtins.genList generator size ;
+                                                                            in builtins.genList generator ( builtins.trace ( "SIZE=${ builtins.toString size }" ) size ) ;
                                                                     mapper =
                                                                         {
                                                                             index ,
