@@ -1,18 +1,18 @@
-[
-  { name = "init.arguments" ; type = "file" ; contents = "$ARGUMENTS" ; }
-  { name = "init.sh" ; type = "link" ; }
-  { name = "init.standard-error" ; type = "file" ; contents = "$INIT_STANDARD_ERROR" ; }
-  { name = "init.standard-input" ; type = "file" ; contents = "INIT_STANDARD_INPUT" ; }
-  { name = "init.standard-output" ; type = "file" ; contents = "$INIT_STANDARD_OUTPUT" ; }
-  { name = "init.status" ; type = "file" ; contents = "$INIT_STATUS" ; }
-  { name = "lock.teardown" ; type = "file" ; contents = builtins.null ; }
-  { name = "post.sh" ; type = "link" ; }
-  { name = "release.sh" ; type = "link" ; }
-  { name = "release.arguments" ; type = "file" ; contents = "$ARGUMENTS" ; }
-  { name = "release.standard-error" ; type = "file" ; contents = "$RELEASE_STANDARD_ERROR" ; }
-  { name = "release.standard-output" ; type = "file" ; contents = "$RELEASE_STANDARD_OUTPUT" ; }
-  { name = "release.status" ; type = "file" ; contents = "$RELEASE_STATUS" ; }
-  { name = "teardown-asynch.sh" ; type = "link" ; }
-  { name = "teardown-synch.sh" ; type = "link" ; }
-  { name = "name" ; value = "file" ; contents = "$NAME" ; }
-]
+{
+  init.arguments = { type = "file" ; contents = "$ARGUMENTS" ; }
+  init.sh = { type = "link" ; }
+  init.standard-error = { type = "file" ; contents = "$INIT_STANDARD_ERROR" ; }
+  init.standard-input = { type = "file" ; contents = "INIT_STANDARD_INPUT" ; }
+  init.standard-output = { type = "file" ; contents = "$INIT_STANDARD_OUTPUT" ; }
+  init.status = { type = "file" ; contents = "$INIT_STATUS" ; }
+  lock.teardown = { type = "file" ; contents = builtins.null ; }
+  post.sh = { type = "link" ; }
+  release.sh = { type = "link" ; }
+  release.arguments = { type = "file" ; contents = "$ARGUMENTS" ; }
+  release.standard-error = { type = "file" ; contents = "$RELEASE_STANDARD_ERROR" ; }
+  release.standard-output = { type = "file" ; contents = "$RELEASE_STANDARD_OUTPUT" ; }
+  release.status = { type = "file" ; contents = "$RELEASE_STATUS" ; }
+  teardown-asynch.sh = { type = "link" ; }
+  teardown-synch.sh = { type = "link" ; }
+  name" ; value = "file" ; contents = "$NAME" ; }
+}
