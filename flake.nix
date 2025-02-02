@@ -410,6 +410,22 @@
                                                                                                                             } ;
                                                                                                                     } ;
                                                                                                         } ;
+                                                                                                refined =
+                                                                                                    script :
+                                                                                                        {
+                                                                                                            init =
+                                                                                                                script
+                                                                                                                    {
+                                                                                                                        executable = pkgs.writeShellScipt "refined" ( builtins.readFile ( self + "/scripts/test/util/post/refined.sh" ) ) ;
+                                                                                                                        sets =
+                                                                                                                            harvest :
+                                                                                                                                {
+                                                                                                                                    JQ = "${ pkgs.jq }/bin/jq" ;
+                                                                                                                                    RAW = harvest.temporary.util.pots.expected.raw ;
+                                                                                                                                    TEMPLATE_FILE = builtins.toFile "expected.json" ( builtins.toJSON ( builtins.import ( self + "/scripts/test/util/post/refined.json" ) ) ) ;
+                                                                                                                                } ;
+                                                                                                                    } ;
+                                                                                                        } ;
                                                                                             } ;
                                                                                         observed =
                                                                                             script :
