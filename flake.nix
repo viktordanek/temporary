@@ -470,24 +470,6 @@
                                                                         if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
-                                                                                arguments = "${ pkgs.coreutils }/bin/timeout 10s ${ value } ${ builtins.elemAt path 3 }" ;
-                                                                                echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
-                                                                                standard-input =
-                                                                                    let
-                                                                                        standard-input = builtins.elemAt path 4 ;
-                                                                                        in if standard-input == "_" then arguments else "${ pkgs.coreutils }/bin/timeout 10s ${ echo } ${ standard-input } | ${ arguments }" ;
-                                                                                status =
-                                                                                    let
-                                                                                        status = builtins.elemAt path 2 ;
-                                                                                        # in if status == "0" then "ALPHA=$( ${ standard-input } ) && ${ echo } \"paste: ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) }\" >> ${ builtins.concatStringsSep "" [ "$" "{" "ALPHA" "}" ] }" else "! ${ standard-input }" ;
-                                                                                        in if status == "0" then "${ echo } \"paste: ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) }\" >> $( ${ standard-input } )" else "! ${ standard-input }" ;
-                                                                                in [ "#" ( builtins.concatStringsSep " " [ "# ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] }" ( builtins.concatStringsSep " / " path ) ">&2" ] ) status status ]
-                                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
-                                                                mapper =
-                                                                    path : name : value :
-                                                                        if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                        else if builtins.typeOf value == "string" then
-                                                                            let
                                                                                 arguments = "${ command } ${ builtins.elemAt path 1 }" ;
                                                                                 command_ = "resources . temporary . temporary . ${ ( builtins.concatStringsSep " . " ( builtins.map ( x : builtins.concatStringsSep "" [ "\"" x "\"" ] ) ( builtins.concatLists [ path [ name ] ] ) ) ) }" ;
                                                                                 command = builtins.concatStringsSep "" [ "$" "{" " " command_ " " "}" ] ;
