@@ -1,0 +1,148 @@
+- contents: 661fa3d0
+  name: init.arguments
+  type: file
+- name: init.sh
+  type: link
+- contents: 13849766
+  name: init.standard-error
+  type: file
+- contents: bee05715
+  name: init.standard-output
+  type: file
+- contents: 3
+  name: init.status
+  type: file
+- contents: null
+  name: lock.teardown
+  type: file
+- name: post.sh
+  type: link
+- name: release.sh
+  type: link
+- contents: ab8e998b
+  name: release.standard-error
+  type: file
+- contents: 1d07971b
+  name: release.standard-output
+  type: file
+- contents: 10
+  name: release.status
+  type: file
+- contents:
+    init:
+      name: temporary/3/661fa3d0/_/7a012a88
+      has_standard_input: false
+      standard_input: null
+      arguments: 661fa3d0
+      typeof: lambda
+      standard_output: bee05715
+      standard_error: 13849766
+      status: 3
+      speed: slow
+      tokens:
+        temporary:
+          arguments: 6d59f001
+          standard_input: 1d24f863
+          pastes:
+            - f043bd3c
+            - 4f9cfe5a
+          measurements:
+            - - - util/token--
+                - util/token--
+              - - util/token--6d59f001
+                - util/token--6d59f001
+              - - util/token-1d24f863-
+                - util/token-1d24f863-
+              - - util/token-1d24f863-6d59f001
+                - util/token-1d24f863-6d59f001
+              - - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-
+                - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-
+              - - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-6d59f001
+                - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-6d59f001
+            - - - util/token--f043bd3c
+                - util/token--
+              - - util/token--6d59f001f043bd3c
+                - util/token--6d59f001
+              - - util/token-1d24f863-f043bd3c
+                - util/token-1d24f863-
+              - - util/token-1d24f863-6d59f001f043bd3c
+                - util/token-1d24f863-6d59f001
+              - - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-f043bd3c
+                - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-
+              - - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-6d59f001f043bd3c
+                - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-6d59f001
+            - - - util/token--f043bd3c
+                - util/token--f043bd3c
+              - - util/token--6d59f001f043bd3c
+                - util/token--6d59f001f043bd3c
+              - - util/token-1d24f863-f043bd3c
+                - util/token-1d24f863-f043bd3c
+              - - util/token-1d24f863-6d59f001f043bd3c
+                - util/token-1d24f863-6d59f001f043bd3c
+              - - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-f043bd3c
+                - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-f043bd3c
+              - - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-6d59f001f043bd3c
+                - util/token-3e1a0077cf95aff95aaf44da7897e4d15d12dcefa007c3a25b7f397780f80d7dabd9ccdcbf0bd7d32470ed9917df561884b31b372c1e8a496acff0ef96b2c899-6d59f001f043bd3c
+    release:
+      name: temporary/3/661fa3d0/_/7a012a88
+      has_standard_input: true
+      standard_input: null
+      arguments: null
+      typeof: lambda
+      standard_output: 1d07971b
+      standard_error: ab8e998b
+      speed: slow
+      status: 10
+      tokens:
+        temporary:
+          arguments: 5eb061db
+          standard_input: d29ea281
+          pastes:
+            - 4913f85f
+            - 6a4ca5d8
+          measurements:
+            - - - util/token--
+                - util/token--
+              - - util/token--5eb061db
+                - util/token--5eb061db
+              - - util/token-d29ea281-
+                - util/token-d29ea281-
+              - - util/token-d29ea281-5eb061db
+                - util/token-d29ea281-5eb061db
+              - - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-
+                - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-
+              - - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-5eb061db
+                - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-5eb061db
+            - - - util/token--4913f85f
+                - util/token--
+              - - util/token--5eb061db4913f85f
+                - util/token--5eb061db
+              - - util/token-d29ea281-4913f85f
+                - util/token-d29ea281-
+              - - util/token-d29ea281-5eb061db4913f85f
+                - util/token-d29ea281-5eb061db
+              - - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-4913f85f
+                - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-
+              - - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-5eb061db4913f85f
+                - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-5eb061db
+            - - - util/token--4913f85f
+                - util/token--4913f85f
+              - - util/token--5eb061db4913f85f
+                - util/token--5eb061db4913f85f
+              - - util/token-d29ea281-4913f85f
+                - util/token-d29ea281-4913f85f
+              - - util/token-d29ea281-5eb061db4913f85f
+                - util/token-d29ea281-5eb061db4913f85f
+              - - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-4913f85f
+                - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-4913f85f
+              - - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-5eb061db4913f85f
+                - util/token-274ee1b16354c35c5b135286b11ec5905db3864e439a9a9ce1aad39badef33b4d8a2fc63ae7efdddb1f8b6dd3c3b0d449fb5efe26907917a93055cfc5b195dd9-5eb061db4913f85f
+  name: target
+  type: file
+- name: teardown-asynch.sh
+  type: link
+- name: teardown-synch.sh
+  type: link
+- contents: temporary/3/661fa3d0/_/7a012a88
+  name: temporary
+  type: file
