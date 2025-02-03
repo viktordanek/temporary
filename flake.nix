@@ -531,7 +531,7 @@
                                                                                 ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore
                                                                             fi &&
                                                                             $out/bin/test-external &&
-                                                                            exit ${ builtins.toString 10 }
+                                                                            exit ${ builtins.toString 0 }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
