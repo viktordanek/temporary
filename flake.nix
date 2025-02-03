@@ -219,14 +219,9 @@
                                                                                                 sets =
                                                                                                     harvest :
                                                                                                         {
-                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                            CP = "${ pkgs.coreutils }/bin/cp" ;
                                                                                                             DIFF = "${ pkgs.diffutils }/bin/diff" ;
-                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                            EXPECTED = harvest.temporary.util.post.expected.raw ;
                                                                                                             FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                             FLOCK = "${ pkgs.flock }/bin/flock" ;
-                                                                                                            INDEX = "${ builtins.toString index }" ;
                                                                                                             MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
                                                                                                             OBSERVED = harvest.temporary.util.post.observed ;
                                                                                                             RM = "${ pkgs.coreutils }/bin/rm" ;
