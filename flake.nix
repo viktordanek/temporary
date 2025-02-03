@@ -251,7 +251,7 @@
                                                                         ] ;
                                                                     reducer =
                                                                         previous : current :
-                                                                            builtins.trace "HI2" (
+                                                                            builtins.trace "HI2 ${ builtins.typeOf current }" (
                                                                             let
                                                                                 generator =
                                                                                     index :
