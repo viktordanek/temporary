@@ -393,7 +393,7 @@
                                                                                 command = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "resources" "temporary" ] path [ name ] ] ) ;
                                                                                 with-arguments = if has-arguments == "0" then command else builtins.concatStringsSep " " [ command arguments ] ;
                                                                                 with-standard-input = if has-standard-input == "0" then with-arguments else "${ echo } ${ standard-input } | ${ with-arguments }" ;
-                                                                                with-status = if status == "0" then "${ echo } ${ paste } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
+                                                                                with-status = if status == "0" then "${ echo } ${ paste } > $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 in [ "#" with-status with-status with-status "#" ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
