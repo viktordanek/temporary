@@ -236,7 +236,7 @@
                                                                     fields =
                                                                         [
                                                                             { name = "has-arguments" ; lambda = [ 0 1 ] ; }
-                                                                            { name = "arguments" ; lambda = [ builtins.null ] ; }
+                                                                            { name = "arguments" ; lambda = [ 2 ] ; }
                                                                             { name = "has-standard-input" ; lambda = [ 0 1 ] ; }
                                                                             { name = "standard-input" ; lambda = [ builtins.null builtins.null ] ; }
                                                                             { name = "init-typeOf" ; lambda = [ "lambda" "null" ] ; }
