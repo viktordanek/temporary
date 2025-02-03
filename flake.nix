@@ -181,6 +181,96 @@
                                                 let
                                                     temporary =
                                                         let
+                                                            mapper =
+                                                                path : name : value :
+                                                                    if builtins.typeOf value == "null" then
+                                                                        let
+                                                                            in
+                                                                            script :
+                                                                                {
+                                                                                    init =
+                                                                                        script
+                                                                                            {
+                                                                                                executable = pkgs.writeScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                sets =
+                                                                                                    harvest :
+                                                                                                        {
+                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                            TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                        } ;
+                                                                                            } ;
+                                                                                    release =
+                                                                                        script
+                                                                                            {
+                                                                                                executable = pkgs.writeScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                sets =
+                                                                                                    harvest :
+                                                                                                        {
+                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                            TEE = "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                        } ;
+                                                                                            } ;
+                                                                                    post =
+                                                                                        script
+                                                                                            {
+                                                                                                executable = pkgs.writeScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
+                                                                                                sets =
+                                                                                                    harvest :
+                                                                                                        {
+                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                            CP = "${ pkgs.coreutils }/bin/cp" ;
+                                                                                                            DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                            EXPECTED = harvest.temporary.util.post.expected.raw ;
+                                                                                                            FIND = "${ pkgs.findutils }/bin/find" ;
+                                                                                                            FLOCK = "${ pkgs.flock }/bin/flock" ;
+                                                                                                            INDEX = "${ builtins.toString index }" ;
+                                                                                                            MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                            OBSERVED = harvest.temporary.util.post.observed ;
+                                                                                                            RM = "${ pkgs.coreutils }/bin/rm" ;
+                                                                                                            YQ = "${ pkgs.yq }/bin/yq" ;
+                                                                                                        } ;
+                                                                                            } ;
+                                                                                    }
+                                                                    else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a set but a ${ builtins.typeOf value }." ;
+                                                            set =
+                                                                let
+                                                                    fields =
+                                                                        [
+                                                                            { name = "arguments" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "standard-input" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "init-typeOf" ; lambda = [ "lambda" "null" ] ; }
+                                                                            { name = "init-standard-output" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "init-standard-error" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "init-status" ; lambda = [ 0 101 ] ; }
+                                                                            { name = "release-typeOf" ; lambda = [ "lambda" "null" ] ; }
+                                                                            { name = "release-standard-output" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "release-standard-error" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "release-status" ; lambda = [ 0 101 ]  ; }
+                                                                            { name = "speed" ; lambda = [ "slow" "fast" ] ; }
+                                                                        ] ;
+                                                                reducer =
+                                                                    previous : current :
+                                                                        let
+                                                                            generator =
+                                                                                index :
+                                                                                    let
+                                                                                        type = builtins.typeOf value ;
+                                                                                        value = builtins.elemAt current.lambda index ;
+                                                                                        in
+                                                                                            {
+                                                                                                name =
+                                                                                                    if builtins.typeOf value == "null" then builtins.hashString "md5" ( builtins.map builtins.toString [ current.name index ] )
+                                                                                                    else builtins.toString value ;
+                                                                                                value = previous ;
+                                                                                            } ;
+                                                                            in builtins.listToAttrs ( builtins.genList ( builtins.length current.lambda ) ) ;
+                                                                in builtins.foldl' reducer builtins.null fields ;
+                                                    temporary2 =
+                                                        let
                                                             rows =
                                                                 let
                                                                     list =
