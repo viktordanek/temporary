@@ -183,7 +183,6 @@
                                                         let
                                                             mapper =
                                                                 path : name : value :
-                                                                builtins.trace "MAPPER CALLED" (
                                                                     if builtins.typeOf value == "null" then
                                                                         let
                                                                             in
@@ -231,7 +230,7 @@
                                                                                             } ;
                                                                                     }
                                                                     else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a set but a ${ builtins.typeOf value }." ) ;
+                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a set but a ${ builtins.typeOf value }." ;
                                                             set =
                                                                 let
                                                                     fields =
@@ -384,19 +383,15 @@
                                                                         if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
-                                                                                arguments = "${ command } ${ builtins.elemAt path 1 }" ;
-                                                                                command_ = "resources . temporary . temporary . ${ ( builtins.concatStringsSep " . " ( builtins.map ( x : builtins.concatStringsSep "" [ "\"" x "\"" ] ) ( builtins.concatLists [ path [ name ] ] ) ) ) }" ;
-                                                                                command = builtins.concatStringsSep "" [ "$" "{" " " command_ " " "}" ] ;
-                                                                                echo = builtins.concatStringsSep "" [ "$" "{" " " "echo" " " "}" ] ;
-                                                                                standard-input =
-                                                                                    let
-                                                                                        standard-input = builtins.elemAt path 2 ;
-                                                                                        in if standard-input == "_" then arguments else "${ echo } ${ standard-input } | ${ arguments }" ;
-                                                                                status =
-                                                                                    let
-                                                                                        status = builtins.elemAt path 0 ;
-                                                                                        in if status == "0" then "${ echo } \"paste: ${ builtins.substring 0 8 ( builtins.hashString "sha512" ( builtins.concatStringsSep "/" path ) ) }\" >> $( ${ standard-input } )" else "! ${ standard-input }" ;
-                                                                                in [ "#" status status status "#" ]
+                                                                                has-arguments = builtins.elemAt 0 ;
+                                                                                arguments = builtins.elemAt 1 ;
+                                                                                has-standard-input = builtins.elemAt 2 ;
+                                                                                standard-input = builtins.elemAt 3 ;
+                                                                                command = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "resources" "temporary" ] path [ name ] ] ) ;
+                                                                                with-arguments = if has-arguments == "0" then command else builtins.concatStringsSep " " [ command arguments ] ;
+                                                                                with-standard-input = if has-standard-input == "0" then with-arguments else "${ echo } ${ standard-input } | ${ with-arguments }" ;
+                                                                                with-status = if status == "0" then "${ echo } ${ paste } | $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
+                                                                                in [ "#" with-status with-status with-status "#" ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                  in
                                                                     ''
