@@ -182,6 +182,7 @@
                                                     temporary =
                                                         let
                                                             mapper =
+                                                                builtins.trace "HI" (
                                                                 path : name : value :
                                                                     if builtins.typeOf value == "null" then
                                                                         let
@@ -230,7 +231,7 @@
                                                                                             } ;
                                                                                     }
                                                                     else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a set but a ${ builtins.typeOf value }." ;
+                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a null nor a set but a ${ builtins.typeOf value }." ) ;
                                                             set =
                                                                 let
                                                                     fields =
