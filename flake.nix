@@ -183,7 +183,7 @@
                                                         let
                                                             mapper =
                                                                 path : name : value :
-                                                                builtins.trace "HI" (
+                                                                builtins.trace "MAPPER CALLED" (
                                                                     if builtins.typeOf value == "null" then
                                                                         let
                                                                             in
@@ -268,7 +268,7 @@
                                                                                 list = builtins.genList generator ( builtins.length current.lambda ) ;
                                                                                 in builtins.listToAttrs list ;
                                                                     in builtins.foldl' reducer builtins.null fields ;
-                                                            in builtins.mapAttrs mapper set ;
+                                                            in builtins.mapAttrs ( mapper [ ] ) set ;
                                                     in
                                                         lib
                                                             {
