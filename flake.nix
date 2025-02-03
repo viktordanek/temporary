@@ -251,13 +251,12 @@
                                                                         ] ;
                                                                     reducer =
                                                                         previous : current :
-                                                                            builtins.trace "HI2 ${ builtins.typeOf current }" (
                                                                             let
                                                                                 generator =
                                                                                     index :
                                                                                         let
-                                                                                            type = builtins.trace "HI4" ( builtins.typeOf value ) ;
-                                                                                            value = builtins.trace "HI3 ${ current.name }" ( builtins.elemAt current.lambda index ) ;
+                                                                                            type = builtins.typeOf value ;
+                                                                                            value = builtins.elemAt current.lambda index ;
                                                                                             in
                                                                                                 {
                                                                                                     name =
@@ -266,7 +265,7 @@
                                                                                                     value = previous ;
                                                                                                 } ;
                                                                                 list = builtins.genList generator ( builtins.length current.lambda ) ;
-                                                                                in builtins.listToAttrs list ) ;
+                                                                                in builtins.listToAttrs list ;
                                                                     in builtins.foldl' reducer builtins.null fields ;
                                                             in builtins.mapAttrs mapper ( builtins.trace "HI ${ builtins.typeOf set }" set ) ;
                                                     in
