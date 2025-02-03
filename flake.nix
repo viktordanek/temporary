@@ -237,8 +237,8 @@
                                                                         [
                                                                             { name = "speed" ; lambda = [ "slow" "fast" ] ; }
                                                                             { name = "release-status" ; lambda = [ 0 101 ]  ; }
-                                                                            { name = "release-standard-error" ; lambda = [ "" builtins.null builtins.null ] ; }
-                                                                            { name = "release-standard-output" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "release-standard-error" ; lambda = [ builtins.null ] ; }
+                                                                            { name = "release-standard-output" ; lambda = [ builtins.null ] ; }
                                                                             { name = "release-typeOf" ; lambda = [ "lambda" "null" ] ; }
                                                                             { name = "init-status" ; lambda = [ 0 101 ] ; }
                                                                             { name = "init-standard-error" ; lambda = [ "" builtins.null builtins.null ] ; }
