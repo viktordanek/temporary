@@ -182,8 +182,8 @@
                                                     temporary =
                                                         let
                                                             mapper =
-                                                                builtins.trace "HI" (
                                                                 path : name : value :
+                                                                builtins.trace "HI" (
                                                                     if builtins.typeOf value == "null" then
                                                                         let
                                                                             in
