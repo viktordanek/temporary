@@ -384,10 +384,11 @@
                                                                         else if builtins.typeOf value == "string" then
                                                                             let
                                                                                 echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
-                                                                                has-arguments = builtins.elemAt 0 ;
-                                                                                arguments = builtins.elemAt 1 ;
-                                                                                has-standard-input = builtins.elemAt 2 ;
-                                                                                standard-input = builtins.elemAt 3 ;
+                                                                                has-arguments = builtins.elemAt path 0 ;
+                                                                                arguments = builtins.elemAt path 1 ;
+                                                                                has-standard-input = builtins.elemAt path 2 ;
+                                                                                standard-input = builtins.elemAt path 3 ;
+                                                                                status = builtins.elemAt path 7 ;
                                                                                 command = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "resources" "temporary" ] path [ name ] ] ) ;
                                                                                 with-arguments = if has-arguments == "0" then command else builtins.concatStringsSep " " [ command arguments ] ;
                                                                                 with-standard-input = if has-standard-input == "0" then with-arguments else "${ echo } ${ standard-input } | ${ with-arguments }" ;
