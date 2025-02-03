@@ -264,7 +264,7 @@
                                                                                                         else builtins.toString value ;
                                                                                                     value = previous ;
                                                                                                 } ;
-                                                                                list = builtins.genList ( builtins.length current.lambda ) ;
+                                                                                list = builtins.genList generator ( builtins.length current.lambda ) ;
                                                                                 in builtins.listToAttrs list ;
                                                                     in builtins.foldl' reducer builtins.null fields ;
                                                             in builtins.mapAttrs mapper set ;
