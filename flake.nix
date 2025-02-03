@@ -252,23 +252,24 @@
                                                                             { name = "release-status" ; lambda = [ 0 101 ]  ; }
                                                                             { name = "speed" ; lambda = [ "slow" "fast" ] ; }
                                                                         ] ;
-                                                                reducer =
-                                                                    previous : current :
-                                                                        let
-                                                                            generator =
-                                                                                index :
-                                                                                    let
-                                                                                        type = builtins.typeOf value ;
-                                                                                        value = builtins.elemAt current.lambda index ;
-                                                                                        in
-                                                                                            {
-                                                                                                name =
-                                                                                                    if builtins.typeOf value == "null" then builtins.hashString "md5" ( builtins.map builtins.toString [ current.name index ] )
-                                                                                                    else builtins.toString value ;
-                                                                                                value = previous ;
-                                                                                            } ;
-                                                                            in builtins.listToAttrs ( builtins.genList ( builtins.length current.lambda ) ) ;
-                                                                in builtins.foldl' reducer builtins.null fields ;
+                                                                    reducer =
+                                                                        previous : current :
+                                                                            let
+                                                                                generator =
+                                                                                    index :
+                                                                                        let
+                                                                                            type = builtins.typeOf value ;
+                                                                                            value = builtins.elemAt current.lambda index ;
+                                                                                            in
+                                                                                                {
+                                                                                                    name =
+                                                                                                        if builtins.typeOf value == "null" then builtins.hashString "md5" ( builtins.map builtins.toString [ current.name index ] )
+                                                                                                        else builtins.toString value ;
+                                                                                                    value = previous ;
+                                                                                                } ;
+                                                                                in builtins.listToAttrs ( builtins.genList ( builtins.length current.lambda ) ) ;
+                                                                    in builtins.foldl' reducer builtins.null fields ;
+                                                            in builtins.mapAttrs mapper set ;
                                                     in
                                                         lib
                                                             {
