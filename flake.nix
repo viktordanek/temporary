@@ -241,8 +241,8 @@
                                                                             { name = "release-standard-output" ; lambda = [ builtins.null ] ; }
                                                                             { name = "release-typeOf" ; lambda = [ "lambda" "null" ] ; }
                                                                             { name = "init-status" ; lambda = [ 0 101 ] ; }
-                                                                            { name = "init-standard-error" ; lambda = [ "" builtins.null builtins.null ] ; }
-                                                                            { name = "init-standard-output" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "init-standard-error" ; lambda = [ builtins.null ] ; }
+                                                                            { name = "init-standard-output" ; lambda = [ builtins.null ] ; }
                                                                             { name = "init-typeOf" ; lambda = [ "lambda" "null" ] ; }
                                                                             { name = "standard-input" ; lambda = [ builtins.null builtins.null ] ; }
                                                                             { name = "has-standard-input" ; lambda = [ 0 1 ] ; }
