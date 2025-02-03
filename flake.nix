@@ -261,7 +261,7 @@
                                                                                             in
                                                                                                 {
                                                                                                     name =
-                                                                                                        if builtins.typeOf value == "null" then builtins.hashString "md5" ( builtins.map builtins.toString [ current.name index ] )
+                                                                                                        if builtins.typeOf value == "null" then builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ current.name index ] ) )
                                                                                                         else builtins.toString value ;
                                                                                                     value = previous ;
                                                                                                 } ;
