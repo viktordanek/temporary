@@ -257,7 +257,7 @@
                                                                                     index :
                                                                                         let
                                                                                             type = builtins.trace "HI4" ( builtins.typeOf value ) ;
-                                                                                            value = builtins.trace "HI3 ${ builtins.elemAt current.lambda index }" ( builtins.elemAt current.lambda index ) ;
+                                                                                            value = builtins.trace "HI3 ${ builtins.toJSON ( builtins.elemAt current.lambda ) }" ( builtins.elemAt current.lambda index ) ;
                                                                                             in
                                                                                                 {
                                                                                                     name =
