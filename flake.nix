@@ -267,7 +267,7 @@
                                                                                 list = builtins.genList generator ( builtins.length current.lambda ) ;
                                                                                 in builtins.listToAttrs list ;
                                                                     in builtins.foldl' reducer builtins.null fields ;
-                                                            in builtins.mapAttrs mapper ( builtins.trace "HI $( builtins.typeOf true }" set ) ;
+                                                            in builtins.mapAttrs mapper ( builtins.trace "HI ${ builtins.typeOf true }" set ) ;
                                                     in
                                                         lib
                                                             {
