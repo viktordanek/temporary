@@ -251,6 +251,7 @@
                                                                         ] ;
                                                                     reducer =
                                                                         previous : current :
+                                                                            builtins.trace "HI2" (
                                                                             let
                                                                                 generator =
                                                                                     index :
@@ -265,7 +266,7 @@
                                                                                                     value = previous ;
                                                                                                 } ;
                                                                                 list = builtins.genList generator ( builtins.length current.lambda ) ;
-                                                                                in builtins.listToAttrs list ;
+                                                                                in builtins.listToAttrs list ) ;
                                                                     in builtins.foldl' reducer builtins.null fields ;
                                                             in builtins.mapAttrs mapper ( builtins.trace "HI ${ builtins.typeOf set }" set ) ;
                                                     in
