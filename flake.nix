@@ -529,9 +529,9 @@
                                                                                 ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/.gitignore" } $out/observed/.gitignore
                                                                             else
                                                                                 ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore
-                                                                            fi
+                                                                            fi &&
                                                                             $out/bin/test-external &&
-                                                                            exit ${ builtins.toString 0 }
+                                                                            exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
