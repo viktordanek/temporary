@@ -235,7 +235,7 @@
                                                                 let
                                                                     fields =
                                                                         [
-                                                                            { name = "arguments" ; lambda = [ "" builtins.null builtins.null ] ; }
+                                                                            { name = "arguments" ; lambda = [ builtins.null builtins.null ] ; }
                                                                             { name = "standard-input" ; lambda = [ "" builtins.null builtins.null ] ; }
                                                                             { name = "init-typeOf" ; lambda = [ "lambda" "null" ] ; }
                                                                             { name = "init-standard-output" ; lambda = [ "" builtins.null builtins.null ] ; }
