@@ -256,8 +256,8 @@
                                                                                 generator =
                                                                                     index :
                                                                                         let
-                                                                                            type = builtins.trace "HI3" ( builtins.typeOf value ) ;
-                                                                                            value = builtins.elemAt current.lambda index ;
+                                                                                            type = builtins.trace "HI4" ( builtins.typeOf value ) ;
+                                                                                            value = builtins.trace "HI3" ( builtins.elemAt current.lambda index ) ;
                                                                                             in
                                                                                                 {
                                                                                                     name =
