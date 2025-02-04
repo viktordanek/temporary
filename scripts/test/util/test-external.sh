@@ -1,7 +1,7 @@
-if [ ! -d ${EXPECTED} ]
+if [ ! -d ${OBSERVED} ]
 then
   exit 64
-elif [ ! -d ${OBSERVED} ]
+elif [ ! -d ${EXPECTED} ]
 then
   exit 65
 elif ! ${BASH_UNIT} ${TEST_INTERNAL} > /dev/null
