@@ -390,7 +390,7 @@
                                                                                 standard-input = builtins.elemAt path 3 ;
                                                                                 status = builtins.elemAt path 7 ;
                                                                                 paste = builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" path ) ) ;
-                                                                                command-without-resources = builtins.concatStringsSep "" [ "$" "{" " " ( builtins.concatStringsSep "." ( builtins.map ( x : x ) ( builtins.concatLists [ [ "temporary" "temporary" ] path [ name ] ] ) ) ) " " "}" ] ;
+                                                                                command-without-resources = builtins.concatStringsSep "" [ "$" "{" " " ( builtins.concatStringsSep "." ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ [ "temporary" "temporary" ] path [ name ] ] ) ) ) " " "}" ] ;
                                                                                 command = "resources . ${ command-without-resources }" ;
                                                                                 with-arguments = if has-arguments == "0" then command else builtins.concatStringsSep " " [ command arguments ] ;
                                                                                 with-standard-input = if has-standard-input == "0" then with-arguments else "${ echo } ${ standard-input } | ${ with-arguments }" ;
