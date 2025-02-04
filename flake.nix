@@ -393,7 +393,7 @@
                                                                                 status = builtins.elemAt path 7 ;
                                                                                 paste = builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" path ) ) ;
                                                                                 command-without-resources = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) ;
-                                                                                command = builtins.concatStringsSep "" [ "$" "{" " " "resource" " " "." " " "temporary" " " "." " " "temporary" " " command-without-resources " " "}" ] ;
+                                                                                command = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " "temporary" " " "." " " "temporary" " " command-without-resources " " "}" ] ;
                                                                                 with-arguments = if has-arguments == "false" then command else builtins.concatStringsSep " " [ command arguments ] ;
                                                                                 with-standard-input = if has-standard-input == "false" then with-arguments else "${ echo } ${ standard-input } | ${ with-arguments }" ;
                                                                                 with-status = if status == "0" then "${ echo } ${ paste } > $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
