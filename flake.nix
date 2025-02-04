@@ -245,9 +245,9 @@
                                                                             { name = "init-standard-output" ; lambda = [ builtins.null ] ; }
                                                                             { name = "init-typeOf" ; lambda = [ "lambda" "null" ] ; }
                                                                             { name = "standard-input" ; lambda = [ builtins.null builtins.null ] ; }
-                                                                            { name = "has-standard-input" ; lambda = [ 0 1 ] ; }
+                                                                            { name = "has-standard-input" ; lambda = [ true false ] ; }
                                                                             { name = "arguments" ; lambda = [ builtins.null ] ; }
-                                                                            { name = "has-arguments" ; lambda = [ 0 1 ] ; }
+                                                                            { name = "has-arguments" ; lambda = [ true false ] ; }
                                                                         ] ;
                                                                     reducer =
                                                                         previous : current :
@@ -260,7 +260,7 @@
                                                                                             in
                                                                                                 {
                                                                                                     name =
-                                                                                                        if builtins.typeOf value == "null" then builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ current.name index ] ) )
+                                                                                                        if builtins.typeOf value == "null" then builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ current.name index ] ) ) )
                                                                                                         else builtins.toString value ;
                                                                                                     value = previous ;
                                                                                                 } ;
