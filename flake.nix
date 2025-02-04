@@ -197,6 +197,8 @@
                                                                                                         {
                                                                                                             CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                             ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                            STANDARD_ERROR = init-standard-error ;
+                                                                                                            STANDARD_OUTPUT = init-standard-output ;
                                                                                                             TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                         } ;
                                                                                             } ;
@@ -209,6 +211,8 @@
                                                                                                         {
                                                                                                             CAT = "${ pkgs.coreutils }/bin/cat" ;
                                                                                                             ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                            STANDARD_ERROR = release-standard-error ;
+                                                                                                            STANDARD_OUTPUT = release-standard-output ;
                                                                                                             TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                         } ;
                                                                                             } ;
