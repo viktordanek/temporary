@@ -440,7 +440,7 @@
                                                                                     then
                                                                                         ${ pkgs.coreutils }/bin/cp ${ self + "/expected/.gitignore" } $out/observed/.gitignore
                                                                                     else
-                                                                                        ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore
+                                                                                        ${ pkgs.coreutils }/bin/echo "**/observed-*.yaml" > $out/observed/.gitignore
                                                                                     fi
                                                                             fi &&
                                                                             $out/bin/test-external &&
