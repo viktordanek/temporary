@@ -32,16 +32,7 @@
   name: release.status
   type: file
 - contents:
-    init:
-      temporary-array: temporary/false/joccoaii/true/gldkchji/null/coohcjcp/bcommhgl/101/null/ecpdalga/ihlageik/0/slow
-      has_standard_input: true
-      standard_input: null
-      arguments: null
-    release:
-      temporary-array: temporary/false/joccoaii/true/gldkchji/null/coohcjcp/bcommhgl/101/null/ecpdalga/ihlageik/0/slow
-      has_standard_input: true
-      standard_input: null
-      arguments: null
+    init: null
   name: target
   type: file
 - name: teardown-asynch.sh

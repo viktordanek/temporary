@@ -41,11 +41,6 @@
   type: file
 - contents:
     db3eaa64
-    release:
-      temporary-array: temporary/true/joccoaii/true/gldkchji/null/coohcjcp/bcommhgl/0/lambda/ecpdalga/ihlageik/0/slow
-      has_standard_input: true
-      standard_input: 
-      arguments: 
   name: target
   type: file
 - name: teardown-asynch.sh

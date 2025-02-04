@@ -41,11 +41,6 @@
   type: file
 - contents:
     312fc384
-    release:
-      temporary-array: temporary/false/joccoaii/true/gldkchji/lambda/coohcjcp/bcommhgl/0/lambda/ecpdalga/ihlageik/0/slow
-      has_standard_input: true
-      standard_input: 
-      arguments: 
   name: target
   type: file
 - name: teardown-asynch.sh

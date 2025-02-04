@@ -41,11 +41,6 @@
   type: file
 - contents:
     e809cca1
-    release:
-      temporary-array: temporary/false/joccoaii/true/gldkchji/null/coohcjcp/bcommhgl/0/null/ecpdalga/ihlageik/0/slow
-      has_standard_input: true
-      standard_input: 
-      arguments: 
   name: target
   type: file
 - name: teardown-asynch.sh
