@@ -399,7 +399,7 @@
                                                                                 with-status = if status == "0" then "${ echo } ${ paste } > $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 in [ "#" with-status with-status with-status "#" ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
-                                                                 in
+                                                                in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                             cleanup ( )
