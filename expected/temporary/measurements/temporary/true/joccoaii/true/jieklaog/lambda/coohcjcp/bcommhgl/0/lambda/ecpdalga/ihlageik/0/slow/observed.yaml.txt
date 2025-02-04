@@ -13,10 +13,6 @@
   name: init.standard-input
   type: file
 - contents:
-    
-  name: init.standard-output
-  type: file
-- contents:
     0
   name: init.status
   type: file
@@ -30,10 +26,6 @@
 - contents:
     ecpdalga
   name: release.standard-error
-  type: file
-- contents:
-    
-  name: release.standard-output
   type: file
 - contents:
     0
