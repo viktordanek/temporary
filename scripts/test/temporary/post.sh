@@ -16,15 +16,15 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   ${FLOCK} 200 &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "*-*" | ${WC} --lines ) &&
   ${ECHO} K ${INDEX} >> /build/debug &&
-  ${YQ} --yaml-output "." ${DO} > /build/debug 2>&1 &&
+  ${YQ} --yaml-output "." ${DO} >> /build/debug 2>&1 &&
   if [ -f /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml ]
   then
     if [ ! -z "$( ${DIFF} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed ${DO} )" ]
     then
-      ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml
+      ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml 2> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml.error
     fi
   else
-    ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml
+    ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml 2> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml.error
   fi &&
   ${ECHO} ${INDEX} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/count &&
   ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
