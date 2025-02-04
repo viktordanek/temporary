@@ -33,6 +33,7 @@
       temporary-array: temporary/true/joccoaii/false/jieklaog/null/coohcjcp/bcommhgl/101/null/ecpdalga/ihlageik/0/slow
       has_standard_input: false
       standard_input: null
+      arguments: joccoaii
   name: target
   type: file
 - name: teardown-asynch.sh
