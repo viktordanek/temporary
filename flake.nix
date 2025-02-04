@@ -245,9 +245,9 @@
                                                                             { name = "init-standard-output" ; lambda = [ builtins.null ] ; }
                                                                             { name = "init-typeOf" ; lambda = [ "lambda" "null" ] ; }
                                                                             { name = "standard-input" ; lambda = [ builtins.null builtins.null ] ; }
-                                                                            { name = "has-standard-input" ; lambda = [ true false ] ; }
+                                                                            { name = "has-standard-input" ; lambda = [ builtins.true builtins.false ] ; }
                                                                             { name = "arguments" ; lambda = [ builtins.null ] ; }
-                                                                            { name = "has-arguments" ; lambda = [ true false ] ; }
+                                                                            { name = "has-arguments" ; lambda = [ builtins.true builtins.false ] ; }
                                                                         ] ;
                                                                     reducer =
                                                                         previous : current :
@@ -261,6 +261,8 @@
                                                                                                 {
                                                                                                     name =
                                                                                                         if builtins.typeOf value == "null" then builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ current.name index ] ) ) )
+                                                                                                        else if builtins.typeOf value == "bool" && value then "true"
+                                                                                                        else if builtins.typeOf value == "bool" then "false"
                                                                                                         else builtins.toString value ;
                                                                                                     value = previous ;
                                                                                                 } ;
@@ -392,8 +394,8 @@
                                                                                 paste = builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" path ) ) ;
                                                                                 command-without-resources = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ [ "temporary" "temporary" ] path [ name ] ] ) ) ;
                                                                                 command = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " command-without-resources " " "}" ] ;
-                                                                                with-arguments = if has-arguments == "0" then command else builtins.concatStringsSep " " [ command arguments ] ;
-                                                                                with-standard-input = if has-standard-input == "0" then with-arguments else "${ echo } ${ standard-input } | ${ with-arguments }" ;
+                                                                                with-arguments = if has-arguments == "false" then command else builtins.concatStringsSep " " [ command arguments ] ;
+                                                                                with-standard-input = if has-standard-input == "false" then with-arguments else "${ echo } ${ standard-input } | ${ with-arguments }" ;
                                                                                 with-status = if status == "0" then "${ echo } ${ paste } > $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 in [ "#" with-status with-status with-status "#" ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
