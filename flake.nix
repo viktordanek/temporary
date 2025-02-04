@@ -227,6 +227,7 @@
                                                                                                             OBSERVED = harvest.temporary.util.post.observed ;
                                                                                                             RM = "${ pkgs.coreutils }/bin/rm" ;
                                                                                                             YQ = "${ pkgs.yq }/bin/yq" ;
+                                                                                                            WC = "${ pkgs.coreutils }/bin/wc" ;
                                                                                                         } ;
                                                                                             } ;
                                                                                     }
