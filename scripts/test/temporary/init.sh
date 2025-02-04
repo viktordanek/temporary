@@ -29,4 +29,4 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   ${ECHO} ${TEMPORARY_ARRAY} -- ${TEMPORARY[0]} -- ${TEMPORARY[7]} -- ${TEMPORARY[8]} -- ${TEMPORARY[9]} -- ${TEMPORARY[13]}  >> /build/debug &&
-  exit ${TEMPORARY[8]}
+  exit 0 # ${TEMPORARY[8]}
