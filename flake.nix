@@ -235,7 +235,7 @@
                                                                 let
                                                                     fields =
                                                                         [
-                                                                            { name = "speed" ; lambda = [ "slow" "fast" ] ; }
+                                                                            { name = "speed" ; lambda = [ "slow" ] ; }
                                                                             { name = "release-status" ; lambda = [ 0 101 ]  ; }
                                                                             { name = "release-standard-error" ; lambda = [ builtins.null ] ; }
                                                                             { name = "release-standard-output" ; lambda = [ builtins.null ] ; }
