@@ -438,7 +438,7 @@
                                                                                 ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
                                                                                     if [ -f ${ self + "/expected/.gitignore" } ]
                                                                                     then
-                                                                                        ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/.gitignore" } $out/observed/.gitignore
+                                                                                        ${ pkgs.coreutils }/bin/cp ${ self + "/expected/.gitignore" } $out/observed/.gitignore
                                                                                     else
                                                                                         ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore
                                                                                     fi
