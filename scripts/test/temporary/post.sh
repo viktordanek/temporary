@@ -13,10 +13,14 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   else
     HAS_INIT=false
   fi &&
+ ${ECHO} HELLO G >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
+ ${ECHO} HELLO H >> /build/debug &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
   ${FLOCK} 200 &&
+ ${ECHO} HELLO K >> /build/debug &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "*-*" | ${WC} --lines ) &&
+ ${ECHO} HELLO L >> /build/debug &&
   if [ -f /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml ]
   then
     if [ ! -z "$( ${DIFF} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed ${DO} )" ]
@@ -26,6 +30,7 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   else
     ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml
   fi &&
+ ${ECHO} HELLO O >> /build/debug &&
   ${ECHO} ${INDEX} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/count &&
   ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
 
