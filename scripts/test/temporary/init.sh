@@ -28,5 +28,5 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
   ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
-  ${ECHO} ${TEMPORARY_ARRAY} >> /build/debug &&
+  ${ECHO} ${TEMPORARY[8]} >> /build/debug &&
   exit ${TEMPORARY[8]}
