@@ -34,6 +34,7 @@
 - contents:
     init:
       temporary-array: temporary/true/joccoaii/true/jieklaog/lambda/coohcjcp/bcommhgl/101/null/ecpdalga/ihlageik/101/slow
+      has_standard_input: true
   name: target
   type: file
 - name: teardown-asynch.sh
