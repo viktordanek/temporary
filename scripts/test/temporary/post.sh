@@ -17,15 +17,20 @@ RESOURCE=${ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2
   ${FLOCK} 200 &&
   ${ECHO} J >> /build/debug &&
   INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "*-*" | ${WC} --lines ) &&
+  ${ECHO} K >> /build/debug &&
   if [ -f /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml ]
   then
+  ${ECHO} L >> /build/debug &&
     if [ ! -z "$( ${DIFF} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed ${DO} )" ]
     then
       ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml
     fi
   else
+  ${ECHO} M >> /build/debug &&
     ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml
   fi &&
+  ${ECHO} O >> /build/debug &&
   ${ECHO} ${INDEX} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/count &&
+  ${ECHO} P >> /build/debug &&
   ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock
 
