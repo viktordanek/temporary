@@ -24,7 +24,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
   ${ECHO} "init:" > ${TARGET} &&
   ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
-  # ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
+  ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
   # ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
   # ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
   ${ECHO} ${TEMPORARY[6]} >&2 &&
