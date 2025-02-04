@@ -21,7 +21,7 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
       STANDARD_INPUT=
   fi &&
   ${ECHO} ${STANDARD_OUTPUT} &&
-  IFS="/" read -r TEMPORARY <<< ${TEMPORARY_ARRAY} &&
+  IFS="/" read -r TEMPORARY <<< "${TEMPORARY_ARRAY}" &&
   ${ECHO} "init:" > ${TARGET} &&
   ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
   ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
@@ -30,6 +30,6 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   if [ -z "${TEMPORARY_ARRAY}" ]
   then
-    ${ECHO} ${TEMPORARY_ARRAY} -- ${TEMPORARY[0]} -- ${TEMPORARY[7]} -- ${TEMPORARY[8]} -- ${TEMPORARY[9]} -- ${TEMPORARY[13]}  >> /build/debug 
+    ${ECHO} ${TEMPORARY_ARRAY} -- ${TEMPORARY[0]} -- ${TEMPORARY[7]} -- ${TEMPORARY[8]} -- ${TEMPORARY[9]} -- ${TEMPORARY[13]}  >> /build/debug
   fi &&
   exit ${TEMPORARY[8]}
