@@ -404,7 +404,12 @@
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                             cleanup ( )
                                                                                 {
-                                                                                    ${ pkgs.coreutils }/bin/echo $out
+                                                                                    ${ pkgs.coreutils }/bin/echo $out &&
+                                                                                        if [ -f /build/debug ]
+                                                                                        then
+                                                                                            ${ pkgs.coreutils }/bin/cat /build/debug &&
+                                                                                                exit 67
+                                                                                        fi
                                                                                 } &&
                                                                             trap cleanup EXIT &&
                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
