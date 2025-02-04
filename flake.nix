@@ -435,13 +435,13 @@
                                                                             makeWrapper $out/bin/test-external.sh $out/bin/test-external --set BASH_UNIT ${ pkgs.bash_unit }/bin/bash_unit --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set EXPECTED ${ self + "/expected" } --set FIND ${ pkgs.findutils }/bin/find --set OBSERVED $out/observed --set TEST_INTERNAL ${ self + "/scripts/test/util/test-internal.sh" } &&
                                                                             if $out/bin/observed-external
                                                                             then
-                                                                                ${ pkgs.coreutils }/bin/mv /build/observed $out/observed
-                                                                            fi &&
-                                                                            if [ -f ${ self + "/expected/.gitignore" } ]
-                                                                            then
-                                                                                ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/.gitignore" } $out/observed/.gitignore
-                                                                            else
-                                                                                ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore
+                                                                                ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
+                                                                                    if [ -f ${ self + "/expected/.gitignore" } ]
+                                                                                    then
+                                                                                        ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/.gitignore" } $out/observed/.gitignore
+                                                                                    else
+                                                                                        ${ pkgs.coreutils }/bin/touch $out/observed/.gitignore
+                                                                                    fi
                                                                             fi &&
                                                                             $out/bin/test-external &&
                                                                             exit ${ builtins.toString 0 }
