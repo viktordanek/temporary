@@ -220,6 +220,7 @@
                                                                                                     harvest :
                                                                                                         {
                                                                                                             DIFF = "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                             FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                             FLOCK = "${ pkgs.flock }/bin/flock" ;
                                                                                                             MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
