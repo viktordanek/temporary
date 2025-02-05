@@ -31,7 +31,13 @@
 - contents: 0
   name: release.status
   type: file
-- contents: db3eaa64
+- contents:
+    init:
+      temporary-array: temporary/true/joccoaii/true/gldkchji/null/coohcjcp/bcommhgl/0/lambda/ecpdalga/ihlageik/0/slow
+      has_standard_input: true
+      standard_input: gldkchji
+      arguments: joccoaii
+    paste: db3eaa64
   name: target
   type: file
 - name: teardown-asynch.sh

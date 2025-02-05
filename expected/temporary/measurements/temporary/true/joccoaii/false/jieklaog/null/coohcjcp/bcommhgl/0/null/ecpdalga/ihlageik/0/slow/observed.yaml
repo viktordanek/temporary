@@ -28,7 +28,13 @@
 - contents: 0
   name: release.status
   type: file
-- contents: ca6a1ff2
+- contents:
+    init:
+      temporary-array: temporary/true/joccoaii/false/jieklaog/null/coohcjcp/bcommhgl/0/null/ecpdalga/ihlageik/0/slow
+      has_standard_input: false
+      standard_input: null
+      arguments: joccoaii
+    paste: ca6a1ff2
   name: target
   type: file
 - name: teardown-asynch.sh
