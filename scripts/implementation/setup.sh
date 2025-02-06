@@ -1,5 +1,6 @@
 ${ECHO} setup >> /build/debug &&
 export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
+${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} &&
   ${ECHO} "${@}" > ${RRRR}/init.arguments &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
   PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
