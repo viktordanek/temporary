@@ -26,17 +26,17 @@ ${ECHO} init D >> /build/debug &&
   fi &&
 ${ECHO} init E >> /build/debug &&
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init F >> /build/debug &&
   ${ECHO} ${STANDARD_OUTPUT} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init G >> /build/debug &&
   ${ECHO} "init:" > ${TARGET} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init H >> /build/debug &&
   ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init I >> /build/debug &&
   ${ECHO} "  standard-output: ${STANDARD_OUTPUT}" >> ${TARGET} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init J >> /build/debug &&
   ${ECHO} "  standard-error: ${STANDARD_ERROR}" >> ${TARGET} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init K >> /build/debug &&
   ${ECHO} "  standard-status: ${STATUS}" >> ${TARGET} &&
 ${ECHO} init A >> /build/debug &&
   ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
