@@ -54,7 +54,7 @@
                                                                             sets ? { } ,
                                                                             resource ? "resource"
                                                                         } :
-                                                                            path : name : binary : resource :
+                                                                            path : name : binary :
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
