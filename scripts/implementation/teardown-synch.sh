@@ -4,7 +4,8 @@ exec 200> ${LOCAL_RESOURCE}/lock.teardown &&
     ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
-        ${TAIL} --follow /dev/null --pid ${PID} &&
+        sleep 1s &&
+        true ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
     done &&
     if [ -L ${LOCAL_RESOURCE}/release.sh ]
