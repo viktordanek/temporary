@@ -6,7 +6,7 @@ ${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} >> /build/debug &&
   PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
   GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
   GREAT_GRANDPARENT_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
-  ${ECHO} setup PID : PARENT_PID=${PARENT_PID}, GRANDPARENT_PID=${GRAND_PARENT_PID}, GREAT_GRANDPARENT_PID=${GREAT_GRANDPARENT_PID} >> /build/debug &&
+  ${ECHO} setup PID : PARENT_PID=${PARENT_PID}, GRANDPARENT_PID=${GRANDPARENT_PID}, GREAT_GRANDPARENT_PID=${GREAT_GRANDPARENT_PID} >> /build/debug &&
   if [ -t 0 ]
   then
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
@@ -27,7 +27,7 @@ ${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} >> /build/debug &&
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
     TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= )
   fi &&
-  ${ECHO} setup PID : TARGET_PID=${TARGET} >> /build/debug &&
+  ${ECHO} setup PID : TARGET_PID=${TARGET_PID} >> /build/debug &&
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RRRR}/init.sh
