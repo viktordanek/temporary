@@ -1,4 +1,4 @@
-${ECHO} TEARDOWN_SYNCH LOCAL_RESOURCE=${LOCAL_RESOURCE} >> /build/debug &&
+${ECHO} TEARDOWN_SYNCH 0=${0} LOCAL_RESOURCE=${LOCAL_RESOURCE} >> /build/debug &&
 exec 200> ${LOCAL_RESOURCE}/lock.teardown &&
   if ${FLOCK} 200
   then
