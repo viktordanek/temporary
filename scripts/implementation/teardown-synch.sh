@@ -1,15 +1,15 @@
-${ECHO} teardown-synch >> /build/debug &&
+# ${ECHO} teardown-synch >> /build/debug &&
 exec 200> ${LOCAL_RESOURCE}/lock &&
   if ${FLOCK} 200
   then
-${ECHO} teardown-synch YES LOCK >> /build/debug &&
+# ${ECHO} teardown-synch YES LOCK >> /build/debug &&
     ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*} ) &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
     done
-${ECHO} teardown-synch RM PID_FILEs >> /build/debug
+# ${ECHO} teardown-synch RM PID_FILEs >> /build/debug
     if [ -L ${LOCAL_RESOURCE}/release.sh ]
     then
       if ${LOCAL_RESOURCE}/release.sh > ${LOCAL_RESOURCE}/release.standard-output 2> ${LOCAL_RESOURCE}/release.standard-error
@@ -19,7 +19,7 @@ ${ECHO} teardown-synch RM PID_FILEs >> /build/debug
         STATUS=${?}
       fi
     fi &&
-${ECHO} teardown-synch exercised release >> /build/debug &&
+# ${ECHO} teardown-synch exercised release >> /build/debug &&
     ${ECHO} ${STATUS} > ${LOCAL_RESOURCE}/release.status &&
     ${CHMOD} 0400 ${LOCAL_RESOURCE}/release.standard-output ${LOCAL_RESOURCE}/release.standard-error ${LOCAL_RESOURCE}/release.status &&
 ${ECHO} teardown-synch exercised chmod release >> /build/debug &&
