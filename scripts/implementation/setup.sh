@@ -40,7 +40,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RRRR}/teardown-asynch.sh &&
   declare ${TARGET}=${RRRR}/target &&
   export ${TARGET} &&
-  declare ${TEMPteardown-asynchORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
+  declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
   export ${TEMPORARY_PATH} &&
   ${ECHO} ${TEMPORARY_PATH_ARRAY} > ${RRRR}/temporary &&
   ${CHMOD} 0400 ${RRRR}/temporary &&
