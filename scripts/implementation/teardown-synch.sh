@@ -1,3 +1,4 @@
+${ECHO} TEARDOWN_SYNC LOCAL_RESOURCE=${LOCAL_RESOURCE} >> /build/debug
 exec 200> ${LOCAL_RESOURCE}/lock &&
   if ${FLOCK} 200
   then
