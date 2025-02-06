@@ -78,7 +78,7 @@
                                                                                                     if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "lambda" ) ( builtins.attrValues sets )
                                                                                                         then
-                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ value ( harvest "$out" ) }" ] ) sets ) )
+                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ value ( harvest "$out" path ) }" ] ) sets ) )
                                                                                                     else builtins.throw "The sets at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is not a set of lambdas."
                                                                                                 )
                                                                                             ]
@@ -163,7 +163,7 @@
                                                                 '' ;
                                                 } ;
                                         harvest =
-                                            derivation :
+                                            derivation : path :
                                                 let
                                                     mapper =
                                                         path : name : value :
