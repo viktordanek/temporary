@@ -196,9 +196,9 @@
                                                                                                     {
                                                                                                         CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
                                                                                                         ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                        STANDARD_ERROR = harvest : builtins.elemAt harvest.path 6 ;
-                                                                                                        STANDARD_OUTPUT = harvest : builtins.elemAt harvest.path 7 ;
-                                                                                                        STATUS = harvest : builtins.elemAt harvest.path 8 ;
+                                                                                                        STANDARD_ERROR = harvest : builtins.elemAt harvest.path 8 ;
+                                                                                                        STANDARD_OUTPUT = harvest : builtins.elemAt harvest.path 9 ;
+                                                                                                        STATUS = harvest : builtins.elemAt harvest.path 10 ;
                                                                                                         TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
                                                                                                     } ;
                                                                                                 target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
