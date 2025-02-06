@@ -13,8 +13,9 @@
                             lib =
                                 {
                                     at ? "${ pkgs.at }/bin/at" ,
-                                    defaults ? { resource = "RESOURCE" ; target = "TARGET" ; } ,
+                                    resource-default ? "RESOURCE" ,
                                     store ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
+                                    target-default ? "TARGET" ,
                                     temporary ? { } ,
                                     temporary-initialization-error ? 64 ,
                                     temporary-path ? "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ,
@@ -52,8 +53,8 @@
                                                                         {
                                                                             executable ,
                                                                             sets ? { } ,
-                                                                            resource ? defaults.resource ,
-                                                                            target ? defaults.target
+                                                                            resource ? resource-default ,
+                                                                            target ? target-default
                                                                         } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
