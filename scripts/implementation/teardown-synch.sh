@@ -22,11 +22,13 @@ ${ECHO} teardown-synch RM PID_FILEs >> /build/debug
 ${ECHO} teardown-synch exercised release >> /build/debug &&
     ${ECHO} ${STATUS} > ${LOCAL_RESOURCE}/release.status &&
     ${CHMOD} 0400 ${LOCAL_RESOURCE}/release.standard-output ${LOCAL_RESOURCE}/release.standard-error ${LOCAL_RESOURCE}/release.status &&
+${ECHO} teardown-synch exercised chmod release >> /build/debug &&
     if [ -L ${LOCAL_RESOURCE}/post.sh ]
     then
       ${LOCAL_RESOURCE}/post.sh || ${TRUE}
     fi &&
-    ${RM} --recursive --force ${LOCAL_RESOURCE}
+${ECHO} teardown-synch exercised post >> /build/debug &&
+    ${RM} --recursive --force ${LOCAL_RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
