@@ -232,7 +232,7 @@
                                                                                                             FIND = "${ pkgs.findutils }/bin/find" ;
                                                                                                             FLOCK = "${ pkgs.flock }/bin/flock" ;
                                                                                                             MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
-                                                                                                            OBSERVED = harvest.temporary.util.post.observed ;
+                                                                                                            OBSERVED = harvest.temporary.util.post ;
                                                                                                             RM = "${ pkgs.coreutils }/bin/rm" ;
                                                                                                             YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                             WC = "${ pkgs.coreutils }/bin/wc" ;
@@ -311,29 +311,26 @@
                                                                                                     } ;
                                                                                     } ;
                                                                                 post =
-                                                                                    {
-                                                                                        observed =
-                                                                                            script :
-                                                                                                {
-                                                                                                    init =
-                                                                                                        script
+                                                                                    script :
+                                                                                        {
+                                                                                            init =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post.sh" ) ) ;
+                                                                                                        sets =
                                                                                                             {
-                                                                                                                executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post.sh" ) ) ;
-                                                                                                                sets =
-                                                                                                                    {
-                                                                                                                        BASENAME = "${ pkgs.coreutils }/bin/basename" ;
-                                                                                                                        CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                                        CHMOD = "${ pkgs.coreutils }/bin/chmod" ;
-                                                                                                                        ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                        FIND = "${ pkgs.findutils }/bin/find" ;
-                                                                                                                        SED = "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                        SORT = "${ pkgs.coreutils }/bin/sort" ;
-                                                                                                                        YQ = "${ pkgs.yq }/bin/yq" ;
-                                                                                                                    } ;
-                                                                                                                target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
+                                                                                                                BASENAME = "${ pkgs.coreutils }/bin/basename" ;
+                                                                                                                CAT = "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                                CHMOD = "${ pkgs.coreutils }/bin/chmod" ;
+                                                                                                                ECHO = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                                FIND = "${ pkgs.findutils }/bin/find" ;
+                                                                                                                SED = "${ pkgs.gnused }/bin/sed" ;
+                                                                                                                SORT = "${ pkgs.coreutils }/bin/sort" ;
+                                                                                                                YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                             } ;
-                                                                                                } ;
-                                                                                    } ;
+                                                                                                        target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
+                                                                                                    } ;
+                                                                                        } ;
                                                                                 token =
                                                                                     script :
                                                                                         {
