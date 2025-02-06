@@ -42,12 +42,12 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   export ${TEMPORARY_PATH} &&
   ${ECHO} ${TEMPORARY_PATH_ARRAY} > ${RRRR}/temporary &&
   ${CHMOD} 0400 ${RRRR}/temporary &&
-  if [ -x ${INIT} ]
+  if [ -x ${RRRR}/init.sh ]
   then
-    if [ -f ${RRRR}/init.standard-input ] && ${CAT} ${RRRR}/init.standard-input | ${INIT} $( ${CAT} ${RRRR}/init.arguments ) > ${RRRR}/init.standard-output 2> ${RRRR}/init.standard-error
+    if [ -f ${RRRR}/init.standard-input ] && ${CAT} ${RRRR}/init.standard-input | ${RRRR}/init.sh $( ${CAT} ${RRRR}/init.arguments ) > ${RRRR}/init.standard-output 2> ${RRRR}/init.standard-error
     then
       STATUS=${?}
-    elif ${INIT} $( ${CAT} ${RRRR}/init.arguments ) > ${RRRR}/init.standard-output 2> ${RRRR}/init.standard-error
+    elif ${RRRR}/init.sh $( ${CAT} ${RRRR}/init.arguments ) > ${RRRR}/init.standard-output 2> ${RRRR}/init.standard-error
     then
       STATUS=${?}
     else
