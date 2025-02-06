@@ -27,6 +27,7 @@ ${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} >> /build/debug &&
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
     TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= )
   fi &&
+  ${ECHO} setup PID : TARGET_PID=${TARGET} >> /build/debug &&
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RRRR}/init.sh
