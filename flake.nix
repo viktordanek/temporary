@@ -196,8 +196,8 @@
                                                                                                     {
                                                                                                         CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
                                                                                                         ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                        STANDARD_ERROR = harvest : builtins.elemAt harvest.path 8 ;
-                                                                                                        STANDARD_OUTPUT = harvest : builtins.elemAt harvest.path 9 ;
+                                                                                                        STANDARD_ERROR = harvest : builtins.elemAt harvest.path 9 ;
+                                                                                                        STANDARD_OUTPUT = harvest : builtins.elemAt harvest.path 8 ;
                                                                                                         STATUS = harvest : builtins.elemAt harvest.path 10 ;
                                                                                                         TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
                                                                                                     } ;
