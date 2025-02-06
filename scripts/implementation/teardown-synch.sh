@@ -1,4 +1,10 @@
-${ECHO} TEARDOWN_SYNC LOCAL_RESOURCE=${LOCAL_RESOURCE} >> /build/debug
+${ECHO} TEARDOWN_SYNC LOCAL_RESOURCE=${LOCAL_RESOURCE} >> /build/debug &&
+if [ -d ${LOCAL_RESOURCE} ]
+then
+  ${ECHO} DIRECTORY YES >> /build/debug
+else
+  ${ECHO} DIRECTORY NO >> /build/debug
+fi &&
 exec 200> ${LOCAL_RESOURCE}/lock &&
   if ${FLOCK} 200
   then
