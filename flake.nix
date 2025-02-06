@@ -72,7 +72,7 @@
                                                                                                 )
                                                                                                 [
                                                                                                     "--run 'export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'"
-                                                                                                    "--run 'export ${ target }=${ builtins.concatStringsSep "" [ "$" "{" resource "}" "]" ] }/target'"
+                                                                                                    "--run 'export ${ target }=${ builtins.concatStringsSep "" [ "$" "{" resource "}" ] }/target'"
                                                                                                 ]
                                                                                                 (
                                                                                                     if
