@@ -1,3 +1,4 @@
+${ECHO} setup >> /build/debug &&
 export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} "${@}" > ${RRRR}/init.arguments &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
