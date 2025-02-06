@@ -5,7 +5,6 @@ exec 200> ${LOCAL_RESOURCE}/lock &&
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
-        ${ECHO} TEARDOWN_SYNCH AFTER PID=${PID} >> /build/debug &&
         ${RM} ${PID_FILE}
     done &&
     ${ECHO} TEARDOWN_SYNC AFTER >> /build/debug &&
