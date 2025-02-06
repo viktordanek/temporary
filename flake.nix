@@ -52,7 +52,7 @@
                                                                         {
                                                                             executable ,
                                                                             sets ? { } ,
-                                                                            release ? "RELEASE"
+                                                                            resource ? "resource"
                                                                         } :
                                                                             path : name : binary : resource :
                                                                                 builtins.concatStringsSep
