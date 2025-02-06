@@ -14,7 +14,6 @@
                                 {
                                     at ? "${ pkgs.at }/bin/at" ,
                                     resource-default ? "RESOURCE" ,
-                                    store ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
                                     target-default ? "TARGET" ,
                                     temporary ? { } ,
                                     temporary-initialization-error ? 64 ,
