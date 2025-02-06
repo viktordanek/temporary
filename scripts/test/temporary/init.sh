@@ -29,6 +29,12 @@ TARGET=${a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d9113
 # ${ECHO} init E >> /build/debug &&
   ${ECHO} ${TEMPORARY[6]} &&
 ${ECHO} init F TARGET=${TARGET} >> /build/debug &&
+if [ -f ${TARGET} ]
+then
+  ${ECHO} init FA YES TARGET EXISTS >> /build/debug
+else
+  ${ECHO} init FB NO TARGET DOES NOT EXISTS >> /build/debug
+fi &&
   ${ECHO} "init:" > ${TARGET} &&
 ${ECHO} init G >> /build/debug &&
   ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
