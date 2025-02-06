@@ -79,7 +79,7 @@
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "lambda" ) ( builtins.attrValues sets )
                                                                                                         then
                                                                                                             let
-                                                                                                                h = harvest "$out" path ;
+                                                                                                                h = ( harvest "$out" ) // path ;
                                                                                                                 in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ value h }" ] ) sets ) )
                                                                                                     else builtins.throw "The sets at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is not a set of lambdas."
                                                                                                 )
@@ -165,15 +165,15 @@
                                                                 '' ;
                                                 } ;
                                         harvest =
-                                            derivation : path :
+                                            derivation :
                                                 let
                                                     mapper =
                                                         path : name : value :
                                                             if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" path }/${ name }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
-                                                    in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) // { path = path ; } ;
-                                        in harvest ( builtins.toString derivation ) ( builtins.throw "DEBUG" ) ;
+                                                    in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) ;
+                                        in harvest ( builtins.toString derivation ) ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
