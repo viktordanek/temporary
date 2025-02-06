@@ -1,4 +1,4 @@
-${ECHO} post A >> /build/debug &&
+# ${ECHO} post A >> /build/debug &&
 RESOURCE=${f9f95f80b51f23cdd35e578c51c3a38054691c35f97ae77ef02dbb012c9f2edda745015cd3888a696e92dd8db698e8647c88bcb7fd4b4c738af6dd23298e237f} &&
 ${ECHO} post B >> /build/debug &&
   TEMPORARY_PATH_ARRAY=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b} &&
@@ -18,7 +18,7 @@ ${ECHO} post E >> /build/debug &&
   fi &&
 ${ECHO} post F OBSERVED=${OBSERVED} >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
-${ECHO} post G >> /build/debug &&
+${ECHO} post G ${TEMPORARY_PATH_ARRAY}  >> /build/debug &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
 ${ECHO} post H >> /build/debug &&
   ${FLOCK} 200 &&

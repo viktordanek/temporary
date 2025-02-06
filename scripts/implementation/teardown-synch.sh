@@ -22,19 +22,19 @@ exec 200> ${LOCAL_RESOURCE}/lock &&
 # ${ECHO} teardown-synch exercised release >> /build/debug &&
     ${ECHO} ${STATUS} > ${LOCAL_RESOURCE}/release.status &&
     ${CHMOD} 0400 ${LOCAL_RESOURCE}/release.standard-output ${LOCAL_RESOURCE}/release.standard-error ${LOCAL_RESOURCE}/release.status &&
-${ECHO} teardown-synch exercised chmod release >> /build/debug &&
+# ${ECHO} teardown-synch exercised chmod release >> /build/debug &&
     if [ -L ${LOCAL_RESOURCE}/post.sh ]
     then
       ${LOCAL_RESOURCE}/post.sh || ${TRUE}
     fi &&
-${ECHO} teardown-synch exercised post >> /build/debug &&
+# ${ECHO} teardown-synch exercised post >> /build/debug &&
     ${RM} --recursive --force ${LOCAL_RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
     fi
   else
-${ECHO} teardown-synch NO LOCK >> /build/debug &&
+# ${ECHO} teardown-synch NO LOCK >> /build/debug &&
     ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
       exit ${ERROR}
   fi
