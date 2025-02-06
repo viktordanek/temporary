@@ -32,6 +32,7 @@ ${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} >> /build/debug &&
   then
     ${LN} --symbolic ${INIT} ${RRRR}/init.sh
   fi &&
+  ${ECHO} setup AFTER INIT >> /build/debug &&
   if [ -x ${RELEASE} ]
   then
     ${LN} --symbolic ${RELEASE} ${RRRR}/release.sh
