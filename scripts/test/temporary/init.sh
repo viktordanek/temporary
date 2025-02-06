@@ -4,7 +4,6 @@ TARGET=${a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d9113
   then
     exec 0<&-
   fi &&
-# ${ECHO} init A >> /build/debug &&
   if [ -t 0 ]
   then
     HAS_STANDARD_INPUT=false &&
@@ -21,9 +20,7 @@ TARGET=${a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d9113
     HAS_STANDARD_INPUT=false
       STANDARD_INPUT=
   fi &&
-# ${ECHO} init D >> /build/debug &&
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
-# ${ECHO} init E >> /build/debug &&
   ${ECHO} ${TEMPORARY[6]} &&
 ${ECHO} init F TARGET=${TARGET} >> /build/debug &&
 if [ -f ${TARGET} ]
@@ -31,8 +28,14 @@ then
   ${ECHO} init FA YES TARGET EXISTS >> /build/debug
 else
   ${ECHO} init FB NO TARGET DOES NOT EXISTS >> /build/debug &&
+    if [ -d $( dirname ${TARGET} ) ]
+    then
+      ${ECHO} init FC YES TARGET DIRECTORY EXISTS >> /build/debug
+    else
+      ${ECHO} init FD NO TARGET DIRECTORY DOES NOT EXIST >> /build/debug
+    fi &&
     ${ECHO} > ${TARGET} &&
-    ${ECHO} init FC NOW TARGET DOES EXIST >> /build/debug
+    ${ECHO} init FE NOW TARGET DOES EXIST >> /build/debug
 fi &&
   ${ECHO} "init:" > ${TARGET} &&
 ${ECHO} init G >> /build/debug &&
