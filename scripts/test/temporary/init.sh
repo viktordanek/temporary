@@ -38,13 +38,13 @@ ${ECHO} init J >> /build/debug &&
   ${ECHO} "  standard-error: ${STANDARD_ERROR}" >> ${TARGET} &&
 ${ECHO} init K >> /build/debug &&
   ${ECHO} "  standard-status: ${STATUS}" >> ${TARGET} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init L >> /build/debug &&
   ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init M >> /build/debug &&
   ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init N >> /build/debug &&
   ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init O >> /build/debug &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
-${ECHO} init A >> /build/debug &&
+${ECHO} init P >> /build/debug &&
   exit ${STATUS}
