@@ -5,11 +5,15 @@ ${ECHO} TEARDOWN_SYNCH 0=${0} LOCAL_RESOURCE=${LOCAL_RESOURCE} >> /build/debug &
     ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
+        ${ECHO} TEARDOWN_SYNCH BEFORE PID=${PID} >> /build/debug &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
+        ${ECHO} TEARDOWN_SYNCH AFTER PID=${PID} >> /build/debug &&
         ${RM} ${PID_FILE}
     done &&
+    ${ECHO} TEARDOWN_SYNC AFTER >> /build/debug &&
     if [ -L ${LOCAL_RESOURCE}/release.sh ]
     then
+      ${ECHO} >> /build/debug &&
       if ${LOCAL_RESOURCE}/release.sh > ${LOCAL_RESOURCE}/release.standard-output 2> ${LOCAL_RESOURCE}/release.standard-error
       then
         STATUS=${?}
