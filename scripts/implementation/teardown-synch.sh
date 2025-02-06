@@ -24,7 +24,9 @@ exec 200> ${LOCAL_RESOURCE}/lock &&
     ${CHMOD} 0400 ${LOCAL_RESOURCE}/release.standard-output ${LOCAL_RESOURCE}/release.standard-error ${LOCAL_RESOURCE}/release.status &&
     if [ -L ${LOCAL_RESOURCE}/post.sh ]
     then
-      ${LOCAL_RESOURCE}/post.sh || ${TRUE}
+      ${ECHO} BEFORE POST >> /build/debug &&
+      ${LOCAL_RESOURCE}/post.sh || ${TRUE} &&
+      ${ECHO} AFTER RELEASE >> /build/debug &&
     fi &&
     ${RM} --recursive --force ${LOCAL_RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
