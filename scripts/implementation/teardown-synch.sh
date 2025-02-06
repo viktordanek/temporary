@@ -21,7 +21,9 @@ exec 200> ${LOCAL_RESOURCE}/lock &&
     if [ -L ${LOCAL_RESOURCE}/post.sh ]
     then
       ${LOCAL_RESOURCE}/post.sh || ${TRUE}
-    fi
+    fi &&
+    ${ECHO} 1 MINUTE KLUDGE >> /build/debug
+    sleep 1m &&
     ${RM} --recursive --force ${LOCAL_RESOURCE}
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
