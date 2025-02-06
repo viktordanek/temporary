@@ -70,7 +70,7 @@
                                                                                                     else builtins.throw "The executable is not a set but a ${ builtins.typeOf executable }"
                                                                                                 )
                                                                                                 [
-                                                                                                    "--run 'export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "." "}" ] } )'"
+                                                                                                    "--run 'export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'"
                                                                                                 ]
                                                                                                 (
                                                                                                     if
