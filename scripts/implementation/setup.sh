@@ -1,11 +1,12 @@
 ${ECHO} setup >> /build/debug &&
 export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
-${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} &&
+${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} >> /build/debug &&
   ${ECHO} "${@}" > ${RRRR}/init.arguments &&
   ${CHMOD} 0400 ${RRRR}/init.arguments &&
   PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
   GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
   GREAT_GRANDPARENT_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
+  ${ECHO} setup PID : PARENT_PID=${PARENT_PID}, GRANDPARENT_PID=${GRAND_PARENT_PID}, GREAT_GRANDPARENT_PID=${GREAT_GRANDPARENT_PID} >> /build/debug &&
   if [ -t 0 ]
   then
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
