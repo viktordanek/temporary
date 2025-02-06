@@ -61,6 +61,7 @@ ${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} >> /build/debug &&
     ${ECHO} ${STATUS} > ${RRRR}/init.status &&
     ${CHMOD} 0400 ${RRRR}/init.standard-output ${RRRR}/init.standard-error ${RRRR}/init.status
   fi &&
+  ${ECHO} setup AFTER INIT STATUS=${STATUS} >> /build/debug &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} ${TARGET_PID// /} > ${RRRR}/${TARGET_PID// /}.pid &&
