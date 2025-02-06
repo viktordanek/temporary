@@ -1,4 +1,3 @@
-# ${ECHO} teardown-synch >> /build/debug &&
 exec 200> ${LOCAL_RESOURCE}/lock &&
   if ${FLOCK} 200
   then
