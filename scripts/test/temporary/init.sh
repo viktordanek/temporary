@@ -20,8 +20,8 @@ TARGET=${e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bc
     HAS_STANDARD_INPUT=false
       STANDARD_INPUT=
   fi &&
-  ${ECHO} ${TEMPORARY[6]} &&
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
+  ${ECHO} ${TEMPORARY[6]} &&
   ${ECHO} "init:" > ${TARGET} &&
   ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
   ${ECHO} "  standard-output: ${TEMPORARY[6]}" >> ${TARGET} &&
