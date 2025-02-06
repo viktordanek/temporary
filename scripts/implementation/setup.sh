@@ -40,7 +40,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RRRR}/teardown-asynch.sh &&
   declare ${TARGET}=${RRRR}/target &&
   export ${TARGET} &&
-  declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
+  declare ${TEMPteardown-asynchORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
   export ${TEMPORARY_PATH} &&
   ${ECHO} ${TEMPORARY_PATH_ARRAY} > ${RRRR}/temporary &&
   ${CHMOD} 0400 ${RRRR}/temporary &&
@@ -58,16 +58,13 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RRRR}/init.status &&
     ${CHMOD} 0400 ${RRRR}/init.standard-output ${RRRR}/init.standard-error ${RRRR}/init.status
   fi &&
-  ${ECHO} >> /build/debug &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
-    ${ECHO} GOOD >> /build/debug &&
     ${ECHO} ${TARGET_PID// /} > ${RRRR}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RRRR}/${TARGET_PID// /}.pid
       ${RRRR}/teardown-asynch.sh &&
       ${ECHO} ${!TARGET}
   else
-    ${ECHO} BAD >> /build/debug &&
     ${RRRR}/teardown-asynch.sh &&
       exit ${ERROR}
   fi
