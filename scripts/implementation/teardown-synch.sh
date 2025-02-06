@@ -1,6 +1,7 @@
 exec 200> ${LOCAL_RESOURCE}/lock &&
   if ${FLOCK} 200
   then
+    ${ECHO} TEARDOWN_SYNC YES LOCK >> /build/debug &&
     ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
