@@ -1,1 +1,0 @@
-${JQ} ${RAW} -f ${TEMPLATE_FILE}
