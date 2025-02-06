@@ -22,7 +22,7 @@ TARGET=${a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d9113
   fi &&
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
   ${ECHO} ${TEMPORARY[6]} &&
-${ECHO} init F TARGET=${TARGET} >> /build/debug &&
+# ${ECHO} init F TARGET=${TARGET} >> /build/debug &&
 if [ -f ${TARGET} ]
 then
   ${ECHO} init FA YES TARGET EXISTS >> /build/debug
