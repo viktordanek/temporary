@@ -28,7 +28,7 @@ ${ECHO} init D >> /build/debug &&
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
 ${ECHO} init E >> /build/debug &&
   ${ECHO} ${TEMPORARY[6]} &&
-${ECHO} init F >> /build/debug &&
+${ECHO} init F TARGET=${TARGET} /build/debug &&
   ${ECHO} "init:" > ${TARGET} &&
 ${ECHO} init G >> /build/debug &&
   ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
