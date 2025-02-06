@@ -38,8 +38,6 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RRRR}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RRRR}/teardown-asynch.sh &&
-  declare ${TARGET}=${RRRR}/target &&
-  export ${TARGET} &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
   export ${TEMPORARY_PATH} &&
   ${ECHO} ${TEMPORARY_PATH_ARRAY} > ${RRRR}/temporary &&
@@ -63,7 +61,7 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${TARGET_PID// /} > ${RRRR}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RRRR}/${TARGET_PID// /}.pid
       ${RRRR}/teardown-asynch.sh &&
-      ${ECHO} ${!TARGET}
+      ${ECHO} ${RRRR}/target
   else
     ${RRRR}/teardown-asynch.sh &&
       exit ${ERROR}
