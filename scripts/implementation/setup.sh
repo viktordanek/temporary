@@ -25,7 +25,6 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
     TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= )
   fi &&
-  ${ECHO} setup PID : TARGET_PID=${TARGET_PID} >> /build/debug &&
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RRRR}/init.sh
@@ -40,7 +39,6 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RRRR}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RRRR}/teardown-asynch.sh &&
-  ${ECHO} setup AFTER LINKING >> /build/debug &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
   export ${TEMPORARY_PATH} &&
   ${ECHO} ${TEMPORARY_PATH_ARRAY} > ${RRRR}/temporary &&
