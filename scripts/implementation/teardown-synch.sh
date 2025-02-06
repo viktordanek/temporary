@@ -4,7 +4,9 @@ exec 200> ${LOCAL_RESOURCE}/lock &&
     ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
+        ${ECHO} TEARDOWN_SYNC BEFORE PID=${PID} >> /build/debug &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
+        ${ECHO} TEARDOWN_SYNC AFTER PID=${PID} >> /build/debug &&
         ${RM} ${PID_FILE}
     done &&
     ${ECHO} TEARDOWN_SYNC AFTER >> /build/debug &&
