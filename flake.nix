@@ -170,8 +170,8 @@
                                                             if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" path }/${ name }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
-                                                    in builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ;
-                                        in harvest ( builtins.toString derivation ) ( builtins.throw "WTF" ) ;
+                                                    in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) // { path = path } ;
+                                        in harvest ( builtins.toString derivation ) ( builtins.throw "DEBUG" ) ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
@@ -196,6 +196,9 @@
                                                                                                     {
                                                                                                         CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
                                                                                                         ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                        STANDARD_ERROR = harvest : builtins.elemAt harvest.path 6 ;
+                                                                                                        STANDARD_OUTPUT = harvest : builtins.elemAt harvest.path 7 ;
+                                                                                                        STATUS = harvest : builtins.elemAt harvest.path 8 ;
                                                                                                         TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
                                                                                                     } ;
                                                                                                 target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;

@@ -21,14 +21,14 @@ TARGET=${a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d9113
       STANDARD_INPUT=
   fi &&
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
-  ${ECHO} ${TEMPORARY[6]} &&
+  ${ECHO} ${STANDARD_OUTPUT} &&
   ${ECHO} "init:" > ${TARGET} &&
   ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
-  ${ECHO} "  standard-output: ${TEMPORARY[6]}" >> ${TARGET} &&
-  ${ECHO} "  standard-error: ${TEMPORARY[7]}" >> ${TARGET} &&
-  ${ECHO} "  standard-status: ${TEMPORARY[8]}" >> ${TARGET} &&
+  ${ECHO} "  standard-output: ${STANDARD_OUTPUT}" >> ${TARGET} &&
+  ${ECHO} "  standard-error: ${STANDARD_ERROR}" >> ${TARGET} &&
+  ${ECHO} "  standard-status: ${STATUS}" >> ${TARGET} &&
   ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
   ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
   ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
-  ${ECHO} ${TEMPORARY[7]} >&2 &&
-  exit ${TEMPORARY[8]}
+  ${ECHO} ${STANDARD_ERROR} >&2 &&
+  exit ${STATUS}
