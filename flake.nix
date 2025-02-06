@@ -219,6 +219,7 @@
                                                                                         script
                                                                                             {
                                                                                                 executable = pkgs.writeScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
+                                                                                                resources = "f9f95f80b51f23cdd35e578c51c3a38054691c35f97ae77ef02dbb012c9f2edda745015cd3888a696e92dd8db698e8647c88bcb7fd4b4c738af6dd23298e237f" ;
                                                                                                 sets =
                                                                                                     harvest :
                                                                                                         {
@@ -284,7 +285,6 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/cat | ${ pkgs.bash }/bin/bash &
                                                                         '' ;
-                                                                resource = "ae5a1299ab2a1c89f07bf9a6ef750fa4a518754d174f230493d4351f2e43d060b69c2079e75f60e62d24e178552a074c42a0ca449fcddf9716a3a95d44426299" ;
                                                                 target = "e55dd2c8db9b224d0d6207c430354f481ece26fbf458400726e7624bcc79fcb72de81bccc55a066ebfa569317862dec4b13ea6bb4b1e8b0300f1dc867e51503d" ;
                                                                 temporary =
                                                                     {
