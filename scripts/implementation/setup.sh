@@ -32,18 +32,17 @@ ${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} >> /build/debug &&
   then
     ${LN} --symbolic ${INIT} ${RRRR}/init.sh
   fi &&
-  ${ECHO} setup AFTER INIT >> /build/debug &&
   if [ -x ${RELEASE} ]
   then
     ${LN} --symbolic ${RELEASE} ${RRRR}/release.sh
   fi &&
-  ${ECHO} setup AFTER RELEASE >> /build/debug &&
   if [ -x ${POST} ]
    then
      ${LN} --symbolic ${POST} ${RRRR}/post.sh
   fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RRRR}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RRRR}/teardown-asynch.sh &&
+  ${ECHO} setup AFTER LINKING >> /build/debug &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
   export ${TEMPORARY_PATH} &&
   ${ECHO} ${TEMPORARY_PATH_ARRAY} > ${RRRR}/temporary &&
