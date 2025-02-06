@@ -26,7 +26,7 @@ TARGET=${a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d9113
   fi &&
 # ${ECHO} init D >> /build/debug &&
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
-# ${ECHO} init E >> /build/debug &&
+${ECHO} init E >> /build/debug &&
   ${ECHO} ${TEMPORARY[6]} &&
 ${ECHO} init F TARGET=${TARGET} /build/debug &&
   ${ECHO} "init:" > ${TARGET} &&
