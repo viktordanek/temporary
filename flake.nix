@@ -72,6 +72,7 @@
                                                                                                 )
                                                                                                 [
                                                                                                     "--run 'export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'"
+                                                                                                    "--set FINDME 4c8ec1d29a5418a4702018d2ec1cc5d0dc7ddf2e6cd85b1661fdeda97f7537406a879b2a793ef1ba07e6b54db2e11099c49e4a524cb4a9079dd2d3463d09c62b"
                                                                                                     "--set ${ target } ${ builtins.concatStringsSep "" [ "$" "{" resource "}" "]" ] }/target"
                                                                                                 ]
                                                                                                 (
