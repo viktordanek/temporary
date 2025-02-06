@@ -75,6 +75,7 @@
                                                                                                     "--run 'export ${ target }=${ builtins.concatStringsSep "" [ "$" "{" resource "}" ] }/target'"
                                                                                                 ]
                                                                                                 (
+                                                                                                    # if builtins.typeOf sets == "lambda" then
                                                                                                     if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "lambda" ) ( builtins.attrValues sets )
                                                                                                         then
