@@ -37,6 +37,7 @@ exec 200> ${LOCAL_RESOURCE}/lockk &&
       exit ${ERROR}
     fi
   else
+    ${ECHO} TEARDOWN_SYNC NO LOCK >> /build/debug &&
     ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
       exit ${ERROR}
   fi
