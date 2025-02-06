@@ -16,7 +16,7 @@ ${ECHO} post E >> /build/debug &&
   else
     HAS_INIT=false
   fi &&
-${ECHO} post F >> /build/debug &&
+${ECHO} post F OBSERVED=${OBSERVED} >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
 ${ECHO} post G >> /build/debug &&
   exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
