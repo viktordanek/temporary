@@ -54,7 +54,7 @@
                                                                             sets ? { } ,
                                                                             release ? "RELEASE"
                                                                         } :
-                                                                            path : name : binary :
+                                                                            path : name : binary : resource :
                                                                                 builtins.concatStringsSep
                                                                                     " "
                                                                                     (
