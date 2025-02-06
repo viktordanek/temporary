@@ -13,7 +13,6 @@
                             lib =
                                 {
                                     at ? "${ pkgs.at }/bin/at" ,
-                                    resource ,
                                     store ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
                                     target ,
                                     temporary ? { } ,
@@ -32,27 +31,28 @@
                                                                     identity =
                                                                         {
                                                                             init ? builtins.null ,
-                                                                            release ? builtins.null ,
-                                                                            post ? builtins.null
+                                                                            post ? builtins.null ,
+                                                                            release ? builtins.null
                                                                         } :
                                                                             {
                                                                                 init =
                                                                                     if builtins.typeOf init == "lambda" then init
                                                                                     else if builtins.typeOf init == "null" then builtins.null
                                                                                     else builtins.throw "The init defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf init }." ;
-                                                                                release =
-                                                                                    if builtins.typeOf release == "lambda" then release
-                                                                                    else if builtins.typeOf release == "null" then builtins.null
-                                                                                    else builtins.throw "The release defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf release }." ;
                                                                                 post =
                                                                                     if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
                                                                                     else builtins.throw "The post defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf post }." ;
+                                                                                release =
+                                                                                    if builtins.typeOf release == "lambda" then release
+                                                                                    else if builtins.typeOf release == "null" then builtins.null
+                                                                                    else builtins.throw "The release defined at ${ builtins.concatStringsSep " / " path }/${ name } is neither a lambda nor a null but a ${ builtins.typeOf release }." ;
                                                                             } ;
                                                                     script =
                                                                         {
                                                                             executable ,
-                                                                            sets ? { }
+                                                                            sets ? { } ,
+                                                                            release ? "RELEASE"
                                                                         } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
@@ -69,6 +69,9 @@
                                                                                                         ]
                                                                                                     else builtins.throw "The executable is not a set but a ${ builtins.typeOf executable }"
                                                                                                 )
+                                                                                                [
+                                                                                                    "--run export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "." "}" ] } )"
+                                                                                                ]
                                                                                                 (
                                                                                                     if
                                                                                                         builtins.typeOf sets == "lambda" &&
@@ -140,7 +143,7 @@
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-synch.sh" } ${ builtins.concatStringsSep "/" path }/${ name }/teardown-synch.sh"
                                                                                         "${ pkgs.coreutils }/bin/chmod 0550 ${ builtins.concatStringsSep "/" path }/${ name }/teardown-synch.sh"
-                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/teardown-synch.sh ${ builtins.concatStringsSep "/" path }/${ name }/teardown-synch  --set BASENAME ${ pkgs.coreutils }/bin/basename --set CHMOD ${pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock  --set MV ${pkgs.coreutils }/bin/mv --set RM ${pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TRUE ${ pkgs.coreutils }/bin/true --set CAT ${ pkgs.coreutils }/bin/cat"
+                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/teardown-synch.sh ${ builtins.concatStringsSep "/" path }/${ name }/teardown-synch --run 'export LOCAL_RESOURCE $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )' --set BASENAME ${ pkgs.coreutils }/bin/basename --set CHMOD ${pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock  --set MV ${pkgs.coreutils }/bin/mv --set RM ${pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TRUE ${ pkgs.coreutils }/bin/true --set CAT ${ pkgs.coreutils }/bin/cat"
                                                                                     ]
                                                                                 ]
                                                                     else if builtins.typeOf value == "set" then
