@@ -1,14 +1,12 @@
 exec 200> ${LOCAL_RESOURCE}/lock &&
   if ${FLOCK} 200
   then
-# ${ECHO} teardown-synch YES LOCK >> /build/debug &&
     ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*} ) &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
     done
-# ${ECHO} teardown-synch RM PID_FILEs >> /build/debug
     if [ -L ${LOCAL_RESOURCE}/release.sh ]
     then
       if ${LOCAL_RESOURCE}/release.sh > ${LOCAL_RESOURCE}/release.standard-output 2> ${LOCAL_RESOURCE}/release.standard-error
@@ -18,22 +16,18 @@ exec 200> ${LOCAL_RESOURCE}/lock &&
         STATUS=${?}
       fi
     fi &&
-# ${ECHO} teardown-synch exercised release >> /build/debug &&
     ${ECHO} ${STATUS} > ${LOCAL_RESOURCE}/release.status &&
     ${CHMOD} 0400 ${LOCAL_RESOURCE}/release.standard-output ${LOCAL_RESOURCE}/release.standard-error ${LOCAL_RESOURCE}/release.status &&
-# ${ECHO} teardown-synch exercised chmod release >> /build/debug &&
     if [ -L ${LOCAL_RESOURCE}/post.sh ]
     then
       ${LOCAL_RESOURCE}/post.sh || ${TRUE}
     fi &&
-# ${ECHO} teardown-synch exercised post >> /build/debug &&
     ${RM} --recursive --force ${LOCAL_RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
     fi
   else
-# ${ECHO} teardown-synch NO LOCK >> /build/debug &&
     ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
       exit ${ERROR}
   fi
