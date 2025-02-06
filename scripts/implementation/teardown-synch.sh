@@ -9,6 +9,7 @@ ${ECHO} teardown-synch YES LOCK >> /build/debug &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
     done
+${ECHO} teardown-synch RM PID_FILEs >> /build/debug
     if [ -L ${LOCAL_RESOURCE}/release.sh ]
     then
       if ${LOCAL_RESOURCE}/release.sh > ${LOCAL_RESOURCE}/release.standard-output 2> ${LOCAL_RESOURCE}/release.standard-error
@@ -17,7 +18,8 @@ ${ECHO} teardown-synch YES LOCK >> /build/debug &&
       else
         STATUS=${?}
       fi
-    fi
+    fi &&
+${ECHO} teardown-synch exercised release >> /build/debug &&
     ${ECHO} ${STATUS} > ${LOCAL_RESOURCE}/release.status &&
     ${CHMOD} 0400 ${LOCAL_RESOURCE}/release.standard-output ${LOCAL_RESOURCE}/release.standard-error ${LOCAL_RESOURCE}/release.status &&
     if [ -L ${LOCAL_RESOURCE}/post.sh ]
