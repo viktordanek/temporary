@@ -4,7 +4,6 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   PARENT_PID=$( ${PS} -p ${$} -o ppid= ) &&
   GRANDPARENT_PID=$( ${PS} -p ${PARENT_PID} -o ppid= ) &&
   GREAT_GRANDPARENT_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
-  ${ECHO} setup PID : PARENT_PID=${PARENT_PID}, GRANDPARENT_PID=${GRANDPARENT_PID}, GREAT_GRANDPARENT_PID=${GREAT_GRANDPARENT_PID} >> /build/debug &&
   if [ -t 0 ]
   then
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
@@ -57,7 +56,6 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RRRR}/init.status &&
     ${CHMOD} 0400 ${RRRR}/init.standard-output ${RRRR}/init.standard-error ${RRRR}/init.status
   fi &&
-  ${ECHO} setup AFTER INIT INIT=${INIT} STATUS=${STATUS} >> /build/debug &&
   if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} ${TARGET_PID// /} > ${RRRR}/${TARGET_PID// /}.pid &&
