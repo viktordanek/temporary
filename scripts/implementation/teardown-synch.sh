@@ -4,7 +4,7 @@ then
   ${ECHO} DIRECTORY YES >> /build/debug
 else
   ${ECHO} DIRECTORY NO >> /build/debug
-fi &&
+fi
 exec 200> ${LOCAL_RESOURCE}/lock &&
   if ${FLOCK} 200
   then
