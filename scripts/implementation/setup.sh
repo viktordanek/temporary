@@ -37,6 +37,7 @@ ${ECHO} setup LOCAL_RESOURCE RRRR=${RRRR} >> /build/debug &&
   then
     ${LN} --symbolic ${RELEASE} ${RRRR}/release.sh
   fi &&
+  ${ECHO} setup AFTER RELEASE >> /build/debug &&
   if [ -x ${POST} ]
    then
      ${LN} --symbolic ${POST} ${RRRR}/post.sh
