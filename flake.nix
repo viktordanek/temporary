@@ -81,9 +81,9 @@
                                                                                                     then
                                                                                                         builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ value }" ] ) ( sets ( harvest "$out" ) ) ) )
                                                                                                     else if
-                                                                                                        builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "string" ) ( builtins.attrValues sets )
+                                                                                                        builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "lambda" ) ( builtins.attrValues sets )
                                                                                                         then
-                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ value }" ] ) sets ) )
+                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ value ( sets ( harvest "$out" ) ) }" ] ) sets ) )
                                                                                                     else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
                                                                                                 )
                                                                                             ]
@@ -198,12 +198,11 @@
                                                                                             {
                                                                                                 executable = pkgs.writeScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
                                                                                                 sets =
-                                                                                                    harvest :
-                                                                                                        {
-                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                            TEE = "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                        } ;
+                                                                                                    {
+                                                                                                        CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                        ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                        TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                    } ;
                                                                                                 target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                             } ;
                                                                                     release =
@@ -211,12 +210,11 @@
                                                                                             {
                                                                                                 executable = pkgs.writeScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
                                                                                                 sets =
-                                                                                                    harvest :
-                                                                                                        {
-                                                                                                            CAT = "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                            TEE = "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                        } ;
+                                                                                                    {
+                                                                                                        CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                        ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                        TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                    } ;
                                                                                                 target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                             } ;
                                                                                     post =
@@ -225,18 +223,17 @@
                                                                                                 executable = pkgs.writeScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
                                                                                                 resource = "f9f95f80b51f23cdd35e578c51c3a38054691c35f97ae77ef02dbb012c9f2edda745015cd3888a696e92dd8db698e8647c88bcb7fd4b4c738af6dd23298e237f" ;
                                                                                                 sets =
-                                                                                                    harvest :
-                                                                                                        {
-                                                                                                            DIFF = "${ pkgs.diffutils }/bin/diff" ;
-                                                                                                            ECHO = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                            FIND = "${ pkgs.findutils }/bin/find" ;
-                                                                                                            FLOCK = "${ pkgs.flock }/bin/flock" ;
-                                                                                                            MKDIR = "${ pkgs.coreutils }/bin/mkdir" ;
-                                                                                                            OBSERVED = harvest.temporary.util.post ;
-                                                                                                            RM = "${ pkgs.coreutils }/bin/rm" ;
-                                                                                                            YQ = "${ pkgs.yq }/bin/yq" ;
-                                                                                                            WC = "${ pkgs.coreutils }/bin/wc" ;
-                                                                                                        } ;
+                                                                                                    {
+                                                                                                        DIFF = harvest : "${ pkgs.diffutils }/bin/diff" ;
+                                                                                                        ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                        FIND = harvest : "${ pkgs.findutils }/bin/find" ;
+                                                                                                        FLOCK = harvest : "${ pkgs.flock }/bin/flock" ;
+                                                                                                        MKDIR = harvest : "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                        OBSERVED = harvest : harvest.temporary.util.post ;
+                                                                                                        RM = harvest : "${ pkgs.coreutils }/bin/rm" ;
+                                                                                                        YQ = harvest : "${ pkgs.yq }/bin/yq" ;
+                                                                                                        WC = harvest : "${ pkgs.coreutils }/bin/wc" ;
+                                                                                                    } ;
                                                                                             } ;
                                                                                     }
                                                                     else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
