@@ -22,37 +22,13 @@ TARGET=${a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d9113
   fi &&
   IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
   ${ECHO} ${TEMPORARY[6]} &&
-# ${ECHO} init F TARGET=${TARGET} >> /build/debug &&
-# if [ -f ${TARGET} ]
-# then
-#   ${ECHO} init FA YES TARGET EXISTS >> /build/debug
-# else
-#   ${ECHO} init FB NO TARGET DOES NOT EXISTS >> /build/debug &&
-#     if [ -d $( dirname ${TARGET} ) ]
-#     then
-#       ${ECHO} init FC YES TARGET DIRECTORY EXISTS >> /build/debug
-#     else
-#       ${ECHO} init FD NO TARGET DIRECTORY DOES NOT EXIST >> /build/debug
-#     fi &&
-#    ${ECHO} > ${TARGET} &&
-#     ${ECHO} init FE NOW TARGET DOES EXIST >> /build/debug
-#fi &&
   ${ECHO} "init:" > ${TARGET} &&
-# ${ECHO} init G >> /build/debug &&
   ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
-# ${ECHO} init H >> /build/debug &&
   ${ECHO} "  standard-output: ${TEMPORARY[6]}" >> ${TARGET} &&
-# ${ECHO} init I >> /build/debug &&
   ${ECHO} "  standard-error: ${TEMPORARY[7]}" >> ${TARGET} &&
-# ${ECHO} init J >> /build/debug &&
   ${ECHO} "  standard-status: ${TEMPORARY[8]}" >> ${TARGET} &&
-# ${ECHO} init K >> /build/debug &&
   ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
-# ${ECHO} init L >> /build/debug &&
   ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
-# ${ECHO} init M >> /build/debug &&
   ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
-# ${ECHO} init N >> /build/debug &&
   ${ECHO} ${TEMPORARY[7]} >&2 &&
-# ${ECHO} init O >> /build/debug &&
   exit ${TEMPORARY[8]}
