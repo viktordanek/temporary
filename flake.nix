@@ -83,7 +83,7 @@
                                                                                                     else if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "lambda" ) ( builtins.attrValues sets )
                                                                                                         then
-                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ builtins.trace "HI! value is a ${ builtins.typeOf value } harvest is a ${ builtins.typeOf ( harvest "$OUT" ) } ;" ( builtins.typeOf value ) }" ] ) sets ) )
+                                                                                                            builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : [ "--set ${ name } ${ builtins.trace "HI! value is a ${ builtins.typeOf value } harvest is a ${ builtins.typeOf ( harvest "$OUT" ) } ;" ( builtins.typeOf value ) }" ] ) sets ( harvest "OUT" ) ) )
                                                                                                     else builtins.throw "The sets is neither a lambda that generates a set of strings nor a set of strings."
                                                                                                 )
                                                                                             ]
