@@ -2,7 +2,6 @@ ${ECHO} TEARDOWN_SYNCH LOCAL_RESOURCE=${LOCAL_RESOURCE} >> /build/debug &&
 exec 200> ${LOCAL_RESOURCE}/lock.teardown &&
   if ${FLOCK} 200
   then
-${ECHO} TEARDOWN_SYNCH YES >> /build/debug &&
     ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*}) &&
@@ -32,6 +31,4 @@ ${ECHO} TEARDOWN_SYNCH YES >> /build/debug &&
   else
     ${ECHO} Unable to acquire an exclusive lock &&
       exit ${ERROR}
-  else
-${ECHO} TEARDOWN_SYNCH NO >> /build/debug
   fi
