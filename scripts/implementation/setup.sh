@@ -38,8 +38,6 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RRRR}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RRRR}/teardown-asynch.sh &&
-  declare ${RESOURCE}=${RRRR} &&
-  export ${RESOURCE} &&
   declare ${TARGET}=${RRRR}/target &&
   export ${TARGET} &&
   declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
