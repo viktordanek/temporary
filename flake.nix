@@ -13,7 +13,7 @@
                             lib =
                                 {
                                     at ? "${ pkgs.at }/bin/at" ,
-                                    defaults ? { resource = "RESOURCE" ; } ,
+                                    defaults ? { resource = "RESOURCE" ; target = "TARGET" ; } ,
                                     store ? "bb8a0f30f43c48f4abcc70b9be4611e9dac31a5768c24383111b1240c35e22a4a3bac382ded1b154559b64424789499391d1b73cc3ad92157c4a5f341e9689e4" ,
                                     target ,
                                     temporary ? { } ,
@@ -53,7 +53,8 @@
                                                                         {
                                                                             executable ,
                                                                             sets ? { } ,
-                                                                            resource ? defaults.resource
+                                                                            resource ? defaults.resource ,
+                                                                            target ? defaults.target
                                                                         } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
@@ -72,6 +73,7 @@
                                                                                                 )
                                                                                                 [
                                                                                                     "--run 'export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'"
+                                                                                                    "--set ${ target } ${ builtins.concatStringsSep "" [ "$" "{" " " resource " " "}" "]" ] }/target"
                                                                                                 ]
                                                                                                 (
                                                                                                     if
@@ -203,6 +205,7 @@
                                                                                                             ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                             TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                         } ;
+                                                                                                target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                             } ;
                                                                                     release =
                                                                                         script
@@ -215,6 +218,7 @@
                                                                                                             ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                             TEE = "${ pkgs.coreutils }/bin/tee" ;
                                                                                                         } ;
+                                                                                                target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                             } ;
                                                                                     post =
                                                                                         script
@@ -305,6 +309,7 @@
                                                                                                                 ECHO = "${ pkgs.coreutils }/bin/echo" ;
                                                                                                                 SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ;
                                                                                                             } ;
+                                                                                                        target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                                     } ;
                                                                                     } ;
                                                                                 post =
@@ -366,13 +371,20 @@
                                                                                                                         SORT = "${ pkgs.coreutils }/bin/sort" ;
                                                                                                                         YQ = "${ pkgs.yq }/bin/yq" ;
                                                                                                                     } ;
+                                                                                                                target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                                             } ;
                                                                                                 } ;
                                                                                     } ;
                                                                                 token =
                                                                                     script :
                                                                                         {
-                                                                                            init = script { executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ; sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ; } ;
+                                                                                            init =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ;
+                                                                                                        sets = { CHMOD = "${ pkgs.coreutils }/bin/chmod" ; CUT = "${ pkgs.coreutils }/bin/cut" ; ECHO = "${ pkgs.coreutils }/bin/echo" ; SHA512SUM = "${ pkgs.coreutils }/bin/sha512sum" ; TEE = "${ pkgs.coreutils }/bin/tee" ; } ;
+                                                                                                        target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
+                                                                                                    } ;
                                                                                         } ;
                                                                             } ;
                                                                     } ;
