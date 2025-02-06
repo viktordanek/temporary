@@ -1,2 +1,1 @@
-${ECHO} TEARDOWN_ASYNCH LOCAL_RESOURCE=${LOCAL_RESOURCE} TEARDOWN_SYNCH=${TEARDOWN_SYNCH} >> /build/debug &&
 ${ECHO} "${NICE} --adjustment 19 ${TEARDOWN_SYNCH}" | ${AT} now >> /dev/null 2>&1

@@ -1,5 +1,6 @@
 ${ECHO} TEARDOWN_SYNCH 0=${0} LOCAL_RESOURCE=${LOCAL_RESOURCE} >> /build/debug &&
 exec 200> ${LOCAL_RESOURCE}/lock.teardown &&
+${ECHO} TEARDOWN_SYNCH YES &&
   if ${FLOCK} 200
   then
     ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
