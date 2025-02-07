@@ -88,7 +88,7 @@
                                                                                                                                 set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                                                                 in fun set ;
                                                                                                                     path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
-                                                                                                                    resource = name : "--run 'export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                                                                                    resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                                                                 } ;
                                                                                                             in
