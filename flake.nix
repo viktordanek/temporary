@@ -79,6 +79,7 @@
                                                                                                         let
                                                                                                             injection =
                                                                                                                 {
+                                                                                                                    index = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
                                                                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                                                                 } ;
                                                                                                             in
