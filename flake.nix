@@ -79,7 +79,7 @@
                                                                                                         let
                                                                                                             injection =
                                                                                                                 {
-                                                                                                                    # index = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
+                                                                                                                    path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
                                                                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                                                                 } ;
                                                                                                             in
@@ -219,7 +219,7 @@
                                                                                             {
                                                                                                 executable = pkgs.writeScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
                                                                                                 sets =
-                                                                                                    { string } :
+                                                                                                    { string , ... } :
                                                                                                     [
                                                                                                         ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
@@ -309,7 +309,7 @@
                                                                                                     {
                                                                                                         executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/identity.sh" ) ) ;
                                                                                                         sets =
-                                                                                                            { string } :
+                                                                                                            { string , ... } :
                                                                                                                 [
                                                                                                                     ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
                                                                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
@@ -326,7 +326,7 @@
                                                                                                     {
                                                                                                         executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post.sh" ) ) ;
                                                                                                         sets =
-                                                                                                            { string } :
+                                                                                                            { string , ... } :
                                                                                                                 [
                                                                                                                     ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                                                                     ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
@@ -348,7 +348,7 @@
                                                                                                     {
                                                                                                         executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ;
                                                                                                         sets =
-                                                                                                            { string } :
+                                                                                                            { string , ... } :
                                                                                                                 [
                                                                                                                     ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
                                                                                                                     ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
