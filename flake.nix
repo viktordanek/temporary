@@ -384,7 +384,7 @@
                                                                                 standard-input = builtins.elemAt path 3 ;
                                                                                 status = builtins.elemAt path 7 ;
                                                                                 paste = builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" path ) ) ;
-                                                                                identity = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " "temporary" " " "." " " "util" " " "." " " "identity" ] ;
+                                                                                identity = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " "temporary" " " "." " " "util" " " "." " " "identity" " " "}" ] ;
                                                                                 command-without-resources = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) ;
                                                                                 command = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " "temporary" " " "." " " "temporary" " " "." " " command-without-resources " " "}" ] ;
                                                                                 with-arguments = if has-arguments == "false" then command else builtins.concatStringsSep " " [ command arguments ] ;
