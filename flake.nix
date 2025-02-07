@@ -224,11 +224,11 @@
                                                                                                 #        TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
                                                                                                 #    } ;
                                                                                                 sets =
-                                                                                                    inject :
+                                                                                                    { string } :
                                                                                                     [
-                                                                                                        ( inject.string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                        ( inject "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                        ( inject "TEE" "${ pkgs.coreutils }/bin/tee" )
+                                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                        ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
                                                                                                     ] ;
                                                                                                 target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                             } ;
