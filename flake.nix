@@ -79,9 +79,9 @@
                                                                                                         let
                                                                                                             injection =
                                                                                                                 {
+                                                                                                                    derivation = fun : fun ( harvest "$out" ) ;
                                                                                                                     path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
                                                                                                                     string = name : value : "--set ${ name } ${ value }" ;
-                                                                                                                    temporary = builtins.null ;
                                                                                                                 } ;
                                                                                                             in
                                                                                                             sets injection
