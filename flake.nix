@@ -217,12 +217,6 @@
                                                                                         script
                                                                                             {
                                                                                                 executable = pkgs.writeScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
-                                                                                                # sets =
-                                                                                                #    {
-                                                                                                #        CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                #        ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                #        TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                #    } ;
                                                                                                 sets =
                                                                                                     { string } :
                                                                                                     [
@@ -314,11 +308,12 @@
                                                                                                     {
                                                                                                         executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/identity.sh" ) ) ;
                                                                                                         sets =
-                                                                                                            {
-                                                                                                                CUT = harvest : "${ pkgs.coreutils }/bin/cut" ;
-                                                                                                                ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                SHA512SUM = harvest : "${ pkgs.coreutils }/bin/sha512sum" ;
-                                                                                                            } ;
+                                                                                                            { string } :
+                                                                                                                [
+                                                                                                                    ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
+                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                    ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
+                                                                                                                ] ;
                                                                                                         target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                                     } ;
                                                                                     } ;
