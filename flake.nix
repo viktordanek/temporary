@@ -319,11 +319,11 @@
                                                                                                         sets =
                                                                                                             { string , ... } :
                                                                                                                 [
+                                                                                                                    ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
                                                                                                                     ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
                                                                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                                     ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
                                                                                                                 ] ;
-                                                                                                        target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                                     } ;
                                                                                     } ;
                                                                                 post =
@@ -336,6 +336,7 @@
                                                                                                         sets =
                                                                                                             { string , ... } :
                                                                                                                 [
+                                                                                                                    ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
                                                                                                                     ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                                                                     ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                                     ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
@@ -345,7 +346,6 @@
                                                                                                                     ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
                                                                                                                     ( string "YQ" "${ pkgs.yq }/bin/yq" )
                                                                                                                 ] ;
-                                                                                                        target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                                     } ;
                                                                                         } ;
                                                                                 token =
@@ -364,7 +364,6 @@
                                                                                                                     ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
                                                                                                                     ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
                                                                                                                 ] ;
-                                                                                                        target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                                     } ;
                                                                                         } ;
                                                                             } ;
