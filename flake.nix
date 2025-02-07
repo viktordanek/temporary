@@ -252,7 +252,7 @@
                                                                                                             ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                                                             ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                                                             ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                                                            ( derivation "OBSERVED" ( harvest : harvest.temporary.util.post )
+                                                                                                            ( derivation "OBSERVED" ( harvest : harvest.temporary.util.post ) )
                                                                                                             ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                                             ( string "YQ" "${ pkgs.yq }/bin/yq" )
                                                                                                             ( string "WC" "${ pkgs.coreutils }/bin/wc" )
