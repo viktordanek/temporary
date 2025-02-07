@@ -242,7 +242,7 @@
                                                                                             {
                                                                                                 executable = pkgs.writeScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
                                                                                                 sets =
-                                                                                                    { derivation , string , ... } :
+                                                                                                    { derivation , resource , string , ... } :
                                                                                                         [
                                                                                                             ( resource "f9f95f80b51f23cdd35e578c51c3a38054691c35f97ae77ef02dbb012c9f2edda745015cd3888a696e92dd8db698e8647c88bcb7fd4b4c738af6dd23298e237f" )
                                                                                                             ( string "DIFF " "${ pkgs.diffutils }/bin/diff" )
