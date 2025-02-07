@@ -4,5 +4,5 @@ ${MKDIR} /build/observed &&
   ${MKDIR} /build/observed/temporary/measurements &&
   ${FIND} /build -mindepth 2 -maxdepth 2 -type f -name temporary -exec ${GREP} ^temporary/ {} \; | ${WC} --lines > /build/observed/temporary/counts/pre &&
   ${BASH} -c ${OBSERVED_INTERNAL} &&
-  ${SLEEP} 10s &&
+  ${SLEEP} ${INCREMENT} &&
   ${FIND} /build -mindepth 2 -maxdepth 2 -type f -name temporary -exec ${GREP} ^temporary/ {} \; | ${WC} --lines > /build/observed/temporary/counts/post
