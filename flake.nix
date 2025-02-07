@@ -239,6 +239,7 @@
                                                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                             ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                                                             ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                                            ( string "KEY" "54eb53e19c8932b99e39e7be3bf77288a29241a7817772e28d9cc5e10bf3bef9fdb07f89113115219bb9afb50b14429f6a57a550d031efb08e3dd0a341abccec" )
                                                                                                             ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                                                             ( derivation "OBSERVED" ( harvest : harvest.temporary.util.post ) )
                                                                                                             ( string "RM" "${ pkgs.coreutils }/bin/rm" )
@@ -263,7 +264,7 @@
                                                                             { name = "init-standard-output" ; lambda = [ builtins.null ] ; }
                                                                             { name = "init-typeOf" ; lambda = [ "lambda" "null" ] ; }
                                                                             { name = "standard-input" ; lambda = [ builtins.null builtins.null ] ; }
-                                                                            { name = "has-standard-input" ; lambda = [ builtins.true builtins.false ] ; }
+                                                                            { name = "has-standard-input" ; lambda = [ "interactive" "pipe" "file" ] ; }
                                                                             { name = "arguments" ; lambda = [ builtins.null ] ; }
                                                                             { name = "has-arguments" ; lambda = [ builtins.true builtins.false ] ; }
                                                                         ] ;
@@ -386,7 +387,7 @@
                                                                                 command-without-resources = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) ;
                                                                                 command = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " "temporary" " " "." " " "temporary" " " "." " " command-without-resources " " "}" ] ;
                                                                                 with-arguments = if has-arguments == "false" then command else builtins.concatStringsSep " " [ command arguments ] ;
-                                                                                with-standard-input = if has-standard-input == "false" then with-arguments else "${ echo } ${ standard-input } | ${ with-arguments }" ;
+                                                                                with-standard-input = if has-standard-input == "interactive" then with-arguments else if has-standard-input == "pipe" then "${ echo } ${ standard-input } | ${ with-arguments }" else if has-standard-input == "file" then "${ with-arguments } < $( ${ resources.temporary.util.identity } ${ standard-input } )" ;
                                                                                 with-status = if status == "0" then "${ echo } paste: ${ paste } >> $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 in [ "#" with-status with-status with-status "#" ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
