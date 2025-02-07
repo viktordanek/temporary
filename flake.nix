@@ -334,7 +334,7 @@
                                                                                                     {
                                                                                                         executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post.sh" ) ) ;
                                                                                                         sets =
-                                                                                                            { string , ... } :
+                                                                                                            { string , target , ... } :
                                                                                                                 [
                                                                                                                     ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
                                                                                                                     ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
