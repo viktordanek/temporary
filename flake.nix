@@ -322,6 +322,26 @@
                                                                                                                     ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
                                                                                                                 ] ;
                                                                                                     } ;
+                                                                                            post =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeShellScriptBin "release" ( builtins.readFile ( self + "/scripts/test/util/nothing.sh" ) ) ;
+                                                                                                        sets =
+                                                                                                            { string , ... } :
+                                                                                                                [
+                                                                                                                    ( string "KEY" "af2d8a6c0991844a28552999365d9f3b801909d8037278545af9cd463e0790a55eed8085450aabbde5e2f9f7d012278491f58ddda61535278ba242ed0d0a19cc" )
+                                                                                                                ] ;
+                                                                                                    } ;
+                                                                                            release =
+                                                                                                script
+                                                                                                    {
+                                                                                                        executable = pkgs.writeShellScriptBin "release" ( builtins.readFile ( self + "/scripts/test/util/nothing.sh" ) ) ;
+                                                                                                        sets =
+                                                                                                            { string , ... } :
+                                                                                                                [
+                                                                                                                    ( string "KEY" "56c5af264b10e98f8c6921342305a49d2e29b161cb2590d7d9c393710838fed3b64aa74371a852cafb3c31f876a1ebb2e96e3b8feed01bf23f09df4f36583ab8" )
+                                                                                                                ] ;
+                                                                                                    } ;
                                                                                     } ;
                                                                                 post =
                                                                                     script :
