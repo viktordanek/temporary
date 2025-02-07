@@ -387,7 +387,11 @@
                                                                                 command-without-resources = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) ;
                                                                                 command = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " "temporary" " " "." " " "temporary" " " "." " " command-without-resources " " "}" ] ;
                                                                                 with-arguments = if has-arguments == "false" then command else builtins.concatStringsSep " " [ command arguments ] ;
-                                                                                with-standard-input = if has-standard-input == "interactive" then with-arguments else if has-standard-input == "pipe" then "${ echo } ${ standard-input } | ${ with-arguments }" else if has-standard-input == "file" then "${ with-arguments } < $( ${ resources.temporary.util.identity } ${ standard-input } )" ;
+                                                                                with-standard-input =
+                                                                                    if has-standard-input == "interactive" then with-arguments
+                                                                                    else if has-standard-input == "pipe" then "${ echo } ${ standard-input } | ${ with-arguments }"
+                                                                                    else if has-standard-input == "file" then "${ with-arguments } < $( ${ resources.temporary.util.identity } ${ standard-input } )"
+                                                                                    else builtins.throw "The has-standard-input argument was not either interactive, pipe, or file but ${ has-standard-input }." ;
                                                                                 with-status = if status == "0" then "${ echo } paste: ${ paste } >> $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 in [ "#" with-status with-status with-status "#" ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
