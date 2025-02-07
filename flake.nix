@@ -204,14 +204,15 @@
                                                                                             {
                                                                                                 executable = pkgs.writeScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
                                                                                                 sets =
-                                                                                                    {
-                                                                                                        CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                        ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                        STANDARD_ERROR = harvest : builtins.elemAt harvest.path 9 ;
-                                                                                                        STANDARD_OUTPUT = harvest : builtins.elemAt harvest.path 8 ;
-                                                                                                        STATUS = harvest : builtins.elemAt harvest.path 10 ;
-                                                                                                        TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
-                                                                                                    } ;
+                                                                                                    { path , string } :
+                                                                                                        [
+                                                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                            ( path "STANDARD_ERROR" 9 )
+                                                                                                            ( path "STANDARD_OUTPUT" 8 )
+                                                                                                            ( path "STATUS" 10 )
+                                                                                                            ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
+                                                                                                        ] ;
                                                                                                 target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                             } ;
                                                                                     release =
