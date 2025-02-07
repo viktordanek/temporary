@@ -81,6 +81,7 @@
                                                                                                                 {
                                                                                                                     path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
                                                                                                                     string = name : value : "--set ${ name } ${ value }" ;
+                                                                                                                    temporary = builtins.null ;
                                                                                                                 } ;
                                                                                                             in
                                                                                                             sets injection
@@ -204,7 +205,7 @@
                                                                                             {
                                                                                                 executable = pkgs.writeScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
                                                                                                 sets =
-                                                                                                    { path , string } :
+                                                                                                    { path , string , ... } :
                                                                                                         [
                                                                                                             ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
