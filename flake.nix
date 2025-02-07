@@ -13,7 +13,6 @@
                             lib =
                                 {
                                     at ? "${ pkgs.at }/bin/at" ,
-                                    target-default ? "TARGET" ,
                                     temporary ? { } ,
                                     temporary-initialization-error ? 64 ,
                                     temporary-path ? "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ,
@@ -50,8 +49,7 @@
                                                                     script =
                                                                         {
                                                                             executable ,
-                                                                            sets ? { } ,
-                                                                            target ? target-default
+                                                                            sets ? { }
                                                                         } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
@@ -68,9 +66,6 @@
                                                                                                         ]
                                                                                                     else builtins.throw "The executable is not a set but a ${ builtins.typeOf executable }"
                                                                                                 )
-                                                                                                [
-                                                                                                    "--run 'export ${ target }=${ builtins.concatStringsSep "" [ "$" "{" resource "}" ] }/target'"
-                                                                                                ]
                                                                                                 (
                                                                                                     if builtins.typeOf sets == "lambda" then
                                                                                                         let
@@ -90,6 +85,7 @@
                                                                                                                     path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
                                                                                                                     resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                                                                     string = name : value : "--set ${ name } ${ value }" ;
+                                                                                                                    target = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
                                                                                                                 } ;
                                                                                                             in
                                                                                                             sets injection
@@ -215,14 +211,15 @@
                                                                                                 sets =
                                                                                                     { path , string , ... } :
                                                                                                         [
+                                                                                                            ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
                                                                                                             ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                             ( path "STANDARD_ERROR" 9 )
                                                                                                             ( path "STANDARD_OUTPUT" 8 )
                                                                                                             ( path "STATUS" 10 )
+                                                                                                            ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
                                                                                                             ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
                                                                                                         ] ;
-                                                                                                target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                             } ;
                                                                                     release =
                                                                                         script
@@ -231,11 +228,11 @@
                                                                                                 sets =
                                                                                                     { string , ... } :
                                                                                                     [
+                                                                                                        ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
                                                                                                         ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                         ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
                                                                                                     ] ;
-                                                                                                target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                             } ;
                                                                                     post =
                                                                                         script
