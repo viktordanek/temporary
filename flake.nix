@@ -245,17 +245,18 @@
                                                                                                 executable = pkgs.writeScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
                                                                                                 resource = "f9f95f80b51f23cdd35e578c51c3a38054691c35f97ae77ef02dbb012c9f2edda745015cd3888a696e92dd8db698e8647c88bcb7fd4b4c738af6dd23298e237f" ;
                                                                                                 sets =
-                                                                                                    {
-                                                                                                        DIFF = harvest : "${ pkgs.diffutils }/bin/diff" ;
-                                                                                                        ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                        FIND = harvest : "${ pkgs.findutils }/bin/find" ;
-                                                                                                        FLOCK = harvest : "${ pkgs.flock }/bin/flock" ;
-                                                                                                        MKDIR = harvest : "${ pkgs.coreutils }/bin/mkdir" ;
-                                                                                                        OBSERVED = harvest : harvest.temporary.util.post ;
-                                                                                                        RM = harvest : "${ pkgs.coreutils }/bin/rm" ;
-                                                                                                        YQ = harvest : "${ pkgs.yq }/bin/yq" ;
-                                                                                                        WC = harvest : "${ pkgs.coreutils }/bin/wc" ;
-                                                                                                    } ;
+                                                                                                    { derivation , string , ... } :
+                                                                                                        [
+                                                                                                            ( string "DIFF " "${ pkgs.diffutils }/bin/diff" )
+                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                            ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                                            ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                                            ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                                                            ( derivation "OBSERVED" ( harvest : harvest.temporary.util.post )
+                                                                                                            ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                            ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                                            ( string "WC" "${ pkgs.coreutils }/bin/wc" )
+                                                                                                        ] ;
                                                                                             } ;
                                                                                     }
                                                                     else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
