@@ -77,10 +77,12 @@
                                                                                                 (
                                                                                                     if builtins.typeOf sets == "lambda" then
                                                                                                         let
-                                                                                                            h = harvest "$out" ;
-                                                                                                            injection = null ;
+                                                                                                            injection =
+                                                                                                                {
+                                                                                                                    string = name : value : "--set ${ name } ${ value }" ;
+                                                                                                                } ;
                                                                                                             in
-                                                                                                            value injection
+                                                                                                            sets injection
                                                                                                     else if
                                                                                                         builtins.typeOf sets == "set" && builtins.all ( s : builtins.typeOf s == "lambda" ) ( builtins.attrValues sets )
                                                                                                         then
