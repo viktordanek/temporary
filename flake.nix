@@ -325,16 +325,17 @@
                                                                                                     {
                                                                                                         executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post.sh" ) ) ;
                                                                                                         sets =
-                                                                                                            {
-                                                                                                                BASENAME = harvest : "${ pkgs.coreutils }/bin/basename" ;
-                                                                                                                CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
-                                                                                                                CHMOD = harvest : "${ pkgs.coreutils }/bin/chmod" ;
-                                                                                                                ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
-                                                                                                                FIND = harvest : "${ pkgs.findutils }/bin/find" ;
-                                                                                                                SED = harvest : "${ pkgs.gnused }/bin/sed" ;
-                                                                                                                SORT = harvest : "${ pkgs.coreutils }/bin/sort" ;
-                                                                                                                YQ = harvest : "${ pkgs.yq }/bin/yq" ;
-                                                                                                            } ;
+                                                                                                            { string } :
+                                                                                                                [
+                                                                                                                    ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
+                                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                                    ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                                                    ( string "SED" "${ pkgs.gnused }/bin/sed" )
+                                                                                                                    ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                    ( string "YQ" ""${ pkgs.yq }/bin/yq" )
+                                                                                                                ] ;
                                                                                                         target = "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" ;
                                                                                                     } ;
                                                                                         } ;
