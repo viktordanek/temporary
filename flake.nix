@@ -398,7 +398,8 @@
                                                                                     else if has-standard-input == "file" then "${ with-arguments } < $( ${ identity } ${ standard-input } )"
                                                                                     else builtins.throw "The has-standard-input argument was not either interactive, pipe, or file but ${ has-standard-input }." ;
                                                                                 with-status = if status == "0" then "${ echo } paste: ${ paste } >> $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
-                                                                                in [ "#" with-status with-status with-status "#" ]
+                                                                                final = with-status ;
+                                                                                in [ "#" final final final "#" ]
                                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
                                                                 in
                                                                     ''
