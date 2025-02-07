@@ -85,7 +85,7 @@
                                                                                                                                 mapper =
                                                                                                                                     path : name : value :
                                                                                                                                         if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
-                                                                                                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) value )
+                                                                                                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                                                                                                         else builtins.throw "The harvest at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a string nor a set but a ${ builtins.typeOf value }." ;
                                                                                                                                 name-to-be-set = name ;
                                                                                                                                 set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
