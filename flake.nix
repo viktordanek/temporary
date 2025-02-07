@@ -80,16 +80,16 @@
                                                                                                             injection =
                                                                                                                 {
                                                                                                                     derivation =
-                                                                                                                    
-                                                                                                                        fun :
+                                                                                                                        name : fun :
                                                                                                                             let
                                                                                                                                 mapper =
                                                                                                                                     path : name : value :
-                                                                                                                                        if builtins.typeOf value == "string" then "--set ${ } ${ value }"
+                                                                                                                                        if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
                                                                                                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) value )
-                                                                                                                                        else builtins.throw "The harvest at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) is neither a string nor a set but a ${ builtins.typeOf value }." ;
-                                                                                                                                set = builtins.mapAttrs ( harvest "$out" ) ;
-                                                                                                                                        fun ( harvest "$out" ) ;
+                                                                                                                                        else builtins.throw "The harvest at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a string nor a set but a ${ builtins.typeOf value }." ;
+                                                                                                                                name-to-be-set = name ;
+                                                                                                                                set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
+                                                                                                                                in fun set ;
                                                                                                                     path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
                                                                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                                                                 } ;
