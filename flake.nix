@@ -317,6 +317,7 @@
                                                                                                                 [
                                                                                                                     ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
                                                                                                                     ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
+                                                                                                                    ( string "KEY" "a8c2c5bb88ba35c9da8541534977bb474b6301ed25b51e4b2f66e262f7434a8fe1cfe9d4223c9cc41f91146e6060c1f4074f0a5d1f905d528e1bb7b1db51522b" )
                                                                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                                     ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
                                                                                                                 ] ;
@@ -336,6 +337,7 @@
                                                                                                                     ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                                                                     ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                                     ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                                                    ( string "KEY" "3bb579b9de6da284c19bd0c47b9e0c029e09a729d0a4f95e66e2e7557645d046eaedd0c29affde2a1bd2cc69575a70a4e5c45bd514046ae041129761d68cd923" )
                                                                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                                     ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                                                                     ( string "SED" "${ pkgs.gnused }/bin/sed" )
