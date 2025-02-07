@@ -266,7 +266,7 @@
                                                                             { name = "init-standard-output" ; lambda = [ builtins.null ] ; }
                                                                             { name = "init-typeOf" ; lambda = [ "lambda" "null" ] ; }
                                                                             { name = "standard-input" ; lambda = [ builtins.null builtins.null ] ; }
-                                                                            { name = "has-standard-input" ; lambda = [ "interactive" "pipe" ] ; }
+                                                                            { name = "has-standard-input" ; lambda = [ "interactive" "pipe" "file" ] ; }
                                                                             { name = "arguments" ; lambda = [ builtins.null ] ; }
                                                                             { name = "has-arguments" ; lambda = [ builtins.true builtins.false ] ; }
                                                                         ] ;
