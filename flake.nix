@@ -207,7 +207,7 @@
                                                                                                             ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
                                                                                                             ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                            ( string KEY "8c76c6c0ba84dad00a575e32b05d423d2ed903c87a284f647bf9c4db955373ae9f2124246ae21b008397be1a6419ec0aa93665dd58bdbb22dcdb2588b275edae" )
+                                                                                                            ( string "KEY" "8c76c6c0ba84dad00a575e32b05d423d2ed903c87a284f647bf9c4db955373ae9f2124246ae21b008397be1a6419ec0aa93665dd58bdbb22dcdb2588b275edae" )
                                                                                                             ( path "STANDARD_ERROR" 9 )
                                                                                                             ( path "STANDARD_OUTPUT" 8 )
                                                                                                             ( path "STATUS" 10 )
