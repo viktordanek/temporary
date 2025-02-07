@@ -1,1 +1,1 @@
-resource : echo : ''''
+resource : echo : ''#''
