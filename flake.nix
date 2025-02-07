@@ -217,7 +217,15 @@
                                                                                         script
                                                                                             {
                                                                                                 executable = pkgs.writeScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                # sets =
+                                                                                                #    {
+                                                                                                #        CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
+                                                                                                #        ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
+                                                                                                #        TEE = harvest : "${ pkgs.coreutils }/bin/tee" ;
+                                                                                                #    } ;
                                                                                                 sets =
+                                                                                                    inject :
+                                                                                                    [
                                                                                                     {
                                                                                                         CAT = harvest : "${ pkgs.coreutils }/bin/cat" ;
                                                                                                         ECHO = harvest : "${ pkgs.coreutils }/bin/echo" ;
