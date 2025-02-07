@@ -416,7 +416,7 @@
                                                                                 with-standard-input =
                                                                                     if has-standard-input == "interactive" then with-arguments
                                                                                     else if has-standard-input == "pipe" then "${ echo } ${ standard-input } | ${ with-arguments }"
-                                                                                    else if has-standard-input == "file" then let x = "${ with-arguments } < $( ${ identity } ${ standard-input } )" ; in builtins.trace "\n${ x }" x
+                                                                                    else if has-standard-input == "file" then "${ with-arguments } < $( ${ identity } ${ standard-input } )"
                                                                                     else builtins.throw "The has-standard-input argument was not either interactive, pipe, or file but ${ has-standard-input }." ;
                                                                                 with-status = if status == "0" then "${ echo } paste: ${ paste } >> $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
                                                                                 final = with-status ;
