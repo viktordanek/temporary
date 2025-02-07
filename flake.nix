@@ -67,29 +67,28 @@
                                                                                                     else builtins.throw "The executable is not a set but a ${ builtins.typeOf executable }"
                                                                                                 )
                                                                                                 (
-                                                                                                    if builtins.typeOf sets == "lambda" then
-                                                                                                        let
-                                                                                                            injection =
-                                                                                                                {
-                                                                                                                    derivation =
-                                                                                                                        name : fun :
-                                                                                                                            let
-                                                                                                                                mapper =
-                                                                                                                                    path : name : value :
-                                                                                                                                        if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
-                                                                                                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                                                                                        else builtins.throw "The harvest at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a string nor a set but a ${ builtins.typeOf value }." ;
-                                                                                                                                name-to-be-set = name ;
-                                                                                                                                set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
-                                                                                                                                in fun set ;
-                                                                                                                    path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
-                                                                                                                    resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                                                                                    string = name : value : "--set ${ name } ${ value }" ;
-                                                                                                                    target = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                                                                } ;
-                                                                                                            in
-                                                                                                            sets injection
-                                                                                                    else builtins.throw "The sets at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is a lambda of lists."
+                                                                                                    let
+                                                                                                        injection =
+                                                                                                            {
+                                                                                                                derivation =
+                                                                                                                    name : fun :
+                                                                                                                        let
+                                                                                                                            mapper =
+                                                                                                                                path : name : value :
+                                                                                                                                    if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
+                                                                                                                                    else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                                                                                    else builtins.throw "The harvest at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a string nor a set but a ${ builtins.typeOf value }." ;
+                                                                                                                            name-to-be-set = name ;
+                                                                                                                            set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
+                                                                                                                            in fun set ;
+                                                                                                                path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
+                                                                                                                resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                                                                                string = name : value : "--set ${ name } ${ value }" ;
+                                                                                                                target = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
+                                                                                                            } ;
+                                                                                                        in
+                                                                                                            if builtins.typeOf sets == "lambda" then sets injection
+                                                                                                            else builtins.throw "The sets at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is a lambda of lists."
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
