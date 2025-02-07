@@ -13,7 +13,6 @@
                             lib =
                                 {
                                     at ? "${ pkgs.at }/bin/at" ,
-                                    resource-default ? "RESOURCE" ,
                                     target-default ? "TARGET" ,
                                     temporary ? { } ,
                                     temporary-initialization-error ? 64 ,
@@ -52,7 +51,6 @@
                                                                         {
                                                                             executable ,
                                                                             sets ? { } ,
-                                                                            resource ? resource-default ,
                                                                             target ? target-default
                                                                         } :
                                                                             path : name : binary :
@@ -71,7 +69,6 @@
                                                                                                     else builtins.throw "The executable is not a set but a ${ builtins.typeOf executable }"
                                                                                                 )
                                                                                                 [
-                                                                                                    "--run 'export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'"
                                                                                                     "--run 'export ${ target }=${ builtins.concatStringsSep "" [ "$" "{" resource "}" ] }/target'"
                                                                                                 ]
                                                                                                 (
@@ -91,6 +88,7 @@
                                                                                                                                 set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                                                                 in fun set ;
                                                                                                                     path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
+                                                                                                                    resource = name : "--run 'export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                                                                 } ;
                                                                                                             in
@@ -243,10 +241,10 @@
                                                                                         script
                                                                                             {
                                                                                                 executable = pkgs.writeScript "post" ( builtins.readFile ( self + "/scripts/test/temporary/post.sh" ) ) ;
-                                                                                                resource = "f9f95f80b51f23cdd35e578c51c3a38054691c35f97ae77ef02dbb012c9f2edda745015cd3888a696e92dd8db698e8647c88bcb7fd4b4c738af6dd23298e237f" ;
                                                                                                 sets =
                                                                                                     { derivation , string , ... } :
                                                                                                         [
+                                                                                                            ( resource "f9f95f80b51f23cdd35e578c51c3a38054691c35f97ae77ef02dbb012c9f2edda745015cd3888a696e92dd8db698e8647c88bcb7fd4b4c738af6dd23298e237f" )
                                                                                                             ( string "DIFF " "${ pkgs.diffutils }/bin/diff" )
                                                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                             ( string "FIND" "${ pkgs.findutils }/bin/find" )
