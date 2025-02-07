@@ -68,7 +68,7 @@
                                                                                                 )
                                                                                                 (
                                                                                                     let
-                                                                                                        injection =
+                                                                                                        inject =
                                                                                                             {
                                                                                                                 derivation =
                                                                                                                     name : fun :
