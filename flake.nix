@@ -540,7 +540,7 @@
                                                                                                             }
                                                                                                     '' ;
                                                                                                 in [ script ]
-                                                                                        else if builtins.typeOf value == "set" builtins.concatLists ( builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value )
+                                                                                        else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value )
                                                                                         else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
                                                                                 bool = delta :
                                                                                     let
