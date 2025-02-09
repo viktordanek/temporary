@@ -448,9 +448,8 @@
                                                                                                 release-status = builtins.elemAt path 6 ;
                                                                                                 release-standard-output = builtins.elemAt path 7 ;
                                                                                                 release-standard-error = builtins.elemAt path 8 ;
-                                                                                                release-status = builtins.elemAt path 9 ;
-                                                                                                release-seed = builtins.elemAt path 10 ;
-                                                                                                speed = builtins.elemAt path 11 ;
+                                                                                                release-seed = builtins.elemAt path 9 ;
+                                                                                                speed = builtins.elemAt path 10 ;
                                                                                                 init =
                                                                                                     if init-status == "0" then
                                                                                                         ''
