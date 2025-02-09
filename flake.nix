@@ -396,81 +396,175 @@
                                                         src = ./. ;
                                                         installPhase =
                                                             let
-                                                                increment = 10 ;
-                                                                mapper =
-                                                                    path : name : value :
-                                                                        if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                        else if builtins.typeOf value == "string" then
+                                                                factories =
+                                                                    {
+                                                                        idea =
                                                                             let
-                                                                                echo = builtins.concatStringsSep "" [ "$" "{" " " "echo" " " "}" ] ;
-                                                                                has-arguments = builtins.elemAt path 0 ;
-                                                                                arguments = builtins.elemAt path 1 ;
-                                                                                has-standard-input = builtins.elemAt path 2 ;
-                                                                                standard-input = builtins.elemAt path 3 ;
-                                                                                status = builtins.elemAt path 7 ;
-                                                                                paste = builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" path ) ) ;
-                                                                                identity = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " "temporary" " " "." " " "util" " " "." " " "identity" " " "}" ] ;
-                                                                                command-without-resources = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) ;
-                                                                                command = builtins.concatStringsSep "" [ "$" "{" " " "resources" " " "." " " "temporary" " " "." " " "temporary" " " "." " " command-without-resources " " "}" ] ;
-                                                                                with-arguments = if has-arguments == "false" then command else builtins.concatStringsSep " " [ command arguments ] ;
-                                                                                with-standard-input =
-                                                                                    if has-standard-input == "interactive" then with-arguments
-                                                                                    else if has-standard-input == "pipe" then "${ echo } ${ standard-input } | ${ with-arguments }"
-                                                                                    else if has-standard-input == "file" then "${ with-arguments } < $( ${ identity } ${ standard-input } )"
-                                                                                    else builtins.throw "The has-standard-input argument was not either interactive, pipe, or file but ${ has-standard-input }." ;
-                                                                                with-status = if status == "0" then "${ echo } paste: ${ paste } >> $( ${ with-standard-input } )" else "! ${ with-standard-input }" ;
-                                                                                pipes = if st
-                                                                                
-                                                                                in [ { command = with-status ; pipes = pipes ; } ]
-                                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a set nor a string." ;
-                                                                observed-internal =
-                                                                    if builtins.pathExists ( self + "/scripts/test/util/observed-internal.nix" ) then builtins.import ( self + "/scripts/test/util/observed-internal.nix" )
-                                                                    else resources : echo : "${ echo } observed-internal.nix is undefined >&2" ;
+                                                                                levels =
+                                                                                    let
+                                                                                        levels =
+                                                                                            let
+                                                                                                levels =
+                                                                                                    [
+                                                                                                        { name = "init-status" ; value = [ 0 65 66 ] ; }
+                                                                                                        { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                        { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                        { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                        { name = "init-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                        { name = "release-status" ; value = [ 0 67 68 ] ; }
+                                                                                                        { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                        { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                        { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                        { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                        { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                        { name = "speed" ; value = [ "fast" "slow" ] ; }
+                                                                                                    ] ;
+                                                                                                mapper =
+                                                                                                    value :
+                                                                                                        let
+                                                                                                            generator =
+                                                                                                                index :
+                                                                                                                    let
+                                                                                                                        value = builtins.elemAt value.value ;
+                                                                                                                        in builtins.toString ( if builtins.typeOf value == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name ] ) ) ) else value )
+                                                                                                            in { name = value.name ; value = builtins.genList generator ( builtins.length levels ) ; } ;
+                                                                                                in builtins.map mapper levels ;
+                                                                                        reducer =
+                                                                                            previous : current :
+                                                                                                let
+                                                                                                    mapper = value : { name = value.name ; value = previous ; } ;
+                                                                                                    in builtins.listToAttrs ( builtins.map mapper current.value ) ;
+                                                                                        in builtins.foldl' reducer builtins.null levels ;
+                                                                                mapper =
+                                                                                    path : name : value :
+                                                                                        if builtins.typeOf value == "null" then
+                                                                                            let
+                                                                                                init-status = builtins.elemAt path 0 ;
+                                                                                                init-typeOf = builtins.elemAt path 1 ;
+                                                                                                init-standard-output = builtins.elemAt path 2 ;
+                                                                                                init-standard-error = builtins.elemAt path 3 ;
+                                                                                                init-seed = builtins.elemAt path 4 ;
+                                                                                                release-typeOf = builtins.elemAt path 5 ;
+                                                                                                release-status = builtins.elemAt path 6 ;
+                                                                                                release-standard-output = builtins.elemAt path 7 ;
+                                                                                                release-standard-error = builtins.elemAt path 8 ;
+                                                                                                release-status = builtins.elemAt path 9 ;
+                                                                                                release-seed = builtins.elemAt path 10 ;
+                                                                                                speed = builtins.elemAt path 11 ;
+                                                                                                init =
+                                                                                                    if init-status == "0" then
+                                                                                                        ''
+                                                                                                            init =
+                                                                                                                script
+                                                                                                                    {
+                                                                                                                        executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                                        sets =
+                                                                                                                            { path , resource , string , target }
+                                                                                                                                [
+                                                                                                                                    ( string "BASENAME "${ builtins.toString "" [ "$" "{" "pkgs.coreutils" "}" ] }/bin/basename" )
+                                                                                                                                    ( string "ECHO" "${ builtins.toString "" [ "$" "{" "pkgs.coreutils" "}" ] }/bin/echo" )
+                                                                                                                                    ( string "FIND" "${ builtins.toString "" [ "$" "{" "pkgs.findutils" "}" ] }/bin/find" )
+                                                                                                                                    ( path "UUID" 0 )
+                                                                                                                                    ( resource "b6cba2f07dd0c2816e7e54f828051b800f5cffa1a140c72b0bf080dde92612d29449b0807c1217113ad8f5e2c72ca14e215c9f9eb83fae2dc1118c3e40691052" )
+                                                                                                                                    ( string "SEED" "${ init-seed }" )
+                                                                                                                                    ( string "SPEED" "${ speed }" )
+                                                                                                                                    ( string "STANDARD_ERROR" "${ init-standard-error }" )
+                                                                                                                                    ( string "STANDARD_OUTPUT" "${ init-standard-output }" )
+                                                                                                                                    ( string "STATUS" "${ init-status }" )
+                                                                                                                                    ( target "f4feff7b45aaaec6851766ef42a9bb5d48952cc98ea24dd0be0f5787540b5d194e6989e9e46b2a74ebe3f28aaf93bc93afcae2d197bf29f75b4c718c60c9e5f3" )
+                                                                                                                                    ( string "YQ" "${ builtins.toString "" [ "$" "{" "pkgs.yq" "}" ] }/bin/yq" )
+                                                                                                                                ] ;
+                                                                                                                    } ;
+                                                                                                        ''
+                                                                                                    else if init-status == "65" then "# init is null 65"
+                                                                                                    else if init-status == "66" then "# init is null 66"
+                                                                                                    else builtins.throw "init-status at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } i ;s neither 0 nor 65 but ${ init-status }." ;
+                                                                                                post =
+                                                                                                    ''
+                                                                                                        release =
+                                                                                                            script
+                                                                                                                {
+                                                                                                                    executable = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                                    sets =
+                                                                                                                        { path , resource , string , target }
+                                                                                                                            [
+                                                                                                                                ( string "BASENAME "${ builtins.toString "" [ "$" "{" "pkgs.coreutils" "}" ] }/bin/basename" )
+                                                                                                                                ( string "ECHO" "${ builtins.toString "" [ "$" "{" "pkgs.coreutils" "}" ] }/bin/echo" )
+                                                                                                                                ( string "FIND" "${ builtins.toString "" [ "$" "{" "pkgs.findutils" "}" ] }/bin/find" )
+                                                                                                                                ( path "UUID" 0 )
+                                                                                                                                ( resource "b6cba2f07dd0c2816e7e54f828051b800f5cffa1a140c72b0bf080dde92612d29449b0807c1217113ad8f5e2c72ca14e215c9f9eb83fae2dc1118c3e40691052" )
+                                                                                                                                ( string "SEED" "${ init-seed }" )
+                                                                                                                                ( string "SPEED" "${ speed }" )
+                                                                                                                                ( string "STANDARD_ERROR" "${ init-standard-error }" )
+                                                                                                                                ( string "STANDARD_OUTPUT" "${ init-standard-output }" )
+                                                                                                                                ( string "STATUS" "${ init-status }" )
+                                                                                                                                ( target "f4feff7b45aaaec6851766ef42a9bb5d48952cc98ea24dd0be0f5787540b5d194e6989e9e46b2a74ebe3f28aaf93bc93afcae2d197bf29f75b4c718c60c9e5f3" )
+                                                                                                                                ( string "YQ" "${ builtins.toString "" [ "$" "{" "pkgs.yq" "}" ] }/bin/yq" )
+                                                                                                                            ] ;
+                                                                                                                } ;                                                                                                                                                                                                        '
+                                                                                                    '' ;
+                                                                                                release =
+                                                                                                    if release-status == "0" then
+                                                                                                        ''
+                                                                                                            release =
+                                                                                                                script
+                                                                                                                    {
+                                                                                                                        executable = pkgs.writeShellScript "release" ( builtins.readFile ( self + "/scripts/test/temporary/release.sh" ) ) ;
+                                                                                                                        sets =
+                                                                                                                            { path , resource , string , target }
+                                                                                                                                [
+                                                                                                                                    ( string "BASENAME "${ builtins.toString "" [ "$" "{" "pkgs.coreutils" "}" ] }/bin/basename" )
+                                                                                                                                    ( string "ECHO" "${ builtins.toString "" [ "$" "{" "pkgs.coreutils" "}" ] }/bin/echo" )
+                                                                                                                                    ( string "FIND" "${ builtins.toString "" [ "$" "{" "pkgs.findutils" "}" ] }/bin/find" )
+                                                                                                                                    ( path "UUID" 0 )
+                                                                                                                                    ( resource "b6cba2f07dd0c2816e7e54f828051b800f5cffa1a140c72b0bf080dde92612d29449b0807c1217113ad8f5e2c72ca14e215c9f9eb83fae2dc1118c3e40691052" )
+                                                                                                                                    ( string "SEED" "${ init-seed }" )
+                                                                                                                                    ( string "SPEED" "${ speed }" )
+                                                                                                                                    ( string "STANDARD_ERROR" "${ init-standard-error }" )
+                                                                                                                                    ( string "STANDARD_OUTPUT" "${ init-standard-output }" )
+                                                                                                                                    ( string "STATUS" "${ init-status }" )
+                                                                                                                                    ( target "f4feff7b45aaaec6851766ef42a9bb5d48952cc98ea24dd0be0f5787540b5d194e6989e9e46b2a74ebe3f28aaf93bc93afcae2d197bf29f75b4c718c60c9e5f3" )
+                                                                                                                                    ( string "YQ" "${ builtins.toString "" [ "$" "{" "pkgs.yq" "}" ] }/bin/yq" )
+                                                                                                                                ] ;
+                                                                                                                    } ;
+                                                                                                        ''
+                                                                                                    else if init-status == "65" then "# init is null 65"
+                                                                                                    else if init-status == "66" then "# init is null 66"
+                                                                                                    else builtins.throw "init-status at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither 0 nor 65 but ${ init-status }." ;
+                                                                                                script =
+                                                                                                    ''
+                                                                                                        script :
+                                                                                                            {
+                                                                                                                ${ init }
+                                                                                                                ${ release }
+                                                                                                                ${ post }
+                                                                                                            }
+                                                                                                    '' ;
+                                                                                                in [ script ]
+                                                                                        else if builtins.typeOf value == "set" builtins.concatLists ( builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value )
+                                                                                        else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
+                                                                                bool = delta :
+                                                                                    let
+                                                                                        one = builtins.concatStringsSep "  " [ ( if delta then "true" else "false" ) " " "=" ] ;
+                                                                                        two = "    [" ;
+                                                                                        three = "      #" ;
+                                                                                        four = "    ] ;" ;
+                                                                                        in builtins.concatStringsSep "\n" [ one two three four ] ;
+                                                                                in { false = bool false ; true = bool true ; } ;
+                                                                    } ;
+                                                                idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) else builtins.throw "idea.nix is undefined.  use $out/bin/reideate to define idea.nix" ;
+                                                                increment = 10 ;
+                                                                observe = if builtins.pathExists ( self + "/observe.nix" ) then builtins.import ( self + "/observe.nix" ) else builtins.throw "observe.nix is undfined.  use $out/bin/reobservate to define observ.nix." ;
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                            cleanup ( )
-                                                                                {
-                                                                                    ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                        if [ -f /build/debug ]
-                                                                                        then
-                                                                                            ${ pkgs.coreutils }/bin/cat /build/debug &&
-                                                                                                exit 67
-                                                                                        fi
-                                                                                } &&
-                                                                            trap cleanup EXIT &&
                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/diff.sh" } $out/bin/diff.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/diff.sh &&
-                                                                            makeWrapper $out/bin/diff.sh $out/bin/diff --set DIFF ${ pkgs.diffutils }/bin/diff --set SELF $out &&
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-expectate.sh" } $out/bin/re-expectate.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-expectate.sh &&
-                                                                            makeWrapper $out/bin/re-expectate.sh $out/bin/re-expectate --set CP ${ pkgs.coreutils }/bin/cp --set GIT ${ pkgs.git }/bin/git --set OBSERVED $out/observed --set TOUCH ${ pkgs.coreutils }/bin/touch &&
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/observed-external.sh" } $out/bin/observed-external.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/observed-external.sh &&
-                                                                            makeWrapper $out/bin/observed-external.sh $out/bin/observed-external --set BASH ${ pkgs.bash }/bin/bash --set FIND ${ pkgs.findutils }/bin/find --set GREP ${ pkgs.gnugrep }/bin/grep --set INCREMENT ${ builtins.toString increment } --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OBSERVED_INTERNAL $out/bin/observed-internal --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
-
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/re-observate.sh" } $out/bin/re-observate.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/re-observate.sh &&
-                                                                            makeWrapper $out/bin/re-observate.sh $out/bin/re-observate --set ECHO ${ pkgs.coreutils }/bin/echo --set GIT ${ pkgs.git }/bin/git --set OBSERVATE_FILE ${ builtins.toFile "observed-internal.nix" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ) ) } --set SED ${ pkgs.gnused }/bin/sed &&
-
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observed-internal" ( builtins.concatStringsSep " &&\n" [ ( observed-internal resources "${ pkgs.coreutils }/bin/echo" ) "${ builtins.concatStringsSep "" [ "$" "{" "SLEEP" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "INCREMENT" "}" ] }" "${ pkgs.coreutils }/bin/echo TARGET_PID=${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] }" "${ builtins.concatStringsSep "" [ "$" "{" "FIND" "}" ] } /build -mindepth 2 -maxdepth 2 -type f -name temporary -exec ${ builtins.concatStringsSep "" [ "$" "{" "GREP" "}" ] } ^temporary {} \\; | ${ builtins.concatStringsSep "" [ "$" "{" "WC" "}" ] } --lines > /build/observed/temporary/counts/mid" ] ) } $out/bin/observed-internal.sh &&
-                                                                            makeWrapper $out/bin/observed-internal.sh $out/bin/observed-internal --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set INCREMENT ${ builtins.toString increment } --set GREP ${ pkgs.gnugrep }/bin/grep --set SLEEP ${ pkgs.coreutils }/bin/sleep --set WC ${ pkgs.coreutils }/bin/wc &&
-
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + "/scripts/test/util/test-external.sh" } $out/bin/test-external.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/test-external.sh &&
-                                                                            makeWrapper $out/bin/test-external.sh $out/bin/test-external --set BASH_UNIT ${ pkgs.bash_unit }/bin/bash_unit --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set EXPECTED ${ self + "/expected" } --set FIND ${ pkgs.findutils }/bin/find --set OBSERVED $out/observed --set TEST_INTERNAL ${ self + "/scripts/test/util/test-internal.sh" } &&
-                                                                            if $out/bin/observed-external
-                                                                            then
-                                                                                ${ pkgs.coreutils }/bin/mv /build/observed $out/observed &&
-                                                                                    if [ -f ${ self + "/expected/.gitignore" } ]
-                                                                                    then
-                                                                                        ${ pkgs.coreutils }/bin/cp ${ self + "/expected/.gitignore" } $out/observed/.gitignore
-                                                                                    else
-                                                                                        ${ pkgs.coreutils }/bin/echo "**/observed-*.yaml" > $out/observed/.gitignore
-                                                                                    fi
-                                                                            fi &&
-                                                                            $out/bin/test-external &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reideate.sh } $out/bin/reideate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reobservate.sh } $out/bin/reobservate.sh
+                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/reideate.sh $out/bin/reobservate.sh &&
+                                                                            makeWrapper $out/bin/reideate.sh $out/bin/reideate &&
+                                                                            makeWrapper $out/bin/reobservate.sh $out/bin/reobservate &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf idea } &&
                                                                             exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
