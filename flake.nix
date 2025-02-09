@@ -558,8 +558,8 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reideate.sh } $out/bin/reideate.sh &&
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reobservate.sh } $out/bin/reobservate.sh
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reideate.sh" ) } $out/bin/reideate.sh &&
+                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reobservate.sh" ) } $out/bin/reobservate.sh
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/reideate.sh $out/bin/reobservate.sh &&
                                                                             makeWrapper $out/bin/reideate.sh $out/bin/reideate &&
                                                                             makeWrapper $out/bin/reobservate.sh $out/bin/reobservate &&
