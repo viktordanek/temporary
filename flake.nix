@@ -563,7 +563,7 @@
                                                                             ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/reideate.sh $out/bin/reobservate.sh &&
                                                                             makeWrapper $out/bin/reideate.sh $out/bin/reideate &&
                                                                             makeWrapper $out/bin/reobservate.sh $out/bin/reobservate &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf idea } &&
+                                                                            ${ if builtins.pathExists ( self + "/idea.nix" ) then "${ pkgs.coreutils }/bin/true idea.nix exists" else "${ pkgs.coreutils }/bin/echo use $out/bin/reideate to define idea.nix." } &&
                                                                             exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
