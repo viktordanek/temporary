@@ -1,0 +1,1 @@
+${CAT} ${IDEA_FILE} > idea.nix
