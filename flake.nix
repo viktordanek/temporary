@@ -551,7 +551,7 @@
                                                                                         in builtins.concatStringsSep "\n" [ one two three four ] ;
                                                                                 in { false = bool false ; true = bool true ; } ;
                                                                     } ;
-                                                                idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) else builtins.throw "idea.nix is undefined.  use $out/bin/reideate to define idea.nix" ;
+                                                                idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) else builtins.throw "idea.nix is undefined.  use ${ self + "/bin/reideate" } to define idea.nix" ;
                                                                 increment = 10 ;
                                                                 observe = if builtins.pathExists ( self + "/observe.nix" ) then builtins.import ( self + "/observe.nix" ) else builtins.throw "observe.nix is undfined.  use $out/bin/reobservate to define observ.nix." ;
                                                                 in
