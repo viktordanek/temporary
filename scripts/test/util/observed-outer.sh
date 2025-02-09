@@ -1,0 +1,1 @@
+${FIND} -mindepth 1 -maxdepth 1 -name "observed-middle.*" ! -name "*.sh" -exec {} \;
