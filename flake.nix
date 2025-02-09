@@ -426,7 +426,7 @@
                                                                                                                 index :
                                                                                                                     let
                                                                                                                         value = builtins.elemAt value.value ;
-                                                                                                                        in builtins.toString ( if builtins.typeOf value == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name ] ) ) ) else value )
+                                                                                                                        in builtins.toString ( if builtins.typeOf value == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name ] ) ) ) else value ) ;
                                                                                                             in { name = value.name ; value = builtins.genList generator ( builtins.length levels ) ; } ;
                                                                                                 in builtins.map mapper levels ;
                                                                                         reducer =
