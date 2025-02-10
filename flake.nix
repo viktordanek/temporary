@@ -458,7 +458,7 @@
                                                                                                                     script =
                                                                                                                         ''
                                                                                                                             # ${ builtins.concatStringsSep " / " path }
-                                                                                                                            name =
+                                                                                                                            ${ builtins.concatStringsSep " / " ( builtins.attrValues values ) } =
                                                                                                                                 script :
                                                                                                                                     {
                                                                                                                                         ${ init }
