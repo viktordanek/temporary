@@ -463,6 +463,7 @@
                                                                                                                                 "\t\t\texecutable = pkgs.writeShellScript ( self + \"/scripts/test/temporary.sh\" ) ;"
                                                                                                                                 "\t\t\tsets ="
                                                                                                                                 "\t\t\t\t["
+                                                                                                                                "\t\t\y\t\t( string \"STATUS\" \"status\" )"
                                                                                                                                 "\t\t\t\t\t( string \"YQ\" \"${ coreutils }/bin/yq\" )"
                                                                                                                                 "\t\t\t\t]"
                                                                                                                                 "\t\t} ;"
