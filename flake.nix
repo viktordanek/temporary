@@ -483,7 +483,7 @@
                                                                                                                                 "\t\t\t\t\t\t( path \"NAME\" 1 )"
                                                                                                                                 "\t\t\t\t\t\t( string \"JQ\" \"${ escape "pkgs.coreutils" }/bin/jq\" )"
                                                                                                                                 "\t\t\t\t\t\t( path \"PATH_SEED\" 0 )"
-                                                                                                                                "\t\t\t\t\t\t( speed \"SPEED\" \"${ escape speed }\" )"
+                                                                                                                                "\t\t\t\t\t\t( speed \"SPEED\" \"${ escape "speed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"VARIABLE_SEED\" \"${ escape "seed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( standard-input \"STANDARD_INPUT\" )"
