@@ -460,7 +460,7 @@
                                                                                                                                 "init ="
                                                                                                                                 "\tscript"
                                                                                                                                 "\t\t{"
-                                                                                                                                "\t\t\texecutable = pkgs.writeShellScript ( self + \"/scripts/test/temporary.sh\" ) ;"
+                                                                                                                                "\t\t\texecutable = pkgs.writeShellScript \"init\" ( self + \"/scripts/test/temporary.sh\" ) ;"
                                                                                                                                 "\t\t\tsets ="
                                                                                                                                 "\t\t\t\t["
                                                                                                                                 "\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
