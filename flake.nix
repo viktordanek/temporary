@@ -455,22 +455,16 @@
                                                                                                                         else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
                                                                                                                     post = init ;
                                                                                                                     release = init ;
-                                                                                                                    script =
-                                                                                                                        ''
-                                                                                                                            # ${ builtins.concatStringsSep " / " ( builtins.attrValues values ) }
-                                                                                                                            ${ builtins.substring 0 8 ( builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hashString "md5" ( builtins.concatStringsSep " / " ( builtins.attrValues values ) ) ) ) } =
-                                                                                                                                script :
-                                                                                                                                    {
-                                                                                                                                        ${ init }
-                                                                                                                                    } ;
-                                                                                                                        '' ;
                                                                                                                     values =
                                                                                                                         let
                                                                                                                             generator = index : { name = builtins.elemAt values index ; value = builtins.elemAt ( builtins.concatLists [ path [ name ] ] ) index ; } ;
                                                                                                                             values = [ "init-status" "init-typeOf" "init-standard-output" ] ;
                                                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length values ) ) ;
-                                                                                                                    in [ script ]
-                                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                                                    in
+                                                                                                                        [
+                                                                                                                            "# ${ builtins.toJSON values }"
+                                                                                                                        ]
+                                                                                                            else if builtins.typeOf value == "set" then builtins.map ( value : "\t${ value }" ) ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) levels ) ) ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
