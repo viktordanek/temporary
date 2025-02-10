@@ -406,7 +406,7 @@
                                                                                         let
                                                                                             file =
                                                                                                 let
-                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.map indent levels ) ;
+                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{" ] ( builtins.map indent levels ) [ "}" ] ] ) ;
                                                                                                     in builtins.toFile "idea.nix" nix ;
                                                                                             indent = value : "\t${ value }" ;
                                                                                             levels =
