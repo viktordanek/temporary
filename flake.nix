@@ -404,7 +404,7 @@
                                                                                     condition = ! builtins.pathExists ( self + "/idea.nix" ) ;
                                                                                     expression =
                                                                                         let
-                                                                                            denumber = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ]
+                                                                                            denumber = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ;
                                                                                             file =
                                                                                                 let
                                                                                                     nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{" ] ( builtins.map indent levels ) [ "}" ] ] ) ;
