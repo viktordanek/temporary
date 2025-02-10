@@ -401,6 +401,18 @@
                                                                         genesis =
                                                                             [
                                                                                 {
+                                                                                    condition = ! builtins.pathExists ( self + "/idea.nix" ) ;
+                                                                                    expression =
+                                                                                        let
+                                                                                            levels =
+                                                                                                [
+                                                                                                ] ;
+                                                                                            in
+                                                                                                ''
+                                                                                                    makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out
+                                                                                                '' ;
+                                                                                }
+                                                                                {
                                                                                     condition = true ;
                                                                                     expression = "${ pkgs.coreutils }/bin/touch $out" ;
                                                                                 }
@@ -409,7 +421,8 @@
                                                                         in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
                                                                 in
                                                                     ''
-                                                                        ${ genesis } &&
+                                                                        ${ pkgs.coreutils }/bin/echo $out &&
+                                                                            ${ genesis } &&
                                                                             exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
