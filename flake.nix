@@ -458,7 +458,7 @@
                                                                                                                     script =
                                                                                                                         ''
                                                                                                                             # ${ builtins.concatStringsSep " / " ( builtins.attrValues values ) }
-                                                                                                                            ${ builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep " / " ( builtins.attrValues values ) ) ) } =
+                                                                                                                            ${ builtins.substring 0 8 ( builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.hashString "md5" ( builtins.concatStringsSep " / " ( builtins.attrValues values ) ) ) ) } =
                                                                                                                                 script :
                                                                                                                                     {
                                                                                                                                         ${ init }
