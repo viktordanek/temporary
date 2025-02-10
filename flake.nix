@@ -481,7 +481,7 @@
                                                                                                                     in [ script ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
-                                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists ( builtins.mapAttrs ( mapper [ ] ) levels ) ) ;
+                                                                                                    in levels ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
                                                                                 {
