@@ -411,7 +411,6 @@
                                                                                                         [
                                                                                                             { name = "init-status" ; value = [ 0 65 66 ] ; }
                                                                                                             { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                            { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
                                                                                                         ] ;
                                                                                                     mapper =
                                                                                                         value :
