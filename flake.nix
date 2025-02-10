@@ -457,11 +457,11 @@
                                                                                                                     init =
                                                                                                                         if values.init-typeOf == "lambda" then
                                                                                                                             [
-                                                                                                                                "\tinit ="
-                                                                                                                                "\t\tscript"
-                                                                                                                                "\t\t\t{"
-                                                                                                                                "\t\t\t\texecutable = pkgs.writeShellScript ( self + \"/scripts/test/temporary.sh\" ) ;"
-                                                                                                                                "\t\t\t} ;"
+                                                                                                                                "init ="
+                                                                                                                                "\tscript"
+                                                                                                                                "\t\t{"
+                                                                                                                                "\t\t\texecutable = pkgs.writeShellScript ( self + \"/scripts/test/temporary.sh\" ) ;"
+                                                                                                                                "\t\t} ;"
                                                                                                                             ]
                                                                                                                         else if values.init-typeOf == "null" then [ ]
                                                                                                                         else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
@@ -480,7 +480,7 @@
                                                                                                                                     "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) } = "
                                                                                                                                     "\t{"
                                                                                                                                 ]
-                                                                                                                                    ( builtins.map ( indent 1 ) init )
+                                                                                                                                    ( builtins.map ( indent 2 ) init )
                                                                                                                                 [
                                                                                                                                     "\t} ;"
                                                                                                                                 ]
