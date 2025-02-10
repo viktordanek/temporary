@@ -511,7 +511,7 @@
                                                                                                                                     "release-standard-output"
                                                                                                                                     "release-standard-error"
                                                                                                                                     "release-path-seed"
-                                                                                                                                    "release--variable-seed"
+                                                                                                                                    "release-variable-seed"
                                                                                                                                     "speed"
                                                                                                                                 ] ;
                                                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length values ) ) ;
@@ -520,7 +520,7 @@
                                                                                                                             [
                                                                                                                                 [
                                                                                                                                     "# ${ builtins.toJSON values }"
-                                                                                                                                    "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) } = "
+                                                                                                                                    "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) }.${ values.init-path-seed }.${ values.release-path-seed } = "
                                                                                                                                     "\t{"
                                                                                                                                 ]
                                                                                                                                     ( builtins.map ( indent 2 ) init )
