@@ -404,8 +404,6 @@
                                                                                     condition = true ;
                                                                                     expression = "${ pkgs.coreutils }/bin/touch $out" ;
                                                                                 }
-                                                                                { condition = ! builtins.pathExists ( self + "/observe.nix" ) ; expression = "" ; }
-                                                                                { condition = ! builtins.pathExists ( self + "/expected.yaml" ) ; expression = "" ; }
                                                                                 { condition = builtins.true ; expression = "" ; }
                                                                             ] ;
                                                                         in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
