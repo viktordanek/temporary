@@ -438,7 +438,7 @@
                                                                                                             let
                                                                                                                 mapper = value : { name = value ; value = previous ; } ;
                                                                                                                 in builtins.map mapper current.value ;
-                                                                                                    in builtins.foldl' reducer builtins.null levels ;
+                                                                                                    in levels ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
                                                                                 {
