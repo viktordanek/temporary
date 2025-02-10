@@ -457,9 +457,11 @@
                                                                                                                     init =
                                                                                                                         if values.init-typeOf == "lambda" then
                                                                                                                             [
-                                                                                                                                "init ="
-                                                                                                                                "\t{"
-                                                                                                                                "\t}"
+                                                                                                                                "\tinit ="
+                                                                                                                                "\t\tscript"
+                                                                                                                                "\t\t\t{"
+                                                                                                                                "\t\t\t\texecutable = pkgs.writeShellScript ( self + \"/scripts/test/temporary.sh\" ) ;"
+                                                                                                                                "\t\t\t} ;"
                                                                                                                             ]
                                                                                                                         else if values.init-typeOf == "null" then [ ]
                                                                                                                         else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
