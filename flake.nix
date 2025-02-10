@@ -457,8 +457,8 @@
                                                                                                                     release = init ;
                                                                                                                     script =
                                                                                                                         ''
-                                                                                                                            script :
-                                                                                                                                script
+                                                                                                                            ${ builtins.substring 0 8 ( builtins.attrValues values ) } =
+                                                                                                                                script :
                                                                                                                                     {
                                                                                                                                         ${ init }
                                                                                                                                     } ;
