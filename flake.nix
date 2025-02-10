@@ -453,7 +453,7 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "null" then
                                                                                                                 let
-                                                                                                                    escape = builtins.concatStringsSep "" [ "$" "{" " " value " " "}" ] ;
+                                                                                                                    escape = value : builtins.concatStringsSep "" [ "$" "{" " " value " " "}" ] ;
                                                                                                                     init =
                                                                                                                         if values.init-typeOf == "lambda" then
                                                                                                                             [
