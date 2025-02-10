@@ -396,6 +396,52 @@
                                                         src = ./. ;
                                                         installPhase =
                                                             let
+                                                                genesis =
+                                                                    let
+                                                                        genesis =
+                                                                            [
+                                                                                {
+                                                                                    condition = ! builtins.pathExists ( self + "/idea.nix" ) ;
+                                                                                    expression =
+                                                                                        let
+                                                                                            levels =
+                                                                                                let
+                                                                                                    levels =
+                                                                                                        [
+                                                                                                            { name = "init-status" ; value = [ 0 65 66 ] ; }
+                                                                                                            { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                            { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                            { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                            { name = "init-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                            { name = "release-status" ; value = [ 0 67 68 ] ; }
+                                                                                                            { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                            { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                            { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                            { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                            { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                            { name = "speed" ; value = [ "fast" "slow" ] ; }
+                                                                                                        ] ;
+                                                                                                    mapper =
+                                                                                                        value :
+                                                                                                            let
+                                                                                                                generator =
+                                                                                                                    index :
+                                                                                                                        let
+                                                                                                                            level = builtins.elemAt levels index ;
+                                                                                                                            value = if builtins.typeOf level.value == "null" then builtins.substring 0 8 ( builtins.hashString "${ level.name }-${ builtins.toString index }" ) ;
+                                                                                                                            in { name = level.name ; value = value ; } ;
+                                                                                                                in builtins.genList generator ( builtins.length value.value )
+                                                                                                    in builtins.map mapper levels ;
+                                                                                            in
+                                                                                                ''
+                                                                                                    makeWrapper ${ pkgs.writeShellScript "idea" ( builtins.readFile ( self + "/scripts/test/util/idea.sh" ) ) } $out
+                                                                                                '' ;
+                                                                                }
+                                                                                { condition = ! builtins.pathExists ( self + "/observe.nix" ) ; expression = "" ; }
+                                                                                { condition = ! builtins.pathExists ( self + "/expected.yaml" ) ; expression = "" ; }
+                                                                                { condition = builtins.true ; expression = "" ; }
+                                                                            ] ;
+                                                                        in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) ) 0 ) ;
                                                                 factories =
                                                                     {
                                                                         idea =
