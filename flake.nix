@@ -402,16 +402,7 @@
                                                                             [
                                                                                 {
                                                                                     condition = true ;
-                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out" ; 
-                                                                                }
-                                                                                {
-                                                                                    condition = ! builtins.pathExists ( self + "/idea.nix" ) ;
-                                                                                    expression =
-                                                                                        let
-                                                                                            in
-                                                                                                ''
-                                                                                                    makeWrapper ${ pkgs.writeShellScript "idea" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out
-                                                                                                '' ;
+                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out" ;
                                                                                 }
                                                                                 { condition = ! builtins.pathExists ( self + "/observe.nix" ) ; expression = "" ; }
                                                                                 { condition = ! builtins.pathExists ( self + "/expected.yaml" ) ; expression = "" ; }
