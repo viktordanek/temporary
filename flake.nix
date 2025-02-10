@@ -409,39 +409,58 @@
                                                                                                 let
                                                                                                     levels =
                                                                                                         let
-                                                                                                            generator = index : builtins.elemAt levels ( ( builtins.length levels ) - index - 1 ) ;
                                                                                                             levels =
                                                                                                                 let
+                                                                                                                    generator = index : builtins.elemAt levels ( ( builtins.length levels ) - index - 1 ) ;
                                                                                                                     levels =
-                                                                                                                        [
-                                                                                                                            { name = "init-status" ; value = [ 0 65 66 ] ; }
-                                                                                                                            { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                                            { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                        ] ;
-                                                                                                                    mapper =
-                                                                                                                        value :
-                                                                                                                            let
-                                                                                                                                level-value =
+                                                                                                                        let
+                                                                                                                            levels =
+                                                                                                                                [
+                                                                                                                                    { name = "init-status" ; value = [ 0 65 66 ] ; }
+                                                                                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                                                    { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                ] ;
+                                                                                                                            mapper =
+                                                                                                                                value :
                                                                                                                                     let
-                                                                                                                                        generator =
-                                                                                                                                            index :
-                                                                                                                                                let
-                                                                                                                                                    level-value = builtins.elemAt value.value index ;
-                                                                                                                                                    in builtins.toString ( if builtins.typeOf level-value == "null" then "${ value.name }-${ builtins.toString index }" else level-value ) ;
-                                                                                                                                        in builtins.genList generator ( builtins.length value.value ) ;
-                                                                                                                                in
-                                                                                                                                    { name = value.name ; value = level-value ; } ;
-                                                                                                                    in builtins.map mapper levels ;
-                                                                                                            in builtins.genList generator ( builtins.length levels ) ;
-                                                                                                    reducer =
-                                                                                                        previous : current :
-                                                                                                            let
-                                                                                                                levels =
+                                                                                                                                        level-value =
+                                                                                                                                            let
+                                                                                                                                                generator =
+                                                                                                                                                    index :
+                                                                                                                                                        let
+                                                                                                                                                            level-value = builtins.elemAt value.value index ;
+                                                                                                                                                            in builtins.toString ( if builtins.typeOf level-value == "null" then "${ value.name }-${ builtins.toString index }" else level-value ) ;
+                                                                                                                                                in builtins.genList generator ( builtins.length value.value ) ;
+                                                                                                                                        in
+                                                                                                                                            { name = value.name ; value = level-value ; } ;
+                                                                                                                            in builtins.map mapper levels ;
+                                                                                                                    in builtins.genList generator ( builtins.length levels ) ;
+                                                                                                            reducer =
+                                                                                                                previous : current :
                                                                                                                     let
-                                                                                                                        mapper = value : { name = value ; value = previous ; } ;
-                                                                                                                        in builtins.map mapper current.value ;
-                                                                                                                in builtins.listToAttrs levels ;
-                                                                                                    in builtins.foldl' reducer builtins.null levels ;
+                                                                                                                        levels =
+                                                                                                                            let
+                                                                                                                                mapper = value : { name = value ; value = previous ; } ;
+                                                                                                                                in builtins.map mapper current.value ;
+                                                                                                                        in builtins.listToAttrs levels ;
+                                                                                                            in builtins.foldl' reducer builtins.null levels ;
+                                                                                                    mapper =
+                                                                                                        path : name : value :
+                                                                                                            if builtins.typeOf value == "null" then
+                                                                                                                let
+                                                                                                                    script =
+                                                                                                                        ''
+                                                                                                                            script :
+                                                                                                                                {
+                                                                                                                                    init = ;
+                                                                                                                                    post = ;
+                                                                                                                                    release = ;
+                                                                                                                                } ;
+                                                                                                                        '' ;
+                                                                                                                    in [ script ]
+                                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value )
+                                                                                                            else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
+                                                                                                    in levels ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
                                                                                 {
