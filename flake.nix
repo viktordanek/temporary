@@ -455,7 +455,13 @@
                                                                                                                 let
                                                                                                                     coreutils = builtins.concatStringsSep "" [ "$" "{" " " "pkgs.coreutils" " " "}" ] ;
                                                                                                                     init =
-                                                                                                                        if values.init-typeOf == "lambda" then ''init = script { executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { string } : [ ( string "ECHO" "${ coreutils }/bin/echo" ) ] ; } ;''
+                                                                                                                        if values.init-typeOf == "lambda" then
+                                                                                                                            [
+                                                                                                                                "init = "
+                                                                                                                                "{"
+                                                                                                                                "} ;"
+                                                                                                                            ]
+                                                                                                                        else [ "# null indent" ]
                                                                                                                         else if values.init-typeOf == "null" then "# null init"
                                                                                                                         else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
                                                                                                                     post = init ;
@@ -468,8 +474,9 @@
                                                                                                                     in
                                                                                                                         [
                                                                                                                             "# ${ builtins.toJSON values }"
-                                                                                                                            "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) }"
+                                                                                                                            "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) } = "
                                                                                                                             "\t{"
+                                                                                                                             ( builtins.map indent init )
                                                                                                                             "\t}"
                                                                                                                         ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
