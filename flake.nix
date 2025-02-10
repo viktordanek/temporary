@@ -414,16 +414,14 @@
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
-                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out" ;
+                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out && exit ${ builtins.toString 100 }" ;
                                                                                 }
-                                                                                { condition = builtins.true ; expression = "" ; }
                                                                             ] ;
                                                                         in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/echo $out &&
-
-                                                                            exit ${ builtins.toString 10 }
+                                                                            ${ genesis }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
