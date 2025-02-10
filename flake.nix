@@ -461,10 +461,7 @@
                                                                                                                                 "{"
                                                                                                                                 "} ;"
                                                                                                                             ]
-                                                                                                                        else if values.init-typeOf == "null" then
-                                                                                                                            [
-                                                                                                                                "# null indent"
-                                                                                                                            ]
+                                                                                                                        else if values.init-typeOf == "null" then [ ]
                                                                                                                         else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
                                                                                                                     post = init ;
                                                                                                                     release = init ;
