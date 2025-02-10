@@ -426,7 +426,7 @@
                                                                                                                         in builtins.genList generator ( builtins.length level-name.value ) ;
                                                                                                                 level-name = value ;
                                                                                                                 in
-                                                                                                                    { name = level-name.name ; value = level-value ; } ;
+                                                                                                                    { name = level-name.name ; value = level-name.value ; } ;
                                                                                                     in builtins.map mapper levels ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
