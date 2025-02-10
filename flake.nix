@@ -464,7 +464,7 @@
                                                                                                                                 "\t\t\tsets ="
                                                                                                                                 "\t\t\t\t["
                                                                                                                                 "\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
-                                                                                                                                "\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutilszzz' }/bin/yq\" )"
+                                                                                                                                "\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutils" }/bin/yq\" )"
                                                                                                                                 "\t\t\t\t]"
                                                                                                                                 "\t\t} ;"
                                                                                                                             ]
