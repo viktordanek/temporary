@@ -410,7 +410,6 @@
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/echo $out &&
-                                                                            ${ builtins.trace genesis.expression genesis.expression } &&
                                                                             exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
