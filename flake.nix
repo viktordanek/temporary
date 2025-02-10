@@ -418,9 +418,12 @@
                                                                         in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
                                                                 in
                                                                     ''
-                                                                        ${ pkgs.coreutils }/bin/echo $out &&
-                                                                            ${ genesis } &&
-                                                                            exit ${ builtins.toString 10 }
+                                                                        ${ genesis } &&
+                                                                            if [ "${ genesis }" != "${ pkgs.coreutils }/bin/touch $out" ]
+                                                                            then
+                                                                                ${ pkgs.coreutils }/bin/echo $out &&
+                                                                                    exit 64
+                                                                            fi
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
