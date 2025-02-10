@@ -404,7 +404,7 @@
                                                                                     condition = ! builtins.pathExists ( self + "/idea.nix" ) ;
                                                                                     expression =
                                                                                         let
-                                                                                            idea-file = builtins.toFile "idea.nix" ( builtins.toJSON levels ) ;
+                                                                                            idea-file = builtins.toFile "idea.nix" ( builtins.concatStringsSep "\n" levels ) ;
                                                                                             levels =
                                                                                                 let
                                                                                                     levels =
