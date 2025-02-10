@@ -457,6 +457,7 @@
                                                                                                                     release = init ;
                                                                                                                     script =
                                                                                                                         ''
+                                                                                                                            # ${ builtins.concatStringsSep " / " path }
                                                                                                                             name =
                                                                                                                                 script :
                                                                                                                                     {
