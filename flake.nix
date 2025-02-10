@@ -409,9 +409,9 @@
                                                                         in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
                                                                 in
                                                                     ''
-                                                                        ${ pkgs.coreutils }/bin/echo $out &&
-                                                                            ${ builtins.trace ( genesis ) "exit ${ builtins.toString 10 }" }
-                                                                    '' ;
+                                                                        ${ genesis } &&
+                                                                            exit ${ builtins.toString 10 }
+                                                                    ''
                                                     } ;
                                     lib = lib ;
                                 } ;
