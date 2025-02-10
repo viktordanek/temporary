@@ -441,7 +441,7 @@
                                                                                 { condition = ! builtins.pathExists ( self + "/expected.yaml" ) ; expression = "" ; }
                                                                                 { condition = builtins.true ; expression = "" ; }
                                                                             ] ;
-                                                                        in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) ) 0 ) ;
+                                                                        in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
                                                                 factories =
                                                                     {
                                                                         idea =
@@ -601,7 +601,8 @@
                                                                 observe = if builtins.pathExists ( self + "/observe.nix" ) then builtins.import ( self + "/observe.nix" ) else builtins.throw "observe.nix is undfined.  use $out/bin/reobservate to define observ.nix." ;
                                                                 in
                                                                     ''
-                                                                        ${ genesis.expression }
+                                                                        ${ genesis.expression } &&
+                                                                            exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
