@@ -430,7 +430,7 @@
                                                                                                                             level = builtins.elemAt levels index ;
                                                                                                                             value = if builtins.typeOf level.value == "null" then builtins.substring 0 8 ( builtins.hashString "${ level.name }-${ builtins.toString index }" ) else level.value ;
                                                                                                                             in { name = level.name ; value = value ; } ;
-                                                                                                                in builtins.genList generator ( builtins.length value.value )
+                                                                                                                in builtins.genList generator ( builtins.length value.value ) ;
                                                                                                     in builtins.map mapper levels ;
                                                                                             in
                                                                                                 ''
