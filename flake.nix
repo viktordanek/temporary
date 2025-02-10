@@ -432,7 +432,7 @@
                                                                                                                                 in
                                                                                                                                     { name = value.name ; value = level-value ; } ;
                                                                                                                     in builtins.map mapper levels ;
-                                                                                                            in builtins.genList generator ( builtins.length levels ) ;
+                                                                                                            in builtins.listToAttrs ( builtins.genList generator ( builtins.length levels ) ) ;
                                                                                                     reducer =
                                                                                                         previous : current :
                                                                                                             let
