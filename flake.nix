@@ -448,7 +448,27 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "null" then
                                                                                                                 let
-                                                                                                                    script = null ;
+                                                                                                                    init =
+                                                                                                                        if values.init == "lambda" then "init = script { } ;"
+                                                                                                                        else if values.init == "null" then "# null init"
+                                                                                                                        else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
+                                                                                                                    post = init ;
+                                                                                                                    release = init ;
+                                                                                                                    script =
+                                                                                                                        ''
+                                                                                                                            script :
+                                                                                                                                script
+                                                                                                                                    {
+                                                                                                                                        ${ init }
+                                                                                                                                        ${ post }
+                                                                                                                                        ${ release }
+                                                                                                                                    } ;
+                                                                                                                        '' ;
+                                                                                                                    values =
+                                                                                                                        let
+                                                                                                                            generator = index : { name = builtins.elemAt values index ; value = builtins.elemAt path index ; } ;
+                                                                                                                            values = [ "init-status" "init-typeOf" "init-standard-output" ] ;
+                                                                                                                            in builtins.genList generator ( builtins.length values ) ;
                                                                                                                     in [ script ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
