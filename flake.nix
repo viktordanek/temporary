@@ -410,7 +410,7 @@
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/echo $out &&
-                                                                            exit ${ builtins.toString 10 }
+                                                                            ${ builtins.trace ( builtins.typeOf genesis ) "exit ${ builtins.toString 10 }" }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
