@@ -457,7 +457,7 @@
                                                                                                                     release = init ;
                                                                                                                     script =
                                                                                                                         ''
-                                                                                                                            ${ builtins.substring 0 8 ( builtins.attrValues values ) } =
+                                                                                                                            name =
                                                                                                                                 script :
                                                                                                                                     {
                                                                                                                                         ${ init }
