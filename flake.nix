@@ -414,7 +414,7 @@
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
-                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out && exit ${ builtins.toString 100 }" ;
+                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out" ;
                                                                                 }
                                                                             ] ;
                                                                         in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
