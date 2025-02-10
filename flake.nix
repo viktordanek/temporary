@@ -457,7 +457,7 @@
                                                                                                                     release = init ;
                                                                                                                     script =
                                                                                                                         ''
-                                                                                                                            name =
+                                                                                                                            ${ builtins.concatStringsSep "" ( builtins.attrValues values ) =
                                                                                                                                 script :
                                                                                                                                     {
                                                                                                                                         ${ init }
