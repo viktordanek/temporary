@@ -465,7 +465,7 @@
                                                                                                                         '' ;
                                                                                                                     values =
                                                                                                                         let
-                                                                                                                            generator = index : { name = builtins.trace "${ builtins.toJSON values }" ( builtins.elemAt values index ) ; value = builtins.elemAt path index ; } ;
+                                                                                                                            generator = index : { name = builtins.trace "VALUES=${ builtins.toJSON values }" ( builtins.elemAt values index ) ; value = builtins.trace "PATH=${ builtins.toJSON path }" ( builtins.elemAt path index ) ; } ;
                                                                                                                             values = [ "init-status" "init-typeOf" "init-standard-output" ] ;
                                                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length values ) ) ;
                                                                                                                     in [ script ]
