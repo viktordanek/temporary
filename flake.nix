@@ -421,7 +421,8 @@
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/echo $out &&
-                                                                            ${ genesis }
+                                                                            ${ genesis } &&
+                                                                            exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
