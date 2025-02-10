@@ -415,7 +415,9 @@
                                                                                                         ] ;
                                                                                                     mapper =
                                                                                                         value :
-                                                                                                            value ;
+                                                                                                            let
+                                                                                                                in
+                                                                                                                    { name = value.name ; value = value.value ; } ;
                                                                                                     in builtins.map mapper levels ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
