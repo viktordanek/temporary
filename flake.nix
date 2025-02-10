@@ -434,7 +434,7 @@
                                                                                                     in builtins.map mapper levels ;
                                                                                             in
                                                                                                 ''
-                                                                                                    makeWrapper ${ pkgs.writeShellScript "idea" ( builtins.readFile ( self + "/scripts/test/util/idea.sh" ) ) } $out
+                                                                                                    makeWrapper ${ pkgs.writeShellScript "idea" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out
                                                                                                 '' ;
                                                                                 }
                                                                                 { condition = ! builtins.pathExists ( self + "/observe.nix" ) ; expression = "" ; }
