@@ -448,15 +448,7 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "null" then
                                                                                                                 let
-                                                                                                                    script =
-                                                                                                                        ''
-                                                                                                                            script :
-                                                                                                                                {
-                                                                                                                                    init = ;
-                                                                                                                                    post = ;
-                                                                                                                                    release = ;
-                                                                                                                                } ;
-                                                                                                                        '' ;
+                                                                                                                    script = null ;
                                                                                                                     in [ script ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
