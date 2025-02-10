@@ -422,7 +422,7 @@
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/echo $out &&
-                                                                            ${ genesis } &&
+
                                                                             exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
