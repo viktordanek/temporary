@@ -448,6 +448,21 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "null" then
                                                                                                                 let
+                                                                                                                    coreutils = builtins.concatStringsSep "" [ "$" "{" " " "pkgs.coreutils" " " "}" ] ;
+                                                                                                                    init =
+                                                                                                                        ''
+                                                                                                                            init =
+                                                                                                                                {
+                                                                                                                                    executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ;
+                                                                                                                                    sets =
+                                                                                                                                        { string , ... } :
+                                                                                                                                            [
+                                                                                                                                                ( string "ECHO" "${ coreutils }/bin/echo" )
+                                                                                                                                                ( string "STANDARD_OUTPUT" "${ value.standard-output }" )
+                                                                                                                                                ( string "STATUS" "${ values.init-status }" )
+                                                                                                                                            ] ;
+                                                                                                                                } ;
+                                                                                                                        '' ;
                                                                                                                     script =
                                                                                                                         ''
                                                                                                                             script :
@@ -457,10 +472,16 @@
                                                                                                                                     release = ;
                                                                                                                                 } ;
                                                                                                                         '' ;
+                                                                                                                    values =
+                                                                                                                        {
+                                                                                                                            init-status = builtins.elemAt path 0 ;
+                                                                                                                            init-typeOf = builtins.elemAt path 1 ;
+                                                                                                                            init-standard-output = builtins.elemAt path 2 ;
+                                                                                                                        } ;
                                                                                                                     in [ script ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
-                                                                                                    in levels ;
+                                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists ( builtins.mapAttrs ( mapper [ ] ) levels ) ) ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
                                                                                 {
