@@ -448,6 +448,7 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "null" then
                                                                                                                 let
+                                                                                                                    coreutils = builtins.concatStringsSep "" [ "$" "{" " " "pkgs.coreutils" " " "}" ] ;
                                                                                                                     init =
                                                                                                                         if values.init-typeOf == "lambda" then ''init = script { executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { string } : [ ( string "ECHO" "${ coreutils }/bin/echo" ) ] ; } ;''
                                                                                                                         else if values.init-typeOf == "null" then "# null init"
