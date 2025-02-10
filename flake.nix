@@ -461,6 +461,9 @@
                                                                                                                                 "\tscript"
                                                                                                                                 "\t\t{"
                                                                                                                                 "\t\t\texecutable = pkgs.writeShellScript ( self + \"/scripts/test/temporary.sh\" ) ;"
+                                                                                                                                "\t\t\tsets ="
+                                                                                                                                "\t\t\t\t["
+                                                                                                                                "\t\t\t\t]"
                                                                                                                                 "\t\t} ;"
                                                                                                                             ]
                                                                                                                         else if values.init-typeOf == "null" then [ ]
