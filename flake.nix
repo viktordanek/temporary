@@ -479,7 +479,7 @@
                                                                                                                                 "\t\t\t\t\t\t( is-file \"IS_FILE\" )"
                                                                                                                                 "\t\t\t\t\t\t( is-pipe \"IS_PIPE\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"JQ\" \"${ escape "pkgs.coreutils" }/bin/jq\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"SEED\" \"${ escape \"seed\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"SEED\" \"${ escape "seed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( standard-input \"STANDARD_INPUT\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutils" }/bin/yq\" )"
