@@ -406,11 +406,14 @@
                                                                                         let
                                                                                             idea-file = builtins.toFile "idea.nix" ( builtins.toJSON levels ) ;
                                                                                             levels =
-                                                                                                [
-                                                                                                    { name = "init-status" ; value = [ 0 65 66 ] ; }
-                                                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                    { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                ] ;
+                                                                                                let
+                                                                                                    levels =
+                                                                                                        [
+                                                                                                            { name = "init-status" ; value = [ 0 65 66 ] ; }
+                                                                                                            { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                            { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                        ] ;
+                                                                                                    in levels ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
                                                                                 {
