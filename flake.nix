@@ -465,10 +465,14 @@
                                                                                                                                 "\t\t{"
                                                                                                                                 "\t\t\texecutable = pkgs.writeShellScript \"init\" ( self + \"/scripts/test/temporary.sh\" ) ;"
                                                                                                                                 "\t\t\tsets ="
-                                                                                                                                "\t\t\t\t["
-                                                                                                                                "\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
-                                                                                                                                "\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutils" }/bin/yq\" )"
-                                                                                                                                "\t\t\t\t]"
+                                                                                                                                "\t\t\t\t{ is-file , is-pipe , standard-input , string }"
+                                                                                                                                "\t\t\t\t\t["
+                                                                                                                                "\t\t\t\t\t\t( is-file \"IS_FILE\" )"
+                                                                                                                                "\t\t\t\t\t\t( is-pipe \"IS_PIPE\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
+                                                                                                                                "\t\t\t\t\t\t( standard-input \"STANDARD_INPUT\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutils" }/bin/yq\" )"
+                                                                                                                                "\t\t\t\t\t] ;"
                                                                                                                                 "\t\t} ;"
                                                                                                                             ]
                                                                                                                         else if values.init-typeOf == "null" then [ ]
