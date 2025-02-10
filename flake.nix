@@ -468,12 +468,17 @@
                                                                                                                             values = [ "init-status" "init-typeOf" "init-standard-output" ] ;
                                                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length values ) ) ;
                                                                                                                     in
-                                                                                                                        [
-                                                                                                                            "# ${ builtins.toJSON values }"
-                                                                                                                            "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) } = "
-                                                                                                                            "\t{"
-                                                                                                                            ( builtins.map indent init )
-                                                                                                                            "\t} ;"
+                                                                                                                        builtins.concatLists
+                                                                                                                            [
+                                                                                                                                [
+                                                                                                                                    "# ${ builtins.toJSON values }"
+                                                                                                                                    "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) } = "
+                                                                                                                                    "\t{"
+                                                                                                                                ]
+                                                                                                                                    ( builtins.map indent init )
+                                                                                                                                [
+                                                                                                                                    "\t} ;"
+                                                                                                                                ]
                                                                                                                         ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
