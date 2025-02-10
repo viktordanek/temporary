@@ -449,8 +449,8 @@
                                                                                                             if builtins.typeOf value == "null" then
                                                                                                                 let
                                                                                                                     init =
-                                                                                                                        if values.init == "lambda" then "init = script { } ;"
-                                                                                                                        else if values.init == "null" then "# null init"
+                                                                                                                        if values.init-typeOf == "lambda" then "init = script { } ;"
+                                                                                                                        else if values.init-typeOf == "null" then "# null init"
                                                                                                                         else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
                                                                                                                     post = init ;
                                                                                                                     release = init ;
@@ -459,7 +459,7 @@
                                                                                                                             script :
                                                                                                                                 script
                                                                                                                                     {
-                                                                                                                                        ${ values.init-typeOf }
+                                                                                                                                        ${ values.init-status }
                                                                                                                                     } ;
                                                                                                                         '' ;
                                                                                                                     values =
