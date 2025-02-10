@@ -472,7 +472,7 @@
                                                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length values ) ) ;
                                                                                                                     in
                                                                                                                         [
-                                                                                                                            # "# ${ builtins.toJSON values }"
+                                                                                                                            "# ${ builtins.toJSON values }"
                                                                                                                             # "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) } = "
                                                                                                                             # "\t{"
                                                                                                                             # ( builtins.map indent init )
