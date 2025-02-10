@@ -453,7 +453,7 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "null" then
                                                                                                                 let
-                                                                                                                    coreutils = builtins.concatStringsSep "" [ "$" "{" " " "pkgs.coreutils" " " "}" ] ;
+                                                                                                                    escape = builtins.concatStringsSep "" [ "$" "{" " " value " " "}" ] ;
                                                                                                                     init =
                                                                                                                         if values.init-typeOf == "lambda" then
                                                                                                                             [
@@ -463,8 +463,8 @@
                                                                                                                                 "\t\t\texecutable = pkgs.writeShellScript ( self + \"/scripts/test/temporary.sh\" ) ;"
                                                                                                                                 "\t\t\tsets ="
                                                                                                                                 "\t\t\t\t["
-                                                                                                                                "\t\t\y\t\t( string \"STATUS\" \"status\" )"
-                                                                                                                                "\t\t\t\t\t( string \"YQ\" \"${ coreutils }/bin/yq\" )"
+                                                                                                                                "\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
+                                                                                                                                "\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutilszzz' }/bin/yq\" )"
                                                                                                                                 "\t\t\t\t]"
                                                                                                                                 "\t\t} ;"
                                                                                                                             ]
