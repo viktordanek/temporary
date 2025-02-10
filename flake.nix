@@ -601,17 +601,7 @@
                                                                 observe = if builtins.pathExists ( self + "/observe.nix" ) then builtins.import ( self + "/observe.nix" ) else builtins.throw "observe.nix is undfined.  use $out/bin/reobservate to define observ.nix." ;
                                                                 in
                                                                     ''
-                                                                        ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                            ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reideate.sh" ) } $out/bin/reideate.sh &&
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reobservate.sh" ) } $out/bin/reobservate.sh &&
-                                                                            ${ pkgs.coreutils }/bin/cp ${ self + ( "/scripts/test/util/reexpectate.sh" ) } $out/bin/reexpectate.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/reideate.sh $out/bin/reobservate.sh $out/bin/reexpectate.sh &&
-                                                                            makeWrapper $out/bin/reideate.sh $out/bin/reideate --set CP ${ pkgs.coreutils }/bin/cp --set IDEA_FILE ${ builtins.toFile "idea.nix" "" } &&
-                                                                            makeWrapper $out/bin/reobservate.sh $out/bin/reobservate &&
-                                                                            makeWrapper $out/bin/reexpectate.sh $out/bin/reexpectate &&
-                                                                            ${ if builtins.pathExists ( self + "/idea.nix" ) then "${ pkgs.coreutils }/bin/true idea.nix exists" else "${ pkgs.coreutils }/bin/echo use $out/bin/reideate to define idea.nix." } &&
-                                                                            exit ${ builtins.toString 10 }
+                                                                        ${ genesis.expression }
                                                                     '' ;
                                                     } ;
                                     lib = lib ;
