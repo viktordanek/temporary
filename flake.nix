@@ -411,7 +411,7 @@
                                                                     ''
                                                                         ${ genesis } &&
                                                                             exit ${ builtins.toString 10 }
-                                                                    ''
+                                                                    '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
