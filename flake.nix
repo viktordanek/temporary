@@ -407,7 +407,7 @@
                                                                                             denumber = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ;
                                                                                             file =
                                                                                                 let
-                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{" ] ( builtins.map indent levels ) [ "}" ] ] ) ;
+                                                                                                    nix = builtins.concatStringsSep "\n\n" ( builtins.concatLists [ [ "{" ] ( builtins.map indent levels ) [ "}" ] ] ) ;
                                                                                                     in builtins.toFile "idea.nix" nix ;
                                                                                             indent = value : "\t${ value }" ;
                                                                                             levels =
