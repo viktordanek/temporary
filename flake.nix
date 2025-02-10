@@ -408,25 +408,33 @@
                                                                                             levels =
                                                                                                 let
                                                                                                     levels =
-                                                                                                        [
-                                                                                                            { name = "init-status" ; value = [ 0 65 66 ] ; }
-                                                                                                            { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                            { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                        ] ;
-                                                                                                    mapper =
-                                                                                                        value :
-                                                                                                            let
-                                                                                                                level-value =
+                                                                                                        let
+                                                                                                            levels =
+                                                                                                                [
+                                                                                                                    { name = "init-status" ; value = [ 0 65 66 ] ; }
+                                                                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                                    { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                ] ;
+                                                                                                            mapper =
+                                                                                                                value :
                                                                                                                     let
-                                                                                                                        generator =
-                                                                                                                            index :
-                                                                                                                                let
-                                                                                                                                    level-value = builtins.elemAt value.value index ;
-                                                                                                                                    in builtins.toString ( if builtins.typeOf level-value == "null" then "${ value.name }-${ builtins.toString index }" else level-value ) ;
-                                                                                                                        in builtins.genList generator ( builtins.length value.value ) ;
-                                                                                                                in
-                                                                                                                    { name = value.name ; value = level-value ; } ;
-                                                                                                    in builtins.map mapper levels ;
+                                                                                                                        level-value =
+                                                                                                                            let
+                                                                                                                                generator =
+                                                                                                                                    index :
+                                                                                                                                        let
+                                                                                                                                            level-value = builtins.elemAt value.value index ;
+                                                                                                                                            in builtins.toString ( if builtins.typeOf level-value == "null" then "${ value.name }-${ builtins.toString index }" else level-value ) ;
+                                                                                                                                in builtins.genList generator ( builtins.length value.value ) ;
+                                                                                                                        in
+                                                                                                                            { name = value.name ; value = level-value ; } ;
+                                                                                                            in builtins.map mapper levels ;
+                                                                                                    reducer =
+                                                                                                        previous : current :
+                                                                                                            let
+                                                                                                                mapper = value : { name = value ; value = previous ; } ;
+                                                                                                                in builtins.map mapper current.value ;
+                                                                                                    in builtins.foldl' reducer builtins.null levels ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
                                                                                 {
