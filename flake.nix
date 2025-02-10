@@ -460,7 +460,7 @@
                                                                                                                             ${ builtins.concatStringsSep "" ( builtins.attrValues values ) } =
                                                                                                                                 script :
                                                                                                                                     {
-                                                                                                                                        ${ init }
+                                                                                                                                        
                                                                                                                                     } ;
                                                                                                                         '' ;
                                                                                                                     values =
