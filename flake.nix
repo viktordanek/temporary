@@ -412,14 +412,20 @@
                                                                                                     makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE FOOBAR
                                                                                                 '' ;
                                                                                 }
+                                                                                {
+                                                                                    condition = true ;
+                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out" ;
+                                                                                }
                                                                             ] ;
                                                                         in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
                                                                 in
+                                                                    let x =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/echo $out &&
                                                                             ${ genesis } &&
                                                                             exit ${ builtins.toString 10 }
                                                                     '' ;
+                                                                    in builtins.trace x x ;
                                                     } ;
                                     lib = lib ;
                                 } ;
