@@ -401,6 +401,10 @@
                                                                         genesis =
                                                                             [
                                                                                 {
+                                                                                    condition = true ;
+                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out" ; 
+                                                                                }
+                                                                                {
                                                                                     condition = ! builtins.pathExists ( self + "/idea.nix" ) ;
                                                                                     expression =
                                                                                         let
