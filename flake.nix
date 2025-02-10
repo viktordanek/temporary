@@ -416,9 +416,17 @@
                                                                                                     mapper =
                                                                                                         value :
                                                                                                             let
-                                                                                                                level = value ;
+                                                                                                                level-value =
+                                                                                                                    let
+                                                                                                                        generator =
+                                                                                                                            index :
+                                                                                                                                let
+                                                                                                                                    level-value = builtins.elemAt level-name.value index ;
+                                                                                                                                    in builtins.toString ( if builtins.typeOf level-value == "null" then "${ level-name }-${ level-value }" else level-value ) ;
+                                                                                                                        in builtins.genList generator ( builtins.length level-name.value ) ;
+                                                                                                                level-name = value ;
                                                                                                                 in
-                                                                                                                    { name = level.name ; value = level.value ; } ;
+                                                                                                                    { name = level-name.name ; value = level-value ; } ;
                                                                                                     in builtins.map mapper levels ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
