@@ -457,6 +457,9 @@
                                                                                                                     init =
                                                                                                                         if values.init-typeOf == "lambda" then
                                                                                                                             [
+                                                                                                                                "init ="
+                                                                                                                                "\t{"
+                                                                                                                                "\t}"
                                                                                                                             ]
                                                                                                                         else if values.init-typeOf == "null" then [ ]
                                                                                                                         else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
