@@ -422,8 +422,9 @@
                                                                                                                             level = builtins.elemAt levels index ;
                                                                                                                             value = builtins.toString ( if builtins.typeOf level.value == "null" then builtins.substring 0 8 ( builtins.hashString "md5" "${ level.name }-${ builtins.toString index }" ) else level.value ) ;
                                                                                                                             in { name = level.name ; value = value ; } ;
+                                                                                                                in builtins.genList generator ( builtins.length value.value ) ;
                                                                                                     in builtins.map mapper levels ;
-                                                                                            in ''makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }'' ;
+                                                                                            in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
