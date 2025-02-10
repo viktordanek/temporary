@@ -406,24 +406,11 @@
                                                                                         let
                                                                                             idea-file = builtins.toFile "idea.nix" ( builtins.toJSON levels ) ;
                                                                                             levels =
-                                                                                                let
-                                                                                                    levels =
-                                                                                                        [
-                                                                                                            { name = "init-status" ; value = [ 0 65 66 ] ; }
-                                                                                                            { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                            { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                        ] ;
-                                                                                                    mapper =
-                                                                                                        value :
-                                                                                                            let
-                                                                                                                generator =
-                                                                                                                    index :
-                                                                                                                        let
-                                                                                                                            level = builtins.elemAt levels index ;
-                                                                                                                            value = builtins.toString ( if builtins.typeOf level.value == "null" then builtins.substring 0 8 ( builtins.hashString "md5" "${ level.name }-${ builtins.toString index }" ) else level.value ) ;
-                                                                                                                            in { name = level.name ; value = value ; } ;
-                                                                                                                in builtins.genList generator ( builtins.length value.value ) ;
-                                                                                                    in builtins.map mapper levels ;
+                                                                                                [
+                                                                                                    { name = "init-status" ; value = [ 0 65 66 ] ; }
+                                                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                    { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                ] ;
                                                                                             in "makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ idea-file }" ;
                                                                                 }
                                                                                 {
