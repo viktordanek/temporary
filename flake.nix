@@ -449,7 +449,7 @@
                                                                                                             if builtins.typeOf value == "null" then
                                                                                                                 let
                                                                                                                     init =
-                                                                                                                        if values.init-typeOf == "lambda" then ''init = script { executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { } : [ ] ; } ;''
+                                                                                                                        if values.init-typeOf == "lambda" then ''init = script { executable = pkgs.writeShellScript "init" ( builtins.readFile ( self + "/scripts/test/temporary/init.sh" ) ) ; sets = { string } : [ ( string "ECHO" "${ coreutils }/bin/echo" ) ] ; } ;''
                                                                                                                         else if values.init-typeOf == "null" then "# null init"
                                                                                                                         else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
                                                                                                                     post = init ;
