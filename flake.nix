@@ -459,7 +459,7 @@
                                                                                                                             script :
                                                                                                                                 script
                                                                                                                                     {
-                                                                                                                                        HI
+                                                                                                                                        ${ values.init-typeOf }
                                                                                                                                     } ;
                                                                                                                         '' ;
                                                                                                                     values =
