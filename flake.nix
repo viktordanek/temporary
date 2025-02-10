@@ -468,7 +468,9 @@
                                                                                                                     in
                                                                                                                         [
                                                                                                                             "# ${ builtins.toJSON values }"
-                                                                                                                            "${ builtins.substring 0 8 ( builtins.h
+                                                                                                                            "${ denumber ( builtins.substring 0 8 ( builtins.hashString ( builtins.toJSON values ) ) ) }"
+                                                                                                                            "\t{"
+                                                                                                                            "\t}"
                                                                                                                         ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
