@@ -281,7 +281,7 @@
                                                                                             in
                                                                                                 {
                                                                                                     name =
-                                                                                                        if builtins.typeOf value == "null" then builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ current.name index ] ) ) ) )
+                                                                                                        if builtins.typeOf value == "null" then denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ current.name index ] ) ) ) )
                                                                                                         else if builtins.typeOf value == "bool" && value then "true"
                                                                                                         else if builtins.typeOf value == "bool" then "false"
                                                                                                         else builtins.toString value ;
@@ -404,6 +404,7 @@
                                                                                     condition = ! builtins.pathExists ( self + "/idea.nix" ) ;
                                                                                     expression =
                                                                                         let
+                                                                                            denumber = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ]
                                                                                             file =
                                                                                                 let
                                                                                                     nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{" ] ( builtins.map indent levels ) [ "}" ] ] ) ;
@@ -467,6 +468,7 @@
                                                                                                                     in
                                                                                                                         [
                                                                                                                             "# ${ builtins.toJSON values }"
+                                                                                                                            "${ builtins.substring 0 8 ( builtins.h
                                                                                                                         ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
