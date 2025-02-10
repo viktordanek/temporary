@@ -1,0 +1,5 @@
+{
+  "is_file": env(IS_FILE)
+  "is_pipe": env(IS_PIPE),
+  "standard_input": env(STANDARD_INPUT)
+}

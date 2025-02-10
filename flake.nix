@@ -427,6 +427,14 @@
                                                                                                                                     { name = "init-status" ; value = [ "status" ] ; }
                                                                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                                                                     { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "init-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "release-status" ; value = [ "status" ] ; }
+                                                                                                                                    { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                                                                    { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "speed" ; value = [ "speed" ] ; }
                                                                                                                                 ] ;
                                                                                                                             mapper =
                                                                                                                                 value :
@@ -467,8 +475,11 @@
                                                                                                                                 "\t\t\tsets ="
                                                                                                                                 "\t\t\t\t{ is-file , is-pipe , standard-input , string }"
                                                                                                                                 "\t\t\t\t\t["
+                                                                                                                                "\t\t\t\t\t\t( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
                                                                                                                                 "\t\t\t\t\t\t( is-file \"IS_FILE\" )"
                                                                                                                                 "\t\t\t\t\t\t( is-pipe \"IS_PIPE\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"JQ\" \"${ escape "pkgs.coreutils" }/bin/jq\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"SEED\" \"${ escape \"seed\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( standard-input \"STANDARD_INPUT\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutils" }/bin/yq\" )"
@@ -482,7 +493,20 @@
                                                                                                                     values =
                                                                                                                         let
                                                                                                                             generator = index : { name = builtins.elemAt values index ; value = builtins.elemAt ( builtins.concatLists [ path [ name ] ] ) index ; } ;
-                                                                                                                            values = [ "init-status" "init-typeOf" "init-standard-output" ] ;
+                                                                                                                            values =
+                                                                                                                                [
+                                                                                                                                    "init-status"
+                                                                                                                                    "init-typeOf"
+                                                                                                                                    "init-standard-output"
+                                                                                                                                    "init-standard-error"
+                                                                                                                                    "init-seed"
+                                                                                                                                    "release-status"
+                                                                                                                                    "release-typeOf"
+                                                                                                                                    "release-standard-output"
+                                                                                                                                    "release-standard-error"
+                                                                                                                                    "release-seed"
+                                                                                                                                    "speed"
+                                                                                                                                ] ;
                                                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length values ) ) ;
                                                                                                                     in
                                                                                                                         builtins.concatLists
