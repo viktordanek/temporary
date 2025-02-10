@@ -457,8 +457,8 @@
                                                                                                                     release = init ;
                                                                                                                     script =
                                                                                                                         ''
-                                                                                                                            # ${ builtins.concatStringsSep " / " path }
-                                                                                                                            ${ builtins.concatStringsSep " / " ( builtins.attrValues values ) } =
+                                                                                                                            # ${ builtins.concatStringsSep " / " ( builtins.attrValues values ) }
+                                                                                                                            ${ builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep " / " ( builtins.attrValues values ) ) ) } =
                                                                                                                                 script :
                                                                                                                                     {
                                                                                                                                         ${ init }
