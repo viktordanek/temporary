@@ -459,9 +459,7 @@
                                                                                                                             script :
                                                                                                                                 script
                                                                                                                                     {
-                                                                                                                                        ${ init }
-                                                                                                                                        ${ post }
-                                                                                                                                        ${ release }
+                                                                                                                                        HI
                                                                                                                                     } ;
                                                                                                                         '' ;
                                                                                                                     values =
