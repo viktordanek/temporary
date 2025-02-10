@@ -428,12 +428,14 @@
                                                                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                                                                     { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
                                                                                                                                     { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                                    { name = "init-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "init-path-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "init-variable-seed" ; value = [ builtins.null builtins.null ] ; }
                                                                                                                                     { name = "release-status" ; value = [ "status" ] ; }
                                                                                                                                     { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                                                                     { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
                                                                                                                                     { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                                    { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "release-path-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                                                                    { name = "release-variable-seed" ; value = [ builtins.null builtins.null ] ; }
                                                                                                                                     { name = "speed" ; value = [ "speed" ] ; }
                                                                                                                                 ] ;
                                                                                                                             mapper =
@@ -478,9 +480,12 @@
                                                                                                                                 "\t\t\t\t\t\t( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
                                                                                                                                 "\t\t\t\t\t\t( is-file \"IS_FILE\" )"
                                                                                                                                 "\t\t\t\t\t\t( is-pipe \"IS_PIPE\" )"
+                                                                                                                                "\t\t\t\t\t\t( path \"NAME\" 1 )"
                                                                                                                                 "\t\t\t\t\t\t( string \"JQ\" \"${ escape "pkgs.coreutils" }/bin/jq\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"SEED\" \"${ escape "seed" }\" )"
+                                                                                                                                "\t\t\t\t\t\t( path \"PATH_SEED\" 0 )"
+                                                                                                                                "\t\t\t\t\t\t( speed \"SPEED\" \"${ escape speed }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"VARIABLE_SEED\" \"${ escape "seed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( standard-input \"STANDARD_INPUT\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutils" }/bin/yq\" )"
                                                                                                                                 "\t\t\t\t\t] ;"
@@ -499,12 +504,14 @@
                                                                                                                                     "init-typeOf"
                                                                                                                                     "init-standard-output"
                                                                                                                                     "init-standard-error"
-                                                                                                                                    "init-seed"
+                                                                                                                                    "init-path-seed"
+                                                                                                                                    "init-variable-seed"
                                                                                                                                     "release-status"
                                                                                                                                     "release-typeOf"
                                                                                                                                     "release-standard-output"
                                                                                                                                     "release-standard-error"
-                                                                                                                                    "release-seed"
+                                                                                                                                    "release-path-seed"
+                                                                                                                                    "release--variable-seed"
                                                                                                                                     "speed"
                                                                                                                                 ] ;
                                                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length values ) ) ;
