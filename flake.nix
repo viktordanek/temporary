@@ -422,7 +422,7 @@
                                                                                                                             index :
                                                                                                                                 let
                                                                                                                                     level-value = builtins.elemAt value.value index ;
-                                                                                                                                    in builtins.toString ( if builtins.typeOf level-value == "null" then "${ level.name }-${ builtins.toString index }" else level-value ) ;
+                                                                                                                                    in builtins.toString ( if builtins.typeOf level-value == "null" then "${ value.name }-${ builtins.toString index }" else level-value ) ;
                                                                                                                         in builtins.genList generator ( builtins.length level.value ) ;
                                                                                                                 in
                                                                                                                     { name = value.name ; value = value.value ; } ;
