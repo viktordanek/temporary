@@ -601,7 +601,8 @@
                                                                 observe = if builtins.pathExists ( self + "/observe.nix" ) then builtins.import ( self + "/observe.nix" ) else builtins.throw "observe.nix is undfined.  use $out/bin/reobservate to define observ.nix." ;
                                                                 in
                                                                     ''
-                                                                        ${ genesis.expression } &&
+                                                                        ${ pkgs.coreutils }/bin/echo $out &&
+                                                                            ${ genesis.expression } &&
                                                                             exit ${ builtins.toString 10 }
                                                                     '' ;
                                                     } ;
