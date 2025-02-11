@@ -485,7 +485,7 @@
                                                                                             in "${ pkgs.coreutils }/bin/echo idea.nix is undefined. && makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set IDEA_FILE ${ file }" ;
                                                                                 }
                                                                                 {
-                                                                                    condition = builtins.pathExists ( self + "/observate.nix" ) ;
+                                                                                    condition = ! builtins.pathExists ( self + "/observate.nix" ) ;
                                                                                     expression =
                                                                                         let
                                                                                             mapper =
@@ -493,7 +493,8 @@
                                                                                                     if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( builtins.concatLists [ path [ name ] ]  ) value ) )
                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                         let
-                                                                                                            in builtins.null
+                                                                                                            command = builtins.concatStringsSep " . " ( builtins.concatLists [ [ "resources" "temporary" "temporary" ] ( builtins.map quote ( builtins.concatLists [ path [ name ] ] ) ) ] ) ;
+                                                                                                            in [ command ]
                                                                                                     else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                             in builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ;
                                                                                 }
