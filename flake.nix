@@ -486,7 +486,29 @@
                                                                                 }
                                                                                 {
                                                                                     condition = builtins.pathExists ( self + "/observate.nix" ) ;
-                                                                                    expression = null ;
+                                                                                    expression =
+                                                                                        let
+                                                                                            mapper =
+                                                                                                path : name : value :
+                                                                                                    if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( builtins.concatLists [ path [ name ] ]  ) value ) )
+                                                                                                    else if builtins.typeOf value == "string" then
+                                                                                                        let
+                                                                                                            arguments = hash "arguments" ;
+                                                                                                            hash = name : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep name path ) ) ;
+                                                                                                            init-status = builtins.elemAt path 0 ;
+                                                                                                            pass =
+                                                                                                                [
+                                                                                                                    { expression = "${ value }" ; pipes = 0 ; }
+                                                                                                                    { expression = "${ value } ${ arguments }" ; pipes = 0 ; }
+                                                                                                                    { expression = "${ value } < $( ${ resources.temporary.util.identity } ${ standard-input } )" ; pipes = 2 ; }
+                                                                                                                    { expression = "${ value } < $( ${ resources.temporary.util.identity } ${ arguments }  ${ standard-input } )" ; pipes = 2 ; }
+                                                                                                                    { expression = "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ value }" ; pipes = 1 ; }
+                                                                                                                    { expression = ${ pk
+                                                                                                                ] ;
+                                                                                                            standard-input = hash "standard-input" ;
+                                                                                                            in if init-status == "0" then pass else fail
+                                                                                                    else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }."
+                                                                                            in builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ;
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
