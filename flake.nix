@@ -493,20 +493,33 @@
                                                                                                     if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( builtins.concatLists [ path [ name ] ]  ) value ) )
                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                         let
-                                                                                                            arguments = hash "arguments" ;
-                                                                                                            fail =
-                                                                                                                [
-                                                                                                                ] ;
-                                                                                                            hash = name : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep name path ) ) ;
+                                                                                                            expression =
+                                                                                                                let
+                                                                                                                    commands =
+                                                                                                                        let
+                                                                                                                            list = [ "status" "file-standard-input" "pipe-standard-input" "arguments" ] ;
+                                                                                                                            mapper =
+                                                                                                                                path : name : value :
+                                                                                                                                    if builtins.typeOf value == "null" then
+                                                                                                                                        let
+                                                                                                                                            command = 
+                                                                                                                                            values =
+                                                                                                                                                let
+                                                                                                                                                    generator = index : { name = builtins.elemAt list index ; value = builtins.elemAt path index ; } ;
+                                                                                                                                                    in builtins.listToAttrs ( builtins.genList generator ( builtins.length list ) ) ;
+                                                                                                                                            in
+                                                                                                                                    else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                                                                                    else builtins.throw "The expression at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }".
+                                                                                                                            set =
+                                                                                                                                let
+                                                                                                                                    reducer = previous : current : { true = previous ; false = previous ; } ;
+                                                                                                                                    in builtins.foldl' reducer { } list ;
+                                                                                                                    pass =
+                                                                                                                        [
+                                                                                                                        ] ;
+                                                                                                                    in pass ;
+                                                                                                            identity = "$( resources . temporary . util . identity )" ;
                                                                                                             init-status = builtins.elemAt path 0 ;
-                                                                                                            pass =
-                                                                                                                [
-                                                                                                                    { expression = "${ value }" ; pipes = 0 ; }
-                                                                                                                    { expression = "${ value } ${ arguments }" ; pipes = 0 ; }
-                                                                                                                    { expression = "${ value } < $( ${ resources.temporary.util.identity } ${ standard-input } )" ; pipes = 2 ; }
-                                                                                                                    { expression = "${ value } < $( ${ resources.temporary.util.identity } ${ arguments }  ${ standard-input } )" ; pipes = 2 ; }
-                                                                                                                    { expression = "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ value }" ; pipes = 1 ; }
-                                                                                                                ] ;
                                                                                                             standard-input = hash "standard-input" ;
                                                                                                             in if init-status == "0" then pass else fail
                                                                                                     else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
