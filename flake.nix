@@ -205,7 +205,7 @@
                                                                         temporary =
                                                                             status : speed : init-path-seed : release-path-seed :
                                                                                 let
-                                                                                    fun = builtins.import ( self + "/idea.nix" )
+                                                                                    fun = builtins.import ( self + "/idea.nix" ) ;
                                                                                     arguments =
                                                                                         {
                                                                                             echo = "${ pkgs.coreutils }/bin/echo" ;
