@@ -203,7 +203,7 @@
                                                                 temporary =
                                                                     let
                                                                         arguments =
-                                                                            speed : init-path-seed : release-path-speed :
+                                                                            speed : init-path-seed : release-path-seed :
                                                                             {
                                                                                 echo = "${ pkgs.coreutils }/bin/echo" ;
                                                                                 init-path-seed = init-path-seed ;
