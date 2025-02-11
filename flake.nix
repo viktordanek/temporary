@@ -475,7 +475,7 @@
                                                                                                                                 "\t\t{"
                                                                                                                                 "\t\t\texecutable = pkgs.writeShellScript \"init\" ( self + \"/scripts/test/temporary.sh\" ) ;"
                                                                                                                                 "\t\t\tsets ="
-                                                                                                                                "\t\t\t\t{ is-file , is-pipe , standard-input , string }"
+                                                                                                                                "\t\t\t\t{ is-file , is-pipe , standard-input , string } :"
                                                                                                                                 "\t\t\t\t\t["
                                                                                                                                 "\t\t\t\t\t\t( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
                                                                                                                                 "\t\t\t\t\t\t( is-file \"IS_FILE\" )"
