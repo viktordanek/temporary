@@ -238,7 +238,7 @@
                                                                                             } ;
                                                                                         c563cc36 =
                                                                                             {
-                                                                                                ef7d732e = builtins.import ( self + "/idea.nix" ) arguments 65 "c563cc36" "ef7d732e ;
+                                                                                                ef7d732e = builtins.import ( self + "/idea.nix" ) arguments 65 "c563cc36" "ef7d732e" ;
                                                                                                 e8c71063 = builtins.import ( self + "/idea.nix" ) arguments 65 "c563cc36" "e8c71063" ;
                                                                                             } ;
                                                                                     } ;
