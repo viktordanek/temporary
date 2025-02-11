@@ -410,7 +410,7 @@
                                                                                             denumber = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ;
                                                                                             file =
                                                                                                 let
-                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ status , speed } :" "\t{" ] ( builtins.map ( indent 2 ) levels ) [ "\t}" ] ] ) ;
+                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ status , speed , writeShellScript } :" "\t{" ] ( builtins.map ( indent 2 ) levels ) [ "\t}" ] ] ) ;
                                                                                                     in builtins.toFile "idea.nix" nix ;
                                                                                             indent = depth : value : "${ builtins.concatStringsSep "" ( builtins.genList ( i : "\t" ) depth ) }${ value }" ;
                                                                                             levels =
@@ -473,7 +473,7 @@
                                                                                                                                 "init ="
                                                                                                                                 "\tscript"
                                                                                                                                 "\t\t{"
-                                                                                                                                "\t\t\texecutable = pkgs.writeShellScript \"init\" ( self + \"/scripts/test/temporary.sh\" ) ;"
+                                                                                                                                "\t\t\texecutable = writeShellScript \"init\" ( self + \"/scripts/test/temporary.sh\" ) ;"
                                                                                                                                 "\t\t\tsets ="
                                                                                                                                 "\t\t\t\t{ is-file , is-pipe , standard-input , string } :"
                                                                                                                                 "\t\t\t\t\t["
