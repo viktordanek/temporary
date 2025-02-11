@@ -204,16 +204,16 @@
                                                                     let
                                                                         arguments =
                                                                             speed : init-path-seed : release-path-seed :
-                                                                            {
-                                                                                echo = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                init-path-seed = init-path-seed ;
-                                                                                jq = "${ pkgs.jq }/bin/jq" ;
-                                                                                release-path-seed = release-path-seed ;
-                                                                                self = self ;
-                                                                                speed = speed ;
-                                                                                writeShellScript = pkgs.writeShellScript ;
-                                                                                yq = "${ pkgs.yq }/bin/yq" ;
-                                                                            } ;
+                                                                                {
+                                                                                    echo = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                    init-path-seed = init-path-seed ;
+                                                                                    jq = "${ pkgs.jq }/bin/jq" ;
+                                                                                    release-path-seed = release-path-seed ;
+                                                                                    self = self ;
+                                                                                    speed = speed ;
+                                                                                    writeShellScript = pkgs.writeShellScript ;
+                                                                                    yq = "${ pkgs.yq }/bin/yq" ;
+                                                                                } ;
                                                                         in
                                                                             {
                                                                                 "0" =
@@ -360,7 +360,7 @@
                                                                                             denumber = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ;
                                                                                             file =
                                                                                                 let
-                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ echo , jq , self , speed , status , writeShellScript , yq } :" "\t{" ] ( builtins.map ( indent 2 ) levels ) [ "\t}" ] ] ) ;
+                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ echo , init-path-seed , jq , release-path-seed , self , speed , status , writeShellScript , yq } :" "\t{" ] ( builtins.map ( indent 2 ) levels ) [ "\t}" ] ] ) ;
                                                                                                     in builtins.toFile "idea.nix" nix ;
                                                                                             indent = depth : value : "${ builtins.concatStringsSep "" ( builtins.genList ( i : "\t" ) depth ) }${ value }" ;
                                                                                             levels =
