@@ -202,57 +202,62 @@
                                                             {
                                                                 temporary =
                                                                     let
-                                                                        arguments =
-                                                                            speed : init-path-seed : release-path-seed :
-                                                                                {
-                                                                                    echo = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                    init-path-seed = init-path-seed ;
-                                                                                    jq = "${ pkgs.jq }/bin/jq" ;
-                                                                                    release-path-seed = release-path-seed ;
-                                                                                    self = self ;
-                                                                                    speed = speed ;
-                                                                                    writeShellScript = pkgs.writeShellScript ;
-                                                                                    yq = "${ pkgs.yq }/bin/yq" ;
-                                                                                } ;
+                                                                        temporary =
+                                                                            status : speed : init-path-seed : release-path-seed :
+                                                                                let
+                                                                                    fun = builtins.import ( self + "/idea.nix" )
+                                                                                    arguments =
+                                                                                        {
+                                                                                            echo = "${ pkgs.coreutils }/bin/echo" ;
+                                                                                            init-path-seed = init-path-seed ;
+                                                                                            jq = "${ pkgs.jq }/bin/jq" ;
+                                                                                            release-path-seed = release-path-seed ;
+                                                                                            self = self ;
+                                                                                            speed = speed ;
+                                                                                            status = status ;
+                                                                                            writeShellScript = pkgs.writeShellScript ;
+                                                                                            yq = "${ pkgs.yq }/bin/yq" ;
+                                                                                        } ;
+                                                                                    in fun arguments ;
                                                                         in
                                                                             {
                                                                                 "0" =
                                                                                     {
                                                                                         dc0d9770 =
                                                                                             {
-                                                                                                ef7d732e = builtins.import ( self + "/idea.nix" ) arguments 0 "dc0d9770" "ef7d732e" ;
-                                                                                                e8c71063 = builtins.import ( self + "/idea.nix" ) arguments 0 "dc0d9770" "e8c71063" ;
+                                                                                                ef7d732e = temporary 0 "fast" "dc0d9770" "ef7d732e" ;
+                                                                                                e8c71063 = temporary 0 "fast" "dc0d9770" "e8c71063" ;
                                                                                             } ;
                                                                                         c563cc36 =
                                                                                             {
-                                                                                                ef7d732e = builtins.import ( self + "/idea.nix" ) arguments 0 "c563cc36" "ef7d732e" ;
-                                                                                                e8c71063 = builtins.import ( self + "/idea.nix" ) arguments 0 "c563cc36" "e8c71063" ;
+                                                                                                ef7d732e = temporary 0 "fast" "c563cc36" "ef7d732e" ;
+                                                                                                e8c71063 = temporary 0 "fast" "c563cc36" "e8c71063" ;
                                                                                             } ;
                                                                                     } ;
                                                                                 "65" =
                                                                                     {
                                                                                         dc0d9770 =
                                                                                             {
-                                                                                                ef7d732e = builtins.import ( self + "/idea.nix" ) arguments 65 "dc0d9770" "ef7d732e" ;
-                                                                                                e8c71063 = builtins.import ( self + "/idea.nix" ) arguments 65 "dc0d9770" "e8c71063" ;
+                                                                                                ef7d732e = temporary 65 "fast" "dc0d9770" "ef7d732e" ;
+                                                                                                e8c71063 = temporary 65 "fast" "dc0d9770" "e8c71063" ;
                                                                                             } ;
                                                                                         c563cc36 =
                                                                                             {
-                                                                                                ef7d732e = builtins.import ( self + "/idea.nix" ) arguments 65 "c563cc36" "ef7d732e" ;
-                                                                                                e8c71063 = builtins.import ( self + "/idea.nix" ) arguments 65 "c563cc36" "e8c71063" ;
+                                                                                                ef7d732e = temporary 65 "fast" "c563cc36" "ef7d732e" ;
+                                                                                                e8c71063 = temporary 65 "fast" "c563cc36" "e8c71063" ;
                                                                                             } ;
                                                                                     } ;
                                                                                 "66" =
                                                                                     {
                                                                                         dc0d9770 =
                                                                                             {
-                                                                                                ef7d732e = builtins.import ( self + "/idea.nix" ) arguments 66 "dc0d9770" "ef7d732e" ;
-                                                                                                e8c71063 = builtins.import ( self + "/idea.nix" ) arguments 66 "dc0d9770" "e8c71063" ;
+                                                                                                ef7d732e = temporary 66 "fast" "dc0d9770" "ef7d732e" ;
+                                                                                                e8c71063 = temporary 66 "fast" "dc0d9770" "e8c71063" ;
                                                                                             } ;
                                                                                         c563cc36 =
                                                                                             {
-                                                                                                ef7d732e = builtins.import ( self + "/idea.nix" ) arguments 66 "c563cc36" "ef7d732e" ;
-                                                                                                e8c71063 = builtins.import ( self + "/idea.nix" ) arguments 66 "c563cc36" "e8c71063" ;
+                                                                                                ef7d732e = temporary 66 "fast" "c563cc36" "ef7d732e" ;
+                                                                                                e8c71063 = temporary 66 "fast" "c563cc36" "e8c71063" ;
                                                                                             } ;
                                                                                     } ;
                                                                             } ;
