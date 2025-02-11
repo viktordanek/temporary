@@ -489,7 +489,7 @@
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) levels ) ) ;
-                                                                                            in "${ pkgs.coreutils }/bin/echo idea.nix is undefined. && makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/re.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET idea.nix" ;
+                                                                                            in "${ pkgs.coreutils }/bin/echo idea.nix is undefined. && makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET idea.nix" ;
                                                                                 }
                                                                                 {
                                                                                     condition = ! builtins.pathExists ( self + "/observe.json" ) ;
@@ -509,7 +509,11 @@
                                                                                                                     else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ;
                                                                                                     in builtins.toFile "observe.json" ( builtins.toJSON expressions ) ;
-                                                                                            in "${ pkgs.coreutils }/bin/echo observe.json is undefined. && makeWrapper ${ pkgs.writeShellScript "reobservate" ( builtins.readFile ( self + "/scripts/test/util/re.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET observe.json" ;
+                                                                                            in "${ pkgs.coreutils }/bin/echo observe.json is undefined. && makeWrapper ${ pkgs.writeShellScript "reobservate" ( builtins.readFile ( self + "/scripts/test/util/reobservate.sh" ) ) } $out --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET observe.yaml --set YQ ${ pkgs.yq }/bin/yq" ;
+                                                                                }
+                                                                                {
+                                                                                    condition = ! builtins.pathExists ( self + "/expect.yaml" ) ;
+                                                                                    expression = null ;
                                                                                 }
                                                                                 {
                                                                                     condition = true ;

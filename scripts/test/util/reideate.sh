@@ -1,1 +1,2 @@
-${CAT} ${IDEA_FILE} > idea.nix
+${CAT} ${SOURCE} > ${TARGET} &&
+  ${GIT} add ${TARGET}
