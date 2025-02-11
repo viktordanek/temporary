@@ -504,7 +504,7 @@
                                                                                                                     if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                                         let
-                                                                                                                            command = builtins.concatStringsSep " . " ( builtins.concatLists [ path [ name ] ] ) ;
+                                                                                                                            command = "resources . temporary . temporary . ${ builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) }" ;
                                                                                                                             in [ command ]
                                                                                                                     else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ;
