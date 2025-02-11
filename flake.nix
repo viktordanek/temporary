@@ -503,7 +503,6 @@
                                                                                                                     { expression = "${ value } < $( ${ resources.temporary.util.identity } ${ standard-input } )" ; pipes = 2 ; }
                                                                                                                     { expression = "${ value } < $( ${ resources.temporary.util.identity } ${ arguments }  ${ standard-input } )" ; pipes = 2 ; }
                                                                                                                     { expression = "${ pkgs.coreutils }/bin/echo ${ standard-input } | ${ value }" ; pipes = 1 ; }
-                                                                                                                    { expression = ${ pk
                                                                                                                 ] ;
                                                                                                             standard-input = hash "standard-input" ;
                                                                                                             in if init-status == "0" then pass else fail
