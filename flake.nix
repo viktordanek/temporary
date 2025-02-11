@@ -438,7 +438,7 @@
                                                                                                                                 "\t\t\t\t\t\t( string \"JQ\" \"${ escape "jq" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( path \"NAME\" 2 )"
                                                                                                                                 "\t\t\t\t\t\t( path \"PATH_SEED\" 0 )"
-                                                                                                                                # "\t\t\t\t\t\t( resource \"b6cba2f07dd0c2816e7e54f828051b800f5cffa1a140c72b0bf080dde92612d29449b0807c1217113ad8f5e2c72ca14e215c9f9eb83fae2dc1118c3e40691052\" )"
+                                                                                                                                "\t\t\t\t\t\t( resource \"b6cba2f07dd0c2816e7e54f828051b800f5cffa1a140c72b0bf080dde92612d29449b0807c1217113ad8f5e2c72ca14e215c9f9eb83fae2dc1118c3e40691052\" )"
                                                                                                                                 "\t\t\t\t\t\t( speed \"SPEED\" \"${ escape "speed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"VARIABLE_SEED\" \"${ values.init-variable-seed }\" )"
