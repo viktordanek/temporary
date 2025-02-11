@@ -505,7 +505,7 @@
                                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                                         let
                                                                                                                             statement = "resources . temporary . temporary . ${ builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) }" ;
-                                                                                                                            in [ { statement = statement } ; ]
+                                                                                                                            in [ { statement = statement ; status = builtins.elemAt path 0 ; } ]
                                                                                                                     else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ;
                                                                                                     in builtins.toFile "observe.json" ( builtins.toJSON expressions ) ;
