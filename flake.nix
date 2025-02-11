@@ -492,6 +492,14 @@
                                                                                                 let
                                                                                                     expressions =
                                                                                                         let
+                                                                                                            mapper =
+                                                                                                                path : name : value :
+                                                                                                                    if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.map ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                                                    else if builtins.typeOf value == "string" then
+                                                                                                                        let
+                                                                                                                            expression = { expression = "" ; files = -1 ; pipes = -1 ; } ;
+                                                                                                                            in [ expression ]
+                                                                                                                    else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                                             in [ ] ;
                                                                                                     in builtins.toFile "observate.nix" ( builtins.concatStringsSep "\n" expressions ) ;
                                                                                             in "${ pkgs.coreutils }/bin/echo observate.nix is undefined. && makeWrapper ${ pkgs.writeShellScript "reobservate" ( builtins.readFile ( self + "/scripts/test/util/re.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET observe.nix" ;
