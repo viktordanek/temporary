@@ -508,8 +508,8 @@
                                                                                                                             in [ ]
                                                                                                                     else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ;
-                                                                                                    in builtins.toFile "observate.json" ( builtins.toJSON expressions ) ;
-                                                                                            in "${ pkgs.coreutils }/bin/echo observate.nix is undefined. && makeWrapper ${ pkgs.writeShellScript "reobservate" ( builtins.readFile ( self + "/scripts/test/util/re.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET observe.json" ;
+                                                                                                    in builtins.toFile "observe.json" ( builtins.toJSON expressions ) ;
+                                                                                            in "${ pkgs.coreutils }/bin/echo observe.json is undefined. && makeWrapper ${ pkgs.writeShellScript "reobservate" ( builtins.readFile ( self + "/scripts/test/util/re.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET observe.json" ;
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
