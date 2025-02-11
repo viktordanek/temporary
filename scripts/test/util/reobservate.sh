@@ -1,2 +1,2 @@
-echo ${YQ} --yaml-output ${SOURCE} "." > ${TARGET} &&
+${YQ} --yaml-output "." ${SOURCE} > ${TARGET} &&
   ${GIT} add ${TARGET}
