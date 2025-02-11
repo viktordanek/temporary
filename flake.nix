@@ -521,9 +521,10 @@
                                                                                                                                 [
                                                                                                                                     "# ${ builtins.toJSON values }"
                                                                                                                                     "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) }.${ values.init-path-seed }.${ values.release-path-seed } = "
-                                                                                                                                    "\t{"
+                                                                                                                                    "\tscript :"
+                                                                                                                                    "\t\t{"
                                                                                                                                 ]
-                                                                                                                                    ( builtins.map ( indent 2 ) init )
+                                                                                                                                    ( builtins.map ( indent 3 ) init )
                                                                                                                                 [
                                                                                                                                     "\t} ;"
                                                                                                                                 ]
