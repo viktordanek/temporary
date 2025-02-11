@@ -497,7 +497,6 @@
                                                                                                                     if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                                         let
-                                                                                                                            expression = { expression = "" ; files = -1 ; pipes = -1 ; } ;
                                                                                                                             in [  ]
                                                                                                                     else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                                             in builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ;
