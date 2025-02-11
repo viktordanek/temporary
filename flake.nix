@@ -487,17 +487,7 @@
                                                                                 {
                                                                                     condition = ! builtins.pathExists ( self + "/observate.nix" ) ;
                                                                                     expression =
-                                                                                        let
-                                                                                            mapper =
-                                                                                                path : name : value :
-                                                                                                    if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( builtins.concatLists [ path [ name ] ]  ) value ) )
-                                                                                                    else if builtins.typeOf value == "string" then
-                                                                                                        let
-                                                                                                            command = builtins.concatStringsSep " . " ( builtins.concatLists [ [ "resources" "temporary" "temporary" ] ( builtins.map quote ( builtins.concatLists [ path [ name ] ] ) ) ] ) ;
-                                                                                                            quote = value : builtins.concatStringsSep "" [ "\"" value "\"" ] ;
-                                                                                                            in [ command ]
-                                                                                                    else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
-                                                                                            in builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ;
+                                                                                        "${ pkgs.coreutils }/bin/echo GOT YOU" ;
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
