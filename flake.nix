@@ -506,7 +506,7 @@
                                                                                                                 ] ;
                                                                                                             standard-input = hash "standard-input" ;
                                                                                                             in if init-status == "0" then pass else fail
-                                                                                                    else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }."
+                                                                                                    else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                             in builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ;
                                                                                 }
                                                                                 {
