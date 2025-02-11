@@ -494,7 +494,7 @@
                                                                                                         let
                                                                                                             mapper =
                                                                                                                 path : name : value :
-                                                                                                                    if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.map ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                                                    if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                                         let
                                                                                                                             expression = { expression = "" ; files = -1 ; pipes = -1 ; } ;
