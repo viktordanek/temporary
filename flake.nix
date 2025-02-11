@@ -410,7 +410,7 @@
                                                                                             denumber = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ;
                                                                                             file =
                                                                                                 let
-                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ self , speed , status , writeShellScript } :" "\t{" ] ( builtins.map ( indent 2 ) levels ) [ "\t}" ] ] ) ;
+                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ echo , jq , self , speed , status , writeShellScript , yq } :" "\t{" ] ( builtins.map ( indent 2 ) levels ) [ "\t}" ] ] ) ;
                                                                                                     in builtins.toFile "idea.nix" nix ;
                                                                                             indent = depth : value : "${ builtins.concatStringsSep "" ( builtins.genList ( i : "\t" ) depth ) }${ value }" ;
                                                                                             levels =
@@ -477,17 +477,17 @@
                                                                                                                                 "\t\t\tsets ="
                                                                                                                                 "\t\t\t\t{ is-file , is-pipe , standard-input , string } :"
                                                                                                                                 "\t\t\t\t\t["
-                                                                                                                                "\t\t\t\t\t\t( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"ECHO\" \"${ escape "echo" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( is-file \"IS_FILE\" )"
                                                                                                                                 "\t\t\t\t\t\t( is-pipe \"IS_PIPE\" )"
                                                                                                                                 "\t\t\t\t\t\t( path \"NAME\" 1 )"
-                                                                                                                                "\t\t\t\t\t\t( string \"JQ\" \"${ escape "pkgs.coreutils" }/bin/jq\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"JQ\" \"${ escape "jq" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( path \"PATH_SEED\" 0 )"
                                                                                                                                 "\t\t\t\t\t\t( speed \"SPEED\" \"${ escape "speed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"VARIABLE_SEED\" \"${ escape "seed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( standard-input \"STANDARD_INPUT\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"YQ\" \"${ escape "pkgs.coreutils" }/bin/yq\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"YQ\" \"${ escape "yq" }\" )"
                                                                                                                                 "\t\t\t\t\t] ;"
                                                                                                                                 "\t\t} ;"
                                                                                                                             ]
