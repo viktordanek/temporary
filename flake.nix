@@ -435,7 +435,7 @@
                                                                                                                                 "\t\t\t\t\t\t( path \"PATH_SEED\" 0 )"
                                                                                                                                 "\t\t\t\t\t\t( speed \"SPEED\" \"${ escape "speed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"VARIABLE_SEED\" \"${ escape "inner-variable-seed" }\" )"
+                                                                                                                                "\t\t\t\t\t\t( string \"VARIABLE_SEED\" \"${ values.inner-variable-seed" }\" )"
                                                                                                                                 "\t\t\t\t\t\t( standard-input \"STANDARD_INPUT\" )"
                                                                                                                                 "\t\t\t\t\t\t( string \"YQ\" \"${ escape "yq" }\" )"
                                                                                                                                 "\t\t\t\t\t] ;"
