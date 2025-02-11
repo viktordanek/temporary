@@ -214,7 +214,7 @@
                                                                                             release-path-seed = release-path-seed ;
                                                                                             self = self ;
                                                                                             speed = speed ;
-                                                                                            status = status ;
+                                                                                            status = builtins.toString status ;
                                                                                             writeShellScript = pkgs.writeShellScript ;
                                                                                             yq = "${ pkgs.yq }/bin/yq" ;
                                                                                         } ;
