@@ -428,7 +428,7 @@
                                                                                                                                 "init ="
                                                                                                                                 "\tscript"
                                                                                                                                 "\t\t{"
-                                                                                                                                "\t\t\texecutable = writeShellScript \"init\" ( self + \"/scripts/test/temporary.sh\" ) ;"
+                                                                                                                                "\t\t\texecutable = writeShellScript \"init\" ( self + \"/scripts/test/temporary/init.sh\" ) ;"
                                                                                                                                 "\t\t\tsets ="
                                                                                                                                 "\t\t\t\t{ is-file , is-pipe , path , standard-input , string } :"
                                                                                                                                 "\t\t\t\t\t["
