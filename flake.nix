@@ -498,7 +498,7 @@
                                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                                         let
                                                                                                                             expression = { expression = "" ; files = -1 ; pipes = -1 ; } ;
-                                                                                                                            in [ expression ]
+                                                                                                                            in [  ]
                                                                                                                     else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                                             in builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ;
                                                                                                     in builtins.toFile "observate.nix" ( builtins.toJSON expressions ) ;
