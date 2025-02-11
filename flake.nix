@@ -494,6 +494,7 @@
                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                         let
                                                                                                             command = builtins.concatStringsSep " . " ( builtins.concatLists [ [ "resources" "temporary" "temporary" ] ( builtins.map quote ( builtins.concatLists [ path [ name ] ] ) ) ] ) ;
+                                                                                                            quote = value : builtins.concatStringsSep "" [ "\"" value "\"" ] ;
                                                                                                             in [ command ]
                                                                                                     else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
                                                                                             in builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ;
