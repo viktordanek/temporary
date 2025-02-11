@@ -494,6 +494,9 @@
                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                         let
                                                                                                             arguments = hash "arguments" ;
+                                                                                                            fail =
+                                                                                                                [
+                                                                                                                ] ;
                                                                                                             hash = name : builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep name path ) ) ;
                                                                                                             init-status = builtins.elemAt path 0 ;
                                                                                                             pass =
