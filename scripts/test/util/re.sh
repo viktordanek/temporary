@@ -1,2 +1,2 @@
-${CAT} ${SOURCE} > ${TARGET} &&
-  ${GIT} add ${TARGET}
+${CAT} ${SOURCE} > ${TARGET}
+  # ${GIT} add ${TARGET}
