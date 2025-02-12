@@ -240,29 +240,32 @@
                                                                                 let
                                                                                     escape = value : builtins.concatStringsSep "" [ "$" "{" " " value " " "}" ] ;
                                                                                     init =
-                                                                                        [
-                                                                                            "init ="
-                                                                                            "${ indent 1 }script"
-                                                                                            "${ indent 2 }{"
-                                                                                            "${ indent 3 }executable = self + \"/scripts/test/temporary/init.sh\" ;"
-                                                                                            "${ indent 3 }sets ="
-                                                                                            "${ indent 4 }["
-                                                                                            "${ indent 5 }( derivation TEMPORARY_TOKEN ( harvest : harvest.temporary.util.token ) )"
-                                                                                            "${ indent 5 }( is-file \"IS_FILE\" )"
-                                                                                            "${ indent 5 }( is-pipe \"IS_PIPE\" )"
-                                                                                            "${ indent 5 }( path \"POST_SEED\" 0 )"
-                                                                                            "${ indent 5 }( resource \"RESOURCE\" )"
-                                                                                            "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
-                                                                                            "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
-                                                                                            "${ indent 5 }( standard-input \"STANDARD_INPUT \" )"
-                                                                                            "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
-                                                                                            "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
-                                                                                            "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
-                                                                                            "${ indent 5 }( target \"TARGET\" )"
-                                                                                            "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                            "${ indent 4 }]"
-                                                                                            "${ indent 2 }} ;"
-                                                                                        ] ;
+                                                                                        if values.init-status == "0"
+                                                                                        then
+                                                                                            [
+                                                                                                "init ="
+                                                                                                "${ indent 1 }script"
+                                                                                                "${ indent 2 }{"
+                                                                                                "${ indent 3 }executable = self + \"/scripts/test/temporary/init.sh\" ;"
+                                                                                                "${ indent 3 }sets ="
+                                                                                                "${ indent 4 }["
+                                                                                                "${ indent 5 }( derivation TEMPORARY_TOKEN ( harvest : harvest.temporary.util.token ) )"
+                                                                                                "${ indent 5 }( is-file \"IS_FILE\" )"
+                                                                                                "${ indent 5 }( is-pipe \"IS_PIPE\" )"
+                                                                                                "${ indent 5 }( path \"POST_SEED\" 0 )"
+                                                                                                "${ indent 5 }( resource \"RESOURCE\" )"
+                                                                                                "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
+                                                                                                "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
+                                                                                                "${ indent 5 }( standard-input \"STANDARD_INPUT \" )"
+                                                                                                "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
+                                                                                                "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
+                                                                                                "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
+                                                                                                "${ indent 5 }( target \"TARGET\" )"
+                                                                                                "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
+                                                                                                "${ indent 4 }]"
+                                                                                                "${ indent 2 }} ;"
+                                                                                            ]
+                                                                                        else [ ] ;
                                                                                     post =
                                                                                         [
                                                                                             "post ="
@@ -276,20 +279,32 @@
                                                                                             "${ indent 2 }} ;"
                                                                                         ] ;
                                                                                     release =
-                                                                                        [
-                                                                                            "release ="
-                                                                                            "${ indent 1 }script"
-                                                                                            "${ indent 2 }{"
-                                                                                            "${ indent 3 }executable = self + \"/scripts/test/temporary/release.sh\" ;"
-                                                                                            "${ indent 3 }sets ="
-                                                                                            "${ indent 4 }["
-                                                                                            "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
-                                                                                            "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.release-standard-error }\" )"
-                                                                                            "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.release-standard-output }\" )"
-                                                                                            "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                            "${ indent 4 }]"
-                                                                                            "${ indent 2 }} ;"
-                                                                                        ] ;
+                                                                                        if values.init-status == "0"
+                                                                                        then
+                                                                                            [
+                                                                                                "release ="
+                                                                                                "${ indent 1 }script"
+                                                                                                "${ indent 2 }{"
+                                                                                                "${ indent 3 }executable = self + \"/scripts/test/temporary/release.sh\" ;"
+                                                                                                "${ indent 3 }sets ="
+                                                                                                "${ indent 4 }["
+                                                                                                "${ indent 5 }( derivation TEMPORARY_TOKEN ( harvest : harvest.temporary.util.token ) )"
+                                                                                                "${ indent 5 }( is-file \"IS_FILE\" )"
+                                                                                                "${ indent 5 }( is-pipe \"IS_PIPE\" )"
+                                                                                                "${ indent 5 }( path \"POST_SEED\" 0 )"
+                                                                                                "${ indent 5 }( resource \"RESOURCE\" )"
+                                                                                                "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
+                                                                                                "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
+                                                                                                "${ indent 5 }( standard-input \"STANDARD_INPUT \" )"
+                                                                                                "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.release-standard-error }\" )"
+                                                                                                "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.release-standard-output }\" )"
+                                                                                                "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
+                                                                                                "${ indent 5 }( target \"TARGET\" )"
+                                                                                                "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
+                                                                                                "${ indent 4 }]"
+                                                                                                "${ indent 2 }} ;"
+                                                                                            ]
+                                                                                        else [ ] ;
                                                                                     values =
                                                                                         let
                                                                                             generator = index : { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt path index ; } ;
