@@ -416,7 +416,7 @@
                                                                                                     else
                                                                                                         {
                                                                                                             head = { commands = [ current.command ] ; files = current.files ; } ;
-                                                                                                            tails = previous ;
+                                                                                                            tail = previous ;
                                                                                                         } ;
                                                                                                 old =
                                                                                                     if n > 0 then
