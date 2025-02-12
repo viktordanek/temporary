@@ -408,7 +408,7 @@
                                                                                             let
                                                                                                 n = builtins.length previous ;
                                                                                                 new =
-                                                                                                    if builtins.trace "HI ${ builtins.toString old.head.files }" ( current.files + old.head.files ) < 1024 then
+                                                                                                    if current.files + old.head.files < 1024 then
                                                                                                         {
                                                                                                             head = { commands = builtins.concatLists [ old.head.commands [ current.command ] ] ; files = current.files + old.head.files + current.files ; } ;
                                                                                                             tail = old.tail ;
