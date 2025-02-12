@@ -218,28 +218,28 @@
                                                         let
                                                             list =
                                                                 let
+                                                                    levels =
+                                                                        [
+                                                                            { name = "init-status" ; value = [ false ] ; }
+                                                                            { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                            { name = "init-standard-output" ; value = [ true true ] ; }
+                                                                            { name = "init-standard-error" ; value = [ true true ] ; }
+                                                                            { name = "init-seed" ; value = [ true true ] ; }
+                                                                            { name = "release-status" ; value = [ 0 71 72 ] ; }
+                                                                            { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                            { name = "release-standard-output" ; value = [ true true ] ; }
+                                                                            { name = "release-standard-error" ; value = [ true true ] ; }
+                                                                            { name = "release-seed" ; value = [ true true ] ; }
+                                                                            { name = "seed" ; value = [ true true ] ; }
+                                                                            { name = "speed" ; value = [ false ] ; }
+                                                                        ] ;
                                                                     list =
                                                                         let
                                                                             list =
                                                                                 let
                                                                                     list =
                                                                                         let
-                                                                                            generator = index : builtins.elemAt list ( ( builtins.length list ) - index - 1 ) ;
-                                                                                            list =
-                                                                                                [
-                                                                                                    { name = "init-status" ; value = [ false ] ; }
-                                                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                    { name = "init-standard-output" ; value = [ true true ] ; }
-                                                                                                    { name = "init-standard-error" ; value = [ true true ] ; }
-                                                                                                    { name = "init-seed" ; value = [ true true ] ; }
-                                                                                                    { name = "release-status" ; value = [ 0 71 72 ] ; }
-                                                                                                    { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                    { name = "release-standard-output" ; value = [ true true ] ; }
-                                                                                                    { name = "release-standard-error" ; value = [ true true ] ; }
-                                                                                                    { name = "release-seed" ; value = [ true true ] ; }
-                                                                                                    { name = "seed" ; value = [ true true ] ; }
-                                                                                                    { name = "speed" ; value = [ false ] ; }
-                                                                                                ] ;
+                                                                                            generator = index : builtins.elemAt list ( ( builtins.length levels ) - index - 1 ) ;
                                                                                             in builtins.genList generator ( builtins.length list ) ;
                                                                                     mapper =
                                                                                         value :
