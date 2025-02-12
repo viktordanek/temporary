@@ -244,7 +244,7 @@
                                                                                     values =
                                                                                         let
                                                                                             generator = index : { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt path index ; } ;
-                                                                                            in builtins.trace "HI ${ builtins.typeOf ( ( levels ) ) }" ( builtins.genList generator ( builtins.length levels ) ) ;
+                                                                                            in builtins.listToAttrs ( builtins.genList generator ( builtins.length levels ) ) ;
                                                                                     in
                                                                                         [
                                                                                             (
