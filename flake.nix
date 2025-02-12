@@ -252,6 +252,7 @@
                                                                                             "${ indent 3 }sets ="
                                                                                             "${ indent 4 }["
                                                                                             "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
+                                                                                            "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
                                                                                             "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
                                                                                             "${ indent 4 }]"
                                                                                             "${ indent 2 }} ;"
