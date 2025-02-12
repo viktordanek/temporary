@@ -323,7 +323,7 @@
                                                                         '' ;
                                                             in
                                                                 ''
-                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.nix" ( builtins.toJSON nix ) } $out &&
+                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.nix" nix } $out &&
                                                                         ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
                                                                         exit 68
                                                                 '' ;
