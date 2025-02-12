@@ -516,7 +516,7 @@
                                                                                     expression =
                                                                                         let
                                                                                             yaml-file = pkgs.runCommand "convert" { buildInputs = [ pkgs.yq ] ; } "yq \".\" ${ self + "/observe.yaml" } > $out" ;
-                                                                                            in "${ pkgs.coreutils }/bin/echo ${ yaml-file }"
+                                                                                            in "${ pkgs.coreutils }/bin/echo ${ yaml-file }" ;
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
