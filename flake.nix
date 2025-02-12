@@ -386,7 +386,7 @@
                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                             else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                                     in
-                                                                        builtins.trace "HI"
+                                                                        builtins.trace "HI ${ builtins.typeOf ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ) ) }"
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ) ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
