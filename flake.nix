@@ -379,7 +379,10 @@
                                                                     mapper =
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "lambda" then
-                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) value ) )
+                                                                                let
+                                                                                    init-status = builtins.elemAt path 0
+
+                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                             else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a set but a ${ builtins.typeOf value }."
                                                                     in
                                                                         ''
