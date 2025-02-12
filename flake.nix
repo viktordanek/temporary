@@ -257,7 +257,7 @@
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
                                                                                                                 ]
-                                                                                                                ( builtins.trace ( builtins.typeOf values ) [ ] )
+                                                                                                                ( builtins.trace "( builtins.typeOf values )" [ ] )
                                                                                                                 # ( builtins.map ( x : "\t${ x }" ) init )
                                                                                                                 [
                                                                                                                     "\t}"
