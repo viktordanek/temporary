@@ -320,7 +320,7 @@
                                                                         ''
                                                                             { self } :
                                                                                 [
-                                                                                    ${ builtins.concatStringsSep "\n\t\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
+                                                                                    ${ builtins.concatStringsSep "\n${ indent 2 }" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
                                                                                 ]
                                                                         '' ;
                                                             in
