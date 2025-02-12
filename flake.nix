@@ -383,6 +383,7 @@
                                                                                     init-status = builtins.elemAt path 0 ;
                                                                                     seed = builtins.elemAt path 0 ;
                                                                                     in [ "" ]
+                                                                            else if builtins.typeOf value == "list" then builtins.map ( mapper ( builtins.concatLists [ path [ name ] ] ) builtins.null ) value
                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                             else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                                     in
