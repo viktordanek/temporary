@@ -216,10 +216,24 @@
                                                             ''
                                                     else
                                                         let
+                                                            levels =
+                                                                [
+                                                                    { name = "init-status" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "init-status" " " "}" ) ] ; }
+                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                    { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                    { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                    { name = "init-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                    { name = "release-status" ; value = [ 0 71 72 ] ; }
+                                                                    { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                    { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                    { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                    { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                    { name = "speed" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "speeed" "}" ] ) ] ; }
+                                                                ] ;
                                                             in
                                                                 ''
-                                                                    ${ pkgs.coreutils }/bin/touch $out &&
-                                                                        ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                    ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toJSON levels } > $out &&
+                                                                        ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
                                                                         exit 68
                                                                 '' ;
                                                     } ;
