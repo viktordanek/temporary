@@ -197,30 +197,7 @@
                                                     let
                                                         idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) else builtins.throw "idea.nix is not available" ;
                                                         in
-                                                            if builtins.pathExists ( self + "/expected.yaml" ) then
-                                                                if builtins.pathExists ( self + "/observe.yaml" ) then
-                                                                    if builtins.pathExists ( self + "/idea.nix" ) then
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                exit 65
-                                                                        ''
-                                                                    else
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                exit 66
-                                                                        ''
-                                                                else
-                                                                    let
-
-                                                                        in
-                                                                            ''
-                                                                                ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                    ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                    exit 67
-                                                                    ''
-                                                            else
+                                                            if ! builtins.pathExists ( self + "/idea.nix" ) then
                                                                 let
                                                                     indent = n : builtins.concatStringsSep "" ( builtins.genList ( index : "\t" ) n ) ;
                                                                     list =
@@ -395,7 +372,34 @@
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.nix" ( list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
                                                                                 exit 68
-                                                                        '' ;
+                                                                        ''
+                                                            else if builtins.pathExists ( self + "/expected.yaml" ) then
+                                                                if builtins.pathExists ( self + "/observe.yaml" ) then
+                                                                    if builtins.pathExists ( self + "/idea.nix" ) then
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                                exit 65
+                                                                        ''
+                                                                    else
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                                exit 66
+                                                                        ''
+                                                                else
+                                                                    let
+
+                                                                        in
+                                                                            ''
+                                                                                ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                    ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                                    exit 67
+                                                                    ''
+                                                            else
+                                                                ''
+                                                                    ${ pkgs.coreutils }/bin/touch $out
+                                                                ''
                                                     } ;
                                     lib = lib ;
                                 } ;
