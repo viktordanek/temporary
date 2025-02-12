@@ -283,7 +283,7 @@
                                                                                         mapper = value : { name = value ; value = previous ; } ;
                                                                                         in builtins.listToAttrs ( builtins.map mapper current.value ) ;
                                                                             in builtins.foldl' reducer builtins.null list ;
-                                                                    in builtins.mapAttrs ( mapper [ ] ) list ;
+                                                                    in builtins.mapAttrs ( mapper [ ] ) set ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "json" ( builtins.toJSON list ) } > $out &&
