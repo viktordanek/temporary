@@ -233,7 +233,12 @@
                                                                             { name = "seed" ; value = [ true true ] ; }
                                                                             { name = "speed" ; value = [ false ] ; }
                                                                         ] ;
-                                                                    list =
+                                                                    mapper =
+                                                                        path : name : value :
+                                                                            if builtins.typeOf value == "null" then
+                                                                            else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                            else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] } is neither a null nor a set but a ${ builtins.typeOf value }." ;
+                                                                    set =
                                                                         let
                                                                             list =
                                                                                 let
@@ -267,7 +272,7 @@
                                                                                         mapper = value : { name = value ; value = previous ; } ;
                                                                                         in builtins.listToAttrs ( builtins.map mapper current.value ) ;
                                                                             in builtins.foldl' reducer builtins.null list ;
-                                                                    in list ;
+                                                                    in builtins.mapAttrs ( mapper [ ] ) list ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "json" ( builtins.toJSON list ) } > $out &&
