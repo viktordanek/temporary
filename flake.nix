@@ -245,11 +245,10 @@
                                                                                     post =
                                                                                         [
                                                                                             "post ="
-                                                                                            "\t{ script } :"
-                                                                                            "\t\tscript"
-                                                                                            "\t\t\t{"
-                                                                                            "\t\t\t\texecutable = self + \"/scripts/test/temporary/post.sh\" ;"
-                                                                                            "\t\t\t} ;"
+                                                                                            "${ indent 1 }script"
+                                                                                            "${ indent 2 }{"
+                                                                                            "${ indent 3 }executable = self + \"/scripts/test/temporary/post.sh\" ;"
+                                                                                            "${ indent 2 }} ;"
                                                                                         ] ;
                                                                                     release =
                                                                                         [
