@@ -244,7 +244,7 @@
                                                                                     values =
                                                                                         let
                                                                                             generator = index : { name = builtins.elemAt levels index ; value = builtins.elemAt path index ; } ;
-                                                                                            in builtins.genList generator ( builtins.length values ) ;
+                                                                                            in builtins.genList generator ( builtins.length value ) ;
                                                                                     in
                                                                                         [
                                                                                             (
@@ -256,7 +256,7 @@
                                                                                                                 [
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
-                                                                                                                    # ( builtins.map ( x : "\t${ x }" ) ( builtins.concatLists ( init ) ) )
+                                                                                                                    ( builtins.map ( x : "\t${ x }" ) ( builtins.concatLists ( init ) ) )
                                                                                                                     "\t}"
                                                                                                                 ]
                                                                                                             ]
