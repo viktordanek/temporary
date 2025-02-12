@@ -384,7 +384,7 @@
                                                                                         path : name : value :
                                                                                             if builtins.typeOf value == "list" then
                                                                                                 let
-                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; seed = builtins.elemAt path 1 ; } ;
+                                                                                                    generator = index : builtins.trace ( builtins.toJSON { index = index ; path = path ; } ) { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; seed = builtins.elemAt path 1 ; } ;
                                                                                                     in builtins.genList generator ( builtins.length value )
                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                             else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a list nor a set but a ${ builtins.typeOf value }." ;
