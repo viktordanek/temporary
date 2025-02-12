@@ -309,7 +309,7 @@
                                                                                         else [ ] ;
                                                                                     values =
                                                                                         let
-                                                                                            generator = index : builtins.trace ( builtins.toJSON { name = builtins.length levels ; value = builtins.length path ; } ) { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt path index ; } ;
+                                                                                            generator = index : { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt ( builtins.concatLists [ path [ name ] ] ) index ; } ;
                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length levels ) ) ;
                                                                                     in
                                                                                         builtins.concatLists
