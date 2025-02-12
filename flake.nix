@@ -266,7 +266,7 @@
                                                                                                         builtins.concatLists
                                                                                                             [
                                                                                                                 [
-                                                                                                                    "{ self } :"
+                                                                                                                    "{:"
                                                                                                                     "\t{"
                                                                                                                 ]
                                                                                                                 ( builtins.map ( x : "\t\t${ x }" ) ( builtins.concatLists [ init post release ] ) )
@@ -315,7 +315,10 @@
                                                                             in builtins.foldl' reducer builtins.null list ;
                                                                     in
                                                                         ''
-                                                                            ${ builtins.concatStringsSep "\n\t\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
+                                                                            { self } :
+                                                                                [
+                                                                                    ${ builtins.concatStringsSep "\n\t\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
+                                                                                ]
                                                                         '' ;
                                                             in
                                                                 ''
