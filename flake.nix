@@ -232,7 +232,7 @@
                                                                 ] ;
                                                             in
                                                                 ''
-                                                                    ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toJSON levels } > $out &&
+                                                                    ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "json" ( builtins.toJSON levels ) } > $out &&
                                                                         ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
                                                                         exit 68
                                                                 '' ;
