@@ -377,7 +377,6 @@
                                                             else if ! builtins.pathExists ( self + "/observe.yaml" ) then
                                                                 let
                                                                     mapper =
-                                                                        builtins.trace "HI" (
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "lambda" then
                                                                                 let
@@ -385,10 +384,10 @@
                                                                                     seed = builtins.elemAt path 0 ;
                                                                                     in [ "" ]
                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                            else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a set but a ${ builtins.typeOf value }." ) ;
+                                                                            else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                                     in
                                                                         ''
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrNames ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ) ) } $out &&
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ) ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 66
                                                                         ''
