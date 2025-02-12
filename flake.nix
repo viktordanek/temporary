@@ -322,7 +322,7 @@
                                                                                                 ]
                                                                                                 ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                 [
-                                                                                                    "${ indent 1 }}"
+                                                                                                    "${ indent 2 }}"
                                                                                                     ")"
                                                                                                 ]
                                                                                             ]
