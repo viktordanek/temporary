@@ -513,7 +513,10 @@
                                                                                 }
                                                                                 {
                                                                                     condition = ! builtins.pathExists ( self + "/expect.yaml" ) ;
-                                                                                    expression = pkgs.runCommand "convert" { buildInputs = [ pkgs.yq ] ; } "yq \".\" ${ self + "/observe.yaml" } > $out" ;
+                                                                                    expression =
+                                                                                        let
+                                                                                            yaml-file = pkgs.runCommand "convert" { buildInputs = [ pkgs.yq ] ; } "yq \".\" ${ self + "/observe.yaml" } > $out" ;
+                                                                                            in "${ pkgs.coreutils }/bin/echo ${ yaml-file }"
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
