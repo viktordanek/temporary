@@ -218,22 +218,26 @@
                                                         let
                                                             levels =
                                                                 let
-                                                                    generator = index : builtins.elemAt levels ( ( builtins.length levels ) - index - 1 ) ;
                                                                     levels =
-                                                                        [
-                                                                            # { name = "init-status" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "init-status" " " "}" ] ) ] ; }
-                                                                            { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                            { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                            { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
-                                                                            { name = "init-seed" ; value = [ builtins.null builtins.null ] ; }
-                                                                            { name = "release-status" ; value = [ 0 71 72 ] ; }
-                                                                            { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                            { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                            { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
-                                                                            { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
-                                                                            # { name = "speed" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "speed" "}" ] ) ] ; }
-                                                                        ] ;
-                                                                    in builtins.genList generator ( builtins.length levels ) ;
+                                                                        let
+                                                                            generator = index : builtins.elemAt levels ( ( builtins.length levels ) - index - 1 ) ;
+                                                                            levels =
+                                                                                [
+                                                                                    # { name = "init-status" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "init-status" " " "}" ] ) ] ; }
+                                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                    { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                    { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                                    { name = "init-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                    { name = "release-status" ; value = [ 0 71 72 ] ; }
+                                                                                    { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                    { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
+                                                                                    { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
+                                                                                    { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                    # { name = "speed" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "speed" "}" ] ) ] ; }
+                                                                                ] ;
+                                                                            in builtins.genList generator ( builtins.length levels ) ;
+                                                                    reducer = previous : current : builtins.map ( value : { name = value ; value = previous ; } ) current.value ;
+                                                                    in builtins.foldl' reducer builtins.null levels ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "json" ( builtins.toJSON levels ) } > $out &&
