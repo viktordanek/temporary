@@ -209,10 +209,13 @@
                                                                         exit 66
                                                                 ''
                                                         else
-                                                            ''
-                                                                ${ pkgs.coreutils }/bin/touch $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                    exit 67
+                                                            let
+                                                                
+                                                                in
+                                                                    ''
+                                                                        ${ pkgs.coreutils }/bin/touch $out &&
+                                                                            ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                            exit 67
                                                             ''
                                                     else
                                                         let
