@@ -268,12 +268,12 @@
                                                                                                             [
                                                                                                                 [
                                                                                                                     "("
-                                                                                                                    "{ } :"
-                                                                                                                    "\t\t{"
+                                                                                                                    "${ indent 1 }{ script } :"
+                                                                                                                    "${ indent 2 }{"
                                                                                                                 ]
-                                                                                                                ( builtins.concatLists [ init post release ] )
+                                                                                                                # ( builtins.concatLists [ init post release ] )
                                                                                                                 [
-                                                                                                                    "\t\t}"
+                                                                                                                    "${ indent 1 }"
                                                                                                                     ")"
                                                                                                                 ]
                                                                                                             ]
