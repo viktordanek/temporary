@@ -330,12 +330,17 @@
                                                                                 let
                                                                                     list = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) ;
                                                                                     recurse =
-                                                                                        [
-                                                                                            "\"${ name } \" ="
-                                                                                            "${ indent 1 }["
-                                                                                            ( builtins.map ( value : "${ indent 2 }${ value }" ) list )
-                                                                                            "${ indent 1 }] ;"
-                                                                                        ] ;
+                                                                                        builtins.concatLists
+                                                                                            [
+                                                                                                [
+                                                                                                    "\"${ name } \" ="
+                                                                                                    "${ indent 1 }["
+                                                                                                ]
+                                                                                                ( builtins.map ( value : "${ indent 2 }${ value }" ) list )
+                                                                                                [
+                                                                                                    "${ indent 1 }] ;"
+                                                                                                ]
+                                                                                            ] ;
                                                                                     in if builtins.length path < 2 then recurse else list
                                                                             else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
                                                                     set =
