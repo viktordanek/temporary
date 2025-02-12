@@ -244,7 +244,7 @@
                                                                                     post =
                                                                                         [
                                                                                             "post ="
-                                                                                            "\t{ script }:"
+                                                                                            "\t{ script } :"
                                                                                             "\t\tscript"
                                                                                             "\t\t\t{"
                                                                                             "\t\t\t\texecutable = self + \"/scripts/test/temporary/post.sh\" ;"
@@ -266,7 +266,7 @@
                                                                                                         builtins.concatLists
                                                                                                             [
                                                                                                                 [
-                                                                                                                    "{ } :"
+                                                                                                                    "{ self } :"
                                                                                                                     "\t{"
                                                                                                                 ]
                                                                                                                 ( builtins.map ( x : "\t\t${ x }" ) ( builtins.concatLists [ init post release ] ) )
