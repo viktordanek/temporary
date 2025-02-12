@@ -422,7 +422,7 @@
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 66
-                                                                        '' ;
+                                                                        ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
                                                                 if builtins.pathExists ( self + "/observe.yaml" ) then
                                                                     if builtins.pathExists ( self + "/idea.nix" ) then
