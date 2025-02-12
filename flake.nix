@@ -237,7 +237,8 @@
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
-                                                                                    init = [ "YES" ] ;
+                                                                                    init =
+                                                                                        if values.init-status == "0" then [ "YES" ] else [ "NO" ] ;
                                                                                     post = null ;
                                                                                     release = null ;
                                                                                     values =
@@ -255,7 +256,7 @@
                                                                                                                 [
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
-                                                                                                                    ( builtins.map ( x : "\t${ x }" ) [ init ] )
+                                                                                                                    ( builtins.map ( x : "\t${ x }" ) ( builtins.concatLists ( init ) )
                                                                                                                     "\t}"
                                                                                                                 ]
                                                                                                             ]
