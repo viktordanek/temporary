@@ -216,6 +216,7 @@
                                                             ''
                                                     else
                                                         let
+                                                            indent = n : builtins.genList ( index : "\t" ) n ;
                                                             list =
                                                                 let
                                                                     levels =
@@ -237,7 +238,6 @@
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
-                                                                                    indent = n : builtins.genList ( index : "\t" ) n ;
                                                                                     init =
                                                                                         [
                                                                                             ""
