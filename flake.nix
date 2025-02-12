@@ -216,7 +216,7 @@
                                                             ''
                                                     else
                                                         let
-                                                            indent = n : builtins.genList ( index : "\t" ) n ;
+                                                            indent = n : builtins.concatStringsSep "" ( builtins.genList ( index : "\t" ) ) ;
                                                             list =
                                                                 let
                                                                     levels =
