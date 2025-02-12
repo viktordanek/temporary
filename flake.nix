@@ -380,17 +380,43 @@
                                                                         let
                                                                             list =
                                                                                 let
-                                                                                    mapper =
-                                                                                        path : name : value :
-                                                                                            if builtins.typeOf value == "list" then
+                                                                                    list =
+                                                                                        let
+                                                                                            list =
                                                                                                 let
-                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; seed = name ; } ;
-                                                                                                    in builtins.genList generator ( builtins.length value )
-                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                            else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a list nor a set but a ${ builtins.typeOf value }." ;
-                                                                                    in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
-                                                                            mapper = { index , init-status , seed } : builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
-                                                                            in builtins.map mapper list ;
+                                                                                                    mapper =
+                                                                                                        path : name : value :
+                                                                                                            if builtins.typeOf value == "list" then
+                                                                                                                let
+                                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; seed = name ; } ;
+                                                                                                                    in builtins.genList generator ( builtins.length value )
+                                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                                            else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a list nor a set but a ${ builtins.typeOf value }." ;
+                                                                                                    in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
+                                                                                            mapper =
+                                                                                                { index , init-status , seed } :
+                                                                                                    let
+                                                                                                        hash = string : builtins.substring [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "o" "p" ] ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" [ index init-status seed string ] ) ) ) ;
+                                                                                                        in
+                                                                                                            {
+                                                                                                                command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
+                                                                                                                files = 32 ;
+                                                                                                            } ;
+                                                                                            in builtins.map mapper list ;
+                                                                                    reducer =
+                                                                                        previous : current :
+                                                                                            let
+                                                                                                n = builtins.length previous ;
+                                                                                                new-head = if current.files + old-head.files < 1024 then { commands = builtins.concatLists [ old-head.commands [ current.command ] ] ; files = current.files + old-head.files ; } else { commands = [ current.command ] ; files = current.files ; } ;
+                                                                                                new-tail = if current.files + old-head.files < 1024 then old-tail else previous ;
+                                                                                                old-head = if n > 0 then builtins.elemAt previous ( n - 1 ) else { commands = [ ] ; files = 0 ; } ;
+                                                                                                old-tail =
+                                                                                                    let
+                                                                                                        generator = index : index < n - 1 ;
+                                                                                                        in builtins.genList generator ( builtins.length previous ) ;
+                                                                                                in builtins.concatLists [ [ new-head ] new-tail ] ;
+                                                                                    in builtins.foldl' reducer [ ] list ;
+                                                                            mapper = value : "# ${ builtins.toJSON value }" ;
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
