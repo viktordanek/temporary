@@ -199,12 +199,12 @@
                                                         in
                                                             if builtins.pathExists ( self + "/expected.yaml" ) then
                                                                 ''
-                                                                    DIFF=$( ${ pkgs.diffutils }/bin/diff ${ expected } ${ observed } ) &&
+                                                                    DIFF=$( ${ pkgs.diffutils }/bin/diff ${ self + "/expected.yaml" } ${ observed } ) &&
                                                                         if [ -z "${ builtins.concatStringsSep "" [ "$" "{" "DIFF" "}" ] }" ]
                                                                         then
                                                                             ${ pkgs.coreutils }/bin/touch $out
                                                                         else
-                                                                            ${ pkgs.diffutils }/bin/diff --side-by-side --suppress-common-lines --width 130 ${ expected } ${ observed } &&
+                                                                            ${ pkgs.diffutils }/bin/diff --side-by-side --suppress-common-lines --width 130 ${ self + "/expected.yaml" } ${ observed } &&
                                                                                 ${ pkgs.coreutils }/bin/ln --symbolic ${ observed } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out
                                                                         fi
