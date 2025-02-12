@@ -238,7 +238,9 @@
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
                                                                                     init =
-                                                                                        if values.init-status == "0" then [ "YES" ] else [ "NO" ] ;
+                                                                                        [
+                                                                                            ""
+                                                                                        ];
                                                                                     post = null ;
                                                                                     release = null ;
                                                                                     values =
@@ -257,8 +259,7 @@
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
                                                                                                                 ]
-                                                                                                                # ( builtins.trace "( builtins.typeOf values )" [ ] )
-                                                                                                                ( builtins.map ( x : "\t${ x }" ) init )
+                                                                                                                ( builtins.map ( x : "\t${ x }" ) [ init ] )
                                                                                                                 [
                                                                                                                     "\t}"
                                                                                                                 ]
