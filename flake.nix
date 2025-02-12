@@ -362,7 +362,7 @@
                                                                             in builtins.foldl' reducer builtins.null list ;
                                                                     in
                                                                         ''
-                                                                            { init-status , self } :
+                                                                            { pkgs , self } :
                                                                             ${ indent 1 }{
                                                                             ${ indent 2 }${ builtins.concatStringsSep "\n${ indent 2 }" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
                                                                             ${ indent 1 }}
