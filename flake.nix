@@ -334,7 +334,7 @@
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 [
-                                                                                                    "\"${ name } \" ="
+                                                                                                    "\"${ name }\" ="
                                                                                                     "${ indent 1 }${ divider.open }"
                                                                                                 ]
                                                                                                 ( builtins.map ( value : "${ indent 2 }${ value }" ) list )
