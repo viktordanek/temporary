@@ -399,7 +399,7 @@
                                                             else
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/touch $out
-                                                                ''
+                                                                '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
