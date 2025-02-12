@@ -195,7 +195,7 @@
                                                 src = ./. ;
                                                 installPhase =
                                                     let
-                                                        idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) else builtins.throw "idea.nix is not available" ;
+                                                        idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.trace "YES" ( builtins.import ( self + "/idea.nix" ) ) else builtins.throw "idea.nix is not available" ;
                                                         observe = if builtins.pathExists ( self + "/observe.yaml" ) then builtins.throw "WTFA" else builtins.throw "WTFB" ;
                                                         in
                                                             if ! builtins.pathExists ( self + "/idea.nix" ) then
