@@ -247,7 +247,7 @@
                                                                                             "\t{"
                                                                                             "\t\tscript"
                                                                                             "\t\t\t{"
-                                                                                            "\t\t\t\texecutable = \"${ builtins.concatStringsSep "" [ ] }\" ;"
+                                                                                            "\t\t\t\texecutable = self + \"/scripts/test/temporary/post.sh\" ;"
                                                                                             "\t\t\t}"
                                                                                             "\t}"
                                                                                         ] ;
