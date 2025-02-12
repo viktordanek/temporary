@@ -228,7 +228,7 @@
                                                                     { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
                                                                     { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
                                                                     { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
-                                                                    { name = "speed" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "speed" "}" ] ) ] ; }
+                                                                    # { name = "speed" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "speed" "}" ] ) ] ; }
                                                                 ] ;
                                                             in
                                                                 ''
