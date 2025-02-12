@@ -237,8 +237,9 @@
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
-                                                                                    init =
-                                                                                        if values.init-status == "0" then [ "YES" ] else [ "NO" ] ;
+                                                                                    init = [ "YES" ] ;
+                                                                                    post = null ;
+                                                                                    release = null ;
                                                                                     values =
                                                                                         let
                                                                                             generator = index : { name = builtins.elemAt levels index ; value = builtins.elemAt path index ; } ;
