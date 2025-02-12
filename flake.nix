@@ -316,7 +316,7 @@
                                                                                             [
                                                                                                 [
                                                                                                     "("
-                                                                                                    "${ indent 1 }{ script } :"
+                                                                                                    "${ indent 1 }{ derivation , is-file , is-pipe , resource , script , standard-input , string , target } :"
                                                                                                     "${ indent 2 }{"
                                                                                                 ]
                                                                                                 ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
