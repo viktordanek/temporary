@@ -216,16 +216,16 @@
                                                             ''
                                                     else
                                                         let
-                                                            levels =
+                                                            list =
                                                                 let
-                                                                    levels =
+                                                                    list =
                                                                         let
-                                                                            levels =
+                                                                            list =
                                                                                 let
-                                                                                    levels =
+                                                                                    list =
                                                                                         let
-                                                                                            generator = index : builtins.elemAt levels ( ( builtins.length levels ) - index - 1 ) ;
-                                                                                            levels =
+                                                                                            generator = index : builtins.elemAt list ( ( builtins.length list ) - index - 1 ) ;
+                                                                                            list =
                                                                                                 [
                                                                                                     { name = "init-status" ; value = [ false ] ; }
                                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
@@ -240,7 +240,7 @@
                                                                                                     { name = "seed" ; value = [ true true ] ; }
                                                                                                     { name = "speed" ; value = [ false ] ; }
                                                                                                 ] ;
-                                                                                            in builtins.genList generator ( builtins.length levels ) ;
+                                                                                            in builtins.genList generator ( builtins.length list ) ;
                                                                                     mapper =
                                                                                         value :
                                                                                             {
@@ -259,14 +259,14 @@
                                                                                                                         else builtins.throw "The level ${ value.name } is neither a bool nor a string but a ${ builtins.typeOf level }" ;
                                                                                                         in builtins.genList generator ( builtins.length value.value ) ;
                                                                                             } ;
-                                                                                    in builtins.map mapper levels ;
+                                                                                    in builtins.map mapper list ;
                                                                             reducer =
                                                                                 previous : current :
                                                                                     let
                                                                                         mapper = value : { name = value ; value = previous ; } ;
                                                                                         in builtins.listToAttrs ( builtins.map mapper current.value ) ;
-                                                                            in builtins.foldl' reducer builtins.null levels ;
-                                                                    in levels ;
+                                                                            in builtins.foldl' reducer builtins.null list ;
+                                                                    in list ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "json" ( builtins.toJSON levels ) } > $out &&
