@@ -248,9 +248,12 @@
                                                                                                 in builtins.genList generator ( builtins.length value.value ) ;
                                                                                     } ;
                                                                             in builtins.map mapper levels ;
-                                                                    reducer = previous : current : builtins.map ( value : { name = value ; value = previous ; } ) current.value ;
-                                                                    in levels ;
-                                                                    # in builtins.foldl' reducer builtins.null levels ;
+                                                                    reducer =
+                                                                        previous : current :
+                                                                            let
+                                                                                mapper = value : { name = value ; value = previous ; } ;
+                                                                                in builtins.listToAttrs ( builtins.map mapper current.value ) ;
+                                                                    in builtins.foldl' reducer builtins.null levels ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "json" ( builtins.toJSON levels ) } > $out &&
