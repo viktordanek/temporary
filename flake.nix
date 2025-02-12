@@ -263,7 +263,7 @@
                                                                                                 "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
                                                                                                 "${ indent 5 }( target \"TARGET\" )"
                                                                                                 "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                                "${ indent 4 }]"
+                                                                                                "${ indent 4 }] ;"
                                                                                                 "${ indent 2 }} ;"
                                                                                             ]
                                                                                         else [ ] ;
@@ -276,7 +276,7 @@
                                                                                             "${ indent 3 }sets ="
                                                                                             "${ indent 4 }["
                                                                                             "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                            "${ indent 4 }]"
+                                                                                            "${ indent 4 }] ;"
                                                                                             "${ indent 2 }} ;"
                                                                                         ] ;
                                                                                     release =
@@ -303,7 +303,7 @@
                                                                                                 "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
                                                                                                 "${ indent 5 }( target \"TARGET\" )"
                                                                                                 "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                                "${ indent 4 }]"
+                                                                                                "${ indent 4 }] ;"
                                                                                                 "${ indent 2 }} ;"
                                                                                             ]
                                                                                         else [ ] ;
