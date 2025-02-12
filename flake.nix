@@ -492,7 +492,7 @@
                                                                                             in "${ pkgs.coreutils }/bin/echo idea.nix is undefined. && makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET idea.nix" ;
                                                                                 }
                                                                                 {
-                                                                                    condition = ! builtins.pathExists ( self + "/observe.json" ) ;
+                                                                                    condition = ! builtins.pathExists ( self + "/observe.yaml" ) ;
                                                                                     expression =
                                                                                         let
                                                                                             file =
@@ -513,7 +513,9 @@
                                                                                 }
                                                                                 {
                                                                                     condition = ! builtins.pathExists ( self + "/expect.yaml" ) ;
-                                                                                    expression = null ;
+                                                                                    expression =
+                                                                                        let
+                                                                                            in "${ pkgs.coreutils }/bin/echo expect.yaml is undefined.  makeWrapper ${ pkgs.writeShellScript "reexpectate" ( builtins.readFile ( self + "/scripts/test/util/reexpectate.sh" ) ) } $out --set GIT ${ pkgs.git }/bin/git --set SOURCE TBD --set YQ ${ pkgs.yq }/bin/yq" ;
                                                                                 }
                                                                                 {
                                                                                     condition = true ;

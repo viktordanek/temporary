@@ -1,6 +1,2 @@
-if [ -e expected ]
-then
-  ${GIT} rm -rf expected
-fi &&
-  ${CP} --recursive ${OBSERVED} expected &&
-  ${GIT} add expected
+${YQ} --yaml-output "." ${SOURCE} > ${TARGET} &&
+  ${GIT} add ${TARGET}
