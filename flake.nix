@@ -252,11 +252,11 @@
                                                                                                 "${ indent 5 }( derivation TEMPORARY_TOKEN ( harvest : harvest.temporary.util.token ) )"
                                                                                                 "${ indent 5 }( is-file \"IS_FILE\" )"
                                                                                                 "${ indent 5 }( is-pipe \"IS_PIPE\" )"
-                                                                                                "${ indent 5 }( path \"POST_SEED\" 0 )"
+                                                                                                "${ indent 5 }( path \"POST_SEED\" 1 )"
                                                                                                 "${ indent 5 }( resource \"RESOURCE\" )"
                                                                                                 "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
                                                                                                 "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
-                                                                                                "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
+                                                                                                "${ indent 5 }( path \"STATUS\" 0 )"
                                                                                                 "${ indent 5 }( standard-input \"STANDARD_INPUT \" )"
                                                                                                 "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
                                                                                                 "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
@@ -315,14 +315,13 @@
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 [
-                                                                                                    "("
+                                                                                                    "\"${ values.init-status }\" . \"${ values.seed }\" =
                                                                                                     "${ indent 1 }{ derivation , is-file , is-pipe , resource , script , standard-input , string , target } :"
                                                                                                     "${ indent 2 }{"
                                                                                                 ]
-                                                                                                ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
+                                                                                                ( builtins.map ( x : "${ indent 4 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                 [
-                                                                                                    "${ indent 2 }}"
-                                                                                                    ")"
+                                                                                                    "${ indent 1 }} ;"
                                                                                                 ]
                                                                                             ]
                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
@@ -364,9 +363,9 @@
                                                                     in
                                                                         ''
                                                                             { init-status , self } :
-                                                                            ${ indent 1 }[
+                                                                            ${ indent 1 }{
                                                                             ${ indent 2 }${ builtins.concatStringsSep "\n${ indent 2 }" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
-                                                                            ${ indent 1 }]
+                                                                            ${ indent 1 }}
                                                                         '' ;
                                                             in
                                                                 ''
