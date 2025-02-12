@@ -515,7 +515,7 @@
                                                                                     condition = ! builtins.pathExists ( self + "/expect.yaml" ) ;
                                                                                     expression =
                                                                                         let
-                                                                                            in "${ pkgs.coreutils }/bin/echo expect.yaml is undefined.  makeWrapper ${ pkgs.writeShellScript "reexpectate" ( builtins.readFile ( self + "/scripts/test/util/reexpectate.sh" ) ) } $out --set GIT ${ pkgs.git }/bin/git --set SOURCE TBD --set YQ ${ pkgs.yq }/bin/yq" ;
+                                                                                            in "${ pkgs.coreutils }/bin/echo expect.yaml is undefined. && makeWrapper ${ pkgs.writeShellScript "reexpectate" ( builtins.readFile ( self + "/scripts/test/util/reexpectate.sh" ) ) } $out --set GIT ${ pkgs.git }/bin/git --set SOURCE TBD --set YQ ${ pkgs.yq }/bin/yq" ;
                                                                                 }
                                                                                 {
                                                                                     condition = true ;
