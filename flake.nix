@@ -213,7 +213,7 @@
                                                                 let
                                                                     in
                                                                         ''
-                                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                            ${ pkgs.coreutils }/bin/touch $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo FOUND ME &&
                                                                                 exit 64
                                                                         '' ;
