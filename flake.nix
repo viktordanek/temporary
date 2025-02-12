@@ -412,9 +412,9 @@
                                                                                                 old-head = if n > 0 then builtins.elemAt previous ( n - 1 ) else { commands = [ ] ; files = 0 ; } ;
                                                                                                 old-tail =
                                                                                                     let
-                                                                                                        generator = index : index < n - 1 ;
-                                                                                                        in builtins.genList generator ( builtins.length previous ) ;
-                                                                                                in builtins.trace "HI ${ builtins.concatStringsSep " ; " ( builtins.map builtins.toString [ old-head.files new-head.files ] ) } -- ${ builtins.concatStringsSep " ; " ( builtins.map builtins.toString ( builtins.map builtins.length [ old-tail new-tail ] ) ) }" ( builtins.concatLists [ [ new-head ] new-tail ] )  ;
+                                                                                                        generator = index : builtins.elemAt previous index ;
+                                                                                                        in builtins.genList generator ( ( builtins.length previous ) - 1 ) ;
+                                                                                                in builtins.concatLists [ [ new-head ] new-tail ] ;
                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                             mapper = value : "# ${ builtins.toJSON value }" ;
                                                                             in builtins.map mapper list ;
