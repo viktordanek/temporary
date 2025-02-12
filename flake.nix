@@ -225,17 +225,18 @@
                                                                                     generator = index : builtins.elemAt levels ( ( builtins.length levels ) - index - 1 ) ;
                                                                                     levels =
                                                                                         [
-                                                                                            # { name = "init-status" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "init-status" " " "}" ] ) ] ; }
+                                                                                            { name = "init-status" ; value = [ false ] ; }
                                                                                             { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                            { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                                            { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
-                                                                                            { name = "init-seed" ; value = [ builtins.null builtins.null ] ; }
+                                                                                            { name = "init-standard-output" ; value = [ true true ] ; }
+                                                                                            { name = "init-standard-error" ; value = [ true true ] ; }
+                                                                                            { name = "init-seed" ; value = [ true true ] ; }
                                                                                             { name = "release-status" ; value = [ 0 71 72 ] ; }
                                                                                             { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                            { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                                            { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
-                                                                                            { name = "release-seed" ; value = [ builtins.null builtins.null ] ; }
-                                                                                            # { name = "speed" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "speed" "}" ] ) ] ; }
+                                                                                            { name = "release-standard-output" ; value = [ true true ] ; }
+                                                                                            { name = "release-standard-error" ; value = [ true true ] ; }
+                                                                                            { name = "release-seed" ; value = [ true true ] ; }
+                                                                                            { name = "seed" ; value = [ true true ] ; }
+                                                                                            { name = "speed" ; value = [ false ] ; }
                                                                                         ] ;
                                                                                     in builtins.genList generator ( builtins.length levels ) ;
                                                                             mapper =
@@ -244,7 +245,16 @@
                                                                                         name = value.name ;
                                                                                         value =
                                                                                             let
-                                                                                                generator = index : builtins.toString ( if builtins.typeOf ( builtins.elemAt value.value index ) == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) ) else builtins.elemAt value.value index ) ;
+                                                                                                generator =
+                                                                                                    index :
+                                                                                                        let
+                                                                                                            level = builtins.elemAt value.value index ;
+                                                                                                            string =
+                                                                                                                if builtins.typeOf level == "bool" && level then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) )
+                                                                                                                else if builtins.typeOf level == "bool" then value.name
+                                                                                                                else if builtins.typeOf level == "string" then value.value index
+                                                                                                                else builtins.throw "The level ${ value.name } is neither a bool nor a string but a ${ builtins.typeOf level }" ;
+                                                                                                            in builtins.toString string ;
                                                                                                 in builtins.genList generator ( builtins.length value.value ) ;
                                                                                     } ;
                                                                             in builtins.map mapper levels ;
