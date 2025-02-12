@@ -195,111 +195,27 @@
                                                 src = ./. ;
                                                 installPhase =
                                                     let
-                                                        idea =
-                                                            if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" )
+                                                        observed = null ;
+                                                        in
+                                                            if builtins.pathExists ( self + "/expected.yaml" ) then
+                                                                ''
+                                                                    DIFF=$( ${ pkgs.diffutils }/bin/diff ${ expected } ${ observed } ) &&
+                                                                        if [ -z "${ builtins.concatStringsSep "" [ "$" "{" "DIFF" "}" ] }" ]
+                                                                        then
+                                                                            ${ pkgs.coreutils }/bin/touch $out
+                                                                        else
+                                                                            ${ pkgs.diffutils }/bin/diff --side-by-side --suppress-common-lines --width 130 ${ expected } ${ observed } &&
+                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ observed } $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo $out
+                                                                        fi
+                                                                ''
                                                             else
                                                                 let
-                                                                    in builtins.throw "idea.nix is undefined" ;
-                                                        resources =
-                                                            lib
-                                                                {
-                                                                    at =
-                                                                        pkgs.writeShellScript
-                                                                            "at"
-                                                                            ''
-                                                                                ${ pkgs.coreutils }/bin/cat | ${ pkgs.bash }/bin/bash &
-                                                                            '' ;
-                                                                    temporary =
-                                                                        {
-                                                                            util =
-                                                                                {
-                                                                                    identity =
-                                                                                        script :
-                                                                                            {
-                                                                                                init =
-                                                                                                    script
-                                                                                                        {
-                                                                                                            executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/identity.sh" ) ) ;
-                                                                                                            sets =
-                                                                                                                { string , target , ... } :
-                                                                                                                    [
-                                                                                                                        ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
-                                                                                                                        ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
-                                                                                                                        ( string "KEY" "a8c2c5bb88ba35c9da8541534977bb474b6301ed25b51e4b2f66e262f7434a8fe1cfe9d4223c9cc41f91146e6060c1f4074f0a5d1f905d528e1bb7b1db51522b" )
-                                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                        ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
-                                                                                                                    ] ;
-                                                                                                        } ;
-                                                                                                post =
-                                                                                                    script
-                                                                                                        {
-                                                                                                            executable = pkgs.writeShellScriptBin "release" ( builtins.readFile ( self + "/scripts/test/util/nothing.sh" ) ) ;
-                                                                                                            sets =
-                                                                                                                { string , ... } :
-                                                                                                                    [
-                                                                                                                        ( string "KEY" "af2d8a6c0991844a28552999365d9f3b801909d8037278545af9cd463e0790a55eed8085450aabbde5e2f9f7d012278491f58ddda61535278ba242ed0d0a19cc" )
-                                                                                                                    ] ;
-                                                                                                        } ;
-                                                                                                release =
-                                                                                                    script
-                                                                                                        {
-                                                                                                            executable = pkgs.writeShellScriptBin "release" ( builtins.readFile ( self + "/scripts/test/util/nothing.sh" ) ) ;
-                                                                                                            sets =
-                                                                                                                { string , ... } :
-                                                                                                                    [
-                                                                                                                        ( string "KEY" "56c5af264b10e98f8c6921342305a49d2e29b161cb2590d7d9c393710838fed3b64aa74371a852cafb3c31f876a1ebb2e96e3b8feed01bf23f09df4f36583ab8" )
-                                                                                                                    ] ;
-                                                                                                        } ;
-                                                                                        } ;
-                                                                                    post =
-                                                                                        script :
-                                                                                            {
-                                                                                                init =
-                                                                                                    script
-                                                                                                        {
-                                                                                                            executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post.sh" ) ) ;
-                                                                                                            sets =
-                                                                                                                { string , target , ... } :
-                                                                                                                    [
-                                                                                                                        ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
-                                                                                                                        ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
-                                                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                                        ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                                                        ( string "KEY" "3bb579b9de6da284c19bd0c47b9e0c029e09a729d0a4f95e66e2e7557645d046eaedd0c29affde2a1bd2cc69575a70a4e5c45bd514046ae041129761d68cd923" )
-                                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                        ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                                                                        ( string "SED" "${ pkgs.gnused }/bin/sed" )
-                                                                                                                        ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                                                    ] ;
-                                                                                                        } ;
-                                                                                            } ;
-                                                                                    token =
-                                                                                        script :
-                                                                                            {
-                                                                                                init =
-                                                                                                    script
-                                                                                                        {
-                                                                                                            executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ;
-                                                                                                            sets =
-                                                                                                                { string , ... } :
-                                                                                                                    [
-                                                                                                                        ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                                                        ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
-                                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                        ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
-                                                                                                                        ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
-                                                                                                                    ] ;
-                                                                                                        } ;
-                                                                                            } ;
-                                                                                } ;
-                                                                        } ;
-                                                                    temporary-path = "bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b" ;
-                                                                } ;
-                                                            in
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out
-                                                                '' ;
+                                                                    in
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME
+                                                                        '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
