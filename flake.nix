@@ -252,7 +252,7 @@
                                                                                                             string =
                                                                                                                 if builtins.typeOf level == "bool" && level then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) )
                                                                                                                 else if builtins.typeOf level == "bool" then value.name
-                                                                                                                else if builtins.typeOf level == "string" then value.value index
+                                                                                                                else if builtins.typeOf level == "string" then level
                                                                                                                 else builtins.throw "The level ${ value.name } is neither a bool nor a string but a ${ builtins.typeOf level }" ;
                                                                                                             in builtins.toString string ;
                                                                                                 in builtins.genList generator ( builtins.length value.value ) ;
