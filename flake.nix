@@ -244,7 +244,7 @@
                                                                                     values =
                                                                                         let
                                                                                             generator = index : { name = builtins.elemAt levels index ; value = builtins.elemAt path index ; } ;
-                                                                                            in builtins.genList generator ( builtins.length value ) ;
+                                                                                            in builtins.genList generator ( builtins.length levels ) ;
                                                                                     in
                                                                                         [
                                                                                             (
