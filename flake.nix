@@ -271,7 +271,7 @@
                                                                                                                     "{ } :"
                                                                                                                     "\t\t{"
                                                                                                                 ]
-                                                                                                                ( builtins.map ( indent 2 ) ( builtins.concatLists [ init post release ] ) )
+                                                                                                                ( builtins.concatLists [ init post release ] )
                                                                                                                 [
                                                                                                                     "\t\t}"
                                                                                                                     ")"
