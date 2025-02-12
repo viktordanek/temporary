@@ -239,8 +239,9 @@
                                                                                 let
                                                                                     list =
                                                                                         let
-                                                                                            generator = index : builtins.elemAt list ( ( builtins.length levels ) - index - 1 ) ;
-                                                                                            in builtins.genList generator ( builtins.length levels ) ;
+                                                                                            generator = index : builtins.elemAt list ( ( builtins.length list ) - index - 1 ) ;
+                                                                                            list = levels ;
+                                                                                            in builtins.genList generator ( builtins.length list ) ;
                                                                                     mapper =
                                                                                         value :
                                                                                             {
