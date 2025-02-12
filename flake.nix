@@ -195,7 +195,7 @@
                                                 src = ./. ;
                                                 installPhase =
                                                     let
-                                                        idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.trace "YES" ( builtins.import ( self + "/idea.nix" ) ) else builtins.throw "idea.nix is not available" ;
+                                                        idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) else builtins.throw "idea.nix is not available" ;
                                                         observe = if builtins.pathExists ( self + "/observe.yaml" ) then builtins.throw "WTFA" else builtins.throw "WTFB" ;
                                                         in
                                                             if ! builtins.pathExists ( self + "/idea.nix" ) then
@@ -386,9 +386,8 @@
                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                             else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                                     in
-                                                                        builtins.trace "HI ${ builtins.typeOf ( idea) }"
                                                                         ''
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ) ) } $out &&
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) ( idea pkgs self ) ) ) ) ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 66
                                                                         ''
