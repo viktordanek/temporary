@@ -195,6 +195,7 @@
                                                 src = ./. ;
                                                 installPhase =
                                                     let
+                                                        idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) else builtins.throw "idea.nix is not available" ;
                                                         in
                                                             if builtins.pathExists ( self + "/expected.yaml" ) then
                                                                 if builtins.pathExists ( self + "/observe.yaml" ) then
