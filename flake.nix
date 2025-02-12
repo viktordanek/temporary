@@ -238,8 +238,7 @@
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
                                                                                     init =
-                                                                                        ''
-                                                                                        '' ;
+                                                                                        if values.init-status == "0" then [ "YES" ] else [ "NO" ] ;
                                                                                     values =
                                                                                         let
                                                                                             generator = index : { name = builtins.elemAt levels index ; value = builtins.elemAt path index ; } ;
@@ -255,6 +254,7 @@
                                                                                                                 [
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
+                                                                                                                    ( builtins.map ( x : "\t${ x }" ) [ init ] )
                                                                                                                     "\t}"
                                                                                                                 ]
                                                                                                             ]
