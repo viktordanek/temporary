@@ -315,7 +315,7 @@
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 [
-                                                                                                    "\"${ values.init-status }\" . \"${ values.seed }\" =
+                                                                                                    "\"${ values.init-status }\" . \"${ values.seed }\ ="
                                                                                                     "${ indent 1 }{ derivation , is-file , is-pipe , resource , script , standard-input , string , target } :"
                                                                                                     "${ indent 2 }{"
                                                                                                 ]
