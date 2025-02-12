@@ -243,8 +243,8 @@
                                                                                     release = null ;
                                                                                     values =
                                                                                         let
-                                                                                            generator = index : { name = builtins.elemAt levels index ; value = builtins.elemAt path index ; } ;
-                                                                                            in builtins.genList generator ( builtins.length levels ) ;
+                                                                                            generator = index : { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt path index ; } ;
+                                                                                            in builtins.genList generator ( builtins.length ( builtins.attrNames levels ) ) ;
                                                                                     in
                                                                                         [
                                                                                             (
