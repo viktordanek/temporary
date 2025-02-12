@@ -387,7 +387,7 @@
                                                                             else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
                                                                     in
                                                                         ''
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrNames ( builtins.mapAttrs ( mapper [ ] idea ) ) ) ) ) } $out &&
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.attrNames ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ) ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 66
                                                                         ''
