@@ -240,9 +240,16 @@
                                                                                     init =
                                                                                         [
                                                                                             ""
-                                                                                        ];
-                                                                                    post = null ;
-                                                                                    release = null ;
+                                                                                        ] ;
+                                                                                    post =
+                                                                                        [
+                                                                                            "post ="
+                                                                                            "\t{"
+                                                                                            "\t}"
+                                                                                        ] ;
+                                                                                    release =
+                                                                                        [
+                                                                                        ] ;
                                                                                     values =
                                                                                         let
                                                                                             generator = index : { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt path index ; } ;
@@ -259,7 +266,7 @@
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
                                                                                                                 ]
-                                                                                                                ( builtins.map ( x : "\t${ x }" ) ( builtins.concatLists [ init ] ) )
+                                                                                                                ( builtins.map ( x : "\t${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                                 [
                                                                                                                     "\t}"
                                                                                                                 ]
