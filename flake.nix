@@ -248,7 +248,7 @@
                                                                                             "\t\tscript"
                                                                                             "\t\t\t{"
                                                                                             "\t\t\t\texecutable = \"${ builtins.concatStringsSep "" [ ] }\" ;"
-                                                                                            "\t\t\t"}"
+                                                                                            "\t\t\t}"
                                                                                             "\t}"
                                                                                         ] ;
                                                                                     release =
