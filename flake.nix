@@ -259,31 +259,21 @@
                                                                                             generator = index : { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt path index ; } ;
                                                                                             in builtins.listToAttrs ( builtins.genList generator ( builtins.length levels ) ) ;
                                                                                     in
-                                                                                        [
-                                                                                            (
-                                                                                                builtins.concatStringsSep
-                                                                                                    "\n"
-                                                                                                    (
-                                                                                                        builtins.concatLists
-                                                                                                            [
-                                                                                                                [
-                                                                                                                    "("
-                                                                                                                    "a"
-                                                                                                                    "b"
-                                                                                                                    # "${ indent 1 }{ script } :"
-                                                                                                                    # "${ indent 2 }{"
-                                                                                                                ]
-                                                                                                                # ( builtins.concatLists [ init post release ] )
-                                                                                                                [
-                                                                                                                    #"${ indent 1 }}"
-                                                                                                                    "c"
-                                                                                                                    "d"
-                                                                                                                    ")"
-                                                                                                                ]
-                                                                                                            ]
-                                                                                                    )
-                                                                                            )
-                                                                                        ]
+                                                                                        builtins.concatLists
+                                                                                            [
+                                                                                                [
+                                                                                                    "("
+                                                                                                    "a"
+                                                                                                    # "${ indent 1 }{ script } :"
+                                                                                                    # "${ indent 2 }{"
+                                                                                                ]
+                                                                                                # ( builtins.concatLists [ init post release ] )
+                                                                                                [
+                                                                                                    #"${ indent 1 }}"
+                                                                                                    "d"
+                                                                                                    ")"
+                                                                                                ]
+                                                                                            ]
                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                             else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
                                                                     set =
@@ -324,7 +314,7 @@
                                                                         ''
                                                                             { self } :
                                                                             ${ indent 1 }[
-                                                                            ${ indent 2 }${ builtins.concatStringsSep "" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
+                                                                            ${ indent 2 }${ builtins.concatStringsSep "\n${ indent 2 }" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
                                                                             ${ indent 1 }]
                                                                         '' ;
                                                             in
