@@ -378,17 +378,19 @@
                                                                 let
                                                                     list =
                                                                         let
-                                                                            mapper =
-                                                                                path : name : value :
-                                                                                    if builtins.typeOf value == "lambda" then
-                                                                                        let
-                                                                                            init-status = builtins.elemAt path 0 ;
-                                                                                            seed = builtins.elemAt path 0 ;
-                                                                                            in [ "# " ]
-                                                                                    else if builtins.typeOf value == "list" then builtins.concatLists ( builtins.map ( mapper ( builtins.concatLists [ path [ name ] ] ) builtins.null ) value )
-                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                    else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
-                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
+                                                                            list =
+                                                                                let
+                                                                                    mapper =
+                                                                                        path : name : value :
+                                                                                            if builtins.typeOf value == "list" then
+                                                                                                let
+                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; seed = builtins.elemAt path 1 ; } ;
+                                                                                                    in builtins.genList generator ( builtins.length value )
+                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                            else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a list nor a set but a ${ builtins.typeOf value }." ;
+                                                                                    in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
+                                                                            mapper = { index , init-status , seed } : builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\${ index }\"" ] ;
+                                                                            in builtins.map mapper list ;
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
