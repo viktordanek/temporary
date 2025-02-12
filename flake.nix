@@ -221,7 +221,7 @@
                                                                 let
                                                                     levels =
                                                                         [
-                                                                            { name = "init-status" ; value = [ false ] ; }
+                                                                            { name = "init-status" ; value = [ 0 69 70 ] ; }
                                                                             { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                             { name = "init-standard-output" ; value = [ true true ] ; }
                                                                             { name = "init-standard-error" ; value = [ true true ] ; }
@@ -232,7 +232,7 @@
                                                                             { name = "release-standard-error" ; value = [ true true ] ; }
                                                                             { name = "release-seed" ; value = [ true true ] ; }
                                                                             { name = "seed" ; value = [ true true ] ; }
-                                                                            { name = "speed" ; value = [ false ] ; }
+                                                                            { name = "speed" ; value = [ "fast" "slow" ] ; }
                                                                         ] ;
                                                                     mapper =
                                                                         path : name : value :
