@@ -316,6 +316,7 @@
                                                                                             [
                                                                                                 [
                                                                                                     "["
+                                                                                                    "${ indent 1 }# ${ builtins.toJSON values }"
                                                                                                     "${ indent 1 }{ derivation , is-file , is-pipe , resource , script , standard-input , string , target } :"
                                                                                                     "${ indent 2 }{"
                                                                                                 ]
