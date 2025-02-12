@@ -247,7 +247,7 @@
                                                                                             "\t{"
                                                                                             "\t\tscript"
                                                                                             "\t\t\t{"
-                                                                                            "\t\t\t\texecutable = \"${ builtins.concatStringsSep "" [ "$" "{" " " "resource" " " "." " " "temporary" " " "." " " "temporary" " " "." " " "temporary" " " "." " " "post" ] }\" ;"
+                                                                                            "\t\t\t\texecutable = \"${ builtins.concatStringsSep "" [ ] }\" ;"
                                                                                             "\t\t\t"}"
                                                                                             "\t}"
                                                                                         ] ;
