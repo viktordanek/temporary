@@ -188,360 +188,118 @@
                             in
                                 {
                                     checks.testLib =
-                                        let
-                                            resources =
-                                                lib
-                                                    {
-                                                        at =
-                                                            pkgs.writeShellScript
-                                                                "at"
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/cat | ${ pkgs.bash }/bin/bash &
-                                                                '' ;
-                                                        temporary =
-                                                            {
-                                                                temporary =
-                                                                    let
-                                                                        temporary =
-                                                                            status : speed : init-path-seed : release-path-seed :
-                                                                                let
-                                                                                    fun = builtins.import ( self + "/idea.nix" ) ;
-                                                                                    arguments =
-                                                                                        {
-                                                                                            echo = "${ pkgs.coreutils }/bin/echo" ;
-                                                                                            init-path-seed = init-path-seed ;
-                                                                                            jq = "${ pkgs.jq }/bin/jq" ;
-                                                                                            release-path-seed = release-path-seed ;
-                                                                                            self = self ;
-                                                                                            speed = speed ;
-                                                                                            status = builtins.toString status ;
-                                                                                            writeShellScript = pkgs.writeShellScript ;
-                                                                                            yq = "${ pkgs.yq }/bin/yq" ;
+                                        pkgs.stdenv.mkDerivation
+                                            {
+                                                name = "temporary-test" ;
+                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                src = ./. ;
+                                                installPhase =
+                                                    let
+                                                        idea =
+                                                            if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" )
+                                                            else
+                                                                let
+                                                                    in builtins.throw "idea.nix is undefined" ;
+                                                        resources =
+                                                            lib
+                                                                {
+                                                                    at =
+                                                                        pkgs.writeShellScript
+                                                                            "at"
+                                                                            ''
+                                                                                ${ pkgs.coreutils }/bin/cat | ${ pkgs.bash }/bin/bash &
+                                                                            '' ;
+                                                                    temporary =
+                                                                        {
+                                                                            util =
+                                                                                {
+                                                                                    identity =
+                                                                                        script :
+                                                                                            {
+                                                                                                init =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/identity.sh" ) ) ;
+                                                                                                            sets =
+                                                                                                                { string , target , ... } :
+                                                                                                                    [
+                                                                                                                        ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
+                                                                                                                        ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
+                                                                                                                        ( string "KEY" "a8c2c5bb88ba35c9da8541534977bb474b6301ed25b51e4b2f66e262f7434a8fe1cfe9d4223c9cc41f91146e6060c1f4074f0a5d1f905d528e1bb7b1db51522b" )
+                                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                        ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
+                                                                                                                    ] ;
+                                                                                                        } ;
+                                                                                                post =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = pkgs.writeShellScriptBin "release" ( builtins.readFile ( self + "/scripts/test/util/nothing.sh" ) ) ;
+                                                                                                            sets =
+                                                                                                                { string , ... } :
+                                                                                                                    [
+                                                                                                                        ( string "KEY" "af2d8a6c0991844a28552999365d9f3b801909d8037278545af9cd463e0790a55eed8085450aabbde5e2f9f7d012278491f58ddda61535278ba242ed0d0a19cc" )
+                                                                                                                    ] ;
+                                                                                                        } ;
+                                                                                                release =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = pkgs.writeShellScriptBin "release" ( builtins.readFile ( self + "/scripts/test/util/nothing.sh" ) ) ;
+                                                                                                            sets =
+                                                                                                                { string , ... } :
+                                                                                                                    [
+                                                                                                                        ( string "KEY" "56c5af264b10e98f8c6921342305a49d2e29b161cb2590d7d9c393710838fed3b64aa74371a852cafb3c31f876a1ebb2e96e3b8feed01bf23f09df4f36583ab8" )
+                                                                                                                    ] ;
+                                                                                                        } ;
                                                                                         } ;
-                                                                                    in fun arguments ;
-                                                                        in
-                                                                            {
-                                                                                "0" =
-                                                                                    {
-                                                                                        dc0d9770 =
-                                                                                            {
-                                                                                                ef7d732e = temporary 0 "fast" "dc0d9770" "ef7d732e" ;
-                                                                                                e8c71063 = temporary 0 "fast" "dc0d9770" "e8c71063" ;
-                                                                                            } ;
-                                                                                        c563cc36 =
-                                                                                            {
-                                                                                                ef7d732e = temporary 0 "fast" "c563cc36" "ef7d732e" ;
-                                                                                                e8c71063 = temporary 0 "fast" "c563cc36" "e8c71063" ;
-                                                                                            } ;
-                                                                                    } ;
-                                                                                "65" =
-                                                                                    {
-                                                                                        dc0d9770 =
-                                                                                            {
-                                                                                                ef7d732e = temporary 65 "fast" "dc0d9770" "ef7d732e" ;
-                                                                                                e8c71063 = temporary 65 "fast" "dc0d9770" "e8c71063" ;
-                                                                                            } ;
-                                                                                        c563cc36 =
-                                                                                            {
-                                                                                                ef7d732e = temporary 65 "fast" "c563cc36" "ef7d732e" ;
-                                                                                                e8c71063 = temporary 65 "fast" "c563cc36" "e8c71063" ;
-                                                                                            } ;
-                                                                                    } ;
-                                                                                "66" =
-                                                                                    {
-                                                                                        dc0d9770 =
-                                                                                            {
-                                                                                                ef7d732e = temporary 66 "fast" "dc0d9770" "ef7d732e" ;
-                                                                                                e8c71063 = temporary 66 "fast" "dc0d9770" "e8c71063" ;
-                                                                                            } ;
-                                                                                        c563cc36 =
-                                                                                            {
-                                                                                                ef7d732e = temporary 66 "fast" "c563cc36" "ef7d732e" ;
-                                                                                                e8c71063 = temporary 66 "fast" "c563cc36" "e8c71063" ;
-                                                                                            } ;
-                                                                                    } ;
-                                                                            } ;
-                                                                util =
-                                                                    {
-                                                                        identity =
-                                                                            script :
-                                                                                {
-                                                                                    init =
-                                                                                        script
-                                                                                            {
-                                                                                                executable = pkgs.writeShellScript "expected" ( builtins.readFile ( self + "/scripts/test/util/identity.sh" ) ) ;
-                                                                                                sets =
-                                                                                                    { string , target , ... } :
-                                                                                                        [
-                                                                                                            ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
-                                                                                                            ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
-                                                                                                            ( string "KEY" "a8c2c5bb88ba35c9da8541534977bb474b6301ed25b51e4b2f66e262f7434a8fe1cfe9d4223c9cc41f91146e6060c1f4074f0a5d1f905d528e1bb7b1db51522b" )
-                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                            ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
-                                                                                                        ] ;
-                                                                                            } ;
                                                                                     post =
-                                                                                        script
+                                                                                        script :
                                                                                             {
-                                                                                                executable = pkgs.writeShellScriptBin "release" ( builtins.readFile ( self + "/scripts/test/util/nothing.sh" ) ) ;
-                                                                                                sets =
-                                                                                                    { string , ... } :
-                                                                                                        [
-                                                                                                            ( string "KEY" "af2d8a6c0991844a28552999365d9f3b801909d8037278545af9cd463e0790a55eed8085450aabbde5e2f9f7d012278491f58ddda61535278ba242ed0d0a19cc" )
-                                                                                                        ] ;
+                                                                                                init =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post.sh" ) ) ;
+                                                                                                            sets =
+                                                                                                                { string , target , ... } :
+                                                                                                                    [
+                                                                                                                        ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
+                                                                                                                        ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
+                                                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                                        ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                                                        ( string "KEY" "3bb579b9de6da284c19bd0c47b9e0c029e09a729d0a4f95e66e2e7557645d046eaedd0c29affde2a1bd2cc69575a70a4e5c45bd514046ae041129761d68cd923" )
+                                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                        ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                                                        ( string "SED" "${ pkgs.gnused }/bin/sed" )
+                                                                                                                        ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                                                    ] ;
+                                                                                                        } ;
                                                                                             } ;
-                                                                                    release =
-                                                                                        script
+                                                                                    token =
+                                                                                        script :
                                                                                             {
-                                                                                                executable = pkgs.writeShellScriptBin "release" ( builtins.readFile ( self + "/scripts/test/util/nothing.sh" ) ) ;
-                                                                                                sets =
-                                                                                                    { string , ... } :
-                                                                                                        [
-                                                                                                            ( string "KEY" "56c5af264b10e98f8c6921342305a49d2e29b161cb2590d7d9c393710838fed3b64aa74371a852cafb3c31f876a1ebb2e96e3b8feed01bf23f09df4f36583ab8" )
-                                                                                                        ] ;
-                                                                                            } ;
-                                                                            } ;
-                                                                        post =
-                                                                            script :
-                                                                                {
-                                                                                    init =
-                                                                                        script
-                                                                                            {
-                                                                                                executable = pkgs.writeShellScript "observed" ( builtins.readFile ( self + "/scripts/test/util/post.sh" ) ) ;
-                                                                                                sets =
-                                                                                                    { string , target , ... } :
-                                                                                                        [
-                                                                                                            ( target "a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7" )
-                                                                                                            ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
-                                                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                            ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                                            ( string "KEY" "3bb579b9de6da284c19bd0c47b9e0c029e09a729d0a4f95e66e2e7557645d046eaedd0c29affde2a1bd2cc69575a70a4e5c45bd514046ae041129761d68cd923" )
-                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                            ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                                                            ( string "SED" "${ pkgs.gnused }/bin/sed" )
-                                                                                                            ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                                                            ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                                        ] ;
+                                                                                                init =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ;
+                                                                                                            sets =
+                                                                                                                { string , ... } :
+                                                                                                                    [
+                                                                                                                        ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                                                        ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
+                                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                        ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
+                                                                                                                        ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
+                                                                                                                    ] ;
+                                                                                                        } ;
                                                                                             } ;
                                                                                 } ;
-                                                                        token =
-                                                                            script :
-                                                                                {
-                                                                                    init =
-                                                                                        script
-                                                                                            {
-                                                                                                executable = pkgs.writeShellScript "token-init" ( builtins.readFile ( self + "/scripts/test/util/token.sh" ) ) ;
-                                                                                                sets =
-                                                                                                    { string , ... } :
-                                                                                                        [
-                                                                                                            ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                                            ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
-                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                            ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
-                                                                                                            ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
-                                                                                                        ] ;
-                                                                                            } ;
-                                                                                } ;
-                                                                    } ;
-                                                            } ;
-                                                        temporary-path = "bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b" ;
-                                                    } ;
-                                            in
-                                                pkgs.stdenv.mkDerivation
-                                                    {
-                                                        name = "temporary-test" ;
-                                                        nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                        src = ./. ;
-                                                        installPhase =
-                                                            let
-                                                                genesis =
-                                                                    let
-                                                                        genesis =
-                                                                            [
-                                                                                {
-                                                                                    condition = ! builtins.pathExists ( self + "/idea.nix" ) ;
-                                                                                    expression =
-                                                                                        let
-                                                                                            denumber = builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ;
-                                                                                            file =
-                                                                                                let
-                                                                                                    nix = builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ echo , init-path-seed , jq , release-path-seed , self , speed , status , writeShellScript , yq } :" "\t{" ] ( builtins.map ( indent 2 ) levels ) [ "\t}" ] ] ) ;
-                                                                                                    in builtins.toFile "idea.nix" nix ;
-                                                                                            indent = depth : value : "${ builtins.concatStringsSep "" ( builtins.genList ( i : "\t" ) depth ) }${ value }" ;
-                                                                                            levels =
-                                                                                                let
-                                                                                                    levels =
-                                                                                                        let
-                                                                                                            levels =
-                                                                                                                let
-                                                                                                                    generator = index : builtins.elemAt levels ( ( builtins.length levels ) - index - 1 ) ;
-                                                                                                                    levels =
-                                                                                                                        let
-                                                                                                                            levels =
-                                                                                                                                [
-                                                                                                                                    { name = "init-status" ; value = [ "status" ] ; }
-                                                                                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                                                    { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                                    { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                                    { name = "init-path-seed" ; value = [ "init-path-seed" ] ; }
-                                                                                                                                    { name = "init-variable-seed" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                                    { name = "release-status" ; value = [ "status" ] ; }
-                                                                                                                                    { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                                                                    { name = "release-standard-output" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                                    { name = "release-standard-error" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                                    { name = "release-path-seed" ; value = [ "release-path-seed" ] ; }
-                                                                                                                                    { name = "release-variable-seed" ; value = [ builtins.null builtins.null ] ; }
-                                                                                                                                    { name = "speed" ; value = [ "speed" ] ; }
-                                                                                                                                ] ;
-                                                                                                                            mapper =
-                                                                                                                                value :
-                                                                                                                                    let
-                                                                                                                                        level-value =
-                                                                                                                                            let
-                                                                                                                                                generator =
-                                                                                                                                                    index :
-                                                                                                                                                        let
-                                                                                                                                                            level-value = builtins.elemAt value.value index ;
-                                                                                                                                                            in builtins.toString ( if builtins.typeOf level-value == "null" then "${ value.name }-${ builtins.toString index }" else level-value ) ;
-                                                                                                                                                in builtins.genList generator ( builtins.length value.value ) ;
-                                                                                                                                        in
-                                                                                                                                            { name = value.name ; value = level-value ; } ;
-                                                                                                                            in builtins.map mapper levels ;
-                                                                                                                    in builtins.genList generator ( builtins.length levels ) ;
-                                                                                                            reducer =
-                                                                                                                previous : current :
-                                                                                                                    let
-                                                                                                                        levels =
-                                                                                                                            let
-                                                                                                                                mapper = value : { name = value ; value = previous ; } ;
-                                                                                                                                in builtins.map mapper current.value ;
-                                                                                                                        in builtins.listToAttrs levels ;
-                                                                                                            in builtins.foldl' reducer builtins.null levels ;
-                                                                                                    mapper =
-                                                                                                        path : name : value :
-                                                                                                            if builtins.typeOf value == "null" then
-                                                                                                                let
-                                                                                                                    escape = value : builtins.concatStringsSep "" [ "$" "{" " " value " " "}" ] ;
-                                                                                                                    init =
-                                                                                                                        if values.init-typeOf == "lambda" then
-                                                                                                                            [
-                                                                                                                                "init ="
-                                                                                                                                "\tscript"
-                                                                                                                                "\t\t{"
-                                                                                                                                "\t\t\texecutable = writeShellScript \"init\" ( self + \"/scripts/test/temporary/init.sh\" ) ;"
-                                                                                                                                "\t\t\tsets ="
-                                                                                                                                "\t\t\t\t{ derivation , is-file , is-pipe , path , resource , standard-input , string , target } :"
-                                                                                                                                "\t\t\t\t\t["
-                                                                                                                                "\t\t\t\t\t\t( string \"ECHO\" \"${ escape "echo" }\" )"
-                                                                                                                                "\t\t\t\t\t\t( is-file \"IS_FILE\" )"
-                                                                                                                                "\t\t\t\t\t\t( is-pipe \"IS_PIPE\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"JQ\" \"${ escape "jq" }\" )"
-                                                                                                                                "\t\t\t\t\t\t( path \"NAME\" 2 )"
-                                                                                                                                "\t\t\t\t\t\t( path \"PATH_SEED\" 0 )"
-                                                                                                                                "\t\t\t\t\t\t( resource \"b6cba2f07dd0c2816e7e54f828051b800f5cffa1a140c72b0bf080dde92612d29449b0807c1217113ad8f5e2c72ca14e215c9f9eb83fae2dc1118c3e40691052\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"SPEED\" \"${ escape "speed" }\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"STATUS\" \"${ escape "status" }\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"VARIABLE_SEED\" \"${ values.init-variable-seed }\" )"
-                                                                                                                                "\t\t\t\t\t\t( standard-input \"STANDARD_INPUT\" )"
-                                                                                                                                "\t\t\t\t\t\t( string \"YQ\" \"${ escape "yq" }\" )"
-                                                                                                                                "\t\t\t\t\t\t( target \"f4feff7b45aaaec6851766ef42a9bb5d48952cc98ea24dd0be0f5787540b5d194e6989e9e46b2a74ebe3f28aaf93bc93afcae2d197bf29f75b4c718c60c9e5f3\" )"
-                                                                                                                                "\t\t\t\t\t] ;"
-                                                                                                                                "\t\t} ;"
-                                                                                                                            ]
-                                                                                                                        else if values.init-typeOf == "null" then [ ]
-                                                                                                                        else builtins.throw "init is neither lambda nor null but \"${ values.init }\"." ;
-                                                                                                                    post = init ;
-                                                                                                                    release = init ;
-                                                                                                                    values =
-                                                                                                                        let
-                                                                                                                            generator = index : { name = builtins.elemAt values index ; value = builtins.elemAt ( builtins.concatLists [ path [ name ] ] ) index ; } ;
-                                                                                                                            values =
-                                                                                                                                [
-                                                                                                                                    "init-status"
-                                                                                                                                    "init-typeOf"
-                                                                                                                                    "init-standard-output"
-                                                                                                                                    "init-standard-error"
-                                                                                                                                    "init-path-seed"
-                                                                                                                                    "init-variable-seed"
-                                                                                                                                    "release-status"
-                                                                                                                                    "release-typeOf"
-                                                                                                                                    "release-standard-output"
-                                                                                                                                    "release-standard-error"
-                                                                                                                                    "release-path-seed"
-                                                                                                                                    "release-variable-seed"
-                                                                                                                                    "speed"
-                                                                                                                                ] ;
-                                                                                                                            in builtins.listToAttrs ( builtins.genList generator ( builtins.length values ) ) ;
-                                                                                                                    in
-                                                                                                                        builtins.concatLists
-                                                                                                                            [
-                                                                                                                                [
-                                                                                                                                    "# ${ builtins.toJSON values }"
-                                                                                                                                    "${ denumber ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.toJSON values ) ) ) }.${ values.init-path-seed }.${ values.release-path-seed } = "
-                                                                                                                                    "\tscript :"
-                                                                                                                                    "\t\t{"
-                                                                                                                                ]
-                                                                                                                                    ( builtins.map ( indent 3 ) init )
-                                                                                                                                [
-                                                                                                                                    "\t} ;"
-                                                                                                                                ]
-                                                                                                                        ]
-                                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                            else builtins.throw "The level at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
-                                                                                                    in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) levels ) ) ;
-                                                                                            in "${ pkgs.coreutils }/bin/echo idea.nix is undefined. && makeWrapper ${ pkgs.writeShellScript "reideate" ( builtins.readFile ( self + "/scripts/test/util/reideate.sh" ) ) } $out --set CAT ${ pkgs.coreutils }/bin/cat --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET idea.nix" ;
-                                                                                }
-                                                                                {
-                                                                                    condition = ! builtins.pathExists ( self + "/observe.yaml" ) ;
-                                                                                    expression =
-                                                                                        let
-                                                                                            file =
-                                                                                                let
-                                                                                                    expressions =
-                                                                                                        let
-                                                                                                            _0 = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "true" ] ) resources.temporary.temporary."0" ) ) ;
-                                                                                                            _65 = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "false" ] ) resources.temporary.temporary."65" ) ) ;
-                                                                                                            _66 = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "false" ] ) resources.temporary.temporary."65" ) ) ;
-                                                                                                            mapper =
-                                                                                                                path : name : value :
-                                                                                                                    if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                                    else if builtins.typeOf value == "string" then
-                                                                                                                        let
-                                                                                                                            statement = "resources . temporary . temporary . ${ builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) }" ;
-                                                                                                                            in [ statement ]
-                                                                                                                    else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
-                                                                                                            in { "0" = _0 ; "65" = _65 ; "66" = _66 ; } ;
-                                                                                                    in builtins.toFile "observe.json" ( builtins.toJSON expressions ) ;
-                                                                                            in "${ pkgs.coreutils }/bin/echo observe.yaml is undefined. && makeWrapper ${ pkgs.writeShellScript "reobservate" ( builtins.readFile ( self + "/scripts/test/util/reobservate.sh" ) ) } $out --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET observe.yaml --set YQ ${ pkgs.yq }/bin/yq" ;
-                                                                                }
-                                                                                {
-                                                                                    condition = ! builtins.pathExists ( self + "/expect.yaml" ) ;
-                                                                                    expression =
-                                                                                        let
-                                                                                            mapper =
-                                                                                                name : value :
-                                                                                                    let
-                                                                                                        status = name ;
+                                                                        } ;
+                                                                    temporary-path = "bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b" ;
+                                                                } ;
+                                                            in
+                                                                ''
 
-                                                                                            observed = builtins.fromJSON ( builtins.readFile ( yaml-file ) ) ;
-                                                                                            yaml-file = pkgs.runCommand "convert" { buildInputs = [ pkgs.yq ] ; } "yq \".\" ${ self + "/observe.yaml" } > $out" ;
-                                                                                            in "${ pkgs.coreutils }/bin/echo ${ yaml-file }" ;
-                                                                                }
-                                                                                {
-                                                                                    condition = true ;
-                                                                                    expression = "${ pkgs.coreutils }/bin/touch $out" ;
-                                                                                }
-                                                                            ] ;
-                                                                        in builtins.getAttr "expression" ( builtins.elemAt ( builtins.filter ( g : g.condition ) genesis ) 0 ) ;
-                                                                in
-                                                                    ''
-                                                                        ${ genesis } &&
-                                                                            if [ "${ genesis }" != "${ pkgs.coreutils }/bin/touch $out" ]
-                                                                            then
-                                                                                ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                    exit 64
-                                                                            fi
-                                                                    '' ;
+                                                                '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
