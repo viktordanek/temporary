@@ -247,11 +247,17 @@
                                                                                     in
                                                                                         builtins.concatLists
                                                                                             [
-                                                                                                [
-                                                                                                    "{ } :"
-                                                                                                    "\t{"
-                                                                                                    "\t}"
-                                                                                                ]
+                                                                                                (
+                                                                                                    builtins.concatStringsSep
+                                                                                                        "\n"
+                                                                                                        [
+                                                                                                            [
+                                                                                                                "{ } :"
+                                                                                                                "\t{"
+                                                                                                                "\t}"
+                                                                                                            ]
+                                                                                                        ]
+                                                                                                )
                                                                                             ]
                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                             else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
