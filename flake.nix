@@ -223,15 +223,15 @@
                                                                         [
                                                                             { name = "init-status" ; value = [ 0 69 70 ] ; }
                                                                             { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                            { name = "init-standard-output" ; value = [ true true ] ; }
-                                                                            { name = "init-standard-error" ; value = [ true true ] ; }
-                                                                            { name = "init-seed" ; value = [ true true ] ; }
+                                                                            { name = "init-standard-output" ; value = [ null null ] ; }
+                                                                            { name = "init-standard-error" ; value = [ null null ] ; }
+                                                                            { name = "init-seed" ; value = [ null null ] ; }
                                                                             { name = "release-status" ; value = [ 0 71 72 ] ; }
                                                                             { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                            { name = "release-standard-output" ; value = [ true true ] ; }
-                                                                            { name = "release-standard-error" ; value = [ true true ] ; }
-                                                                            { name = "release-seed" ; value = [ true true ] ; }
-                                                                            { name = "seed" ; value = [ true true ] ; }
+                                                                            { name = "release-standard-output" ; value = [ null null ] ; }
+                                                                            { name = "release-standard-error" ; value = [ null null ] ; }
+                                                                            { name = "release-seed" ; value = [ null null ] ; }
+                                                                            { name = "seed" ; value = [ null null ] ; }
                                                                             { name = "speed" ; value = [ "fast" "slow" ] ; }
                                                                         ] ;
                                                                     mapper =
@@ -349,7 +349,7 @@
                                                                                                                         if builtins.typeOf level == "null" then builtins.replaceStrings [ "0" "" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) ) )
                                                                                                                         else if builtins.typeOf level == "int" then builtins.toString level
                                                                                                                         else if builtins.typeOf level == "string" then level
-                                                                                                                        else builtins.throw "The level ${ value.name } is neither a bool nor a string but a ${ builtins.typeOf level }" ;
+                                                                                                                        else builtins.throw "The level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
                                                                                                         in builtins.genList generator ( builtins.length value.value ) ;
                                                                                             } ;
                                                                                     in builtins.map mapper list ;
