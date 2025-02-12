@@ -270,7 +270,7 @@
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
                                                                                                                 ]
-                                                                                                                ( builtins.map ( x : "\t${ x }" ) ( builtins.concatLists [ init post release ] ) )
+                                                                                                                ( builtins.map ( x : "\t\t${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                                 [
                                                                                                                     "\t}"
                                                                                                                 ]
