@@ -240,7 +240,7 @@
                                                                                     list =
                                                                                         let
                                                                                             generator = index : builtins.elemAt list ( ( builtins.length levels ) - index - 1 ) ;
-                                                                                            in builtins.genList generator ( builtins.length list ) ;
+                                                                                            in builtins.genList generator ( builtins.length levels ) ;
                                                                                     mapper =
                                                                                         value :
                                                                                             {
