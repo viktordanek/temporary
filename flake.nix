@@ -237,6 +237,9 @@
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
+                                                                                    init =
+                                                                                        ''
+                                                                                        '' ;
                                                                                     values =
                                                                                         let
                                                                                             generator = index : { name = builtins.elemAt levels index ; value = builtins.elemAt path index ; } ;
