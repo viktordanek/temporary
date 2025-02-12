@@ -249,13 +249,16 @@
                                                                                             (
                                                                                                 builtins.concatStringsSep
                                                                                                     "\n"
-                                                                                                    [
-                                                                                                        [
-                                                                                                            "{ } :"
-                                                                                                            "\t{"
-                                                                                                            "\t}"
-                                                                                                        ]
-                                                                                                    ]
+                                                                                                    (
+                                                                                                        builtins.concatLists
+                                                                                                            [
+                                                                                                                [
+                                                                                                                    "{ } :"
+                                                                                                                    "\t{"
+                                                                                                                    "\t}"
+                                                                                                                ]
+                                                                                                            ]
+                                                                                                    )
                                                                                             )
                                                                                         ]
                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
