@@ -257,7 +257,7 @@
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
                                                                                                                 ]
-                                                                                                                init
+                                                                                                                ( builtins.map ( x : "\t${ x }" ) init )
                                                                                                                 [
                                                                                                                     "\t}"
                                                                                                                 ]
