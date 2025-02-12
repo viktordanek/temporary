@@ -279,7 +279,7 @@
                                                                                             "${ indent 2 }} ;"
                                                                                         ] ;
                                                                                     release =
-                                                                                        if values.init-status == "0"
+                                                                                        if values.release-status == "0"
                                                                                         then
                                                                                             [
                                                                                                 "release ="
