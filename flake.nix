@@ -334,11 +334,11 @@
                                                                                             [
                                                                                                 [
                                                                                                     "\"${ name } \" ="
-                                                                                                    "${ indent 1 }["
+                                                                                                    "${ indent 1 }{"
                                                                                                 ]
                                                                                                 ( builtins.map ( value : "${ indent 2 }${ value }" ) list )
                                                                                                 [
-                                                                                                    "${ indent 1 }] ;"
+                                                                                                    "${ indent 1 }} ;"
                                                                                                 ]
                                                                                             ] ;
                                                                                     in if builtins.length path < 2 then recurse else list
