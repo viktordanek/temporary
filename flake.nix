@@ -499,6 +499,7 @@
                                                                                                 let
                                                                                                     expressions =
                                                                                                         let
+                                                                                                            true = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "false" ] ) resources.temporary.temporary.false ) ) ;
                                                                                                             mapper =
                                                                                                                 path : name : value :
                                                                                                                     if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
@@ -507,7 +508,8 @@
                                                                                                                             statement = "resources . temporary . temporary . ${ builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( builtins.concatLists [ path [ name ] ] ) ) }" ;
                                                                                                                             in [ statement ]
                                                                                                                     else builtins.throw "The value at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a set nor a string but a ${ builtins.typeOf value }." ;
-                                                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.temporary ) ) ;
+                                                                                                            true = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "true" ] ) resources.temporary.temporary.true ) ) ;
+                                                                                                            in { false = false ; true = true ; } ;
                                                                                                     in builtins.toFile "observe.json" ( builtins.toJSON expressions ) ;
                                                                                             in "${ pkgs.coreutils }/bin/echo observe.yaml is undefined. && makeWrapper ${ pkgs.writeShellScript "reobservate" ( builtins.readFile ( self + "/scripts/test/util/reobservate.sh" ) ) } $out --set GIT ${ pkgs.git }/bin/git --set SOURCE ${ file } --set TARGET observe.yaml --set YQ ${ pkgs.yq }/bin/yq" ;
                                                                                 }
@@ -515,6 +517,7 @@
                                                                                     condition = ! builtins.pathExists ( self + "/expect.yaml" ) ;
                                                                                     expression =
                                                                                         let
+
                                                                                             observed = builtins.fromJSON ( builtins.readFile ( yaml-file ) ) ;
                                                                                             yaml-file = pkgs.runCommand "convert" { buildInputs = [ pkgs.yq ] ; } "yq \".\" ${ self + "/observe.yaml" } > $out" ;
                                                                                             in "${ pkgs.coreutils }/bin/echo ${ yaml-file }" ;
