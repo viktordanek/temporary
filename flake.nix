@@ -266,7 +266,7 @@
                                                                                                         builtins.concatLists
                                                                                                             [
                                                                                                                 [
-                                                                                                                    "{:"
+                                                                                                                    "{ } :"
                                                                                                                     "\t{"
                                                                                                                 ]
                                                                                                                 ( builtins.map ( x : "\t\t${ x }" ) ( builtins.concatLists [ init post release ] ) )
