@@ -237,6 +237,7 @@
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
+                                                                                    indent = n : builtins.genList ( index : "\t" ) n ;
                                                                                     init =
                                                                                         [
                                                                                             ""
@@ -270,7 +271,7 @@
                                                                                                                     "{ } :"
                                                                                                                     "\t\t{"
                                                                                                                 ]
-                                                                                                                ( builtins.map ( x : "\t\t${ x }" ) ( builtins.concatLists [ init post release ] ) )
+                                                                                                                ( builtins.map ( indent 2 ) ( builtins.concatLists [ init post release ] ) )
                                                                                                                 [
                                                                                                                     "\t\t}"
                                                                                                                     ")"
@@ -319,7 +320,7 @@
                                                                         ''
                                                                             { self } :
                                                                                 [
-                                                                                    ${ builtins.concatStringsSep "\n\t\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
+                                                                                    ${ builtins.concatStringsSep "\n\t\t" ( builtins.map ( indent 2 ) ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) ) }
                                                                                 ]
                                                                         '' ;
                                                             in
