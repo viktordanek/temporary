@@ -316,7 +316,7 @@
                                                                             in builtins.foldl' reducer builtins.null list ;
                                                                     in
                                                                         ''
-                                                                            ${ concatStringsSep "\n\t\t" ( builtins.mapAttrs ( mapper [ ] ) set ) }
+                                                                            ${ builtins.concatStringsSep "\n\t\t" ( builtins.mapAttrs ( mapper [ ] ) set ) }
                                                                         '' ;
                                                             in
                                                                 ''
