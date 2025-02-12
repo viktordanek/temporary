@@ -268,12 +268,16 @@
                                                                                                             [
                                                                                                                 [
                                                                                                                     "("
+                                                                                                                    "a"
+                                                                                                                    "b"
                                                                                                                     # "${ indent 1 }{ script } :"
                                                                                                                     # "${ indent 2 }{"
                                                                                                                 ]
                                                                                                                 # ( builtins.concatLists [ init post release ] )
                                                                                                                 [
                                                                                                                     #"${ indent 1 }}"
+                                                                                                                    "c"
+                                                                                                                    "d"
                                                                                                                     ")"
                                                                                                                 ]
                                                                                                             ]
