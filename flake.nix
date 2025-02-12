@@ -216,7 +216,7 @@
                                                             ''
                                                     else
                                                         let
-                                                            nix =
+                                                            list =
                                                                 let
                                                                     levels =
                                                                         [
@@ -314,16 +314,10 @@
                                                                                         mapper = value : { name = value ; value = previous ; } ;
                                                                                         in builtins.listToAttrs ( builtins.map mapper current.value ) ;
                                                                             in builtins.foldl' reducer builtins.null list ;
-                                                                    in
-                                                                        ''
-                                                                            { init-status } :
-                                                                                [
-                                                                                    ${ builtins.concatStringsSep "\n\t\t" ( builtins.mapAttrs ( mapper [ ] ) set ) }
-                                                                                ]
-                                                                        '' ;
+                                                                    in builtins.mapAttrs ( mapper [ ] ) set ;
                                                             in
                                                                 ''
-                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.nix" nix } $out &&
+                                                                    ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "json" ( builtins.toJSON list ) } > $out &&
                                                                         ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
                                                                         exit 68
                                                                 '' ;
