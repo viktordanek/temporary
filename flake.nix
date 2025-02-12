@@ -407,14 +407,14 @@
                                                                                         previous : current :
                                                                                             let
                                                                                                 n = builtins.length previous ;
-                                                                                                new-head = if ( builtins.trace "HI ${ builtins.toString old-head.files }" current.files ) + old-head.files < 1024 then { commands = builtins.concatLists [ old-head.commands [ current.command ] ] ; files = current.files + old-head.files ; } else { commands = [ current.command ] ; files = current.files ; } ;
+                                                                                                new-head = if current.files + old-head.files < 1024 then { commands = builtins.concatLists [ old-head.commands [ current.command ] ] ; files = current.files + old-head.files ; } else { commands = [ current.command ] ; files = current.files ; } ;
                                                                                                 new-tail = if current.files + old-head.files < 1024 then old-tail else previous ;
                                                                                                 old-head = if n > 0 then builtins.elemAt previous ( n - 1 ) else { commands = [ ] ; files = 0 ; } ;
                                                                                                 old-tail =
                                                                                                     let
                                                                                                         generator = index : index < n - 1 ;
                                                                                                         in builtins.genList generator ( builtins.length previous ) ;
-                                                                                                in builtins.concatLists [ [ new-head ] new-tail ] ;
+                                                                                                in builtins.trace "HI" ( builtins.concatLists [ [ new-head ] new-tail ] ) ;
                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                             mapper = value : "# ${ builtins.toJSON value }" ;
                                                                             in builtins.map mapper list ;
