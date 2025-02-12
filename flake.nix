@@ -194,205 +194,207 @@
                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                 src = ./. ;
                                                 installPhase =
-                                                    if builtins.pathExists ( self + "/expected.yaml" ) then
-                                                        if builtins.pathExists ( self + "/observe.yaml" ) then
-                                                            if builtins.pathExists ( self + "/idea.nix" ) then
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/touch $out &&
-                                                                        ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                        exit 65
-                                                                ''
-                                                            else
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/touch $out &&
-                                                                        ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                        exit 66
-                                                                ''
-                                                        else
-                                                            let
-                                                                
-                                                                in
+                                                    let
+                                                        in
+                                                            if builtins.pathExists ( self + "/expected.yaml" ) then
+                                                                if builtins.pathExists ( self + "/observe.yaml" ) then
+                                                                    if builtins.pathExists ( self + "/idea.nix" ) then
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                                exit 65
+                                                                        ''
+                                                                    else
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                                exit 66
+                                                                        ''
+                                                                else
+                                                                    let
+
+                                                                        in
+                                                                            ''
+                                                                                ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                    ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                                    exit 67
                                                                     ''
-                                                                        ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                            exit 67
-                                                            ''
-                                                    else
-                                                        let
-                                                            indent = n : builtins.concatStringsSep "" ( builtins.genList ( index : "\t" ) n ) ;
-                                                            list =
+                                                            else
                                                                 let
-                                                                    levels =
-                                                                        [
-                                                                            { name = "init-status" ; value = [ 0 69 70 ] ; }
-                                                                            { name = "seed" ; value = [ null null ] ; }
-                                                                            { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                            { name = "init-standard-output" ; value = [ null null ] ; }
-                                                                            { name = "init-standard-error" ; value = [ null null ] ; }
-                                                                            { name = "init-seed" ; value = [ null null ] ; }
-                                                                            { name = "release-status" ; value = [ 0 71 72 ] ; }
-                                                                            { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                            { name = "release-standard-output" ; value = [ null null ] ; }
-                                                                            { name = "release-standard-error" ; value = [ null null ] ; }
-                                                                            { name = "release-seed" ; value = [ null null ] ; }
-                                                                            { name = "speed" ; value = [ "fast" "slow" ] ; }
-                                                                        ] ;
-                                                                    mapper =
-                                                                        path : name : value :
-                                                                            if builtins.typeOf value == "null" then
-                                                                                let
-                                                                                    escape = value : builtins.concatStringsSep "" [ "$" "{" " " value " " "}" ] ;
-                                                                                    init =
-                                                                                        if values.init-status == "0"
-                                                                                        then
-                                                                                            [
-                                                                                                "init ="
-                                                                                                "${ indent 1 }script"
-                                                                                                "${ indent 2 }{"
-                                                                                                "${ indent 3 }executable = self + \"/scripts/test/temporary/init.sh\" ;"
-                                                                                                "${ indent 3 }sets ="
-                                                                                                "${ indent 4 }["
-                                                                                                "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
-                                                                                                "${ indent 5 }( is-file \"IS_FILE\" )"
-                                                                                                "${ indent 5 }( is-pipe \"IS_PIPE\" )"
-                                                                                                "${ indent 5 }( path \"POST_SEED\" 1 )"
-                                                                                                "${ indent 5 }( resource \"RESOURCE\" )"
-                                                                                                "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
-                                                                                                "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
-                                                                                                "${ indent 5 }( path \"STATUS\" 0 )"
-                                                                                                "${ indent 5 }( standard-input \"STANDARD_INPUT\" )"
-                                                                                                "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
-                                                                                                "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
-                                                                                                "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
-                                                                                                "${ indent 5 }( target \"TARGET\" )"
-                                                                                                "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                                "${ indent 4 }] ;"
-                                                                                                "${ indent 2 }} ;"
-                                                                                            ]
-                                                                                        else [ ] ;
-                                                                                    post =
-                                                                                        [
-                                                                                            "post ="
-                                                                                            "${ indent 1 }script"
-                                                                                            "${ indent 2 }{"
-                                                                                            "${ indent 3 }executable = self + \"/scripts/test/temporary/post.sh\" ;"
-                                                                                            "${ indent 3 }sets ="
-                                                                                            "${ indent 4 }["
-                                                                                            "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                            "${ indent 4 }] ;"
-                                                                                            "${ indent 2 }} ;"
-                                                                                        ] ;
-                                                                                    release =
-                                                                                        if values.release-status == "0"
-                                                                                        then
-                                                                                            [
-                                                                                                "release ="
-                                                                                                "${ indent 1 }script"
-                                                                                                "${ indent 2 }{"
-                                                                                                "${ indent 3 }executable = self + \"/scripts/test/temporary/release.sh\" ;"
-                                                                                                "${ indent 3 }sets ="
-                                                                                                "${ indent 4 }["
-                                                                                                "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
-                                                                                                "${ indent 5 }( is-file \"IS_FILE\" )"
-                                                                                                "${ indent 5 }( is-pipe \"IS_PIPE\" )"
-                                                                                                "${ indent 5 }( path \"POST_SEED\" 0 )"
-                                                                                                "${ indent 5 }( resource \"RESOURCE\" )"
-                                                                                                "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
-                                                                                                "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
-                                                                                                "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
-                                                                                                "${ indent 5 }( standard-input \"STANDARD_INPUT\" )"
-                                                                                                "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.release-standard-error }\" )"
-                                                                                                "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.release-standard-output }\" )"
-                                                                                                "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
-                                                                                                "${ indent 5 }( target \"TARGET\" )"
-                                                                                                "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                                "${ indent 4 }] ;"
-                                                                                                "${ indent 2 }} ;"
-                                                                                            ]
-                                                                                        else [ ] ;
-                                                                                    values =
-                                                                                        let
-                                                                                            generator = index : { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt ( builtins.concatLists [ path [ name ] ] ) index ; } ;
-                                                                                            in builtins.listToAttrs ( builtins.genList generator ( builtins.length levels ) ) ;
-                                                                                    in
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                [
-                                                                                                    "# ${ builtins.toJSON values }"
-                                                                                                    "("
-                                                                                                    "${ indent 1 }{ derivation , is-file , is-pipe , path , resource , script , standard-input , string , target } :"
-                                                                                                    "${ indent 2 }{"
-                                                                                                ]
-                                                                                                ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
-                                                                                                [
-                                                                                                    "${ indent 2 }}"
-                                                                                                    ")"
-                                                                                                ]
-                                                                                            ]
-                                                                            else if builtins.typeOf value == "set" then
-                                                                                let
-                                                                                    divider = if builtins.length path < 1 then { open = "{" ; close = "}" ; } else { open = "[" ; close = "]" ; } ;
-                                                                                    list = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) ;
-                                                                                    recurse =
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                [
-                                                                                                    "\"${ name }\" ="
-                                                                                                    "${ indent 1 }${ divider.open }"
-                                                                                                ]
-                                                                                                ( builtins.map ( value : "${ indent 2 }${ value }" ) list )
-                                                                                                [
-                                                                                                    "${ indent 1 }${ divider.close } ;"
-                                                                                                ]
-                                                                                            ] ;
-                                                                                    in if builtins.length path < 2 then recurse else list
-                                                                            else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
-                                                                    set =
+                                                                    indent = n : builtins.concatStringsSep "" ( builtins.genList ( index : "\t" ) n ) ;
+                                                                    list =
                                                                         let
-                                                                            list =
+                                                                            levels =
+                                                                                [
+                                                                                    { name = "init-status" ; value = [ 0 69 70 ] ; }
+                                                                                    { name = "seed" ; value = [ null null ] ; }
+                                                                                    { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                    { name = "init-standard-output" ; value = [ null null ] ; }
+                                                                                    { name = "init-standard-error" ; value = [ null null ] ; }
+                                                                                    { name = "init-seed" ; value = [ null null ] ; }
+                                                                                    { name = "release-status" ; value = [ 0 71 72 ] ; }
+                                                                                    { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
+                                                                                    { name = "release-standard-output" ; value = [ null null ] ; }
+                                                                                    { name = "release-standard-error" ; value = [ null null ] ; }
+                                                                                    { name = "release-seed" ; value = [ null null ] ; }
+                                                                                    { name = "speed" ; value = [ "fast" "slow" ] ; }
+                                                                                ] ;
+                                                                            mapper =
+                                                                                path : name : value :
+                                                                                    if builtins.typeOf value == "null" then
+                                                                                        let
+                                                                                            escape = value : builtins.concatStringsSep "" [ "$" "{" " " value " " "}" ] ;
+                                                                                            init =
+                                                                                                if values.init-status == "0"
+                                                                                                then
+                                                                                                    [
+                                                                                                        "init ="
+                                                                                                        "${ indent 1 }script"
+                                                                                                        "${ indent 2 }{"
+                                                                                                        "${ indent 3 }executable = self + \"/scripts/test/temporary/init.sh\" ;"
+                                                                                                        "${ indent 3 }sets ="
+                                                                                                        "${ indent 4 }["
+                                                                                                        "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
+                                                                                                        "${ indent 5 }( is-file \"IS_FILE\" )"
+                                                                                                        "${ indent 5 }( is-pipe \"IS_PIPE\" )"
+                                                                                                        "${ indent 5 }( path \"POST_SEED\" 1 )"
+                                                                                                        "${ indent 5 }( resource \"RESOURCE\" )"
+                                                                                                        "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
+                                                                                                        "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
+                                                                                                        "${ indent 5 }( path \"STATUS\" 0 )"
+                                                                                                        "${ indent 5 }( standard-input \"STANDARD_INPUT\" )"
+                                                                                                        "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
+                                                                                                        "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
+                                                                                                        "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
+                                                                                                        "${ indent 5 }( target \"TARGET\" )"
+                                                                                                        "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
+                                                                                                        "${ indent 4 }] ;"
+                                                                                                        "${ indent 2 }} ;"
+                                                                                                    ]
+                                                                                                else [ ] ;
+                                                                                            post =
+                                                                                                [
+                                                                                                    "post ="
+                                                                                                    "${ indent 1 }script"
+                                                                                                    "${ indent 2 }{"
+                                                                                                    "${ indent 3 }executable = self + \"/scripts/test/temporary/post.sh\" ;"
+                                                                                                    "${ indent 3 }sets ="
+                                                                                                    "${ indent 4 }["
+                                                                                                    "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
+                                                                                                    "${ indent 4 }] ;"
+                                                                                                    "${ indent 2 }} ;"
+                                                                                                ] ;
+                                                                                            release =
+                                                                                                if values.release-status == "0"
+                                                                                                then
+                                                                                                    [
+                                                                                                        "release ="
+                                                                                                        "${ indent 1 }script"
+                                                                                                        "${ indent 2 }{"
+                                                                                                        "${ indent 3 }executable = self + \"/scripts/test/temporary/release.sh\" ;"
+                                                                                                        "${ indent 3 }sets ="
+                                                                                                        "${ indent 4 }["
+                                                                                                        "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
+                                                                                                        "${ indent 5 }( is-file \"IS_FILE\" )"
+                                                                                                        "${ indent 5 }( is-pipe \"IS_PIPE\" )"
+                                                                                                        "${ indent 5 }( path \"POST_SEED\" 0 )"
+                                                                                                        "${ indent 5 }( resource \"RESOURCE\" )"
+                                                                                                        "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
+                                                                                                        "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
+                                                                                                        "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
+                                                                                                        "${ indent 5 }( standard-input \"STANDARD_INPUT\" )"
+                                                                                                        "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.release-standard-error }\" )"
+                                                                                                        "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.release-standard-output }\" )"
+                                                                                                        "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
+                                                                                                        "${ indent 5 }( target \"TARGET\" )"
+                                                                                                        "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
+                                                                                                        "${ indent 4 }] ;"
+                                                                                                        "${ indent 2 }} ;"
+                                                                                                    ]
+                                                                                                else [ ] ;
+                                                                                            values =
+                                                                                                let
+                                                                                                    generator = index : { name = builtins.getAttr "name" ( builtins.elemAt levels index ) ; value = builtins.elemAt ( builtins.concatLists [ path [ name ] ] ) index ; } ;
+                                                                                                    in builtins.listToAttrs ( builtins.genList generator ( builtins.length levels ) ) ;
+                                                                                            in
+                                                                                                builtins.concatLists
+                                                                                                    [
+                                                                                                        [
+                                                                                                            "# ${ builtins.toJSON values }"
+                                                                                                            "("
+                                                                                                            "${ indent 1 }{ derivation , is-file , is-pipe , path , resource , script , standard-input , string , target } :"
+                                                                                                            "${ indent 2 }{"
+                                                                                                        ]
+                                                                                                        ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
+                                                                                                        [
+                                                                                                            "${ indent 2 }}"
+                                                                                                            ")"
+                                                                                                        ]
+                                                                                                    ]
+                                                                                    else if builtins.typeOf value == "set" then
+                                                                                        let
+                                                                                            divider = if builtins.length path < 1 then { open = "{" ; close = "}" ; } else { open = "[" ; close = "]" ; } ;
+                                                                                            list = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) ;
+                                                                                            recurse =
+                                                                                                builtins.concatLists
+                                                                                                    [
+                                                                                                        [
+                                                                                                            "\"${ name }\" ="
+                                                                                                            "${ indent 1 }${ divider.open }"
+                                                                                                        ]
+                                                                                                        ( builtins.map ( value : "${ indent 2 }${ value }" ) list )
+                                                                                                        [
+                                                                                                            "${ indent 1 }${ divider.close } ;"
+                                                                                                        ]
+                                                                                                    ] ;
+                                                                                            in if builtins.length path < 2 then recurse else list
+                                                                                    else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
+                                                                            set =
                                                                                 let
                                                                                     list =
                                                                                         let
-                                                                                            generator = index : builtins.elemAt list ( ( builtins.length list ) - index - 1 ) ;
-                                                                                            list = levels ;
-                                                                                            in builtins.genList generator ( builtins.length list ) ;
-                                                                                    mapper =
-                                                                                        value :
-                                                                                            {
-                                                                                                name = value.name ;
-                                                                                                value =
-                                                                                                    let
-                                                                                                        generator =
-                                                                                                            index :
-                                                                                                                let
-                                                                                                                    level = builtins.elemAt value.value index ;
-                                                                                                                    in
-                                                                                                                        if builtins.typeOf level == "null" then builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) ) )
-                                                                                                                        else if builtins.typeOf level == "int" then builtins.toString level
-                                                                                                                        else if builtins.typeOf level == "string" then level
-                                                                                                                        else builtins.throw "The level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
-                                                                                                        in builtins.genList generator ( builtins.length value.value ) ;
-                                                                                            } ;
-                                                                                    in builtins.map mapper list ;
-                                                                            reducer =
-                                                                                previous : current :
-                                                                                    let
-                                                                                        mapper = value : { name = value ; value = previous ; } ;
-                                                                                        in builtins.listToAttrs ( builtins.map mapper current.value ) ;
-                                                                            in builtins.foldl' reducer builtins.null list ;
+                                                                                            list =
+                                                                                                let
+                                                                                                    generator = index : builtins.elemAt list ( ( builtins.length list ) - index - 1 ) ;
+                                                                                                    list = levels ;
+                                                                                                    in builtins.genList generator ( builtins.length list ) ;
+                                                                                            mapper =
+                                                                                                value :
+                                                                                                    {
+                                                                                                        name = value.name ;
+                                                                                                        value =
+                                                                                                            let
+                                                                                                                generator =
+                                                                                                                    index :
+                                                                                                                        let
+                                                                                                                            level = builtins.elemAt value.value index ;
+                                                                                                                            in
+                                                                                                                                if builtins.typeOf level == "null" then builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) ) )
+                                                                                                                                else if builtins.typeOf level == "int" then builtins.toString level
+                                                                                                                                else if builtins.typeOf level == "string" then level
+                                                                                                                                else builtins.throw "The level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
+                                                                                                                in builtins.genList generator ( builtins.length value.value ) ;
+                                                                                                    } ;
+                                                                                            in builtins.map mapper list ;
+                                                                                    reducer =
+                                                                                        previous : current :
+                                                                                            let
+                                                                                                mapper = value : { name = value ; value = previous ; } ;
+                                                                                                in builtins.listToAttrs ( builtins.map mapper current.value ) ;
+                                                                                    in builtins.foldl' reducer builtins.null list ;
+                                                                            in
+                                                                                ''
+                                                                                    { pkgs , self } :
+                                                                                    ${ indent 1 }{
+                                                                                    ${ indent 2 }${ builtins.concatStringsSep "\n${ indent 2 }" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
+                                                                                    ${ indent 1 }}
+                                                                                '' ;
                                                                     in
                                                                         ''
-                                                                            { pkgs , self } :
-                                                                            ${ indent 1 }{
-                                                                            ${ indent 2 }${ builtins.concatStringsSep "\n${ indent 2 }" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
-                                                                            ${ indent 1 }}
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.nix" ( list ) } $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
+                                                                                exit 68
                                                                         '' ;
-                                                            in
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.nix" ( list ) } $out &&
-                                                                        ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
-                                                                        exit 68
-                                                                '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
