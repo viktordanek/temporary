@@ -298,7 +298,7 @@
                                                                 } ;
                                                             in
                                                                 ''
-
+                                                                    ${ pkgs.coreutils }/bin/mkdir $out
                                                                 '' ;
                                                     } ;
                                     lib = lib ;
