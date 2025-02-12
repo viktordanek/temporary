@@ -414,7 +414,7 @@
                                                                                                     let
                                                                                                         generator = index : index < n - 1 ;
                                                                                                         in builtins.genList generator ( builtins.length previous ) ;
-                                                                                                in builtins.trace "HI ${ builtins.concatStringsSep " ; " ( builtins.map builtins.toString ( builtins.map builtins.length [ old-head.files ] ) ) }" ( builtins.concatLists [ [ new-head ] new-tail ] )  ;
+                                                                                                in builtins.trace "HI ${ builtins.concatStringsSep " ; " ( builtins.map builtins.toString ( builtins.map builtins.length [ [] ] ) ) }" ( builtins.concatLists [ [ new-head ] new-tail ] )  ;
                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                             mapper = value : "# ${ builtins.toJSON value }" ;
                                                                             in builtins.map mapper list ;
