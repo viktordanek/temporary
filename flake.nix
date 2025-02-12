@@ -263,7 +263,7 @@
                                                                                             "release ="
                                                                                             "${ indent 1 }script"
                                                                                             "${ indent 2 }{"
-                                                                                            "${ indent 3 }executable = self + \"/scripts/test/temporary/post.sh\" ;"
+                                                                                            "${ indent 3 }executable = self + \"/scripts/test/temporary/release.sh\" ;"
                                                                                             "${ indent 3 }sets ="
                                                                                             "${ indent 4 }["
                                                                                             "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
