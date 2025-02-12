@@ -411,9 +411,11 @@
                                                                                                 new-tail = if current.files + old-head.files < 1024 then old-tail else previous ;
                                                                                                 old-head = if n > 0 then builtins.elemAt previous ( n - 1 ) else { commands = [ ] ; files = 0 ; } ;
                                                                                                 old-tail =
-                                                                                                    let
-                                                                                                        generator = index : builtins.elemAt previous index ;
-                                                                                                        in builtins.genList generator ( ( builtins.length previous ) - 1 ) ;
+                                                                                                    if n > 0 then
+                                                                                                        let
+                                                                                                            generator = index : builtins.elemAt previous index ;
+                                                                                                            in builtins.genList generator ( n - 1 )
+                                                                                                    else [ ] ;
                                                                                                 in builtins.concatLists [ [ new-head ] new-tail ] ;
                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                             mapper = value : "# ${ builtins.toJSON value }" ;
