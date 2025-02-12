@@ -218,7 +218,7 @@
                                                         let
                                                             levels =
                                                                 [
-                                                                    { name = "init-status" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "init-status" " " "}" ) ] ; }
+                                                                    { name = "init-status" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "init-status" " " "}" ] ) ] ; }
                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                     { name = "init-standard-output" ; value = [ builtins.null builtins.null ] ; }
                                                                     { name = "init-standard-error" ; value = [ builtins.null builtins.null ] ; }
