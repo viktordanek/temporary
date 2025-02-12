@@ -295,7 +295,7 @@
                                                                                                 "${ indent 5 }( path \"POST_SEED\" 0 )"
                                                                                                 "${ indent 5 }( resource \"RESOURCE\" )"
                                                                                                 "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
-                                                                                                # "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
+                                                                                                "${"${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
                                                                                                 "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
                                                                                                 "${ indent 5 }( standard-input \"STANDARD_INPUT \" )"
                                                                                                 "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.release-standard-error }\" )"
