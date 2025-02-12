@@ -266,7 +266,7 @@
                                                                                                     "${ indent 1 }{ script } :"
                                                                                                     "${ indent 2 }{"
                                                                                                 ]
-                                                                                                # ( builtins.concatLists [ init post release ] )
+                                                                                                ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                 [
                                                                                                     "${ indent 2 }}"
                                                                                                     ")"
@@ -310,7 +310,7 @@
                                                                             in builtins.foldl' reducer builtins.null list ;
                                                                     in
                                                                         ''
-                                                                            { self } :
+                                                                            { init-status , self } :
                                                                             ${ indent 1 }[
                                                                             ${ indent 2 }${ builtins.concatStringsSep "\n${ indent 2 }" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
                                                                             ${ indent 1 }]
