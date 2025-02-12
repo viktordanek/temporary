@@ -238,6 +238,7 @@
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
+                                                                                    escape = value : builtins.concatStringsSep "" [ "$" "{" " " value " " "}" ] ;
                                                                                     init =
                                                                                         [
                                                                                             ""
@@ -248,6 +249,10 @@
                                                                                             "${ indent 1 }script"
                                                                                             "${ indent 2 }{"
                                                                                             "${ indent 3 }executable = self + \"/scripts/test/temporary/post.sh\" ;"
+                                                                                            "${ indent 3 }sets ="
+                                                                                            "${ indent 4 }["
+                                                                                            "${ indent 5 ]( string "YQ" \"${ escape "pkgs.yq" }/bin/yq\""
+                                                                                            "${ indent 4 }]"
                                                                                             "${ indent 2 }} ;"
                                                                                         ] ;
                                                                                     release =
