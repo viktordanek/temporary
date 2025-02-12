@@ -194,29 +194,34 @@
                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                 src = ./. ;
                                                 installPhase =
-                                                    let
-                                                        observed = null ;
-                                                        in
-                                                            if builtins.pathExists ( self + "/expected.yaml" ) then
+                                                    if builtins.pathExists ( self + "/expected.yaml" ) then
+                                                        if builtins.pathExists ( self + "/observe.yaml" ) then
+                                                            if builtins.pathExists ( self + "/idea.nix" ) then
                                                                 ''
-                                                                    DIFF=$( ${ pkgs.diffutils }/bin/diff ${ self + "/expected.yaml" } ${ observed } ) &&
-                                                                        if [ -z "${ builtins.concatStringsSep "" [ "$" "{" "DIFF" "}" ] }" ]
-                                                                        then
-                                                                            ${ pkgs.coreutils }/bin/touch $out
-                                                                        else
-                                                                            ${ pkgs.diffutils }/bin/diff --side-by-side --suppress-common-lines --width 130 ${ self + "/expected.yaml" } ${ observed } &&
-                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ observed } $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo $out
-                                                                        fi
+                                                                    ${ pkgs.coreutils }/bin/touch $out &&
+                                                                        ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                        exit 65
                                                                 ''
                                                             else
-                                                                let
-                                                                    in
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME &&
-                                                                                exit 64
-                                                                        '' ;
+                                                                ''
+                                                                    ${ pkgs.coreutils }/bin/touch $out &&
+                                                                        ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                        exit 66
+                                                                ''
+                                                        else
+                                                            ''
+                                                                ${ pkgs.coreutils }/bin/touch $out &&
+                                                                    ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                    exit 67
+                                                            ''
+                                                    else
+                                                        let
+                                                            in
+                                                                ''
+                                                                    ${ pkgs.coreutils }/bin/touch $out &&
+                                                                        ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
+                                                                        exit 68
+                                                                '' ;
                                                     } ;
                                     lib = lib ;
                                 } ;
