@@ -251,6 +251,7 @@
                                                                                             "${ indent 3 }executable = self + \"/scripts/test/temporary/post.sh\" ;"
                                                                                             "${ indent 3 }sets ="
                                                                                             "${ indent 4 }["
+                                                                                            "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
                                                                                             "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
                                                                                             "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
                                                                                             "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
@@ -259,6 +260,18 @@
                                                                                         ] ;
                                                                                     release =
                                                                                         [
+                                                                                            "release ="
+                                                                                            "${ indent 1 }script"
+                                                                                            "${ indent 2 }{"
+                                                                                            "${ indent 3 }executable = self + \"/scripts/test/temporary/post.sh\" ;"
+                                                                                            "${ indent 3 }sets ="
+                                                                                            "${ indent 4 }["
+                                                                                            "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
+                                                                                            "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.release-standard-error }\" )"
+                                                                                            "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.release-standard-output }\" )"
+                                                                                            "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
+                                                                                            "${ indent 4 }]"
+                                                                                            "${ indent 2 }} ;"
                                                                                         ] ;
                                                                                     values =
                                                                                         let
