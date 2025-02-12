@@ -236,8 +236,18 @@
                                                                                     # { name = "speed" ; value = [ ( builtins.concatStringsSep "" [ "$" "{" " " "speed" "}" ] ) ] ; }
                                                                                 ] ;
                                                                             in builtins.genList generator ( builtins.length levels ) ;
-                                                                    reducer = previous : current : builtins.map ( value : { name = value ; value = previous ; } ) current.value ;
-                                                                    in builtins.foldl' reducer builtins.null levels ;
+                                                                    mapper =
+                                                                        value :
+                                                                            {
+                                                                                name = value.name ;
+                                                                                value =
+                                                                                    let
+                                                                                        generator = index : builtins.toString ( if builtins.typeOf ( builtins.elemAt value index ) == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString name index ) ) ) else builtins.elemAt value index ) ;
+                                                                                        in builtins.genList generator ( builtins.length levels ) ;
+                                                                            } ;
+                                                                    in builtins.map mapper levels ;
+                                                                    # reducer = previous : current : builtins.map ( value : { name = value ; value = previous ; } ) current.value ;
+                                                                    # in builtins.foldl' reducer builtins.null levels ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "json" ( builtins.toJSON levels ) } > $out &&
