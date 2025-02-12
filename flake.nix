@@ -256,7 +256,7 @@
                                                                                                                 [
                                                                                                                     "{ } :"
                                                                                                                     "\t{"
-                                                                                                                    ( builtins.map ( x : "\t${ x }" ) ( builtins.concatLists ( init ) ) )
+                                                                                                                    ( builtins.map ( x : "\t${ x }" ) ( builtins.concatLists [ init ] ) )
                                                                                                                     "\t}"
                                                                                                                 ]
                                                                                                             ]
