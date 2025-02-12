@@ -324,7 +324,7 @@
                                                                         ''
                                                                             { self } :
                                                                             ${ indent 1 }[
-                                                                            ${ indent 2 }${ builtins.concatStringsSep "\n\t\t" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
+                                                                            ${ indent 2 }${ builtins.concatStringsSep "\n\t\t                  " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) set ) ) ) }
                                                                             ${ indent 1 }]
                                                                         '' ;
                                                             in
