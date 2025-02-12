@@ -518,6 +518,10 @@
                                                                                     condition = ! builtins.pathExists ( self + "/expect.yaml" ) ;
                                                                                     expression =
                                                                                         let
+                                                                                            mapper =
+                                                                                                name : value :
+                                                                                                    let
+                                                                                                        status = name ;
 
                                                                                             observed = builtins.fromJSON ( builtins.readFile ( yaml-file ) ) ;
                                                                                             yaml-file = pkgs.runCommand "convert" { buildInputs = [ pkgs.yq ] ; } "yq \".\" ${ self + "/observe.yaml" } > $out" ;
