@@ -244,12 +244,11 @@
                                                                                     post =
                                                                                         [
                                                                                             "post ="
-                                                                                            "\t{"
+                                                                                            "\t{ script }:"
                                                                                             "\t\tscript"
                                                                                             "\t\t\t{"
                                                                                             "\t\t\t\texecutable = self + \"/scripts/test/temporary/post.sh\" ;"
-                                                                                            "\t\t\t}"
-                                                                                            "\t}"
+                                                                                            "\t\t\t} ;"
                                                                                         ] ;
                                                                                     release =
                                                                                         [
