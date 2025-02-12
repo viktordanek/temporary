@@ -315,30 +315,31 @@
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 [
-                                                                                                    "["
-                                                                                                    "${ indent 1 }# ${ builtins.toJSON values }"
+                                                                                                    "# ${ builtins.toJSON values }"
+                                                                                                    "("
                                                                                                     "${ indent 1 }{ derivation , is-file , is-pipe , resource , script , standard-input , string , target } :"
                                                                                                     "${ indent 2 }{"
                                                                                                 ]
                                                                                                 ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                 [
                                                                                                     "${ indent 1 }}"
-                                                                                                    "]"
+                                                                                                    ")"
                                                                                                 ]
                                                                                             ]
                                                                             else if builtins.typeOf value == "set" then
                                                                                 let
+                                                                                    divider = if builtins.length path < 1 then { open = "{" ; close = "}" ; } else { open = "[" ; close = "]" ; } ;
                                                                                     list = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) ;
                                                                                     recurse =
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 [
                                                                                                     "\"${ name } \" ="
-                                                                                                    "${ indent 1 }{"
+                                                                                                    "${ indent 1 }${ divider.open }"
                                                                                                 ]
                                                                                                 ( builtins.map ( value : "${ indent 2 }${ value }" ) list )
                                                                                                 [
-                                                                                                    "${ indent 1 }} ;"
+                                                                                                    "${ indent 1 }${ divider.close } ;"
                                                                                                 ]
                                                                                             ] ;
                                                                                     in if builtins.length path < 2 then recurse else list
