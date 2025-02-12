@@ -237,8 +237,8 @@
                                                                         path : name : value :
                                                                             if builtins.typeOf value == "null" then
                                                                                 let
-                                                                                    init = [ "YES" ] ;
-                                                                                        # if values.init-status == "0" then [ "YES" ] else [ "NO" ] ;
+                                                                                    init =
+                                                                                        if values.init-status == "0" then [ "YES" ] else [ "NO" ] ;
                                                                                     post = null ;
                                                                                     release = null ;
                                                                                     values =
