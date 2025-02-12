@@ -407,7 +407,7 @@
                                                                                         previous : current :
                                                                                             let
                                                                                                 n = builtins.length previous ;
-                                                                                                new-head = if ( builtins.trace "HI ${ builtins.toJSON { a = 1 ; } "YOU" }" current.files ) + old-head.files < 1024 then { commands = builtins.concatLists [ old-head.commands [ current.command ] ] ; files = current.files + old-head.files ; } else { commands = [ current.command ] ; files = current.files ; } ;
+                                                                                                new-head = if ( builtins.trace "HI ${ builtins.toString n } }" current.files ) + old-head.files < 1024 then { commands = builtins.concatLists [ old-head.commands [ current.command ] ] ; files = current.files + old-head.files ; } else { commands = [ current.command ] ; files = current.files ; } ;
                                                                                                 new-tail = if current.files + old-head.files < 1024 then old-tail else previous ;
                                                                                                 old-head = if n > 0 then builtins.elemAt previous ( n - 1 ) else { commands = [ ] ; files = 0 ; } ;
                                                                                                 old-tail =
