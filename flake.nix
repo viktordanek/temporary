@@ -417,6 +417,7 @@
                                                                                                 in builtins.concatLists [ [ new-head ] new-tail ] ;
                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                             mapper = value : "# ${ builtins.toJSON value }" ;
+                                                                            in builtins.map mapper list ;
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
