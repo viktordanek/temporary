@@ -187,7 +187,7 @@
                                                 let
                                                     mapper =
                                                         path : name : value :
-                                                            if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" ( builtinslconcatLists [ path [ name ] ] ) }/setup"
+                                                            if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "list" then
                                                                 let
                                                                     list = builtins.genList ( builtins.elemAt value ) ( builtins.length value ) ;
