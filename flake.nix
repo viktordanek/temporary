@@ -7,9 +7,6 @@
     outputs =
         { flake-utils , nixpkgs , self } :
             let
-
-                resolve = path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ;
-
                 fun =
                     system :
                         let
@@ -508,6 +505,7 @@
                                                                 '' ;
                                                     } ;
                                     lib = lib ;
+                                    resolve = path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
 }
