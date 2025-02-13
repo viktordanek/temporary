@@ -209,6 +209,7 @@
                                                         builtins.trace "H4" ( path : name : value : builtins.trace "HI ${ builtins.toString name } ${ builtins.typeOf value }" (
                                                             if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "list" then
+                                                                ( builtins.trace "h6" (
                                                                 let
                                                                     generator =
                                                                         index :
@@ -217,7 +218,7 @@
                                                                                 p = builtins.concatLists [ path [ name ] ] ;
                                                                                 v = builtins.elemAt value index ;
                                                                                 in mapper p n v ;
-                                                                    in builtins.trace "HIH" ( builtins.genList generator ( builtins.length value ) )
+                                                                    in builtins.trace "HIH" ( builtins.genList generator ( builtins.length value ) ) ) )
                                                             else if builtins.typeOf value == "null" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then ( builtins.trace "h5" ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                             else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ) ) ;
