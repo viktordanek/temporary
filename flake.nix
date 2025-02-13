@@ -380,7 +380,7 @@
                                                                                                         ]
                                                                                                     ] ;
                                                                                             in if builtins.length path < 2 then recurse else list
-                                                                                    else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a null nor a set but a ${ builtins.typeOf value }." ;
+                                                                                    else throw path ( path : "The temporary at ${ path } is neither null nor set but ${ builtins.typeOf value }." ) ;
                                                                             set =
                                                                                 let
                                                                                     list =
