@@ -180,7 +180,7 @@
                                                                                                     p = builtins.concatLists [ path [ index ] ] ;
                                                                                                     v = builtins.elemAt value index ;
                                                                                                     in mapper p n v ;
-                                                                                        in builtins.trace "HI" ( builtins.genList generator ( builtins.length value ) )
+                                                                                        in builtins.trace "HI ${ builtins.toJSON path }" ( builtins.genList generator ( builtins.length value ) )
                                                                                 )
                                                                             ]
                                                                     else if builtins.typeOf value == "set" then
