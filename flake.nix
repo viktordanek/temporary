@@ -91,7 +91,7 @@
                                                                                                             } ;
                                                                                                         in
                                                                                                             if builtins.typeOf sets == "lambda" && builtins.typeOf ( sets inject ) == "list" then sets inject
-                                                                                                            else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The sets defined (for injection) at ${ path } is not a lambda of lists of strings." )
+                                                                                                            else throw_new { name = name ; path = path ; reason = "injection" ; thing = "sets" ; valid = [ "a lambda of lists of strings" ] ; value = value ; }
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
