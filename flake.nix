@@ -36,15 +36,15 @@
                                                                                 init =
                                                                                     if builtins.typeOf init == "lambda" then init
                                                                                     else if builtins.typeOf init == "null" then builtins.null
-                                                                                    else throw path ( path : "The init defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf init }." ) ;
+                                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( ( path : "The init defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf init }." ) ;
                                                                                 post =
                                                                                     if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
-                                                                                    else throw path ( path : "The post defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf post }." ) ;
+                                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The post defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf post }." ) ;
                                                                                 release =
                                                                                     if builtins.typeOf release == "lambda" then release
                                                                                     else if builtins.typeOf release == "null" then builtins.null
-                                                                                    else throw path ( path : "The release defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf release }." ) ;
+                                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The release defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf release }." ) ;
                                                                             } ;
                                                                     script =
                                                                         {
@@ -77,7 +77,7 @@
                                                                                                                                 path : name : value :
                                                                                                                                     if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
                                                                                                                                     else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                                                                                    else throw path ( path : "The derivation defined for harvest at ${ path } / ${ name } is neither string nor set but ${ builtins.typeOf value }." ) ;
+                                                                                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The derivation defined for harvest at ${ path } is neither string nor set but ${ builtins.typeOf value }." ) ;
                                                                                                                             name-to-be-set = name ;
                                                                                                                             set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                                                             in fun set ;
@@ -91,7 +91,7 @@
                                                                                                             } ;
                                                                                                         in
                                                                                                             if builtins.typeOf sets == "lambda" && builtins.typeOf ( sets inject ) == "list" then sets inject
-                                                                                                            else throw path ( path : "The sets defined (for injection) at ${ path } is not a lambda of lists of strings." )
+                                                                                                            else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The sets defined (for injection) at ${ path } is not a lambda of lists of strings." )
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
@@ -191,7 +191,7 @@
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
-                                                                    else builtins.throw "The dependency defined (for construction) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, a list, nor a set but a ${ builtins.typeOf value }." ;
+                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( "The dependency defined (for construction) at ${ path } is neither lambda, list, nor set but ${ builtions.typeOf value." ) ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
