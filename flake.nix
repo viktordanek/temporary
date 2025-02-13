@@ -411,7 +411,7 @@
                                                                                                 new =
                                                                                                     if current.files + old.head.files < 1024 then
                                                                                                         {
-                                                                                                            head = { commands = builtins.concatLists [ old.head.commands [ current.command ] ] ; files = current.files + old.head.files + current.files ; } ;
+                                                                                                            head = { commands = builtins.concatLists [ old.head.commands [ current.command ] ] ; files = current.files + old.head.files ; } ;
                                                                                                             tail = old.tail ;
                                                                                                         }
                                                                                                     else
