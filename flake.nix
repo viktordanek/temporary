@@ -169,7 +169,7 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 [
-                                                                                    builtins.trace "FOUND" "if [ ! -d ${ builtins.concatStringsSep "/" path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path } ; fi"
+                                                                                    ( builtins.trace "FOUND" "if [ ! -d ${ builtins.concatStringsSep "/" path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path } ; fi" )
                                                                                 ]
                                                                                 (
                                                                                     let
