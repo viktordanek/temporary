@@ -40,7 +40,7 @@
                                                                                 post =
                                                                                     if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
-                                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The post defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf post }." ) ;
+                                                                                    throw_new { name = name ; path = path ; reason = "identity" ; thing = "post" ; valid = [ "lambda" "null" ] ; value = value ; } ;
                                                                                 release =
                                                                                     if builtins.typeOf release == "lambda" then release
                                                                                     else if builtins.typeOf release == "null" then builtins.null
