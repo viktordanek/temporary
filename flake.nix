@@ -216,7 +216,7 @@
                                                                         index :
                                                                             let
                                                                                 n = builtins.trace "493" index ;
-                                                                                p = builtins.trace "492 ${ builtins.toJSON value }" ( builtins.concatLists [ path [ name ] ] ) ;
+                                                                                p = builtins.trace "492" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                 v = builtins.trace "491" ( builtins.elemAt value index ) ;
                                                                                 in mapper p n v ;
                                                                     in builtins.trace "480" ( builtins.genList generator ( builtins.length value ) )
