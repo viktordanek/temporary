@@ -109,7 +109,7 @@
                                                                                     v = builtins.elemAt value index ;
                                                                                     x = mapper p n v ;
                                                                                     in mapper p n v ;
-                                                                        in builtins.trace "400" ( builtins.genList generator ( builtins.length value ) )
+                                                                        in builtins.genList generator ( builtins.length value )
                                                                 else if builtins.typeOf value == "null" then lambda path name ( script : { } )
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                                 else throw_new { name = name ; path = path ; reason = "sourcing" ; thing = "temporary" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
