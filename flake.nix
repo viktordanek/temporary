@@ -77,8 +77,8 @@
                                                                                                                                 path : name : value :
                                                                                                                                     if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
                                                                                                                                     else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The derivation defined for harvest at ${ path } is neither string nor set but ${ builtins.typeOf value }." ) ;
-                                                                                                                            name-to-be-set = name ;
+                                                                                                                                    else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "derivation" ; valid = [ "string" "set" ] ; value = value ; } ;
+                                                                                                                             name-to-be-set = name ;
                                                                                                                             set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                                                             in fun set ;
                                                                                                                 is-file = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
