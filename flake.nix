@@ -191,7 +191,7 @@
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
-                                                                    else builtins.throw "The dependency defined (for sourcing) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ) } is neither a lambda, a list, nor a set but a ${ builtins.typeOf value }." ;
+                                                                    else builtins.throw "The dependency defined (for sourcing) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, a list, nor a set but a ${ builtins.typeOf value }." ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
