@@ -206,7 +206,7 @@
                                             derivation :
                                                 let
                                                     mapper =
-                                                        builtins.trace "H4" ( path : name : value : builtins.trace "HI ${ builtins.toString name } ${ builtins.typeOf value }" (
+                                                        path : name : value :
                                                             if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "list" then
                                                                 ( builtins.trace "h6" (
@@ -222,7 +222,7 @@
                                                                     in builtins.trace "HIH ${ name } ${ builtins.typeOf value } ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( builtins.length value ) ) ) )
                                                             else if builtins.typeOf value == "null" then builtins.trace "H7" "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then ( builtins.trace "h5" ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                            else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ) ) ;
+                                                            else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ;
                                                     in builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ;
                                         in builtins.trace "H3" ( harvest ( builtins.toString derivation ) );
                             pkgs = import nixpkgs { system = system ; } ;
