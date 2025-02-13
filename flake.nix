@@ -111,7 +111,7 @@
                                                                         in builtins.genList generator ( builtins.length value )
                                                                 else if builtins.typeOf value == "null" then lambda path name ( x : { } )
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda, list, null, nor a set but is a ${ builtins.typeOf value }." ;
+                                                                else builtins.throw "The temporary defined (for sourcing) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ) } is neither a lambda, list, null, nor a set but is a ${ builtins.typeOf value }." ;
                                                         in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
                                             } ;
                                         derivation =
