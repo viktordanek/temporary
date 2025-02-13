@@ -407,33 +407,12 @@
                                                                                     reducer =
                                                                                         previous : current :
                                                                                             let
-                                                                                                n = builtins.length previous ;
-                                                                                                new =
-                                                                                                    if current.files + old.head.files < 1024 then
-                                                                                                        {
-                                                                                                            head = { commands = builtins.concatLists [ old.head.commands [ current.command ] ] ; files = current.files + old.head.files ; } ;
-                                                                                                            tail = builtins.trace "OLD" old.tail ;
-                                                                                                        }
-                                                                                                    else
-                                                                                                        {
-                                                                                                            head = { commands = [ current.command ] ; files = current.files ; } ;
-                                                                                                            tail = previous ;
-                                                                                                        } ;
-                                                                                                old =
-                                                                                                    if n > 0 then
-                                                                                                        {
-                                                                                                            head = builtins.elemAt previous ( n - 1 ) ;
-                                                                                                            tail =
-                                                                                                                let
-                                                                                                                    generator = index : builtins.elemAt previous index ;
-                                                                                                                    in builtins.genList generator ( n - 1 ) ;
-                                                                                                        }
-                                                                                                    else
-                                                                                                        {
-                                                                                                            head = { commands = [ ] ; files = 0 ; } ;
-                                                                                                            tail = [ ] ;
-                                                                                                        } ;
-                                                                                                in builtins.concatLists [ [ new.head ] new.tail ] ;
+                                                                                                last-group = if builtins.length previous == 0 then { commands = [ ] ; files = 0 ; } else builtins.head previous ;
+                                                                                                rest-groups = if builtins.length previous == 0 then [ ] else builtins.tail previous ;
+                                                                                                new-groups =
+                                                                                                    if last-group.file + current.files <= 1024 then builtins.concatLists [ [ { commands = builtins.concatLists [ last-group.commands [ current.command ] ] ; files = last-group.files + current.files ; } ] rest-groups ]
+                                                                                                    else builtins.concatLists [ [ { commands = [ current.command ] ; files = current.files ; ] previous ] ;
+                                                                                                in new-groups ;
                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                             mapper = value : "# ${ builtins.toJSON value }" ;
                                                                             in builtins.map mapper list ;
