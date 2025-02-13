@@ -109,7 +109,7 @@
                                                                                     v = builtins.elemAt value index ;
                                                                                     in builtins.trace "HI10 ( ${ builtins.toString n } ) ${ builtins.typeOf v } ${ builtins.typeOf ( mapper p n ) }" ( mapper p n v ) ;
                                                                         in builtins.genList generator ( builtins.length value )
-                                                                else if builtins.typeOf value == "null" then lambda path name ( x : { } )
+                                                                else if builtins.typeOf value == "null" then lambda path name ( script : { init = null ; } )
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                                 else builtins.throw "The temporary defined (for sourcing) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor a set but is a ${ builtins.typeOf value }." ) ) ;
                                                         in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
