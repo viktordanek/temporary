@@ -488,7 +488,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                exit 166
+                                                                                exit 16
                                                                         ''
                                                                 else
                                                                     let
