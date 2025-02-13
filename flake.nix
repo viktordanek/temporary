@@ -530,7 +530,7 @@
                                     else
                                         let
                                             head = builtins.elemAt valid ( ( builtins.length valid ) - 1 ) ;
-                                            tail = builtins.genList ( index : builtins.elemAt list index ) ( ( builtins.length valid ) - 1 ) ;
+                                            tail = builtins.genList ( index : builtins.elemAt valid index ) ( ( builtins.length valid ) - 1 ) ;
                                             in builtins.concatStringsSep ", " ( builtins.concatLists [ tail "nor" [ head ] ] ) ;
                                 in
                                     builtins.throw "The ${ thing } defined (for ${ reason }) at ${ complete-path } is not ${ complete-valid } but ${ complete-invalid }." ;
