@@ -412,12 +412,12 @@
                                                                                                     if current.files + old.head.files < 1024 then
                                                                                                         {
                                                                                                             head = { commands = builtins.concatLists [ old.head.commands [ current.command ] ] ; files = current.files + old.head.files ; } ;
-                                                                                                            tail = old.tail ;
+                                                                                                            tail = builtins.trace "OLD" old.tail ;
                                                                                                         }
                                                                                                     else
                                                                                                         {
                                                                                                             head = { commands = [ current.command ] ; files = current.files ; } ;
-                                                                                                            tail = previous ;
+                                                                                                            tail = builtins.trace "NEW" previous ;
                                                                                                         } ;
                                                                                                 old =
                                                                                                     if n > 0 then
