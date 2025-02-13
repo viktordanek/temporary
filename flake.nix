@@ -44,7 +44,7 @@
                                                                                 release =
                                                                                     if builtins.typeOf release == "lambda" then release
                                                                                     else if builtins.typeOf release == "null" then builtins.null
-                                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The release defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf release }." ) ;
+                                                                                    else throw_new { name = name ; path = path ; reason = "identity" ; thing = "release" ; valid = [ "lambda" "null" ] ; value = value ; } ;
                                                                             } ;
                                                                     script =
                                                                         {
