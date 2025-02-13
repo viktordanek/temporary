@@ -91,7 +91,7 @@
                                                                                                             } ;
                                                                                                         in
                                                                                                             if builtins.typeOf sets == "lambda" && builtins.typeOf ( sets inject ) == "list" then sets inject
-                                                                                                            else builtins.throw "The sets at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is a lambda of lists."
+                                                                                                            else throw path ( path : "The sets defined (for injection) at ${ path } is not a lambda of lists of strings." )
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
