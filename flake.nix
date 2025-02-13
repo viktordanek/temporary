@@ -40,7 +40,7 @@
                                                                                 post =
                                                                                     if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
-                                                                                    throw_new { name = name ; path = path ; reason = "identity" ; thing = "post" ; valid = [ "lambda" "null" ] ; value = value ; } ;
+                                                                                    else throw_new { name = name ; path = path ; reason = "identity" ; thing = "post" ; valid = [ "lambda" "null" ] ; value = value ; } ;
                                                                                 release =
                                                                                     if builtins.typeOf release == "lambda" then release
                                                                                     else if builtins.typeOf release == "null" then builtins.null
