@@ -44,7 +44,7 @@
                                                                                 release =
                                                                                     if builtins.typeOf release == "lambda" then release
                                                                                     else if builtins.typeOf release == "null" then builtins.null
-                                                                                    else builtins.throw "The release defined (for identity) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a null but a ${ builtins.typeOf release }." ;
+                                                                                    else throw path ( path : "The release defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf release }." ) ;
                                                                             } ;
                                                                     script =
                                                                         {
