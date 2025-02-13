@@ -179,7 +179,7 @@
                                                                                                     n = index ;
                                                                                                     p = builtins.concatLists [ path [ index ] ] ;
                                                                                                     v = builtins.elemAt value index ;
-                                                                                                    in mapper n p v ;
+                                                                                                    in mapper p n v ;
                                                                                         in builtins.genList generator ( builtins.length value )
                                                                                 )
                                                                             ]
