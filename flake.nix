@@ -210,9 +210,14 @@
                                                             if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "list" then
                                                                 let
-                                                                    list = builtins.genList ( builtins.elemAt value ) ( builtins.length value ) ;
-                                                                    mapper = mapper ( builtins.concatLists [ path [ name ] ] ) ;
-                                                                    in builtins.map list
+                                                                    generator =
+                                                                        index :
+                                                                            let
+                                                                                n = index ;
+                                                                                p = builtins.concatLists [ path [ name ] ] ;
+                                                                                v = builtins.elemAt value index ;
+                                                                                in mapper p n v ;
+                                                                    in builtins.genList generator ( builtins.length value )
                                                             else if builtins.typeOf value == "null" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ;
