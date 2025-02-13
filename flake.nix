@@ -219,7 +219,8 @@
                                                                                 p = builtins.trace "HIH200" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                 v = builtins.trace "HIH300" ( builtins.elemAt value index ) ;
                                                                                 in builtins.trace "HIH400" ( mapper p n v ) ) ) ;
-                                                                    in builtins.trace "HIH ${builtins.typeOf (builtins.elemAt ( builtins.genList generator 1 ) 0 ) } ${ name } ${ builtins.typeOf value } ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( builtins.length value ) )
+                                                                    # in builtins.trace "HIH ${builtins.typeOf (builtins.elemAt ( builtins.genList generator 1 ) 0 ) } ${ name } ${ builtins.typeOf value } ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( builtins.length value ) )
+                                                                    in [ "WTF" ]
                                                             else if builtins.typeOf value == "null" then builtins.trace "H7" "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
