@@ -36,11 +36,11 @@
                                                                                 init =
                                                                                     if builtins.typeOf init == "lambda" then init
                                                                                     else if builtins.typeOf init == "null" then builtins.null
-                                                                                    else throw path ( path : "The init defined (for identity at ${ path } is neither lambda nor null but ${ builtins.typeOf init }." ) ;
+                                                                                    else throw path ( path : "The init defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf init }." ) ;
                                                                                 post =
                                                                                     if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
-                                                                                    else builtins.throw "The post defined (for identity) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda nor a null but a ${ builtins.typeOf post }." ;
+                                                                                    else throw path ( path : "The post defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf post }." )
                                                                                 release =
                                                                                     if builtins.typeOf release == "lambda" then release
                                                                                     else if builtins.typeOf release == "null" then builtins.null
