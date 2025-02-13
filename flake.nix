@@ -219,8 +219,7 @@
                                                                                 p = builtins.concatLists [ path [ name ] ] ;
                                                                                 v = builtins.elemAt value index ;
                                                                                 in mapper p n v ;
-                                                                    in builtins.trace "HIH799 ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( builtins.length value ) )
-                                                                    # in [ "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup" ]
+                                                                    in builtins.genList generator ( builtins.length value )
                                                             else if builtins.typeOf value == "null" then builtins.trace "H7" "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
@@ -474,7 +473,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf ( builtins.elemAt ( builtins.trace resources.temporary.flist resources.temporary.flist ) 0 ) } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.flist resources.temporary.flist 0 } &&
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
