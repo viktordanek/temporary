@@ -245,7 +245,7 @@
                                                                     temporary =
                                                                         {
                                                                             # temporary = idea ;
-                                                                            # foobar = builtins.null ;
+                                                                            foobar = builtins.null ;
                                                                             flist = [ builtins.null builtins.null ] ;
                                                                         } ;
                                                                     temporary-initialization-error = 65 ;
@@ -474,7 +474,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace "HIH500 }" resources.temporary.temporary.flist }
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace "HIH500 }" resources.temporary.foobar }
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
