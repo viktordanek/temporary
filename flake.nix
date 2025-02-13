@@ -206,7 +206,7 @@
                                             derivation :
                                                 let
                                                     mapper =
-                                                        path : name : builtins.trace "HI" ( value :
+                                                        path : name : value : builtins.trace "HI" ( 
                                                             if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "list" then
                                                                 let
