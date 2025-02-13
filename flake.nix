@@ -411,7 +411,7 @@
                                                                                                 rest-groups = if builtins.length previous == 0 then [ ] else builtins.tail previous ;
                                                                                                 new-groups =
                                                                                                     if last-group.files + current.files < 1024 then builtins.concatLists [ [ { commands = builtins.concatLists [ last-group.commands [ current.command ] ] ; files = last-group.files + current.files ; } ] rest-groups ]
-                                                                                                    else builtins.concatLists [ [ { commands = [ current.command ] ; files = current.files ; } ] previous ] ;
+                                                                                                    else builtins.concatLists [ [ { commands = [ current ] ; files = current.files ; } ] previous ] ;
                                                                                                 in new-groups ;
                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                             mapper = value : "# ${ builtins.toJSON value }" ;
