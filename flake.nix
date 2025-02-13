@@ -105,8 +105,8 @@
                                                                             builtins.trace "410" (
                                                                             index : ( builtins.trace "420" (
                                                                                 let
-                                                                                    n = index ;
-                                                                                    p = builtins.concatLists [ path [ name ] ] ;
+                                                                                    n = builtins.trace "432" index ;
+                                                                                    p = builtins.trace "431" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                     v = builtins.trace "430" ( builtins.elemAt value index ) ;
                                                                                     x = mapper p n v ;
                                                                                     in builtins.trace "440" ( mapper p n v ) ) ) ) ;
