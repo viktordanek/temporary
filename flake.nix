@@ -176,7 +176,7 @@
                                                                                         generator =
                                                                                             index :
                                                                                                 let
-                                                                                                    n = index ;
+                                                                                                    n = builtins.trace "HI" index ;
                                                                                                     p = builtins.concatLists [ path [ index ] ] ;
                                                                                                     v = builtins.elemAt value index ;
                                                                                                     in mapper p n v ;
