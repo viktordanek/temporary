@@ -506,7 +506,7 @@
                                                     } ;
                                     lib = lib ;
                                 } ;
-                    resolve = path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ;
+                    resolve = path : builtins.trace "502" ( builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ) ;
                     throw_new =
                         {
                             name ? builtins.null ,
