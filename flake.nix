@@ -212,13 +212,13 @@
                                                                 let
                                                                     generator =
                                                                         builtins.trace "HIH800" (
-                                                                        index : builtins.trace "HIH900" (
+                                                                        index : builtins.trace "HIH900 ${ builtins.toString index }" (
                                                                             let
                                                                                 n = builtins.trace "HIH100" index ;
                                                                                 p = builtins.trace "HIH200" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                 v = builtins.trace "HIH300" ( builtins.elemAt value index ) ;
                                                                                 in builtins.trace "HIH400" ( mapper p n v ) ) ) ;
-                                                                    in builtins.trace "HIH ${ builtins.toJSON value } ${ name } ${ builtins.typeOf value } ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( 1 ) )
+                                                                    in builtins.trace "HIH ${ builtins.toJSON value } ${ name } ${ builtins.typeOf value } ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( builtins.length value ) )
                                                             else if builtins.typeOf value == "null" then builtins.trace "H7" "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ;
