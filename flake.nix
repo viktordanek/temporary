@@ -217,7 +217,7 @@
                                                                                 n = builtins.trace "HIH100" index ;
                                                                                 p = builtins.trace "HIH200" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                 v = builtins.trace "HI3000" ( builtins.elemAt value index ) ;
-                                                                                in mapper p n v ;
+                                                                                in builtins.trace "HIH400" ( mapper p n v ) ;
                                                                     in builtins.trace "HIH ${ builtins.typeOf value }" ( builtins.genList generator ( builtins.length value ) ) ) )
                                                             else if builtins.typeOf value == "null" then builtins.trace "H7" "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then ( builtins.trace "h5" ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
