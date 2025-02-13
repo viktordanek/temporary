@@ -216,7 +216,7 @@
                                                                     # at = "${ pkgs.at }/bin/at" ;
                                                                     temporary =
                                                                         {
-                                                                            # temporary = idea ;
+                                                                            temporary = idea ;
                                                                             foobar = builtins.null ;
                                                                         } ;
                                                                     temporary-initialization-error = 65 ;
