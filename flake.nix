@@ -107,7 +107,7 @@
                                                                                 let
                                                                                     n = index ;
                                                                                     p = builtins.concatLists [ path [ name ] ] ;
-                                                                                    v = builtins.elemAt value index ;
+                                                                                    v = builtins.trace "430" ( builtins.elemAt value index ) ;
                                                                                     in mapper p n v ) ) ) ;
                                                                         in builtins.trace "400" ( builtins.genList generator ( builtins.length value ) )
                                                                 else if builtins.typeOf value == "null" then lambda path name ( script : { } )
