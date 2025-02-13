@@ -219,7 +219,7 @@
                                                                                 p = builtins.trace "491" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                 v = builtins.trace "492" ( builtins.elemAt value index ) ;
                                                                                 in mapper p n v ;
-                                                                    in builtins.trace "500" ( builtins.genList generator ( builtins.length value ) )
+                                                                    in builtins.throw "WTF" ; # builtins.trace "500" ( builtins.genList generator ( builtins.length value ) )
                                                             else if builtins.typeOf value == "null" then builtins.trace "501 ${ builtins.toJSON path }" ( "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup" )
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
