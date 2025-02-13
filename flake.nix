@@ -533,6 +533,6 @@
                                             tail = builtins.genList ( index : builtins.elemAt list index ) ( ( builtins.length valid ) - 1 ) ;
                                             in builtins.concatStringsSep ", " ( builtins.concatLists [ tail "nor" [ head ] ] ) ;
                                 in
-                                    builtins.throw "The ${ thing } defined (for ${ reason }) at ${ complete-path } is not ${ complete-valid } but ${ complete-invalid }."
+                                    builtins.throw "The ${ thing } defined (for ${ reason }) at ${ complete-path } is not ${ complete-valid } but ${ complete-invalid }." ;
                     in flake-utils.lib.eachDefaultSystem fun ;
 }
