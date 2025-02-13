@@ -7,6 +7,9 @@
     outputs =
         { flake-utils , nixpkgs , self } :
             let
+
+                resolve = path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ;
+
                 fun =
                     system :
                         let
@@ -169,7 +172,7 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 [
-                                                                                    ( builtins.trace "FOUND" "if [ ! -d ${ builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path } ; fi" )
+                                                                                    "if [ ! -d ${ resolve path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path } ; fi"
                                                                                 ]
                                                                                 (
                                                                                     let
