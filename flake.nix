@@ -505,7 +505,7 @@
                                                                 '' ;
                                                     } ;
                                     lib = lib ;
-                                    resolve = path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ;
                                 } ;
-                in flake-utils.lib.eachDefaultSystem fun ;
+                    resolve = path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ;
+                    in flake-utils.lib.eachDefaultSystem fun ;
 }
