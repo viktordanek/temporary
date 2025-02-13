@@ -211,6 +211,7 @@
                                                                     temporary =
                                                                         {
                                                                             # temporary = idea ;
+                                                                            foobar = builtins.null ;
                                                                         } ;
                                                                     temporary-initialization-error = 65 ;
                                                                     # temporary-path = "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ;
@@ -439,7 +440,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep " ; " ( builtins.attrNames resources ) }
+                                                                                ${ pkgs.coreutils }/bin/echo ${ resources.temporary.foobar }
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
