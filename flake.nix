@@ -97,6 +97,7 @@
                                                                                     ) ;
                                                                     in ignore : identity ( value script ) ;
                                                         mapper =
+                                                            path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
                                                                 else if builtins.typeOf value == "list" then
                                                                     let
