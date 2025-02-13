@@ -224,7 +224,7 @@
                                                             else if builtins.typeOf value == "set" then ( builtins.trace "h5" ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                             else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ;
                                                     in builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ;
-                                        in builtins.trace "H3" ( harvest ( builtins.toString derivation ) );
+                                        in harvest ( builtins.toString derivation ) ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
                                 {
