@@ -212,13 +212,12 @@
                                                             else if builtins.typeOf value == "list" then
                                                                 let
                                                                     generator =
-                                                                        builtins.trace "HIH800" (
-                                                                        index : builtins.trace "HIH900 ${ builtins.toString index }" (
+                                                                        index :
                                                                             let
-                                                                                n = builtins.trace "HIH100" index ;
-                                                                                p = builtins.trace "HIH200" ( builtins.concatLists [ path [ name ] ] ) ;
-                                                                                v = builtins.trace "HIH300" ( builtins.elemAt value index ) ;
-                                                                                in builtins.trace "HIH400" ( mapper p n v ) ) ) ;
+                                                                                n = index ;
+                                                                                p = builtins.concatLists [ path [ name ] ] ;
+                                                                                v = builtins.elemAt value index ;
+                                                                                in mapper p n v ;
                                                                     in builtins.trace "HIH799 ${ name } ${ builtins.typeOf value } ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( builtins.length value ) )
                                                                     # in [ "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup" ]
                                                             else if builtins.typeOf value == "null" then builtins.trace "H7" "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
