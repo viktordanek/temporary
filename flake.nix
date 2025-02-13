@@ -97,7 +97,7 @@
                                                                                     ) ;
                                                                     in ignore : identity ( value script ) ;
                                                         mapper =
-                                                            builtins.trace "HI8" ( path : name : value : builtins.trace "HI9" (
+                                                            builtins.trace "HI8" ( path : name : value : builtins.trace "HI9 ${ name } ${ builtins.typeOf value }" (
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
                                                                 else if builtins.typeOf value == "list" then
                                                                     let
