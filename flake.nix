@@ -193,7 +193,7 @@
                                                                     list = builtins.genList ( builtins.elemAt value ) ( builtins.length value ) ;
                                                                     mapper = mapper ( builtins.concatLists [ path [ name ] ] ) ;
                                                                     in builtins.map list
-                                                            else if builtins.typeOf value == "null" then "${ builtins.concatStringsSep "/" ( builtinslconcatLists [ path [ name ] ] ) }/setup"
+                                                            else if builtins.typeOf value == "null" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ;
                                                     in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) ;
