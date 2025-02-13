@@ -473,7 +473,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.flist resources.temporary.flist 0 } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.typeOf resources.temporary.flist resources.temporary.flist ) "HI" } &&
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
