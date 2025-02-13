@@ -482,13 +482,13 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                exit 65
+                                                                                exit 165
                                                                         ''
                                                                     else
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                exit 66
+                                                                                exit 166
                                                                         ''
                                                                 else
                                                                     let
@@ -497,7 +497,7 @@
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/touch $out &&
                                                                                     ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                    exit 67
+                                                                                    exit 167
                                                                     ''
                                                             else
                                                                 ''
