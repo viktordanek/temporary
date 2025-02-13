@@ -135,7 +135,7 @@
                                                                                     ]
                                                                                     [
                                                                                         "if [ ! -d ${ builtins.concatStringsSep "/" path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path } ; fi"
-                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path }/${ name }"
+                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }"
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
@@ -165,6 +165,24 @@
                                                                                         "makeWrapper ${ builtins.concatStringsSep "/" path }/${ name }/teardown-synch.sh ${ builtins.concatStringsSep "/" path }/${ name }/teardown-synch --set BASENAME ${ pkgs.coreutils }/bin/basename --set CHMOD ${pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock  --set MV ${pkgs.coreutils }/bin/mv --set RM ${pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TRUE ${ pkgs.coreutils }/bin/true --set CAT ${ pkgs.coreutils }/bin/cat"
                                                                                     ]
                                                                                 ]
+                                                                    else if builtins.typeOf value == "list" then
+                                                                        builtins.concatLists
+                                                                            [
+                                                                                [
+                                                                                    "if [ ! -d ${ builtins.concatStringsSep "/" path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" path } ; fi"
+                                                                                ]
+                                                                                (
+                                                                                    let
+                                                                                        generator =
+                                                                                            index :
+                                                                                                let
+                                                                                                    n = index ;
+                                                                                                    p = builtins.concatLists [ path [ index ] ] ;
+                                                                                                    v = builtins.elemAt value index ;
+                                                                                                    in mapper n p v ;
+                                                                                        in builtins.genList generator ( builtins.length value )
+                                                                                )
+                                                                            ]
                                                                     else if builtins.typeOf value == "set" then
                                                                         builtins.concatLists
                                                                             [
@@ -173,7 +191,7 @@
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
-                                                                    else builtins.throw "The dependency defined (for sourcing) at ${ builtins.concatStringsSep " / " path } / ${ name } is neither a lambda nor a set but a ${ builtins.typeOf value }." ;
+                                                                    else builtins.throw "The dependency defined (for sourcing) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ) } is neither a lambda, a list, nor a set but a ${ builtins.typeOf value }." ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
