@@ -417,7 +417,7 @@
                                                                                                     else
                                                                                                         {
                                                                                                             head = { commands = [ current.command ] ; files = current.files ; } ;
-                                                                                                            tail = builtins.trace "NEW" previous ;
+                                                                                                            tail = previous ;
                                                                                                         } ;
                                                                                                 old =
                                                                                                     if n > 0 then
