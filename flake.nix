@@ -404,7 +404,6 @@
                                                                                                                             in
                                                                                                                                 if builtins.typeOf level == "null" then builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) ) )
                                                                                                                                 else if builtins.typeOf level == "int" then builtins.toString level
-                                                                                                                                else if builtins.typeOf level == "string" then level
                                                                                                                                 else builtins.throw "The level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
                                                                                                                 in builtins.genList generator ( builtins.length value.value ) ;
                                                                                                     } ;
@@ -445,7 +444,7 @@
                                                                                                                     generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; seed = name ; } ;
                                                                                                                     in builtins.genList generator ( builtins.length value )
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                            else throw path ( path : "The idea defined at ${ path } is neither list nor set but ${ builtins.typeOf value }" ) ;
+                                                                                                            else throw_new { name = name ; path = path ; reason = "initialization" ; thing = "idea" ; valid = [ "list" "set" ] ; value = value ; } ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
                                                                                             mapper =
                                                                                                 { index , init-status , seed } :
