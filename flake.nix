@@ -109,7 +109,7 @@
                                                                                     p = builtins.trace "431" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                     v = builtins.trace "430  ${ builtins.typeOf value } ${ builtins.toJSON value } ${ builtins.typeOf index } ${ builtins.toString index } " ( builtins.elemAt value index ) ;
                                                                                     x = mapper p n v ;
-                                                                                    in builtins.trace "440" ( mapper p n v ) ) ) ) ;
+                                                                                    in builtins.trace "440 ${ builtins.typeOf x }" ( mapper p n v ) ) ) ) ;
                                                                         in builtins.trace "400" ( builtins.genList generator ( builtins.length value ) )
                                                                 else if builtins.typeOf value == "null" then lambda path name ( script : { } )
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
