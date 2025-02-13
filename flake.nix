@@ -214,9 +214,9 @@
                                                                     generator =
                                                                         index :
                                                                             let
-                                                                                n = index ;
-                                                                                p = builtins.concatLists [ path [ name ] ] ;
-                                                                                v = builtins.elemAt value index ;
+                                                                                n = builtins.trace "HIH100" index ;
+                                                                                p = builtins.trace "HIH200" ( builtins.concatLists [ path [ name ] ] ) ;
+                                                                                v = builtins.trace "HI3000" ( builtins.elemAt value index ) ;
                                                                                 in mapper p n v ;
                                                                     in builtins.trace "HIH ${ builtins.toJSON value }" ( builtins.genList generator ( builtins.length value ) ) ) )
                                                             else if builtins.typeOf value == "null" then builtins.trace "H7" "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
