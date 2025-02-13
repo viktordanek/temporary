@@ -107,7 +107,7 @@
                                                                                 let
                                                                                     n = builtins.trace "432" index ;
                                                                                     p = builtins.trace "431" ( builtins.concatLists [ path [ name ] ] ) ;
-                                                                                    v = builtins.trace "430 ${ builtins.typeOf ( mapper p n ) } ${ builtins.typeOf value } ${ builtins.toJSON value } ${ builtins.typeOf index } ${ builtins.toString index } " ( builtins.elemAt value index ) ;
+                                                                                    v = builtins.trace "430  ${ builtins.typeOf value } ${ builtins.toJSON value } ${ builtins.typeOf index } ${ builtins.toString index } " ( builtins.elemAt value index ) ;
                                                                                     x = mapper p n v ;
                                                                                     in builtins.trace "440" ( mapper p n v ) ) ) ) ;
                                                                         in builtins.trace "400" ( builtins.genList generator ( builtins.length value ) )
