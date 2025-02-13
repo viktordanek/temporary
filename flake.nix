@@ -176,11 +176,11 @@
                                                                                         generator =
                                                                                             index :
                                                                                                 let
-                                                                                                    n = builtins.trace "HI" index ;
+                                                                                                    n = index ;
                                                                                                     p = builtins.concatLists [ path [ index ] ] ;
                                                                                                     v = builtins.elemAt value index ;
                                                                                                     in mapper p n v ;
-                                                                                        in builtins.genList generator ( builtins.length value )
+                                                                                        in builtins.trace "HI" ( builtins.genList generator ( builtins.length value ) )
                                                                                 )
                                                                             ]
                                                                     else if builtins.typeOf value == "set" then
