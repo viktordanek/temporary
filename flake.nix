@@ -220,7 +220,7 @@
                                                                                 v = builtins.trace "491" ( builtins.elemAt value index ) ;
                                                                                 in mapper p n v ;
                                                                     in builtins.trace "480" ( builtins.genList generator ( builtins.length value ) )
-                                                            else if builtins.typeOf value == "null" then "" # "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
+                                                            else if builtins.typeOf value == "null" then "" # KLUDGLE "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
                                                     in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) ;
