@@ -518,7 +518,7 @@
                             value
                         } :
                             let
-                                complete-path = builtins.concatStringsSep " / " ( builtions.map builtins.toString ( builtins.concatLists [ path [ ( if builtins.typeOf name == "null" then [ ] else [ name ] ) ] ] ) ) ;
+                                complete-path = builtins.concatStringsSep " / " ( builtins.map builtins.toString ( builtins.concatLists [ path [ ( if builtins.typeOf name == "null" then [ ] else [ name ] ) ] ] ) ) ;
                                 complete-invalid =
                                     let
                                         type = builtins.typeOf value ;
