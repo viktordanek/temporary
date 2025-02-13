@@ -209,7 +209,6 @@
                                                         path : name : value :
                                                             if builtins.typeOf value == "lambda" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "list" then
-                                                                ( builtins.trace "h6" (
                                                                 let
                                                                     generator =
                                                                         builtins.trace "HIH800" (
@@ -219,7 +218,7 @@
                                                                                 p = builtins.trace "HIH200" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                 v = builtins.trace "HI3000" ( builtins.elemAt value index ) ;
                                                                                 in builtins.trace "HIH400" ( mapper p n v ) ) ) ;
-                                                                    in builtins.trace "HIH ${ name } ${ builtins.typeOf value } ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( builtins.length value ) ) ) )
+                                                                    in builtins.trace "HIH ${ name } ${ builtins.typeOf value } ${ builtins.toString ( builtins.length value ) }" ( builtins.genList generator ( builtins.length value ) )
                                                             else if builtins.typeOf value == "null" then builtins.trace "H7" "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ;
