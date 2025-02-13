@@ -36,7 +36,7 @@
                                                                                 init =
                                                                                     if builtins.typeOf init == "lambda" then init
                                                                                     else if builtins.typeOf init == "null" then builtins.null
-                                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The init defined (for identity) at ${ path } is neither lambda nor null but ${ builtins.typeOf init }." ) ;
+                                                                                    else throw_new { name = name ; path = path ; reason = "identity" ; thing = "init" ; valid = [ "lambda" "null" ] ; value = value ; } ;
                                                                                 post =
                                                                                     if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
@@ -508,5 +508,31 @@
                                 } ;
                     resolve = path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ;
                     throw = path : message : builtins.throw ( message ( builtins.concatStringsSep " / " ( builtins.map builtins.toString path ) ) ) ;
+                    throw_new =
+                        {
+                            name ? builtins.null ,
+                            path ,
+                            reason ,
+                            thing ,
+                            valid ,
+                            value
+                        } :
+                            let
+                                complete-path = builtins.concatStringsSep " / " ( builtions.map builtins.toString ( builtins.concatLists [ path [ ( if builtins.typeOf name == "null" then [ ] else [ name ] ) ] ] ) ) ;
+                                complete-invalid =
+                                    let
+                                        type = builtins.typeOf value ;
+                                        in if type == "lambda" || type value == "list" || type value == "set" then type else "${ type }(${ builtins.substring 0 8 ( builtins.toString value ) })" ;
+                                complete-valid =
+                                    if builtins.length valid == 0 then builtins.throw "0 length valid does not make sense"
+                                    else if builtins.length valid == 1 then "${ builtins.elemAt valid 0 }"
+                                    else if builtins.length valid == 2 then "${ builtins.elemAt valid 0 } nor ${ builtins.elemeAt valid 1 }"
+                                    else
+                                        let
+                                            head = builtins.elemAt valid ( ( builtins.length valid ) - 1 ) ;
+                                            tail = builtins.genList ( index : builtins.elemAt list index ) ( ( builtins.length valid ) - 1 ) ;
+                                            in builtins.concatStringsSep ", " ( builtins.concatLists [ tail "nor" [ head ] ] ) ;
+                                in
+                                    builtins.throw "The ${ thing } defined (for ${ reason }) at ${ complete-path } is not ${ complete-valid } but ${ complete-invalid }."
                     in flake-utils.lib.eachDefaultSystem fun ;
 }
