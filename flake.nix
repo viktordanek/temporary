@@ -196,8 +196,16 @@
                                                 installPhase =
                                                     let
                                                         idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) { pkgs = pkgs ; self = self ; } else builtins.throw "idea.nix is not available" ;
-                                                        observe = if builtins.pathExists ( self + "/observe.yaml" ) then builtins.throw "WTFA" else builtins.throw "WTFB" ;
-                                                        in
+                                                        resources =
+                                                            lib
+                                                                {
+                                                                    # at = "${ pkgs.at }/bin/at" ;
+                                                                    temporary = { } ;
+                                                                    temporary-initialization-error = 65 ;
+                                                                    # temporary-path = "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ;
+                                                                    temporary-resource-mask = "checks.temporary.XXXXXXXX" ;
+                                                                } ;
+                                                         in
                                                             if ! builtins.pathExists ( self + "/idea.nix" ) then
                                                                 let
                                                                     indent = n : builtins.concatStringsSep "" ( builtins.genList ( index : "\t" ) n ) ;
