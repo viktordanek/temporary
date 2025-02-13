@@ -191,7 +191,8 @@
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
-                                                                    else throw ( builtins.concatLists [ path [ name ] ] ) ( path : "The dependency defined (for construction) at ${ path } is neither lambda, list, nor set but ${ builtins.typeOf value }." ) ;
+
+                                                                    else throw_new { name = name ; path = path ; reason = "construction" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
