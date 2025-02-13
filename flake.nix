@@ -138,7 +138,7 @@
                                                                                     ]
                                                                                     [
                                                                                         "if [ ! -d ${ resolve path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve path } ; fi"
-                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }"
+                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ resolve ( builtins.concatLists [ path [ name ] ] ) }"
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
