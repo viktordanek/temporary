@@ -219,7 +219,7 @@
                                                                                 in mapper p n v ;
                                                                     in builtins.trace "HIH" ( builtins.genList generator ( builtins.length value ) )
                                                             else if builtins.typeOf value == "null" then "${ builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] ) }/setup"
-                                                            else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                            else if builtins.typeOf value == "set" then ( builtins.trace "h5" ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                             else builtins.throw "The dependency defined (for harvest) at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a lambda, list, null, nor set but a ${ builtins.typeOf value }." ) ) ;
                                                     in builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ;
                                         in builtins.trace "H3" ( harvest ( builtins.toString derivation ) );
