@@ -444,7 +444,7 @@
                                                                                                                     generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; seed = name ; } ;
                                                                                                                     in builtins.genList generator ( builtins.length value )
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                            else builtins.throw "The idea defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is neither a list nor a set but a ${ builtins.typeOf value }." ;
+                                                                                                            else throw path ( path : "The idea defined at ${ path } is neither list nor set but ${ builtins.typeOf value }" ) ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
                                                                                             mapper =
                                                                                                 { index , init-status , seed } :
