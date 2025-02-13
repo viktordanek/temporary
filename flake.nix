@@ -182,7 +182,7 @@
                                                                                                    p = builtins.concatLists [ path [ index ] ] ;
                                                                                                    v = builtins.elemAt value index ;
                                                                                                    in mapper p n v ;
-                                                                                       in let x = builtins.genList generator ( builtins.length value ) ; in builtins.trace "HI" x
+                                                                                       in let x = builtins.genList generator ( builtins.length value ) ; in builtins.trace "HI ${ builtins.typeOf x }" x
                                                                                 )
                                                                             ]
                                                                     else if builtins.typeOf value == "set" then
