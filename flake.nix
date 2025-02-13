@@ -401,7 +401,6 @@
                                                                                                             {
                                                                                                                 command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
                                                                                                                 init-status = init-status ;
-
                                                                                                                 files = 32 ;
                                                                                                             } ;
                                                                                             in builtins.map mapper list ;
