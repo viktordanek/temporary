@@ -381,7 +381,7 @@
                                                                                                         ]
                                                                                                     ] ;
                                                                                             in if builtins.length path < 2 then recurse else list
-                                                                                    else throw path ( path : "The temporary at ${ path } is neither null nor set but ${ builtins.typeOf value }." ) ;
+                                                                                    else throw_new { name = name ; path = path ; reason = "set" ; thing = temporary ; valid = [ "null" "set" ] ; value = value ; } ;
                                                                             set =
                                                                                 let
                                                                                     list =
