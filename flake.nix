@@ -220,10 +220,10 @@
                                                                                 v = builtins.elemAt value index ;
                                                                                 in mapper p n v ;
                                                                     in builtins.genList generator ( builtins.length value )
-                                                            else if builtins.typeOf value == "null" then builtins.trace "H7" "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
+                                                            else if builtins.typeOf value == "null" then "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
-                                                    in builtins.trace "HIH600 ${ builtins.concatStringsSep " / " ( builtins.attrNames temporary ) }" (builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) ;
+                                                    in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) ;
                                         in harvest ( builtins.toString derivation ) ;
                             pkgs = import nixpkgs { system = system ; } ;
                             in
@@ -506,7 +506,7 @@
                                                     } ;
                                     lib = lib ;
                                 } ;
-                    resolve = path : builtins.trace "${ builtins.toJSON path }" ( builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ) ;
+                    resolve = path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ;
                     throw_new =
                         {
                             name ? builtins.null ,
