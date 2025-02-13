@@ -217,7 +217,7 @@
                                                                             let
                                                                                 n = builtins.trace "493" index ;
                                                                                 p = builtins.trace "492" ( builtins.concatLists [ path [ name ] ] ) ;
-                                                                                v = builtins.trace "491" ( builtins.elemAt value index ) ;
+                                                                                v = builtins.trace "491 ${ builtins.toJSON value }" ( builtins.elemAt value index ) ;
                                                                                 in mapper p n v ;
                                                                     in builtins.trace "480" ( builtins.genList generator ( builtins.length value ) )
                                                             else if builtins.typeOf value == "null" then builtins.trace "501 ${ builtins.toJSON path }" ( "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup" )
