@@ -172,17 +172,17 @@
                                                                                 [
                                                                                     "if [ ! -d ${ resolve path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve path } ; fi"
                                                                                 ]
-                                                                                # (
-                                                                                #     let
-                                                                                #        generator =
-                                                                                #            index :
-                                                                                #                let
-                                                                                #                    n = index ;
-                                                                                #                    p = builtins.concatLists [ path [ index ] ] ;
-                                                                                #                    v = builtins.elemAt value index ;
-                                                                                #                   in mapper p n v ;
-                                                                                #        in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-                                                                                # )
+                                                                                (
+                                                                                    let
+                                                                                       generator =
+                                                                                           index :
+                                                                                               let
+                                                                                                   n = index ;
+                                                                                                   p = builtins.concatLists [ path [ ( builtins.toString index ) ] ] ;
+                                                                                                   v = builtins.elemAt value index ;
+                                                                                                  in mapper p n v ;
+                                                                                       in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
+                                                                                )
                                                                             ]
                                                                     else if builtins.typeOf value == "set" then
                                                                         builtins.concatLists
