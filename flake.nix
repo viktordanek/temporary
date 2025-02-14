@@ -516,7 +516,7 @@
                             let
                                 mapper = value : if builtins.typeOf value == "int" || builtins.typeOf value == "string" then builtins.toJSON value else builtins.throw "The path index is neither int nor string." ;
                                 in builtins.concatStringsSep "/" ( builtins.map mapper ( builtins.concatLists [ path [ name ] ] ) ) ;
-                    resolve = path : name : builtins.hashString "sha512" ( resolution path string ) ;
+                    resolve = path : name : builtins.hashString "sha512" ( resolution path name ) ;
                     throw_new =
                         {
                             name ? builtins.null ,
