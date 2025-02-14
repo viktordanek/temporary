@@ -24,7 +24,7 @@
                                                 temporary =
                                                     let
                                                         lambda =
-                                                            path : name : value :
+                                                            builtins.trace "HI" ( path : name : value :
                                                                 let
                                                                     identity =
                                                                         {
@@ -95,7 +95,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
-                                                                    in ignore : identity ( value script ) ;
+                                                                    in ignore : identity ( value script ) ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
