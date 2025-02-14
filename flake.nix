@@ -209,7 +209,7 @@
                                                 let
                                                     mapper =
                                                         path : name : value :
-                                                            if builtins.typeOf value == "lambda" then "${ resolve path name}/setup/${ derivation }"
+                                                            if builtins.typeOf value == "lambda" then builtins.throw "${ resolve path name}/setup"
                                                             else if builtins.typeOf value == "list" then
                                                                 let
                                                                     generator =
