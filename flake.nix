@@ -242,7 +242,7 @@
                                                                     # at = "${ pkgs.at }/bin/at" ;
                                                                     temporary =
                                                                         {
-                                                                            # temporary = idea ;
+                                                                            temporary = idea ;
                                                                             foobar = builtins.null ;
                                                                             flist = [ builtins.null builtins.null ] ;
                                                                         } ;
