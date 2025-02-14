@@ -219,8 +219,8 @@
                                                                                 p = builtins.concatLists [ path [ name ] ] ;
                                                                                 v = builtins.elemAt value index ;
                                                                                 in mapper p n v ;
-                                                                    in builtins.trace "480" ( builtins.genList generator ( builtins.length value ) )
-                                                            else if builtins.typeOf value == "null" then builtins.trace "499" ( "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup" )
+                                                                    in builtins.genList generator ( builtins.length value )
+                                                            else if builtins.typeOf value == "null" then "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
                                                     in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) ;
