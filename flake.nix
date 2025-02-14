@@ -215,9 +215,9 @@
                                                                     generator =
                                                                         index :
                                                                             let
-                                                                                n = builtins.trace "493" builtins.toString index ;
-                                                                                p = builtins.trace "492" ( builtins.concatLists [ path [ name ] ] ) ;
-                                                                                v = builtins.trace "491" ( builtins.elemAt value index ) ;
+                                                                                n = builtins.toString index ;
+                                                                                p = builtins.concatLists [ path [ name ] ] ;
+                                                                                v = builtins.elemAt value index ;
                                                                                 in mapper p n v ;
                                                                     in builtins.trace "480" ( builtins.genList generator ( builtins.length value ) )
                                                             else if builtins.typeOf value == "null" then builtins.trace "499" ( "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup" )
