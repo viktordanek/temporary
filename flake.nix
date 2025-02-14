@@ -517,7 +517,7 @@
                                 list =
                                     let
                                         generator = index : builtins.elemAt path ( index + 1 ) ;
-                                        in builtins.genList ( ( builtins.length path ) - 1 ) ;
+                                        in builtins.genList generator ( ( builtins.length path ) - 1 ) ;
                                 mapper = value : if builtins.typeOf value == "int" || builtins.typeOf value == "string" then builtins.toJSON value else builtins.throw "The path index is neither int nor string." ;
                                 in builtins.concatStringsSep "/" ( builtins.map mapper ( builtins.concatLists [ list [ name ] ] ) ) ;
                     resolve = path : name : "${ builtins.elemAt path 0 }/${ builtins.hashString "sha512" ( resolution path name ) }" ;
