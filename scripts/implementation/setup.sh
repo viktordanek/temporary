@@ -38,10 +38,6 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   fi &&
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RRRR}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RRRR}/teardown-asynch.sh &&
-  declare ${TEMPORARY_PATH}=${TEMPORARY_PATH_ARRAY} &&
-  export ${TEMPORARY_PATH} &&
-  ${ECHO} ${TEMPORARY_PATH_ARRAY} > ${RRRR}/temporary &&
-  ${CHMOD} 0400 ${RRRR}/temporary &&
   if [ -x ${RRRR}/init.sh ]
   then
     if [ -f ${RRRR}/init.standard-input ] && ${CAT} ${RRRR}/init.standard-input | ${RRRR}/init.sh $( ${CAT} ${RRRR}/init.arguments ) > ${RRRR}/init.standard-output 2> ${RRRR}/init.standard-error
@@ -56,7 +52,11 @@ export RRRR=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RRRR}/init.status &&
     ${CHMOD} 0400 ${RRRR}/init.standard-output ${RRRR}/init.standard-error ${RRRR}/init.status
   fi &&
-  if [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
+  if [ ! -z "$( ${CAT} > ${RRRR}/init.standard.error )" ]
+  then
+      ${RRRR}/teardown-asynch.sh &&
+        exit ${ERROR}
+  elif [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
   then
     ${ECHO} ${TARGET_PID// /} > ${RRRR}/${TARGET_PID// /}.pid &&
       ${CHMOD} 0400 ${RRRR}/${TARGET_PID// /}.pid
