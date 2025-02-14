@@ -95,7 +95,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
-                                                                    in ignore : identity ( value script ) ) ) ) ) ) ) ;
+                                                                    in ignore : identity ( value script ) ) ) ) ) ) ) ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
