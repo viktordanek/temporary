@@ -136,8 +136,8 @@
                                                                                         "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }/nix-support/setup-hook"
                                                                                     ]
                                                                                     [
-                                                                                        "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
-                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ resolve path name }"
+                                                                                    #    "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
+                                                                                         "${ pkgs.coreutils }/bin/mkdir ${ resolve path name }"
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
@@ -170,9 +170,9 @@
                                                                     else if builtins.typeOf value == "list" then
                                                                         builtins.concatLists
                                                                             [
-                                                                                [
-                                                                                    "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
-                                                                                ]
+                                                                                # [
+                                                                                #     "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
+                                                                                # ]
                                                                                 (
                                                                                     let
                                                                                        generator =
@@ -188,9 +188,9 @@
                                                                     else if builtins.typeOf value == "set" then
                                                                         builtins.concatLists
                                                                             [
-                                                                                [
-                                                                                    "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
-                                                                                ]
+                                                                                # [
+                                                                                #     "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
+                                                                                # ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
                                                                     else throw_new { name = name ; path = path ; reason = "construction" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
@@ -516,7 +516,7 @@
                             let
                                 mapper = value : if builtins.typeOf value == "int" || builtins.typeOf value == "string" then builtins.toJSON value else builtins.throw "The path index is neither int nor string." ;
                                 in builtins.concatStringsSep "/" ( builtins.map mapper ( builtins.concatLists [ path [ name ] ] ) ) ;
-                    resolve = resolution ;
+                    resolve = path : name : builtins.hashString "sha512" ( resolution path string ) ;
                     throw_new =
                         {
                             name ? builtins.null ,
