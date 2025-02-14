@@ -95,7 +95,8 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
-                                                                    in ignore : identity ( value script ) ) ) ) ) ) ) ) ;
+                                                                    in ignore : identity ( value script ) ) ) ) ) ) ) )
+                                                                    ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
@@ -242,7 +243,7 @@
                                                                     # at = "${ pkgs.at }/bin/at" ;
                                                                     temporary =
                                                                         {
-                                                                            temporary = idea ;
+                                                                            # temporary = idea ;
                                                                             foobar = builtins.null ;
                                                                             flist = [ builtins.null builtins.null ] ;
                                                                         } ;
