@@ -177,8 +177,8 @@
                                                                                        generator =
                                                                                            index :
                                                                                                let
-                                                                                                   n = index ;
-                                                                                                   p = builtins.concatLists [ path [ ( builtins.toString index ) ] ] ;
+                                                                                                   n = builtins.toString index ;
+                                                                                                   p = builtins.concatLists [ path [ name ] ] ;
                                                                                                    v = builtins.elemAt value index ;
                                                                                                   in mapper p n v ;
                                                                                        in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
@@ -214,7 +214,7 @@
                                                                     generator =
                                                                         index :
                                                                             let
-                                                                                n = builtins.trace "493" index ;
+                                                                                n = builtins.trace "493" builtins.toString index ;
                                                                                 p = builtins.trace "492" ( builtins.concatLists [ path [ name ] ] ) ;
                                                                                 v = builtins.trace "491" ( builtins.elemAt value index ) ;
                                                                                 in mapper p n v ;
