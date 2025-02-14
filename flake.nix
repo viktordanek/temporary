@@ -509,7 +509,7 @@
                     resolution =
                         path : name :
                             let
-                                mapper = value : if builtins.typeOf value == "int" || builtins.typeOf value == string then builtins.toJSON value else builtins.throw "The path index is neither int nor string." ;
+                                mapper = value : if builtins.typeOf value == "int" || builtins.typeOf value == "string" then builtins.toJSON value else builtins.throw "The path index is neither int nor string." ;
                                 in builtins.concatStringsSep "/" ( builtins.map mapper ( builtins.concatLists [ path [ name ] ] ) ) ;
                     resolve = path : ( builtins.trace "501 ${ builtins.concatStringsSep " / " ( builtins.map builtins.toString path ) }" ( builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ) ) ;
                     throw_new =
