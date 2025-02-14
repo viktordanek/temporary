@@ -171,6 +171,7 @@
                                                                             [
                                                                                 [
                                                                                     "if [ ! -d ${ resolve path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve path } ; fi"
+                                                                                    "if [ ! -d ${ resolve path }/${ name } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve path }/${ name } ; fi"
                                                                                 ]
                                                                                 (
                                                                                     let
@@ -192,7 +193,6 @@
                                                                                 ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
-
                                                                     else throw_new { name = name ; path = path ; reason = "construction" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
                                                             in
                                                                 ''
