@@ -220,7 +220,7 @@
                                                                                 v = builtins.trace "491" ( builtins.elemAt value index ) ;
                                                                                 in mapper p n v ;
                                                                     in builtins.trace "480" ( builtins.genList generator ( builtins.length value ) )
-                                                            else if builtins.typeOf value == "null" then "FIND ME ${ builtins.concatStringsSep "/" path }" # KLUDGLE "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup"
+                                                            else if builtins.typeOf value == "null" then builtins.trace "499" ( "${ resolve ( builtins.concatLists [ path [ name ] ] ) }/setup" )
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                             else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
                                                     in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) ;
@@ -506,7 +506,7 @@
                                                     } ;
                                     lib = lib ;
                                 } ;
-                    resolve = path : builtins.trace "502 ${ builtins.toJSON path } ${ builtins.toJSON ( builtins.map builtins.typeOf path ) }" ( builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ) ;
+                    resolve = builtins.trace ( "500" ( path : builtins.concatStringsSep "/" ( builtins.map builtins.toString path ) ) ) ;
                     throw_new =
                         {
                             name ? builtins.null ,
