@@ -1,4 +1,3 @@
-${ECHO} HI 1 >> /tmp/debug &&
 exec 200> ${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
