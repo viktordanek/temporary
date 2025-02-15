@@ -46,6 +46,27 @@
                                                                                     else if builtins.typeOf release == "null" then builtins.null
                                                                                     else throw_new { name = name ; path = path ; reason = "identity" ; thing = "release" ; valid = [ "lambda" "null" ] ; value = value ; } ;
                                                                             } ;
+                                                                    inject =
+                                                                        {
+                                                                            derivation =
+                                                                                name : fun :
+                                                                                    let
+                                                                                        mapper =
+                                                                                            path : name : value :
+                                                                                                if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
+                                                                                                else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                                                else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "derivation" ; valid = [ "string" "set" ] ; value = value ; } ;
+                                                                                         name-to-be-set = name ;
+                                                                                        set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
+                                                                                        in fun set ;
+                                                                            is-file = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
+                                                                            is-pipe = name : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
+                                                                            path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
+                                                                            resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                                            standard-input = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo )'" ;
+                                                                            string = name : value : "--set ${ name } ${ value }" ;
+                                                                            target = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
+                                                                        } ;
                                                                     script =
                                                                         {
                                                                             executable ,
@@ -68,27 +89,6 @@
                                                                                                 )
                                                                                                 (
                                                                                                     let
-                                                                                                        inject =
-                                                                                                            {
-                                                                                                                derivation =
-                                                                                                                    name : fun :
-                                                                                                                        let
-                                                                                                                            mapper =
-                                                                                                                                path : name : value :
-                                                                                                                                    if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
-                                                                                                                                    else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                                                                                    else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "derivation" ; valid = [ "string" "set" ] ; value = value ; } ;
-                                                                                                                             name-to-be-set = name ;
-                                                                                                                            set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
-                                                                                                                            in fun set ;
-                                                                                                                is-file = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
-                                                                                                                is-pipe = name : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
-                                                                                                                path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
-                                                                                                                resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                                                                                standard-input = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo )'" ;
-                                                                                                                string = name : value : "--set ${ name } ${ value }" ;
-                                                                                                                target = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                                                            } ;
                                                                                                         in
                                                                                                             if builtins.typeOf sets == "lambda" && builtins.typeOf ( sets inject ) == "list" then sets inject
                                                                                                             else throw_new { name = name ; path = path ; reason = "injection" ; thing = "sets" ; valid = [ "a lambda of lists of strings" ] ; value = value ; }
