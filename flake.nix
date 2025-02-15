@@ -263,7 +263,7 @@
                                                                                                     executable = shell-script "/scripts/test/util/super.sh" ;
                                                                                                     sets =
                                                                                                         [
-                                                                                                            ( target "TARGET" )
+                                                                                                            ( target { } )
                                                                                                             ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                                                         ] ;
                                                                                                 } ;
