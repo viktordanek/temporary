@@ -253,7 +253,7 @@
                                                                             util =
                                                                                 {
                                                                                     token =
-                                                                                        { script , standard-input , string , target , ... } :
+                                                                                        { script , shell-script , standard-input , string , target , ... } :
                                                                                             {
                                                                                                 init =
                                                                                                     script
