@@ -92,8 +92,8 @@
                                                                                                 (
                                                                                                     let
                                                                                                         in
-                                                                                                            if builtins.typeOf sets == "lambda" && builtins.typeOf ( sets inject ) == "list" then sets inject
-                                                                                                            else throw_new { name = name ; path = path ; reason = "injection" ; thing = "sets" ; valid = [ "a lambda of lists of strings" ] ; value = value ; }
+                                                                                                            if builtins.typeOf ( sets inject ) == "list" then sets inject
+                                                                                                            else throw_new { name = name ; path = path ; reason = "injection" ; thing = "sets" ; valid = [ "lists of strings" ] ; value = value ; }
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
