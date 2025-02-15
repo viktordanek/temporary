@@ -12,7 +12,7 @@
                         let
                             lib =
                                 {
-                                    at ? "${ pkgs.at }/bin/at" ,
+                                    at ? "/run/wrappers/bin/at" ,
                                     temporary ? { } ,
                                     temporary-initialization-error-standard-error ? 64 ,
                                     temporary-initialization-error-initializer ? 65 ,
