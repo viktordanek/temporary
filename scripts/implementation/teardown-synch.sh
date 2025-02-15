@@ -1,3 +1,4 @@
+${ECHO} HI 1 >> /tmp/debug &&
 exec 200> ${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
@@ -6,7 +7,7 @@ exec 200> ${RESOURCE}/lock &&
       PID=$( ${BASENAME} ${PID_FILE%.*} ) &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
-    done
+    done &&
     if [ -L ${RESOURCE}/release.sh ]
     then
       if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
