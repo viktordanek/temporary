@@ -250,6 +250,18 @@
                                                                     temporary =
                                                                         {
                                                                             temporary = idea ;
+                                                                            util =
+                                                                                {
+                                                                                    token =
+                                                                                        { script , string , ... } :
+                                                                                            {
+                                                                                                init =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = shell-script
+                                                                                                        } ;
+                                                                                            } ;
+                                                                                } ;
                                                                             # temporary = idea ;
                                                                             inject =
                                                                                 { script , ... } :
