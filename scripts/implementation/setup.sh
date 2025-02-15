@@ -50,19 +50,25 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
       STATUS=${?}
     fi &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
-    ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
+    ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status &&
+    if [ "${STATUS}" != 0 ]
+    then
+        ${RESOURCE}/teardown-asynch.sh &&
+          exit ${INITIALIZATION_ERROR_INITIALIZER}
+    elif [ ! -z "$( ${CAT}  ${RESOURCE}/init.standard-error)" ]
+    then
+      ${RESOURCE}/teardown-asynch.sh &&
+        exit ${INITIALIZATION_ERROR_STANDARD_ERROR}
+    else
+      ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
+        ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
+        ${RESOURCE}/teardown-asynch.sh &&
+        ${ECHO} ${RESOURCE}/target &&
+        exit 0
+    fi
   fi &&
-  if [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error )" ]
-  then
-      ${RESOURCE}/teardown-asynch.sh &&
-        exit ${ERROR}
-  elif [ -z "${STATUS}" ] || [ ${STATUS} == 0 ]
-  then
-    ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
-      ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
-      ${RESOURCE}/teardown-asynch.sh &&
-      ${ECHO} ${RESOURCE}/target
-  else
-    ${RESOURCE}/teardown-asynch.sh &&
-      exit ${ERROR}
-  fi
+  ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
+  ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
+  ${RESOURCE}/teardown-asynch.sh &&
+  ${ECHO} ${RESOURCE}/target &&
+  exit 0
