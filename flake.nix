@@ -249,6 +249,7 @@
                                                                     # at = "${ pkgs.at }/bin/at" ;
                                                                     temporary =
                                                                         {
+                                                                            temporary = idea ;
                                                                             # temporary = idea ;
                                                                             inject =
                                                                                 { script , ... } :
