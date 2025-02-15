@@ -85,13 +85,13 @@
                                                                                         builtins.concatLists
                                                                                             [
                                                                                                 (
-                                                                                                    if builtins.typeOf executable == "set" then
+                                                                                                    if builtins.typeOf executable == "string" then
                                                                                                         [
                                                                                                             "makeWrapper"
-                                                                                                            ( builtins.toString executable )
+                                                                                                            executable
                                                                                                             "${ resolve path name }/${ binary }"
                                                                                                         ]
-                                                                                                    else builtins.throw "The executable is not a set but a ${ builtins.typeOf executable }."
+                                                                                                    else builtins.throw "The executable is not a string but a ${ builtins.typeOf executable }."
                                                                                                 )
                                                                                                 (
                                                                                                     let
