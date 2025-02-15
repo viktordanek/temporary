@@ -60,15 +60,15 @@
                                                                                          name-to-be-set = name ;
                                                                                         set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                         in fun set ;
-                                                                            is-file = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
-                                                                            is-pipe = name : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
+                                                                            is-file = { name ? "IS_FILE" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
+                                                                            is-pipe = { name ? "IS_PIPE" } : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
                                                                             path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
-                                                                            resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                                            resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                             script = script ;
                                                                             shell-script = url : pkgs.writeShellScript "shell-script" ( builtins.readFile ( self + url ) ) ;
                                                                             standard-input = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo )'" ;
                                                                             string = name : value : "--set ${ name } ${ value }" ;
-                                                                            target = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
+                                                                            target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
                                                                         } ;
                                                                     script =
                                                                         {
