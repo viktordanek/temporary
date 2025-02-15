@@ -64,7 +64,7 @@
                                                                             is-file = { name ? "IS_FILE" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
                                                                             is-pipe = { name ? "IS_PIPE" } : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ) ; fi'" ;
                                                                             path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
-                                                                            parent-pid = parent-pid ;
+                                                                            parent-pid = parent-pid pkgs ;
                                                                             resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                             script = script ;
                                                                             shell-script = url : pkgs.writeShellScript "shell-script" ( builtins.readFile ( self + url ) ) ;
@@ -532,7 +532,7 @@
                                                     } ;
                                     lib = lib ;
                                 } ;
-                    parent-pid = { name ? "PARENT_PID" } : "--run export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
+                    parent-pid = pkgs : { name ? "PARENT_PID" } : "--run export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
                     resolve_old =
                         path :
                             let
