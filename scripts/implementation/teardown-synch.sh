@@ -1,4 +1,3 @@
-echo RESOURCE=${RESOURCE} &&
 exec 200> ${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
@@ -15,10 +14,10 @@ exec 200> ${RESOURCE}/lock &&
         STATUS=${?}
       else
         STATUS=${?}
-      fi
+      fi &&
+      ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
+      ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status
     fi &&
-    ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
-    ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
     if [ -L ${RESOURCE}/post.sh ]
     then
       ${RESOURCE}/post.sh || ${TRUE}
