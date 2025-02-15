@@ -1,7 +1,7 @@
 export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
-  if [ -t 0 ]
+  if ${IS_INTERACTIVE}
   then
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
     TARGET_PID=${PARENT_PID}
