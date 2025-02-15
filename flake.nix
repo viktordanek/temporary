@@ -264,7 +264,7 @@
                                                                                                     sets =
                                                                                                         [
                                                                                                             ( target "TARGET" )
-                                                                                                            ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
+                                                                                                            ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                                                         ] ;
                                                                                                 } ;
                                                                                     } ;

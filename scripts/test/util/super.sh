@@ -1,1 +1,1 @@
-${TOUCH} ${TARGET}
+${MKDIR} ${TARGET}
