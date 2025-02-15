@@ -245,7 +245,12 @@
                                                                     temporary =
                                                                         {
                                                                             # temporary = idea ;
-                                                                            foobar = builtins.null ;
+                                                                            inject =
+                                                                                { script , ... } :
+                                                                                    {
+
+                                                                                    } ;
+                                                                            null = builtins.null ;
                                                                             flist = [ builtins.null builtins.null ] ;
                                                                         } ;
                                                                     temporary-initialization-error = 65 ;
