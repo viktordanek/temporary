@@ -11,7 +11,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     TARGET_PID=${GRANDPARENT_PID} &&
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
-  elif [ -f /proc/self/fd/0 ]
+  elif ${IS_FILE}
   then
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
     TARGET_PID=${GRANDPARENT_PID} &&
