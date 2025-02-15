@@ -1,3 +1,4 @@
+echo RESOURCE=${RESOURCE} &&
 exec 200> ${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
