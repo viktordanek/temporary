@@ -64,7 +64,7 @@
                                                                             path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
                                                                             resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                             script = script ;
-                                                                            shell-script = url : pkgs.writeShellScript "shell-script" ( builtins.import ( self + url ) ) ;
+                                                                            shell-script = url : pkgs.writeShellScript "shell-script" ( builtins.readFile ( self + url ) ) ;
                                                                             standard-input = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo )'" ;
                                                                             string = name : value : "--set ${ name } ${ value }" ;
                                                                             target = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
