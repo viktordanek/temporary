@@ -532,7 +532,7 @@
                                                     } ;
                                     lib = lib ;
                                 } ;
-                    parent-pid = pkgs : { name ? "PARENT_PID" } : "--run export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
+                    parent-pid = pkgs : { name ? "PARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
                     resolve_old =
                         path :
                             let
