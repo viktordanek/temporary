@@ -92,7 +92,7 @@
                                                                                                 (
                                                                                                     let
                                                                                                         in
-                                                                                                            if builtins.typeOf ( sets inject ) == "list" then sets inject
+                                                                                                            if builtins.typeOf sets inject == "list" then sets
                                                                                                             else throw_new { name = name ; path = path ; reason = "injection" ; thing = "sets" ; valid = [ "lists of strings" ] ; value = value ; }
                                                                                                 )
                                                                                             ]
