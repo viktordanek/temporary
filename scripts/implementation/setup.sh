@@ -5,7 +5,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   then
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
     TARGET_PID=${PARENT_PID}
-  elif [ -p /proc/self/fd/0 ]
+  elif [ ${IS_PIPE} ]
   then
     # TARGET_PID=$( ${PS} -p ${GREAT_GRANDPARENT_PID} -o ppid= ) &&
     TARGET_PID=${GRANDPARENT_PID} &&
