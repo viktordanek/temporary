@@ -391,7 +391,7 @@
                                                                                                         [
                                                                                                             "# ${ builtins.toJSON values }"
                                                                                                             "("
-                                                                                                            "${ indent 1 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , standard-input , string , target } :"
+                                                                                                            "${ indent 1 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target } :"
                                                                                                             "${ indent 2 }{"
                                                                                                         ]
                                                                                                         ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
