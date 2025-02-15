@@ -270,6 +270,16 @@
                                                                                                             ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                                                         ] ;
                                                                                                 } ;
+                                                                                        release =
+                                                                                            script
+                                                                                                {
+                                                                                                    executable = shell-script "/scripts/test/util/super.sh" ;
+                                                                                                    sets =
+                                                                                                        [
+                                                                                                            ( target { } )
+                                                                                                            ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                                                        ] ;
+                                                                                                } ;
                                                                                     } ;
                                                                         } ;
                                                                     # temporary-initialization-error = 65 ;
