@@ -256,12 +256,16 @@
                                                                             super =
                                                                                 { script , shell-script , string , target , ... } :
                                                                                     {
-                                                                                        init = script { executable = shell-script "/scripts/test/util/super.sh" ; } ;
-                                                                                        sets =
-                                                                                            [
-                                                                                                ( target "TARGET" )
-                                                                                                ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
-                                                                                            ] ;
+                                                                                        init =
+                                                                                            script
+                                                                                                {
+                                                                                                    executable = shell-script "/scripts/test/util/super.sh" ;
+                                                                                                    sets =
+                                                                                                        [
+                                                                                                            ( target "TARGET" )
+                                                                                                            ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
+                                                                                                        ] ;
+                                                                                                } ;
                                                                                     } ;
                                                                         } ;
                                                                     temporary-initialization-error = 65 ;
