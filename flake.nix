@@ -438,9 +438,10 @@
                                                                                                                         let
                                                                                                                             level = builtins.elemAt value.value index ;
                                                                                                                             in
-                                                                                                                                if builtins.typeOf level == "null" then builtins.replaceStrings [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" ] ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) ) )
+                                                                                                                                if builtins.typeOf level == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) )
                                                                                                                                 else if builtins.typeOf level == "int" then builtins.toString level
-                                                                                                                                else builtins.throw "XThe level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
+                                                                                                                                else if builtins.typeOf level == "string" then level
+                                                                                                                                else builtins.throw "The level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
                                                                                                                 in builtins.genList generator ( builtins.length value.value ) ;
                                                                                                     } ;
                                                                                             in builtins.map mapper list ;
