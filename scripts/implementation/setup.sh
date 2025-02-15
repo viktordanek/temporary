@@ -52,7 +52,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status
   fi &&
-  if [ ! -z "$( ${CAT} > ${RESOURCE}/init.standard.error )" ]
+  if [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error )" ]
   then
       ${RESOURCE}/teardown-asynch.sh &&
         exit ${ERROR}
