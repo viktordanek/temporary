@@ -261,9 +261,7 @@
                                                                                                             executable = shell-script "/scripts/test/util/token.sh" ;
                                                                                                             sets =
                                                                                                                 [
-                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                    ( standard-input { } )
-                                                                                                                    ( target { } )
+
                                                                                                                 ] ;
                                                                                                         } ;
                                                                                             } ;
