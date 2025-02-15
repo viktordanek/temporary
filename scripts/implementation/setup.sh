@@ -7,22 +7,22 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   if [ -t 0 ]
   then
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
-    TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= )
+    TARGET_PID=${PARENT_PID}
   elif [ -p /proc/self/fd/0 ]
   then
     # TARGET_PID=$( ${PS} -p ${GREAT_GRANDPARENT_PID} -o ppid= ) &&
-    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
+    TARGET_PID=${GRANDPARENT_PID} &&
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   elif [ -f /proc/self/fd/0 ]
   then
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
-    TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
+    TARGET_PID=${GRANDPARENT_PID} &&
       ${CAT} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
     # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
-    TARGET_PID=$( ${PS} -p ${PARENT_PID} -o ppid= )
+    TARGET_PID=${PARENT_PID}
   fi &&
   if [ -x ${INIT} ]
   then
