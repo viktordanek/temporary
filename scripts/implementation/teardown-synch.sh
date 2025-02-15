@@ -1,28 +1,28 @@
-exec 200> ${LOCAL_RESOURCE}/lock &&
+exec 200> ${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
-    ${FIND} ${LOCAL_RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
+    ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -name "*.pid" -type f | while read PID_FILE
     do
       PID=$( ${BASENAME} ${PID_FILE%.*} ) &&
         ${TAIL} --follow /dev/null --pid ${PID} &&
         ${RM} ${PID_FILE}
     done
-    if [ -L ${LOCAL_RESOURCE}/release.sh ]
+    if [ -L ${RESOURCE}/release.sh ]
     then
-      if ${LOCAL_RESOURCE}/release.sh > ${LOCAL_RESOURCE}/release.standard-output 2> ${LOCAL_RESOURCE}/release.standard-error
+      if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
       then
         STATUS=${?}
       else
         STATUS=${?}
       fi
     fi &&
-    ${ECHO} ${STATUS} > ${LOCAL_RESOURCE}/release.status &&
-    ${CHMOD} 0400 ${LOCAL_RESOURCE}/release.standard-output ${LOCAL_RESOURCE}/release.standard-error ${LOCAL_RESOURCE}/release.status &&
-    if [ -L ${LOCAL_RESOURCE}/post.sh ]
+    ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
+    ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
+    if [ -L ${RESOURCE}/post.sh ]
     then
-      ${LOCAL_RESOURCE}/post.sh || ${TRUE}
+      ${RESOURCE}/post.sh || ${TRUE}
     fi &&
-    ${RM} --recursive --force ${LOCAL_RESOURCE} &&
+    ${RM} --recursive --force ${RESOURCE} &&
     if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
     then
       exit ${ERROR}
