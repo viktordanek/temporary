@@ -64,6 +64,7 @@
                                                                             path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
                                                                             resource = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                             script = script ;
+                                                                            shell-script = url : pkgs.writeShellScript "shell-script" ( builtins.import ( self + url ) ) ;
                                                                             standard-input = name : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo )'" ;
                                                                             string = name : value : "--set ${ name } ${ value }" ;
                                                                             target = name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
@@ -252,6 +253,16 @@
                                                                                     } ;
                                                                             null = builtins.null ;
                                                                             flist = [ builtins.null builtins.null ] ;
+                                                                            super =
+                                                                                { script , shell-script , string , target , ... } :
+                                                                                    {
+                                                                                        init = script { executable = shell-script "/scripts/test/util/super.sh" ; } ;
+                                                                                        set =
+                                                                                            [
+                                                                                                ( target "TARGET" )
+                                                                                                ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
+                                                                                            ] ;
+                                                                                    } ;
                                                                         } ;
                                                                     temporary-initialization-error = 65 ;
                                                                     # temporary-path = "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ;
@@ -481,6 +492,7 @@
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo ${ resources.temporary.inject } &&
                                                                                 ${ pkgs.coreutils }/bin/echo ${ resources.temporary.null } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ resources.temporary.super } &&
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
