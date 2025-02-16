@@ -350,7 +350,7 @@
                                                                                                         "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
                                                                                                         "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
                                                                                                         "${ indent 5 }( path \"STATUS\" 0 )"
-                                                                                                        # "${ indent 5 }( standard-input \"STANDARD_INPUT\" )"
+                                                                                                        "${ indent 5 }( standard-input \"STANDARD_INPUT\" )"
                                                                                                         # "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
                                                                                                         # "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
                                                                                                         # "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
