@@ -262,7 +262,7 @@
                                                                                                             sets =
                                                                                                                 [
                                                                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                    #  standard-input { } )
+                                                                                                                    ( standard-input { } )
                                                                                                                     # ( target { } )
                                                                                                                 ] ;
                                                                                                         } ;
