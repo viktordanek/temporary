@@ -364,7 +364,7 @@
                                                                                                     "${ indent 5 }( string \"CAT\" \"${ escape "pkgs.coreutils" }/bin/cat\" )"
                                                                                                     "${ indent 5 }( string \"CUT\" \"${ escape "pkgs.coreutils" }/bin/cut\" )"
                                                                                                     "${ indent 5 }( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
-                                                                                                    "${ indent 5 }( string \"FIND\" \"${ escape "pkgs.flock" }/bin/find\" )"
+                                                                                                    "${ indent 5 }( string \"FIND\" \"${ escape "pkgs.findutils" }/bin/find\" )"
                                                                                                     "${ indent 5 }( string \"FLOCK\" \"${ escape "pkgs.flock" }/bin/flock\" )"
                                                                                                     "${ indent 5 }( string \"MKDIR\" \"${ escape "pkgs.coreutils" }/bin/mkdir\" )"
                                                                                                     "${ indent 5 }( derivation \"POST\" ( harvest : harvest.temporary.util.post ) )"
