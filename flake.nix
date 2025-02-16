@@ -249,7 +249,7 @@
                                                                     # at = "${ pkgs.at }/bin/at" ;
                                                                     temporary =
                                                                         {
-                                                                            temporary = idea ;
+                                                                            # temporary = idea ;
                                                                             util =
                                                                                 {
                                                                                     token =
@@ -261,7 +261,9 @@
                                                                                                             executable = shell-script "/scripts/test/util/token.sh" ;
                                                                                                             sets =
                                                                                                                 [
-
+                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                    ( standard-input { } )
+                                                                                                                    ( target { } )
                                                                                                                 ] ;
                                                                                                         } ;
                                                                                             } ;
