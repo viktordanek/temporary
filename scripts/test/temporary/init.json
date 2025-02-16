@@ -2,6 +2,7 @@
   "has_standard_error" : env.HAS_STANDARD_ERROR ,
   "is_file" : env.IS_FILE ,
   "is_pipe" : env.IS_PIPE ,
+  "pid" : $pid ,
   "post_seed" :env.POST_SEED ,
   "speed" : env.SPEED ,
   "status" :  env.STATUS ,

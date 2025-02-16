@@ -7,6 +7,6 @@ export IS_FILE=${cd4d67f6ced1af72b6e50619ab0912f3ae836ecb8186343d64bb339ced909ed
   then
     ${ECHO} ${STANDARD_ERROR} >&2
   fi &&
-  ${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "{init:.}" > ${TARGET} &&
+  ${JQ} -n --argjson '[1 , 2]' -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "{init:.}" > ${TARGET} &&
   ${ECHO} ${STANDARD_OUTPUT} &&
   exit ${STATUS}
