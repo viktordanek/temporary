@@ -351,7 +351,7 @@
                                                                                                         "${ indent 5 }( is-pipe { name = \"bed950554a6c594ded4790bca8c9f65f0df4baa61b3fa78f33bcf8b9e3621544929d25e985698dfecc0b5a5f192e32ccf2cadbee0d2bc661374a7ded99e45579\" ; } )"
                                                                                                         "${ indent 5 }( string \"JQ\" \"${ escape "pkgs.jq" }/bin/jq\" )"
                                                                                                         "${ indent 5 }( path \"POST_SEED\" 1 )"
-                                                                                                        "${ indent 5 }( resource { name = \"{c8abe0fd64014b729ad36cb4718564939f0981c7fa252deb5f0f90e460bc438033f7ff4e7204f2c4ca7243c77a356df83f89e31769ed35838c28a9e8b8135306\" ;} )"
+                                                                                                        "${ indent 5 }( resource { name = \"c8abe0fd64014b729ad36cb4718564939f0981c7fa252deb5f0f90e460bc438033f7ff4e7204f2c4ca7243c77a356df83f89e31769ed35838c28a9e8b8135306\" ;} )"
                                                                                                         "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
                                                                                                         "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
                                                                                                         "${ indent 5 }( path \"STATUS\" 0 )"
