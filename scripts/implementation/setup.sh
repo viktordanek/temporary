@@ -53,11 +53,12 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
         exit ${INITIALIZATION_ERROR_INITIALIZER}
     elif [ ! -z "$( ${CAT}  ${RESOURCE}/init.standard-error)" ]
     then
-      ${RM} ${RESOURCE}/${TARGET_PID// /}.pid &&
+      ${RM} --force ${RESOURCE}/${TARGET_PID// /}.pid &&
         ${RESOURCE}/teardown-asynch.sh &&
         exit ${INITIALIZATION_ERROR_STANDARD_ERROR}
     else
-      ${RESOURCE}/teardown-asynch.sh &&
+      ${RM} --force ${RESOURCE}/${TARGET_PID// /}.pid &&
+        ${RESOURCE}/teardown-asynch.sh &&
         ${ECHO} ${RESOURCE}/target &&
         exit 0
     fi
