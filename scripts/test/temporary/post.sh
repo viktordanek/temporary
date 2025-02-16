@@ -15,7 +15,7 @@ echo 6 >> /build/debug &&
     ${MKDIR} /build/observed/alpha
   fi &&
 echo "7  DO=\$( ${OBSERVED} ${RESOURCE} )" >> /build/debug &&
-  DO=$( ${OBSERVED} ${RESOURCE} ) &&
+  DO=$( ${POST} ${RESOURCE} ) &&
 echo "8" >> /build/debug &&
   UUID=$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
 echo 9 >> /build/debug &&

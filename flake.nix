@@ -251,7 +251,7 @@
                                                                             temporary = idea ;
                                                                             util =
                                                                                 {
-                                                                                    observed =
+                                                                                    post =
                                                                                         { script , shell-script , string , ... } :
                                                                                             {
                                                                                                 init =
@@ -265,6 +265,7 @@
                                                                                                                     ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                                                                     ( string "SED" "${ pkgs.gnused }/bin/sed" )
                                                                                                                     ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                    ( target { name = "e38a081823542c636b63a4aa3438db18fcf513e988ea7640503208f0d94252ff57a51ed0c931c4448d4b3396bfee7ce89e5c317d223e8bfd2ee4123eaf4ad1c6" ; } )
                                                                                                                 ] ;
                                                                                                         } ;
                                                                                             } ;
@@ -364,7 +365,7 @@
                                                                                                     "${ indent 5 }( string \"CUT\" \"${ escape "pkgs.coreutils" }/bin/cut\" )"
                                                                                                     "${ indent 5 }( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
                                                                                                     "${ indent 5 }( string \"MKDIR\" \"${ escape "pkgs.coreutils" }/bin/mkdir\" )"
-                                                                                                    "${ indent 5 }( derivation \"OBSERVED\" ( harvest : harvest.temporary.util.observed ) )"
+                                                                                                    "${ indent 5 }( derivation \"POST\" ( harvest : harvest.temporary.util.post ) )"
                                                                                                     "${ indent 5 }( resource { name = \"d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3\" ;} )"
                                                                                                     "${ indent 5 }( string \"SHA512SUM\" \"${ escape "pkgs.yq" }/bin/sha512sum\" )"
                                                                                                     "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.post-standard-error }\" )"
