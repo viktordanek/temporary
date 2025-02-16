@@ -17,7 +17,7 @@ echo 6 >> /build/debug &&
 echo 7 >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
 echo 8 >> /build/debug &&
-  UUID=$( ${CAT} ${DO} | ${SHA512} | ${CUT} --bytes -128 ) &&
+  UUID=$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
 echo 9 >> /build/debug &&
   exec 200> /build/observed/alpha/${UUID}/lock &&
   ${FLOCK} 200 &&
