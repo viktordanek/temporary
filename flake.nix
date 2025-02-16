@@ -251,6 +251,23 @@
                                                                             temporary = idea ;
                                                                             util =
                                                                                 {
+                                                                                    observed =
+                                                                                        { } :
+                                                                                            {
+                                                                                                init =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = shell-script "/scripts/test/util/post.sh" ;
+                                                                                                            sets =
+                                                                                                                [
+                                                                                                                    ( string BASENAME "${ pkgs.coreutils }/bin/basename" )
+                                                                                                                    ( string ECHO "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                    ( string FIND "${ pkgs.findutils }/bin/find" )
+                                                                                                                    ( string SED "${ pkgs.gnused }/bin/sed" )
+                                                                                                                    ( string SORT "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                ] ;
+                                                                                                        } ;
+                                                                                            } ;
                                                                                     token =
                                                                                         { script , shell-script , standard-input , string , target , ... } :
                                                                                             {
@@ -267,37 +284,6 @@
                                                                                                         } ;
                                                                                             } ;
                                                                                } ;
-                                                                            inject =
-                                                                                { script , ... } :
-                                                                                    {
-
-                                                                                    } ;
-                                                                            null = builtins.null ;
-                                                                            flist = [ builtins.null builtins.null ] ;
-                                                                            super =
-                                                                                { script , shell-script , string , target , ... } :
-                                                                                    {
-                                                                                        init =
-                                                                                            script
-                                                                                                {
-                                                                                                    executable = shell-script "/scripts/test/util/super.sh" ;
-                                                                                                    sets =
-                                                                                                        [
-                                                                                                            ( target { } )
-                                                                                                            ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                                                        ] ;
-                                                                                                } ;
-                                                                                        release =
-                                                                                            script
-                                                                                                {
-                                                                                                    executable = shell-script "/scripts/test/util/super.sh" ;
-                                                                                                    sets =
-                                                                                                        [
-                                                                                                            ( target { } )
-                                                                                                            ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                                                        ] ;
-                                                                                                } ;
-                                                                                    } ;
                                                                         } ;
                                                                     # temporary-initialization-error = 65 ;
                                                                     # temporary-path = "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ;
