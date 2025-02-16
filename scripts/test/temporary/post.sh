@@ -19,7 +19,7 @@ echo "7  DO=\$( ${OBSERVED} ${RESOURCE} )" >> /build/debug &&
 echo "8" >> /build/debug &&
   UUID=$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
 echo "9 \$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 )" >> /build/debug &&
-  exec 200> /build/observed/alpha/${UUID}/lock &&
+  exec 200> /build/observed/alpha/${UUID}.lock &&
   ${FLOCK} 200 &&
 echo 10 >> /build/debug &&
   INDEX=$( ${FIND} /build/observed/alpha/${UUID} -mindepth 1 -maxdepth 1 -name "observed*.yaml" | ${WC} --lines ) &&
@@ -41,7 +41,7 @@ echo 12 >> /build/debug &&
 echo 13 >> /build/debug &&
   ${ECHO} ${INDEX} > /build/observed/alpha/${UUID}/count &&
 echo 14 >> /build/debug &&
-  ${RM} /build/observed/alpha/${UUID}/lock &&
+  ${RM} /build/observed/alpha/${UUID}.lock &&
 echo 15 >> /build/debug &&
   exit ${STATUS}
 
