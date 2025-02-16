@@ -312,17 +312,17 @@
                                                                         let
                                                                             levels =
                                                                                 [
-                                                                                    { name = "init-status" ; value = [ 0 69 70 ] ; }
-                                                                                    { name = "seed" ; value = [ null null ] ; }
+                                                                                    { name = "init-status" ; value = [ 0 69 ] ; }
+                                                                                    { name = "seed" ; value = [ null ] ; }
                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                    { name = "init-standard-output" ; value = [ null null ] ; }
-                                                                                    { name = "init-standard-error" ; value = [ null null ] ; }
-                                                                                    { name = "init-seed" ; value = [ null null ] ; }
-                                                                                    { name = "release-status" ; value = [ 0 71 72 ] ; }
+                                                                                    { name = "init-standard-output" ; value = [ null] ; }
+                                                                                    { name = "init-standard-error" ; value = [ null ] ; }
+                                                                                    { name = "init-seed" ; value = [ null ] ; }
+                                                                                    { name = "release-status" ; value = [ 0 71 ] ; }
                                                                                     { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                    { name = "release-standard-output" ; value = [ null null ] ; }
-                                                                                    { name = "release-standard-error" ; value = [ null null ] ; }
-                                                                                    { name = "release-seed" ; value = [ null null ] ; }
+                                                                                    { name = "release-standard-output" ; value = [ null ] ; }
+                                                                                    { name = "release-standard-error" ; value = [ null ] ; }
+                                                                                    { name = "release-seed" ; value = [ null ] ; }
                                                                                     { name = "speed" ; value = [ "fast" "slow" ] ; }
                                                                                 ] ;
                                                                             mapper =
