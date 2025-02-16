@@ -260,11 +260,11 @@
                                                                                                             executable = shell-script "/scripts/test/util/post.sh" ;
                                                                                                             sets =
                                                                                                                 [
-                                                                                                                    ( string BASENAME "${ pkgs.coreutils }/bin/basename" )
-                                                                                                                    ( string ECHO "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                    ( string FIND "${ pkgs.findutils }/bin/find" )
-                                                                                                                    ( string SED "${ pkgs.gnused }/bin/sed" )
-                                                                                                                    ( string SORT "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                    ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
+                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                                                    ( string "SED" "${ pkgs.gnused }/bin/sed" )
+                                                                                                                    ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
                                                                                                                 ] ;
                                                                                                         } ;
                                                                                             } ;
