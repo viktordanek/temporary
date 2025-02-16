@@ -304,7 +304,7 @@
                                                                     # temporary-path = "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ;
                                                                     temporary-resource-mask = "checks.temporary.XXXXXXXX" ;
                                                                 } ;
-                                                         in
+                                                        in
                                                             if ! builtins.pathExists ( self + "/idea.nix" ) then
                                                                 let
                                                                     indent = n : builtins.concatStringsSep "" ( builtins.genList ( index : "\t" ) n ) ;
@@ -313,10 +313,10 @@
                                                                             levels =
                                                                                 [
                                                                                     { name = "init-status" ; value = [ 0 69 ] ; }
+                                                                                    { name = "init-has-standard-error" ; value = [ true false ] ; }
                                                                                     { name = "seed" ; value = [ null ] ; }
                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "init-standard-output" ; value = [ null] ; }
-                                                                                    { name = "init-has-standard-error" ; value = [ true false ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
                                                                                     { name = "init-seed" ; value = [ null ] ; }
                                                                                     { name = "release-status" ; value = [ 0 71 ] ; }
@@ -421,7 +421,7 @@
                                                                                                     ]
                                                                                     else if builtins.typeOf value == "set" then
                                                                                         let
-                                                                                            divider = if builtins.length path < 1 then { open = "{" ; close = "}" ; } else { open = "[" ; close = "]" ; } ;
+                                                                                            divider = if builtins.length path < split then { open = "{" ; close = "}" ; } else { open = "[" ; close = "]" ; } ;
                                                                                             list = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) ;
                                                                                             recurse =
                                                                                                 builtins.concatLists
@@ -435,7 +435,8 @@
                                                                                                             "${ indent 1 }${ divider.close } ;"
                                                                                                         ]
                                                                                                     ] ;
-                                                                                            in if builtins.length path < 2 then recurse else list
+                                                                                            split = 2 ;
+                                                                                            in if builtins.length path <= split then recurse else list
                                                                                     else throw_new { name = name ; path = path ; reason = "set" ; thing = "temporary" ; valid = [ "null" "set" ] ; value = value ; } ;
                                                                             set =
                                                                                 let
