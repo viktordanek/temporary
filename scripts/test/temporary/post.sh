@@ -14,9 +14,9 @@ echo 6 >> /build/debug &&
   then
     ${MKDIR} /build/observed/alpha
   fi &&
-echo 7 >> /build/debug &&
+echo "7  DO=\$( ${OBSERVED} ${RESOURCE} )" >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
-echo "8 CAT=${CAT}" >> /build/debug &&
+echo "8" >> /build/debug &&
   UUID=$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
 echo 9 >> /build/debug &&
   exec 200> /build/observed/alpha/${UUID}/lock &&
