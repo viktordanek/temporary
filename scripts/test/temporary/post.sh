@@ -1,32 +1,29 @@
-RESOURCE=${f9f95f80b51f23cdd35e578c51c3a38054691c35f97ae77ef02dbb012c9f2edda745015cd3888a696e92dd8db698e8647c88bcb7fd4b4c738af6dd23298e237f} &&
-  TEMPORARY_PATH_ARRAY=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b} &&
+RESOURCE=${cdfc0de101cd8fd31bcab9034c2c75f4659a7cdf73b66387e85a2cfee4d2da8a3b6ba01b3c17863b15d2a0d57cca5d719fada73ad63eea19a00c93c6464142c3} &&
   ${ECHO} ${STANDARD_OUT} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
-  if [ ! -d /build/observed/temporary/measurements ]
+  if [ ! -d /build/observed/alpha ]
   then
-    ${MKDIR} /build/observed/temporary/measurements
-  fi &&
-  ${MKDIR} --parents /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} &&
-  if [ -L ${RESOURCE}/init.sh ]
-  then
-    HAS_INIT=true
-  else
-    HAS_INIT=false
+    ${MKDIR} /build/observed/alpha
   fi &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
-  exec 200> /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
+  UUID=$( ${CAT} ${DO} | ${SHA512} | ${CUT} --bytes -128 ) &&
+  exec 200> /build/observed/alpha/${UUID}/lock &&
   ${FLOCK} 200 &&
-  INDEX=$( ${FIND} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY} -mindepth 1 -maxdepth 1 -name "*-*" | ${WC} --lines ) &&
-  if [ -f /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml ]
+  INDEX=$( ${FIND} /build/observed/alpha/${UUID} -mindepth 1 -maxdepth 1 -name "*-*" | ${WC} --lines ) &&
+  if [ ! -d /build/observed/alpha/${UUID} ]
   then
-    if [ ! -z "$( ${DIFF} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed ${DO} )" ]
+    ${MKDIR} /build/observed/alpha/${UUID}
+  fi &&
+  if [ -f /build/observed/alpha/${UUID}/observed.yaml ]
+  then
+    if [ ! -z "$( ${DIFF} /build/observed/alpha/${UUID}/observed.yaml ${DO} )" ]
     then
-      ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed-${INDEX}.yaml
+      ${YQ} --yaml-output "." ${DO} > /build/observed/alpha/${UUID}/observed-${INDEX}.yaml
     fi
   else
-    ${YQ} --yaml-output "." ${DO} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/observed.yaml
+    ${YQ} --yaml-output "." ${DO} > /build/observed/alpha/${UUID}/observed.yaml
   fi &&
-  ${ECHO} ${INDEX} > /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/count &&
-  ${RM} /build/observed/temporary/measurements/${TEMPORARY_PATH_ARRAY}/lock &&
+  ${ECHO} ${INDEX} > /build/observed/alpha/${UUID}/count &&
+  ${RM} /build/observed/alpha/${UUID}/lock &&
   exit ${STATUS}
 
