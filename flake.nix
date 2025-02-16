@@ -316,6 +316,7 @@
                                                                                     { name = "seed" ; value = [ null ] ; }
                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "init-standard-output" ; value = [ null] ; }
+                                                                                    { name = "init-has-standard-error" ; value = [ true false ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
                                                                                     { name = "init-seed" ; value = [ null ] ; }
                                                                                     { name = "release-status" ; value = [ 0 71 ] ; }
@@ -455,8 +456,9 @@
                                                                                                                         let
                                                                                                                             level = builtins.elemAt value.value index ;
                                                                                                                             in
-                                                                                                                                if builtins.typeOf level == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) )
+                                                                                                                                if builtins.typeOf level == "bool" then if level then "true" else "false"
                                                                                                                                 else if builtins.typeOf level == "int" then builtins.toString level
+                                                                                                                                else if builtins.typeOf level == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) )
                                                                                                                                 else if builtins.typeOf level == "string" then level
                                                                                                                                 else builtins.throw "The level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
                                                                                                                 in builtins.genList generator ( builtins.length value.value ) ;
