@@ -369,6 +369,7 @@
                                                                                                     "${ indent 5 }( string \"MKDIR\" \"${ escape "pkgs.coreutils" }/bin/mkdir\" )"
                                                                                                     "${ indent 5 }( derivation \"POST\" ( harvest : harvest.temporary.util.post ) )"
                                                                                                     "${ indent 5 }( resource { name = \"d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3\" ;} )"
+                                                                                                    "${ indent 5 }( string \"RM\" \"${ escape "pkgs.coreutils" }/bin/rm\" )"
                                                                                                     "${ indent 5 }( string \"SHA512SUM\" \"${ escape "pkgs.coreutils" }/bin/sha512sum\" )"
                                                                                                     "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.post-standard-error }\" )"
                                                                                                     "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.post-standard-output }\" )"
