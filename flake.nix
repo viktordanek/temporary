@@ -402,7 +402,7 @@
                                                                                                         "${ indent 5 }( standard-input { name = \"fb4458f0a23faca09364d9f8ea591ce44cac9d7fbf1ac94e06c12f607470dccf7d250f9ecef6b1db9168b43f0cded093ee95315ca4790cb99a981ad9cec5df02\" ; } )"
                                                                                                         "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.release-standard-output }\" )"
                                                                                                         "${ indent 5 }( string \"STATUS\" \"${ values.release-status }\" )"
-                                                                                                        "${ indent 5 }( target { name = \"b31762880353ee80704c43e129281f4b08787b8cec6de0e308b2d65ff9800606658e88e8848b94b6602fdfff552b6ae587ab48de59c00587d730f26bbe333df6\" ; } )"
+                                                                                                        "${ indent 5 }( target { name = \"a64d58c7d5926109c9ae430e008b089ac989d57d28e564984a876de3c6014ec1e30f399611af2635e695978e79b960359c0158c2a9a269d9907b5ceeea11b871\" ; } )"
                                                                                                         "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
                                                                                                         "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
                                                                                                         "${ indent 4 }] ;"
