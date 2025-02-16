@@ -350,7 +350,7 @@
                                                                                                         "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
                                                                                                         "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
                                                                                                         "${ indent 5 }( path \"STATUS\" 0 )"
-                                                                                                        "${ indent 5 }( standard-input { name = "\d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64\" } ; } )"
+                                                                                                        "${ indent 5 }( standard-input { name = \"d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64\" } ; } )"
                                                                                                         "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.init-standard-error }\" )"
                                                                                                         "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
                                                                                                         "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
