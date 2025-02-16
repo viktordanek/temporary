@@ -1,5 +1,5 @@
 RESOURCE=${d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3} &&
-  ${ECHO} ${STANDARD_OUT} &&
+  ${ECHO} ${STANDARD_OUTPUT} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
   if [ ! -d /build/observed ]
   then
@@ -10,6 +10,9 @@ RESOURCE=${d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a
     ${MKDIR} /build/observed/alpha
   fi &&
   DO=$( ${POST} ${RESOURCE} ) &&
+  ${CAT} ${DO} >&2 &&
+  ${ECHO} >&2 &&
+  ${YQ} "." ${DO} >&2 &&
   UUID=$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
   exec 200> /build/observed/alpha/${UUID}.lock &&
   ${FLOCK} 200 &&
