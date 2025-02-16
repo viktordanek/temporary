@@ -391,6 +391,7 @@
                                                                                                         "${ indent 4 }["
                                                                                                         "${ indent 5 }( is-file { name = \"c94cc50e68897052d0c3496bc4dcbdecedc3459f11b3facb0693b40a7da93a02f3276e61cdacb75535e7cdfca0d65ccf1c63c52479d08b670cae60bb5c0d5516\" ; } )"
                                                                                                         "${ indent 5 }( is-pipe { name = \"abfa22b5c094b408b582a04b7b59dab7c858677c4c3f0da491321737b7e7776106bd49233988e8039ac733510a01bdfa7f576d21e40ed6cb76103c5a8f3a15d5\" ; } )"
+                                                                                                        "${ indent 5 }( string \"JQ\" \"${ escape "pkgs.jq" }/bin/jq\" )"
                                                                                                         "${ indent 5 }( path \"POST_SEED\" 1 )"
                                                                                                         "${ indent 5 }( resource { name = \"b31762880353ee80704c43e129281f4b08787b8cec6de0e308b2d65ff9800606658e88e8848b94b6602fdfff552b6ae587ab48de59c00587d730f26bbe333df6\" ; } )"
                                                                                                         "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
