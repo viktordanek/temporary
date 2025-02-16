@@ -252,10 +252,10 @@
                                                                             util =
                                                                                 {
                                                                                     observed =
-                                                                                        { } :
+                                                                                        { script , shell-script , string , ... } :
                                                                                             {
                                                                                                 init =
-                                                                                                    { script , shell-script , string , ... } :
+                                                                                                    script
                                                                                                         {
                                                                                                             executable = shell-script "/scripts/test/util/post.sh" ;
                                                                                                             sets =
