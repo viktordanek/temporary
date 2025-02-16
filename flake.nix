@@ -357,6 +357,7 @@
                                                                                                         "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.init-standard-output }\" )"
                                                                                                         "${ indent 5 }( string \"STATUS\" \"${ values.init-status }\" )"
                                                                                                         "${ indent 5 }( target { name = \"d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e\" ; } )"
+                                                                                                        "${ indent 5 }( string \"TEMPLATE_FILE\" \"${ self + "/scripts/test/temporary/init.json" }\" )"
                                                                                                         "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
                                                                                                         "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
                                                                                                         "${ indent 4 }] ;"
