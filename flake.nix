@@ -340,7 +340,7 @@
                                                                                                         "${ indent 3 }executable = shell-script \"/scripts/test/temporary/init.sh\" ;"
                                                                                                         "${ indent 3 }sets ="
                                                                                                         "${ indent 4 }["
-                                                                                                        "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
+                                                                                                        # "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
                                                                                                         # "${ indent 5 }( is-file { } )"
                                                                                                         # "${ indent 5 }( is-pipe { } )"
                                                                                                         # "${ indent 5 }( path \"POST_SEED\" 1 )"
