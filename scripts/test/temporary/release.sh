@@ -1,32 +1,17 @@
-TARGET=${a1bf1278edcdadde99ea528e6f7fb99c069e840bb2bc10f5e54326df380677e399d911352ba22cce94ad7817efae178bc5844b74b874d1ded5bca309f55d78a7} &&
-  TEMPORARY_ARRAY=${bdc6a3ee36ba1101872a7772344634fb07cf5dee5e77970db3dee38e697c0c1379d433ea03d0b61975f8d980d3dcc3c6516ff67db042cacf10cb3c27be1faf9b} &&
-  if [ -t 0 ]
+export IS_FILE=${c94cc50e68897052d0c3496bc4dcbdecedc3459f11b3facb0693b40a7da93a02f3276e61cdacb75535e7cdfca0d65ccf1c63c52479d08b670cae60bb5c0d5516} &&
+  export IS_PIPE=${abfa22b5c094b408b582a04b7b59dab7c858677c4c3f0da491321737b7e7776106bd49233988e8039ac733510a01bdfa7f576d21e40ed6cb76103c5a8f3a15d5} &&
+  RESOURCE=${b31762880353ee80704c43e129281f4b08787b8cec6de0e308b2d65ff9800606658e88e8848b94b6602fdfff552b6ae587ab48de59c00587d730f26bbe333df6} &&
+  export STANDARD_INPUT=${fb4458f0a23faca09364d9f8ea591ce44cac9d7fbf1ac94e06c12f607470dccf7d250f9ecef6b1db9168b43f0cded093ee95315ca4790cb99a981ad9cec5df02} &&
+  TARGET=${b31762880353ee80704c43e129281f4b08787b8cec6de0e308b2d65ff9800606658e88e8848b94b6602fdfff552b6ae587ab48de59c00587d730f26bbe333df6} &&
+  export PID=$( ${FIND} ${RESOURCE} -name "*.pid" -exec ${CAT} {} \; -quit ) &&
+  if ${HAS_STANDARD_ERROR} != "0"
   then
-    HAS_STANDARD_INPUT=false &&
-      STANDARD_INPUT=
-  elif [ -p /proc/self/fd/0 ]
-  then
-    HAS_STANDARD_INPUT=true
-      STANDARD_INPUT=$( ${TEE} )
-  elif [ -f /proc/self/fd/0 ]
-  then
-    HAS_STANDARD_INPUT-true
-      STANDARD_INPUT=$( ${CAT} )
-  else
-    HAS_STANDARD_INPUT=false
-      STANDARD_INPUT=
+    ${ECHO} ${STANDARD_ERROR} >&2
   fi &&
-  IFS="/" read -r -a TEMPORARY <<< ${TEMPORARY_ARRAY} &&
-  ${ECHO} ${TEMPORARY[10]} &&
-  ${ECHO} "release:" >> ${TARGET} &&
-  ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
-  ${ECHO} "  standard-output: ${TEMPORARY[10]}" >> ${TARGET} &&
-  ${ECHO} "  standard-error: ${TEMPORARY[11]}" >> ${TARGET} &&
-  ${ECHO} "  standard-status: ${TEMPORARY[12
-  ]}" >> ${TARGET} &&
-  # ${ECHO} "  temporary-array: ${TEMPORARY_ARRAY}" >> ${TARGET} &&
-  # ${ECHO} "  has_standard_input: ${HAS_STANDARD_INPUT}" >> ${TARGET} &&
-  # ${ECHO} "  standard_input: ${STANDARD_INPUT}" >> ${TARGET} &&
-  # ${ECHO} "  arguments: ${@}" >> ${TARGET} &&
-  ${ECHO} ${TEMPORARY[11]} >&2 &&
-  exit ${TEMPORARY[12]}
+  ${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "{init:.}" > ${TARGET} &&
+  ${ECHO} ${STANDARD_OUTPUT} &&
+  ${ECHO} RESOURCE=${RESOURCE} &&
+  ${ECHO} TARGET=${TARGET} &&
+  ${ECHO} COMMAND="${FIND} ${RESOURCE} -name "*.pid" -exec ${CAT} {} \; -quit" &&
+  ${ECHO} PID=${PID} &&
+  exit ${STATUS}
