@@ -4,10 +4,7 @@ export IS_FILE=${c94cc50e68897052d0c3496bc4dcbdecedc3459f11b3facb0693b40a7da93a0
   export STANDARD_INPUT=${fb4458f0a23faca09364d9f8ea591ce44cac9d7fbf1ac94e06c12f607470dccf7d250f9ecef6b1db9168b43f0cded093ee95315ca4790cb99a981ad9cec5df02} &&
   TARGET=${a64d58c7d5926109c9ae430e008b089ac989d57d28e564984a876de3c6014ec1e30f399611af2635e695978e79b960359c0158c2a9a269d9907b5ceeea11b871} &&
   export PID=$( ${FIND} ${RESOURCE} -name "*.pid" -exec ${CAT} {} \; -quit ) &&
-  if ${HAS_STANDARD_ERROR} != "0"
-  then
-    ${ECHO} ${STANDARD_ERROR} >&2
-  fi &&
+  ${ECHO} ${STANDARD_ERROR} >&2
   ${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "{release:.}" > ${TARGET} &&
   ${ECHO} ${STANDARD_OUTPUT} &&
   exit ${STATUS}
