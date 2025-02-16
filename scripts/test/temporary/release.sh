@@ -8,10 +8,6 @@ export IS_FILE=${c94cc50e68897052d0c3496bc4dcbdecedc3459f11b3facb0693b40a7da93a0
   then
     ${ECHO} ${STANDARD_ERROR} >&2
   fi &&
-  ${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "{init:.}" > ${TARGET} &&
+  ${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "{release:.}" > ${TARGET} &&
   ${ECHO} ${STANDARD_OUTPUT} &&
-  ${ECHO} RESOURCE=${RESOURCE} &&
-  ${ECHO} TARGET=${TARGET} &&
-  ${ECHO} COMMAND="${FIND} ${RESOURCE} -name "*.pid" -exec ${CAT} {} \; -quit" &&
-  ${ECHO} PID=${PID} &&
   exit ${STATUS}
