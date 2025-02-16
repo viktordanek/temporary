@@ -368,7 +368,7 @@
                                                                                                     "${ indent 3 }executable = shell-script \"/scripts/test/temporary/post.sh\" ;"
                                                                                                     "${ indent 3 }sets ="
                                                                                                     "${ indent 4 }["
-                                                                                                    # "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
+                                                                                                    "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
                                                                                                     "${ indent 4 }] ;"
                                                                                                     "${ indent 2 }} ;"
                                                                                                 ] ;
