@@ -250,25 +250,24 @@
                                                                     temporary =
                                                                         {
                                                                             # temporary = idea ;
-                                                                            # util =
-                                                                            #     {
-                                                                            #        token =
-                                                                            #            { script , shell-script , standard-input , string , target , ... } :
-                                                                            #                {
-                                                                            #                    init =
-                                                                            #                        script
-                                                                            #                            {
-                                                                            #                                executable = shell-script "/scripts/test/util/token.sh" ;
-                                                                            #                                sets =
-                                                                            #                                    [
-                                                                            #                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                            #                                        ( standard-input { } )
-                                                                            #                                        ( target { } )
-                                                                            #                                    ] ;
-                                                                            #                            } ;
-                                                                            #                } ;
-                                                                            #    } ;
-                                                                            # temporary = idea ;
+                                                                            util =
+                                                                                {
+                                                                                    token =
+                                                                                        { script , shell-script , standard-input , string , target , ... } :
+                                                                                            {
+                                                                                                init =
+                                                                                                    script
+                                                                                                        {
+                                                                                                            executable = shell-script "/scripts/test/util/token.sh" ;
+                                                                                                            sets =
+                                                                                                                [
+                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                    ( standard-input { } )
+                                                                                                                    ( target { } )
+                                                                                                                ] ;
+                                                                                                        } ;
+                                                                                            } ;
+                                                                               } ;
                                                                             inject =
                                                                                 { script , ... } :
                                                                                     {
