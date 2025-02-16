@@ -252,7 +252,7 @@
                                                                             util =
                                                                                 {
                                                                                     post =
-                                                                                        { script , shell-script , string , ... } :
+                                                                                        { script , shell-script , string , target , ... } :
                                                                                             {
                                                                                                 init =
                                                                                                     script
