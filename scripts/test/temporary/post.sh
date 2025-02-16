@@ -1,5 +1,5 @@
 echo 2 >> /build/debug &&
-RESOURCE=${cdfc0de101cd8fd31bcab9034c2c75f4659a7cdf73b66387e85a2cfee4d2da8a3b6ba01b3c17863b15d2a0d57cca5d719fada73ad63eea19a00c93c6464142c3} &&
+RESOURCE=${d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3} &&
 echo 3 >> /build/debug &&
   ${ECHO} ${STANDARD_OUT} &&
 echo 4 >> /build/debug &&
