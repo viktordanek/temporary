@@ -50,11 +50,11 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status &&
     if [ "${STATUS}" != 0 ]
     then
-        ${RESOURCE}/teardown-asynch.sh &&
-          exit ${INITIALIZATION_ERROR_INITIALIZER}
+      # ${RESOURCE}/teardown-asynch.sh &&
+        exit ${INITIALIZATION_ERROR_INITIALIZER}
     elif [ ! -z "$( ${CAT}  ${RESOURCE}/init.standard-error)" ]
     then
-      ${RESOURCE}/teardown-asynch.sh &&
+      # ${RESOURCE}/teardown-asynch.sh &&
         exit ${INITIALIZATION_ERROR_STANDARD_ERROR}
     else
       ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
