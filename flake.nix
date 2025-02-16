@@ -255,7 +255,7 @@
                                                                                         { } :
                                                                                             {
                                                                                                 init =
-                                                                                                    script
+                                                                                                    { script , shell-script , string , ... } :
                                                                                                         {
                                                                                                             executable = shell-script "/scripts/test/util/post.sh" ;
                                                                                                             sets =
