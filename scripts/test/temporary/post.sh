@@ -16,13 +16,13 @@ echo 6 >> /build/debug &&
   fi &&
 echo 7 >> /build/debug &&
   DO=$( ${OBSERVED} ${RESOURCE} ) &&
-echo 8 >> /build/debug &&
+echo "8 \$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 )" >> /build/debug &&
   UUID=$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
 echo 9 >> /build/debug &&
   exec 200> /build/observed/alpha/${UUID}/lock &&
   ${FLOCK} 200 &&
 echo 10 >> /build/debug &&
-  INDEX=$( ${FIND} /build/observed/alpha/${UUID} -mindepth 1 -maxdepth 1 -name "*-*" | ${WC} --lines ) &&
+  INDEX=$( ${FIND} /build/observed/alpha/${UUID} -mindepth 1 -maxdepth 1 -name "observed*.yaml" | ${WC} --lines ) &&
 echo 11 >> /build/debug &&
   if [ ! -d /build/observed/alpha/${UUID} ]
   then
