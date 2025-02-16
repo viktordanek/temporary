@@ -377,7 +377,7 @@
                                                                                                     "${ indent 5 }( string \"CAT\" \"${ escape "pkgs.coreutils" }/bin/cat\" )"
                                                                                                     "${ indent 5 }( string \"CUT\" \"${ escape "pkgs.coreutils" }/bin/cut\" )"
                                                                                                     "${ indent 5 }( string \"MKDIR\" \"${ escape "pkgs.coreutils" }/bin/mkdir\" )"
-                                                                                                    "${ indent 5 }( derivation \"OBSERVED\" \"${ harvest : harvest.temporary.util.observed }\" )"
+                                                                                                    "${ indent 5 }( derivation \"OBSERVED\" ( harvest : harvest.temporary.util.observed ) )"
                                                                                                     "${ indent 5 }( resource { name = \"d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3\" ;} )"
                                                                                                     "${ indent 5 }( string \"SHA512SUM\" \"${ escape "pkgs.yq" }/bin/sha512sum\" )"
                                                                                                     "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.post-standard-error }\" )"
