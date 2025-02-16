@@ -1,11 +1,3 @@
 {
-  "has_standard_error" : env.HAS_STANDARD_ERROR ,
-  "is_file" : env.IS_FILE ,
-  "is_pipe" : env.IS_PIPE ,
-  "post_seed" :env.POST_SEED ,
-  "speed" : env.SPEED ,
-  "status" :  env.STATUS ,
-  "standard_error" : env.STANDARD_ERROR ,
-  "standard_input" : env.STANDARD_INPUT ,
-  "standard_output" : env.STANDARD_OUTPUT
+
 }
