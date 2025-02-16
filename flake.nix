@@ -88,7 +88,7 @@
                                                                                                     if builtins.typeOf executable == "string" then
                                                                                                         [
                                                                                                             "makeWrapper"
-                                                                                                            executable
+                                                                                                            ( pkgs.writeShellScript "executable" ( builtins.readFile executable ) )
                                                                                                             "${ resolve path name }/${ binary }"
                                                                                                         ]
                                                                                                     else builtins.throw "The executable is not a string but a ${ builtins.typeOf executable }."
