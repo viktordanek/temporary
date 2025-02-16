@@ -316,7 +316,7 @@
                                                                                     { name = "init-has-standard-error" ; value = [ true false ] ; }
                                                                                     { name = "seed" ; value = [ null ] ; }
                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
-                                                                                    { name = "init-standard-output" ; value = [ null] ; }
+                                                                                    { name = "init-standard-output" ; value = [ null ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
                                                                                     { name = "init-seed" ; value = [ null ] ; }
                                                                                     { name = "release-status" ; value = [ 0 71 ] ; }
@@ -324,6 +324,9 @@
                                                                                     { name = "release-standard-output" ; value = [ null ] ; }
                                                                                     { name = "release-standard-error" ; value = [ null ] ; }
                                                                                     { name = "release-seed" ; value = [ null ] ; }
+                                                                                    { name = "post-status" ; value = [ 72 ] ; }
+                                                                                    { name = "post-standard-output" ; value = [ null ] ; }
+                                                                                    { name = "post-standard-error" ; value = [ null ] ; }
                                                                                     { name = "speed" ; value = [ "fast" "slow" ] ; }
                                                                                 ] ;
                                                                             mapper =
@@ -368,6 +371,9 @@
                                                                                                     "${ indent 3 }executable = shell-script \"/scripts/test/temporary/post.sh\" ;"
                                                                                                     "${ indent 3 }sets ="
                                                                                                     "${ indent 4 }["
+                                                                                                    "${ indent 4 }( string \"STANDARD_ERROR\" \"${ values.post-standard-error }\" )"
+                                                                                                    "${ indent 4 }( string \"STANDARD_OUTPUT\" \"${ values.post-standard-output }\" )"
+                                                                                                    "${ indent 4 }( string \"STATUS\" \"${ values.post-status }\" )"
                                                                                                     "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
                                                                                                     "${ indent 4 }] ;"
                                                                                                     "${ indent 2 }} ;"
