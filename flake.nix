@@ -345,7 +345,7 @@
                                                                                                         "${ indent 5 }{ string \"HAS_STANDARD_ERROR\" \"${ values.init-has-standard-error }\" }"
                                                                                                         "${ indent 5 }( is-file { } )"
                                                                                                         "${ indent 5 }( is-pipe { } )"
-                                                                                                        # "${ indent 5 }( path \"POST_SEED\" 1 )"
+                                                                                                        "${ indent 5 }( path \"POST_SEED\" 1 )"
                                                                                                         # "${ indent 5 }( resource { } )"
                                                                                                         # "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
                                                                                                         # "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
