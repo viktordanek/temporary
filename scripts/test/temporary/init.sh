@@ -1,4 +1,4 @@
-if ${STATUS} != "0"
+if ${HAS_STANDARD_ERROR} != "0"
 then
   ${ECHO} ${STANDARD_ERROR} >&2 &&
 fi &&
