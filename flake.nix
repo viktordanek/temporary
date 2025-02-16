@@ -341,7 +341,7 @@
                                                                                                         "${ indent 3 }executable = shell-script \"/scripts/test/temporary/init.sh\" ;"
                                                                                                         "${ indent 3 }sets ="
                                                                                                         "${ indent 4 }["
-                                                                                                        # "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
+                                                                                                        "${ indent 5 }( derivation \"TEMPORARY_TOKEN\" ( harvest : harvest.temporary.util.token ) )"
                                                                                                         # "${ indent 5 }{ string "HAS_STANDARD_ERROR" \"${ values.init-has-standard-error }\" }"
                                                                                                         # "${ indent 5 }( is-file { } )"
                                                                                                         # "${ indent 5 }( is-pipe { } )"
