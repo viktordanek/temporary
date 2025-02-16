@@ -3,24 +3,22 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if ${IS_INTERACTIVE}
   then
-    # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
     TARGET_PID=${PARENT_PID}
   elif ${IS_PIPE}
   then
-    # TARGET_PID=$( ${PS} -p ${GREAT_GRANDPARENT_PID} -o ppid= ) &&
     TARGET_PID=${GRANDPARENT_PID} &&
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   elif ${IS_FILE}
   then
-    # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= ) &&
     TARGET_PID=${GRANDPARENT_PID} &&
       ${CAT} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
-    # TARGET_PID=$( ${PS} -p ${GRANDPARENT_PID} -o ppid= )
     TARGET_PID=${PARENT_PID}
   fi &&
+  ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
+  ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RESOURCE}/init.sh
@@ -50,21 +48,20 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${TEMPORARY_RESOURCE_MASK} ) &&
     ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status &&
     if [ "${STATUS}" != 0 ]
     then
-      # ${RESOURCE}/teardown-asynch.sh &&
+      ${RM} ${RESOURCE}/${TARGET_PID// /}.pid &&
+        ${RESOURCE}/teardown-asynch.sh &&
         exit ${INITIALIZATION_ERROR_INITIALIZER}
     elif [ ! -z "$( ${CAT}  ${RESOURCE}/init.standard-error)" ]
     then
-      # ${RESOURCE}/teardown-asynch.sh &&
+      ${RM} ${RESOURCE}/${TARGET_PID// /}.pid &&
+        ${RESOURCE}/teardown-asynch.sh &&
         exit ${INITIALIZATION_ERROR_STANDARD_ERROR}
     else
-      ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
-        ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
-        ${RESOURCE}/teardown-asynch.sh &&
+      ${RESOURCE}/teardown-asynch.sh &&
         ${ECHO} ${RESOURCE}/target &&
         exit 0
     fi
   fi &&
-  ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
   ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
   ${RESOURCE}/teardown-asynch.sh &&
   ${ECHO} ${RESOURCE}/target &&
