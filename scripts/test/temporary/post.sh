@@ -1,3 +1,4 @@
+echo 2 >> /build/debug &&
 RESOURCE=${cdfc0de101cd8fd31bcab9034c2c75f4659a7cdf73b66387e85a2cfee4d2da8a3b6ba01b3c17863b15d2a0d57cca5d719fada73ad63eea19a00c93c6464142c3} &&
   ${ECHO} ${STANDARD_OUT} &&
   ${ECHO} ${STANDARD_ERROR} >&2 &&
