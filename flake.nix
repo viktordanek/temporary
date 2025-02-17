@@ -300,11 +300,11 @@
                                                                                 [
                                                                                     { name = "init-status" ; value = [ 0 69 ] ; }
                                                                                     { name = "init-has-standard-error" ; value = [ true false ] ; }
-                                                                                    { name = "init-seed" ; value = [ null ] ; }
                                                                                     { name = "seed" ; value = [ null ] ; }
                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "init-standard-output" ; value = [ null ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
+                                                                                    { name = "init-seed" ; value = [ null ] ; }
                                                                                     { name = "release-status" ; value = [ 0 71 ] ; }
                                                                                     { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "release-standard-output" ; value = [ null ] ; }
@@ -336,7 +336,7 @@
                                                                                                         "${ indent 5 }( is-file { name = \"cd4d67f6ced1af72b6e50619ab0912f3ae836ecb8186343d64bb339ced909edd4548479d0dad93cb5ecb7f0606c78a8402b90c49a2b1d4c0a5d8200230e01809\" ; } )"
                                                                                                         "${ indent 5 }( is-pipe { name = \"bed950554a6c594ded4790bca8c9f65f0df4baa61b3fa78f33bcf8b9e3621544929d25e985698dfecc0b5a5f192e32ccf2cadbee0d2bc661374a7ded99e45579\" ; } )"
                                                                                                         "${ indent 5 }( string \"JQ\" \"${ escape "pkgs.jq" }/bin/jq\" )"
-                                                                                                        "${ indent 5 }( path \"POST_SEED\" 1 )"
+                                                                                                        "${ indent 5 }( path \"PATH_SEED\" 1 )"
                                                                                                         "${ indent 5 }( resource { name = \"c8abe0fd64014b729ad36cb4718564939f0981c7fa252deb5f0f90e460bc438033f7ff4e7204f2c4ca7243c77a356df83f89e31769ed35838c28a9e8b8135306\" ;} )"
                                                                                                         "${ indent 5 }( string \"SEED\" \"${ values.init-seed }\" )"
                                                                                                         "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
@@ -366,6 +366,7 @@
                                                                                                     "${ indent 5 }( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
                                                                                                     "${ indent 5 }( string \"FLOCK\" \"${ escape "pkgs.flock" }/bin/flock\" )"
                                                                                                     "${ indent 5 }( string \"MKDIR\" \"${ escape "pkgs.coreutils" }/bin/mkdir\" )"
+                                                                                                    "${ indent 5 }( path \"PATH_SEED\" 1 )"
                                                                                                     "${ indent 5 }( derivation \"POST\" ( harvest : harvest.temporary.util.post ) )"
                                                                                                     "${ indent 5 }( resource { name = \"d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3\" ;} )"
                                                                                                     "${ indent 5 }( string \"RM\" \"${ escape "pkgs.coreutils" }/bin/rm\" )"
@@ -390,7 +391,7 @@
                                                                                                         "${ indent 5 }( is-file { name = \"c94cc50e68897052d0c3496bc4dcbdecedc3459f11b3facb0693b40a7da93a02f3276e61cdacb75535e7cdfca0d65ccf1c63c52479d08b670cae60bb5c0d5516\" ; } )"
                                                                                                         "${ indent 5 }( is-pipe { name = \"abfa22b5c094b408b582a04b7b59dab7c858677c4c3f0da491321737b7e7776106bd49233988e8039ac733510a01bdfa7f576d21e40ed6cb76103c5a8f3a15d5\" ; } )"
                                                                                                         "${ indent 5 }( string \"JQ\" \"${ escape "pkgs.jq" }/bin/jq\" )"
-                                                                                                        "${ indent 5 }( path \"POST_SEED\" 1 )"
+                                                                                                        "${ indent 5 }( path \"PATH_SEED\" 1 )"
                                                                                                         "${ indent 5 }( resource { name = \"b31762880353ee80704c43e129281f4b08787b8cec6de0e308b2d65ff9800606658e88e8848b94b6602fdfff552b6ae587ab48de59c00587d730f26bbe333df6\" ; } )"
                                                                                                         "${ indent 5 }( string \"SEED\" \"${ values.release-seed }\" )"
                                                                                                         "${ indent 5 }( string \"SPEED\" \"${ values.speed }\" )"
