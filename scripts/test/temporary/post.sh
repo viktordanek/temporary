@@ -25,7 +25,7 @@ RESOURCE=${d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a
       ${YQ} --yaml-output "." ${DO} > /build/observed/alpha/${UUID}/observed-${INDEX}.yaml
     fi
   else
-    ${YQ} --yaml-output "." ${DO} > /build/observed/alpha/${UUID}/observed.yaml
+    ${CAT} ${DO} > /build/observed/alpha/${UUID}/observed.yaml
   fi &&
   ${ECHO} ${INDEX} > /build/observed/alpha/${UUID}/count &&
   ${RM} /build/observed/alpha/${UUID}.lock &&
