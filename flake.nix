@@ -515,7 +515,7 @@
                                                                                             mapper =
                                                                                                 { index , init-has-standard-error , init-status , seed } @primary :
                                                                                                     let
-                                                                                                        hash = string :  builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.concatStringsSep "" [ primary [ string ] ] ) ;
+                                                                                                        hash = string :  builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.concatStringsSep "" [ primary [ string ] ] ) ) ;
                                                                                                         in
                                                                                                             {
                                                                                                                 command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
