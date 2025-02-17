@@ -305,14 +305,17 @@
                                                                                     { name = "init-standard-output" ; value = [ null ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
                                                                                     { name = "init-seed" ; value = [ null ] ; }
+                                                                                    { name = "init-key" ; value = [ null ] ;
                                                                                     { name = "release-status" ; value = [ 0 71 ] ; }
                                                                                     { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "release-standard-output" ; value = [ null ] ; }
                                                                                     { name = "release-standard-error" ; value = [ null ] ; }
                                                                                     { name = "release-seed" ; value = [ null ] ; }
+                                                                                    { name = "release-key" ; value = [ null ] ; }
                                                                                     { name = "post-status" ; value = [ 72 ] ; }
                                                                                     { name = "post-standard-output" ; value = [ null ] ; }
                                                                                     { name = "post-standard-error" ; value = [ null ] ; }
+                                                                                    { name = "post-key" ; value = [ null ] ;
                                                                                     { name = "speed" ; value = [ "fast" "slow" ] ; }
                                                                                 ] ;
                                                                             mapper =
@@ -468,7 +471,7 @@
                                                                                                                             in
                                                                                                                                 if builtins.typeOf level == "bool" then if level then "true" else "false"
                                                                                                                                 else if builtins.typeOf level == "int" then builtins.toString level
-                                                                                                                                else if builtins.typeOf level == "null" then builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) )
+                                                                                                                                else if builtins.typeOf level == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) ) )
                                                                                                                                 else if builtins.typeOf level == "string" then level
                                                                                                                                 else builtins.throw "The level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
                                                                                                                 in builtins.genList generator ( builtins.length value.value ) ;
