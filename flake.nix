@@ -364,7 +364,6 @@
                                                                                                     "${ indent 5 }( string \"CAT\" \"${ escape "pkgs.coreutils" }/bin/cat\" )"
                                                                                                     "${ indent 5 }( string \"CUT\" \"${ escape "pkgs.coreutils" }/bin/cut\" )"
                                                                                                     "${ indent 5 }( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
-                                                                                                    "${ indent 5 }( string \"FIND\" \"${ escape "pkgs.findutils" }/bin/find\" )"
                                                                                                     "${ indent 5 }( string \"FLOCK\" \"${ escape "pkgs.flock" }/bin/flock\" )"
                                                                                                     "${ indent 5 }( string \"MKDIR\" \"${ escape "pkgs.coreutils" }/bin/mkdir\" )"
                                                                                                     "${ indent 5 }( derivation \"POST\" ( harvest : harvest.temporary.util.post ) )"
@@ -375,7 +374,6 @@
                                                                                                     "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.post-standard-output }\" )"
                                                                                                     "${ indent 5 }( string \"STATUS\" \"${ values.post-status }\" )"
                                                                                                     "${ indent 5 }( string \"YQ\" \"${ escape "pkgs.yq" }/bin/yq\" )"
-                                                                                                    "${ indent 5 }( string \"WC\" \"${ escape "pkgs.coreutils" }/bin/wc\" )"
                                                                                                     "${ indent 4 }] ;"
                                                                                                     "${ indent 2 }} ;"
                                                                                                 ] ;

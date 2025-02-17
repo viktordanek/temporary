@@ -17,7 +17,12 @@ RESOURCE=${d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a
   then
     ${MKDIR} /build/observed/alpha/${UUID}
   fi &&
-  INDEX=$( ${FIND} /build/observed/alpha/${UUID} -mindepth 1 -maxdepth 1 -name "observed*yaml" | ${WC} --lines ) &&
+  if [ -f /build/observed/alpha/${UUID}/count ]
+  then
+    INDEX=$( ${CAT} /build/observed/alpha/${UUID}/count )
+  else
+    INDEX=0
+  fi &&
   if [ -f /build/observed/alpha/${UUID}/observed.yaml ]
   then
     if [ ! -z "$( ${DIFF} /build/observed/alpha/${UUID}/observed.yaml ${DO} )" ]
@@ -27,7 +32,7 @@ RESOURCE=${d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a
   else
     ${YQ} --yaml-output "." ${DO} > /build/observed/alpha/${UUID}/observed.yaml
   fi &&
-  ${ECHO} ${INDEX} > /build/observed/alpha/${UUID}/count &&
+  ${ECHO} $(( ${INDEX} + 1 )) > /build/observed/alpha/${UUID}/count &&
   ${RM} /build/observed/alpha/${UUID}.lock &&
   exit ${STATUS}
 
