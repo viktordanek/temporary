@@ -300,11 +300,11 @@
                                                                                 [
                                                                                     { name = "init-status" ; value = [ 0 69 ] ; }
                                                                                     { name = "init-has-standard-error" ; value = [ true false ] ; }
+                                                                                    { name = "init-seed" ; value = [ null ] ; }
                                                                                     { name = "seed" ; value = [ null ] ; }
                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "init-standard-output" ; value = [ null ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
-                                                                                    { name = "init-seed" ; value = [ null ] ; }
                                                                                     { name = "release-status" ; value = [ 0 71 ] ; }
                                                                                     { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "release-standard-output" ; value = [ null ] ; }
@@ -507,15 +507,15 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "list" then
                                                                                                                 let
-                                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; seed = name ; } ;
+                                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; seed = name ; } ;
                                                                                                                     in builtins.genList generator ( builtins.length value )
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else throw_new { name = name ; path = path ; reason = "initialization" ; thing = "idea" ; valid = [ "list" "set" ] ; value = value ; } ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
                                                                                             mapper =
-                                                                                                { index , init-status , seed } :
+                                                                                                { index , init-has-standard-error , init-status , seed } @primary :
                                                                                                     let
-                                                                                                        hash = string :  builtins.hashString "sha512" ( builtins.concatStringsSep "" [ index init-status seed string ] ) ;
+                                                                                                        hash = string :  builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.concatStringsSep "" [ primary [ string ] ] ) ;
                                                                                                         in
                                                                                                             {
                                                                                                                 command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
