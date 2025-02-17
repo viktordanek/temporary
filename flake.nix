@@ -516,10 +516,11 @@
                                                                                                 { index , init-has-standard-error , init-status , seed } @primary :
                                                                                                     let
                                                                                                         hash = string :  builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.concatStringsSep "" [ primary [ string ] ] ) ) ;
+                                                                                                        status = if init-status == 0 && init-has-standard-error == "false" then true else false ;
                                                                                                         in
                                                                                                             {
                                                                                                                 command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
-                                                                                                                init-status = init-status ;
+                                                                                                                status = status ;
                                                                                                                 files = if init-status == "0" then 40 else 8 ;
                                                                                                             } ;
                                                                                             in builtins.map mapper list ;
