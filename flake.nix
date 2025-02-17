@@ -471,7 +471,7 @@
                                                                                                                             in
                                                                                                                                 if builtins.typeOf level == "bool" then if level then "true" else "false"
                                                                                                                                 else if builtins.typeOf level == "int" then builtins.toString level
-                                                                                                                                else if builtins.typeOf level == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] )
+                                                                                                                                else if builtins.typeOf level == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toString [ value.name index ] ) )
                                                                                                                                 else if builtins.typeOf level == "string" then level
                                                                                                                                 else builtins.throw "The level ${ value.name } is neither a null nor a string but a ${ builtins.typeOf level }" ;
                                                                                                                 in builtins.genList generator ( builtins.length value.value ) ;
