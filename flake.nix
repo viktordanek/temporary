@@ -305,17 +305,14 @@
                                                                                     { name = "init-standard-output" ; value = [ null ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
                                                                                     { name = "init-seed" ; value = [ null ] ; }
-                                                                                    { name = "init-key" ; value = [ null ] ; }
                                                                                     { name = "release-status" ; value = [ 0 71 ] ; }
                                                                                     { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "release-standard-output" ; value = [ null ] ; }
                                                                                     { name = "release-standard-error" ; value = [ null ] ; }
                                                                                     { name = "release-seed" ; value = [ null ] ; }
-                                                                                    { name = "release-key" ; value = [ null ] ; }
                                                                                     { name = "post-status" ; value = [ 72 ] ; }
                                                                                     { name = "post-standard-output" ; value = [ null ] ; }
                                                                                     { name = "post-standard-error" ; value = [ null ] ; }
-                                                                                    { name = "post-key" ; value = [ null ] ; }
                                                                                     { name = "speed" ; value = [ "fast" "slow" ] ; }
                                                                                 ] ;
                                                                             mapper =
