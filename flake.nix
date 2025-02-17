@@ -315,7 +315,7 @@
                                                                                     { name = "post-status" ; value = [ 72 ] ; }
                                                                                     { name = "post-standard-output" ; value = [ null ] ; }
                                                                                     { name = "post-standard-error" ; value = [ null ] ; }
-                                                                                    { name = "post-key" ; value = [ null ] ;
+                                                                                    { name = "post-key" ; value = [ null ] ; }
                                                                                     { name = "speed" ; value = [ "fast" "slow" ] ; }
                                                                                 ] ;
                                                                             mapper =
