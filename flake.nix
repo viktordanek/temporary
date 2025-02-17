@@ -543,7 +543,7 @@
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.temporary."0".false."d8256379b805a63c6f012ec85a54a7de7d9adb0674290cdf36ef2165cb9528ea10426f632d2e4cb3ee967a2f47571ddecb7eca69afa622e8368f8df4eba3cbed" 0 } &&
-                                                                                ${ pkgs.jq }/bin/jq ${ builtins.toJSON list } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ pkgs.jq }/bin/jq ${ builtins.toFile "observed.json" ( builtins.toJSON list ) } &&
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
