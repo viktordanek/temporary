@@ -539,7 +539,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.temporary."0".false."d8256379b805a63c6f012ec85a54a7de7d9adb0674290cdf36ef2165cb9528ea10426f632d2e4cb3ee967a2f47571ddecb7eca69afa622e8368f8df4eba3cbed" 0 } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.temporary."0".false."1504d2e9be0e5b88c53cd153273583ee757ebb1355044e3e7be673f26695462d1c6b8ee23435e5ea07d2b51334592300310a3d19e83904ba4081075049aeccef" 0 } &&
                                                                                 ${ pkgs.coreutils }/bin/echo ${ pkgs.jq }/bin/jq ${ builtins.toFile "observed.json" ( builtins.toJSON list ) } &&
                                                                                 exit 66
                                                                         ''
