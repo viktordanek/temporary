@@ -518,7 +518,7 @@
                                                                                             mapper =
                                                                                                 { index , init-status , seed } :
                                                                                                     let
-                                                                                                        hash = string : builtins.substring [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" ] [ "g" "h" "i" "j" "k" "l" "o" "p" ] ( builtins.substring 0 8 ( builtins.hashString "md5" ( builtins.concatStringsSep "" [ index init-status seed string ] ) ) ) ;
+                                                                                                        hash = string :  builtins.hashString "sha512" ( builtins.concatStringsSep "" [ index init-status seed string ] ) ;
                                                                                                         in
                                                                                                             {
                                                                                                                 command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
