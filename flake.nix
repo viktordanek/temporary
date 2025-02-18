@@ -293,14 +293,16 @@
                                                                                                                         {
                                                                                                                             init =
                                                                                                                                 write-shell-script
-                                                                                                                                    if status then
-                                                                                                                                        ''
-                                                                                                                                            if ! ${ command } ; then ${ pkgs.coreutils }/bin/echo GOOD ${ key } ; fi
-                                                                                                                                        ''
-                                                                                                                                    else
-                                                                                                                                        ''
-                                                                                                                                            if ${ command } ; then ${ echo }
-                                                                                                                                        '' ;
+                                                                                                                                    (
+                                                                                                                                        if status then
+                                                                                                                                            ''
+                                                                                                                                                if ! ${ command } ; then ${ pkgs.coreutils }/bin/echo GOOD ${ key } ; fi
+                                                                                                                                            ''
+                                                                                                                                        else
+                                                                                                                                            ''
+                                                                                                                                                if ${ command } ; then ${ echo }
+                                                                                                                                            ''
+                                                                                                                                    ) ;
                                                                                                                         } ;
                                                                                                             in builtins.map mapper value.list ;
                                                                                                 in builtins.map mapper list
