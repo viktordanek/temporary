@@ -278,7 +278,7 @@
                                                                         mapper =
                                                                             primary :
                                                                                 let
-                                                                                    key = "WTF" ;
+                                                                                    key = builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames primary ) ) "WTF" ;
                                                                                     status = false ;
                                                                                     command = "WTF" ;
                                                                                     echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
