@@ -278,6 +278,7 @@
                                                                         mapper =
                                                                             { command , seed , status } :
                                                                                 let
+                                                                                    key = "WTF" ;
                                                                                     echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                     in
                                                                                         if status then
