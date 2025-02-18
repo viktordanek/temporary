@@ -302,7 +302,7 @@
                                                                                                                             {
                                                                                                                             } ;
                                                                                                         in builtins.map mapper value.list ;
-                                                                                            in builtins.trace "HI" ( builtins.map mapper list )
+                                                                                            in builtins.trace "HI ${ builtins.typeOf list }" ( builtins.map mapper list )
                                                                                 else builtins.throw "observe.json is not available" ;
 
 
