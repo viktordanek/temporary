@@ -553,7 +553,9 @@
                                                                 let
                                                                     in
                                                                         ''
-                                                                            exit 67
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "X" ( builtins.toJSON observe ) } $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo $out &&
+                                                                                exit 67
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
                                                                 if builtins.pathExists ( self + "/observe.yaml" ) then
