@@ -243,6 +243,14 @@
                                                                         {
 
                                                                             observe =
+                                                                                [
+                                                                                    (
+                                                                                        { script , ... } :
+                                                                                                {
+                                                                                                }
+                                                                                    )
+                                                                                ] ;
+                                                                            observe1 =
                                                                                 if builtins.pathExists ( self + "/observe.json" ) then
                                                                                     let
                                                                                         list =
