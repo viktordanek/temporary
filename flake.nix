@@ -294,11 +294,15 @@
                                                                                                                             init =
                                                                                                                                 script
                                                                                                                                     {
-                                                                                                                                        executable =
-                                                                                                                                            write-shell-script
-                                                                                                                                                ''
-                                                                                                                                                '' ;
+                                                                                                                                        executable = shell-script "/scripts/test/util/observe/direct/init.sh" ;
+                                                                                                                                        sets = [ ] ;
                                                                                                                                     } ;
+                                                                                                                            release =
+                                                                                                                                script
+                                                                                                                                    {
+                                                                                                                                        executable = shell-script "/scripts/test/util/observe/direct/release.sh" ;
+                                                                                                                                        sets = [ ] ;
+                                                                                                                                    }
                                                                                                                         } ;
                                                                                                             in builtins.map mapper value.list ;
                                                                                                 in builtins.map mapper list
