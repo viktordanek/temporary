@@ -242,7 +242,7 @@
                                                                     temporary =
                                                                         {
 
-                                                                            observe =
+                                                                            observe1 =
                                                                                 [
                                                                                     (
                                                                                         { script , ... } :
@@ -250,7 +250,7 @@
                                                                                                 }
                                                                                     )
                                                                                 ] ;
-                                                                            observe1 =
+                                                                            observe =
                                                                                 if builtins.pathExists ( self + "/observe.json" ) then
                                                                                     let
                                                                                         list =
@@ -300,14 +300,6 @@
                                                                                                                     in
                                                                                                                         { script , ... } :
                                                                                                                             {
-                                                                                                                                # if status then
-                                                                                                                                #     ''
-                                                                                                                                #         if ! ${ command } ; then ${ echo } ${ key } ; fi
-                                                                                                                                #     ''
-                                                                                                                                # else
-                                                                                                                                #     ''
-                                                                                                                                #         if ${ command } ; then ${ echo } ${ key } ; fi
-                                                                                                                                #     '' ;
                                                                                                                             } ;
                                                                                                         in builtins.map mapper value.list ;
                                                                                             in builtins.map mapper list
