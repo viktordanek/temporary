@@ -508,7 +508,7 @@
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
                                                                     in
                                                                         ''
-                                                                            ${ pkgs.coreutils }/bin/ln ${ builtins.toFile "observe.json" "( builtins.toJSON list )" } $out &&
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "observe.json" "( builtins.toJSON list )" } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 66
                                                                         ''
