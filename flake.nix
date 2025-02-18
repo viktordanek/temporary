@@ -489,51 +489,26 @@
                                                                                 ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
                                                                                 exit 65
                                                                         ''
-                                                            else if ! builtins.pathExists ( self + "/observe.yaml" ) then
+                                                            else if ! builtins.pathExists ( self + "/observe.json" ) then
                                                                 let
-                                                                    list =
-                                                                        let
-                                                                            list =
+                                                                    mapper =
+                                                                        path : name : value :
+                                                                            if builtins.typeOf value == "lambda" then
                                                                                 let
-                                                                                    list =
-                                                                                        let
-                                                                                            list =
-                                                                                                let
-                                                                                                    mapper =
-                                                                                                        path : name : value :
-                                                                                                            if builtins.typeOf value == "lambda" then [ { init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; seed = builtins.elemAt path 2 ; key = name ; } ]
-                                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                            else throw path name value [ "lambda" "set" ] ;
-                                                                                                    in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
-                                                                                            mapper =
-                                                                                                { init-has-standard-error , init-status , seed , key } :
-                                                                                                    let
-                                                                                                        status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
-                                                                                                        in
-                                                                                                            {
-                                                                                                                command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ key }\"" ] ;
-                                                                                                                files = if init-status == "0" then 40 else 8 ;
-                                                                                                                status = status ;
-                                                                                                            } ;
-                                                                                            in builtins.map mapper list ;
-                                                                                    reducer =
-                                                                                        previous : current :
-                                                                                            let
-                                                                                                last-group = if builtins.length previous == 0 then { commands = [ ] ; files = 0 ; } else builtins.head previous ;
-                                                                                                rest-groups = if builtins.length previous == 0 then [ ] else builtins.tail previous ;
-                                                                                                new-groups =
-                                                                                                    if 3 * ( last-group.files + current.files ) < 1024 then builtins.concatLists [ [ { commands = builtins.concatLists [ last-group.commands [ current ] ] ; files = last-group.files + current.files ; } ] rest-groups ]
-                                                                                                    else builtins.concatLists [ [ { commands = [ current ] ; files = current.files ; } ] previous ] ;
-                                                                                                in new-groups ;
-                                                                                    in builtins.foldl' reducer [ ] list ;
-                                                                            mapper = value : "# ${ builtins.toJSON value }" ;
-                                                                            in builtins.map mapper list ;
+                                                                                    init-status = builtins.elemAt path 0 ;
+                                                                                    init-has-standard-error = builtins.elemAt path 1 ;
+                                                                                    seed = builtins.elemAt path 2 ;
+                                                                                    key = name ;
+                                                                                    subcommand = builtins.concatStringsSep [ "/" ] ( builtins.map ( x : "\"${ x }\"" ) [ init-status init-has-standard-error seed key ] ) ;
+                                                                                    in [ { command = "resources.temporary.temporary.${ subcommand }" ; status = if init-status == "0" && ! init-has-standard-error then true else false ; key = key ; } ]
+                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                            else throw path name value [ "lambda" "set" ] ;
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo ${ resources.temporary.temporary."0".false."f9b1202d9e218ecb6041ddca6aad80d2e100babd6f2cfba639db1fef0ea56cc2b7be2eba8aaf0d4dd068044c337e541e1d86028feee0573e8af2ab0f6748fa13"."639144acbcf201671d01c1e5833fdf17a720f48f2ac92cfc063aed5c3be976c14daa4c2d2a60a7df39e0df0051831f3722b1a810ed259e054cb6d018ada85639" } &&
-                                                                                ${ pkgs.coreutils }/bin/echo '${ pkgs.yq }/bin/yq --yaml-output "." ${ builtins.toFile "observed.json" ( builtins.toJSON { list = list ; } ) }' &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.toFile "observe.json" ( builtins.map ( mapper [ ] ) idea } &&
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
