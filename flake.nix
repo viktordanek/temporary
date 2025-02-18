@@ -300,7 +300,7 @@
                                                                                                                                             ''
                                                                                                                                         else
                                                                                                                                             ''
-                                                                                                                                                if ${ command } ; then ${ echo }
+                                                                                                                                                if ${ command } ; then ${ pkgs.coreutils }/bin/echo BAD ${ key } ; fi
                                                                                                                                             ''
                                                                                                                                     ) ;
                                                                                                                         } ;
