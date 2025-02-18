@@ -366,6 +366,7 @@
                                                                                                     "${ indent 5 }( string \"CUT\" \"${ escape "pkgs.coreutils" }/bin/cut\" )"
                                                                                                     "${ indent 5 }( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
                                                                                                     "${ indent 5 }( string \"FLOCK\" \"${ escape "pkgs.flock" }/bin/flock\" )"
+                                                                                                    "${ indent 5 }( string \"KEY\" \"${ key }\" )"
                                                                                                     "${ indent 5 }( string \"MKDIR\" \"${ escape "pkgs.coreutils" }/bin/mkdir\" )"
                                                                                                     "${ indent 5 }( path \"PATH_SEED\" 1 )"
                                                                                                     "${ indent 5 }( derivation \"POST\" ( harvest : harvest.temporary.util.post ) )"
@@ -510,7 +511,7 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "list" then
                                                                                                                 let
-                                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; seed = name ; } ;
+                                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; seed = builtins.elemAt path 2 ; key = builtins.elemAt path 3 ; } ;
                                                                                                                     in builtins.genList generator ( builtins.length value )
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else throw_new { name = name ; path = path ; reason = "initialization" ; thing = "idea" ; valid = [ "list" "set" ] ; value = value ; } ;
