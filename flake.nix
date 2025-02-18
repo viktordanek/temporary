@@ -253,7 +253,7 @@
                                                                                         }
                                                                                     else
                                                                                         {
-                                                                                            head = { list = [ current ] ; descriptors = descriptors ; }
+                                                                                            head = { list = [ current ] ; descriptors = descriptors ; } ;
                                                                                             tail = builtins.concatLists [ [ old.head ] old.tail ] ;
                                                                                         } ;
                                                                                 old =
