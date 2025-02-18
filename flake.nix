@@ -584,7 +584,7 @@
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames resources.temporary ) ) ( builtins.elemAt resources.temporary.observed 0 ) } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames resources.temporary.util ) ) ( builtins.elemAt resources.temporary.observed 0 ) } &&
                                                                                 exit 67
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
