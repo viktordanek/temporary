@@ -291,7 +291,7 @@
                                                                                                         ''
                                                                                                             if ${ command } ; then ${ echo } ${ key } ; fi
                                                                                                         '' ;
-                                                                                    in builtins.map value.list ;
+                                                                                    in builtins.map mapper value.list ;
                                                                         in builtins.map mapper list
                                                             else builtins.throw "observe.json is not available" ;
                                                         resources =
