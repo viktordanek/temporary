@@ -291,7 +291,7 @@
                                                                                                                 { command , key , status } :
                                                                                                                     { script , write-shell-script , ... } :
                                                                                                                         {
-                                                                                                                            init = builtins.readFile ( pkgs.writeShellScript "script" "" ) ;
+                                                                                                                            init = shell-script "/scripts/test/util/identity.sh" ;
                                                                                                                         } ;
                                                                                                             in builtins.map mapper value.list ;
                                                                                                 in builtins.map mapper list
