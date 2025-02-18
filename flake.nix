@@ -300,7 +300,7 @@
                                                                                 [
                                                                                     { name = "init-status" ; value = [ 0 69 ] ; }
                                                                                     { name = "init-has-standard-error" ; value = [ true false ] ; }
-                                                                                    { name = "seed" ; value = [ null ] ; }
+                                                                                    { name = "path-seed" ; value = [ null ] ; }
                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "init-standard-output" ; value = [ null ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
