@@ -584,7 +584,7 @@
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.observe 0 } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.typeOf ( builtins.elemAt resources.temporary.observe 0 ) } &&
                                                                                 exit 67
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
