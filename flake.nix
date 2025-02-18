@@ -293,14 +293,8 @@
                                                                                                                         {
                                                                                                                             init =
                                                                                                                                 write-shell-script
-                                                                                                                                    (
-                                                                                                                                        if status then
-                                                                                                                                            ''
-                                                                                                                                            ''
-                                                                                                                                        else
-                                                                                                                                            ''
-                                                                                                                                            ''
-                                                                                                                                    ) ;
+                                                                                                                                    ''
+                                                                                                                                    '' ;
                                                                                                                         } ;
                                                                                                             in builtins.map mapper value.list ;
                                                                                                 in builtins.map mapper list
