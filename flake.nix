@@ -276,9 +276,10 @@
                                                                                         in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                 in builtins.foldl' reducer [ ] list ;
                                                                         mapper =
-                                                                            { command , seed , status } :
+                                                                            primary :
                                                                                 let
                                                                                     key = "WTF" ;
+                                                                                    status = false ;
                                                                                     echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                     in
                                                                                         if status then
