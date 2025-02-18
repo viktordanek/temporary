@@ -37,15 +37,15 @@
                                                                                 init =
                                                                                     if builtins.typeOf init == "lambda" then init
                                                                                     else if builtins.typeOf init == "null" then builtins.null
-                                                                                    else throw_new { name = name ; path = path ; reason = "identity" ; thing = "init" ; valid = [ "lambda" "null" ] ; value = value ; } ;
+                                                                                    else throw path name value [ "lambda" "null" ] ;
                                                                                 post =
                                                                                     if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
-                                                                                    else throw_new { name = name ; path = path ; reason = "identity" ; thing = "post" ; valid = [ "lambda" "null" ] ; value = value ; } ;
+                                                                                    else throw path name value [ "lambda" "null" ] ;
                                                                                 release =
                                                                                     if builtins.typeOf release == "lambda" then release
                                                                                     else if builtins.typeOf release == "null" then builtins.null
-                                                                                    else throw_new { name = name ; path = path ; reason = "identity" ; thing = "release" ; valid = [ "lambda" "null" ] ; value = value ; } ;
+                                                                                    else throw path name value [ "lambda" "null" ] ;
                                                                             } ;
                                                                     inject =
                                                                         {
@@ -56,7 +56,7 @@
                                                                                             path : name : value :
                                                                                                 if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
                                                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                                                else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "derivation" ; valid = [ "string" "set" ] ; value = value ; } ;
+                                                                                                else throw path name value [ "string" "set" ] ;
                                                                                          name-to-be-set = name ;
                                                                                         set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                         in fun set ;
@@ -91,13 +91,13 @@
                                                                                                             ( pkgs.writeShellScript "executable" ( builtins.readFile executable ) )
                                                                                                             "${ resolve path name }/${ binary }"
                                                                                                         ]
-                                                                                                    else builtins.throw "The executable is not a string but a ${ builtins.typeOf executable }."
+                                                                                                    else throw path name value [ "string" ] ;
                                                                                                 )
                                                                                                 (
                                                                                                     let
                                                                                                         in
                                                                                                             if builtins.typeOf sets == "list" then sets
-                                                                                                            else throw_new { name = name ; path = path ; reason = "injection" ; thing = "sets" ; valid = [ "lists of strings" ] ; value = value ; }
+                                                                                                            else throw path name value [ "list" ]
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
@@ -118,7 +118,7 @@
                                                                         in builtins.genList generator ( builtins.length value )
                                                                 else if builtins.typeOf value == "null" then lambda path name ( script : { } )
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                else throw_new { name = name ; path = path ; reason = "sourcing" ; thing = "temporary" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
+                                                                else throw path name value [ "null" "set" ] ;
                                                         in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
                                             } ;
                                         derivation =
@@ -141,7 +141,6 @@
                                                                                         "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }/nix-support/setup-hook"
                                                                                     ]
                                                                                     [
-                                                                                    #    "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
                                                                                          "${ pkgs.coreutils }/bin/mkdir ${ resolve path name }"
                                                                                     ]
                                                                                     (
@@ -175,9 +174,6 @@
                                                                     else if builtins.typeOf value == "list" then
                                                                         builtins.concatLists
                                                                             [
-                                                                                # [
-                                                                                #     "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
-                                                                                # ]
                                                                                 (
                                                                                     let
                                                                                        generator =
@@ -193,12 +189,9 @@
                                                                     else if builtins.typeOf value == "set" then
                                                                         builtins.concatLists
                                                                             [
-                                                                                # [
-                                                                                #     "if [ ! -d ${ resolve_old path } ] ; then ${ pkgs.coreutils }/bin/mkdir ${ resolve_old path } ; fi"
-                                                                                # ]
                                                                                 ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                             ]
-                                                                    else throw_new { name = name ; path = path ; reason = "construction" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
+                                                                    else throw path name value [ "lambda" "list" "set" ] ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
@@ -227,7 +220,7 @@
                                                                     in builtins.genList generator ( builtins.length value )
                                                             else if builtins.typeOf value == "null" then "${ resolve path name }/setup"
                                                             else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                            else throw_new { name = name ; path = path ; reason = "harvest" ; thing = "dependency" ; valid = [ "lambda" "list" "null" "set" ] ; value = value ; } ;
+                                                            else throw path name value [ "null" "set" ] ;
                                                     in ( builtins.mapAttrs ( mapper [ derivation ] ) { temporary = temporary ; } ) ;
                                         in harvest ( builtins.toString derivation ) ;
                             pkgs = import nixpkgs { system = system ; } ;
@@ -448,7 +441,7 @@
                                                                                                     ] ;
                                                                                             split = 2 ;
                                                                                             in if builtins.length path <= split then recurse else list
-                                                                                    else throw_new { name = name ; path = path ; reason = "set" ; thing = "temporary" ; valid = [ "null" "set" ] ; value = value ; } ;
+                                                                                    else throw path name value [ "null" "set" ] ;
                                                                             set =
                                                                                 let
                                                                                     list =
@@ -466,7 +459,6 @@
                                                                                                             let
                                                                                                                 generator =
                                                                                                                     index :
-
                                                                                                                         let
                                                                                                                             level = builtins.elemAt value.value index ;
                                                                                                                             in
@@ -514,7 +506,7 @@
                                                                                                                     generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; seed = builtins.elemAt path 2 ; key = builtins.elemAt path 3 ; } ;
                                                                                                                     in builtins.genList generator ( builtins.length value )
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                            else throw_new { name = name ; path = path ; reason = "initialization" ; thing = "idea" ; valid = [ "list" "set" ] ; value = value ; } ;
+                                                                                                            else throw path name value [ "list" "set" ] ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
                                                                                             mapper =
                                                                                                 { index , init-has-standard-error , init-status , seed } @primary :
@@ -570,7 +562,7 @@
                                                                                 ${ pkgs.coreutils }/bin/touch $out &&
                                                                                     ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
                                                                                     exit 167
-                                                                    ''
+                                                                            ''
                                                             else
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/touch $out
@@ -583,11 +575,6 @@
                     is-interactive = pkgs : { name ? "IS_INTERACTIVE" } : "--run 'export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                     is-pipe = pkgs : { name ? "IS_PIPE" } : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                     parent-pid = pkgs : { name ? "PARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
-                    resolve_old =
-                        path :
-                            let
-                                mapper = value : if builtins.typeOf value == "int" || builtins.typeOf value == "string" then builtins.toJSON value else builtins.throw "The path index is neither int nor string." ;
-                                in builtins.concatStringsSep "/" ( builtins.map mapper ( builtins.concatLists [ path ] ) ) ;
                     resolution =
                         path : name :
                             let
@@ -598,31 +585,9 @@
                                 mapper = value : if builtins.typeOf value == "int" || builtins.typeOf value == "string" then builtins.toJSON value else builtins.throw "The path index is neither int nor string." ;
                                 in builtins.concatStringsSep "/" ( builtins.map mapper ( builtins.concatLists [ list [ name ] ] ) ) ;
                     resolve = path : name : "${ builtins.elemAt path 0 }/${ builtins.hashString "sha512" ( resolution path name ) }" ;
-                    throw_new =
-                        {
-                            name ? builtins.null ,
-                            path ,
-                            reason ,
-                            thing ,
-                            valid ,
-                            value
-                        } :
-                            let
-                                complete-path = builtins.concatStringsSep " / " ( builtins.map builtins.toString ( builtins.concatLists [ path [ ( if builtins.typeOf name == "null" then [ ] else [ name ] ) ] ] ) ) ;
-                                complete-invalid =
-                                    let
-                                        type = builtins.typeOf value ;
-                                        in if type == "lambda" || type value == "list" || type value == "set" then type else "${ type }(${ builtins.substring 0 8 ( builtins.toString value ) })" ;
-                                complete-valid =
-                                    if builtins.length valid == 0 then builtins.throw "0 length valid does not make sense"
-                                    else if builtins.length valid == 1 then "${ builtins.elemAt valid 0 }"
-                                    else if builtins.length valid == 2 then "${ builtins.elemAt valid 0 } nor ${ builtins.elemeAt valid 1 }"
-                                    else
-                                        let
-                                            head = builtins.elemAt valid ( ( builtins.length valid ) - 1 ) ;
-                                            tail = builtins.genList ( index : builtins.elemAt valid index ) ( ( builtins.length valid ) - 1 ) ;
-                                            in builtins.concatStringsSep ", " ( builtins.concatLists [ tail "nor" [ head ] ] ) ;
-                                in
-                                    builtins.throw "The ${ thing } defined (for ${ reason }) at ${ complete-path } is not ${ complete-valid } but ${ complete-invalid }." ;
+                    throw =
+                        path : name : value : valid :
+                            if builtins.any ( v : v == builtins.typeOf value ) valid then value
+                            else builtins.throw "The value defined at ${ resolution path name } is not ${ builtins.concatStringsSep ", " valid } but ${ builtins.typeOf value }." ;
                     in flake-utils.lib.eachDefaultSystem fun ;
 }
