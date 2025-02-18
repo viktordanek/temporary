@@ -291,7 +291,14 @@
                                                                                                                 { command , key , status } :
                                                                                                                     { script , shell-script , write-shell-script , ... } :
                                                                                                                         {
-                                                                                                                            init = shell-script "/scripts/test/util/identity.sh" ;
+                                                                                                                            init =
+                                                                                                                                script
+                                                                                                                                    {
+                                                                                                                                        executabe =
+                                                                                                                                            write-shell-script
+                                                                                                                                                ''
+                                                                                                                                                '' ;
+                                                                                                                                    } ;
                                                                                                                         } ;
                                                                                                             in builtins.map mapper value.list ;
                                                                                                 in builtins.map mapper list
