@@ -498,13 +498,13 @@
                                                                                     if builtins.typeOf value == "lambda" then
                                                                                         let
                                                                                             command = "resources.temporary.temporary.${ subcommand }" ;
+                                                                                            status = if init-status == "0" && ! init-has-standard-error then true else false ;
                                                                                             init-status = builtins.elemAt path 0 ;
                                                                                             init-has-standard-error = builtins.elemAt path 1 ;
                                                                                             seed = builtins.elemAt path 2 ;
                                                                                             key = name ;
                                                                                             subcommand = builtins.concatStringsSep "." ( builtins.map ( x : "\"${ x }\"" ) [ init-status init-has-standard-error seed key ] ) ;
-                                                                                            in   [ { command = command ; } ]
-                                                                                             # { command = "resources.temporary.temporary.${ subcommand }" ; status = if init-status == "0" && ! init-has-standard-error then true else false ; key = key ; }
+                                                                                            in [ { command = command ; status = status ; key = key ; } ]
                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                     else throw path name value [ "lambda" "set" ] ;
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
