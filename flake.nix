@@ -547,7 +547,7 @@
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.temporary."0".false."1504d2e9be0e5b88c53cd153273583ee757ebb1355044e3e7be673f26695462d1c6b8ee23435e5ea07d2b51334592300310a3d19e83904ba4081075049aeccef"."ec7804a9dea9592a4d5c11b6cade83c9ed7aeb4244fce4a385c36796a03f818c71451a222853d2d4f9774452cfc71d1f2baa52a8cbbd49daf776e0c3a786f67a"."5de1c132a311be195cb605b4c418dd9f71bb9d409f0b538a80c1185a58c0c46dd3015916afe8e2deb1dd58dd65fe31f95cc8d992aa9ca0e3665326d0a333d9cb"."f9b1202d9e218ecb6041ddca6aad80d2e100babd6f2cfba639db1fef0ea56cc2b7be2eba8aaf0d4dd068044c337e541e1d86028feee0573e8af2ab0f6748fa13" 0 } &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ pkgs.yq }/bin/yq "." ${ builtins.toFile "observed.json" ( builtins.toJSON { list = list ; } ) } &&
+                                                                                ${ pkgs.coreutils }/bin/echo '${ pkgs.yq }/bin/yq --yaml-output "." ${ builtins.toFile "observed.json" ( builtins.toJSON { list = list ; } ) }' &&
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
