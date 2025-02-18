@@ -235,6 +235,41 @@
                                                 installPhase =
                                                     let
                                                         idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) { pkgs = pkgs ; self = self ; } else builtins.throw "idea.nix is not available" ;
+                                                        observe =
+                                                            if builtins.pathExists ( self + "/observe.json" ) then
+                                                                let
+                                                                    list = builtins.concatLists [ observe manual ] ;
+                                                                    manual = if builtins.pathExists ( self + "/manual.json" ) then builtins.fromJSON ( builtins.readFile ( self + "/manual.json" ) ) else [ ] ;
+                                                                    observe = builtins.fromJSON ( builtins.readFile ( self + "/observe.json" ) ) ;
+                                                                    reducer =
+                                                                        previous : current :
+                                                                            let
+                                                                                descriptors = if currents.status then 40 else 8 ;
+                                                                                new =
+                                                                                    if 3 * ( descriptors + old.head.descriptors ) < 1024 then
+                                                                                        {
+                                                                                            head = { list = builtins.concatLists [ [ current ] old.head.list ] ; descriptors = descriptors + old.head.descriptors ; } ;
+                                                                                            tail = old.tail ;
+                                                                                        }
+                                                                                    else
+                                                                                        {
+                                                                                            head = current ;
+                                                                                            tail = builtins.concatLists [ [ old.head ] old.tail ] ;
+                                                                                        } ;
+                                                                                old =
+                                                                                    if builtins.length previous == 0 then
+                                                                                        {
+                                                                                            head = { list = [ ] ; descriptors = 0 ; } ;
+                                                                                            tail = [ ] ;
+                                                                                        }
+                                                                                    else
+                                                                                        {
+                                                                                            head = builtins.head previous ;
+                                                                                            tail = builtins.tail previous ;
+                                                                                        } ;
+                                                                                in builtins.concatLists [ [ new.head ] new.tail ] ;
+                                                                        in builtins.foldl' reducer [ ] list
+                                                            else builtins.throw "observe.json is not available" ;
                                                         resources =
                                                             lib
                                                                 {
@@ -513,6 +548,12 @@
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "observe.json" ( builtins.toJSON list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 66
+                                                                        ''
+                                                            else if ! builtins.pathExists ( self + "/expect.yq" ) then
+                                                                let
+                                                                    in
+                                                                        ''
+                                                                            exit 67
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
                                                                 if builtins.pathExists ( self + "/observe.yaml" ) then
