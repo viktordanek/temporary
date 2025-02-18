@@ -286,7 +286,7 @@
                                                                                             ''
                                                                                         else
                                                                                             ''
-                                                                                                if ${ command } ; then ${ echo ${ key } ; fi
+                                                                                                if ${ command } ; then ${ echo } ${ key } ; fi
                                                                                             '' ;
                                                                         in builtins.map mapper list
                                                             else builtins.throw "observe.json is not available" ;
