@@ -244,7 +244,7 @@
                                                                     reducer =
                                                                         previous : current :
                                                                             let
-                                                                                descriptors = if currents.status then 40 else 8 ;
+                                                                                descriptors = if current.status then 40 else 8 ;
                                                                                 new =
                                                                                     if 3 * ( descriptors + old.head.descriptors ) < 1024 then
                                                                                         {
