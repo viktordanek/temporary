@@ -300,16 +300,17 @@
                                                                                 [
                                                                                     { name = "init-status" ; value = [ 0 69 ] ; }
                                                                                     { name = "init-has-standard-error" ; value = [ true false ] ; }
+                                                                                    { name = "init-seed" ; value = [ null ] ; }
+                                                                                    { name = "release-seed" ; value = [ null ] ; }
+                                                                                    { name = "post-seed" ; value = [ null ] ; }
                                                                                     { name = "path-seed" ; value = [ null ] ; }
                                                                                     { name = "init-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "init-standard-output" ; value = [ null ] ; }
                                                                                     { name = "init-standard-error" ; value = [ null ] ; }
-                                                                                    { name = "init-seed" ; value = [ null ] ; }
                                                                                     { name = "release-status" ; value = [ 0 71 ] ; }
                                                                                     { name = "release-typeOf" ; value = [ "lambda" "null" ] ; }
                                                                                     { name = "release-standard-output" ; value = [ null ] ; }
                                                                                     { name = "release-standard-error" ; value = [ null ] ; }
-                                                                                    { name = "release-seed" ; value = [ null ] ; }
                                                                                     { name = "post-status" ; value = [ 72 ] ; }
                                                                                     { name = "post-standard-output" ; value = [ null ] ; }
                                                                                     { name = "post-standard-error" ; value = [ null ] ; }
@@ -370,6 +371,7 @@
                                                                                                     "${ indent 5 }( derivation \"POST\" ( harvest : harvest.temporary.util.post ) )"
                                                                                                     "${ indent 5 }( resource { name = \"d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3\" ;} )"
                                                                                                     "${ indent 5 }( string \"RM\" \"${ escape "pkgs.coreutils" }/bin/rm\" )"
+                                                                                                    "${ indent 5 }( string \"SEED\" \"${ values.post-seed }\" )"
                                                                                                     "${ indent 5 }( string \"SHA512SUM\" \"${ escape "pkgs.coreutils" }/bin/sha512sum\" )"
                                                                                                     "${ indent 5 }( string \"STANDARD_ERROR\" \"${ values.post-standard-error }\" )"
                                                                                                     "${ indent 5 }( string \"STANDARD_OUTPUT\" \"${ values.post-standard-output }\" )"
@@ -443,7 +445,7 @@
                                                                                                             "${ indent 1 }${ divider.close } ;"
                                                                                                         ]
                                                                                                     ] ;
-                                                                                            split = 2 ;
+                                                                                            split = 5 ;
                                                                                             in if builtins.length path <= split then recurse else list
                                                                                     else throw_new { name = name ; path = path ; reason = "set" ; thing = "temporary" ; valid = [ "null" "set" ] ; value = value ; } ;
                                                                             set =
@@ -514,7 +516,7 @@
                                                                                                             else throw_new { name = name ; path = path ; reason = "initialization" ; thing = "idea" ; valid = [ "list" "set" ] ; value = value ; } ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
                                                                                             mapper =
-                                                                                                { index , init-has-standard-error , init-status , seed } @primary :
+                                                                                                { index , init-has-standard-error , init-seed , init-status , post-seed , release-seed , seed } @primary :
                                                                                                     let
                                                                                                         hash = string :  builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.concatStringsSep "" [ primary [ string ] ] ) ) ;
                                                                                                         status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
