@@ -482,7 +482,7 @@
                                                                                                             "# ${ builtins.toJSON values }"
                                                                                                             "\"${ key }\" ="
                                                                                                             "${ indent 1 }("
-                                                                                                            "${ indent 2 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target } :"
+                                                                                                            "${ indent 2 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target , write-shell-script } :"
                                                                                                             "${ indent 3 }{"
                                                                                                         ]
                                                                                                         ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
