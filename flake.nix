@@ -289,7 +289,7 @@
                                                                                                         let
                                                                                                             mapper =
                                                                                                                 { command , key , status } :
-                                                                                                                    { script , write-shell-script , ... } :
+                                                                                                                    { script , shell-script , write-shell-script , ... } :
                                                                                                                         {
                                                                                                                             init = shell-script "/scripts/test/util/identity.sh" ;
                                                                                                                         } ;
