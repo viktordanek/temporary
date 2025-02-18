@@ -501,21 +501,17 @@
                                                                                                 let
                                                                                                     mapper =
                                                                                                         path : name : value :
-                                                                                                            if builtins.typeOf value == "list" then
-                                                                                                                let
-                                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; seed = builtins.elemAt path 2 ; key = builtins.elemAt path 3 ; } ;
-                                                                                                                    in builtins.genList generator ( builtins.length value )
+                                                                                                            if builtins.typeOf value == "lambda" then [ { init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; seed = builtins.elemAt path 2 ; key = name ; } ]
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                            else throw path name value [ "list" "set" ] ;
+                                                                                                            else throw path name value [ "lambda" "set" ] ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
                                                                                             mapper =
-                                                                                                { index , init-has-standard-error , init-status , seed } @primary :
+                                                                                                { init-has-standard-error , init-status , seed , key } :
                                                                                                     let
-                                                                                                        hash = string :  builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.concatStringsSep "" [ primary [ string ] ] ) ) ;
                                                                                                         status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
                                                                                                         in
                                                                                                             {
-                                                                                                                command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
+                                                                                                                command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ key }\"" ] ;
                                                                                                                 files = if init-status == "0" then 40 else 8 ;
                                                                                                                 status = status ;
                                                                                                             } ;
