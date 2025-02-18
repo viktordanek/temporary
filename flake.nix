@@ -523,8 +523,11 @@
                                                                                                         in
                                                                                                             {
                                                                                                                 command = builtins.concatStringsSep " . " [ "resource" "temporary" "temporary" "\"${ init-status }\"" "${ seed }" "\"${ index }\"" ] ;
-                                                                                                                status = status ;
                                                                                                                 files = if init-status == "0" then 40 else 8 ;
+                                                                                                                init-seed = init-seed ;
+                                                                                                                post-seed = post-seed ;
+                                                                                                                release-seed = release-seed ;
+                                                                                                                status = status ;
                                                                                                             } ;
                                                                                             in builtins.map mapper list ;
                                                                                     reducer =
