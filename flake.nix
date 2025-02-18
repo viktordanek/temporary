@@ -243,13 +243,11 @@
                                                                         {
 
                                                                             observe1 =
-                                                                                [
-                                                                                    (
-                                                                                        { script , ... } :
-                                                                                                {
-                                                                                                }
-                                                                                    )
-                                                                                ] ;
+                                                                                let
+                                                                                    list = [ null ] ;
+                                                                                    mapper = value : { ... } : { } ;
+                                                                                    # in builtins.map mapper list ;
+                                                                                    in [ ( { ... } : { } ) ] ;
                                                                             observe =
                                                                                 if builtins.pathExists ( self + "/observe.json" ) then
                                                                                     let
@@ -290,8 +288,8 @@
                                                                                                                     } ;
                                                                                                             in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                                 in builtins.foldl' reducer [ ] list ;
-                                                                                        mapper = value : { } ;
-                                                                                        in builtins.map mapper list
+                                                                                        mapper = value : { } : { } ;
+                                                                                        in builtins.map mapper [ null ]
                                                                                 else builtins.throw "observe.json is not available" ;
 
 
@@ -573,7 +571,7 @@
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt ( builtins.elemAt resources.temporary.observe 0 ) 0 } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.observe 0 } &&
                                                                                 exit 67
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
