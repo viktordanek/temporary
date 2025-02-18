@@ -505,7 +505,7 @@
                                                                             else throw path name value [ "lambda" "set" ] ;
                                                                     in
                                                                         ''
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "observe.json" ( builtins.map ( mapper [ ] ) idea ) } $out &&
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.trace "HI" ( builtins.toFile "observe.json" ( builtins.map ( mapper [ ] ) idea ) ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 66
                                                                         ''
