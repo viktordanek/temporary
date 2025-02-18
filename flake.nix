@@ -276,7 +276,7 @@
                                                                                         in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                 in builtins.foldl' reducer [ ] list ;
                                                                         mapper =
-                                                                            { command , key , seed , status } :
+                                                                            { command , seed , status } :
                                                                                 let
                                                                                     echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                     in
