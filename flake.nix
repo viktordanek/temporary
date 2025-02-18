@@ -290,7 +290,7 @@
                                                                                                                     } ;
                                                                                                             in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                                 in builtins.foldl' reducer [ ] list ;
-    `                                                                                   mapper = value : { } ;
+                                                                                        mapper = value : { } ;
                                                                                         in builtins.map mapper value.list
                                                                                 else builtins.throw "observe.json is not available" ;
 
