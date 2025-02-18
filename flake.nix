@@ -276,11 +276,8 @@
                                                                                         in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                 in builtins.foldl' reducer [ ] list ;
                                                                         mapper =
-                                                                            primary :
+                                                                            { command , status , key } :
                                                                                 let
-                                                                                    key = builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames primary ) ) "WTF" ;
-                                                                                    status = false ;
-                                                                                    command = "WTF" ;
                                                                                     echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                     in
                                                                                         if status then
@@ -291,7 +288,7 @@
                                                                                             ''
                                                                                                 if ${ command } ; then ${ echo } ${ key } ; fi
                                                                                             '' ;
-                                                                        in builtins.map mapper list
+                                                                        in builtins.map mapper list.list
                                                             else builtins.throw "observe.json is not available" ;
                                                         resources =
                                                             lib
