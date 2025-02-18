@@ -293,7 +293,7 @@
                                                                                                     let
                                                                                                         mapper = primary : { script , ... } : { } ;
                                                                                                     in builtins.map mapper value.list ;
-                                                                                            in builtins.concatLists [ ( observe mapper ) ] ;
+                                                                                            in builtins.concatLists ( observe mapper ) ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
