@@ -543,7 +543,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.temporary."0".false."f9b1202d9e218ecb6041ddca6aad80d2e100babd6f2cfba639db1fef0ea56cc2b7be2eba8aaf0d4dd068044c337e541e1d86028feee0573e8af2ab0f6748fa13"."639144acbcf201671d01c1e5833fdf17a720f48f2ac92cfc063aed5c3be976c14daa4c2d2a60a7df39e0df0051831f3722b1a810ed259e054cb6d018ada85639" 0 } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ resources.temporary.temporary."0".false."f9b1202d9e218ecb6041ddca6aad80d2e100babd6f2cfba639db1fef0ea56cc2b7be2eba8aaf0d4dd068044c337e541e1d86028feee0573e8af2ab0f6748fa13"."639144acbcf201671d01c1e5833fdf17a720f48f2ac92cfc063aed5c3be976c14daa4c2d2a60a7df39e0df0051831f3722b1a810ed259e054cb6d018ada85639" } &&
                                                                                 ${ pkgs.coreutils }/bin/echo '${ pkgs.yq }/bin/yq --yaml-output "." ${ builtins.toFile "observed.json" ( builtins.toJSON { list = list ; } ) }' &&
                                                                                 exit 66
                                                                         ''
