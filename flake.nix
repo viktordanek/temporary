@@ -510,7 +510,7 @@
                                                                                                         path : name : value :
                                                                                                             if builtins.typeOf value == "list" then
                                                                                                                 let
-                                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; seed = name ; } ;
+                                                                                                                    generator = index : { index = builtins.toString index ; init-status = builtins.elemAt path 0 ; init-has-standard-error = builtins.elemAt path 1 ; init-seed = builtins.elemAt path 2 ; post-seed = builtins.elemAt path 3 ; release-seed = builtins.elemAt path 4 ; seed = name ; } ;
                                                                                                                     in builtins.genList generator ( builtins.length value )
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else throw_new { name = name ; path = path ; reason = "initialization" ; thing = "idea" ; valid = [ "list" "set" ] ; value = value ; } ;
