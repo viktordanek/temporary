@@ -276,8 +276,19 @@
                                                                                         in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                 in builtins.foldl' reducer [ ] list ;
                                                                         mapper =
-                                                                        
-                                                                        in builtins.map mapper list ;
+                                                                            { command , key , seed , status } :
+                                                                                let
+                                                                                    echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
+                                                                                    in
+                                                                                        if status then
+                                                                                            ''
+                                                                                                if ! ${ command } ; then ${ echo } ${ key } ; fi
+                                                                                            ''
+                                                                                        else
+                                                                                            ''
+                                                                                                if ${ command } ; then ${ echo ${ key } ; fi
+                                                                                            '' ;
+                                                                        in builtins.map mapper list
                                                             else builtins.throw "observe.json is not available" ;
                                                         resources =
                                                             lib
