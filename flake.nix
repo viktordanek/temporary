@@ -72,6 +72,7 @@
                                                                             standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
                                                                             string = name : value : "--set ${ name } ${ value }" ;
                                                                             target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
+                                                                            write-shell-script = source : pkgs.writeShellScript "script.sh" source ;
                                                                         } ;
                                                                     script =
                                                                         {
@@ -288,8 +289,18 @@
                                                                                                         let
                                                                                                             mapper =
                                                                                                                 { command , key , status } :
-                                                                                                                    { script , ... } :
+                                                                                                                    { script , write-shell-script , ... } :
                                                                                                                         {
+                                                                                                                            init =
+                                                                                                                                write-shell-script
+                                                                                                                                    if status then
+                                                                                                                                        ''
+                                                                                                                                            if ! ${ command } ; then ${ pkgs.coreutils }/bin/echo GOOD ${ key } ; fi
+                                                                                                                                        ''
+                                                                                                                                    else
+                                                                                                                                        ''
+                                                                                                                                            if ${ command } ; then ${ echo }
+                                                                                                                                        '' ;
                                                                                                                         } ;
                                                                                                             in builtins.map mapper value.list ;
                                                                                                 in builtins.map mapper list
