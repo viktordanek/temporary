@@ -91,7 +91,7 @@
                                                                                                             ( pkgs.writeShellScript "executable" ( builtins.readFile executable ) )
                                                                                                             "${ resolve path name }/${ binary }"
                                                                                                         ]
-                                                                                                    else throw path name value [ "string" ] ;
+                                                                                                    else throw path name value [ "string" ]
                                                                                                 )
                                                                                                 (
                                                                                                     let
