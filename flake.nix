@@ -291,18 +291,18 @@
                                                                                                                 { command , key , status } :
                                                                                                                     { script , write-shell-script , ... } :
                                                                                                                         {
-                                                                                                                            init =
-                                                                                                                                write-shell-script
-                                                                                                                                    (
-                                                                                                                                        if status then
-                                                                                                                                            ''
-                                                                                                                                                if ! ${ command } ; then ${ pkgs.coreutils }/bin/echo GOOD ${ key } ; fi
-                                                                                                                                            ''
-                                                                                                                                        else
-                                                                                                                                            ''
-                                                                                                                                                if ${ command } ; then ${ pkgs.coreutils }/bin/echo BAD ${ key } ; fi
-                                                                                                                                            ''
-                                                                                                                                    ) ;
+                                                                                                                            # init =
+                                                                                                                            #     write-shell-script
+                                                                                                                            #         (
+                                                                                                                            #            if status then
+                                                                                                                            #               ''
+                                                                                                                            #                    if ! ${ command } ; then ${ pkgs.coreutils }/bin/echo GOOD ${ key } ; fi
+                                                                                                                            #                ''
+                                                                                                                            #            else
+                                                                                                                            #                ''
+                                                                                                                            #                    if ${ command } ; then ${ pkgs.coreutils }/bin/echo BAD ${ key } ; fi
+                                                                                                                            #                ''
+                                                                                                                            #        ) ;
                                                                                                                         } ;
                                                                                                             in builtins.map mapper value.list ;
                                                                                                 in builtins.map mapper list
