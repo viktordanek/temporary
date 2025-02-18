@@ -353,6 +353,7 @@
                                                                                                         "${ indent 2 }} ;"
                                                                                                     ]
                                                                                                 else [ ] ;
+                                                                                            key = builtins.hashString "sha512" ( builtins.concatStringsSep "/" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ;
                                                                                             post =
                                                                                                 [
                                                                                                     "post ="
@@ -417,19 +418,20 @@
                                                                                                     [
                                                                                                         [
                                                                                                             "# ${ builtins.toJSON values }"
-                                                                                                            "("
-                                                                                                            "${ indent 1 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target } :"
-                                                                                                            "${ indent 2 }{"
+                                                                                                            "\"${ key }\" ="
+                                                                                                            "${ indent 1 }("
+                                                                                                            "${ indent 2 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target } :"
+                                                                                                            "${ indent 3 }{"
                                                                                                         ]
                                                                                                         ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                         [
-                                                                                                            "${ indent 2 }}"
-                                                                                                            ")"
+                                                                                                            "${ indent 3 }}"
+                                                                                                            "${ indent 1 }) ;"
                                                                                                         ]
                                                                                                     ]
                                                                                     else if builtins.typeOf value == "set" then
                                                                                         let
-                                                                                            divider = if builtins.length path < split then { open = "{" ; close = "}" ; } else { open = "[" ; close = "]" ; } ;
+                                                                                            divider = if builtins.length path < split then { open = "{" ; close = "}" ; } else { open = "{" ; close = "}" ; } ;
                                                                                             list = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) ;
                                                                                             recurse =
                                                                                                 builtins.concatLists
