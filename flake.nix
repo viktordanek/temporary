@@ -280,6 +280,7 @@
                                                                                 let
                                                                                     key = "WTF" ;
                                                                                     status = false ;
+                                                                                    command = "WTF" ;
                                                                                     echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
                                                                                     in
                                                                                         if status then
