@@ -292,7 +292,7 @@
                                                                                                 value :
                                                                                                     let
                                                                                                         mapper =
-                                                                                                            { ... } @primary : { script , ... } : builtins.trace ( builtins.concatStringsSep " , " ( builtins.attrNames primary ) ) ) { } ;
+                                                                                                            { ... } @primary : { script , ... } : builtins.trace ( builtins.concatStringsSep " , " ( builtins.attrNames primary ) ) { } ;
                                                                                                     in builtins.map mapper value.list ;
                                                                                             in builtins.concatLists ( observe mapper ) ;
                                                                                 } ;
