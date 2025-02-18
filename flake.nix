@@ -507,7 +507,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.concatStringsSep " &&\n" list ) } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.toFile "observe.json" ( builtins.map ( mapper [ ] ) idea } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.toFile "observe.json" ( builtins.map ( mapper [ ] ) idea ) } &&
                                                                                 exit 66
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
