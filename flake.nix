@@ -248,7 +248,11 @@
                                                                                 new =
                                                                                     if 3 * ( descriptors + old.head.descriptors ) < 1024 then
                                                                                         {
-                                                                                            head = { list = builtins.concatLists [ [ current ] old.head.list ] ; descriptors = descriptors + old.head.descriptors ; } ;
+                                                                                            head =
+                                                                                                {
+                                                                                                    list = builtins.concatLists [ [ current ] old.head.list ] ;
+                                                                                                    descriptors = descriptors + old.head.descriptors ;
+                                                                                                } ;
                                                                                             tail = old.tail ;
                                                                                         }
                                                                                     else
