@@ -289,7 +289,7 @@
                                                                                     invocation =
                                                                                         let
                                                                                             mapper = value : { ... } : { } ;
-                                                                                            in builtins.concatLists ( observe mapper ) ;
+                                                                                            in builtins.concatLists [ ( observe mapper ) ] ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
