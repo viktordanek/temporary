@@ -294,7 +294,7 @@
                                                                                                                             init =
                                                                                                                                 script
                                                                                                                                     {
-                                                                                                                                        executabe =
+                                                                                                                                        executable =
                                                                                                                                             write-shell-script
                                                                                                                                                 ''
                                                                                                                                                 '' ;
