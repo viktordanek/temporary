@@ -291,7 +291,8 @@
                                                                                             mapper =
                                                                                                 value :
                                                                                                     let
-                                                                                                        mapper = primary : { script , ... } : { } ;
+                                                                                                        mapper =
+                                                                                                            { ... } @primary : { script , ... } : { } ;
                                                                                                     in builtins.map mapper value.list ;
                                                                                             in builtins.concatLists ( observe mapper ) ;
                                                                                 } ;
