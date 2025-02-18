@@ -235,71 +235,77 @@
                                                 installPhase =
                                                     let
                                                         idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) { pkgs = pkgs ; self = self ; } else builtins.throw "idea.nix is not available" ;
-                                                        observe =
-                                                            if builtins.pathExists ( self + "/observe.json" ) then
-                                                                let
-                                                                    list =
-                                                                        let
-                                                                            list = builtins.concatLists [ observe manual ] ;
-                                                                            manual = if builtins.pathExists ( self + "/manual.json" ) then builtins.fromJSON ( builtins.readFile ( self + "/manual.json" ) ) else [ ] ;
-                                                                            observe = builtins.fromJSON ( builtins.readFile ( self + "/observe.json" ) ) ;
-                                                                            reducer =
-                                                                                previous : current :
-                                                                                    let
-                                                                                        descriptors = if current.status then 40 else 8 ;
-                                                                                        new =
-                                                                                            if 3 * ( descriptors + old.head.descriptors ) < 1024 then
-                                                                                                {
-                                                                                                    head =
-                                                                                                        {
-                                                                                                            list = builtins.concatLists [ [ current ] old.head.list ] ;
-                                                                                                            descriptors = descriptors + old.head.descriptors ;
-                                                                                                        } ;
-                                                                                                    tail = old.tail ;
-                                                                                                }
-                                                                                            else
-                                                                                                {
-                                                                                                    head = { list = [ current ] ; descriptors = descriptors ; } ;
-                                                                                                    tail = builtins.concatLists [ [ old.head ] old.tail ] ;
-                                                                                                } ;
-                                                                                        old =
-                                                                                            if builtins.length previous == 0 then
-                                                                                                {
-                                                                                                    head = { list = [ ] ; descriptors = 0 ; } ;
-                                                                                                    tail = [ ] ;
-                                                                                                }
-                                                                                            else
-                                                                                                {
-                                                                                                    head = builtins.head previous ;
-                                                                                                    tail = builtins.tail previous ;
-                                                                                                } ;
-                                                                                        in builtins.concatLists [ [ new.head ] new.tail ] ;
-                                                                                in builtins.foldl' reducer [ ] list ;
-                                                                        mapper =
-                                                                            value :
-                                                                                let
-                                                                                    mapper =
-                                                                                        { command , status , key } :
-                                                                                            let
-                                                                                                echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
-                                                                                                in
-                                                                                                    if status then
-                                                                                                        ''
-                                                                                                            if ! ${ command } ; then ${ echo } ${ key } ; fi
-                                                                                                        ''
-                                                                                                    else
-                                                                                                        ''
-                                                                                                            if ${ command } ; then ${ echo } ${ key } ; fi
-                                                                                                        '' ;
-                                                                                    in builtins.map mapper value.list ;
-                                                                        in builtins.map mapper list
-                                                            else builtins.throw "observe.json is not available" ;
                                                         resources =
                                                             lib
                                                                 {
                                                                     # at = "${ pkgs.at }/bin/at" ;
                                                                     temporary =
                                                                         {
+
+                                                                            observe =
+                                                                                if builtins.pathExists ( self + "/observe.json" ) then
+                                                                                    let
+                                                                                        list =
+                                                                                            let
+                                                                                                list = builtins.concatLists [ observe manual ] ;
+                                                                                                manual = if builtins.pathExists ( self + "/manual.json" ) then builtins.fromJSON ( builtins.readFile ( self + "/manual.json" ) ) else [ ] ;
+                                                                                                observe = builtins.fromJSON ( builtins.readFile ( self + "/observe.json" ) ) ;
+                                                                                                reducer =
+                                                                                                    previous : current :
+                                                                                                        let
+                                                                                                            descriptors = if current.status then 40 else 8 ;
+                                                                                                            new =
+                                                                                                                if 3 * ( descriptors + old.head.descriptors ) < 1024 then
+                                                                                                                    {
+                                                                                                                        head =
+                                                                                                                            {
+                                                                                                                                list = builtins.concatLists [ [ current ] old.head.list ] ;
+                                                                                                                                descriptors = descriptors + old.head.descriptors ;
+                                                                                                                            } ;
+                                                                                                                        tail = old.tail ;
+                                                                                                                    }
+                                                                                                                else
+                                                                                                                    {
+                                                                                                                        head = { list = [ current ] ; descriptors = descriptors ; } ;
+                                                                                                                        tail = builtins.concatLists [ [ old.head ] old.tail ] ;
+                                                                                                                    } ;
+                                                                                                            old =
+                                                                                                                if builtins.length previous == 0 then
+                                                                                                                    {
+                                                                                                                        head = { list = [ ] ; descriptors = 0 ; } ;
+                                                                                                                        tail = [ ] ;
+                                                                                                                    }
+                                                                                                                else
+                                                                                                                    {
+                                                                                                                        head = builtins.head previous ;
+                                                                                                                        tail = builtins.tail previous ;
+                                                                                                                    } ;
+                                                                                                            in builtins.concatLists [ [ new.head ] new.tail ] ;
+                                                                                                    in builtins.foldl' reducer [ ] list ;
+                                                                                            mapper =
+                                                                                                value :
+                                                                                                    let
+                                                                                                        mapper =
+                                                                                                            { command , status , key } :
+                                                                                                                let
+                                                                                                                    echo = builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] ;
+                                                                                                                    in
+                                                                                                                        { script , ... } :
+                                                                                                                            {
+                                                                                                                                # if status then
+                                                                                                                                #     ''
+                                                                                                                                #         if ! ${ command } ; then ${ echo } ${ key } ; fi
+                                                                                                                                #     ''
+                                                                                                                                # else
+                                                                                                                                #     ''
+                                                                                                                                #         if ${ command } ; then ${ echo } ${ key } ; fi
+                                                                                                                                #     '' ;
+                                                                                                                            } ;
+                                                                                                        in builtins.map mapper value.list ;
+                                                                                            in builtins.map mapper list
+                                                                                else builtins.throw "observe.json is not available" ;
+
+
                                                                             temporary = idea ;
                                                                             util =
                                                                                 {
@@ -577,8 +583,8 @@
                                                                 let
                                                                     in
                                                                         ''
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "X" ( builtins.toJSON observe ) } $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo $out &&
+                                                                            ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.observed 0 } &&
                                                                                 exit 67
                                                                         ''
                                                             else if builtins.pathExists ( self + "/expected.yaml" ) then
