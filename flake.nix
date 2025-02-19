@@ -303,7 +303,11 @@
                                                                                                                 release =
                                                                                                                     script
                                                                                                                         {
-                                                                                                                            executable = shell-script "/scripts/test/util/observe/direct/release.sh" ;
+                                                                                                                            executable =
+                                                                                                                                write-shell-script
+                                                                                                                                    ''
+                                                                                                                                        ${ pkgs.coreutils }/bin/echo HI
+                                                                                                                                    '' ;
                                                                                                                             sets =
                                                                                                                                 [
                                                                                                                                 ] ;
