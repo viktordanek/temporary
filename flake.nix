@@ -300,7 +300,7 @@
                                                                                                                             executable = shell-script "/scripts/test/util/observe/direct/release.sh" ;
                                                                                                                             sets = [ ] ;
                                                                                                                         } ;
-                                                                                                            }
+                                                                                                            } ;
                                                                                                 in builtins.map mapper list
                                                                                         else builtins.throw "observe.json is not available" ;
                                                                                     indirect = [ ] ;
