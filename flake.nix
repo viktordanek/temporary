@@ -589,8 +589,9 @@
                                                                                                                     init-status = builtins.elemAt path 0 ;
                                                                                                                     init-has-standard-error = builtins.elemAt path 1 ;
                                                                                                                     seed = builtins.elemAt path 2 ;
-                                                                                                                    command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed key ] ) ) ;
-                                                                                                                    in [ { command = command ; status = status ; } ]
+                                                                                                                    index = builtins.elemAt path 3 ;
+                                                                                                                    command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
+                                                                                                                    in [ { command = command ; index = index ; status = status ; } ]
                                                                                                             else if builtins.typeOf value == "list" then
                                                                                                                 let
                                                                                                                     generator = index : builtins.map ( mapper ( builtins.concatLists [ path [ name ] ] ) index ) ( builtins.elemAt value index ) ;
