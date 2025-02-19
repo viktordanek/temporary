@@ -297,12 +297,10 @@
                                                                                                                                         value :
                                                                                                                                            if value.status then
                                                                                                                                                 ''
-                                                                                                                                                    if ! ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi
-                                                                                                                                                ''
+                                                                                                                                                    if ! ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi''
                                                                                                                                             else
                                                                                                                                                 ''
-                                                                                                                                                    if ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi
-                                                                                                                                                '' ;
+                                                                                                                                                    if ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi'' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
 
                                                                                                                             sets =
