@@ -296,7 +296,7 @@
                                                                                                                                     mapper =
                                                                                                                                         value :
                                                                                                                                             let
-                                                                                                                                                expression = builtins.trace "HI" ( pkgs.lib.attrByPath value.command null resources.temporary.temporary ) ;
+                                                                                                                                                expression = builtins.trace "HI ${ builtins.typeOf value.command }" ( pkgs.lib.attrByPath value.command null resources.temporary.temporary ) ;
                                                                                                                                                 in
                                                                                                                                                     if value.status then
                                                                                                                                                         ''
