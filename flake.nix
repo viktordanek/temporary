@@ -640,7 +640,7 @@
                                                                                                                     builtins.map
                                                                                                                         (
                                                                                                                             value :
-                                                                                                                                "\t\t\t{ command = resources.temporary.temporary.${ value.command } ; key = ${ builtins.toJSON value.key } ; status = ${ builtins.toJSON value.status } ; }"
+                                                                                                                                "\t\t\t{ command = resources . temporary . temporary . ${ value.command } ; key = ${ builtins.toJSON value.key } ; status = ${ builtins.toJSON value.status } ; }"
                                                                                                                         )
                                                                                                                         value.list
                                                                                                                 )
