@@ -627,7 +627,7 @@
                                                                                                                 } ;
                                                                                                         in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                             in builtins.foldl' reducer [ ] list ;
-                                                                                    mapper = value : builtins.concatStringsSep "\n" [ "\t[" ( builtins.concatStringsSep "\n" ( builtins.map ( x : "\t\t${ builtins.toJSON va }" ) value.list ) "\t]" ) ] ;
+                                                                                    mapper = value : builtins.concatStringsSep "\n" [ "\t[" ( builtins.concatStringsSep "\n" ( builtins.map ( value : "\t\t${ builtins.toJSON value }" ) value.list ) "\t]" ) ] ;
                                                                                     in builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "[" ] ( builtins.map mapper list ) [ "]" ] ] ) ;
                                                                             in builtins.toFile "observe.nix" string ;
                                                                     in
