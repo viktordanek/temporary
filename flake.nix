@@ -295,13 +295,15 @@
                                                                                                                                 let
                                                                                                                                     mapper =
                                                                                                                                         value :
-                                                                                                                                           if value.status then
-                                                                                                                                                ''
-                                                                                                                                                    if ! ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi''
-                                                                                                                                            else
-                                                                                                                                                ''
-                                                                                                                                                    if ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi'' ;
-                                                                                                                                    in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
+                                                                                                                                            let
+                                                                                                                                                in
+                                                                                                                                                    if value.status then
+                                                                                                                                                        ''
+                                                                                                                                                            if ! ${ value.command-expression } then ; ${ pkgs.coreutils }/bin/echo ${ value.command-string } ${ value.key } ; fi''
+                                                                                                                                                    else
+                                                                                                                                                        ''
+                                                                                                                                                            if ${ value.command-expression } then ; ${ pkgs.coreutils }/bin/echo ${ value.command-string } ${ value.key } ; fi'' ;
+                                                                                                                                            in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
 
                                                                                                                             sets =
                                                                                                                                 [
@@ -580,14 +582,15 @@
                                                                                 path : name : value :
                                                                                     if builtins.typeOf value == "lambda" then
                                                                                         let
-                                                                                            command = "resources.temporary.temporary.${ subcommand }" ;
+                                                                                            command-expression = resources.temporary.temporary.${ init-status }.${ init-has-standard-error }.${ seed }.${ key } ;
+                                                                                            command-string = "resources.temporary.temporary.${ subcommand-string }" ;
                                                                                             status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
                                                                                             init-status = builtins.elemAt path 0 ;
                                                                                             init-has-standard-error = builtins.elemAt path 1 ;
                                                                                             seed = builtins.elemAt path 2 ;
                                                                                             key = name ;
-                                                                                            subcommand = builtins.concatStringsSep "." ( builtins.map ( x : "\"${ x }\"" ) [ init-status init-has-standard-error seed key ] ) ;
-                                                                                            in [ { command = command ; status = status ; key = key ; } ]
+                                                                                            subcommand-string = builtins.concatStringsSep "." ( builtins.map ( x : "\"${ x }\"" ) [ init-status init-has-standard-error seed key ] ) ;
+                                                                                            in [ { command-expression = command-expression ; command-string = command-string ; status = status ; key = key ; } ]
                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                     else throw path name value [ "lambda" "set" ] ;
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
