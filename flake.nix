@@ -300,10 +300,10 @@
                                                                                                                                                 in
                                                                                                                                                     if value.status then
                                                                                                                                                         ''
-                                                                                                                                                            if ! ${ expression } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi''
+                                                                                                                                                            if ! ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi''
                                                                                                                                                     else
                                                                                                                                                         ''
-                                                                                                                                                            if ${ expression } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi'' ;
+                                                                                                                                                            if ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi'' ;
                                                                                                                                             in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
 
                                                                                                                             sets =
