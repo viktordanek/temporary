@@ -640,14 +640,14 @@
                                                                                                                     builtins.map
                                                                                                                         (
                                                                                                                             value :
-                                                                                                                                "\t\t${ builtins.toJSON value }"
+                                                                                                                                "\t\t\t${ builtins.toJSON value }"
                                                                                                                         )
                                                                                                                         value.list
                                                                                                                 )
                                                                                                         )
                                                                                                         "\t]"
                                                                                                     ] ;
-                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "[" ] ( builtins.map mapper list ) [ "]" ] ] ) ;
+                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ resources , echo } :" "\t[" ] ( builtins.map mapper list ) [ "\t]" ] ] ) ;
                                                                             in builtins.toFile "observe.nix" string ;
                                                                     in
                                                                         ''
