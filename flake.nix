@@ -300,7 +300,7 @@
                                                                                                                                                 in
                                                                                                                                                     if value.status then
                                                                                                                                                         ''
-                                                                                                                                                            if ! ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.command } ${ value.key } ; fi''
+                                                                                                                                                            if ! ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi''
                                                                                                                                                     else
                                                                                                                                                         ''
                                                                                                                                                             if ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi'' ;
@@ -588,7 +588,7 @@
                                                                                             init-has-standard-error = builtins.elemAt path 1 ;
                                                                                             seed = builtins.elemAt path 2 ;
                                                                                             key = name ;
-                                                                                            command = builtins.concatStringsSep "." ( builtins.map ( x : "\"${ x }\"" ) [ init-status init-has-standard-error seed key ] ) ;
+                                                                                            command = [ init-status init-has-standard-error seed key ] ;
                                                                                             in [ { command = command ; status = status ; key = key ; } ]
                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                     else throw path name value [ "lambda" "set" ] ;
