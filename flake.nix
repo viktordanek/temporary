@@ -647,7 +647,7 @@
                                                                                                         )
                                                                                                         "\t\t]"
                                                                                                     ] ;
-                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ resources , echo } :" "\t[" ] ( builtins.map mapper list ) [ "\t]" ] ] ) ;
+                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "resources :" "\t[" ] ( builtins.map mapper list ) [ "\t]" ] ] ) ;
                                                                             in builtins.toFile "observe.nix" string ;
                                                                     in
                                                                         ''
