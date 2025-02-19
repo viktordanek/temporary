@@ -285,7 +285,14 @@
                                                                                                 value :
                                                                                                     { script , ... } :
                                                                                                         {
-
+                                                                                                            init =
+                                                                                                                script
+                                                                                                                    {
+                                                                                                                        executable =
+                                                                                                                            write-shell-script
+                                                                                                                                ''
+                                                                                                                                '' ;
+                                                                                                                    } ;
                                                                                                         } ;
                                                                                             in builtins.map mapper list ;
                                                                                 } ;
