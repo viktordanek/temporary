@@ -611,7 +611,7 @@
                                                                                                                 }
                                                                                                             else
                                                                                                                 {
-                                                                                                                    head = { list = [ current ] ; handles = handles ; }
+                                                                                                                    head = { list = [ current ] ; handles = handles ; } ;
                                                                                                                     tail = builtins.concatLists [ [ head ] tail ] ;
                                                                                                                 }  ;
                                                                                                         old =
