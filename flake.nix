@@ -495,8 +495,6 @@
                                                                                                 builtins.concatLists
                                                                                                     [
                                                                                                         [
-                                                                                                            "# ${ builtins.toJSON values }"
-                                                                                                            "\"${ key }\" ="
                                                                                                             "${ indent 1 }("
                                                                                                             "${ indent 2 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target , write-shell-script } :"
                                                                                                             "${ indent 3 }{"
@@ -509,7 +507,7 @@
                                                                                                     ]
                                                                                     else if builtins.typeOf value == "set" then
                                                                                         let
-                                                                                            divider = if builtins.length path < split then { open = "{" ; close = "}" ; } else { open = "{" ; close = "}" ; } ;
+                                                                                            divider = if builtins.length path < split then { open = "{" ; close = "}" ; } else { open = "[" ; close = "]" ; } ;
                                                                                             list = builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) ;
                                                                                             recurse =
                                                                                                 builtins.concatLists
