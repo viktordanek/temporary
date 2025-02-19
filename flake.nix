@@ -606,7 +606,7 @@
                                                                                                         new =
                                                                                                             if handles + old.head.handles < 1024 then
                                                                                                                 {
-                                                                                                                    head = { list = builtins.concatLists [ [ current ] old.head.list ] ; handles = handles + old.head.handles } ;
+                                                                                                                    head = { list = builtins.concatLists [ [ current ] old.head.list ] ; handles = handles + old.head.handles ; } ;
                                                                                                                     tail = old.tail ;
                                                                                                                 }
                                                                                                             else
