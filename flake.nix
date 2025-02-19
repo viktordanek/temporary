@@ -495,14 +495,14 @@
                                                                                                 builtins.concatLists
                                                                                                     [
                                                                                                         [
-                                                                                                            "${ indent 1 }("
-                                                                                                            "${ indent 2 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target , write-shell-script } :"
-                                                                                                            "${ indent 3 }{"
+                                                                                                            "("
+                                                                                                            "${ indent 1 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target , write-shell-script } :"
+                                                                                                            "${ indent 2 }{"
                                                                                                         ]
                                                                                                         ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                         [
-                                                                                                            "${ indent 3 }}"
-                                                                                                            "${ indent 1 }) ;"
+                                                                                                            "${ indent 2 }}"
+                                                                                                            ") ;"
                                                                                                         ]
                                                                                                     ]
                                                                                     else if builtins.typeOf value == "set" then
