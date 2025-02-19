@@ -286,25 +286,21 @@
                                                                                                         in builtins.foldl' reducer [ ] list ;
                                                                                                 mapper =
                                                                                                     value :
-                                                                                                        let
-                                                                                                            mapper =
-                                                                                                                { command , key , status } :
-                                                                                                                    { script , shell-script , write-shell-script , ... } :
+                                                                                                        { shell-script , script , ... } :
+                                                                                                            {
+                                                                                                                init =
+                                                                                                                    script
                                                                                                                         {
-                                                                                                                            init =
-                                                                                                                                script
-                                                                                                                                    {
-                                                                                                                                        executable = shell-script "/scripts/test/util/observe/direct/init.sh" ;
-                                                                                                                                        sets = [ ] ;
-                                                                                                                                    } ;
-                                                                                                                            release =
-                                                                                                                                script
-                                                                                                                                    {
-                                                                                                                                        executable = shell-script "/scripts/test/util/observe/direct/release.sh" ;
-                                                                                                                                        sets = [ ] ;
-                                                                                                                                    } ;
+                                                                                                                            executable = shell-script "/scripts/test/util/observe/direct/init.sh" ;
+                                                                                                                            sets = [ ] ;
                                                                                                                         } ;
-                                                                                                            in builtins.map mapper value.list ;
+                                                                                                                release =
+                                                                                                                    script
+                                                                                                                        {
+                                                                                                                            executable = shell-script "/scripts/test/util/observe/direct/release.sh" ;
+                                                                                                                            sets = [ ] ;
+                                                                                                                        } ;
+                                                                                                            }
                                                                                                 in builtins.map mapper list
                                                                                         else builtins.throw "observe.json is not available" ;
                                                                                     indirect = [ ] ;
