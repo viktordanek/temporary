@@ -577,7 +577,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo WTF &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.typeOf resources.temporary.observe.direct ) "" } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.toString ( builtins.length resources.temporary.observe.direct ) ) "" } &&
                                                                                 exit 67
                                                                         ''
                                                             else
