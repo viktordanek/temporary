@@ -302,7 +302,7 @@
                                                                                                                                                             if ! ${ value.command-string } then ; ${ pkgs.coreutils }/bin/echo ${ value.command-string } ${ value.key } ; fi''
                                                                                                                                                     else
                                                                                                                                                         ''
-                                                                                                                                                            if ${ value.command-expression } then ; ${ pkgs.coreutils }/bin/echo ${ value.command-string } ${ value.key } ; fi'' ;
+                                                                                                                                                            if ${ value.command-string } then ; ${ pkgs.coreutils }/bin/echo ${ value.command-string } ${ value.key } ; fi'' ;
                                                                                                                                             in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
 
                                                                                                                             sets =
