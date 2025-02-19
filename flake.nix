@@ -612,7 +612,7 @@
                                                                                                             else
                                                                                                                 {
                                                                                                                     head = { list = [ current ] ; handles = handles ; } ;
-                                                                                                                    tail = builtins.concatLists [ [ head ] tail ] ;
+                                                                                                                    tail = builtins.concatLists [ [ old.head ] old.tail ] ;
                                                                                                                 }  ;
                                                                                                         old =
                                                                                                             if builtins.length previous == 0 then
