@@ -292,8 +292,10 @@
                                                                                                                             write-shell-script
                                                                                                                                 (
                                                                                                                                     let
-                                                                                                                                        mapper = { command , handles , status } : ""
-                                                                                                                                        in builtins.map mapper value.files ;
+                                                                                                                                        mapper =
+                                                                                                                                            { command , handles , status } :
+                                                                                                                                                "" ;
+                                                                                                                                        in builtins.map mapper value.files
                                                                                                                                 )
                                                                                                                     } ;
                                                                                                         } ;
