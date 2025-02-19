@@ -295,7 +295,7 @@
                                                                                                                                         mapper =
                                                                                                                                             { command , handles , status } :
                                                                                                                                                 "" ;
-                                                                                                                                        in builtins.map mapper value.list
+                                                                                                                                        in builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list )
                                                                                                                                 ) ;
                                                                                                                     } ;
                                                                                                         } ;
