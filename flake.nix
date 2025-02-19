@@ -285,7 +285,7 @@
                                                                                                 value :
                                                                                                     let
                                                                                                         mapper =
-                                                                                                            value : { ... } :
+                                                                                                            { command , handles , index , status } : { ... } :
                                                                                                                 {
                                                                                                                 } ;
                                                                                                         in builtins.map mapper ( builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames value ) ) value.list ) ;
