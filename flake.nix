@@ -594,7 +594,7 @@
                                                                                                                     in [ { command = command ; index = index ; status = status ; } ]
                                                                                                             else if builtins.typeOf value == "list" then
                                                                                                                 let
-                                                                                                                    generator = index : builtins.map ( mapper ( builtins.concatLists [ path [ name ] ] ) index ) ( builtins.elemAt value index ) ;
+                                                                                                                    generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
                                                                                                                     in builtins.genList generator ( builtins.length value )
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else throw path name value [ "lambda" "list" "set" ] ;
