@@ -242,91 +242,6 @@
                                                                     # at = "${ pkgs.at }/bin/at" ;
                                                                     temporary =
                                                                         {
-                                                                            observe =
-                                                                                {
-                                                                                    direct =
-                                                                                        if builtins.pathExists ( self + "/observe.json" ) then
-                                                                                            let
-                                                                                                list =
-                                                                                                    let
-                                                                                                        list = builtins.concatLists [ observe manual ] ;
-                                                                                                        manual = if builtins.pathExists ( self + "/manual.json" ) then builtins.fromJSON ( builtins.readFile ( self + "/manual.json" ) ) else [ ] ;
-                                                                                                        observe = builtins.fromJSON ( builtins.readFile ( self + "/observe.json" ) ) ;
-                                                                                                        reducer =
-                                                                                                            previous : current :
-                                                                                                                let
-                                                                                                                    descriptors = if current.status then 40 else 8 ;
-                                                                                                                    new =
-                                                                                                                        if 3 * ( descriptors + old.head.descriptors ) < 1024 then
-                                                                                                                            {
-                                                                                                                                head =
-                                                                                                                                    {
-                                                                                                                                        list = builtins.concatLists [ [ current ] old.head.list ] ;
-                                                                                                                                        descriptors = descriptors + old.head.descriptors ;
-                                                                                                                                    } ;
-                                                                                                                                tail = old.tail ;
-                                                                                                                            }
-                                                                                                                        else
-                                                                                                                            {
-                                                                                                                                head = { list = [ current ] ; descriptors = descriptors ; } ;
-                                                                                                                                tail = builtins.concatLists [ [ old.head ] old.tail ] ;
-                                                                                                                            } ;
-                                                                                                                    old =
-                                                                                                                        if builtins.length previous == 0 then
-                                                                                                                            {
-                                                                                                                                head = { list = [ ] ; descriptors = 0 ; } ;
-                                                                                                                                tail = [ ] ;
-                                                                                                                            }
-                                                                                                                        else
-                                                                                                                            {
-                                                                                                                                head = builtins.head previous ;
-                                                                                                                                tail = builtins.tail previous ;
-                                                                                                                            } ;
-                                                                                                                    in builtins.concatLists [ [ new.head ] new.tail ] ;
-                                                                                                        in builtins.foldl' reducer [ ] list ;
-                                                                                                mapper =
-                                                                                                    value :
-                                                                                                        { script , write-shell-script , ... } :
-                                                                                                            {
-                                                                                                                init =
-                                                                                                                    script
-                                                                                                                        {
-                                                                                                                            executable =
-                                                                                                                                let
-                                                                                                                                    mapper =
-                                                                                                                                        value :
-                                                                                                                                            let
-                                                                                                                                                expression = pkgs.lib.attrByPath value.command null resources.temporary.temporary ;
-                                                                                                                                                in
-                                                                                                                                                    if value.status then
-                                                                                                                                                        ''
-                                                                                                                                                            if ! ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi''
-                                                                                                                                                    else
-                                                                                                                                                        ''
-                                                                                                                                                            if ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi'' ;
-                                                                                                                                            in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
-
-                                                                                                                            sets =
-                                                                                                                                [
-                                                                                                                                ] ;
-                                                                                                                        } ;
-                                                                                                                release =
-                                                                                                                    script
-                                                                                                                        {
-                                                                                                                            executable =
-                                                                                                                                write-shell-script
-                                                                                                                                    ''
-                                                                                                                                        ${ pkgs.coreutils }/bin/echo HI
-                                                                                                                                    '' ;
-                                                                                                                            sets =
-                                                                                                                                [
-                                                                                                                                ] ;
-                                                                                                                        } ;
-                                                                                                            } ;
-                                                                                                in builtins.map mapper list
-                                                                                        else builtins.throw "observe.json is not available" ;
-                                                                                    indirect = [ ] ;
-                                                                                } ;
                                                                             temporary = idea ;
                                                                             util =
                                                                                 {
@@ -568,7 +483,8 @@
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.nix" ( list ) } $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
+                                                                                ${ pkgs.coreutils }/bin/echo idea.nix is absent >&2 &&
+                                                                                ${ pkgs.coreutils }/bin/echo $out >&2 &&
                                                                                 exit 65
                                                                         ''
                                                             else if ! builtins.pathExists ( self + "/observe.nix" ) then
@@ -602,34 +518,11 @@
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ file } $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo observe.nix is absent. >&2 &&
+                                                                                ${ pkgs.coreutils }/bin/echo $out >&2 &&
                                                                                 exit 34
                                                                         ''
-                                                            else if ! builtins.pathExists ( self + "/observe.json" ) then
-                                                                let
-                                                                    list =
-                                                                        let
-                                                                            mapper =
-                                                                                path : name : value :
-                                                                                    if builtins.typeOf value == "lambda" then
-                                                                                        let
-                                                                                            status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
-                                                                                            init-status = builtins.elemAt path 0 ;
-                                                                                            init-has-standard-error = builtins.elemAt path 1 ;
-                                                                                            seed = builtins.elemAt path 2 ;
-                                                                                            key = name ;
-                                                                                            command = [ init-status init-has-standard-error seed key ] ;
-                                                                                            in [ { command = command ; status = status ; key = key ; } ]
-                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                    else throw path name value [ "lambda" "set" ] ;
-                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
-                                                                    in
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "observe.json" ( builtins.toJSON list ) } $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                exit 66
-                                                                        ''
-                                                            else if ! builtins.pathExists ( self + "/expect.yq" ) then
+                                                            else if ! builtins.pathExists ( self + "/expect.yaml" ) then
                                                                 let
                                                                     in
                                                                         ''
@@ -637,29 +530,6 @@
                                                                                 ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.observe.direct 0 } &&
                                                                                 exit 67
                                                                         ''
-                                                            else if builtins.pathExists ( self + "/expected.yaml" ) then
-                                                                if builtins.pathExists ( self + "/observe.yaml" ) then
-                                                                    if builtins.pathExists ( self + "/idea.nix" ) then
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                exit 165
-                                                                        ''
-                                                                    else
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                exit 16
-                                                                        ''
-                                                                else
-                                                                    let
-
-                                                                        in
-                                                                            ''
-                                                                                ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                    ${ pkgs.coreutils }/bin/echo FOUND ME >&2 &&
-                                                                                    exit 167
-                                                                            ''
                                                             else
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/touch $out
