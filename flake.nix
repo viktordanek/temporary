@@ -575,6 +575,41 @@
                                                                                 ${ pkgs.coreutils }/bin/echo FOUND ME $out >&2 &&
                                                                                 exit 65
                                                                         ''
+                                                            else if ! builtins.pathExists ( self + "/observe.nix" ) then
+                                                                let
+                                                                    string =
+                                                                        let
+                                                                            list =
+                                                                                let
+                                                                                    list =
+                                                                                        let
+                                                                                            mapper =
+                                                                                                path : name : value :
+                                                                                                    if builtins.typeOf value == "lambda" then
+                                                                                                        let
+                                                                                                            status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
+                                                                                                            init-status = builtins.elemAt path 0 ;
+                                                                                                            init-has-standard-error = builtins.elemAt path 1 ;
+                                                                                                            seed = builtins.elemAt path 2 ;
+                                                                                                            key = name ;
+                                                                                                            command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed key ] ) ) ;
+                                                                                                            in [ { command = command ; status = status ; key = key ; } ]
+                                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                                    else throw path name value [ "lambda" "set" ] ;
+                                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
+                                                                                    mapper =
+                                                                                        { command , status , key } :
+                                                                                            [
+                                                                                                "if ! resources.temporary.temporary.${ command } ; then ${ echo } ${ key } ; fi"
+                                                                                            ] ;
+                                                                            in
+                                                                                builtins.concatStringsSep "" [ "[" ( builtins.concatStringsSep "\n\t" ( builtins.map builtins.fromJSON list ) ) "]" ] ;
+                                                                    in
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "observe.json" string } $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo $out &&
+                                                                                exit 66
+                                                                        ''
                                                             else if ! builtins.pathExists ( self + "/observe.json" ) then
                                                                 let
                                                                     list =
