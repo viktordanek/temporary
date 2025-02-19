@@ -632,7 +632,7 @@
                                                                                             builtins.concatStringsSep
                                                                                                 "\n"
                                                                                                     [
-                                                                                                        "\t["
+                                                                                                        "\t\t["
                                                                                                         (
                                                                                                             builtins.concatStringsSep
                                                                                                                 "\n"
@@ -645,7 +645,7 @@
                                                                                                                         value.list
                                                                                                                 )
                                                                                                         )
-                                                                                                        "\t]"
+                                                                                                        "\t\t]"
                                                                                                     ] ;
                                                                                     in builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "{ resources , echo } :" "\t[" ] ( builtins.map mapper list ) [ "\t]" ] ] ) ;
                                                                             in builtins.toFile "observe.nix" string ;
