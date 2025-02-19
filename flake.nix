@@ -265,7 +265,7 @@
                                                                                                                         }
                                                                                                                     else
                                                                                                                         {
-                                                                                                                            head = current ;
+                                                                                                                            head = { list = [ current ] ; handles = current.handles ; } ;
                                                                                                                             tail = builtins.concatLists [ [ old.head ] old.tail ] ;
                                                                                                                         } ;
                                                                                                                 old =
@@ -289,7 +289,7 @@
                                                                                                                 {
                                                                                                                 } ;
                                                                                                         in builtins.map mapper value.list ;
-                                                                                            in builtins.map mapper ( builtins.trace ( builtins.typeOf list ) list ) ;
+                                                                                            in builtins.map mapper ( builtins.trace ( builtins.typeOf ( builtins.list ) list ) ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
