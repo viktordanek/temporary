@@ -527,6 +527,7 @@
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo WTF &&
                                                                                 ${ pkgs.coreutils }/bin/echo ${ builtins.elemAt resources.temporary.observe.direct 0 } &&
                                                                                 exit 67
                                                                         ''
