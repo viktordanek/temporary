@@ -502,7 +502,7 @@
                                                                                                         ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
                                                                                                         [
                                                                                                             "${ indent 2 }}"
-                                                                                                            ") ;"
+                                                                                                            ")"
                                                                                                         ]
                                                                                                     ]
                                                                                     else if builtins.typeOf value == "set" then
