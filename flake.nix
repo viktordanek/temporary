@@ -632,7 +632,7 @@
                                                                             in builtins.toFile "observe.nix" string ;
                                                                     in
                                                                         ''
-                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ file } $out &&
+                                                                            
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 34
                                                                         ''
