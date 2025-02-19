@@ -250,7 +250,7 @@
                                                                                                 let
                                                                                                     list =
                                                                                                         let
-                                                                                                            list = builtins.concatLists [ ( load "observe.nix" ) ( load "manual.nix" ) ] ;
+                                                                                                            list = builtins.concatLists [ ( load "/observe.nix" ) ( load "/manual.nix" ) ] ;
                                                                                                             load = url : if builtins.pathExists ( self + url ) then builtins.import ( self + url ) resources else [ ] ;
                                                                                                             mapper = value : value // { handles = if value.status then 40 else 8 ; } ;
                                                                                                             in builtins.map mapper list ;
