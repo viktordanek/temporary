@@ -288,18 +288,6 @@
                                                                                                     value :
                                                                                                         { shell-script , script , ... } :
                                                                                                             {
-                                                                                                                init =
-                                                                                                                    script
-                                                                                                                        {
-                                                                                                                            executable = shell-script "/scripts/test/util/observe/direct/init.sh" ;
-                                                                                                                            sets = [ ] ;
-                                                                                                                        } ;
-                                                                                                                release =
-                                                                                                                    script
-                                                                                                                        {
-                                                                                                                            executable = shell-script "/scripts/test/util/observe/direct/release.sh" ;
-                                                                                                                            sets = [ ] ;
-                                                                                                                        } ;
                                                                                                             } ;
                                                                                                 in builtins.map mapper list
                                                                                         else builtins.throw "observe.json is not available" ;
