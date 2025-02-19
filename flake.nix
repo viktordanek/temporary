@@ -292,10 +292,19 @@
                                                                                                                     script
                                                                                                                         {
                                                                                                                             executable =
-                                                                                                                                write-shell-script
-                                                                                                                                    ''
-                                                                                                                                        ${ pkgs.coreutils }/bin/echo HI
-                                                                                                                                    '' ;
+                                                                                                                                let
+                                                                                                                                    mapper =
+                                                                                                                                        { } :
+                                                                                                                                           if value.status then
+                                                                                                                                                ''
+                                                                                                                                                    if ! ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi
+                                                                                                                                                ''
+                                                                                                                                            else
+                                                                                                                                                ''
+                                                                                                                                                    if ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi
+                                                                                                                                                '' ;
+                                                                                                                                    in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
+
                                                                                                                             sets =
                                                                                                                                 [
                                                                                                                                 ] ;
