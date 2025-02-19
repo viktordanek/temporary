@@ -432,7 +432,6 @@
                                                                                                         "${ indent 2 }} ;"
                                                                                                     ]
                                                                                                 else [ ] ;
-                                                                                            key = builtins.hashString "sha512" ( builtins.concatStringsSep "/" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ;
                                                                                             post =
                                                                                                 [
                                                                                                     "post ="
@@ -445,7 +444,6 @@
                                                                                                     "${ indent 5 }( string \"CUT\" \"${ escape "pkgs.coreutils" }/bin/cut\" )"
                                                                                                     "${ indent 5 }( string \"ECHO\" \"${ escape "pkgs.coreutils" }/bin/echo\" )"
                                                                                                     "${ indent 5 }( string \"FLOCK\" \"${ escape "pkgs.flock" }/bin/flock\" )"
-                                                                                                    "${ indent 5 }( string \"KEY\" \"${ key }\" )"
                                                                                                     "${ indent 5 }( string \"MKDIR\" \"${ escape "pkgs.coreutils" }/bin/mkdir\" )"
                                                                                                     "${ indent 5 }( path \"PATH_SEED\" 1 )"
                                                                                                     "${ indent 5 }( derivation \"POST\" ( harvest : harvest.temporary.util.post ) )"
