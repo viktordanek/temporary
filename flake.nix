@@ -289,7 +289,7 @@
                                                                                                                 {
                                                                                                                 } ;
                                                                                                         in builtins.map mapper ( builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames value ) ) value.list ) ;
-                                                                                            in builtins.map mapper ( builtins.trace ( builtins.toJSON list ) list ) ;
+                                                                                            in builtins.map mapper list ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
