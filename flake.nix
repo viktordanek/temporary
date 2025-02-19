@@ -294,7 +294,7 @@
                                                                                                                                     let
                                                                                                                                         mapper =
                                                                                                                                             { command , handles , index , status } :
-                                                                                                                                                "" ;
+                                                                                                                                                "true" ;
                                                                                                                                         in builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list )
                                                                                                                                 ) ;
                                                                                                                     } ;
