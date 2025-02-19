@@ -293,7 +293,7 @@
                                                                                                                                 (
                                                                                                                                     let
                                                                                                                                         mapper =
-                                                                                                                                            { command , handles , status } :
+                                                                                                                                            { command , handles , index , status } :
                                                                                                                                                 "" ;
                                                                                                                                         in builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list )
                                                                                                                                 ) ;
