@@ -589,7 +589,7 @@
                                                                                                             seed = builtins.elemAt path 2 ;
                                                                                                             index = name ;
                                                                                                             command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
-                                                                                                            in "{ command = \"${ command }\" ; status = ${ builtins.toJSON status } ; index = ${ builtins.toJSON index } ; }"
+                                                                                                            in [ "{ command = \"${ command }\" ; status = ${ builtins.toJSON status } ; index = ${ builtins.toJSON index } ; }" ]
                                                                                                     else if builtins.typeOf value == "list" then
                                                                                                         let
                                                                                                             generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
