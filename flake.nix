@@ -283,12 +283,10 @@
                                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                                             mapper =
                                                                                                 value :
-                                                                                                    let
-                                                                                                        mapper =
-                                                                                                            { command , handles , index , status } : { ... } :
-                                                                                                                {
-                                                                                                                } ;
-                                                                                                        in builtins.map mapper value.list ;
+                                                                                                    { script , ... } :
+                                                                                                        {
+
+                                                                                                        } ;
                                                                                             in builtins.map mapper list ;
                                                                                 } ;
                                                                             temporary = idea ;
