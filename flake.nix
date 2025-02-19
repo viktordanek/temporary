@@ -286,14 +286,29 @@
                                                                                                         in builtins.foldl' reducer [ ] list ;
                                                                                                 mapper =
                                                                                                     value :
-                                                                                                        { shell-script , script , ... } :
+                                                                                                        { shell-script , script , string , ... } :
                                                                                                             {
                                                                                                                 init =
                                                                                                                     script
                                                                                                                         {
-                                                                                                                            executable = shell-script "/scripts/test/util/observe/direct/init.sh" ;
-                                                                                                                            sets = [ ] ;
+                                                                                                                            executable =
+                                                                                                                                write-shell-script
+                                                                                                                                    ''
+                                                                                                                                        ${ pkgs.coreutils }/bin/echo HI
+                                                                                                                                    '' ;
+                                                                                                                            sets =
+                                                                                                                                [
+                                                                                                                                    ( string commands "" )
+                                                                                                                                ] ;
                                                                                                                         } ;
+                                                                                                                release =
+                                                                                                                    script
+                                                                                                                        {
+                                                                                                                            executable = shell-script "/scripts/test/util/observe/direct/release.sh" ;
+                                                                                                                            sets =
+                                                                                                                                [
+                                                                                                                                ]
+                                                                                                                        }
                                                                                                             } ;
                                                                                                 in builtins.map mapper list
                                                                                         else builtins.throw "observe.json is not available" ;
