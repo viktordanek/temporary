@@ -288,8 +288,8 @@
                                                                                                             { command , handles , index , status } : { ... } :
                                                                                                                 {
                                                                                                                 } ;
-                                                                                                        in builtins.map mapper ( builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames value ) ) value.list ) ;
-                                                                                            in builtins.map mapper list ;
+                                                                                                        in builtins.map mapper value.list ;
+                                                                                            in builtins.map mapper ( builtins.trace ( builtins.typeOf list ) list ) ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
