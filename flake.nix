@@ -589,13 +589,13 @@
                                                                                                                     init-status = builtins.elemAt path 0 ;
                                                                                                                     init-has-standard-error = builtins.elemAt path 1 ;
                                                                                                                     seed = builtins.elemAt path 2 ;
-                                                                                                                    index = builtins.elemAt path 3 ;
+                                                                                                                    index = name ;
                                                                                                                     command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
                                                                                                                     in [ { command = command ; index = index ; status = status ; } ]
                                                                                                             else if builtins.typeOf value == "list" then
                                                                                                                 let
                                                                                                                     generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                                                    in builtins.genList generator ( builtins.length value )
+                                                                                                                    in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
                                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                             else throw path name value [ "lambda" "list" "set" ] ;
                                                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
