@@ -579,75 +579,25 @@
                                                                                 let
                                                                                     list =
                                                                                         let
-                                                                                            list =
-                                                                                                let
-                                                                                                    mapper =
-                                                                                                        path : name : value :
-                                                                                                            if builtins.typeOf value == "lambda" then
-                                                                                                                let
-                                                                                                                    status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
-                                                                                                                    init-status = builtins.elemAt path 0 ;
-                                                                                                                    init-has-standard-error = builtins.elemAt path 1 ;
-                                                                                                                    seed = builtins.elemAt path 2 ;
-                                                                                                                    index = name ;
-                                                                                                                    command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
-                                                                                                                    in [ { command = command ; index = index ; status = status ; } ]
-                                                                                                            else if builtins.typeOf value == "list" then
-                                                                                                                let
-                                                                                                                    generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                                                    in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-                                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                            else throw path name value [ "lambda" "list" "set" ] ;
-                                                                                                    in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
-                                                                                            reducer =
-                                                                                                previous : current :
-                                                                                                    let
-                                                                                                        handles = if current.status then 40 else 8 ;
-                                                                                                        new =
-                                                                                                            if handles + old.head.handles < 1024 then
-                                                                                                                {
-                                                                                                                    head = { list = builtins.concatLists [ [ current ] old.head.list ] ; handles = handles + old.head.handles ; } ;
-                                                                                                                    tail = old.tail ;
-                                                                                                                }
-                                                                                                            else
-                                                                                                                {
-                                                                                                                    head = { list = [ current ] ; handles = handles ; } ;
-                                                                                                                    tail = builtins.concatLists [ [ old.head ] old.tail ] ;
-                                                                                                                }  ;
-                                                                                                        old =
-                                                                                                            if builtins.length previous == 0 then
-                                                                                                                {
-                                                                                                                    head = { list = [ ] ; handles = 0 ; } ;
-                                                                                                                    tail = [ ] ;
-                                                                                                                }
-                                                                                                            else
-                                                                                                                {
-                                                                                                                    head = builtins.head previous ;
-                                                                                                                    tail = builtins.tail previous ;
-                                                                                                                } ;
-                                                                                                        in builtins.concatLists [ [ new.head ] new.tail ] ;
-                                                                                            in builtins.foldl' reducer [ ] list ;
-                                                                                    mapper =
-                                                                                        value :
-                                                                                            builtins.concatStringsSep
-                                                                                                "\n"
-                                                                                                    [
-                                                                                                        "\t\t["
-                                                                                                        (
-                                                                                                            builtins.concatStringsSep
-                                                                                                                "\n"
-                                                                                                                (
-                                                                                                                    builtins.map
-                                                                                                                        (
-                                                                                                                            value :
-                                                                                                                                "\t\t\t{ command = resources . temporary . temporary . ${ value.command } ; status = ${ builtins.toJSON value.status } ; }"
-                                                                                                                        )
-                                                                                                                        value.list
-                                                                                                                )
-                                                                                                        )
-                                                                                                        "\t\t]"
-                                                                                                    ] ;
-                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists [ [ "resources :" "\t[" ] ( builtins.map mapper list ) [ "\t]" ] ] ) ;
+                                                                                            mapper =
+                                                                                                path : name : value :
+                                                                                                    if builtins.typeOf value == "lambda" then
+                                                                                                        let
+                                                                                                            status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
+                                                                                                            init-status = builtins.elemAt path 0 ;
+                                                                                                            init-has-standard-error = builtins.elemAt path 1 ;
+                                                                                                            seed = builtins.elemAt path 2 ;
+                                                                                                            index = name ;
+                                                                                                            command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
+                                                                                                            in "{ command = \"${ command }\" ; status = ${ builtins.toJSON status } ; index = ${ builtins.toJSON index } ; }"
+                                                                                                    else if builtins.typeOf value == "list" then
+                                                                                                        let
+                                                                                                            generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                                                            in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
+                                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                                    else throw path name value [ "lambda" "list" "set" ] ;
+                                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
+                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists [ ["resources :" "\t[" ] list [ "\t]" ] ] ) ;
                                                                             in builtins.toFile "observe.nix" string ;
                                                                     in
                                                                         ''
