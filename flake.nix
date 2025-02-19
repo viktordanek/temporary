@@ -296,7 +296,7 @@
                                                                                                                                             { command , handles , status } :
                                                                                                                                                 "" ;
                                                                                                                                         in builtins.map mapper value.files
-                                                                                                                                )
+                                                                                                                                ) ;
                                                                                                                     } ;
                                                                                                         } ;
                                                                                             in builtins.map mapper list ;
