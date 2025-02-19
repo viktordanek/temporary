@@ -286,7 +286,7 @@
                                                                                                         in builtins.foldl' reducer [ ] list ;
                                                                                                 mapper =
                                                                                                     value :
-                                                                                                        { shell-script , script , string , ... } :
+                                                                                                        { shell-script , script , string , write-shell-script , ... } :
                                                                                                             {
                                                                                                                 init =
                                                                                                                     script
