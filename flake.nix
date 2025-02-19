@@ -242,6 +242,54 @@
                                                                     # at = "${ pkgs.at }/bin/at" ;
                                                                     temporary =
                                                                         {
+                                                                            observe =
+                                                                                {
+                                                                                    direct =
+                                                                                        let
+                                                                                            list =
+                                                                                                let
+                                                                                                    list =
+                                                                                                        let
+                                                                                                            list = builtins.concatLists [ ( load "observe.nix" ) ( load "manual.nix" ) ] ;
+                                                                                                            load = url : if builtins.pathExists ( self + url ) then builtins.import ( self + url ) resources else [ ] ;
+                                                                                                            mapper = value : value // { handles = if value.status then 40 else 8 ; } ;
+                                                                                                            in builtins.map mapper list ;
+                                                                                                    reducer =
+                                                                                                        previous : current :
+                                                                                                            let
+                                                                                                                new =
+                                                                                                                    if current.handles + old.head.handles < 1024 then
+                                                                                                                        {
+                                                                                                                            head = { list = builtins.concatLists [ [ current ] old.head.list ] ; handles = current.handles + old.handles ; } ;
+                                                                                                                            tail = old.tail ;
+                                                                                                                        }
+                                                                                                                    else
+                                                                                                                        {
+                                                                                                                            head = current ;
+                                                                                                                            tail = builtins.concatLists [ [ old.head ] old.tail ] ;
+                                                                                                                        } ;
+                                                                                                                old =
+                                                                                                                    if builtins.length previous == 0 then
+                                                                                                                        {
+                                                                                                                            head = { list = [ ] ; handles = 0 ; } ;
+                                                                                                                            tail = [ ] ;
+                                                                                                                        }
+                                                                                                                    else
+                                                                                                                        {
+                                                                                                                            head = builtins.head previous ;
+                                                                                                                            tail = builtins.tail previous ;
+                                                                                                                        } ;
+                                                                                                                in builtins.concatLists [ [ hew.head ] new.tail ] ;
+                                                                                                    in builtins.foldl' reducer [ ] list ;
+                                                                                            mapper =
+                                                                                                value :
+                                                                                                    let
+                                                                                                        mapper =
+                                                                                                            value : { ... } :
+                                                                                                                {
+                                                                                                                } ;
+                                                                                                        in builtins.map mapper value.list
+                                                                                } ;
                                                                             temporary = idea ;
                                                                             util =
                                                                                 {
