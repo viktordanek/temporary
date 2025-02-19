@@ -77,7 +77,7 @@
                                                                     script =
                                                                         {
                                                                             executable ,
-                                                                            sets ? { }
+                                                                            sets ? [ ]
                                                                         } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
