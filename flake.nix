@@ -289,6 +289,7 @@
                                                                                                                 {
                                                                                                                 } ;
                                                                                                         in builtins.map mapper value.list
+                                                                                            in builtins.map mapper list ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
