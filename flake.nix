@@ -635,7 +635,7 @@
                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ file } $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 exit 34
-                                                                        '';
+                                                                        ''
                                                             else if ! builtins.pathExists ( self + "/observe.json" ) then
                                                                 let
                                                                     list =
