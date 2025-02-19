@@ -294,7 +294,7 @@
                                                                                                                             executable =
                                                                                                                                 let
                                                                                                                                     mapper =
-                                                                                                                                        { } :
+                                                                                                                                        value :
                                                                                                                                            if value.status then
                                                                                                                                                 ''
                                                                                                                                                     if ! ${ value.command } then ; ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi
