@@ -300,7 +300,7 @@
                                                                                                                                                 in
                                                                                                                                                     if value.status then
                                                                                                                                                         ''
-                                                                                                                                                            if ! ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ expression } ${ value.key } ; fi''
+                                                                                                                                                            if ! ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.command } ${ value.key } ; fi''
                                                                                                                                                     else
                                                                                                                                                         ''
                                                                                                                                                             if ${ expression } ; then ${ pkgs.coreutils }/bin/echo ${ value.key } ; fi'' ;
