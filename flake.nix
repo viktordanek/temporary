@@ -304,7 +304,7 @@
                                                                                                                                     { command , handles , status } :
                                                                                                                                         ''${ pkgs.coreutils }/bin/echo ${ command harvest } > ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }'' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
-                                                                                                                                sets = [ ( target "TARGET" ) ] ;
+                                                                                                                                sets = [ ( target ) ] ;
                                                                                                                     } ;
                                                                                                         } ;
                                                                                                 in builtins.map mapper list ;
