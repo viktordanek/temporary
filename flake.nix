@@ -236,7 +236,6 @@
                                                 src = ./. ;
                                                 installPhase =
                                                     let
-                                                        idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) { pkgs = pkgs ; self = self ; } else builtins.throw "idea.nix is not available" ;
                                                         resources =
                                                             lib
                                                                 {
@@ -247,6 +246,76 @@
                                                                             in
                                                                                 {
                                                                                     idea = load "/idea.nix" { cat = "${ pkgs.coreutils }/bin/cat" ; cut = "${ pkgs.coreutils }/bin/cut" ; echo = "${ pkgs.coreutils }/bin/echo" ; find = "${ pkgs.findutils }/bin/find" ; flock = "${ pkgs.flock }/bin/flock" ; jq = "${ pkgs.jq }/bin/jq" ; mkdir = "${ pkgs.coreutils }/bin/mkdir" ; rm = "${ pkgs.coreutils }/bin/rm" ; sha512sum = "${ pkgs.coreutils }/bin/sha512sum" ; self = self ; yq = "${ pkgs.yq }/bin/yq" ; } ;
+                                                                                    observe =
+                                                                                        {
+                                                                                            direct =
+                                                                                                let
+                                                                                                    list =
+                                                                                                        let
+                                                                                                            list =
+                                                                                                                let
+                                                                                                                    mapper =
+                                                                                                                        path : name : value :
+                                                                                                                            if builtins.typeOf value == "lambda" then
+                                                                                                                                let
+                                                                                                                                    handles = if status then 40 else 8 ;
+                                                                                                                                    index = name ;
+                                                                                                                                    init-has-standard-error = builtins.elemAt path 1 ;
+                                                                                                                                    init-status = builtins.elemAt path 0 ;
+                                                                                                                                    seed = builtins.elemAt path 2 ;
+                                                                                                                                    status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
+                                                                                                                                    in
+                                                                                                                                        [
+                                                                                                                                            {
+                                                                                                                                                handles = handles ;
+                                                                                                                                                index = index ;
+                                                                                                                                                init-has-standard-error = init-has-standard-error ;
+                                                                                                                                                init-status = init-status ;
+                                                                                                                                                seed = seed ;
+                                                                                                                                                status = status ;
+                                                                                                                                            }
+                                                                                                                                        ]
+                                                                                                                            else if builtins.typeOf value == "list" then
+                                                                                                                                let
+                                                                                                                                    generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ;
+                                                                                                                                    in builtins.generate generator ( builtins.length value )
+                                                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                                                            else throw path name value [ "lambda" "list" "set" ] ;
+                                                                                                                    in builtins.mapAttrs ( mapper [ ] idea ) ;
+                                                                                                            reducer =
+                                                                                                                previous : current :
+                                                                                                                    let
+                                                                                                                        new =
+                                                                                                                            if current.handles + old.head.handles < 1024 then
+                                                                                                                                {
+                                                                                                                                    head = { handles = current.handles + old.head.handles ; list = builtins.concatLists [ [ current ] old.head.list ] ; } ;
+                                                                                                                                    tail = old.tail ;
+                                                                                                                                }
+                                                                                                                            else
+                                                                                                                                {
+                                                                                                                                    head = { handles = current.handles ; list = [ current ] ; } ;
+                                                                                                                                    tail = builtins.concatLists [ [ head ] tail ] ;
+                                                                                                                                } ;
+                                                                                                                        old =
+                                                                                                                            if builtins.length previous == 0 then
+                                                                                                                                {
+                                                                                                                                    head = { handles = 0 ; list = [ ] ; } ;
+                                                                                                                                    tail = [ ] ;
+                                                                                                                                }
+                                                                                                                            else
+                                                                                                                                {
+                                                                                                                                    head = builtins.head previous ;
+                                                                                                                                    tail = builtins.tail previous ;
+                                                                                                                                } ;
+                                                                                                                        in builtins.concatLists [ [ new.head ] new.tail ] ;
+                                                                                                            in builtins.foldl' reducer [ ] list ;
+                                                                                                    mapper =
+                                                                                                        value : { ... } :
+                                                                                                            {
+
+                                                                                                            } ;
+                                                                                                    in builtins.map mapper list ;
+                                                                                        } ;
                                                                                     util =
                                                                                         {
                                                                                             post =
