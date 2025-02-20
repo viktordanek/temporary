@@ -302,7 +302,7 @@
                                                                                                                             let
                                                                                                                                 mapper =
                                                                                                                                     { command , handles , status } :
-                                                                                                                                        ''# ${ derivation "WTF" ( harvest : harvest.temporary.identity ) } if ! ${ command harvest } ; then ${ pkgs.coreutils }/bin/false ; fi'' ;
+                                                                                                                                        ''# if ! ${ command harvest } ; then ${ pkgs.coreutils }/bin/false ; fi'' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
                                                                                                                     } ;
                                                                                                         } ;
