@@ -293,9 +293,16 @@
                                                                                                                     in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                                         in builtins.foldl' reducer [ ] list ;
                                                                                                 mapper =
-                                                                                                    value : { ... } :
+                                                                                                    value : { script , write-shell-script , ... } :
                                                                                                         {
-
+                                                                                                            init =
+                                                                                                                script
+                                                                                                                    {
+                                                                                                                        executable =
+                                                                                                                            write-shell-script
+                                                                                                                                ''
+                                                                                                                                '' ;
+                                                                                                                    } ;
                                                                                                         } ;
                                                                                                 in builtins.map mapper list ;
                                                                                         util =
