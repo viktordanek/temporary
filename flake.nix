@@ -61,6 +61,7 @@
                                                                                         set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                         in fun set ;
                                                                             grandparent-pid = grandparent-pid pkgs ;
+                                                                            harvest = harvest "$out" ;
                                                                             is-file = is-file pkgs ;
                                                                             is-interactive = is-interactive pkgs ;
                                                                             is-pipe = is-pipe pkgs ;
@@ -480,7 +481,7 @@
                                                                                                     [
                                                                                                         [
                                                                                                             "("
-                                                                                                            "${ indent 1 }{ derivation , grandparent-pid , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target , write-shell-script } :"
+                                                                                                            "${ indent 1 }{ derivation , grandparent-pid , harvest , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target , write-shell-script } :"
                                                                                                             "${ indent 2 }{"
                                                                                                         ]
                                                                                                         ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
