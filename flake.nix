@@ -279,7 +279,14 @@
                                                                         let
                                                                             mapper =
                                                                                 { command , status } :
-                                                                                    ''${ pkgs.coreutils }/bin/true'' ;
+                                                                                    if status then
+                                                                                        ''
+                                                                                            if ! ${ command } ; then false ; fi
+                                                                                        ''
+                                                                                    else
+                                                                                        ''
+                                                                                            if ${ command } ; then false ; fi
+                                                                                        '' ;
                                                                             in builtins.map mapper value.list ;
                                                                 in builtins.map mapper list ;
                                                         resources =
