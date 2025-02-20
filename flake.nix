@@ -284,7 +284,7 @@
                                                                                                     in builtins.foldl' reducer [ ] list ;
                                                                                             mapper =
                                                                                                 value :
-                                                                                                    { script , write-shell-script , ... } :
+                                                                                                    { derivation , script , write-shell-script , ... } :
                                                                                                         {
                                                                                                             init =
                                                                                                                 script
@@ -295,7 +295,7 @@
                                                                                                                                     let
                                                                                                                                         mapper =
                                                                                                                                             { command , handles , status } :
-                                                                                                                                                "${ pkgs.coreutils }/bin/echo ${ command } ${ builtins.toString status }" ;
+                                                                                                                                                "${ pkgs.coreutils }/bin/echo ${ derivation "WTF" command } ${ builtins.toString status }" ;
                                                                                                                                         in builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list )
                                                                                                                                 ) ;
                                                                                                                     } ;
