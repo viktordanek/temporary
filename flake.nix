@@ -305,7 +305,7 @@
                                                                                                                                         ''
                                                                                                                                             if ! ${ command } ; then ${ pkgs.coreutils }/bin/false ; fi
                                                                                                                                         '' ;
-                                                                                                                                    in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) )
+                                                                                                                                    in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
                                                                                                                     } ;
                                                                                                         } ;
                                                                                                 in builtins.map mapper list ;
