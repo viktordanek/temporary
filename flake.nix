@@ -50,7 +50,8 @@
                                                                     inject =
                                                                         let
                                                                             out2 = "$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/readlink $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/teardown-synch.sh ) ) )" ;
-                                                                            out = "$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )" ;
+                                                                            out3 = "$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )" ;
+                                                                            out = "$out" ;
                                                                             in
                                                                                 {
                                                                                     derivation =
