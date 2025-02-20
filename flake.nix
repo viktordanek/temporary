@@ -293,7 +293,7 @@
                                                                                                                     in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                                         in builtins.foldl' reducer [ ] list ;
                                                                                                 mapper =
-                                                                                                    value : { script , write-shell-script , ... } :
+                                                                                                    value : { harvest , script , write-shell-script , ... } :
                                                                                                         {
                                                                                                             init =
                                                                                                                 script
@@ -303,7 +303,7 @@
                                                                                                                                 mapper =
                                                                                                                                     { command , handles , status } :
                                                                                                                                         ''
-                                                                                                                                            if ! ${ command } ; then ${ pkgs.coreutils }/bin/false ; fi
+                                                                                                                                            if ! ${ harvest command } ; then ${ pkgs.coreutils }/bin/false ; fi
                                                                                                                                         '' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
                                                                                                                     } ;
