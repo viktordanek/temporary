@@ -104,7 +104,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
-                                                                    in ignore : identity ( value inject "$out" ) ;
+                                                                    in ignore : identity ( value ( inject "$out" ) ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
