@@ -302,9 +302,7 @@
                                                                                                                             let
                                                                                                                                 mapper =
                                                                                                                                     { command , handles , status } :
-                                                                                                                                        ''
-                                                                                                                                            if ! ${ command ( builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames harvest ) ) harvest ) } ; then ${ pkgs.coreutils }/bin/false ; fi
-                                                                                                                                        '' ;
+                                                                                                                                        ''if ! ${ command ( builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames harvest ) ) harvest ) } ; then ${ pkgs.coreutils }/bin/false ; fi'' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
                                                                                                                     } ;
                                                                                                         } ;
