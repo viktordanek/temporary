@@ -264,7 +264,7 @@
                                                                                                                             handles = if status then 40 else 8 ;
                                                                                                                             status = status ;
                                                                                                                         } ;
-                                                                                                                in builtins.map mapper ( builtins.trace ( builtins.toString ( builtins.length list ) ) list ) ;
+                                                                                                                in builtins.map mapper list ;
                                                                                                         reducer =
                                                                                                             previous : current :
                                                                                                                 let
