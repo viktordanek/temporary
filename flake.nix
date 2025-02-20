@@ -283,7 +283,7 @@
                                                                                         in
                                                                                             if status then
                                                                                                 ''
-                                                                                                    if ! ${ command } ${ arguments ; then false ; fi
+                                                                                                    if ! ${ command } ${ arguments } ; then false ; fi
                                                                                                     if ! ${ command } ; then false ; fi
                                                                                                 ''
                                                                                             else
