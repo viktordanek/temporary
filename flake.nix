@@ -506,7 +506,12 @@
                                                                                         let
                                                                                             mapper =
                                                                                                 path : name : value :
-                                                                                                    if builtins.typeOf value == "lambda" then
+                                                                                                    if builtins.typeOf value == "list" then
+                                                                                                        let
+                                                                                                            generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                                                            in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
+                                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                                                    else if builtins.typeOf value == "string" then
                                                                                                         let
                                                                                                             status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
                                                                                                             init-status = builtins.elemAt path 0 ;
@@ -515,13 +520,8 @@
                                                                                                             index = name ;
                                                                                                             command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
                                                                                                             in [ "\t\t{ command = elemAt resources . temporary . temporary . ${ command }  ${ builtins.toString index } ; status = ${ builtins.toJSON status } ; }" ]
-                                                                                                    else if builtins.typeOf value == "list" then
-                                                                                                        let
-                                                                                                            generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                                            in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-                                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                                    else throw path name value [ "lambda" "list" "set" ] ;
-                                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.idea ) ) ;
+                                                                                                    else throw path name value [ "list" "set" "string" ] ;
+                                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.idea ;
                                                                                     in builtins.concatStringsSep "\n" ( builtins.concatLists [ ["{ resources , elemAt } :" "\t[" ] list [ "\t]" ] ] ) ;
                                                                             in builtins.toFile "observe.nix" string ;
                                                                     in
