@@ -577,7 +577,7 @@
                                                                                                             seed = builtins.elemAt path 2 ;
                                                                                                             index = name ;
                                                                                                             command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
-                                                                                                            in [ "\t\t{ command = elemAt resources . temporary . temporary . ${ command } ${ builtins.toString index } ; status = ${ builtins.toJSON status } ; }" ]
+                                                                                                            in [ "\t\t{ command = elemAt resources . temporary . idea . ${ command } ${ builtins.toString index } ; status = ${ builtins.toJSON status } ; }" ]
                                                                                                     else throw path name value [ "list" "set" "string" ] ;
                                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.idea ) ) ;
                                                                                     in builtins.concatStringsSep "\n" ( builtins.concatLists [ ["{ resources , elemAt } :" "\t[" ] list [ "\t]" ] ] ) ;
