@@ -294,7 +294,7 @@
                                                                                                                                     let
                                                                                                                                         mapper =
                                                                                                                                             { command , handles , index , status } :
-                                                                                                                                                "${ pkgs.coreutils }/bin/echo ${ builtins.typeOf command } ${ builtins.toString index } ${ builtins.toString status }" ;
+                                                                                                                                                "${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep ":" command } ${ builtins.toString index } ${ builtins.toString status }" ;
                                                                                                                                         in builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list )
                                                                                                                                 ) ;
                                                                                                                     } ;
