@@ -253,7 +253,7 @@
                                                                                                     let
                                                                                                         list =
                                                                                                             let
-                                                                                                                list = load "/observe.nix" { resources = resources ; elemAt = builtins.elemAt ; } ;
+                                                                                                                list = load "/observe.nix" { elemAt = builtins.elemAt ; } ;
                                                                                                                 mapper =
                                                                                                                     {
                                                                                                                         command ,
