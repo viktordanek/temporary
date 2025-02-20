@@ -48,34 +48,33 @@
                                                                                     else throw path name value [ "lambda" "null" ] ;
                                                                             } ;
                                                                     inject =
-                                                                        out :
-                                                                            {
-                                                                                derivation =
-                                                                                    name : fun :
-                                                                                        let
-                                                                                            mapper =
-                                                                                                path : name : value :
-                                                                                                    if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
-                                                                                                    else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                                                    else throw path name value [ "string" "set" ] ;
-                                                                                            name-to-be-set = name ;
-                                                                                            set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
-                                                                                            in fun set ;
-                                                                                grandparent-pid = grandparent-pid pkgs ;
-                                                                                harvest = harvest "$out" ;
-                                                                                is-file = is-file pkgs ;
-                                                                                is-interactive = is-interactive pkgs ;
-                                                                                is-pipe = is-pipe pkgs ;
-                                                                                path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
-                                                                                parent-pid = parent-pid pkgs ;
-                                                                                resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                                                script = script ;
-                                                                                shell-script = url : self + url ;
-                                                                                standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
-                                                                                string = name : value : "--set ${ name } ${ value }" ;
-                                                                                target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                                write-shell-script = source : builtins.toString ( pkgs.writeShellScript "script.sh" source ) ;
-                                                                            } ;
+                                                                        {
+                                                                            derivation =
+                                                                                name : fun :
+                                                                                    let
+                                                                                        mapper =
+                                                                                            path : name : value :
+                                                                                                if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
+                                                                                                else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                                                else throw path name value [ "string" "set" ] ;
+                                                                                        name-to-be-set = name ;
+                                                                                        set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
+                                                                                        in fun set ;
+                                                                            grandparent-pid = grandparent-pid pkgs ;
+                                                                            harvest = harvest "$out" ;
+                                                                            is-file = is-file pkgs ;
+                                                                            is-interactive = is-interactive pkgs ;
+                                                                            is-pipe = is-pipe pkgs ;
+                                                                            path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
+                                                                            parent-pid = parent-pid pkgs ;
+                                                                            resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                                            script = script ;
+                                                                            shell-script = url : self + url ;
+                                                                            standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
+                                                                            string = name : value : "--set ${ name } ${ value }" ;
+                                                                            target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
+                                                                            write-shell-script = source : builtins.toString ( pkgs.writeShellScript "script.sh" source ) ;
+                                                                        } ;
                                                                     script =
                                                                         {
                                                                             executable ,
@@ -104,7 +103,7 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
-                                                                    in ignore : identity ( value ( inject "$out" ) ) ;
+                                                                    in ignore : identity ( value inject ) ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
@@ -116,7 +115,6 @@
                                                                                     n = index ;
                                                                                     p = builtins.concatLists [ path [ name ] ] ;
                                                                                     v = builtins.elemAt value index ;
-                                                                                    x = mapper p n v ;
                                                                                     in mapper p n v ;
                                                                         in builtins.genList generator ( builtins.length value )
                                                                 else if builtins.typeOf value == "null" then lambda path name ( script : { } )
