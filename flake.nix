@@ -583,7 +583,7 @@
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.typeOf resources.temporary ) "" } &&
+                                                                                ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.typeOf resources.temporary.observe ) "" } &&
                                                                                 exit 67
                                                                         ''
                                                             else
