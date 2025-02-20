@@ -305,9 +305,14 @@
                                                                                                                             let
                                                                                                                                 mapper =
                                                                                                                                     { command , handles , status } :
-                                                                                                                                        ''${ pkgs.coreutils }/bin/echo ${ command harvest } > ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }'' ;
+                                                                                                                                        ''${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "WTF" "}" ] } -- ${ command harvest } > ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }'' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
-                                                                                                                                sets = [ ( target { } ) ( resource { } ) ] ;
+                                                                                                                                sets =
+                                                                                                                                    [
+                                                                                                                                        ( derivation "WTF" ( harvest : builtins.elemAt harvest.temporary.idea."0"."true"."f9b1202d9e218ecb6041ddca6aad80d2e100babd6f2cfba639db1fef0ea56cc2b7be2eba8aaf0d4dd068044c337e541e1d86028feee0573e8af2ab0f6748fa13" 0 ) )
+                                                                                                                                        ( target { } )
+                                                                                                                                        ( resource { } )
+                                                                                                                                    ] ;
                                                                                                                     } ;
                                                                                                         } ;
                                                                                                 in builtins.map mapper list ;
