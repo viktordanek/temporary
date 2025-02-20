@@ -294,8 +294,7 @@
                                                                                                                                     let
                                                                                                                                         mapper =
                                                                                                                                             { command , handles , index , status } :
-                                                                                                                                                "if ! ${ builtins.elemAt command 0 } ; then
-                                                                                                                                                " ;
+                                                                                                                                                "if ! ${ builtins.elemAt command index } ; then false ; fi" ;
                                                                                                                                         in builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list )
                                                                                                                                 ) ;
                                                                                                                     } ;
