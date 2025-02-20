@@ -278,15 +278,19 @@
                                                                     value :
                                                                         let
                                                                             mapper =
-                                                                                { command , status } :
-                                                                                    if status then
-                                                                                        ''
-                                                                                            if ! ${ command } ; then false ; fi
-                                                                                        ''
-                                                                                    else
-                                                                                        ''
-                                                                                            if ${ command } ; then false ; fi
-                                                                                        '' ;
+                                                                                { command , status , arguments ? builtins.hashString "sha512" "arguments" } :
+                                                                                    let
+                                                                                        in
+                                                                                            if status then
+                                                                                                ''
+                                                                                                    if ! ${ command } ${ arguments ; then false ; fi
+                                                                                                    if ! ${ command } ; then false ; fi
+                                                                                                ''
+                                                                                            else
+                                                                                                ''
+                                                                                                    if ${ command } ${ arguments } ; then false ; fi
+                                                                                                    if ${ command } ; then false ; fi
+                                                                                                '' ;
                                                                             in builtins.map mapper value.list ;
                                                                 in builtins.map mapper list ;
                                                         resources =
