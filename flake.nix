@@ -57,7 +57,7 @@
                                                                                                 if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
                                                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                                                                 else throw path name value [ "string" "set" ] ;
-                                                                                         name-to-be-set = name ;
+                                                                                        name-to-be-set = name ;
                                                                                         set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                         in fun set ;
                                                                             grandparent-pid = grandparent-pid pkgs ;
@@ -266,7 +266,8 @@
                                                                                                                     else
                                                                                                                         {
                                                                                                                             head = { list = [ current ] ; handles = current.handles ; } ;
-                                                                                                                            tail = builtins.concatLists [ [ old.head ] old.tail ] ;
+                                                                                                                            tail =
+                                                                                                                            builtins.concatLists [ [ old.head ] old.tail ] ;
                                                                                                                         } ;
                                                                                                                 old =
                                                                                                                     if builtins.length previous == 0 then
@@ -294,7 +295,7 @@
                                                                                                                                     let
                                                                                                                                         mapper =
                                                                                                                                             { command , handles , index , status } :
-                                                                                                                                                "${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep ":" command } ${ builtins.toString index } ${ builtins.toString status }" ;
+                                                                                                                                                "${ pkgs.coreutils }/bin/echo ${ command } ${ builtins.toString index } ${ builtins.toString status }" ;
                                                                                                                                         in builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list )
                                                                                                                                 ) ;
                                                                                                                     } ;
