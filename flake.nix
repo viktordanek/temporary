@@ -237,63 +237,6 @@
                                                 installPhase =
                                                     let
                                                         idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) { pkgs = pkgs ; self = self ; } else builtins.throw "idea.nix is not available" ;
-                                                        observe =
-                                                            let
-                                                                list =
-                                                                    let
-                                                                        list =
-                                                                            let
-                                                                                list = builtins.concatLists [ ( load "/observe.nix" ) ( load "/manual.nix" ) ] ;
-                                                                                load = url : if builtins.pathExists ( self + url ) then builtins.import ( self + url ) resources builtins.elemAt else [ ] ;
-                                                                                mapper = value : value // { handles = if value.status then 40 else 8 ; } ;
-                                                                                in builtins.map mapper list ;
-                                                                        reducer =
-                                                                            previous : current :
-                                                                                let
-                                                                                    new =
-                                                                                        if current.handles + old.head.handles < 1024 then
-                                                                                            {
-                                                                                                head = { list = builtins.concatLists [ [ current ] old.head.list ] ; handles = current.handles + old.head.handles ; } ;
-                                                                                                tail = old.tail ;
-                                                                                            }
-                                                                                        else
-                                                                                            {
-                                                                                                head = { list = [ current ] ; handles = current.handles ; } ;
-                                                                                                tail =
-                                                                                                builtins.concatLists [ [ old.head ] old.tail ] ;
-                                                                                            } ;
-                                                                                    old =
-                                                                                        if builtins.length previous == 0 then
-                                                                                            {
-                                                                                                head = { list = [ ] ; handles = 0 ; } ;
-                                                                                                tail = [ ] ;
-                                                                                            }
-                                                                                        else
-                                                                                            {
-                                                                                                head = builtins.head previous ;
-                                                                                                tail = builtins.tail previous ;
-                                                                                            } ;
-                                                                                    in builtins.concatLists [ [ new.head ] new.tail ] ;
-                                                                        in builtins.foldl' reducer [ ] list ;
-                                                                mapper =
-                                                                    value :
-                                                                        let
-                                                                            mapper =
-                                                                                { command , status , arguments ? builtins.hashString "sha512" "arguments" } :
-                                                                                    let
-                                                                                        in
-                                                                                            if status then
-                                                                                                ''
-                                                                                                    if ! ${ command } ${ arguments } ; then false ; fi
-                                                                                                    if ! ${ command } ; then false ; fi
-                                                                                                ''
-                                                                                            else
-                                                                                                ''
-                                                                                                    if ${ command } ${ arguments } ; then false ; fi
-                                                                                                    if ${ command } ; then false ; fi
-                                                                                                '' ;
-                                                                            in builtins.map mapper value.list ;
-                                                                in builtins.map mapper list ;
                                                         resources =
                                                             lib
                                                                 {
@@ -301,17 +244,54 @@
                                                                     temporary =
                                                                         {
                                                                             observe =
-                                                                                {
-                                                                                    direct =
+                                                                                let
+                                                                                    list =
                                                                                         let
-                                                                                            mapper =
-                                                                                                value :
-                                                                                                    { ... } :
-                                                                                                        {
+                                                                                            list =
+                                                                                                let
+                                                                                                    list = builtins.concatLists [ ( load "/observe.nix" ) ( load "/manual.nix" ) ] ;
+                                                                                                    load = url : if builtins.pathExists ( self + url ) then builtins.import ( self + url ) resources builtins.elemAt else [ ] ;
+                                                                                                    mapper = value : value // { handles = if value.status then 40 else 8 ; } ;
+                                                                                                    in builtins.map mapper list ;
+                                                                                            reducer =
+                                                                                                previous : current :
+                                                                                                    let
+                                                                                                        new =
+                                                                                                            if current.handles + old.head.handles < 1024 then
+                                                                                                                {
+                                                                                                                    head = { list = builtins.concatLists [ [ current ] old.head.list ] ; handles = current.handles + old.head.handles ; } ;
+                                                                                                                    tail = old.tail ;
+                                                                                                                }
+                                                                                                            else
+                                                                                                                {
+                                                                                                                    head = { list = [ current ] ; handles = current.handles ; } ;
+                                                                                                                    tail =
+                                                                                                                    builtins.concatLists [ [ old.head ] old.tail ] ;
+                                                                                                                } ;
+                                                                                                        old =
+                                                                                                            if builtins.length previous == 0 then
+                                                                                                                {
+                                                                                                                    head = { list = [ ] ; handles = 0 ; } ;
+                                                                                                                    tail = [ ] ;
+                                                                                                                }
+                                                                                                            else
+                                                                                                                {
+                                                                                                                    head = builtins.head previous ;
+                                                                                                                    tail = builtins.tail previous ;
+                                                                                                                } ;
+                                                                                                        in builtins.concatLists [ [ new.head ] new.tail ] ;
+                                                                                            in builtins.foldl' reducer [ ] list ;
+                                                                                    mapper =
+                                                                                        value :
+                                                                                            let
+                                                                                                mapper =
+                                                                                                    { command , status , arguments ? builtins.hashString "sha512" "arguments" } :
+                                                                                                        { ... z } :
+                                                                                                            {
 
-                                                                                                        } ;
-                                                                                            in builtins.map mapper observe ;
-                                                                                } ;
+                                                                                                            } ;
+                                                                                                in builtins.map mapper value.list ;
+                                                                                    in builtins.map mapper list ;
                                                                             temporary = idea ;
                                                                             util =
                                                                                 {
