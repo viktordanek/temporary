@@ -253,7 +253,7 @@
                                                                                                     let
                                                                                                         list =
                                                                                                             let
-                                                                                                                list = builtins.map ( url : load url ) { resources = resources ; elemAt = builtins.elemAt ; } ;
+                                                                                                                list = load "observe.nix" { resources = resources ; elemAt = builtins.elemAt ; } ;
                                                                                                                 mapper =
                                                                                                                     {
                                                                                                                         command ,
@@ -291,7 +291,7 @@
                                                                                                                                 tail = builtins.tail previous ;
                                                                                                                             } ;
                                                                                                                     in builtins.concatLists [ [ new.head ] new.tail ] ;
-                                                                                                        in builtins.foldl' reducer [ ] [ ] ; # list ;
+                                                                                                        in builtins.foldl' reducer [ ] list ;
                                                                                                 mapper =
                                                                                                     value : { ... } :
                                                                                                         {
