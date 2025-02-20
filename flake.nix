@@ -571,7 +571,7 @@
                                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                     else throw path name value [ "lambda" "list" "set" ] ;
                                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) idea ) ) ;
-                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists [ ["resources : elemAt" "\t[" ] list [ "\t]" ] ] ) ;
+                                                                                    in builtins.concatStringsSep "\n" ( builtins.concatLists [ ["resources : elemAt :" "\t[" ] list [ "\t]" ] ] ) ;
                                                                             in builtins.toFile "observe.nix" string ;
                                                                     in
                                                                         ''
