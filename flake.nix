@@ -301,7 +301,7 @@
                                                                                                                             let
                                                                                                                                 mapper =
                                                                                                                                     { command , handles , status } :
-                                                                                                                                        ''${ pkgs.coreutils }/bin/echo WTF=${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] } COMMAND=${ command harvest } > ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }'' ;
+                                                                                                                                        ''${ pkgs.coreutils }/bin/echo WTF=$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/readlink ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] } ) ) ) ${ command harvest } > ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }'' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
                                                                                                                                 sets = [ ( target { } ) ( resource { } ) ] ;
                                                                                                                     } ;
