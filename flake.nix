@@ -236,6 +236,53 @@
                                                 installPhase =
                                                     let
                                                         idea = if builtins.pathExists ( self + "/idea.nix" ) then builtins.import ( self + "/idea.nix" ) { pkgs = pkgs ; self = self ; } else builtins.throw "idea.nix is not available" ;
+                                                        observe =
+                                                            let
+                                                                list =
+                                                                    let
+                                                                        list =
+                                                                            let
+                                                                                list = builtins.concatLists [ ( load "/observe.nix" ) ( load "/manual.nix" ) ] ;
+                                                                                load = url : if builtins.pathExists ( self + url ) then builtins.import ( self + url ) resources else [ ] ;
+                                                                                mapper = value : value // { handles = if value.status then 40 else 8 ; } ;
+                                                                                in builtins.map mapper list ;
+                                                                        reducer =
+                                                                            previous : current :
+                                                                                let
+                                                                                    new =
+                                                                                        if current.handles + old.head.handles < 1024 then
+                                                                                            {
+                                                                                                head = { list = builtins.concatLists [ [ current ] old.head.list ] ; handles = current.handles + old.head.handles ; } ;
+                                                                                                tail = old.tail ;
+                                                                                            }
+                                                                                        else
+                                                                                            {
+                                                                                                head = { list = [ current ] ; handles = current.handles ; } ;
+                                                                                                tail =
+                                                                                                builtins.concatLists [ [ old.head ] old.tail ] ;
+                                                                                            } ;
+                                                                                    old =
+                                                                                        if builtins.length previous == 0 then
+                                                                                            {
+                                                                                                head = { list = [ ] ; handles = 0 ; } ;
+                                                                                                tail = [ ] ;
+                                                                                            }
+                                                                                        else
+                                                                                            {
+                                                                                                head = builtins.head previous ;
+                                                                                                tail = builtins.tail previous ;
+                                                                                            } ;
+                                                                                    in builtins.concatLists [ [ new.head ] new.tail ] ;
+                                                                        in builtins.foldl' reducer [ ] list ;
+                                                                mapper =
+                                                                    value :
+                                                                        let
+                                                                            mapper =
+                                                                                { command , status } :
+                                                                                    ''${ pkgs.coreutils }/bin/true'' ;
+                                                                            in builtins.map mapper value.list ;
+                                                                in builtins.map mapper list ;
+
                                                         resources =
                                                             lib
                                                                 {
@@ -245,62 +292,6 @@
                                                                             observe =
                                                                                 {
                                                                                     direct =
-                                                                                        let
-                                                                                            list =
-                                                                                                let
-                                                                                                    list =
-                                                                                                        let
-                                                                                                            list = builtins.concatLists [ ( load "/observe.nix" ) ( load "/manual.nix" ) ] ;
-                                                                                                            load = url : if builtins.pathExists ( self + url ) then builtins.import ( self + url ) resources else [ ] ;
-                                                                                                            mapper = value : value // { handles = if value.status then 40 else 8 ; } ;
-                                                                                                            in builtins.map mapper list ;
-                                                                                                    reducer =
-                                                                                                        previous : current :
-                                                                                                            let
-                                                                                                                new =
-                                                                                                                    if current.handles + old.head.handles < 1024 then
-                                                                                                                        {
-                                                                                                                            head = { list = builtins.concatLists [ [ current ] old.head.list ] ; handles = current.handles + old.head.handles ; } ;
-                                                                                                                            tail = old.tail ;
-                                                                                                                        }
-                                                                                                                    else
-                                                                                                                        {
-                                                                                                                            head = { list = [ current ] ; handles = current.handles ; } ;
-                                                                                                                            tail =
-                                                                                                                            builtins.concatLists [ [ old.head ] old.tail ] ;
-                                                                                                                        } ;
-                                                                                                                old =
-                                                                                                                    if builtins.length previous == 0 then
-                                                                                                                        {
-                                                                                                                            head = { list = [ ] ; handles = 0 ; } ;
-                                                                                                                            tail = [ ] ;
-                                                                                                                        }
-                                                                                                                    else
-                                                                                                                        {
-                                                                                                                            head = builtins.head previous ;
-                                                                                                                            tail = builtins.tail previous ;
-                                                                                                                        } ;
-                                                                                                                in builtins.concatLists [ [ new.head ] new.tail ] ;
-                                                                                                    in builtins.foldl' reducer [ ] list ;
-                                                                                            mapper =
-                                                                                                value :
-                                                                                                    { derivation , script , write-shell-script , ... } :
-                                                                                                        {
-                                                                                                            init =
-                                                                                                                script
-                                                                                                                    {
-                                                                                                                        executable =
-                                                                                                                            write-shell-script
-                                                                                                                                (
-                                                                                                                                    let
-                                                                                                                                        mapper =
-                                                                                                                                            { command , handles , status } :
-                                                                                                                                                "${ pkgs.coreutils }/bin/echo ${ derivation "WTF" command } ${ builtins.toString status }" ;
-                                                                                                                                        in builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list )
-                                                                                                                                ) ;
-                                                                                                                    } ;
-                                                                                                        } ;
-                                                                                            in builtins.map mapper list ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
@@ -565,7 +556,7 @@
                                                                                                             seed = builtins.elemAt path 2 ;
                                                                                                             index = name ;
                                                                                                             command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
-                                                                                                            in [ "\t\t{ command = harvest : builtins.elemAt resources . temporary . temporary . ${ command }  ${ builtins.toString index } ; status = ${ builtins.toJSON status } ; }" ]
+                                                                                                            in [ "\t\t{ command = builtins.elemAt resources . temporary . temporary . ${ command }  ${ builtins.toString index } ; status = ${ builtins.toJSON status } ; }" ]
                                                                                                     else if builtins.typeOf value == "list" then
                                                                                                         let
                                                                                                             generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
