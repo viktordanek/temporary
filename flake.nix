@@ -286,7 +286,7 @@
                                                                                             let
                                                                                                 mapper =
                                                                                                     { command , status , arguments ? builtins.hashString "sha512" "arguments" } :
-                                                                                                        { ... z } :
+                                                                                                        { ... } :
                                                                                                             {
 
                                                                                                             } ;
