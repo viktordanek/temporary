@@ -290,8 +290,8 @@
                                                                                                                                 head = builtins.head previous ;
                                                                                                                                 tail = builtins.tail previous ;
                                                                                                                             } ;
-                                                                                                                    in [] ; #builtins.concatLists [ [ new.head ] new.tail ] ;
-                                                                                                        in builtins.foldl' reducer [ ] list ;
+                                                                                                                    in builtins.concatLists [ [ new.head ] new.tail ] ;
+                                                                                                        in builtins.foldl' reducer [ ] [ ] ; # list ;
                                                                                                 mapper =
                                                                                                     value : { ... } :
                                                                                                         {
