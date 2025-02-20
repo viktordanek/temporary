@@ -249,8 +249,46 @@
                                                                                         idea = load "/idea.nix" { cat = "${ pkgs.coreutils }/bin/cat" ; cut = "${ pkgs.coreutils }/bin/cut" ; echo = "${ pkgs.coreutils }/bin/echo" ; find = "${ pkgs.findutils }/bin/find" ; flock = "${ pkgs.flock }/bin/flock" ; jq = "${ pkgs.jq }/bin/jq" ; mkdir = "${ pkgs.coreutils }/bin/mkdir" ; rm = "${ pkgs.coreutils }/bin/rm" ; sha512sum = "${ pkgs.coreutils }/bin/sha512sum" ; self = self ; yq = "${ pkgs.yq }/bin/yq" ; } ;
                                                                                         observe =
                                                                                             let
-                                                                                                list = builtins.map ( url : load url ) { resources = resources ; elemAt = builtins.elemAt ; } ;
-                                                                                                in null ;
+                                                                                                list =
+                                                                                                    let
+                                                                                                        list = builtins.map ( url : load url ) { resources = resources ; elemAt = builtins.elemAt ; } ;
+                                                                                                        mapper =
+                                                                                                            {
+                                                                                                                command ,
+                                                                                                                status ? true
+                                                                                                            } :
+                                                                                                                {
+                                                                                                                    command = command ;
+                                                                                                                    handles = if status then 40 else 8 ;
+                                                                                                                    status = status ;
+                                                                                                                } ;
+                                                                                                        in builtins.map mapper list ;
+                                                                                                reducer =
+                                                                                                    previous : current :
+                                                                                                        let
+                                                                                                            new =
+                                                                                                                if current.handles + old.head.handles < 1024 then
+                                                                                                                    {
+                                                                                                                        head = { handles = current.handles + old.head.handles ; list = builtins.concatLists [ [ current ] old.head.list ] ; } ;
+                                                                                                                        tail = old.tail ;
+                                                                                                                    }
+                                                                                                                else
+                                                                                                                    {
+                                                                                                                        head = { handles = current.handles ; list = [ current ] ;
+                                                                                                                        tail = builtins.concatLists [ [ old.head ] old.tail ] ;
+                                                                                                                    } ;
+                                                                                                            old =
+                                                                                                                if builtins.length previous == 0 then
+                                                                                                                    {
+                                                                                                                        head = { handles = 0 ; list = [ ] ; } ;
+                                                                                                                        tail = [ ] ;
+                                                                                                                    }
+                                                                                                                else
+                                                                                                                    {
+                                                                                                                        head = builtins.head previous ;
+                                                                                                                        tail = builtins.tail previous ;
+                                                                                                                    } ;
+                                                                                                            in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                         util =
                                                                                             {
                                                                                                 post =
