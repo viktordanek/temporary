@@ -269,7 +269,7 @@
                                                                                                             previous : current :
                                                                                                                 let
                                                                                                                     new =
-                                                                                                                        if current.handles + old.head.handles < 1024 then
+                                                                                                                        if 3 * ( current.handles + old.head.handles ) < 1024 then
                                                                                                                             {
                                                                                                                                 head = { handles = current.handles + old.head.handles ; list = builtins.concatLists [ [ current ] old.head.list ] ; } ;
                                                                                                                                 tail = old.tail ;
