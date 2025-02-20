@@ -274,7 +274,7 @@
                                                                                                                     }
                                                                                                                 else
                                                                                                                     {
-                                                                                                                        head = { handles = current.handles ; list = [ current ] ;
+                                                                                                                        head = { handles = current.handles ; list = [ current ] ; } ;
                                                                                                                         tail = builtins.concatLists [ [ old.head ] old.tail ] ;
                                                                                                                     } ;
                                                                                                             old =
@@ -289,6 +289,7 @@
                                                                                                                         tail = builtins.tail previous ;
                                                                                                                     } ;
                                                                                                             in builtins.concatLists [ [ new.head ] new.tail ] ;
+                                                                                                in builtins.foldl' reducer [ ] list ;
                                                                                         util =
                                                                                             {
                                                                                                 post =
