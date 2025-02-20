@@ -282,7 +282,6 @@
                                                                                     ''${ pkgs.coreutils }/bin/true'' ;
                                                                             in builtins.map mapper value.list ;
                                                                 in builtins.map mapper list ;
-
                                                         resources =
                                                             lib
                                                                 {
@@ -292,6 +291,13 @@
                                                                             observe =
                                                                                 {
                                                                                     direct =
+                                                                                        let
+                                                                                            mapper =
+                                                                                                value :
+                                                                                                    { ... } :
+                                                                                                        {
+
+                                                                                                        } ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
