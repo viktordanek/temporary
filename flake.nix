@@ -246,7 +246,7 @@
                                                                             load = url : value : if builtins.pathExists ( self + url ) then builtins.import ( self + url ) value else [ ] ;
                                                                             in
                                                                                 {
-                                                                                    idea = load "/idea.nix" { cat = "${ pkgs.coreutils }/bin/cat" ; cut = "${ pkgs.coreutils }/bin/cut" ; echo = "${ pkgs.coreutils }/bin/echo" ; find = "${ pkgs.findutils }/bin/find" ; flock = "${ pkgs.flock }/bin/flock" ; jq = "${ pkgs.jq }/bin/jq" ; mkdir = "${ pkgs.coreutils }/bin/mkdir" ; rm = "${ pkgs.coreutils }/bin/rm" ; sha512sum = "${ pkgs.coreutils }/bin/sha512sum" ; yq = "${ pkgs.yq }/bin/yq" ; }
+                                                                                    idea = load "/idea.nix" { cat = "${ pkgs.coreutils }/bin/cat" ; cut = "${ pkgs.coreutils }/bin/cut" ; echo = "${ pkgs.coreutils }/bin/echo" ; find = "${ pkgs.findutils }/bin/find" ; flock = "${ pkgs.flock }/bin/flock" ; jq = "${ pkgs.jq }/bin/jq" ; mkdir = "${ pkgs.coreutils }/bin/mkdir" ; rm = "${ pkgs.coreutils }/bin/rm" ; sha512sum = "${ pkgs.coreutils }/bin/sha512sum" ; self = self ; yq = "${ pkgs.yq }/bin/yq" ; } ;
                                                                                     util =
                                                                                         {
                                                                                             post =
