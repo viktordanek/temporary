@@ -245,50 +245,49 @@
                                                                         let
                                                                             load = url : value : if builtins.pathExists ( self + url ) then builtins.import ( self + url ) value else [ ] ;
                                                                             in
-                                                                        {
-                                                                            idea = load "/idea.nix" { cat = "${ pkgs.coreutils }/bin/cat" ; cut = "${ pkgs.coreutils }/bin/cut" ; echo = "${ pkgs.coreutils }/bin/echo" ; find = "${ pkgs.findutils }/bin/find" ; flock = "${ pkgs.flock }/bin/flock" ; jq = "${ pkgs.jq }/bin/jq" ; mkdir = "${ pkgs.coreutils }/bin/mkdir" ; rm = "${ pkgs.coreutils }/bin/rm" ; sha512sum = "${ pkgs.coreutils }/bin/sha512sum" ; yq = "${ pkgs.yq }/bin/yq" ; }
-                                                                            temporary = idea ;
-                                                                            util =
                                                                                 {
-                                                                                    post =
-                                                                                        { script , shell-script , string , target , ... } :
-                                                                                            {
-                                                                                                init =
-                                                                                                    script
-                                                                                                        {
-                                                                                                            executable = shell-script "/scripts/test/util/post.sh" ;
-                                                                                                            sets =
-                                                                                                                [
-                                                                                                                    ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
-                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                                                                    ( string "SED" "${ pkgs.gnused }/bin/sed" )
-                                                                                                                    ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                                                                    ( target { name = "e38a081823542c636b63a4aa3438db18fcf513e988ea7640503208f0d94252ff57a51ed0c931c4448d4b3396bfee7ce89e5c317d223e8bfd2ee4123eaf4ad1c6" ; } )
-                                                                                                                ] ;
-                                                                                                        } ;
-                                                                                            } ;
-                                                                                    token =
-                                                                                        { script , shell-script , standard-input , string , target , ... } :
-                                                                                            {
-                                                                                                init =
-                                                                                                    script
-                                                                                                        {
-                                                                                                            executable = shell-script "/scripts/test/util/token.sh" ;
-                                                                                                            sets =
-                                                                                                                [
-                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                    ( standard-input { } )
-                                                                                                                    ( target { } )
-                                                                                                                ] ;
-                                                                                                        } ;
-                                                                                            } ;
-                                                                               } ;
+                                                                                    idea = load "/idea.nix" { cat = "${ pkgs.coreutils }/bin/cat" ; cut = "${ pkgs.coreutils }/bin/cut" ; echo = "${ pkgs.coreutils }/bin/echo" ; find = "${ pkgs.findutils }/bin/find" ; flock = "${ pkgs.flock }/bin/flock" ; jq = "${ pkgs.jq }/bin/jq" ; mkdir = "${ pkgs.coreutils }/bin/mkdir" ; rm = "${ pkgs.coreutils }/bin/rm" ; sha512sum = "${ pkgs.coreutils }/bin/sha512sum" ; yq = "${ pkgs.yq }/bin/yq" ; }
+                                                                                    util =
+                                                                                        {
+                                                                                            post =
+                                                                                                { script , shell-script , string , target , ... } :
+                                                                                                    {
+                                                                                                        init =
+                                                                                                            script
+                                                                                                                {
+                                                                                                                    executable = shell-script "/scripts/test/util/post.sh" ;
+                                                                                                                    sets =
+                                                                                                                        [
+                                                                                                                            ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
+                                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                            ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                                                            ( string "SED" "${ pkgs.gnused }/bin/sed" )
+                                                                                                                            ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                            ( target { name = "e38a081823542c636b63a4aa3438db18fcf513e988ea7640503208f0d94252ff57a51ed0c931c4448d4b3396bfee7ce89e5c317d223e8bfd2ee4123eaf4ad1c6" ; } )
+                                                                                                                        ] ;
+                                                                                                                } ;
+                                                                                                    } ;
+                                                                                            token =
+                                                                                                { script , shell-script , standard-input , string , target , ... } :
+                                                                                                    {
+                                                                                                        init =
+                                                                                                            script
+                                                                                                                {
+                                                                                                                    executable = shell-script "/scripts/test/util/token.sh" ;
+                                                                                                                    sets =
+                                                                                                                        [
+                                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                            ( standard-input { } )
+                                                                                                                            ( target { } )
+                                                                                                                        ] ;
+                                                                                                                } ;
+                                                                                                    } ;
+                                                                                       } ;
+                                                                                } ;
+                                                                            # temporary-initialization-error = 65 ;
+                                                                            # temporary-path = "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ;
+                                                                            temporary-resource-mask = "checks.temporary.XXXXXXXX" ;
                                                                         } ;
-                                                                    # temporary-initialization-error = 65 ;
-                                                                    # temporary-path = "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ;
-                                                                    temporary-resource-mask = "checks.temporary.XXXXXXXX" ;
-                                                                } ;
                                                         in
                                                             if ! builtins.pathExists ( self + "/idea.nix" ) then
                                                                 let
