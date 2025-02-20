@@ -303,7 +303,7 @@
                                                                                                                                 mapper =
                                                                                                                                     { command , handles , status } :
                                                                                                                                         ''
-                                                                                                                                            if ! ${ harvest command } ; then ${ pkgs.coreutils }/bin/false ; fi
+                                                                                                                                            if ! ${ command harvest } ; then ${ pkgs.coreutils }/bin/false ; fi
                                                                                                                                         '' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
                                                                                                                     } ;
