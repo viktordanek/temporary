@@ -298,7 +298,7 @@
                                                                                                         {
 
                                                                                                         } ;
-                                                                                            in builtins.map mapper observed ;
+                                                                                            in builtins.map mapper observe ;
                                                                                 } ;
                                                                             temporary = idea ;
                                                                             util =
