@@ -71,6 +71,7 @@
                                                                             script = script ;
                                                                             shell-script = url : self + url ;
                                                                             standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
+                                                                            store = { name ? "STORE" } : "$out" ;
                                                                             string = name : value : "--set ${ name } ${ value }" ;
                                                                             target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
                                                                             write-shell-script = source : builtins.toString ( pkgs.writeShellScript "script.sh" source ) ;
@@ -304,7 +305,7 @@
                                                                                                                                     { command , handles , status } :
                                                                                                                                         ''${ pkgs.coreutils }/bin/echo COMMAND=${ command harvest } > ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }'' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
-                                                                                                                                sets = [ ( target { } ) ] ;
+                                                                                                                                sets = [ ( target { } ) ( store { } ) ] ;
                                                                                                                     } ;
                                                                                                         } ;
                                                                                                 in builtins.map mapper list ;
