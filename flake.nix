@@ -49,7 +49,8 @@
                                                                             } ;
                                                                     inject =
                                                                         let
-                                                                            out = "$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/readlink $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/teardown-synch.sh ) ) )" ;
+                                                                            out2 = "$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/readlink $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/teardown-synch.sh ) ) )" ;
+                                                                            out = "${ builtins.concatStringsSep "" [ "$" "{" "OUT" "}" ] }" ;
                                                                             in
                                                                                 {
                                                                                     derivation =
