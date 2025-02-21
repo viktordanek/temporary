@@ -492,7 +492,7 @@
                                                                                                     [
                                                                                                         [
                                                                                                             "("
-                                                                                                            "${ indent 1 }{ derivation , grandparent-pid , harvest , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , string , target , write-shell-script } :"
+                                                                                                            "${ indent 1 }{ derivation , grandparent-pid , harvest , is-file , is-interactive , is-pipe , path , parent-pid , resource , script , shell-script , standard-input , store , string , target , write-shell-script } :"
                                                                                                             "${ indent 2 }{"
                                                                                                         ]
                                                                                                         ( builtins.map ( x : "${ indent 3 }${ x }" ) ( builtins.concatLists [ init post release ] ) )
