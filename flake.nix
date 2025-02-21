@@ -311,7 +311,7 @@
                                                                                                                             let
                                                                                                                                 mapper =
                                                                                                                                     { command , handles , status } :
-                                                                                                                                        ''${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "WTF" "}" ] } -- ${ command harvest } > ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }'' ;
+                                                                                                                                        ''${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] }'' ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
                                                                                                                                 sets =
                                                                                                                                     [
