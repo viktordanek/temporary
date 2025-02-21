@@ -270,6 +270,7 @@
                                                                                                                         status ? true
                                                                                                                     } :
                                                                                                                         {
+                                                                                                                            arguments = arguments ;
                                                                                                                             command = command ;
                                                                                                                             handles = if status then 40 else 8 ;
                                                                                                                             status = status ;
