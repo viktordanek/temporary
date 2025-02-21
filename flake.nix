@@ -83,7 +83,7 @@
                                                                                     store = { name ? "STORE" } : "--set ${ name } $out" ;
                                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                                     target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                                    write-shell-script = source : builtins.toString ( pkgs.writeShellScript "script.sh" source ) ;
+                                                                                    write-shell-script = source : pkgs.writeShellScript "script.sh" source ;
                                                                                 } ;
                                                                     script =
                                                                         {
