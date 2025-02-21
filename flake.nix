@@ -321,11 +321,11 @@
                                                                                                                                     { arguments , command , handles , input-file , input-pipe , paste , status } @primary :
                                                                                                                                         if status then
                                                                                                                                             [
-                                                                                                                                                "if ! ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi # ${ builtins.toJSON primary }"
+                                                                                                                                                "if ! ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi # ${ builtins.toJSON status }"
                                                                                                                                             ]
                                                                                                                                         else
                                                                                                                                             [
-                                                                                                                                                "if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi # ${ builtins.toJSON primary }"
+                                                                                                                                                "if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi # ${ builtins.toJSON status }"
                                                                                                                                             ] ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.map mapper value.list ) ) ) ;
                                                                                                                                 sets =
