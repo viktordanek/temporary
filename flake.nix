@@ -267,12 +267,18 @@
                                                                                                                     {
                                                                                                                         arguments ? builtins.hashString "sha512" "arguments" ,
                                                                                                                         command ,
+                                                                                                                        input-file ? builtins.hashString "sha512" "input-file" ,
+                                                                                                                        input-pipe ? builtins.hashString "sha512" "input-pipe" ,
+                                                                                                                        paste ? builtins.hashString "sha512" paste ,
                                                                                                                         status ? true
                                                                                                                     } :
                                                                                                                         {
                                                                                                                             arguments = arguments ;
                                                                                                                             command = command ;
                                                                                                                             handles = if status then 40 else 8 ;
+                                                                                                                            input-file = input-file ;
+                                                                                                                            input-pipe = input-pipe ;
+                                                                                                                            paste = paste ;
                                                                                                                             status = status ;
                                                                                                                         } ;
                                                                                                                 in builtins.map mapper list ;
@@ -312,7 +318,7 @@
                                                                                                                         executable =
                                                                                                                             let
                                                                                                                                 mapper =
-                                                                                                                                    { arguments , command , handles , status } :
+                                                                                                                                    { arguments , command , handles , input-file , input-pipe , paste , status } :
                                                                                                                                         if status then
                                                                                                                                             "if ! ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi"
                                                                                                                                         else
