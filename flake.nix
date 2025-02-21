@@ -318,14 +318,14 @@
                                                                                                                         executable =
                                                                                                                             let
                                                                                                                                 mapper =
-                                                                                                                                    { arguments , command , handles , input-file , input-pipe , paste , status } :
+                                                                                                                                    { arguments , command , handles , input-file , input-pipe , paste , status } @primary :
                                                                                                                                         if status then
                                                                                                                                             [
-                                                                                                                                                "if ! ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi"
+                                                                                                                                                "if ! ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi # ${ builtins.toJSON primary }"
                                                                                                                                             ]
                                                                                                                                         else
                                                                                                                                             [
-                                                                                                                                                "if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi"
+                                                                                                                                                "if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi # ${ builtins.toJSON primary }"
                                                                                                                                             ] ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.map mapper value.list ) ) ) ;
                                                                                                                                 sets =
