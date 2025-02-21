@@ -302,7 +302,7 @@
                                                                                                                     in builtins.concatLists [ [ new.head ] new.tail ] ;
                                                                                                         in builtins.foldl' reducer [ ] list ;
                                                                                                 mapper =
-                                                                                                    value : { derivation , harvest , resource , script , target , write-shell-script , ... } :
+                                                                                                    value : { derivation , harvest , resource , script , store , target , write-shell-script , ... } :
                                                                                                         {
                                                                                                             init =
                                                                                                                 script
