@@ -600,7 +600,7 @@
                                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                         let
-                                                                                                            status = if init-typeOf == "null" || ! ( init-status != "0" && init-has-standard-error == "true" ) then true else false ;
+                                                                                                            status = if (init-typeOf == "null") || (init-typeOf == "lambda" && init-status == "0" && init-has-standard-error == false) then true else false ;
                                                                                                             init-status = builtins.elemAt path 0 ;
                                                                                                             init-has-standard-error = builtins.elemAt path 1 ;
                                                                                                             init-typeOf = builtins.elemAt path 2 ;
