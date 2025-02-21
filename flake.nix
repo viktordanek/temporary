@@ -265,6 +265,7 @@
                                                                                                                 list = load "/observe.nix" { elemAt = builtins.elemAt ; } ;
                                                                                                                 mapper =
                                                                                                                     {
+                                                                                                                        arguments ? builtins.hashString "sha512" "arguments" ,
                                                                                                                         command ,
                                                                                                                         status ? true
                                                                                                                     } :
@@ -310,8 +311,11 @@
                                                                                                                         executable =
                                                                                                                             let
                                                                                                                                 mapper =
-                                                                                                                                    { command , handles , status } :
-                                                                                                                                        ''${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] } -- ${ command ( harvest { } ) }'' ;
+                                                                                                                                    { arguments , command , handles , status } :
+                                                                                                                                        if status then
+                                                                                                                                            "if ! ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi"
+                                                                                                                                        else
+                                                                                                                                            "if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi" ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
                                                                                                                                 sets =
                                                                                                                                     [
