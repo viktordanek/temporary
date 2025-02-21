@@ -70,7 +70,7 @@
                                                                                                 set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                                 in fun set ;
                                                                                     grandparent-pid = grandparent-pid pkgs ;
-                                                                                    harvest = harvest "" ;
+                                                                                    harvest = { name ? "STORE" } : harvest ( builtins.concatStringsSep "" [ "$" "{" name "}" ] ) ;
                                                                                     is-file = is-file pkgs ;
                                                                                     is-interactive = is-interactive pkgs ;
                                                                                     is-pipe = is-pipe pkgs ;
@@ -80,6 +80,7 @@
                                                                                     script = script ;
                                                                                     shell-script = url : self + url ;
                                                                                     standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
+                                                                                    store = { name ? "STORE" } : "--set ${ name } $out" ;
                                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                                     target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
                                                                                     write-shell-script = source : builtins.toString ( pkgs.writeShellScript "script.sh" source ) ;
@@ -315,6 +316,7 @@
                                                                                                                                 sets =
                                                                                                                                     [
                                                                                                                                         ( derivation "WTF" ( harvest : builtins.elemAt harvest.temporary.idea."0"."true"."f9b1202d9e218ecb6041ddca6aad80d2e100babd6f2cfba639db1fef0ea56cc2b7be2eba8aaf0d4dd068044c337e541e1d86028feee0573e8af2ab0f6748fa13" 0 ) )
+                                                                                                                                        ( store { } )
                                                                                                                                         ( target { } )
                                                                                                                                         ( resource { } )
                                                                                                                                     ] ;
