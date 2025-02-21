@@ -67,10 +67,10 @@
                                                                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
                                                                                                         else throw path name value [ "list" "set" "string" ] ;
                                                                                                 name-to-be-set = name ;
-                                                                                                set = builtins.mapAttrs ( mapper [ ] ) ( harvest out ) ;
+                                                                                                set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
                                                                                                 in fun set ;
                                                                                     grandparent-pid = grandparent-pid pkgs ;
-                                                                                    harvest = harvest out ;
+                                                                                    harvest = harvest "" ;
                                                                                     is-file = is-file pkgs ;
                                                                                     is-interactive = is-interactive pkgs ;
                                                                                     is-pipe = is-pipe pkgs ;
