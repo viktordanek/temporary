@@ -320,10 +320,14 @@
                                                                                                                                 mapper =
                                                                                                                                     { arguments , command , handles , input-file , input-pipe , paste , status } :
                                                                                                                                         if status then
-                                                                                                                                            "if ! ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi"
+                                                                                                                                            [
+                                                                                                                                                "if ! ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi"
+                                                                                                                                            ]
                                                                                                                                         else
-                                                                                                                                            "if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi" ;
-                                                                                                                                    in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.map mapper value.list ) ) ;
+                                                                                                                                            [
+                                                                                                                                                "if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi"
+                                                                                                                                            ] ;
+                                                                                                                                    in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.map mapper value.list ) ) 0 ;
                                                                                                                                 sets =
                                                                                                                                     [
                                                                                                                                         ( derivation "WTF" ( harvest : builtins.elemAt harvest.temporary.idea."0"."true"."f9b1202d9e218ecb6041ddca6aad80d2e100babd6f2cfba639db1fef0ea56cc2b7be2eba8aaf0d4dd068044c337e541e1d86028feee0573e8af2ab0f6748fa13" 0 ) )
