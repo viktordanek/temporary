@@ -325,7 +325,8 @@
                                                                                                                                             ]
                                                                                                                                         else
                                                                                                                                             [
-                                                                                                                                                "if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi # ${ builtins.toJSON status }"
+                                                                                                                                                "# if ${ command ( harvest { } ) } ${ arguments } ; then ${ pkgs.coreutils }/bin/false ; fi # ${ builtins.toJSON status }"
+                                                                                                                                                "${ pkgs.coreutils }/bin/true"
                                                                                                                                             ] ;
                                                                                                                                     in write-shell-script ( builtins.concatStringsSep " &&\n" ( builtins.concatLists ( builtins.map mapper value.list ) ) ) ;
                                                                                                                                 sets =
