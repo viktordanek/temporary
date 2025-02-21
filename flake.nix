@@ -601,10 +601,11 @@
                                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                                     else if builtins.typeOf value == "string" then
                                                                                                         let
-                                                                                                            status = if init-status == "0" && init-has-standard-error == "false" then true else false ;
+                                                                                                            status = if init-typeOf == "null" || ! ( init-status != "0" && init-has-standard-error == "true" ) then true else false ;
                                                                                                             init-status = builtins.elemAt path 0 ;
                                                                                                             init-has-standard-error = builtins.elemAt path 1 ;
-                                                                                                            seed = builtins.elemAt path 2 ;
+                                                                                                            init-typeOf = builtins.elemAt path 2 ;
+                                                                                                            seed = builtins.elemAt path 3 ;
                                                                                                             index = name ;
                                                                                                             command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
                                                                                                             in [ "\t\t{ command = harvest : elemAt harvest . temporary . idea . ${ command } ${ builtins.toString index } ; status = ${ builtins.toJSON status } ; }" ]
