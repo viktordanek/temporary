@@ -607,7 +607,7 @@
                                                                                                             init-typeOf = builtins.elemAt path 2 ;
                                                                                                             seed = builtins.elemAt path 3 ;
                                                                                                             index = name ;
-                                                                                                            command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error seed ] ) ) ;
+                                                                                                            command = builtins.concatStringsSep " . " ( builtins.map ( x : "\"${ x }\"" ) ( [ init-status init-has-standard-error init-typeOf seed ] ) ) ;
                                                                                                             in [ "\t\t{ command = harvest : elemAt harvest . temporary . idea . ${ command } ${ builtins.toString index } ; status = ${ builtins.toJSON status } ; }" ]
                                                                                                     else throw path name value [ "list" "set" "string" ] ;
                                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) resources.temporary.idea ) ) ;
