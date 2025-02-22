@@ -297,7 +297,15 @@
                                                                 in list ;
                                                         resources =
                                                             {
-                                                                idea = { } ;
+                                                                idea =
+                                                                    lib
+                                                                        {
+                                                                            at = "/run/wrappers/bin/at" ;
+                                                                            temporary = { } ;
+                                                                            temporary-initialization-error-standard-error = 66 ;
+                                                                            temporary-initialization-error-initializer = 67 ;
+                                                                            temporary-resource-mask = "temporary-66.XXXXXXXX" ;
+                                                                        } ;
                                                                 observe = { } ;
                                                                 util = { } ;
                                                             } ;
