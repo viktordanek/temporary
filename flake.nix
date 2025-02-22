@@ -279,7 +279,7 @@
                                                                                                     if type == "bool" then if value then "true" else "false"
                                                                                                     else if type == "int" then builtins.toString elem
                                                                                                     else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
-                                                                                                    else if type == "string" then builtins.trace "${ builtins.typeOf value } - ${ builtins.typeOf index } - ${ type } -${ elem }" "elem"
+                                                                                                    # else if type == "string" then builtins.trace "${ builtins.typeOf value } - ${ builtins.typeOf index } - ${ type } -${ elem }" "elem"
                                                                                                     else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ name } is not bool, int, null, nor string but ${ type }." ;
                                                                                     in builtins.genList generator ( builtins.length value ) ;
                                                                         } ;
