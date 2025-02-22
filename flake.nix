@@ -264,26 +264,29 @@
                                                                         { name = "path-seed" ; value = [ null ] ; }
                                                                         { name = "speed" ; value = [ "slow" "fast" ] ; }
                                                                     ] ;
-                                                                mapper =
-                                                                    { name , value } :
-                                                                        {
-                                                                            name = name ;
-                                                                            value =
-                                                                                let
-                                                                                    generator =
-                                                                                        index :
-                                                                                            let
-                                                                                                elem = builtins.elemAt value index ;
-                                                                                                type = builtins.typeOf elem ;
-                                                                                                in
-                                                                                                    if type == "bool" then if elem then "true" else "false"
-                                                                                                    else if type == "int" then builtins.toString elem
-                                                                                                    else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
-                                                                                                    else if type == "string" then elem
-                                                                                                    else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ name } is not bool, int, null, nor string but ${ type }." ;
-                                                                                    in builtins.genList generator 1 ; # ( builtins.length value ) ;
-                                                                        } ;
-                                                                in builtins.map mapper levels ;
+                                                                list =
+                                                                    let
+                                                                        mapper =
+                                                                            { name , value } :
+                                                                                {
+                                                                                    name = name ;
+                                                                                    value =
+                                                                                        let
+                                                                                            generator =
+                                                                                                index :
+                                                                                                    let
+                                                                                                        elem = builtins.elemAt value index ;
+                                                                                                        type = builtins.typeOf elem ;
+                                                                                                        in
+                                                                                                            if type == "bool" then if elem then "true" else "false"
+                                                                                                            else if type == "int" then builtins.toString elem
+                                                                                                            else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
+                                                                                                            else if type == "string" then elem
+                                                                                                            else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ name } is not bool, int, null, nor string but ${ type }." ;
+                                                                                            in builtins.genList generator ( builtins.length value ) ;
+                                                                                } ;
+                                                                        in builtins.map mapper levels ;
+                                                                in list ;
                                                         resources =
                                                             {
                                                                 idea = { } ;
