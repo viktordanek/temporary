@@ -268,32 +268,35 @@
                                                                     let
                                                                         list =
                                                                             let
-                                                                                mapper =
-                                                                                    { name , value } :
-                                                                                        {
-                                                                                            name = name ;
-                                                                                            value =
-                                                                                                let
-                                                                                                    generator =
-                                                                                                        index :
-                                                                                                            let
-                                                                                                                elem = builtins.elemAt value index ;
-                                                                                                                type = builtins.typeOf elem ;
-                                                                                                                in
-                                                                                                                    if type == "bool" then elem
-                                                                                                                    else if type == "int" then elem
-                                                                                                                    else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
-                                                                                                                    else if type == "string" then elem
-                                                                                                                    else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ name } is not bool, int, null, nor string but ${ type }." ;
-                                                                                                    in builtins.genList generator ( builtins.length value ) ;
-                                                                                        } ;
-                                                                                in builtins.map mapper levels ;
-                                                                        reducer =
-                                                                            previous : current :
-                                                                                let
-                                                                                    mapper = value : builtins.concatLists ( builtins.concatLists [ previous [ [ { name = current.name ; value = value ; } ] ] ] );
-                                                                                    in builtins.map mapper current.value  ;
-                                                                        in builtins.foldl' reducer [ ] list ;
+                                                                                list =
+                                                                                    let
+                                                                                        mapper =
+                                                                                            { name , value } :
+                                                                                                {
+                                                                                                    name = name ;
+                                                                                                    value =
+                                                                                                        let
+                                                                                                            generator =
+                                                                                                                index :
+                                                                                                                    let
+                                                                                                                        elem = builtins.elemAt value index ;
+                                                                                                                        type = builtins.typeOf elem ;
+                                                                                                                        in
+                                                                                                                            if type == "bool" then elem
+                                                                                                                            else if type == "int" then elem
+                                                                                                                            else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
+                                                                                                                            else if type == "string" then elem
+                                                                                                                            else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ name } is not bool, int, null, nor string but ${ type }." ;
+                                                                                                            in builtins.genList generator ( builtins.length value ) ;
+                                                                                                } ;
+                                                                                        in builtins.map mapper levels ;
+                                                                                reducer =
+                                                                                    previous : current :
+                                                                                        let
+                                                                                            mapper = value : builtins.concatLists ( builtins.concatLists [ previous [ [ { name = current.name ; value = value ; } ] ] ] );
+                                                                                            in builtins.map mapper current.value  ;
+                                                                                in builtins.foldl' reducer [ ] list ;
+                                                                        in builtins.map builtins.listToAttrs list ;
                                                                 in list ;
                                                         resources =
                                                             {
