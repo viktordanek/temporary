@@ -291,11 +291,7 @@
                                                                         reducer =
                                                                             previous : current :
                                                                                 let
-                                                                                    mapper =
-                                                                                        { name , value } :
-                                                                                            let
-                                                                                                mapper = previous : builtins.concatLists [ [ { name = name ; value = value ; } ] previous ] ;
-                                                                                                in builtins.map mapper previous ;
+                                                                                    mapper = { name , value } : builtins.concatLists [ [ { name = name ; value = value ; } ] previous ] ;
                                                                                     in builtins.concatLists ( builtins.map mapper current.value ) ;
                                                                         in builtins.foldl' reducer [ ] list ;
                                                                 in list ;
