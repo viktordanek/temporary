@@ -251,7 +251,7 @@
                                                                     [
                                                                         # { name = "init-type" ; value = [ "lambda" "null" ] ; }
                                                                         { name = "init-standard-output" ; value = [ null ] ; }
-                                                                        { name = "init-has-standard-error" ; value = [ true false ] ; }
+                                                                        # { name = "init-has-standard-error" ; value = [ true false ] ; }
                                                                         { name = "init-standard-error" ; value = [ null ] ; }
                                                                         # { name = "init-status" ; value = [ 0 68 ] ; }
                                                                         # { name = "init-seed" ; value = [ null ] ; }
@@ -276,7 +276,7 @@
                                                                                                 elem = builtins.elemAt value index ;
                                                                                                 type = builtins.typeOf elem ;
                                                                                                 in
-                                                                                                    if type == "bool" then if value then "true" else "false"
+                                                                                                    if type == "bool" then if elem then "true" else "false"
                                                                                                     else if type == "int" then builtins.toString elem
                                                                                                     else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
                                                                                                     else if type == "string" then elem
