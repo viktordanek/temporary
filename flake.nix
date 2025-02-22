@@ -278,7 +278,7 @@
                                                                                                         elem = builtins.elemAt value index ;
                                                                                                         type = builtins.typeOf elem ;
                                                                                                         in
-                                                                                                            if type == "bool" then if elem then elem
+                                                                                                            if type == "bool" then elem
                                                                                                             else if type == "int" then elem
                                                                                                             else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
                                                                                                             else if type == "string" then elem
