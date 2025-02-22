@@ -271,7 +271,7 @@
                                                                                 value :
                                                                                     builtins.concatLists [ [ { name = value.name ; value = value.value ; } ] previous ] ;
                                                                             in builtins.concatLists ( builtins.map mapper current.value ) ;
-                                                                in builtins.foldl' reducer [ ] levels ;
+                                                                in levels ;
                                                         resources =
                                                             {
                                                                 idea = { } ;
@@ -281,7 +281,7 @@
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.json" ( builtins.toJSON idea ) } &&
+                                                                    ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "idea.json" ( builtins.toJSON idea ) } $out/idea.yaml &&
                                                                     ${ pkgs.coreutils }/bin/echo $out &&
                                                                     exit 64
                                                             '' ;
