@@ -293,9 +293,9 @@
                                                                                 reducer =
                                                                                     previous : current :
                                                                                         let
-                                                                                            mapper = value : builtins.concatLists [ [ { name = current.name ; value = value ; } ] ] ;
+                                                                                            mapper = value : builtins.concatLists [ previous [ { name = current.name ; value = value ; } ] ] ;
                                                                                             in builtins.map mapper current.value  ;
-                                                                                in builtins.foldl' reducer [ ] list ;
+                                                                                in builtins.foldl' reducer [ [ ] ] list ;
                                                                         in list ;
                                                                 in list ;
                                                         resources =
