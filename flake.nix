@@ -283,7 +283,7 @@
                                                                                                     else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ name } is not bool, int, null, nor string but ${ type }." ;
                                                                                     in builtins.genList generator ( builtins.length value ) ;
                                                                         } ;
-                                                                in builtins.map mapper levels ;
+                                                                in trace levels ;
                                                         resources =
                                                             {
                                                                 idea = { } ;
@@ -319,6 +319,6 @@
                         path : name : value : valid :
                             if builtins.any ( v : v == builtins.typeOf value ) valid then value
                             else builtins.throw "The value defined at ${ resolution path name } is not ${ builtins.concatStringsSep ", " valid } but ${ builtins.typeOf value }." ;
-                    trace = list : builtins.trace ( builtins.toJSON list ) list ;
+                    trace = x : builtins.trace x x ;
                     in flake-utils.lib.eachDefaultSystem fun ;
 }
