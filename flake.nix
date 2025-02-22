@@ -319,6 +319,6 @@
                         path : name : value : valid :
                             if builtins.any ( v : v == builtins.typeOf value ) valid then value
                             else builtins.throw "The value defined at ${ resolution path name } is not ${ builtins.concatStringsSep ", " valid } but ${ builtins.typeOf value }." ;
-                    trace = x : builtins.trace x x ;
+                    trace = x : builtins.trace ( builtins.toJSON x ) x ;
                     in flake-utils.lib.eachDefaultSystem fun ;
 }
