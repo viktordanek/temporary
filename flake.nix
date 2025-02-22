@@ -281,7 +281,7 @@
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.yq }/bin/yq --yaml-output . ${ builtins.toFile "idea.json" ( builtins.toJSON idea ) } $out/idea.yaml &&
+                                                                    ${ pkgs.yq }/bin/yq --yaml-output "." ${ builtins.toFile "idea.json" ( builtins.toJSON idea ) } > $out/idea.yaml &&
                                                                     ${ pkgs.coreutils }/bin/echo $out &&
                                                                     exit 64
                                                             '' ;
