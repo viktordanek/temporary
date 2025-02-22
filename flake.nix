@@ -266,8 +266,12 @@
                                                                     ] ;
                                                                 reducer =
                                                                     previous : current :
-
-                                                                in builtins.foldl' reducer null levels ;
+                                                                        let
+                                                                            mapper =
+                                                                                value :
+                                                                                    builtins.concatLists [ [ { name = value.name ; value = value.value } ] previous ] ;
+                                                                            in builtins.concatLists ( builtins.map mapper current.value ) ;
+                                                                in builtins.foldl' reducer [ ] levels ;
                                                         resources =
                                                             {
                                                                 idea = { } ;
