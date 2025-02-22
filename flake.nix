@@ -288,7 +288,12 @@
                                                                                                     in builtins.genList generator ( builtins.length value ) ;
                                                                                         } ;
                                                                                 in builtins.map mapper levels ;
-                                                                        in list ;
+                                                                        reducer =
+                                                                            previous : current :
+                                                                                let
+                                                                                    mapper = value : builtins.concatLists [ { name = current.name ; value = value ; } ] ;
+                                                                                    in builtins.map mapper current.value
+                                                                        in builtins.foldl' reducer [ ] list ;
                                                                 in list ;
                                                         resources =
                                                             {
