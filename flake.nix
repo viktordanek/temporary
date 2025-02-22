@@ -283,7 +283,7 @@
                                                                                                     else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ value.name } is not bool, int, null, nor string but ${ type }." ;
                                                                                     in builtins.genList generator ( builtins.length value ) ;
                                                                         } ;
-                                                                in builtins.map mapper levels ;
+                                                                in levels ;
                                                         resources =
                                                             {
                                                                 idea = { } ;
