@@ -277,9 +277,9 @@
                                                                                                 type = builtins.typeOf elem ;
                                                                                                 in
                                                                                                     if type == "bool" then if value then "true" else "false"
-                                                                                                    else if type == "int" then builtins.toString value
-                                                                                                    else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ value.name ( builtins.toString index ) ] )
-                                                                                                    else if type == "string" then value
+                                                                                                    # else if type == "int" then builtins.toString value
+                                                                                                    # else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ value.name ( builtins.toString index ) ] )
+                                                                                                    # else if type == "string" then value
                                                                                                     else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ value.name } is not bool, int, null, nor string but ${ type }." ;
                                                                                     in builtins.genList generator ( builtins.length value ) ;
                                                                         } ;
