@@ -251,18 +251,18 @@
                                                                     [
                                                                         { name = "init-type" ; value = [ "lambda" "null" ] ; }
                                                                         { name = "init-standard-output" ; value = [ null ] ; }
-                                                                        { name = "init-has-standard-error" ; value = [ true false ] ; }
-                                                                        { name = "init-standard-error" ; value = [ null ] ; }
-                                                                        { name = "init-status" ; value = [ 0 68 ] ; }
-                                                                        { name = "init-seed" ; value = [ null ] ; }
-                                                                        { name = "release-type" ; value = [ "lambda" "null" ] ; }
-                                                                        { name = "release-standard-output" ; value = [ null ] ; }
-                                                                        { name = "release-has-standard-error" ; value = [ true false ] ; }
-                                                                        { name = "release-standard-error" ; value = [ null ] ; }
-                                                                        { name = "release-status" ; value = [ 0 69 ] ; }
-                                                                        { name = "release-seed" ; value = [ null ] ; }
-                                                                        { name = "path-seed" ; value = [ null ] ; }
-                                                                        { name = "speed" ; value = [ "slow" "fast" ] ; }
+                                                                        # { name = "init-has-standard-error" ; value = [ true false ] ; }
+                                                                        # { name = "init-standard-error" ; value = [ null ] ; }
+                                                                        # { name = "init-status" ; value = [ 0 68 ] ; }
+                                                                        # { name = "init-seed" ; value = [ null ] ; }
+                                                                        # { name = "release-type" ; value = [ "lambda" "null" ] ; }
+                                                                        # { name = "release-standard-output" ; value = [ null ] ; }
+                                                                        # { name = "release-has-standard-error" ; value = [ true false ] ; }
+                                                                        # { name = "release-standard-error" ; value = [ null ] ; }
+                                                                        # { name = "release-status" ; value = [ 0 69 ] ; }
+                                                                        # { name = "release-seed" ; value = [ null ] ; }
+                                                                        # { name = "path-seed" ; value = [ null ] ; }
+                                                                        # { name = "speed" ; value = [ "slow" "fast" ] ; }
                                                                     ] ;
                                                                 list =
                                                                     let
@@ -291,8 +291,8 @@
                                                                         reducer =
                                                                             previous : current :
                                                                                 let
-                                                                                    mapper = value : builtins.concatLists [ { name = current.name ; value = value ; } ] previous ;
-                                                                                    in builtins.map mapper current.value ;
+                                                                                    mapper = value : builtins.concatLists [ [ { name = current.name ; value = value ; } ] previous ] ;
+                                                                                    in builtins.concatLists ( builtins.map mapper current.value ) ;
                                                                         in builtins.foldl' reducer [ ] list ;
                                                                 in list ;
                                                         resources =
