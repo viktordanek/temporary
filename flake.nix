@@ -246,6 +246,10 @@
                                                 installPhase =
                                                     let
                                                         resources =
+                                                            {
+                                                                idea =
+                                                            } ;
+                                                        resources.old =
                                                             lib
                                                                 (
                                                                     let
