@@ -281,7 +281,7 @@
                                                                                                     else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ value.name ( builtins.toString index ) ] )
                                                                                                     else if type == "string" then value
                                                                                                     else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ value.name } is not bool, int, null, nor string but ${ type }." ;
-                                                                                    in builtins.genList generator ( builtins.length value.value ) ;
+                                                                                    in builtins.genList generator ( builtins.length value ) ;
                                                                         } ;
                                                                 in builtins.map mapper levels ;
                                                         resources =
