@@ -273,7 +273,7 @@
                                                                                     generator =
                                                                                         index :
                                                                                             let
-                                                                                                elem = builtins.elem value.value index ;
+                                                                                                elem = builtins.elem value index ;
                                                                                                 type = builtins.typeOf elem ;
                                                                                                 in
                                                                                                     if type == "bool" then if value then "true" else "false"
