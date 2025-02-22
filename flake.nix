@@ -245,6 +245,29 @@
                                                 src = ./. ;
                                                 installPhase =
                                                     let
+                                                        idea =
+                                                            let
+                                                                levels =
+                                                                    [
+                                                                        { name = "init-type" ; value = [ "lambda" "null" ] ; }
+                                                                        { name = "init-standard-output" ; value = [ null ] ; }
+                                                                        { name = "init-has-standard-error" ; value = [ true false ] ; }
+                                                                        { name = "init-standard-error" ; value = [ null ] ; }
+                                                                        { name = "init-status" ; value = [ 0 68 ] ; }
+                                                                        { name = "init-seed" ; value = [ null ] ; }
+                                                                        { name = "release-type" ; value = [ "lambda" "null" ] ; }
+                                                                        { name = "release-standard-output" ; value = [ null ] ; }
+                                                                        { name = "release-has-standard-error" ; value = [ true false ] ; }
+                                                                        { name = "release-standard-error" ; value = [ null ] ; }
+                                                                        { name = "release-status" ; value = [ 0 69 ] ; }
+                                                                        { name = "release-seed" ; value = [ null ] ; }
+                                                                        { name = "path-seed" ; value = [ null ] ; }
+                                                                        { name = "speed" ; value = [ "slow" "fast" ] ; }
+                                                                    ] ;
+                                                                reducer =
+                                                                    previous : current :
+
+                                                                in builtins.foldl' reducer null levels ;
                                                         resources =
                                                             {
                                                                 idea = { } ;
@@ -254,7 +277,8 @@
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    
+                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "idea.json" ( builtins.toJSON idea ) } &&
+                                                                    ${ pkgs.coreutils }/bin/echo $out &&
                                                                     exit 64
                                                             '' ;
                                                     } ;
