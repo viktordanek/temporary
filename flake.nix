@@ -249,13 +249,13 @@
                                                             let
                                                                 levels =
                                                                     [
-                                                                        # { name = "init-type" ; value = [ "lambda" "null" ] ; }
+                                                                        { name = "init-type" ; value = [ "lambda" "null" ] ; }
                                                                         { name = "init-standard-output" ; value = [ null ] ; }
                                                                         { name = "init-has-standard-error" ; value = [ true false ] ; }
                                                                         { name = "init-standard-error" ; value = [ null ] ; }
                                                                         { name = "init-status" ; value = [ 0 68 ] ; }
                                                                         { name = "init-seed" ; value = [ null ] ; }
-                                                                        # { name = "release-type" ; value = [ "lambda" "null" ] ; }
+                                                                        { name = "release-type" ; value = [ "lambda" "null" ] ; }
                                                                         { name = "release-standard-output" ; value = [ null ] ; }
                                                                         { name = "release-has-standard-error" ; value = [ true false ] ; }
                                                                         { name = "release-standard-error" ; value = [ null ] ; }
@@ -279,7 +279,7 @@
                                                                                                     if type == "bool" then if value then "true" else "false"
                                                                                                     else if type == "int" then builtins.toString elem
                                                                                                     else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
-                                                                                                    # else if type == "string" then elem
+                                                                                                    else if type == "string" then elem
                                                                                                     else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ name } is not bool, int, null, nor string but ${ type }." ;
                                                                                     in builtins.genList generator ( builtins.length value ) ;
                                                                         } ;
