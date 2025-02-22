@@ -264,14 +264,26 @@
                                                                         { name = "path-seed" ; value = [ null ] ; }
                                                                         { name = "speed" ; value = [ "slow" "fast" ] ; }
                                                                     ] ;
-                                                                reducer =
-                                                                    previous : current :
-                                                                        let
-                                                                            mapper =
-                                                                                value :
-                                                                                    builtins.concatLists [ [ { name = value.name ; value = value.value ; } ] previous ] ;
-                                                                            in builtins.concatLists ( builtins.map mapper current.value ) ;
-                                                                in levels ;
+                                                                mapper =
+                                                                    { name , value } :
+                                                                        {
+                                                                            name = name ;
+                                                                            value =
+                                                                                let
+                                                                                    generator =
+                                                                                        index :
+                                                                                            let
+                                                                                                elem = builtins.elem value.value index ;
+                                                                                                type = builtins.typeOf elem ;
+                                                                                                in
+                                                                                                    if type == "bool" then if value then "true" else "false"
+                                                                                                    else if type == "int" then builtins.toString value
+                                                                                                    else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ value.name ( builtins.toString index ) ] )
+                                                                                                    else if type == "string" then value
+                                                                                                    else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ value.name } is not bool, int, null, nor string but ${ type }." ;
+                                                                                    in builtins.genList generator ( builtins.length value.value ) ;
+                                                                        } ;
+                                                                in builtins.map mapper levels ;
                                                         resources =
                                                             {
                                                                 idea = { } ;
