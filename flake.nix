@@ -296,7 +296,7 @@
                                                                                   ) current.value);
                                                                                 in builtins.foldl' reducer [ [ ] ] list ;
                                                                         in list ;
-                                                                in list ;
+                                                                in builtins.map builtins.listToAttrs list ;
                                                         resources =
                                                             {
                                                                 idea =
