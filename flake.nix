@@ -331,10 +331,10 @@
                                                                             at = "/run/wrappers/bin/at" ;
                                                                             temporary =
                                                                                 {
-                                                                                    candidates = [ null ] ;
-                                                                                    #     let
-                                                                                    #         mapper = { ... } : { ... } : { } ;
-                                                                                    #         in idea mapper ;
+                                                                                    candidates =
+                                                                                        let
+                                                                                            mapper = value : { ... } : { } ;
+                                                                                            in idea mapper ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
