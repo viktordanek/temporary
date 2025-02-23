@@ -322,7 +322,7 @@
                                                                                                 ) ;
                                                                                     in builtins.foldl' reducer [ [ ] ] list ;
                                                                             in list ;
-                                                                    in builtins.map builtins.listToAttrs list ;
+                                                                    in builtins.map mapper ( builtins.listToAttrs list ) ;
                                                         resources =
                                                             {
                                                                 idea =
@@ -334,7 +334,7 @@
                                                                                     candidates =
                                                                                         let
                                                                                             mapper = value : { ... } : { } ;
-                                                                                            in [ ( builtins.trace ( builtins.typeOf idea ) null ) ] ;
+                                                                                            in [ ( builtins.trace ( builtins.typeOf ( idea ) null ) ] ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
