@@ -331,7 +331,7 @@
                                                                             at = "/run/wrappers/bin/at" ;
                                                                             temporary =
                                                                                 {
-                                                                                    candidates = [ ] ;
+                                                                                    candidates = [ null ] ;
                                                                                     #     let
                                                                                     #         mapper = { ... } : { ... } : { } ;
                                                                                     #         in idea mapper ;
