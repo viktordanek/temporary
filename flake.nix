@@ -299,7 +299,7 @@
                                                                                                         value :
                                                                                                             builtins.map ( entry : entry ++ [ { name = current.name; value = value; } ] ) previous
                                                                                                     )
-                                                                                                    current.value
+                                                                                                current.value
                                                                                             ) ;
                                                                                 in builtins.foldl' reducer [ [ ] ] list ;
                                                                         in list ;
