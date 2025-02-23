@@ -278,7 +278,7 @@
                                                                         { name = "post-standard-output" ; value = [ null ] ; }
                                                                         { name = "post-has-standard-error" ; value = [ true false ] ; }
                                                                         { name = "post-standard-error" ; value = [ null ] ; }
-                                                                        { name = "post-status" ; value = [ 0 76 ] ; }
+                                                                        { name = "post-status" ; value = [ 0 ] ; }
                                                                         { name = "path-seed" ; value = [ null ] ; }
                                                                         { name = "speed" ; value = [ "slow" "fast" ] ; }
                                                                     ] ;
