@@ -290,11 +290,16 @@
                                                                                                             in builtins.genList generator ( builtins.length value ) ;
                                                                                                 } ;
                                                                                         in builtins.map mapper levels ;
-                                                                                reducer =
-                                                                                    previous : current :
-                                                                                        let
-                                                                                            mapper = value : builtins.concatLists [ previous [ { name = current.name ; value = value ; } ] ] ;
-                                                                                            in builtins.map mapper current.value ;
+                                                                                reducer = previous : current :
+                                                                                  builtins.concatLists (  # Flatten the result into a single list
+                                                                                    builtins.map (prevEntry:  # Iterate over previous combinations
+                                                                                      builtins.map (value:  # Iterate over new values
+                                                                                        builtins.concatLists [ prevEntry [ { name = current.name; value = value; } ] ]  # Create a new extended list
+                                                                                      ) current.value
+                                                                                    ) previous
+                                                                                  );
+
+
                                                                                 in builtins.foldl' reducer [ ] list ;
                                                                         in list ;
                                                                 in list ;
