@@ -321,7 +321,7 @@
                                                                                                     current.value
                                                                                                 ) ;
                                                                                     in builtins.foldl' reducer [ [ ] ] list ;
-                                                                            in builtins.trace ( builtins.toJSON list ) list ;
+                                                                            in list ;
                                                                     in builtins.map builtins.listToAttrs list ;
                                                         resources =
                                                             {
@@ -331,10 +331,10 @@
                                                                             at = "/run/wrappers/bin/at" ;
                                                                             temporary =
                                                                                 {
-                                                                                    candidates =
-                                                                                        let
-                                                                                            mapper = { ... } : { ... } : { } ;
-                                                                                            in idea mapper ;
+                                                                                    candidates = [ ] ;
+                                                                                    #     let
+                                                                                    #         mapper = { ... } : { ... } : { } ;
+                                                                                    #         in idea mapper ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
