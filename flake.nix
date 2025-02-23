@@ -299,7 +299,7 @@
                                                                                                         mapper = entry : builtins.concatLists [ entry { name = current.name ; value = value ; } ] ;
                                                                                                         in builtins.map mapper previous ;
                                                                                             in builtins.concatLists ( builtins.map mapper current.value ) ;
-                                                                                in builtins.foldl' reducer [ ] list ;
+                                                                                in builtins.foldl' reducer [ [ ] ] list ;
                                                                         in list ;
                                                                 in list ;
                                                         resources =
