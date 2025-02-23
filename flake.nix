@@ -254,15 +254,32 @@
                                                                         { name = "init-has-standard-error" ; value = [ true false ] ; }
                                                                         { name = "init-standard-error" ; value = [ null ] ; }
                                                                         { name = "init-status" ; value = [ 0 68 ] ; }
-                                                                        # { name = "init-seed" ; value = [ null ] ; }
-                                                                        # { name = "release-type" ; value = [ "lambda" "null" ] ; }
-                                                                        # { name = "release-standard-output" ; value = [ null ] ; }
-                                                                        # { name = "release-has-standard-error" ; value = [ true false ] ; }
-                                                                        # { name = "release-standard-error" ; value = [ null ] ; }
-                                                                        # { name = "release-status" ; value = [ 0 69 ] ; }
-                                                                        # { name = "release-seed" ; value = [ null ] ; }
-                                                                        # { name = "path-seed" ; value = [ null ] ; }
-                                                                        # { name = "speed" ; value = [ "slow" "fast" ] ; }
+                                                                        { name = "init-seed" ; value = [ null ] ; }
+                                                                        { name = "init-temporary-paste" ; value = [ null ] ; }
+                                                                        { name = "init-temporary-arguments" ; value = [ null ] ; }
+                                                                        { name = "init-temporary-pipe" ; value = [ null ] ; }
+                                                                        { name = "init-temporary-has-pipe" ; value = [ true false ] ; }
+                                                                        { name = "init-temporary-file" ; value = [ null ] ; }
+                                                                        { name = "init-temporary-has-file" ; value = [ true false ] ; }
+                                                                        { name = "release-type" ; value = [ "lambda" "null" ] ; }
+                                                                        { name = "release-standard-output" ; value = [ null ] ; }
+                                                                        { name = "release-has-standard-error" ; value = [ true false ] ; }
+                                                                        { name = "release-standard-error" ; value = [ null ] ; }
+                                                                        { name = "release-status" ; value = [ 0 69 ] ; }
+                                                                        { name = "release-seed" ; value = [ null ] ; }
+                                                                        { name = "release-temporary-paste" ; value = [ null ] ; }
+                                                                        { name = "release-temporary-arguments" ; value = [ null ] ; }
+                                                                        { name = "release-temporary-pipe" ; value = [ null ] ; }
+                                                                        { name = "release-temporary-has-pipe" ; value = [ true false ] ; }
+                                                                        { name = "release-temporary-file" ; value = [ null ] ; }
+                                                                        { name = "release-temporary-has-file" ; value = [ true false ] ; }
+                                                                        { name = "post-type" ; value = [ "null" ] ; }
+                                                                        { name = "post-standard-output" ; value = [ null ] ; }
+                                                                        { name = "post-has-standard-error" ; value = [ true false ] ; }
+                                                                        { name = "post-standard-error" ; value = [ null ] ; }
+                                                                        { name = "post-status" ; value = [ 0 68 ] ; }
+                                                                        { name = "path-seed" ; value = [ null ] ; }
+                                                                        { name = "speed" ; value = [ "slow" "fast" ] ; }
                                                                     ] ;
                                                                 list =
                                                                     let
