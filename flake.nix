@@ -351,7 +351,7 @@
                                                                                                     path-seed ,
                                                                                                     ...
                                                                                                 } :
-                                                                                                    { script , shell-script , string , ... } :
+                                                                                                    { path , script , shell-script , string , ... } :
                                                                                                         {
                                                                                                             init =
                                                                                                                 script
