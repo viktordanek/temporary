@@ -333,7 +333,7 @@
                                                                                     candidates =
                                                                                         let
                                                                                             mapper = value : { ... } : { } ;
-                                                                                            in builtins.trace ( builtins.toJSON idea ) [ null ] ;
+                                                                                            in builtins.map mapper idea ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
