@@ -321,7 +321,7 @@
                                                                                                     current.value
                                                                                                 ) ;
                                                                                     in builtins.foldl' reducer [ [ ] ] list ;
-                                                                            in list ;
+                                                                            in builtins.trace ( builtins.toJSON list ) list ;
                                                                     in builtins.map builtins.listToAttrs list ;
                                                         resources =
                                                             {
@@ -333,57 +333,8 @@
                                                                                 {
                                                                                     candidates =
                                                                                         let
-                                                                                            list =
-                                                                                                let
-                                                                                                    mapper =
-                                                                                                        {
-                                                                                                            init-type ,
-                                                                                                            init-standard-output ,
-                                                                                                            init-has-standard-error ,
-                                                                                                            init-standard-error ,
-                                                                                                            init-status ,
-                                                                                                            init-temporary-paste ,
-                                                                                                            init-temporary-arguments ,
-                                                                                                            init-temporary-has-arguments ,
-                                                                                                            init-temporary-pipe ,
-                                                                                                            init-temporary-has-pipe ,
-                                                                                                            init-temporary-file ,
-                                                                                                            init-temporary-has-file ,
-                                                                                                            init-temporary-status ,
-                                                                                                            path-seed ,
-                                                                                                            ...
-                                                                                                        } :
-                                                                                                            { is-file , is-pipe , path , resource , script , shell-script , standard-input , string , target , ... } :
-                                                                                                                {
-                                                                                                                    init =
-                                                                                                                        script
-                                                                                                                            {
-                                                                                                                                executable = shell-script "/scripts/test/temporary/executable.sh" ;
-                                                                                                                                sets =
-                                                                                                                                    [
-                                                                                                                                        ( string "HAS_STANDARD_ERROR" ( builtins.toJSON init-has-standard-error ) )
-                                                                                                                                        ( is-file { name = "cd4d67f6ced1af72b6e50619ab0912f3ae836ecb8186343d64bb339ced909edd4548479d0dad93cb5ecb7f0606c78a8402b90c49a2b1d4c0a5d8200230e01809" ; } )
-                                                                                                                                        ( is-pipe { name = "bed950554a6c594ded4790bca8c9f65f0df4baa61b3fa78f33bcf8b9e3621544929d25e985698dfecc0b5a5f192e32ccf2cadbee0d2bc661374a7ded99e45579" ; } )
-                                                                                                                                        ( path "PATH_SEED" 0 )
-                                                                                                                                        ( resource { name = "c8abe0fd64014b729ad36cb4718564939f0981c7fa252deb5f0f90e460bc438033f7ff4e7204f2c4ca7243c77a356df83f89e31769ed35838c28a9e8b8135306" ; } )
-                                                                                                                                        ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
-                                                                                                                                        ( string "STANDARD_OUTPUT" init-standard-output )
-                                                                                                                                        ( string "STANDARD_ERROR" init-standard-error )
-                                                                                                                                        ( string "STATUS" ( builtins.toString init-status ) )
-                                                                                                                                        ( target { name = "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" ; } )
-                                                                                                                                        ( string "TEMPORARY_ARGUMENTS" init-temporary-arguments )
-                                                                                                                                        ( string "TEMPORARY_FILE" ( builtins.toString ( builtins.writeFile "file" init-temporary-file ) ) )
-                                                                                                                                        ( string "TEMPORARY_HAS_ARGUMENTS" ( builtins.toJSON init-temporary-has-arguments ) )
-                                                                                                                                        ( string "TEMPORARY_HAS_FILE" ( builtins.toJSON init-temporary-has-file ) )
-                                                                                                                                        ( string "TEMPORARY_HAS_PIPE" ( builtins.toJSON init-temporary-has-pipe ) )
-                                                                                                                                        ( string "TEMPORARY_STATUS" ( builtins.toJSON init-temporary-status ) )
-                                                                                                                                        ( string "TEMPORARY_PASTE" init-temporary-paste )
-                                                                                                                                        ( string "TEMPORARY_PIPE" init-temporary-pipe )
-                                                                                                                                    ] ;
-                                                                                                                            } ;
-                                                                                                                } ;
-                                                                                                    in idea mapper ;
-                                                                                            in list ;
+                                                                                            mapper = { ... } : { ... } : { } ;
+                                                                                            in idea mapper ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
