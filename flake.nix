@@ -294,7 +294,7 @@
                                                                                     previous : current :
                                                                                         let
                                                                                             mapper =
-                                                                                                value :
+                                                                                                { name , value } :
                                                                                                     let
                                                                                                         mapper =
                                                                                                             entry : builtins.concatLists [ entry [ { name = name ; value = value ; } ] ] ;
