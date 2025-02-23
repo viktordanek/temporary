@@ -297,7 +297,7 @@
                                                                                                 builtins.map
                                                                                                     (
                                                                                                         value :
-                                                                                                            builtins.map ( entry : entry ++ [{ name = current.name; value = value; }]) previous
+                                                                                                            builtins.map ( entry : entry ++ [ { name = current.name; value = value; } ] ) previous
                                                                                                     )
                                                                                                     current.value
                                                                                             ) ;
