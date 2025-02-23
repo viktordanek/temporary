@@ -321,7 +321,7 @@
                                                                                             ) ;
                                                                                 in builtins.foldl' reducer [ [ ] ] list ;
                                                                         in list ;
-                                                                in builtins.listToAttrs list ;
+                                                                in builtins.map builtins.listToAttrs list ;
                                                         resources =
                                                             {
                                                                 idea =
