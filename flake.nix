@@ -396,6 +396,7 @@
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/echo $out &&
+                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.elemAt resources.temporary.candidates 0 } $out/candidate &&
                                                                     exit 64
                                                             '' ;
                                                     } ;
