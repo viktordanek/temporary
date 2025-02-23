@@ -261,7 +261,7 @@
                                                                         { name = "init-temporary-has-pipe" ; value = [ true false ] ; }
                                                                         { name = "init-temporary-file" ; value = [ null ] ; }
                                                                         { name = "init-temporary-has-file" ; value = [ true false ] ; }
-                                                                        { name = "init-temporary-status" ; value = [ 0 71 ] ; }
+                                                                        { name = "init-temporary-status" ; value = [ 0 ] ; }
                                                                         { name = "release-type" ; value = [ "lambda" "null" ] ; }
                                                                         { name = "release-standard-output" ; value = [ null ] ; }
                                                                         { name = "release-has-standard-error" ; value = [ true false ] ; }
