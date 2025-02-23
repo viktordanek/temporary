@@ -290,16 +290,15 @@
                                                                                                             in builtins.genList generator ( builtins.length value ) ;
                                                                                                 } ;
                                                                                         in builtins.map mapper levels ;
-                                                                                reducer = previous : current :
-                                                                                  builtins.concatLists (  # Flatten the result into a single list
-                                                                                    builtins.map (prevEntry:  # Iterate over previous combinations
-                                                                                      builtins.map (value:  # Iterate over new values
-                                                                                        builtins.concatLists [ prevEntry [ { name = current.name; value = value; } ] ]  # Create a new extended list
-                                                                                      ) current.value
-                                                                                    ) previous
-                                                                                  );
-
-
+                                                                                reducer =
+                                                                                    previous : current :
+                                                                                        let
+                                                                                            mapper =
+                                                                                                value :
+                                                                                                    let
+                                                                                                        mapper = entry : builtins.concatLists [ entry { name = current.name ; value = value ; } ] ;
+                                                                                                        in builtins.map mapper previous ;
+                                                                                            in builtins.concatLists ( builtins.map mapper current.value ) ;
                                                                                 in builtins.foldl' reducer [ ] list ;
                                                                         in list ;
                                                                 in list ;
