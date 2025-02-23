@@ -255,18 +255,19 @@
                                                                             { name = "init-has-standard-error" ; value = [ true false ] ; }
                                                                             { name = "init-standard-error" ; value = [ null ] ; }
                                                                             { name = "init-status" ; value = [ 0 70 ] ; }
-                                                                            { name = "init-seed" ; value = [ null ] ; }
                                                                             { name = "init-temporary-paste" ; value = [ null ] ; }
                                                                             { name = "init-temporary-arguments" ; value = [ null ] ; }
+                                                                            { name = "init-temporary-has-arguments" ; value = [ true false ] ; }
                                                                             { name = "init-temporary-pipe" ; value = [ null ] ; }
                                                                             { name = "init-temporary-has-pipe" ; value = [ true false ] ; }
                                                                             { name = "init-temporary-file" ; value = [ null ] ; }
                                                                             { name = "init-temporary-has-file" ; value = [ true false ] ; }
+                                                                            { name = "init-temporary-status" ; value = [ 0 71 ] ;
                                                                             { name = "release-type" ; value = [ "lambda" "null" ] ; }
                                                                             { name = "release-standard-output" ; value = [ null ] ; }
                                                                             { name = "release-has-standard-error" ; value = [ true false ] ; }
                                                                             { name = "release-standard-error" ; value = [ null ] ; }
-                                                                            { name = "release-status" ; value = [ 0 71 ] ; }
+                                                                            { name = "release-status" ; value = [ 0 73 ] ; }
                                                                             { name = "release-seed" ; value = [ null ] ; }
                                                                             { name = "release-temporary-paste" ; value = [ null ] ; }
                                                                             { name = "release-temporary-arguments" ; value = [ null ] ; }
@@ -278,7 +279,7 @@
                                                                             { name = "post-standard-output" ; value = [ null ] ; }
                                                                             { name = "post-has-standard-error" ; value = [ true false ] ; }
                                                                             { name = "post-standard-error" ; value = [ null ] ; }
-                                                                            { name = "post-status" ; value = [ 0 72 ] ; }
+                                                                            { name = "post-status" ; value = [ 0 76 ] ; }
                                                                             { name = "path-seed" ; value = [ null ] ; }
                                                                             { name = "speed" ; value = [ "slow" "fast" ] ; }
                                                                         ] ;
@@ -329,16 +330,53 @@
                                                                         {
                                                                             at = "/run/wrappers/bin/at" ;
                                                                             temporary =
-                                                                                let
-                                                                                    mapper =
-                                                                                        {
-
-                                                                                        } :
-                                                                                            { } :
+                                                                                {
+                                                                                    candidates =
+                                                                                        let
+                                                                                            mapper =
                                                                                                 {
-
-                                                                                                } ;
-                                                                                    in idea mapper ;
+                                                                                                    init-type ,
+                                                                                                    init-standard-output ,
+                                                                                                    init-has-standard-error ,
+                                                                                                    init-standard-error ,
+                                                                                                    init-status ,
+                                                                                                    init-temporary-paste ,
+                                                                                                    init-temporary-arguments ,
+                                                                                                    init-temporary-has-arguments ,
+                                                                                                    init-temporary-pipe ,
+                                                                                                    init-temporary-has-pipe ,
+                                                                                                    init-temporary-file ,
+                                                                                                    init-temporary-has-file ,
+                                                                                                    init-temporary-status ,
+                                                                                                    path-seed ,
+                                                                                                    ...
+                                                                                                } :
+                                                                                                    { script , shell-script , string , ... } :
+                                                                                                        {
+                                                                                                            init =
+                                                                                                                script
+                                                                                                                    {
+                                                                                                                        executable = shell-script "/scripts/test/temporary/executable.sh" ;
+                                                                                                                        sets =
+                                                                                                                            [
+                                                                                                                                ( string "HAS_STANDARD_ERROR" ( builtins.toJSON init-has-standard-error ) )
+                                                                                                                                ( path "PATH_SEED" 0 )
+                                                                                                                                ( string "STANDARD_OUTPUT" init-standard-output )
+                                                                                                                                ( string "STANDARD_ERROR" init-standard-error )
+                                                                                                                                ( string "STATUS" ( builtins.toString init-status ) )
+                                                                                                                                ( string "TEMPORARY_ARGUMENTS" init-temporary-arguments )
+                                                                                                                                ( string "TEMPORARY_FILE" ( builtins.toString ( builtins.writeFile "file" init-temporary-file ) ) )
+                                                                                                                                ( string "TEMPORARY_HAS_ARGUMENTS" ( builtins.toJSON init-temporary-has-arguments ) )
+                                                                                                                                ( string "TEMPORARY_HAS_FILE" ( builtins.toJSON init-temporary-has-file ) )
+                                                                                                                                ( string "TEMPORARY_HAS_PIPE" ( builtins.toJSON init-temporary-has-pipe ) )
+                                                                                                                                ( string "TEMPORARY_STATUS" ( builtins.toJSON init-temporary-status ) )
+                                                                                                                                ( string "TEMPORARY_PASTE" init-temporary-paste )
+                                                                                                                                ( string "TEMPORARY_PIPE" init-temporary-pipe )
+                                                                                                                            ] ;
+                                                                                                                    } ;
+                                                                                                        } ;
+                                                                                            in idea mapper ;
+                                                                                } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
                                                                             temporary-resource-mask = "temporary-66.XXXXXXXX" ;
