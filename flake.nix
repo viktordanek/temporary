@@ -338,6 +338,7 @@
                                                                                                 {
 
                                                                                                 } ;
+                                                                                    in idea mapper ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
                                                                             temporary-resource-mask = "temporary-66.XXXXXXXX" ;
