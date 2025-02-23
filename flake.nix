@@ -251,32 +251,32 @@
                                                                     [
                                                                         { name = "init-type" ; value = [ "lambda" "null" ] ; }
                                                                         { name = "init-standard-output" ; value = [ null ] ; }
-                                                                        { name = "init-has-standard-error" ; value = [ true false ] ; }
+                                                                        { name = "init-has-standard-error" ; value = [ true ] ; }
                                                                         { name = "init-standard-error" ; value = [ null ] ; }
-                                                                        { name = "init-status" ; value = [ 0 70 ] ; }
+                                                                        { name = "init-status" ; value = [ 0 ] ; }
                                                                         { name = "init-temporary-paste" ; value = [ null ] ; }
                                                                         { name = "init-temporary-arguments" ; value = [ null ] ; }
-                                                                        { name = "init-temporary-has-arguments" ; value = [ true false ] ; }
+                                                                        { name = "init-temporary-has-arguments" ; value = [ true ] ; }
                                                                         { name = "init-temporary-pipe" ; value = [ null ] ; }
-                                                                        { name = "init-temporary-has-pipe" ; value = [ true false ] ; }
+                                                                        { name = "init-temporary-has-pipe" ; value = [ true ] ; }
                                                                         { name = "init-temporary-file" ; value = [ null ] ; }
-                                                                        { name = "init-temporary-has-file" ; value = [ true false ] ; }
+                                                                        { name = "init-temporary-has-file" ; value = [ true ] ; }
                                                                         { name = "init-temporary-status" ; value = [ 0 ] ; }
                                                                         { name = "release-type" ; value = [ "lambda" "null" ] ; }
                                                                         { name = "release-standard-output" ; value = [ null ] ; }
-                                                                        { name = "release-has-standard-error" ; value = [ true false ] ; }
+                                                                        { name = "release-has-standard-error" ; value = [ true ] ; }
                                                                         { name = "release-standard-error" ; value = [ null ] ; }
-                                                                        { name = "release-status" ; value = [ 0 73 ] ; }
+                                                                        { name = "release-status" ; value = [ 0 ] ; }
                                                                         { name = "release-seed" ; value = [ null ] ; }
                                                                         { name = "release-temporary-paste" ; value = [ null ] ; }
                                                                         { name = "release-temporary-arguments" ; value = [ null ] ; }
                                                                         { name = "release-temporary-pipe" ; value = [ null ] ; }
-                                                                        { name = "release-temporary-has-pipe" ; value = [ true false ] ; }
+                                                                        { name = "release-temporary-has-pipe" ; value = [ true ] ; }
                                                                         { name = "release-temporary-file" ; value = [ null ] ; }
-                                                                        { name = "release-temporary-has-file" ; value = [ true false ] ; }
+                                                                        { name = "release-temporary-has-file" ; value = [ true ] ; }
                                                                         { name = "post-type" ; value = [ "null" ] ; }
                                                                         { name = "post-standard-output" ; value = [ null ] ; }
-                                                                        { name = "post-has-standard-error" ; value = [ true false ] ; }
+                                                                        { name = "post-has-standard-error" ; value = [ true ] ; }
                                                                         { name = "post-standard-error" ; value = [ null ] ; }
                                                                         { name = "post-status" ; value = [ 0 ] ; }
                                                                         { name = "path-seed" ; value = [ null ] ; }
