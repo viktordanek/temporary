@@ -103,5 +103,5 @@
                                                         } ;
                                                 lib = lib ;
                                             } ;
-                    in flake-utils.lib.eachDefaultSystem fun ;
+                    in flake-utils.lib.eachDefaultSystem fun
 }
