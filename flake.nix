@@ -32,7 +32,7 @@
                                                                         let
                                                                             mapper =
                                                                                 path : name : value : ( builtins.trace "1890b601-525a-4c6c-8b96-56ad1fff226d ${ builtins.typeOf value }" (
-                                                                                    if builtins.typeOf value == "lambda" then builtins.getAttr "constructor" ( builtins.trace "b2369522-6d1d-4a19-b074-24a88e7da261 ${ builtins.typeOf ( value null null ) }" ( value null ) )
+                                                                                    if builtins.typeOf value == "lambda" then builtins.getAttr "constructor" ( builtins.trace "b2369522-6d1d-4a19-b074-24a88e7da261 ${ builtins.typeOf ( value null null ) }" ( value null null ) )
                                                                                     else if builtins.typeOf value == "list" then
                                                                                         let
                                                                                             generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
