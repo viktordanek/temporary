@@ -248,7 +248,7 @@
                                                                                                     shell-script
                                                                                                         {
                                                                                                             environment = { string } : [ ( string "foobar" 1 ) ] ;
-                                                                                                            executable = "scripts/test/temporary/executable" ;
+                                                                                                            executable = "scripts/test/temporary/executable.sh" ;
                                                                                                         } ;
                                                                                             } ;
                                                                                 } ;
