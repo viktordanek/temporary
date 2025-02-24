@@ -53,7 +53,7 @@
                                                                                                     in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
                                                                                             else if builtins.typeOf value == "null" then lambda path name { }
                                                                                             else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) )
-                                                                                            else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is not lambda, list, null, nor set but ${ builtins.typeOf value }."
+                                                                                            else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
                                                                                     in builtins.mapAttr ( mapper [ ] ) temporary ;
                                                                             mapper =
                                                                                 { index , path , value } :
