@@ -143,7 +143,7 @@
                                                                                          "${ pkgs.coreutils }/bin/mkdir ${ resolve path name }"
                                                                                     ]
                                                                                     (
-                                                                                        if computed.init.candidate.type then [ ]
+                                                                                        if computed.init.type then [ ]
                                                                                         else [ ( computed.init.candidate path name "init.sh" ) ]
                                                                                     )
                                                                                     (
