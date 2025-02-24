@@ -110,16 +110,16 @@
                                                                             initializer = 66 ;
                                                                             resource-mask = "temporary.foobar.XXXXXXXX" ;
                                                                             standard-error = 67 ;
-                                                                            # temporary =
-                                                                            #    {
-                                                                            #        foobar = shell-script : { } ;
-                                                                            #    } ;
+                                                                            temporary =
+                                                                                {
+                                                                                    foobar = shell-script : { } ;
+                                                                                } ;
                                                                         } ;
                                                             } ;
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.derivation.foobar } &&
                                                                     exit 68
                                                             '' ;
                                                 name = "temporary-checks" ;
