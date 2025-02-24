@@ -27,6 +27,21 @@
                                                         lambda =
                                                             path : name : value :
                                                                 let
+                                                                    guard =
+                                                                        { executable , environment } :
+                                                                            builtins.throw
+                                                                                ''
+                                                                                    ❌ Guard error: The value "${ builtins.toJSON x }" is not whitelisted.
+
+                                                                                    ▶ What happened?
+                                                                                      - This input has not been tested and is not approved for use.
+
+                                                                                    ▶ What should you do?
+                                                                                      1. Ensure "${ builtins.toJSON x }" is valid and safe for use.
+                                                                                      2. Temporarily add to the whitelist and add test coverage for "${ builtins.toJSON x }" to verify its behavior.
+                                                                                      3. If the tests pass, merge the test and whitelist changes.
+                                                                                      4. If the tests fail, discard the test and whitelist changes (or keep iterating until the tests pass).
+                                                                                '' ;
                                                                     identity =
                                                                         {
                                                                             init ? builtins.null ,
@@ -35,15 +50,15 @@
                                                                         } :
                                                                             {
                                                                                 init =
-                                                                                    if builtins.typeOf init == "lambda" then init
+                                                                                    if builtins.typeOf init == "lambda" then guard init
                                                                                     else if builtins.typeOf init == "null" then builtins.null
                                                                                     else throw path name value [ "lambda" "null" ] ;
                                                                                 post =
-                                                                                    if builtins.typeOf post == "lambda" then post
+                                                                                    if builtins.typeOf post == "lambda" then guard post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
                                                                                     else throw path name value [ "lambda" "null" ] ;
                                                                                 release =
-                                                                                    if builtins.typeOf release == "lambda" then release
+                                                                                    if builtins.typeOf release == "lambda" then guard release
                                                                                     else if builtins.typeOf release == "null" then builtins.null
                                                                                     else throw path name value [ "lambda" "null" ] ;
                                                                             } ;
