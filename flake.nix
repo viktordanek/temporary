@@ -254,8 +254,7 @@
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/echo $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.idea.temporary.null } &&
-                                                                    exit 66
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.idea.temporary.null }
                                                             '' ;
                                                     } ;
                                     lib = lib ;
