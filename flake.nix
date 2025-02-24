@@ -31,16 +31,16 @@
                                                                     constructors =
                                                                         let
                                                                             mapper =
-                                                                                path : name : value :
+                                                                                path : name : value : ( builtins.trace "1890b601-525a-4c6c-8b96-56ad1fff226d" (
                                                                                     if builtins.typeOf value == "lambda" then builtins.getAttr "constructor" value null
                                                                                     else if builtins.typeOf value == "list" then
                                                                                         let
                                                                                             generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
                                                                                             in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
-                                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
-                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) ( builtins.trace "defined dependencies for constructors" dependencies ) ) ) ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.trace "after constructors" constructors ) ;
+                                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ) ) ;
+                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) ( builtins.trace "defined dependencies for constructors" dependencies ) ) ;
+                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.trace "before constructors" constructors ) ;
                                                             in
                                                                 builtins.trace "defined constructor"
                                                                ''
