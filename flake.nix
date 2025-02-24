@@ -31,7 +31,7 @@
                                                                     constructors =
                                                                         let
                                                                             mapper =
-                                                                                path : name : value : ( builtins.trace "1890b601-525a-4c6c-8b96-56ad1fff226d" (
+                                                                                path : name : value : ( builtins.trace "1890b601-525a-4c6c-8b96-56ad1fff226d ${ builtins.typeOf value }" (
                                                                                     if builtins.typeOf value == "lambda" then builtins.getAttr "constructor" value null
                                                                                     else if builtins.typeOf value == "list" then
                                                                                         let
