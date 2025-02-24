@@ -62,7 +62,7 @@
                                                                                             else if builtins.typeOf init == "null" then builtins.null
                                                                                             else throw path name value [ "lambda" "null" ] ;
                                                                                         post =
-                                                                                            if builtins.typeOf post == "lambda" then post
+                                                                                            if builtins.typeOf post == "lambda" then guard post
                                                                                             else if builtins.typeOf post == "null" then builtins.null
                                                                                             else throw path name value [ "lambda" "null" ] ;
                                                                                         release =
@@ -127,7 +127,8 @@
                                                     installPhase =
                                                         let
                                                             mapper =
-                                                                path : name : value :
+                                                                path : name :
+                                                                value :
                                                                     if builtins.typeOf value == "lambda" then
                                                                         let
                                                                             computed = value builtins.null ;
@@ -145,11 +146,11 @@
                                                                                         else [ ( computed.init.candidate path name "init.sh" ) ]
                                                                                     )
                                                                                     (
-                                                                                        if computed.release.candidate == null then [ ]
+                                                                                        if computed.release == null then [ ]
                                                                                         else [ ( computed.release.candidate path name "release.sh" ) ]
                                                                                     )
                                                                                     (
-                                                                                        if computed.post.candidate == null then [ ]
+                                                                                        if computed.post == null then [ ]
                                                                                         else [ ( computed.post.candidate path name "post.sh" ) ]
                                                                                     )
                                                                                     [
