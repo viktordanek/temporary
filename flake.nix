@@ -139,7 +139,7 @@
                                                                                     ]
                                                                                     (
                                                                                         if computed.init == null then [ ]
-                                                                                        else [ (  computed.init path name "init.sh" ) ]
+                                                                                        else [ ( ( builtins.getAttr "candidate" computed.init ) path name "init.sh" ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
