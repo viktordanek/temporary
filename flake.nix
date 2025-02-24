@@ -172,7 +172,7 @@
                                                             list =
                                                                 let
                                                                     generator = index : { index = index ; elem = builtins.elemAt list index ; } ;
-                                                                    list = builtins.map mapper dependencies ;
+                                                                    list = builtins.map mapper dependencies.temporary ;
                                                                     in builtins.genList generator ( builtins.length list ) ;
                                                             in
                                                                 ''
