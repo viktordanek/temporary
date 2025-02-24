@@ -35,7 +35,7 @@
                                                                                     if builtins.typeOf value == "lambda" then builtins.getAttr "constructor" ( builtins.trace "b2369522-6d1d-4a19-b074-24a88e7da261 ${ builtins.typeOf ( value null null ) }" ( value null null ) )
                                                                                     else if builtins.typeOf value == "list" then
                                                                                         let
-                                                                                            generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                                            generator = index : mapper ( ( builtins.trace "41d6455f-c789-43df-8691-95967d8f65e8" ( builtins.concatLists [ path [ name ] ] ) ) index ( builtins.elemAt value index ) ;
                                                                                             in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
                                                                                     else if builtins.typeOf value == "set" then builtins.trace "2857663a-53c9-4dc5-acf6-5817967d9d47" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
                                                                                     else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ) ) ;
@@ -86,7 +86,7 @@
                                                     let
                                                         mapper =
                                                             path : name : value :
-                                                                if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" ( [ derivation "temporary" ( builtins.getAttr "hash" ( value null ) ) "setup" ] )
+                                                                if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" [ derivation "temporary" ( builtins.getAttr "hash" ( value null ) ) "setup" ]
                                                                 else if builtins.typeOf value == "list" then
                                                                     let
                                                                         generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
