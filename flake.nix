@@ -28,49 +28,24 @@
                                                         {
                                                             installPhase =
                                                                 let
-                                                                    constructor =
+                                                                    constructors =
                                                                         let
-                                                                            constructors =
-                                                                                let
-                                                                                    dependencies =
+                                                                            mapper =
+                                                                                path : name : value :
+                                                                                    if builtins.typeOf value == "lambda" then [ ( builtins.getAttr "constructor" ( value null ) ) ]
+                                                                                    else if builtins.typeOf value == "list" then
                                                                                         let
-                                                                                            lambda =
-                                                                                                path : name : value :
-                                                                                                    [
-                                                                                                        (
-                                                                                                            index :
-                                                                                                                {
-                                                                                                                    index = index ;
-                                                                                                                    path = builtins.concatLists [ path [ name ] ] ;
-                                                                                                                    value = value ;
-                                                                                                                }
-                                                                                                        )
-                                                                                                    ] ;
-                                                                                            mapper =
-                                                                                                path : name : value :
-                                                                                                    if builtins.typeOf value == "lambda" then lambda path name value
-                                                                                                    else if builtins.typeOf value == "list" then
-                                                                                                        let
-                                                                                                            generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                                            in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-                                                                                                    else if builtins.typeOf value == "null" then lambda path name { }
-                                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) )
-                                                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
-                                                                                            in builtins.mapAttr ( mapper [ ] ) temporary ;
-                                                                                    mapper =
-                                                                                        { index , path , value } :
-                                                                                            ''
-                                                                                                ${ pkgs.coreutils }/bin/mkdir $out/${ builtins.toString index }
-                                                                                            '' ;
-                                                                                    in builtins.map mapper dependencies ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }" ] constructors ] ) ;
-                                                            in
-                                                               ''
-                                                                   ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                       makeWrapper ${ builtins.writeFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
-                                                                       ${ pkgs.coreutils }/bin/mkdir $out/temporary &&
-                                                                       $out/constructor
-                                                                '' ;
+                                                                                            generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                                            in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
+                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) dependencies ) )
+                                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
+                                                                    in
+                                                                       ''
+                                                                           ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                               makeWrapper ${ builtins.writeFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
+                                                                               ${ pkgs.coreutils }/bin/mkdir $out/temporary &&
+                                                                               $out/constructor
+                                                                        '' ;
                                                             name = "temporary-implementation" ;
                                                             src = ./. ;
                                                         } ;
@@ -79,10 +54,9 @@
                                                         dependencies =
                                                             let
                                                                 lambda =
-                                                                    path : name : value : index :
+                                                                    path : name : value : ignore :
                                                                         {
-                                                                            index = index ;
-                                                                            path = builtins.concatLists [ path [ name ] ] ;
+                                                                            hash = builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.fromJSON builtins.concatLists [ path [ name ] ] ) ) ;
                                                                             value = value ;
                                                                         } ;
                                                                 mapper =
@@ -91,13 +65,25 @@
                                                                         else if builtins.typeOf value == "list" then
                                                                             let
                                                                                 generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
+                                                                                in builtins.genList generator ( builtins.length value )
                                                                         else if builtins.typeOf value == "null" then lambda path name ( x : { } )
-                                                                        else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.map ( builtins.concatLists [ path [ name ] ] ) value ) )
+                                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
+                                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
                                                                 in builtins.mapAttrs ( mapper [ ] ) temporary ;
                                                         generator = index : builtins.elemAt dependencies index ;
                                                         in builtins.genList generator ( builtins.length dependencies ) ;
-                                                in path :
+                                                harvest =
+                                                    let
+                                                        mapper =
+                                                            path : name : value :
+                                                                if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" ( [ derivation "temporary" ( builtins.getAttr "hash" ( value null ) ) ] )
+                                                                else if builtins.typeOf value == "list" then
+                                                                    let
+                                                                        generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                        in builtins.genList generator ( builtins.length value )
+                                                                else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists s[ path [ name ] ] ) value
+                                                                else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for harvest is not lambda, list, nor set but ${ builtins.typeOf value }." ;
+                                                in harvest ;
                                         in
                                             {
                                                 checks.testLib =
