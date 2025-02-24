@@ -66,7 +66,7 @@
                                                                                     ] ;
                                                                             hash = hash ;
                                                                             value = value ;
-                                                                        } ;``
+                                                                        } ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
