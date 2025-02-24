@@ -54,20 +54,21 @@
                                                                                         else
                                                                                             {
                                                                                                 candidate = candidate ;
+                                                                                                type = false ;
                                                                                             } ;
                                                                                 in
                                                                                     {
                                                                                         init =
                                                                                             if builtins.typeOf init == "lambda" then guard init
-                                                                                            else if builtins.typeOf init == "null" then builtins.null
+                                                                                            else if builtins.typeOf init == "null" then { type = true ; }
                                                                                             else throw path name value [ "lambda" "null" ] ;
                                                                                         post =
                                                                                             if builtins.typeOf post == "lambda" then guard post
-                                                                                            else if builtins.typeOf post == "null" then builtins.null
+                                                                                            else if builtins.typeOf post == "null" then { type = true ; }
                                                                                             else throw path name value [ "lambda" "null" ] ;
                                                                                         release =
                                                                                             if builtins.typeOf release == "lambda" then guard release
-                                                                                            else if builtins.typeOf release == "null" then builtins.null
+                                                                                            else if builtins.typeOf release == "null" then { type = true ; }
                                                                                             else throw path name value [ "lambda" "null" ] ;
                                                                                     } ;
                                                                     shell-script =
@@ -142,15 +143,15 @@
                                                                                          "${ pkgs.coreutils }/bin/mkdir ${ resolve path name }"
                                                                                     ]
                                                                                     (
-                                                                                        if computed.init.candidate == null then [ ]
+                                                                                        if computed.init.candidate.type then [ ]
                                                                                         else [ ( computed.init.candidate path name "init.sh" ) ]
                                                                                     )
                                                                                     (
-                                                                                        if computed.release == null then [ ]
+                                                                                        if computed.release.type then [ ]
                                                                                         else [ ( computed.release.candidate path name "release.sh" ) ]
                                                                                     )
                                                                                     (
-                                                                                        if computed.post == null then [ ]
+                                                                                        if computed.post.type then [ ]
                                                                                         else [ ( computed.post.candidate path name "post.sh" ) ]
                                                                                     )
                                                                                     [
