@@ -67,8 +67,8 @@
                                                                             } ;
                                                                     shell-script =
                                                                         {
-                                                                            environment ? inject : [ ]
-                                                                            executable ,
+                                                                            environment ? inject : [ ] ,
+                                                                            executable
                                                                         } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
