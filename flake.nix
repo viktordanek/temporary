@@ -143,11 +143,11 @@
                                                                                     )
                                                                                     (
                                                                                         if computed.release == null then [ ]
-                                                                                        else [ ( computed.release path name "release.sh" ) ]
+                                                                                        else [ ( ( builtins.getAttr "candidate" computed.release ) path name "release.sh" ) ]
                                                                                     )
                                                                                     (
                                                                                         if computed.post == null then [ ]
-                                                                                        else [ ( computed.post path name "post.sh" ) ]
+                                                                                        else [ ( ( builtins.getAttr "candidate" computed.post ) path name "post.sh" ) ]
                                                                                     )
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ resolve path name }/setup.sh"
