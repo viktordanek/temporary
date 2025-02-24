@@ -85,19 +85,19 @@
                                                                                                         ]
                                                                                                     else throw path name value [ "string" ]
                                                                                                 )
-                                                                                                # (
-                                                                                                #     let
-                                                                                                #         injection =
-                                                                                                #             {
-                                                                                                #                 string = name : value : "--set ${ name } ${ builtins.toString value }" ;
-                                                                                                #             } ;
-                                                                                                #         in
-                                                                                                #             if builtins.typeOf environment == "lambda" then
-                                                                                                #                 let
-                                                                                                #                     mapper = value : if builtins.typeOf value == "string" then value else throw path name value [ "string" ] ;
-                                                                                                #                     in builtins.map mapper environment injection
-                                                                                                #             else throw path name value [ "lambda" ]
-                                                                                                # )
+                                                                                                (
+                                                                                                    let
+                                                                                                        injection =
+                                                                                                            {
+                                                                                                                string = name : value : "--set ${ name } ${ builtins.toString value }" ;
+                                                                                                            } ;
+                                                                                                        in
+                                                                                                            if builtins.typeOf environment == "lambda" then
+                                                                                                                let
+                                                                                                                    mapper = value : if builtins.typeOf value == "string" then value else throw path name value [ "string" ] ;
+                                                                                                                    in builtins.map mapper environment injection
+                                                                                                            else throw path name value [ "lambda" ]
+                                                                                                )
                                                                                             ]
                                                                                     ) ;
                                                                     in ignore : identity ( value shell-script ) ;
