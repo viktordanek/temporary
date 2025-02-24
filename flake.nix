@@ -244,12 +244,12 @@
                                                                                     null =
                                                                                         shell-script :
                                                                                             {
-                                                                                                init =
-                                                                                                    shell-script
-                                                                                                        {
-                                                                                                            environment = { string } : [ ( string "foobar" 1 ) ] ;
-                                                                                                            executable = "scripts/test/temporary/executable" ;
-                                                                                                        } ;
+                                                                                                # init =
+                                                                                                #     shell-script
+                                                                                                #         {
+                                                                                                #             environment = { string } : [ ( string "foobar" 1 ) ] ;
+                                                                                                #             executable = "scripts/test/temporary/executable" ;
+                                                                                                #         } ;
                                                                                             } ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
