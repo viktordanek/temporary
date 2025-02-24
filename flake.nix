@@ -54,10 +54,19 @@
                                                     let
                                                         lambda =
                                                             path : name : value : ignore :
-                                                                {
+                                                                let
                                                                     hash = builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.fromJSON builtins.concatLists [ path [ name ] ] ) ) ;
-                                                                    value = value ;
-                                                                } ;
+                                                                    store = builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] ;
+                                                                    in
+                                                                        {
+                                                                            constructor =
+                                                                                builtins.concatLists
+                                                                                    [
+                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ store }/${ hash }"
+                                                                                    ] ;
+                                                                            hash = hash ;
+                                                                            value = value ;
+                                                                        } ;``
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
