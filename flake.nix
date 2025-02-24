@@ -37,13 +37,11 @@
                                                                                         let
                                                                                             generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
                                                                                             in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-
                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                     else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) ( builtins.trace "defined dependencies for constructors" dependencies ) ) ) ;
                                                                     in builtins.concatStringsSep " &&\n\t" constructors ;
                                                             in
-                                                                builtins.trace "defined constructor"
                                                                ''
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                        makeWrapper ${ builtins.toFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
