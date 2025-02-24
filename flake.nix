@@ -240,6 +240,7 @@
                                                                             at = "/run/wrappers/bin/at" ;
                                                                             temporary =
                                                                                 {
+                                                                                    null = shell-script : { } ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
