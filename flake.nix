@@ -179,7 +179,7 @@
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.buildPackages.makeWrapper } $out/bin/makeWrapper &&
-                                                                        ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "constructor" ( builtins.concatStringsSep " &&\n " list } $out/bin/constructor.sh &&
+                                                                        ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "constructor" ( builtins.concatStringsSep " &&\n " list ) } $out/bin/constructor.sh &&
                                                                         makeWrapper $out/bin/constructor.sh $out/bin/constructor --set MAKE_WRAPPER $out/bin/makeWrapper &&
                                                                         $out/bin/constructor
                                                                 '' ;
