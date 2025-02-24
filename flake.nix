@@ -51,7 +51,10 @@
                                                                                                   3. If the tests pass, merge the test and whitelist changes.  You may use this candidate.
                                                                                                   4. If the tests fail, discard the test and whitelist changes.  You may not use this candidate.
                                                                                             ''
-                                                                                        else candidate ;
+                                                                                        else
+                                                                                            {
+                                                                                                candidate = candidate ;
+                                                                                            } ;
                                                                                 in
                                                                                     {
                                                                                         init =
@@ -138,16 +141,16 @@
                                                                                          "${ pkgs.coreutils }/bin/mkdir ${ resolve path name }"
                                                                                     ]
                                                                                     (
-                                                                                        if computed.init == null then [ ]
-                                                                                        else [ ( computed.init path name "init.sh" ) ]
+                                                                                        if computed.init.candidate == null then [ ]
+                                                                                        else [ ( computed.init.candidate path name "init.sh" ) ]
                                                                                     )
                                                                                     (
-                                                                                        if computed.release == null then [ ]
-                                                                                        else [ ( computed.release path name "release.sh" ) ]
+                                                                                        if computed.release.candidate == null then [ ]
+                                                                                        else [ ( computed.release.candidate path name "release.sh" ) ]
                                                                                     )
                                                                                     (
-                                                                                        if computed.post == null then [ ]
-                                                                                        else [ ( computed.post path name "post.sh" ) ]
+                                                                                        if computed.post.candidate == null then [ ]
+                                                                                        else [ ( computed.post.candidate path name "post.sh" ) ]
                                                                                     )
                                                                                     [
                                                                                         "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ resolve path name }/setup.sh"
