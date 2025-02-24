@@ -28,19 +28,19 @@
                                                             path : name : value :
                                                                 let
                                                                     guard =
-                                                                        { executable , environment } :
+                                                                        candidate :
                                                                             builtins.throw
                                                                                 ''
-                                                                                    ❌ Guard error: The value "${ builtins.toJSON x }" is not whitelisted.
+                                                                                    ❌ Guard error: The candidate value "${ builtins.toJSON candidate }" is not whitelisted.
 
                                                                                     ▶ What happened?
-                                                                                      - This input has not been tested and is not approved for use.
+                                                                                      - This candidate and is not approved for use.
 
                                                                                     ▶ What should you do?
-                                                                                      1. Ensure "${ builtins.toJSON x }" is valid and safe for use.
-                                                                                      2. Temporarily add to the whitelist and add test coverage for "${ builtins.toJSON x }" to verify its behavior.
-                                                                                      3. If the tests pass, merge the test and whitelist changes.
-                                                                                      4. If the tests fail, discard the test and whitelist changes (or keep iterating until the tests pass).
+                                                                                      1. Ensure this candidate is valid and safe for use.
+                                                                                      2. Temporarily add to the whitelist and add test coverage for this candidate to verify its behavior.
+                                                                                      3. If the tests pass, merge the test and whitelist changes.  You may use this candidate.
+                                                                                      4. If the tests fail, discard the test and whitelist changes.  You may not use this candidate.
                                                                                 '' ;
                                                                     identity =
                                                                         {
