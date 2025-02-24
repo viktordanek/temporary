@@ -31,7 +31,7 @@
                                                                 let
                                                                     guard =
                                                                         candidate :
-                                                                            if builtins.any ( c : c == candidate ) whitelist builtins.throw
+                                                                            if builtins.any ( c : c == candidate ) whitelist then builtins.throw
                                                                                 ''
                                                                                     ❌ Guard error: The candidate value "${ builtins.toJSON candidate }" is not whitelisted.
 
