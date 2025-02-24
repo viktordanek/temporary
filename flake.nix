@@ -53,7 +53,7 @@
                                                                         } :
                                                                             {
                                                                                 init =
-                                                                                    if builtins.typeOf init == "lambda" then guard init
+                                                                                    if builtins.typeOf init == "lambda" then guard ( builtins.trace "HI" init )
                                                                                     else if builtins.typeOf init == "null" then builtins.null
                                                                                     else throw path name value [ "lambda" "null" ] ;
                                                                                 post =
