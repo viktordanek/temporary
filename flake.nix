@@ -241,7 +241,15 @@
                                                                             caller = self ;
                                                                             temporary =
                                                                                 {
-                                                                                    null = shell-script : { } ;
+                                                                                    null =
+                                                                                        shell-script :
+                                                                                            {
+                                                                                                init =
+                                                                                                    shell-script
+                                                                                                        {
+                                                                                                            executable = "scripts/test/temporary/executable" ;
+                                                                                                        } ;
+                                                                                            } ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
