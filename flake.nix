@@ -88,6 +88,6 @@
                                                             src = ./. ;
                                                         } ;
                                                 lib = lib ;
-                                            }
+                                            } ;
                     in flake-utils.lib.eachDefaultSystem fun ;
 }
