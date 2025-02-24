@@ -238,6 +238,7 @@
                                                                     lib
                                                                         {
                                                                             at = "/run/wrappers/bin/at" ;
+                                                                            caller = self ;
                                                                             temporary =
                                                                                 {
                                                                                     null = shell-script : { } ;
