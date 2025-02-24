@@ -84,7 +84,7 @@
                                                                         in builtins.genList generator ( builtins.length value )
                                                                 else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists s[ path [ name ] ] ) value
                                                                 else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for harvest is not lambda, list, nor set but ${ builtins.typeOf value }." ;
-                                                        in builtins.mapAttrs ( mapper [ ] dependencies ) ;
+                                                        in builtins.mapAttrs ( mapper [ ] ) dependencies ;
                                                 in harvest ;
                                         in
                                             {
