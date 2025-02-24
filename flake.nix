@@ -138,9 +138,9 @@
                                                                                     [
                                                                                         "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }/nix-support/setup-hook"
                                                                                     ]
-                                                                                    [
-                                                                                         "${ pkgs.coreutils }/bin/mkdir $out/${ index }"
-                                                                                    ]
+                                                                                    # [
+                                                                                    #      "${ pkgs.coreutils }/bin/mkdir $out/${ index }"
+                                                                                    # ]
                                                                                     # (
                                                                                     #     if computed.init.type then [ ]
                                                                                     #     else [ ( computed.init.candidate path name "init.sh" ) ]
@@ -153,26 +153,26 @@
                                                                                     #     if computed.post.type then [ ]
                                                                                     #    else [ ( computed.post.candidate path name "post.sh" ) ]
                                                                                     # )
-                                                                                    [
-                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ index }/setup.sh"
-                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/setup.sh"
-                                                                                        "makeWrapper ${ index }/setup.sh ${ index }/setup --set AT ${ at } --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${ pkgs.coreutils }/bin/echo ${ grandparent-pid pkgs { } } ${ is-file pkgs { } } ${ is-interactive pkgs { } } ${ is-pipe pkgs { } } --set GREP ${ pkgs.gnugrep }/bin/grep --set INIT ${ index }/init.sh  --set INITIALIZATION_ERROR_STANDARD_ERROR ${ builtins.toString temporary-initialization-error-standard-error } --set INITIALIZATION_ERROR_INITIALIZER ${ builtins.toString temporary-initialization-error-initializer } --set LN ${ pkgs.coreutils }/bin/ln --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set MV ${ pkgs.coreutils }/bin/mv --set NICE ${ pkgs.coreutils }/bin/nice --set PS ${ pkgs.ps }/bin/ps --set READLINK ${ pkgs.coreutils }/bin/readlink --set RELEASE ${ index }/release.sh ${ parent-pid pkgs { } } --set POST ${ index }/post.sh --set RM ${ pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TEARDOWN_ASYNCH ${ index }/teardown-asynch --set TEARDOWN_SYNCH ${ index }/teardown-synch --set TEE ${ pkgs.coreutils }/bin/tee --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }"
-                                                                                    ]
-                                                                                    [
-                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-asynch.sh" } ${ index }/teardown-asynch.sh"
-                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/teardown-asynch.sh"
-                                                                                        "makeWrapper ${ index }/teardown-asynch.sh ${ index }/teardown-asynch --set AT ${ at } --set ECHO ${ pkgs.coreutils }/bin/echo --set NICE ${ pkgs.coreutils }/bin/nice --run 'export TEARDOWN_SYNCH=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/teardown-synch.sh'"
-                                                                                    ]
-                                                                                    [
-                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-synch.sh" } ${ index }/teardown-synch.sh"
-                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/teardown-synch.sh"
-                                                                                        "makeWrapper ${ index }/teardown-synch.sh ${ index }/teardown-synch --set BASENAME ${ pkgs.coreutils }/bin/basename --set CHMOD ${pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock  --set MV ${pkgs.coreutils }/bin/mv --run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )' --set RM ${pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TRUE ${ pkgs.coreutils }/bin/true"
-                                                                                    ]
+                                                                                    # [
+                                                                                    #     "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ index }/setup.sh"
+                                                                                    #     "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/setup.sh"
+                                                                                    #     "makeWrapper ${ index }/setup.sh ${ index }/setup --set AT ${ at } --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${ pkgs.coreutils }/bin/echo ${ grandparent-pid pkgs { } } ${ is-file pkgs { } } ${ is-interactive pkgs { } } ${ is-pipe pkgs { } } --set GREP ${ pkgs.gnugrep }/bin/grep --set INIT ${ index }/init.sh  --set INITIALIZATION_ERROR_STANDARD_ERROR ${ builtins.toString temporary-initialization-error-standard-error } --set INITIALIZATION_ERROR_INITIALIZER ${ builtins.toString temporary-initialization-error-initializer } --set LN ${ pkgs.coreutils }/bin/ln --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set MV ${ pkgs.coreutils }/bin/mv --set NICE ${ pkgs.coreutils }/bin/nice --set PS ${ pkgs.ps }/bin/ps --set READLINK ${ pkgs.coreutils }/bin/readlink --set RELEASE ${ index }/release.sh ${ parent-pid pkgs { } } --set POST ${ index }/post.sh --set RM ${ pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TEARDOWN_ASYNCH ${ index }/teardown-asynch --set TEARDOWN_SYNCH ${ index }/teardown-synch --set TEE ${ pkgs.coreutils }/bin/tee --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }"
+                                                                                    # ]
+                                                                                    # [
+                                                                                    #     "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-asynch.sh" } ${ index }/teardown-asynch.sh"
+                                                                                    #     "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/teardown-asynch.sh"
+                                                                                    #     "makeWrapper ${ index }/teardown-asynch.sh ${ index }/teardown-asynch --set AT ${ at } --set ECHO ${ pkgs.coreutils }/bin/echo --set NICE ${ pkgs.coreutils }/bin/nice --run 'export TEARDOWN_SYNCH=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/teardown-synch.sh'"
+                                                                                    # ]
+                                                                                    # [
+                                                                                    #     "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-synch.sh" } ${ index }/teardown-synch.sh"
+                                                                                    #     "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/teardown-synch.sh"
+                                                                                    #     "makeWrapper ${ index }/teardown-synch.sh ${ index }/teardown-synch --set BASENAME ${ pkgs.coreutils }/bin/basename --set CHMOD ${pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock  --set MV ${pkgs.coreutils }/bin/mv --run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )' --set RM ${pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TRUE ${ pkgs.coreutils }/bin/true"
+                                                                                    # ]
                                                                                 ] ;
                                                             list =
                                                                 let
                                                                     generator = index : { index = index ; elem = builtins.elemAt list index ; } ;
-                                                                    list = builtins.map mapper dependencies.temporary ;
+                                                                    list = builtins.map mapper ( builtins.trace "HI ${ builtins.typeOf "Y" }" dependencies.temporary ) ;
                                                                     in builtins.genList generator ( builtins.length list ) ;
                                                             in
                                                                 ''
