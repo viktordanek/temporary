@@ -63,7 +63,6 @@
                                                                 ignore :
                                                                     {
                                                                         constructor =
-                                                                            builtins.concatLists
                                                                                 [
                                                                                     "${ pkgs.coreutils }/bin/mkdir ${ store }/${ hash }"
                                                                                 ] ;
