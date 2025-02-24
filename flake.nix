@@ -57,7 +57,7 @@
                                                 lambda =
                                                     path : name : value : ignore :
                                                         let
-                                                            hash = builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.fromJSON ( builtins.trace "4bdf0fa0-e0ba-4d51-8a21-693ea81997a4 ${ builtins.typeOf path } - ${ builtins.concatStringsSep "-" ( builtins.map builtins.toString path ) } - ${ builtins.typeOf name } ${ name }" ( builtins.concatLists [ [ name ] ] ) ) ) ) ;
+                                                            hash = builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.fromJSON ( builtins.trace "4bdf0fa0-e0ba-4d51-8a21-693ea81997a4" ( builtins.concatLists [ path [ name ] ] ) ) ) ) ;
                                                             store = builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] ;
                                                             in
                                                                 ignore : builtins.trace "3ab39c2f-f564-488a-95bb-1755b73ebe19"
