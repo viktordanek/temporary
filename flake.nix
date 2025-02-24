@@ -57,7 +57,7 @@
                                                                                     else if builtins.typeOf init == "null" then builtins.null
                                                                                     else throw path name value [ "lambda" "null" ] ;
                                                                                 post =
-                                                                                    if builtins.typeOf post == "lambda" then guard post
+                                                                                    if builtins.typeOf post == "lambda" then post
                                                                                     else if builtins.typeOf post == "null" then builtins.null
                                                                                     else throw path name value [ "lambda" "null" ] ;
                                                                                 release =
