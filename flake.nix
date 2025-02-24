@@ -71,6 +71,7 @@
                                                         '' ;
                                                     name = "temporary-implementation" ;
                                                     src = ./. ;
+                                                } ;
                                         in
                                             {
                                                 checks.testLib =
