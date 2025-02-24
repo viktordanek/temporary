@@ -29,42 +29,44 @@
                                                         lambda =
                                                             path : name : value :
                                                                 let
-                                                                    guard =
-                                                                        candidate :
-                                                                            if builtins.any ( c : c == candidate ) whitelist then builtins.throw
-                                                                                ''
-                                                                                    ❌ Guard error: The candidate value "${ builtins.toJSON candidate }" is not whitelisted.
-
-                                                                                    ▶ What happened?
-                                                                                      - This candidate and is not approved for use.
-
-                                                                                    ▶ What should you do?
-                                                                                      1. Ensure this candidate is valid and safe for use.
-                                                                                      2. Temporarily add to the whitelist and add test coverage for this candidate to verify its behavior.
-                                                                                      3. If the tests pass, merge the test and whitelist changes.  You may use this candidate.
-                                                                                      4. If the tests fail, discard the test and whitelist changes.  You may not use this candidate.
-                                                                                ''
-                                                                            else candidate ;
                                                                     identity =
                                                                         {
                                                                             init ? builtins.null ,
                                                                             post ? builtins.null ,
                                                                             release ? builtins.null
                                                                         } :
-                                                                            {
-                                                                                init =
-                                                                                    if builtins.typeOf init == "lambda" then guard ( builtins.trace "HI" init )
-                                                                                    else if builtins.typeOf init == "null" then builtins.null
-                                                                                    else throw path name value [ "lambda" "null" ] ;
-                                                                                post =
-                                                                                    if builtins.typeOf post == "lambda" then post
-                                                                                    else if builtins.typeOf post == "null" then builtins.null
-                                                                                    else throw path name value [ "lambda" "null" ] ;
-                                                                                release =
-                                                                                    if builtins.typeOf release == "lambda" then guard release
-                                                                                    else if builtins.typeOf release == "null" then builtins.null
-                                                                                    else throw path name value [ "lambda" "null" ] ;
-                                                                            } ;
+                                                                            let
+                                                                                guard =
+                                                                                    candidate :
+                                                                                        if builtins.any ( c : c == candidate ) whitelist then builtins.throw
+                                                                                            ''
+                                                                                                ❌ Guard error: The candidate value "${ builtins.toJSON candidate }" is not whitelisted.
+
+                                                                                                ▶ What happened?
+                                                                                                  - This candidate and is not approved for use.
+
+                                                                                                ▶ What should you do?
+                                                                                                  1. Ensure this candidate is valid and safe for use.
+                                                                                                  2. Temporarily add to the whitelist and add test coverage for this candidate to verify its behavior.
+                                                                                                  3. If the tests pass, merge the test and whitelist changes.  You may use this candidate.
+                                                                                                  4. If the tests fail, discard the test and whitelist changes.  You may not use this candidate.
+                                                                                            ''
+                                                                                        else candidate ;
+                                                                                in
+                                                                                    {
+                                                                                        init =
+                                                                                            if builtins.typeOf init == "lambda" then guard ( builtins.trace "HI" init )
+                                                                                            else if builtins.typeOf init == "null" then builtins.null
+                                                                                            else throw path name value [ "lambda" "null" ] ;
+                                                                                        post =
+                                                                                            if builtins.typeOf post == "lambda" then post
+                                                                                            else if builtins.typeOf post == "null" then builtins.null
+                                                                                            else throw path name value [ "lambda" "null" ] ;
+                                                                                        release =
+                                                                                            if builtins.typeOf release == "lambda" then guard release
+                                                                                            else if builtins.typeOf release == "null" then builtins.null
+                                                                                            else throw path name value [ "lambda" "null" ] ;
+                                                                                    } ;
                                                                     shell-script =
                                                                         {
                                                                             environment ? inject : [ ] ,
