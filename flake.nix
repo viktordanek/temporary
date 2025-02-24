@@ -96,7 +96,7 @@
                                                         else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for harvest is not lambda, list, nor set but ${ builtins.typeOf value }." ;
                                                 in builtins.mapAttrs ( mapper [ ] ) dependencies ;
                                         in harvest ;
-                            pkgs = builtins.import nixpkgs { } ;
+                            pkgs = builtins.import nixpkgs { inherit system ; } ;
                             in
                                 {
                                     checks.testLib =
