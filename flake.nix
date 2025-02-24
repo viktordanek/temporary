@@ -51,7 +51,7 @@
                                                                                                   3. If the tests pass, merge the test and whitelist changes.  You may use this candidate.
                                                                                                   4. If the tests fail, discard the test and whitelist changes.  You may not use this candidate.
                                                                                             ''
-                                                                                        else candidate ;
+                                                                                        else { candidate = candidate ; } ;
                                                                                 in
                                                                                     {
                                                                                         init =
