@@ -82,13 +82,25 @@
                                                                     let
                                                                         generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
                                                                         in builtins.genList generator ( builtins.length value )
-                                                                else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists s[ path [ name ] ] ) value
+                                                                else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
                                                                 else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for harvest is not lambda, list, nor set but ${ builtins.typeOf value }." ;
                                                         in builtins.mapAttrs ( mapper [ ] ) dependencies ;
-                                                in "harvest" ;
+                                                in harvest ;
                                         in
                                             {
-
+                                                checks.testLib =
+                                                    pkgs.stdenv.mkDerivation
+                                                        {
+                                                            installPhase =
+                                                                let
+                                                                    in
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/mkdir $out
+                                                                        '' ;
+                                                            name = "temporary-checks" ;
+                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                            src = ./. ;
+                                                        } ;
                                                 lib = lib ;
                                             } ;
                     in flake-utils.lib.eachDefaultSystem fun ;
