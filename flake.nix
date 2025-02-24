@@ -44,7 +44,7 @@
                                                             in
                                                                ''
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                       makeWrapper ${ builtins.writeFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
+                                                                       makeWrapper ${ builtins.toFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
                                                                        ${ pkgs.coreutils }/bin/mkdir $out/temporary &&
                                                                        $out/constructor
                                                                 '' ;
