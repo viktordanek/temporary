@@ -170,13 +170,7 @@
                                                                             [
                                                                                 (
                                                                                     let
-                                                                                       generator =
-                                                                                           index :
-                                                                                               let
-                                                                                                   n = builtins.toString index ;
-                                                                                                   p = builtins.concatLists [ path [ name ] ] ;
-                                                                                                   v = builtins.elemAt value index ;
-                                                                                                  in mapper p n v ;
+                                                                                       generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
                                                                                        in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
                                                                                 )
                                                                             ]
