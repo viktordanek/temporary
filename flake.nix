@@ -67,8 +67,8 @@
                                                                             } ;
                                                                     shell-script =
                                                                         {
-                                                                            executable ,
                                                                             environment ? inject : [ ]
+                                                                            executable ,
                                                                         } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
@@ -247,6 +247,7 @@
                                                                                                 init =
                                                                                                     shell-script
                                                                                                         {
+                                                                                                            environment = { string } : [ ( string "foobar" 1 ) ] ;
                                                                                                             executable = "scripts/test/temporary/executable" ;
                                                                                                         } ;
                                                                                             } ;
