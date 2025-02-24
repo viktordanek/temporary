@@ -49,8 +49,6 @@
                                                                             } ;
                                                                     inject =
                                                                         let
-                                                                            out2 = "$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/readlink $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/teardown-synch.sh ) ) )" ;
-                                                                            out3 = "$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )" ;
                                                                             out = "$out" ;
                                                                             in
                                                                                 {
@@ -83,7 +81,6 @@
                                                                                     store = { name ? "STORE" } : "--set ${ name } $out" ;
                                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                                     target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                                    write-shell-script = source : builtins.toString ( pkgs.writeShellScript "script.sh" source ) ;
                                                                                 } ;
                                                                     script =
                                                                         {
@@ -245,83 +242,6 @@
                                                 src = ./. ;
                                                 installPhase =
                                                     let
-                                                        idea =
-                                                            let
-                                                                levels =
-                                                                    [
-                                                                        { name = "init-type" ; value = [ "lambda" "null" ] ; }
-                                                                        { name = "init-standard-output" ; value = [ null ] ; }
-                                                                        { name = "init-has-standard-error" ; value = [ true ] ; }
-                                                                        { name = "init-standard-error" ; value = [ null ] ; }
-                                                                        { name = "init-status" ; value = [ 0 ] ; }
-                                                                        { name = "init-temporary-paste" ; value = [ null ] ; }
-                                                                        { name = "init-temporary-arguments" ; value = [ null ] ; }
-                                                                        { name = "init-temporary-has-arguments" ; value = [ true ] ; }
-                                                                        { name = "init-temporary-pipe" ; value = [ null ] ; }
-                                                                        { name = "init-temporary-has-pipe" ; value = [ true ] ; }
-                                                                        { name = "init-temporary-file" ; value = [ null ] ; }
-                                                                        { name = "init-temporary-has-file" ; value = [ true ] ; }
-                                                                        { name = "init-temporary-status" ; value = [ 0 ] ; }
-                                                                        { name = "release-type" ; value = [ "lambda" "null" ] ; }
-                                                                        { name = "release-standard-output" ; value = [ null ] ; }
-                                                                        { name = "release-has-standard-error" ; value = [ true ] ; }
-                                                                        { name = "release-standard-error" ; value = [ null ] ; }
-                                                                        { name = "release-status" ; value = [ 0 ] ; }
-                                                                        { name = "release-seed" ; value = [ null ] ; }
-                                                                        { name = "release-temporary-paste" ; value = [ null ] ; }
-                                                                        { name = "release-temporary-arguments" ; value = [ null ] ; }
-                                                                        { name = "release-temporary-pipe" ; value = [ null ] ; }
-                                                                        { name = "release-temporary-has-pipe" ; value = [ true ] ; }
-                                                                        { name = "release-temporary-file" ; value = [ null ] ; }
-                                                                        { name = "release-temporary-has-file" ; value = [ true ] ; }
-                                                                        { name = "post-type" ; value = [ "null" ] ; }
-                                                                        { name = "post-standard-output" ; value = [ null ] ; }
-                                                                        { name = "post-has-standard-error" ; value = [ true ] ; }
-                                                                        { name = "post-standard-error" ; value = [ null ] ; }
-                                                                        { name = "post-status" ; value = [ 0 ] ; }
-                                                                        { name = "path-seed" ; value = [ null ] ; }
-                                                                        { name = "speed" ; value = [ "slow" "fast" ] ; }
-                                                                    ] ;
-                                                                list =
-                                                                    let
-                                                                        list =
-                                                                            let
-                                                                                list =
-                                                                                    let
-                                                                                        mapper =
-                                                                                            { name , value } :
-                                                                                                {
-                                                                                                    name = name ;
-                                                                                                    value =
-                                                                                                        let
-                                                                                                            generator =
-                                                                                                                index :
-                                                                                                                    let
-                                                                                                                        elem = builtins.elemAt value index ;
-                                                                                                                        type = builtins.typeOf elem ;
-                                                                                                                        in
-                                                                                                                            if type == "bool" then elem
-                                                                                                                            else if type == "int" then elem
-                                                                                                                            else if type == "null" then builtins.hashString "sha512" ( builtins.concatStringsSep "" [ name ( builtins.toString index ) ] )
-                                                                                                                            else if type == "string" then elem
-                                                                                                                            else builtins.throw "Configuration Error:  The ${ builtins.toString index } level of ${ name } is not bool, int, null, nor string but ${ type }." ;
-                                                                                                            in builtins.genList generator ( builtins.length value ) ;
-                                                                                                } ;
-                                                                                        in builtins.map mapper levels ;
-                                                                                reducer =
-                                                                                    previous : current :
-                                                                                        builtins.concatLists
-                                                                                            (
-                                                                                                builtins.map
-                                                                                                    (
-                                                                                                        value :
-                                                                                                            builtins.map ( entry : builtins.concatLists [ entry [ { name = current.name; value = value; } ] ] ) previous
-                                                                                                    )
-                                                                                                current.value
-                                                                                            ) ;
-                                                                                in builtins.foldl' reducer [ [ ] ] list ;
-                                                                        in list ;
-                                                                in builtins.map builtins.listToAttrs list ;
                                                         resources =
                                                             {
                                                                 idea =
@@ -330,14 +250,10 @@
                                                                             at = "/run/wrappers/bin/at" ;
                                                                             temporary =
                                                                                 {
-                                                                                    candidates =
-                                                                                        let
-                                                                                            mapper = value : { ... } : { } ;
-                                                                                            in builtins.map mapper idea ;
                                                                                 } ;
                                                                             temporary-initialization-error-standard-error = 66 ;
                                                                             temporary-initialization-error-initializer = 67 ;
-                                                                            temporary-resource-mask = "temporary-66.XXXXXXXX" ;
+                                                                            temporary-resource-mask = "temporary.idea.XXXXXXXX" ;
                                                                         } ;
                                                                 observe = { } ;
                                                                 util = { } ;
