@@ -64,7 +64,7 @@
                                                                     {
                                                                         constructor =
                                                                             [
-                                                                                "${ pkgs.coreutils }/bin/mkdir ${ store }/${ hash }"
+                                                                                ( builtins.trace "c537164b-f6a2-4377-97e6-e6fbe88e904a" "${ pkgs.coreutils }/bin/mkdir ${ store }/${ hash }" )
                                                                             ] ;
                                                                         hash = hash ;
                                                                         value = value ;
