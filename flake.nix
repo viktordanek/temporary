@@ -106,17 +106,17 @@
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
-                                                                    in ignore : identity ( value shell-script ) ;
+                                                                    in [ ( ignore : identity ( value shell-script ) ) ] ;
                                                         mapper =
                                                             path : name : value :
                                                                 if builtins.typeOf value == "lambda" then lambda path name value
                                                                 else if builtins.typeOf value == "list" then
                                                                     let
                                                                         generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                        in builtins.genList generator ( builtins.length value )
+                                                                        in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
                                                                 else if builtins.typeOf value == "null" then lambda path name ( script : { } )
-                                                                else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                else throw path name value [ "null" "set" ] ;
+                                                                else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
+                                                                else throw path name value [ "lambda" "list" "null" "set" ] ;
                                                         in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
                                             } ;
                                         derivation =
@@ -128,69 +128,58 @@
                                                     installPhase =
                                                         let
                                                             mapper =
-                                                                path : name :
                                                                 value :
-                                                                    if builtins.typeOf value == "lambda" then
-                                                                        let
-                                                                            computed = value builtins.null ;
-                                                                            in
-                                                                                builtins.concatLists
+                                                                    let
+                                                                        computed = value builtins.null ;
+                                                                        index = builtins.toString value.index ;
+                                                                        in
+                                                                            builtins.concatLists
                                                                                 [
                                                                                     [
                                                                                         "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }/nix-support/setup-hook"
                                                                                     ]
                                                                                     [
-                                                                                         "${ pkgs.coreutils }/bin/mkdir ${ resolve path name }"
+                                                                                         "${ pkgs.coreutils }/bin/mkdir $out/${ index }"
                                                                                     ]
-                                                                                    (
-                                                                                        if computed.init.type then [ ]
-                                                                                        else [ ( computed.init.candidate path name "init.sh" ) ]
-                                                                                    )
-                                                                                    (
-                                                                                        if computed.release.type then [ ]
-                                                                                        else [ ( computed.release.candidate path name "release.sh" ) ]
-                                                                                    )
-                                                                                    (
-                                                                                        if computed.post.type then [ ]
-                                                                                        else [ ( computed.post.candidate path name "post.sh" ) ]
-                                                                                    )
+                                                                                    # (
+                                                                                    #     if computed.init.type then [ ]
+                                                                                    #     else [ ( computed.init.candidate path name "init.sh" ) ]
+                                                                                    # )
+                                                                                    # (
+                                                                                    #     if computed.release.type then [ ]
+                                                                                    #     else [ ( computed.release.candidate path name "release.sh" ) ]
+                                                                                    # )
+                                                                                    # (
+                                                                                    #     if computed.post.type then [ ]
+                                                                                    #    else [ ( computed.post.candidate path name "post.sh" ) ]
+                                                                                    # )
                                                                                     [
-                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ resolve path name }/setup.sh"
-                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ resolve path name }/setup.sh"
-                                                                                        "makeWrapper ${ resolve path name }/setup.sh ${ resolve path name }/setup --set AT ${ at } --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${ pkgs.coreutils }/bin/echo ${ grandparent-pid pkgs { } } ${ is-file pkgs { } } ${ is-interactive pkgs { } } ${ is-pipe pkgs { } } --set GREP ${ pkgs.gnugrep }/bin/grep --set INIT ${ resolve path name }/init.sh  --set INITIALIZATION_ERROR_STANDARD_ERROR ${ builtins.toString temporary-initialization-error-standard-error } --set INITIALIZATION_ERROR_INITIALIZER ${ builtins.toString temporary-initialization-error-initializer } --set LN ${ pkgs.coreutils }/bin/ln --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set MV ${ pkgs.coreutils }/bin/mv --set NICE ${ pkgs.coreutils }/bin/nice --set PS ${ pkgs.ps }/bin/ps --set READLINK ${ pkgs.coreutils }/bin/readlink --set RELEASE ${ resolve path name }/release.sh ${ parent-pid pkgs { } } --set POST ${ resolve path name }/post.sh --set RM ${ pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TEARDOWN_ASYNCH ${ resolve path name }/teardown-asynch --set TEARDOWN_SYNCH ${ resolve path name }/teardown-synch --set TEE ${ pkgs.coreutils }/bin/tee --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }"
-                                                                                    ]
-                                                                                    [
-                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-asynch.sh" } ${ resolve path name }/teardown-asynch.sh"
-                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ resolve path name }/teardown-asynch.sh"
-                                                                                        "makeWrapper ${ resolve path name }/teardown-asynch.sh ${ resolve path name }/teardown-asynch --set AT ${ at } --set ECHO ${ pkgs.coreutils }/bin/echo --set NICE ${ pkgs.coreutils }/bin/nice --run 'export TEARDOWN_SYNCH=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/teardown-synch.sh'"
+                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/setup.sh" } ${ index }/setup.sh"
+                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/setup.sh"
+                                                                                        "makeWrapper ${ index }/setup.sh ${ index }/setup --set AT ${ at } --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${ pkgs.coreutils }/bin/echo ${ grandparent-pid pkgs { } } ${ is-file pkgs { } } ${ is-interactive pkgs { } } ${ is-pipe pkgs { } } --set GREP ${ pkgs.gnugrep }/bin/grep --set INIT ${ index }/init.sh  --set INITIALIZATION_ERROR_STANDARD_ERROR ${ builtins.toString temporary-initialization-error-standard-error } --set INITIALIZATION_ERROR_INITIALIZER ${ builtins.toString temporary-initialization-error-initializer } --set LN ${ pkgs.coreutils }/bin/ln --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set MV ${ pkgs.coreutils }/bin/mv --set NICE ${ pkgs.coreutils }/bin/nice --set PS ${ pkgs.ps }/bin/ps --set READLINK ${ pkgs.coreutils }/bin/readlink --set RELEASE ${ index }/release.sh ${ parent-pid pkgs { } } --set POST ${ index }/post.sh --set RM ${ pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TEARDOWN_ASYNCH ${ index }/teardown-asynch --set TEARDOWN_SYNCH ${ index }/teardown-synch --set TEE ${ pkgs.coreutils }/bin/tee --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }"
                                                                                     ]
                                                                                     [
-                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-synch.sh" } ${ resolve path name }/teardown-synch.sh"
-                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ resolve path name }/teardown-synch.sh"
-                                                                                        "makeWrapper ${ resolve path name }/teardown-synch.sh ${ resolve path name }/teardown-synch --set BASENAME ${ pkgs.coreutils }/bin/basename --set CHMOD ${pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock  --set MV ${pkgs.coreutils }/bin/mv --run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )' --set RM ${pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TRUE ${ pkgs.coreutils }/bin/true"
+                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-asynch.sh" } ${ index }/teardown-asynch.sh"
+                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/teardown-asynch.sh"
+                                                                                        "makeWrapper ${ index }/teardown-asynch.sh ${ index }/teardown-asynch --set AT ${ at } --set ECHO ${ pkgs.coreutils }/bin/echo --set NICE ${ pkgs.coreutils }/bin/nice --run 'export TEARDOWN_SYNCH=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/teardown-synch.sh'"
                                                                                     ]
-                                                                                ]
-                                                                    else if builtins.typeOf value == "list" then
-                                                                        builtins.concatLists
-                                                                            [
-                                                                                (
-                                                                                    let
-                                                                                       generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                       in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-                                                                                )
-                                                                            ]
-                                                                    else if builtins.typeOf value == "set" then
-                                                                        builtins.concatLists
-                                                                            [
-                                                                                ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) ) )
-                                                                            ]
-                                                                    else throw path name value [ "lambda" "list" "set" ] ;
+                                                                                    [
+                                                                                        "${ pkgs.coreutils }/bin/cp ${ self + "/scripts/implementation/teardown-synch.sh" } ${ index }/teardown-synch.sh"
+                                                                                        "${ pkgs.coreutils }/bin/chmod 0550 ${ index }/teardown-synch.sh"
+                                                                                        "makeWrapper ${ index }/teardown-synch.sh ${ index }/teardown-synch --set BASENAME ${ pkgs.coreutils }/bin/basename --set CHMOD ${pkgs.coreutils }/bin/chmod --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock  --set MV ${pkgs.coreutils }/bin/mv --run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )' --set RM ${pkgs.coreutils }/bin/rm --set TAIL ${ pkgs.coreutils }/bin/tail --set TRUE ${ pkgs.coreutils }/bin/true"
+                                                                                    ]
+                                                                                ] ;
+                                                            list =
+                                                                let
+                                                                    generator = index : { index = index ; elem = builtins.elemAt list index ; } ;
+                                                                    list = builtins.map mapper dependencies ;
+                                                                    in builtins.genList generator ( builtins.length list ) ;
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.buildPackages.makeWrapper } $out/bin/makeWrapper &&
-                                                                        ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "constructor" ( builtins.concatStringsSep " &&\n " ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ "$out" ] ) dependencies ) ) ) ) } $out/bin/constructor.sh &&
+                                                                        ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "constructor" ( builtins.concatStringsSep " &&\n " list } $out/bin/constructor.sh &&
                                                                         makeWrapper $out/bin/constructor.sh $out/bin/constructor --set MAKE_WRAPPER $out/bin/makeWrapper &&
                                                                         $out/bin/constructor
                                                                 '' ;
