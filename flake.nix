@@ -262,7 +262,7 @@
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                     ${ pkgs.coreutils }/bin/echo $out &&
-                                                                    exit 65
+                                                                    exit 66
                                                             '' ;
                                                     } ;
                                     lib = lib ;
