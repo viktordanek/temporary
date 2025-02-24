@@ -42,6 +42,7 @@
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) ( builtins.trace "defined dependencies for constructors" dependencies ) ) ) ;
                                                                     in builtins.concatStringsSep " &&\n\t" constructors ;
                                                             in
+                                                                builtins.trace "defined constructor"
                                                                ''
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                        makeWrapper ${ builtins.toFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
