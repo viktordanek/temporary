@@ -78,7 +78,7 @@
                                                                 generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
                                                                 in builtins.genList generator ( builtins.length value )
                                                         else if builtins.typeOf value == "null" then lambda path name ( x : { } )
-                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value // ( builtins.trace "finished set" { } )
+                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
                                                 in builtins.mapAttrs ( mapper [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set." ) ;
                                         harvest =
