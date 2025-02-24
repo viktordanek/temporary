@@ -81,17 +81,20 @@
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
                                                 in builtins.mapAttrs ( mapper [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set." ) ;
                                         harvest =
-                                            let
-                                                mapper =
-                                                    path : name : value :
-                                                        if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" ( [ derivation "temporary" ( builtins.getAttr "hash" ( value null ) ) "setup" ] )
-                                                        else if builtins.typeOf value == "list" then
-                                                            let
-                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                in builtins.genList generator ( builtins.length value )
-                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
-                                                        else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for harvest is not lambda, list, nor set but ${ builtins.typeOf value }." ;
-                                                in builtins.mapAttrs ( mapper [ ] ) ( builtins.trace "defined dependencies for harvest" dependencies ) ;
+                                            {
+                                                derivation =
+                                                    let
+                                                        mapper =
+                                                            path : name : value :
+                                                                if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" ( [ derivation "temporary" ( builtins.getAttr "hash" ( value null ) ) "setup" ] )
+                                                                else if builtins.typeOf value == "list" then
+                                                                    let
+                                                                        generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                        in builtins.genList generator ( builtins.length value )
+                                                                else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
+                                                                else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for harvest is not lambda, list, nor set but ${ builtins.typeOf value }." ;
+                                                        in builtins.mapAttrs ( mapper [ ] ) ( builtins.trace "defined dependencies for harvest" dependencies ) ;
+                                            } ;
                                         in harvest ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
