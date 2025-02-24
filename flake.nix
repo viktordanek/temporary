@@ -17,7 +17,7 @@
                                     initializer ? 64 ,
                                     resource-mask ? "temporary.XXXXXXXX" ,
                                     standard-error ? 65 ,
-                                    temporary ? [ ] ,
+                                    temporary ? { } ,
                                     whitelist ? [ ]
                                 } :
                                     let
