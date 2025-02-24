@@ -13,11 +13,13 @@
                             lib =
                                 {
                                     at ? "/run/wrappers/bin/at" ,
+                                    caller ,
                                     temporary ? { } ,
                                     temporary-initialization-error-standard-error ? 64 ,
                                     temporary-initialization-error-initializer ? 65 ,
                                     temporary-path ? "ae67680146758d609c87886765e9778fba6b9f0bf565ccf48468833c46115a1e9a3faa641f437f5aea0c150c9030892c82d4648fdb6f4e744673c8ccf63e7e16" ,
-                                    temporary-resource-mask ? "temporary.XXXXXXXX"
+                                    temporary-resource-mask ? "temporary.XXXXXXXX" ,
+                                    whitelist ? [ ]
                                 } :
                                     let
                                         dependencies =
@@ -29,7 +31,7 @@
                                                                 let
                                                                     guard =
                                                                         candidate :
-                                                                            builtins.throw
+                                                                            if builtins.any ( c : c == candidate ) whitelist builtins.throw
                                                                                 ''
                                                                                     ❌ Guard error: The candidate value "${ builtins.toJSON candidate }" is not whitelisted.
 
@@ -41,7 +43,8 @@
                                                                                       2. Temporarily add to the whitelist and add test coverage for this candidate to verify its behavior.
                                                                                       3. If the tests pass, merge the test and whitelist changes.  You may use this candidate.
                                                                                       4. If the tests fail, discard the test and whitelist changes.  You may not use this candidate.
-                                                                                '' ;
+                                                                                ''
+                                                                            else candidate ;
                                                                     identity =
                                                                         {
                                                                             init ? builtins.null ,
@@ -62,45 +65,10 @@
                                                                                     else if builtins.typeOf release == "null" then builtins.null
                                                                                     else throw path name value [ "lambda" "null" ] ;
                                                                             } ;
-                                                                    inject =
-                                                                        let
-                                                                            out = "$out" ;
-                                                                            in
-                                                                                {
-                                                                                    derivation =
-                                                                                        name : fun :
-                                                                                            let
-                                                                                                mapper =
-                                                                                                    path : name : value :
-                                                                                                        if builtins.typeOf value == "string" then "--set ${ name-to-be-set } ${ value }"
-                                                                                                        else if builtins.typeOf value == "list" then
-                                                                                                            let
-                                                                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                                                in builtins.genList generator ( builtins.length value )
-                                                                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value
-                                                                                                        else throw path name value [ "list" "set" "string" ] ;
-                                                                                                name-to-be-set = name ;
-                                                                                                set = builtins.mapAttrs ( mapper [ ] ) ( harvest "$out" ) ;
-                                                                                                in fun set ;
-                                                                                    grandparent-pid = grandparent-pid pkgs ;
-                                                                                    harvest = { name ? "STORE" } : harvest ( builtins.concatStringsSep "" [ "$" "{" name "}" ] ) ;
-                                                                                    is-file = is-file pkgs ;
-                                                                                    is-interactive = is-interactive pkgs ;
-                                                                                    is-pipe = is-pipe pkgs ;
-                                                                                    path = name : index : "--set ${ name } ${ builtins.elemAt path index }" ;
-                                                                                    parent-pid = parent-pid pkgs ;
-                                                                                    resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                                                    script = script ;
-                                                                                    shell-script = url : self + url ;
-                                                                                    standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
-                                                                                    store = { name ? "STORE" } : "--set ${ name } $out" ;
-                                                                                    string = name : value : "--set ${ name } ${ value }" ;
-                                                                                    target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                                } ;
-                                                                    script =
+                                                                    shell-script =
                                                                         {
                                                                             executable ,
-                                                                            sets ? [ ]
+                                                                            environment ? inject : [ ]
                                                                         } :
                                                                             path : name : binary :
                                                                                 builtins.concatStringsSep
@@ -112,16 +80,23 @@
                                                                                                     if builtins.typeOf executable == "string" then
                                                                                                         [
                                                                                                             "makeWrapper"
-                                                                                                            ( pkgs.writeShellScript "executable" ( builtins.readFile executable ) )
+                                                                                                            ( pkgs.writeShellScript "executable" ( builtins.readFile ( caller + ( builtins.concatStringsSep "" [ "/" executable ] ) ) ) )
                                                                                                             "${ resolve path name }/${ binary }"
                                                                                                         ]
                                                                                                     else throw path name value [ "string" ]
                                                                                                 )
                                                                                                 (
                                                                                                     let
+                                                                                                        injection =
+                                                                                                            {
+                                                                                                                string = name : value : "--set ${ name } ${ builtins.toString value }" ;
+                                                                                                            } ;
                                                                                                         in
-                                                                                                            if builtins.typeOf sets == "list" then sets
-                                                                                                            else throw path name value [ "list" ]
+                                                                                                            if builtins.typeOf environment == "lambda" then
+                                                                                                                let
+                                                                                                                    mapper = value : if builtins.typeOf value == "string" then value else throw path name value [ "string" ]
+                                                                                                                    in builtins.map mapper environment injection
+                                                                                                            else throw path name value [ "lambda" ]
                                                                                                 )
                                                                                             ]
                                                                                     ) ;
