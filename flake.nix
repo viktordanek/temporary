@@ -117,7 +117,7 @@
                                                                 else if builtins.typeOf value == "null" then lambda path name ( script : { } )
                                                                 else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                 else throw path name value [ "lambda" "list" "null" "set" ] ;
-                                                        in builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ;
+                                                        in builtins.concatLists ( builtins.mapAttrs ( mapper [ "temporary" ] ) temporary ) ;
                                             } ;
                                         derivation =
                                             pkgs.stdenv.mkDerivation
