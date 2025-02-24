@@ -39,7 +39,7 @@
                                                                                             in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
                                                                                     else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ) )
                                                                                     else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
-                                                                            in builtins.mapAttrs ( mapper [ ] ) dependencies ;
+                                                                            in builtins.concatLists ( builtins.mapAttrs ( mapper [ ] ) dependencies ) ;
                                                                     in builtins.concatStringsSep " &&\n\t" constructors ;
                                                             in
                                                                ''
@@ -113,15 +113,16 @@
                                                                             initializer = 66 ;
                                                                             resource-mask = "temporary.foobar.XXXXXXXX" ;
                                                                             standard-error = 67 ;
-                                                                            temporary =
-                                                                                {
-                                                                                    foobar = shell-script : { } ;
-                                                                                } ;
+                                                                            # temporary =
+                                                                            #    {
+                                                                            #        foobar = shell-script : { } ;
+                                                                            #    } ;
                                                                         } ;
                                                             } ;
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.temporary.foobar } &&
                                                                     exit 68
                                                             '' ;
                                                 name = "temporary-checks" ;
