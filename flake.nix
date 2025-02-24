@@ -24,22 +24,22 @@
                                         lib =
                                             let
                                                 in "harvest" ;
-                                        in
+                            in
+                                {
+                                    checks.testLib =
+                                        pkgs.stdenv.mkDerivation
                                             {
-                                                checks.testLib =
-                                                    pkgs.stdenv.mkDerivation
-                                                        {
-                                                            installPhase =
-                                                                let
-                                                                    in
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/mkdir $out
-                                                                        '' ;
-                                                            name = "temporary-checks" ;
-                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                            src = ./. ;
-                                                        } ;
-                                                lib = lib ;
+                                                installPhase =
+                                                    let
+                                                        in
+                                                            ''
+                                                                ${ pkgs.coreutils }/bin/mkdir $out
+                                                            '' ;
+                                                name = "temporary-checks" ;
+                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                src = ./. ;
                                             } ;
-                    in flake-utils.lib.eachDefaultSystem fun ;
+                                    lib = lib ;
+                                } ;
+                in flake-utils.lib.eachDefaultSystem fun ;
 }
