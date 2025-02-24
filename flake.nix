@@ -119,7 +119,7 @@
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.temporary.foobar } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar } &&
                                                                     exit 68
                                                             '' ;
                                                 name = "temporary-checks" ;
