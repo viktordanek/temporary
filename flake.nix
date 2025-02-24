@@ -14,64 +14,90 @@
                                 {
                                     at ? "/run/wrappers/bin/at" ,
                                     caller ,
-                                    error-initializer ? 64 ,
-                                    error-standard-error ? 65 ,
+                                    initializer ? 64 ,
                                     resource-mask ? "temporary.XXXXXXXX" ,
+                                    standard-error ? 65 ,
                                     temporary ? { } ,
                                     whitelist ? [ ]
                                 } :
                                     let
                                         lib =
-                                            pkgs.stdenv.mkDerivation
-                                                {
-                                                    installPhase =
-                                                        let
-                                                            constructor =
+                                            let
+                                                derivation =
+                                                    pkgs.stdenv.mkDerivation
+                                                        {
+                                                            installPhase =
                                                                 let
-                                                                    constructors =
+                                                                    constructor =
                                                                         let
-                                                                            dependencies =
+                                                                            constructors =
                                                                                 let
-                                                                                    lambda =
-                                                                                        path : name : value :
-                                                                                            [
-                                                                                                (
-                                                                                                    index :
-                                                                                                        {
-                                                                                                            index = index ;
-                                                                                                            path = builtins.concatLists [ path [ name ] ] ;
-                                                                                                            value = value ;
-                                                                                                        }
-                                                                                                )
-                                                                                            ] ;
+                                                                                    dependencies =
+                                                                                        let
+                                                                                            lambda =
+                                                                                                path : name : value :
+                                                                                                    [
+                                                                                                        (
+                                                                                                            index :
+                                                                                                                {
+                                                                                                                    index = index ;
+                                                                                                                    path = builtins.concatLists [ path [ name ] ] ;
+                                                                                                                    value = value ;
+                                                                                                                }
+                                                                                                        )
+                                                                                                    ] ;
+                                                                                            mapper =
+                                                                                                path : name : value :
+                                                                                                    if builtins.typeOf value == "lambda" then lambda path name value
+                                                                                                    else if builtins.typeOf value == "list" then
+                                                                                                        let
+                                                                                                            generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                                                            in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
+                                                                                                    else if builtins.typeOf value == "null" then lambda path name { }
+                                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) )
+                                                                                                    else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
+                                                                                            in builtins.mapAttr ( mapper [ ] ) temporary ;
                                                                                     mapper =
-                                                                                        path : name : value :
-                                                                                            if builtins.typeOf value == "lambda" then lambda path name value
-                                                                                            else if builtins.typeOf value == "list" then
-                                                                                                let
-                                                                                                    generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                                    in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-                                                                                            else if builtins.typeOf value == "null" then lambda path name { }
-                                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) temporary ) )
-                                                                                            else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
-                                                                                    in builtins.mapAttr ( mapper [ ] ) temporary ;
-                                                                            mapper =
-                                                                                { index , path , value } :
-                                                                                    ''
-                                                                                        ${ pkgs.coreutils }/bin/mkdir $out/${ builtins.toString index }
-                                                                                    '' ;
-                                                                            in builtins.map mapper dependencies ;
-                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }" ] constructors ] ) ;
-                                                    in
-                                                       ''
-                                                           ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                               makeWrapper ${ builtins.writeFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
-                                                               ${ pkgs.coreutils }/bin/mkdir $out/temporary &&
-                                                               $out/constructor
-                                                        '' ;
-                                                    name = "temporary-implementation" ;
-                                                    src = ./. ;
-                                                } ;
+                                                                                        { index , path , value } :
+                                                                                            ''
+                                                                                                ${ pkgs.coreutils }/bin/mkdir $out/${ builtins.toString index }
+                                                                                            '' ;
+                                                                                    in builtins.map mapper dependencies ;
+                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }" ] constructors ] ) ;
+                                                            in
+                                                               ''
+                                                                   ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                       makeWrapper ${ builtins.writeFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
+                                                                       ${ pkgs.coreutils }/bin/mkdir $out/temporary &&
+                                                                       $out/constructor
+                                                                '' ;
+                                                            name = "temporary-implementation" ;
+                                                            src = ./. ;
+                                                        } ;
+                                                dependencies =
+                                                    let
+                                                        dependencies =
+                                                            let
+                                                                lambda =
+                                                                    path : name : value : index :
+                                                                        {
+                                                                            index = index ;
+                                                                            path = builtins.concatLists [ path [ name ] ] ;
+                                                                            value = value ;
+                                                                        } ;
+                                                                mapper =
+                                                                    path : name : value :
+                                                                        if builtins.typeOf value == "lambda" then lambda path name value
+                                                                        else if builtins.typeOf value == "list" then
+                                                                            let
+                                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                                in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
+                                                                        else if builtins.typeOf value == "null" then lambda path name ( x : { } )
+                                                                        else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.map ( builtins.concatLists [ path [ name ] ] ) value ) )
+                                                                in builtins.mapAttrs ( mapper [ ] ) temporary ;
+                                                        generator = index : builtins.elemAt dependencies index ;
+                                                        in builtins.genList generator ( builtins.length dependencies ) ;
+                                                in path :
                                         in
                                             {
                                                 checks.testLib =
