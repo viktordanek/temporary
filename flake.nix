@@ -94,7 +94,7 @@
                                                                                                         in
                                                                                                             if builtins.typeOf environment == "lambda" then
                                                                                                                 let
-                                                                                                                    mapper = value : if builtins.typeOf value == "string" then value else throw path name value [ "string" ]
+                                                                                                                    mapper = value : if builtins.typeOf value == "string" then value else throw path name value [ "string" ] ;
                                                                                                                     in builtins.map mapper environment injection
                                                                                                             else throw path name value [ "lambda" ]
                                                                                                 )
