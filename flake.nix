@@ -172,7 +172,7 @@
                                                                 installPhase =
                                                                     let
                                                                         executable =
-                                                                            name : value : ( builtins.trace "${ name } is a ${ builtins.typeOf value.executable }" (
+                                                                            name : value :
                                                                                 let
                                                                                     in
                                                                                         if builtins.typeOf value.executable == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
@@ -180,7 +180,7 @@
                                                                                             ''${ pkgs.coreutils }/bin/cat ${ value.executable } > $out/init.sh &&
                                                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&
                                                                                                     makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " value.environment }''
-                                                                                        else builtins.throw "The ${ name }.executable for construction is not null nor string but ${ builtins.typeOf init }." ) );
+                                                                                        else builtins.throw "The ${ name }.executable for construction is not null nor string but ${ builtins.typeOf init }." ;
                                                                         in
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
