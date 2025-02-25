@@ -242,7 +242,7 @@
                                                                                     mkdir =
                                                                                         shell-script :
                                                                                             {
-                                                                                                init = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                                init = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir" ; } ;
                                                                                             } ;
                                                                                     touch =
                                                                                         shell-script :
