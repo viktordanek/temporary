@@ -59,8 +59,7 @@
                                                                     let
                                                                         executable =
                                                                             name : value :
-                                                                                if builtins.typeOf value == "lambda" then value shell-script
-                                                                                else if builtins.typeOf value == "null" then { executable = null ; }
+                                                                                if builtins.typeOf value == "null" then { executable = null ; }
                                                                                 else if builtins.typeOf value == "set" then value
                                                                                 else builtins.throw "The ${ name } for dependencies is not null nor set but ${ builtins.typeOf value }." ;
                                                                         in
