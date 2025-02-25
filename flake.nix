@@ -61,7 +61,7 @@
                                                                             name : value :
                                                                                 if builtins.typeOf value == "lambda" then value shell-script
                                                                                 else if builtins.typeOf value == "null" then { executable = null ;}
-                                                                                else builtins.throw "The ${ name } is not lambda nor null but ${ builtins.typeOf value }." ;
+                                                                                else builtins.throw "The ${ name } for dependencies is not lambda nor null but ${ builtins.typeOf value }." ;
                                                                         in
                                                                             {
                                                                                 init = executable "init" init ;
@@ -165,7 +165,7 @@
                                                                                     in
                                                                                         if builtins.typeOf value.executable == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
                                                                                         else if builtins.typeOf value.executable == "string" then ''${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "string" value } $out/init.sh && ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " value.environment } ) }''
-                                                                                        else builtins.throw "The ${ name } is not null nor string but ${ builtins.typeOf init }." ;
+                                                                                        else builtins.throw "The ${ name } for construction is not null nor string but ${ builtins.typeOf init }." ;
                                                                         in
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
