@@ -76,7 +76,7 @@
                                                                                 tests = tests ;
                                                                             } ;
                                                                     in identity ( value ignore ) ;
-                                                            in temporary defaults.init defaults.release defaults.post ;
+                                                            in temporary-derivation defaults.init defaults.release defaults.post ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name value
@@ -87,7 +87,7 @@
                                                         else if builtins.typeOf value == "null" then lambda path name ( x : { } )
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) ( pkgs.lib.filterAttrs ( filter ( builtins.concatLists [ path [ name ] ] ) value ) )
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for mapping initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
-                                                temporary =
+                                                temporary-derivation =
                                                     init : release : post :
                                                         pkgs.stdenv.mkDerivation
                                                             {
