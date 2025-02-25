@@ -86,7 +86,7 @@
                                                     let
                                                         mapper =
                                                             path : name : value :
-                                                                if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" [ derivation "temporary" ( builtins.getAttr "hash" ( value null ) ) "setup" ]
+                                                                if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" [ derivation "temporary" ( builtins.getAttr "hash" ( value null null ) ) "setup" ]
                                                                 else if builtins.typeOf value == "list" then
                                                                     let
                                                                         generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
