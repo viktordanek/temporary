@@ -68,7 +68,7 @@
                                                                             "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ store }/bin/${ hash }"
                                                                             "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self + "/scripts/implementation/setup.sh" } > ${ store }/bin/${ hash }/setup.sh"
                                                                             "${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } 0555 ${ store }/bin/${ hash }/setup.sh"
-                                                                            "makeWrapper ${ store }/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup"
+                                                                            "makeWrapper ${ store }/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup --set CHMOD ${ pkgs.coreutils }/bin/chmod --set ECHO ${ pkgs.coreutils }/bin/echo ${ is-interactive { } }"
                                                                         ] ;
                                                                     hash = hash ;
                                                                     value = value ;
@@ -99,6 +99,7 @@
                                                                 else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for harvest is not lambda, list, nor set but ${ builtins.typeOf value }." ;
                                                         in builtins.mapAttrs ( mapper [ ] ) dependencies ;
                                             } ;
+                                        is-interactive = { name ? "IS_INTERACTIVE" } : "--run 'export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                         in harvest ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
