@@ -20,7 +20,7 @@ ${ECHO} I >&2 &&
   ${ECHO} "${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output \"{init:.}\" > ${TARGET}" &&
 ${ECHO} J >&2 &&
   # ${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "{init:.}" > ${TARGET} &&
-${ECHO} K >&2 &&
+${ECHO} K ${TEMPLATE_FILE} ${TARGET} &&
   ${JQ} -n -f ${TEMPLATE_FILE} > ${TARGET} &&
 ${ECHO} L >&2 &&
   ${ECHO} ${STANDARD_OUTPUT} &&
