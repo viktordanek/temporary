@@ -80,7 +80,10 @@
                                                         else if builtins.typeOf value == "set" then true
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for filtering initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
                                                 lambda =
-                                                    path : name : value : ignore : temporary-derivation defaults.init defaults.release defaults.post ;
+                                                    path : name : value : ignore :
+                                                        let
+                                                            d = defaults value ignore ;
+                                                            in temporary-derivation d.init d.release d.post ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name value
