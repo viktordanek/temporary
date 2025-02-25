@@ -60,8 +60,9 @@
                                                                         executable =
                                                                             name : value :
                                                                                 if builtins.typeOf value == "lambda" then value shell-script
-                                                                                else if builtins.typeOf value == "null" then { executable = null ;}
-                                                                                else builtins.throw "The ${ name } for dependencies is not lambda nor null but ${ builtins.typeOf value }." ;
+                                                                                else if builtins.typeOf value == "null" then { executable = null ; }
+                                                                                else if builtins.typeOf value == "set" then value
+                                                                                else builtins.throw "The ${ name } for dependencies is not null nor set but ${ builtins.typeOf value }." ;
                                                                         in
                                                                             {
                                                                                 init = executable "init" init ;
@@ -268,11 +269,6 @@
                                                                                         shell-script :
                                                                                             {
                                                                                                 init = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ; environment = { string , target } : [ ( string target ) ] ; } ;
-                                                                                            } ;
-                                                                                    touch =
-                                                                                        shell-script :
-                                                                                            {
-                                                                                                init = shell-script { executable = "${ pkgs.coreutils }/touch" ; } ;
                                                                                             } ;
                                                                                 } ;
                                                                         } ;
