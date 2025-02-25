@@ -63,14 +63,14 @@
                                                                         tests =
                                                                             let
                                                                                 identity =
-                                                                                    { paste ? null , pipe ? null , arguments ? null , file ? null , status ? true , expectation , count ? 3 } :
+                                                                                    { paste ? null , pipe ? null , arguments ? null , file ? null , status ? true , expected , count ? 3 } :
                                                                                         {
                                                                                             paste = paste ;
                                                                                             pipe = pipe ;
                                                                                             arguments = arguments ;
                                                                                             file = file ;
                                                                                             status = status ;
-                                                                                            expectation = expectation ;
+                                                                                            expected = expected ;
                                                                                         } ;
                                                                                 in builtins.map identity tests ;
                                                                     } ;
@@ -98,8 +98,19 @@
                                                                                                     pass = "if ! ${ paste }${ sub } ; then ; fi" ;
                                                                                                     fail = "if ${ sub } ; then ; fi ;" ;
                                                                                                     reps = builtins.genList ( index : if test.status then pass else fail ) test.count ;
-                                                                                                    ultimate = "if [ -z \"$( ${ pkgs.diffutils }/bin/diff ${ d.expected } /build/observed )\" ] ; then ${ pkgs.coreutils }/bin/touch $out ; else ${ pkgs.coreutils }/bin/cat /build/observed > $out && exit 66 ; fi" ;
-                                                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ reps [ ultimate ] ] ) ;
+                                                                                                    ultimate =
+                                                                                                        [
+                                                                                                            ''OBSERV
+                                                                                                            "if [ -z \"$( ${ pkgs.diffutils }/bin/diff ${ d.expected } /build/observed )\" ] ; then ${ pkgs.coreutils }/bin/touch $out ; else ${ pkgs.coreutils }/bin/cat /build/observed > $out && exit 66 ; fi" ;
+                                                                                                    in
+                                                                                                        ''
+                                                                                                            ${ builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : if test.status then pass else fail ) test.count ) } &&
+                                                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ expected } $out/expected &&
+                                                                                                                ${ pkgs.coreutils }/bin/cat /build/observed > $out/observed &&
+                                                                                                                ${ pkgs.diffutils }/bin/diff --brief
+                                                                                                                 --recursive --side-by-side $out/expected $out/observed > $out/diff
+                                                                                                        ''
                                                                                             name = "test-observation" ;
                                                                                             src = ./. ;
                                                                                         } ;
