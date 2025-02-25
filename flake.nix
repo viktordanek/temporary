@@ -31,14 +31,14 @@
                                                                     constructors =
                                                                         let
                                                                             mapper =
-                                                                                path : name : value : ( builtins.trace "1890b601-525a-4c6c-8b96-56ad1fff226d ${ builtins.typeOf value }" (
+                                                                                path : name : value :
                                                                                     if builtins.typeOf value == "lambda" then builtins.getAttr "constructor" ( builtins.trace "b2369522-6d1d-4a19-b074-24a88e7da261 ${ builtins.typeOf ( value null null ) }" ( value null null ) )
                                                                                     else if builtins.typeOf value == "list" then
                                                                                         let
                                                                                             generator = index : mapper ( ( builtins.trace "41d6455f-c789-43df-8691-95967d8f65e8" ( builtins.concatLists [ path [ name ] ] ) ) ) index ( builtins.elemAt value index ) ;
                                                                                             in builtins.trace "8620a20c-930f-4c2b-918c-775403992ae2" ( builtins.concatLists ( builtins.genList generator ( builtins.length value ) ) )
                                                                                     else if builtins.typeOf value == "set" then builtins.trace "2857663a-53c9-4dc5-acf6-5817967d9d47" ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.trace "9791f687-49c5-411a-9e78-8aad6459c6c2" ( builtins.concatLists [ path [ name ] ] ) ) ) value ) ) )
-                                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.trace "58c09677-6e48-4ae2-95e8-3038dd9cfe14" ( builtins.concatLists [ path [ name ] ] ) ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ) ) ;
+                                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.trace "58c09677-6e48-4ae2-95e8-3038dd9cfe14" ( builtins.concatLists [ path [ name ] ] ) ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) ( builtins.trace "defined dependencies for constructors" dependencies ) ) ) ;
                                                                     in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }/nix-support/setup-hook" ] constructors ] ) ;
                                                             in
