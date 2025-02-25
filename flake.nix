@@ -40,6 +40,8 @@
                                                             in
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                        ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/clean.sh" } > $out/clean.sh &&
+                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out/clean &&
                                                                         makeWrapper $out/clean.sh $out/clean --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin --set RESOURCE_MASK ${ resource-mask } --set SED ${ pkgs.gnused }/bin/sed
                                                                         ${ builtins.concatStringsSep " &&\n\t" constructors }
                                                                 '' ;
