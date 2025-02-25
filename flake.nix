@@ -45,9 +45,11 @@
                                                                 builtins.trace "defined constructor"
                                                                ''
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                       makeWrapper ${ builtins.toFile "constructor.sh" constructor } $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
-                                                                       ${ builtins.trace "after map" "${ pkgs.coreutils }/bin/mkdir $out/temporary" } &&
-                                                                       $out/constructor
+                                                                        ${ pkgs.coreutils }/bin/cat ${ builtins.toFile "constructor.sh" constructor } > $out/constructor.sh &&
+                                                                        ${ pkgs.coreutils }/bin/chmod 0500 $out/constructor.sh &&
+                                                                        makeWrapper $out/constructor.sh $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
+                                                                        ${ builtins.trace "after map" "${ pkgs.coreutils }/bin/mkdir $out/temporary" } &&
+                                                                        $out/constructor
                                                                 '' ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     name = "temporary-implementation" ;
