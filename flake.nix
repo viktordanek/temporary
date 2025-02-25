@@ -50,7 +50,7 @@
                                         dependencies =
                                             let
                                                 defaults =
-                                                    value :
+                                                    value : ignore :
                                                         let
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] } :
