@@ -290,6 +290,7 @@
                                                                                                             environment =
                                                                                                                 { is-file , is-pipe , resource , path , standard-input , string , target } :
                                                                                                                     [
+                                                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                                         ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                                                                         ( string "HAS_STANDARD_ERROR" "false" )
