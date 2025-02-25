@@ -1,0 +1,1 @@
+${FIND} $( ${ECHO} ${RESOURCE_MASK} | ${SED} -e "s#^#\${TMPDIR}#" -e "s#X\+#*#g" ) -mindepth 1 -maxdepth 1 -type f -name teardown-asynch -exec ${} /;

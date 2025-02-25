@@ -38,8 +38,9 @@
                                                                             else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
                                                                     in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) dependencies ) ) ;
                                                             in
-                                                               ''
-                                                                   ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                ''
+                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                        makeWrapper $out/clean.sh $out/clean --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin --set RESOURCE_MASK ${ resource-mask } --set SED ${ pkgs.gnused }/bin/sed
                                                                         ${ builtins.concatStringsSep " &&\n\t" constructors }
                                                                 '' ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
@@ -48,6 +49,17 @@
                                                 } ;
                                         dependencies =
                                             let
+                                                defaults =
+                                                    let
+                                                        identity =
+                                                            { init ? null , post ? null , release ? null , tests ? [ ] } :
+                                                                {
+                                                                    init = init ;
+                                                                    post = post ;
+                                                                    release = release ;
+                                                                    tests = tests ;
+                                                                } ;
+                                                        in identity ( value ignore ) ;
                                                 filter =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then
@@ -67,20 +79,7 @@
                                                         else if builtins.typeOf value == "set" then true
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for filtering initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
                                                 lambda =
-                                                    path : name : value : ignore :
-                                                        let
-                                                            defaults =
-                                                                let
-                                                                    identity =
-                                                                        { init ? null , post ? null , release ? null , tests ? [ ] } :
-                                                                            {
-                                                                                init = init ;
-                                                                                post = post ;
-                                                                                release = release ;
-                                                                                tests = tests ;
-                                                                            } ;
-                                                                    in identity ( value ignore ) ;
-                                                            in temporary-derivation defaults.init defaults.release defaults.post ;
+                                                    path : name : value : ignore : temporary-derivation defaults.init defaults.release defaults.post ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name value
