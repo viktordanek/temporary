@@ -102,7 +102,7 @@
                                                                                 --set LN ${ pkgs.coreutils }/bin/ln \
                                                                                 --set MKTEMP ${ pkgs.coreutils }/bin/mktemp \
                                                                                 ${ parent-pid { } } \
-                                                                                --set POST $out/post /
+                                                                                --set POST $out/post \
                                                                                 --set RELEASE $out/release \
                                                                                 --set RESOURCE_MASK ${ resource-mask } \
                                                                                 --set TEARDOWN_ASYNCH $out/teardown-asynch \
