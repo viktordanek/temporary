@@ -104,12 +104,18 @@
                                                                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                                                 ${ pkgs.coreutils }/bin/ln --symbolic ${ expected } $out/expected &&
                                                                                                                 ${ pkgs.coreutils }/bin/cat /build/observed > $out/observed &&
-                                                                                                                ${ pkgs.diffutils }/bin/diff --brief --recursive --side-by-side $out/expected $out/observed > $out/diff
+                                                                                                                ${ pkgs.diffutils }/bin/diff --brief --recursive --side-by-side $out/expected $out/observed > $out/diff &&
+                                                                                                                if [ -z "$( ${ pkgs.coreutils }/bin/cat $out/diff )" ]
+                                                                                                                then
+                                                                                                                    ${ pkgs.coreutils }/bin/echo true > $out/status
+                                                                                                                else
+                                                                                                                    ${ pkgs.coreutils }/bin/echo false > $out/status
+                                                                                                                fi
                                                                                                         '' ;
                                                                                             name = "test-observation" ;
                                                                                             src = ./. ;
                                                                                         } ;
-                                                                            in
+                                                                            in builtins.import "${ observation-derivation }/status" ;
                                                                 in builtins.all predicate d.tests ;
                                                         else if builtins.typeOf value == "list" then true
                                                         else if builtins.typeOf value == "null" then true
