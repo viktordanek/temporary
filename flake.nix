@@ -42,7 +42,6 @@
                                                                             in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) ( builtins.trace "defined dependencies for constructors" dependencies ) ) ) ;
                                                                     in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "source ${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] }/nix-support/setup-hook" ] constructors ] ) ;
                                                             in
-                                                                builtins.trace "defined constructor"
                                                                ''
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/cat ${ builtins.toFile "constructor.sh" constructor } > $out/constructor.sh &&
