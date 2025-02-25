@@ -57,9 +57,21 @@
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] } :
                                                                     {
-                                                                        init = if builtins.typeOf init == "lambda" then init shell-script else if builtins.typeOf init == "null" then init else builtins.throw "The init is not lambda nor null but ${ builtins.typeOf init }." ;
-                                                                        post = if builtins.typeOf post == "lambda" then post shell-script else if builtins.typeOf post == "null" then init else builtins.throw "The post is not lambda nor null but ${ builtins.typeOf post }." ;
-                                                                        release = if builtins.typeOf release == "lambda" then release shell-script else if builtins.typeOf release == "null" then init else builtins.throw "The release is not lambda nor null but ${ builtins.typeOf release }." ;
+                                                                        init =
+                                                                            if builtins.typeOf init == "lambda" then init shell-script
+                                                                            else if builtins.typeOf init == "null" then init
+                                                                            else if builtins.typeOf init == "string" then init
+                                                                            else builtins.throw "The init is not lambda nor null but ${ builtins.typeOf init }." ;
+                                                                        post =
+                                                                            if builtins.typeOf post == "lambda" then post shell-script
+                                                                            else if builtins.typeOf post == "null" then post
+                                                                            else if builtins.typeOf post == "string" then post
+                                                                            else builtins.throw "The post is not lambda nor null but ${ builtins.typeOf post }." ;
+                                                                        release =
+                                                                            if builtins.typeOf release == "lambda" then release shell-script
+                                                                            else if builtins.typeOf release == "null" then release
+                                                                            else if builtins.typeOf release == "string" then release
+                                                                            else builtins.throw "The release is not lambda nor null but ${ builtins.typeOf release }." ;
                                                                         tests =
                                                                             let
                                                                                 identity =
@@ -77,7 +89,7 @@
                                                             shell-script =
                                                                 { executable , environment ? { } : null } :
                                                                     executable ;
-                                                            in identity ( value ignore ) ;
+                                                            in identity ( value shell-script ) ;
                                                 filter =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then
@@ -154,6 +166,7 @@
                                                                             makeWrapper \
                                                                                 $out/setup.sh \
                                                                                 $out/setup \
+                                                                                --set CAT ${ pkgs.coreutils }/bin/cat \
                                                                                 --set CHMOD ${ pkgs.coreutils }/bin/chmod \
                                                                                 --set ECHO ${ pkgs.coreutils }/bin/echo \
                                                                                 ${ grandparent-pid { } } \
@@ -167,6 +180,7 @@
                                                                                 --set POST $out/post \
                                                                                 --set RELEASE $out/release \
                                                                                 --set RESOURCE_MASK ${ resource-mask } \
+                                                                                --set RM ${ pkgs.coreutils }/bin/rm \
                                                                                 --set TEARDOWN_ASYNCH $out/teardown-asynch \
                                                                                 --set TEARDOWN_SYNCH $out/teardown-synch \
                                                                                 --set TEE ${ pkgs.coreutils }/bin/tee &&
@@ -255,7 +269,7 @@
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.derivation.foobar } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.derivation.mkdir } &&
                                                                     exit 68
                                                             '' ;
                                                 name = "temporary-checks" ;
