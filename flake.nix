@@ -50,16 +50,17 @@
                                         dependencies =
                                             let
                                                 defaults =
-                                                    let
-                                                        identity =
-                                                            value : { init ? null , post ? null , release ? null , tests ? [ ] } :
-                                                                {
-                                                                    init = init ;
-                                                                    post = post ;
-                                                                    release = release ;
-                                                                    tests = tests ;
-                                                                } ;
-                                                        in identity ( value ignore ) ;
+                                                    value :
+                                                        let
+                                                            identity =
+                                                                { init ? null , post ? null , release ? null , tests ? [ ] } :
+                                                                    {
+                                                                        init = init ;
+                                                                        post = post ;
+                                                                        release = release ;
+                                                                        tests = tests ;
+                                                                    } ;
+                                                            in identity ( value ignore ) ;
                                                 filter =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then
