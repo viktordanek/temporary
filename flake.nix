@@ -87,7 +87,7 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } $out/setup.sh &&
+                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } > $out/setup.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0550 $out/setup.sh &&
                                                                             makeWrapper \
                                                                                 $out/setup.sh \
