@@ -171,6 +171,7 @@
                                                                                 --set ECHO ${ pkgs.coreutils }/bin/echo \
                                                                                 ${ grandparent-pid { } } \
                                                                                 --set INIT $out/init \
+                                                                                --set INITIALIZER ${ builtins.toString initializer } \
                                                                                 ${ is-file { } } \
                                                                                 ${ is-interactive { } } \
                                                                                 ${ is-pipe { } } \
@@ -181,6 +182,7 @@
                                                                                 --set RELEASE $out/release \
                                                                                 --set RESOURCE_MASK ${ resource-mask } \
                                                                                 --set RM ${ pkgs.coreutils }/bin/rm \
+                                                                                --set STANDARD_ERROR ${ builtins.toString standard-error } \
                                                                                 --set TEARDOWN_ASYNCH $out/teardown-asynch \
                                                                                 --set TEARDOWN_SYNCH $out/teardown-synch \
                                                                                 --set TEE ${ pkgs.coreutils }/bin/tee &&
