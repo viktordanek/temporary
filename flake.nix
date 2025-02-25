@@ -46,7 +46,7 @@
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/cat ${ builtins.toFile "constructor.sh" constructor } > $out/constructor.sh &&
                                                                         ${ pkgs.coreutils }/bin/chmod 0500 $out/constructor.sh &&
-                                                                        makeWrapper $out/constructor.sh $out/constructor --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set STORE $out &&
+                                                                        makeWrapper $out/constructor.sh $out/constructor --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set STORE $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         $out/constructor
                                                                 '' ;
