@@ -48,7 +48,7 @@
                                                                         ${ pkgs.coreutils }/bin/cat ${ builtins.toFile "constructor.sh" constructor } > $out/constructor.sh &&
                                                                         ${ pkgs.coreutils }/bin/chmod 0500 $out/constructor.sh &&
                                                                         makeWrapper $out/constructor.sh $out/constructor --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
-                                                                        ${ builtins.trace "after map" "${ pkgs.coreutils }/bin/mkdir $out/temporary" } &&
+                                                                        ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         $out/constructor
                                                                 '' ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
@@ -67,10 +67,10 @@
                                                                     {
                                                                         constructor =
                                                                             [
-                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] } ${ store }/${ hash }"
-                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self + "/scripts/implementation/setup.sh" } > ${ store }/${ hash }/setup.sh"
-                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } 0555 ${ store }/${ hash }/setup.sh"
-                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] } ${ store }/${ hash }/setup.sh ${ store }/${ hash }/setup"
+                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] } ${ store }/bin/${ hash }"
+                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self + "/scripts/implementation/setup.sh" } > ${ store }/bin/${ hash }/setup.sh"
+                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } 0555 ${ store }/temporary/bin/${ hash }/setup.sh"
+                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] } ${ store }/temporary/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup"
                                                                             ] ;
                                                                         hash = hash ;
                                                                         value = value ;
