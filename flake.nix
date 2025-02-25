@@ -315,7 +315,7 @@
                                                                                                     shell-script
                                                                                                         {
                                                                                                             executable = "${ builtins.concatStringsSep "" [ "$" "{" "TOUCH" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
-                                                                                                            environment = { string , target } : [ ( string "TOUCH" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
+                                                                                                            environment = { string , target , ... } : [ ( string "TOUCH" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
                                                                                                         } ;
                                                                                             } ;
                                                                                 } ;
