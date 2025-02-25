@@ -25,29 +25,22 @@
                                                 {
                                                     installPhase =
                                                         let
-                                                            constructor =
+                                                            constructors =
                                                                 let
-                                                                    constructors =
-                                                                        let
-                                                                            mapper =
-                                                                                path : name : value :
-                                                                                    if builtins.typeOf value == "lambda" then [ "${ builtins.concatStringsSep "" [ "$" "{" "LN" "}" ] } --symbolic ${ value null }/setup ${ resolve "${ builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] }" path name }" ]
-                                                                                    else if builtins.typeOf value == "list" then
-                                                                                        let
-                                                                                            generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                            in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-                                                                                    else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) ) value )
-                                                                                    else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
-                                                                            in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) dependencies ) ) ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( constructors ) ;
+                                                                    mapper =
+                                                                        path : name : value :
+                                                                            if builtins.typeOf value == "lambda" then [ "${ builtins.concatStringsSep "" [ "$" "{" "LN" "}" ] } --symbolic ${ value null }/setup ${ resolve "${ builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] }" path name }" ]
+                                                                            else if builtins.typeOf value == "list" then
+                                                                                let
+                                                                                    generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
+                                                                                    in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
+                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) ) value )
+                                                                            else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
+                                                                    in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) dependencies ) ) ;
                                                             in
                                                                ''
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                        ${ pkgs.coreutils }/bin/cat ${ builtins.toFile "constructor.sh" constructor } > $out/constructor.sh &&
-                                                                        ${ pkgs.coreutils }/bin/chmod 0500 $out/constructor.sh &&
-                                                                        makeWrapper $out/constructor.sh $out/constructor --set LN ${ pkgs.coreutils }/bin/ln --set STORE $out &&
-                                                                        ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                        $out/constructor
+                                                                        ${ builtins.concatStringsSep " &&\n\t" constructors }
                                                                 '' ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     name = "temporary-implementation" ;
