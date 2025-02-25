@@ -312,7 +312,7 @@
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.derivation.mkdir } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.derivation.test } &&
                                                                     exit 68
                                                             '' ;
                                                 name = "temporary-checks" ;
