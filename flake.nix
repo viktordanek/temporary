@@ -167,7 +167,7 @@
                                                                 installPhase =
                                                                     let
                                                                         executable =
-                                                                            name : value : ( builtins.trace "${ name } is a ${ builtins.typeOf value }" (
+                                                                            name : value : ( builtins.trace "${ name } is a ${ builtins.typeOf value.executable }" (
                                                                                 let
                                                                                     in
                                                                                         if builtins.typeOf value.executable == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
