@@ -120,7 +120,7 @@
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
                                                             } ;
-                                                in builtins.mapAttrs ( mapper [ ] ) ( pkgs.lib.filterAttrs ( filter [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set." ) ) ;
+                                                in builtins.mapAttrs ( mapper [ ] ) ( pkgs.lib.filterAttrs ( filter [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ) ;
                                         grandparent-pid = { name ? "GRANDPARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'" ;
                                         harvest =
                                             {
