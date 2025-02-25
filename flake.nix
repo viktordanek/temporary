@@ -31,7 +31,7 @@
                                                                         let
                                                                             mapper =
                                                                                 path : name : value :
-                                                                                    if builtins.typeOf value == "lambda" then [ "${ pkgs.coreutils }/bin/ln --symbolic ${ value null } ${ resolve "$out" path name }" ]
+                                                                                    if builtins.typeOf value == "lambda" then [ "${ builtins.concatStringsSep "" [ "$" "{" "LN" "}" ] } --symbolic ${ value null } ${ resolve "${ builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] }" path name }" ]
                                                                                     else if builtins.typeOf value == "list" then
                                                                                         let
                                                                                             generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
@@ -45,7 +45,7 @@
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/cat ${ builtins.toFile "constructor.sh" constructor } > $out/constructor.sh &&
                                                                         ${ pkgs.coreutils }/bin/chmod 0500 $out/constructor.sh &&
-                                                                        makeWrapper $out/constructor.sh $out/constructor --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set STORE $out &&
+                                                                        makeWrapper $out/constructor.sh $out/constructor --set LN ${ pkgs.coreutils }/bin/ln --set STORE $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         $out/constructor
                                                                 '' ;
