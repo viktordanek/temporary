@@ -61,7 +61,7 @@
                                                                         tests =
                                                                             let
                                                                                 identity =
-                                                                                    { paste ? null , pipe ? null , arguments ? null , file ? null } :
+                                                                                    { paste ? null , pipe ? null , arguments ? null , file ? null , status ? true } :
                                                                                         {
                                                                                             paste = paste ;
                                                                                             pipe = pipe ;
