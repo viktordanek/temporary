@@ -105,7 +105,7 @@
                                                                                                                 ${ pkgs.coreutils }/bin/ln --symbolic ${ expected } $out/expected &&
                                                                                                                 ${ pkgs.coreutils }/bin/cat /build/observed > $out/observed &&
                                                                                                                 ${ pkgs.diffutils }/bin/diff --brief --recursive --side-by-side $out/expected $out/observed > $out/diff
-                                                                                                        ''
+                                                                                                        '' ;
                                                                                             name = "test-observation" ;
                                                                                             src = ./. ;
                                                                                         } ;
