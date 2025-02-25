@@ -49,6 +49,7 @@
                                                                        ${ builtins.trace "after map" "${ pkgs.coreutils }/bin/mkdir $out/temporary" } &&
                                                                        $out/constructor
                                                                 '' ;
+                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     name = "temporary-implementation" ;
                                                     src = ./. ;
                                                 } ;
