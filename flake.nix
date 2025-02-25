@@ -52,7 +52,7 @@
                                         dependencies =
                                             let
                                                 defaults =
-                                                    value : ignore :
+                                                    path : name : value : ignore :
                                                         let
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] } :
@@ -91,6 +91,7 @@
                                                                 {
                                                                     is-file = is-file ;
                                                                     is-pipe = is-pipe ;
+                                                                    path = index : builtins.toString ( builtins.elemAt path index ) ;
                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                     resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                     standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
@@ -107,7 +108,7 @@
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then
                                                             let
-                                                                d = defaults value null ;
+                                                                d = defaults path name value null ;
                                                                 predicate =
                                                                     test :
                                                                         let
@@ -152,7 +153,7 @@
                                                 lambda =
                                                     path : name : value : ignore :
                                                         let
-                                                            d = defaults value ignore ;
+                                                            d = defaults path name value ignore ;
                                                             in temporary-derivation d.init d.release d.post ;
                                                 mapper =
                                                     path : name : value :
@@ -287,7 +288,7 @@
                                                                                                         {
                                                                                                             executablePath = self + "/scripts/test/temporary/executable.sh" ;
                                                                                                             environment =
-                                                                                                                { is-file , is-pipe , resource , standard-input , string , target } :
+                                                                                                                { is-file , is-pipe , resource , path , standard-input , string , target } :
                                                                                                                     [
                                                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                                                         ( string "FIND" "${ pkgs.findutils }/bin/find" )
