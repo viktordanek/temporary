@@ -31,7 +31,7 @@
                                                                         let
                                                                             mapper =
                                                                                 path : name : value :
-                                                                                    if builtins.typeOf value == "lambda" then [ "${ pkgs.coreutils }/bin/ln --symbolic ${ value null } ${ resolve path name }" ]
+                                                                                    if builtins.typeOf value == "lambda" then [ "${ pkgs.coreutils }/bin/ln --symbolic ${ value null } ${ resolve "$out" path name }" ]
                                                                                     else if builtins.typeOf value == "list" then
                                                                                         let
                                                                                             generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
@@ -128,7 +128,7 @@
                                                     let
                                                         mapper =
                                                             path : name : value :
-                                                                if builtins.typeOf value == "lambda" then resolve path name
+                                                                if builtins.typeOf value == "lambda" then resolve derivation path name
                                                                 else if builtins.typeOf value == "list" then
                                                                     let
                                                                         generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
@@ -141,7 +141,7 @@
                                         is-interactive = { name ? "IS_INTERACTIVE" } : "--run 'export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         is-pipe = { name ? "IS_PIPE" } : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         parent-pid = { name ? "PARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
-                                        resolve = path : name : builtins.concatStringsSep "/" ( builtins.map builtins.toString [ ( builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ) ] ) ;
+                                        resolve = derivation : path : name : builtins.concatStringsSep "/" ( builtins.map builtins.toString [ derivation ( builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ) ] ) ;
                                         in harvest ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
