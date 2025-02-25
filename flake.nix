@@ -292,7 +292,7 @@
                                                                                                 init =
                                                                                                     shell-script
                                                                                                         {
-                                                                                                            executable = self + "/scripts/test/temporary/executable.sh" ;
+                                                                                                            executable = builtins.toPath ( self + "/scripts/test/temporary/executable.sh" ) ;
                                                                                                             environment =
                                                                                                                 { is-file , is-pipe , resource , standard-input , string , target } :
                                                                                                                     [
