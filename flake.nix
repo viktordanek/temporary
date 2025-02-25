@@ -84,7 +84,7 @@
                                                             execute-shell-script =
                                                                 { executable ? null , executablePath ? null , environment ? { } : null } :
                                                                     {
-                                                                        executable = executable ;
+                                                                        executable = executablePath ;
                                                                         environment = environment injection ;
                                                                     } ;
                                                             injection =
