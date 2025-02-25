@@ -29,7 +29,7 @@
                                                                 let
                                                                     mapper =
                                                                         path : name : value :
-                                                                            if builtins.typeOf value == "lambda" then [ "${ builtins.concatStringsSep "" [ "$" "{" "LN" "}" ] } --symbolic ${ value null }/setup ${ resolve "${ builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] }" path name }" ]
+                                                                            if builtins.typeOf value == "lambda" then [ "${ pkgs.coreutils }/bin/ln --symbolic ${ value null }/setup ${ resolve "$out" path name }" ]
                                                                             else if builtins.typeOf value == "list" then
                                                                                 let
                                                                                     generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
