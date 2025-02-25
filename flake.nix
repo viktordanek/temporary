@@ -102,7 +102,7 @@
                                                                         executable = builtins.toFile "script" executable ;
                                                                         environment = environment injection ;
                                                                     } ;
-                                                                in identity ( value { execute-shell-script = execute-shell-script ; write-shell-script = write-shell-script ; ) ;
+                                                                in identity ( value { execute-shell-script = execute-shell-script ; write-shell-script = write-shell-script ; } ) ;
                                                 filter =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then
