@@ -68,7 +68,7 @@
                                                                         constructor =
                                                                             [
                                                                                 "${ builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] } ${ store }/${ hash }"
-                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self "/scripts/implementation/setup.sh" } > ${ store }/${ hash }/setup.sh"
+                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self + "/scripts/implementation/setup.sh" } > ${ store }/${ hash }/setup.sh"
                                                                                 "${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } 0555 ${ store }/${ hash }/setup.sh"
                                                                                 "${ builtins.concatStringsSep "" [ "$" "{" "MAKE_WRAPPER" "}" ] } ${ store }/${ hash }/setup.sh ${ store }/hash }/setup"
                                                                             ] ;
