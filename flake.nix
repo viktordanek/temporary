@@ -156,58 +156,69 @@
                                                         pkgs.stdenv.mkDerivation
                                                             {
                                                                 installPhase =
-                                                                    ''
-                                                                        ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                            ${ if builtins.typeOf init == "null" then "${ pkgs.coreutils }/bin/true init" else "${ pkgs.coreutils }/bin/ln --symbolic ${ init } $out/init" } &&
-                                                                            ${ if builtins.typeOf release == "null" then "${ pkgs.coreutils }/bin/true release" else "${ pkgs.coreutils }/bin/ln --symbolic ${ release } $out/release" } &&
-                                                                            ${ if builtins.typeOf post == "null" then "${ pkgs.coreutils }/bin/true post" else "${ pkgs.coreutils }/bin/ln --symbolic ${ post } $out/post" } &&
-                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } > $out/setup.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0550 $out/setup.sh &&
-                                                                            makeWrapper \
-                                                                                $out/setup.sh \
-                                                                                $out/setup \
-                                                                                --set CAT ${ pkgs.coreutils }/bin/cat \
-                                                                                --set CHMOD ${ pkgs.coreutils }/bin/chmod \
-                                                                                --set ECHO ${ pkgs.coreutils }/bin/echo \
-                                                                                ${ grandparent-pid { } } \
-                                                                                --set INIT $out/init \
-                                                                                --set INITIALIZER ${ builtins.toString initializer } \
-                                                                                ${ is-file { } } \
-                                                                                ${ is-interactive { } } \
-                                                                                ${ is-pipe { } } \
-                                                                                --set LN ${ pkgs.coreutils }/bin/ln \
-                                                                                --set MKTEMP ${ pkgs.coreutils }/bin/mktemp \
-                                                                                ${ parent-pid { } } \
-                                                                                --set POST $out/post \
-                                                                                --set RELEASE $out/release \
-                                                                                --set RESOURCE_MASK ${ resource-mask } \
-                                                                                --set RM ${ pkgs.coreutils }/bin/rm \
-                                                                                --set STANDARD_ERROR ${ builtins.toString standard-error } \
-                                                                                --set TEARDOWN_ASYNCH $out/teardown-asynch \
-                                                                                --set TEARDOWN_SYNCH $out/teardown-synch \
-                                                                                --set TEE ${ pkgs.coreutils }/bin/tee &&
-                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/teardown-asynch.sh" } > $out/teardown-asynch.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0550 $out/teardown-asynch.sh &&
-                                                                            makeWrapper \
-                                                                                $out/teardown-asynch.sh \
-                                                                                $out/teardown-asynch \
-                                                                                --set AT ${ at } \
-                                                                                --set ECHO ${ pkgs.coreutils }/bin/echo \
-                                                                                --set NICE ${ pkgs.coreutils }/bin/nice \
-                                                                                --set TEARDOWN_SYNCH $out/teardown-synch &&
-                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/teardown-synch.sh" } > $out/teardown-synch.sh &&
-                                                                            ${ pkgs.coreutils }/bin/chmod 0550 $out/teardown-synch.sh &&
-                                                                            makeWrapper \
-                                                                                $out/teardown-synch.sh \
-                                                                                $out/teardown-synch \
-                                                                                --set BASENAME ${ pkgs.coreutils }/bin/basename \
-                                                                                --set CHMOD ${ pkgs.coreutils }/bin/chmod \
-                                                                                --set ECHO ${ pkgs.coreutils }/bin/echo \
-                                                                                --set FIND ${ pkgs.findutils }/bin/find \
-                                                                                --set FLOCK ${ pkgs.flock }/bin/flock \
-                                                                                --set RM ${ pkgs.coreutils }/bin/rm \
-                                                                                --set TAIL ${ pkgs.coreutils }/bin/tail
-                                                                    '' ;
+                                                                    let
+                                                                        executable =
+                                                                            name : value : environment :
+                                                                                let
+                                                                                    string = name : value : "--set ${ name } ${ value }" ;
+                                                                                    target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'"
+                                                                                    in
+                                                                                        if builtins.typeOf value == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
+                                                                                        else if builtins.typeOf value == "string" then ''${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "string" value } $out/init.sh && ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " ( environment { string = string ; target = target ; } ) }''
+                                                                                        else builtins.throw "The init is not null nor string but ${ builtins.typeOf init }." ;
+                                                                        in
+                                                                            ''
+                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                    ${ executable "init" init} &&
+                                                                                    ${ if builtins.typeOf release == "null" then "${ pkgs.coreutils }/bin/true release" else "${ pkgs.coreutils }/bin/ln --symbolic ${ release } $out/release" } &&
+                                                                                    ${ if builtins.typeOf post == "null" then "${ pkgs.coreutils }/bin/true post" else "${ pkgs.coreutils }/bin/ln --symbolic ${ post } $out/post" } &&
+                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } > $out/setup.sh &&
+                                                                                    ${ pkgs.coreutils }/bin/chmod 0550 $out/setup.sh &&
+                                                                                    makeWrapper \
+                                                                                        $out/setup.sh \
+                                                                                        $out/setup \
+                                                                                        --set CAT ${ pkgs.coreutils }/bin/cat \
+                                                                                        --set CHMOD ${ pkgs.coreutils }/bin/chmod \
+                                                                                        --set ECHO ${ pkgs.coreutils }/bin/echo \
+                                                                                        ${ grandparent-pid { } } \
+                                                                                        --set INIT $out/init \
+                                                                                        --set INITIALIZER ${ builtins.toString initializer } \
+                                                                                        ${ is-file { } } \
+                                                                                        ${ is-interactive { } } \
+                                                                                        ${ is-pipe { } } \
+                                                                                        --set LN ${ pkgs.coreutils }/bin/ln \
+                                                                                        --set MKTEMP ${ pkgs.coreutils }/bin/mktemp \
+                                                                                        ${ parent-pid { } } \
+                                                                                        --set POST $out/post \
+                                                                                        --set RELEASE $out/release \
+                                                                                        --set RESOURCE_MASK ${ resource-mask } \
+                                                                                        --set RM ${ pkgs.coreutils }/bin/rm \
+                                                                                        --set STANDARD_ERROR ${ builtins.toString standard-error } \
+                                                                                        --set TEARDOWN_ASYNCH $out/teardown-asynch \
+                                                                                        --set TEARDOWN_SYNCH $out/teardown-synch \
+                                                                                        --set TEE ${ pkgs.coreutils }/bin/tee &&
+                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/teardown-asynch.sh" } > $out/teardown-asynch.sh &&
+                                                                                    ${ pkgs.coreutils }/bin/chmod 0550 $out/teardown-asynch.sh &&
+                                                                                    makeWrapper \
+                                                                                        $out/teardown-asynch.sh \
+                                                                                        $out/teardown-asynch \
+                                                                                        --set AT ${ at } \
+                                                                                        --set ECHO ${ pkgs.coreutils }/bin/echo \
+                                                                                        --set NICE ${ pkgs.coreutils }/bin/nice \
+                                                                                        --set TEARDOWN_SYNCH $out/teardown-synch &&
+                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/teardown-synch.sh" } > $out/teardown-synch.sh &&
+                                                                                    ${ pkgs.coreutils }/bin/chmod 0550 $out/teardown-synch.sh &&
+                                                                                    makeWrapper \
+                                                                                        $out/teardown-synch.sh \
+                                                                                        $out/teardown-synch \
+                                                                                        --set BASENAME ${ pkgs.coreutils }/bin/basename \
+                                                                                        --set CHMOD ${ pkgs.coreutils }/bin/chmod \
+                                                                                        --set ECHO ${ pkgs.coreutils }/bin/echo \
+                                                                                        --set FIND ${ pkgs.findutils }/bin/find \
+                                                                                        --set FLOCK ${ pkgs.flock }/bin/flock \
+                                                                                        --set RM ${ pkgs.coreutils }/bin/rm \
+                                                                                        --set TAIL ${ pkgs.coreutils }/bin/tail
+                                                                            '' ;
                                                                 name = "temporary-derivation" ;
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
@@ -258,7 +269,7 @@
                                                                                     mkdir =
                                                                                         shell-script :
                                                                                             {
-                                                                                                init = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir" ; } ;
+                                                                                                init = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ; environment = { string , target } : [ ( string target ) ] ; } ;
                                                                                             } ;
                                                                                     touch =
                                                                                         shell-script :
