@@ -2,7 +2,6 @@
   "has_standard_error" : env.HAS_STANDARD_ERROR ,
   "is_file" : env.IS_FILE ,
   "is_pipe" : env.IS_PIPE ,
-  "pid" : env.PID ,
   "path_seed" : env.PATH_SEED ,
   "status" :  env.STATUS ,
   "standard_error" : env.STANDARD_ERROR ,
