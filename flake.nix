@@ -50,7 +50,18 @@
                                             let
                                                 filter =
                                                     path : name : value :
-                                                        if builtins.typeOf value == "lambda" then true
+                                                        if builtins.typeOf value == "lambda" then
+                                                            let
+                                                                test-derivation =
+                                                                    pkgs.mkDerivation
+                                                                        {
+                                                                            installPhase =
+                                                                                ''
+                                                                                '' ;
+                                                                            name = "test-derivation" ;
+                                                                            src = ./. ;
+                                                                        } ;
+                                                                in true
                                                         else if builtins.typeOf value == "list" then true
                                                         else if builtins.typeOf value == "null" then true
                                                         else if builtins.typeOf value == "set" then true
