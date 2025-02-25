@@ -91,7 +91,7 @@
                                                                 {
                                                                     is-file = is-file ;
                                                                     is-pipe = is-pipe ;
-                                                                    path = index : builtins.toString ( builtins.elemAt path index ) ;
+                                                                    path = name : index : "--set ${ name } ${ builtins.toString ( builtins.elemAt path index ) }" ;
                                                                     string = name : value : "--set ${ name } ${ value }" ;
                                                                     resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                     standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
