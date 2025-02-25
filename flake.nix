@@ -32,7 +32,7 @@
                                                                         let
                                                                             mapper =
                                                                                 path : name : value :
-                                                                                    if builtins.typeOf value == "lambda" then builtins.getAttr "constructor" ( value null null )
+                                                                                    if builtins.typeOf value == "lambda" then builtins.getAttr "constructor" ( value null )
                                                                                     else if builtins.typeOf value == "list" then
                                                                                         let
                                                                                             generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
@@ -62,18 +62,17 @@
                                                             hash = builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ;
                                                             store = builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] ;
                                                             in
-                                                                ignore :
-                                                                    {
-                                                                        constructor =
-                                                                            [
-                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ store }/bin/${ hash }"
-                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self + "/scripts/implementation/setup.sh" } > ${ store }/bin/${ hash }/setup.sh"
-                                                                                "${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } 0555 ${ store }/bin/${ hash }/setup.sh"
-                                                                                "makeWrapper ${ store }/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup"
-                                                                            ] ;
-                                                                        hash = hash ;
-                                                                        value = value ;
-                                                                    } ;
+                                                                {
+                                                                    constructor =
+                                                                        [
+                                                                            "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ store }/bin/${ hash }"
+                                                                            "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self + "/scripts/implementation/setup.sh" } > ${ store }/bin/${ hash }/setup.sh"
+                                                                            "${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } 0555 ${ store }/bin/${ hash }/setup.sh"
+                                                                            "makeWrapper ${ store }/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup"
+                                                                        ] ;
+                                                                    hash = hash ;
+                                                                    value = value ;
+                                                                } ;
                                                 mapper =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then lambda path name value
@@ -91,7 +90,7 @@
                                                     let
                                                         mapper =
                                                             path : name : value :
-                                                                if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" [ derivation "bin" ( builtins.getAttr "hash" ( value null null ) ) "setup" ]
+                                                                if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" [ derivation "bin" ( builtins.getAttr "hash" ( value null ) ) "setup" ]
                                                                 else if builtins.typeOf value == "list" then
                                                                     let
                                                                         generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
