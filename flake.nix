@@ -18,7 +18,6 @@
                                     resource-mask ? "temporary.XXXXXXXX" ,
                                     standard-error ? 65 ,
                                     temporary ? { } ,
-                                    whitelist ? [ ]
                                 } :
                                     let
                                         derivation =
@@ -46,7 +45,7 @@
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/cat ${ builtins.toFile "constructor.sh" constructor } > $out/constructor.sh &&
                                                                         ${ pkgs.coreutils }/bin/chmod 0500 $out/constructor.sh &&
-                                                                        makeWrapper $out/constructor.sh $out/constructor --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set STORE $out &&
+                                                                        makeWrapper $out/constructor.sh $out/constructor --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set STORE $out &&
                                                                         ${ pkgs.coreutils }/bin/mkdir $out/bin &&
                                                                         $out/constructor
                                                                 '' ;
@@ -59,6 +58,17 @@
                                                 lambda =
                                                     path : name : value : ignore :
                                                         let
+                                                            defaults =
+                                                                let
+                                                                    identity =
+                                                                        { init ? null , post ? null , release ? null , tests ? [ ] } :
+                                                                            {
+                                                                                init = init ;
+                                                                                post = post ;
+                                                                                release = release ;
+                                                                                tests = tests ;
+                                                                            } ;
+                                                                    in identity ( value ignore ) ;
                                                             hash = builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ;
                                                             store = builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] ;
                                                             in
@@ -68,7 +78,7 @@
                                                                             "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ store }/bin/${ hash }"
                                                                             "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self + "/scripts/implementation/setup.sh" } > ${ store }/bin/${ hash }/setup.sh"
                                                                             "${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } 0555 ${ store }/bin/${ hash }/setup.sh"
-                                                                            "makeWrapper ${ store }/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup --set CHMOD ${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } --set ECHO ${ builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] }"
+                                                                            "makeWrapper ${ store }/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup --set CHMOD ${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } --set ECHO ${ builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] } --set INIT ${ v.init }"
                                                                         ] ;
                                                                     hash = hash ;
                                                                     value = value ;
