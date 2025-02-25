@@ -111,10 +111,10 @@
                                                                                 ${ parent-pid { } } \
                                                                                 --set POST $out/post /
                                                                                 --set RELEASE $out/release \
+                                                                                --set RESOURCE_MASK ${ resource-mask } \
                                                                                 --set TEARDOWN_ASYNCH $out/teardown-asynch \
                                                                                 --set TEARDOWN_SYNCH $out/teardown-synch \
-                                                                                --set TEE ${ pkgs.coreutils }/bin/tee \
-                                                                                --set TEMPORARY_RESOURCE_MASK ${ temporary-resource-mask }
+                                                                                --set TEE ${ pkgs.coreutils }/bin/tee
                                                                     '' ;
                                                                 name = "temporary" ;
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
