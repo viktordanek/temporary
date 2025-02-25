@@ -281,7 +281,7 @@
                                                                                                 init =
                                                                                                     shell-script
                                                                                                         {
-                                                                                                            executable = let x = builtins.toPath ( self + "/scripts/test/temporary/executable.sh" ) ; in builtins.trace "x is a ${ builtins.typeOf x }" x ;
+                                                                                                            executable = let x = builtins.path ( self + "/scripts/test/temporary/executable.sh" ) ; in builtins.trace "x is a ${ builtins.typeOf x }" x ;
                                                                                                             environment =
                                                                                                                 { is-file , is-pipe , resource , standard-input , string , target } :
                                                                                                                     [
