@@ -239,11 +239,15 @@
                                                                             temporary =
                                                                                 {
                                                                                     foobar = shell-script : { } ;
+                                                                                    mkdir =
+                                                                                        shell-script :
+                                                                                            {
+                                                                                                init = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir" ;
+                                                                                            } ;
                                                                                     touch =
                                                                                         shell-script :
                                                                                             {
                                                                                                 init = shell-script { executable = "${ pkgs.coreutils }/touch" ; } ;
-                                                                                                mkdir = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir" ; } ;
                                                                                             } ;
                                                                                 } ;
                                                                         } ;
