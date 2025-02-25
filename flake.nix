@@ -161,7 +161,7 @@
                                                                             name : value : environment :
                                                                                 let
                                                                                     string = name : value : "--set ${ name } ${ value }" ;
-                                                                                    target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'"
+                                                                                    target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
                                                                                     in
                                                                                         if builtins.typeOf value == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
                                                                                         else if builtins.typeOf value == "string" then ''${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "string" value } $out/init.sh && ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " ( environment { string = string ; target = target ; } ) }''
