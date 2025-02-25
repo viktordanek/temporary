@@ -56,35 +56,31 @@
                                                         let
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] } :
-                                                                    {
-                                                                        init =
-                                                                            if builtins.typeOf init == "lambda" then init shell-script
-                                                                            else if builtins.typeOf init == "null" then init
-                                                                            else builtins.throw "The init is not lambda nor null but ${ builtins.typeOf init }." ;
-                                                                        post =
-                                                                            if builtins.typeOf post == "lambda" then post shell-script
-                                                                            else if builtins.typeOf post == "null" then post
-                                                                            else if builtins.typeOf post == "string" then post
-                                                                            else builtins.throw "The post is not lambda nor null but ${ builtins.typeOf post }." ;
-                                                                        release =
-                                                                            if builtins.typeOf release == "lambda" then release shell-script
-                                                                            else if builtins.typeOf release == "null" then release
-                                                                            else if builtins.typeOf release == "string" then release
-                                                                            else builtins.throw "The release is not lambda nor null but ${ builtins.typeOf release }." ;
-                                                                        tests =
-                                                                            let
-                                                                                identity =
-                                                                                    { paste ? null , pipe ? null , arguments ? null , file ? null , status ? true , expected , count ? 3 } :
-                                                                                        {
-                                                                                            paste = paste ;
-                                                                                            pipe = pipe ;
-                                                                                            arguments = arguments ;
-                                                                                            file = file ;
-                                                                                            status = status ;
-                                                                                            expected = expected ;
-                                                                                        } ;
-                                                                                in builtins.map identity tests ;
-                                                                    } ;
+                                                                    let
+                                                                        executable =
+                                                                            name : value :
+                                                                                if builtins.typeOf value == "lambda" then value shell-script
+                                                                                else if builtins.typeOf value == "null" then value
+                                                                                else builtins.throw "The ${ name } is not lambda nor null but ${ builtins.typeOf value }." ;
+                                                                        in
+                                                                            {
+                                                                                init = executable "init" init ;
+                                                                                post = executable "post" post ;
+                                                                                release = executable "release" release ;
+                                                                                tests =
+                                                                                    let
+                                                                                        identity =
+                                                                                            { paste ? null , pipe ? null , arguments ? null , file ? null , status ? true , expected , count ? 3 } :
+                                                                                                {
+                                                                                                    paste = paste ;
+                                                                                                    pipe = pipe ;
+                                                                                                    arguments = arguments ;
+                                                                                                    file = file ;
+                                                                                                    status = status ;
+                                                                                                    expected = expected ;
+                                                                                                } ;
+                                                                                        in builtins.map identity tests ;
+                                                                            } ;
                                                             shell-script =
                                                                 { executable , environment ? { } : null } :
                                                                     executable ;
