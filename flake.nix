@@ -81,24 +81,28 @@
                                                                                                 } ;
                                                                                         in builtins.map identity tests ;
                                                                             } ;
-                                                            shell-script = ### AAAA
-                                                                { executable , environment ? { } : null } :
+                                                            execute-shell-script =
+                                                                { executable ? null , executablePath ? null , environment ? { } : null } :
                                                                     {
                                                                         executable = executable ;
-                                                                        environment =
-                                                                            let
-                                                                                injection =
-                                                                                    {
-                                                                                        is-file = is-file ;
-                                                                                        is-pipe = is-pipe ;
-                                                                                        string = name : value : "--set ${ name } ${ value }" ;
-                                                                                        resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                                                        standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
-                                                                                        target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                                    } ;
-                                                                                in environment injection ;
+                                                                        environment = environment injection ;
                                                                     } ;
-                                                            in identity ( value shell-script ) ;
+                                                            injection =
+                                                                {
+                                                                    is-file = is-file ;
+                                                                    is-pipe = is-pipe ;
+                                                                    string = name : value : "--set ${ name } ${ value }" ;
+                                                                    resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                                    standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
+                                                                    target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
+                                                                } ;
+                                                            write-shell-script =
+                                                                { executable ? null , executablePath ? null , environment ? { } : null } :
+                                                                    {
+                                                                        executable = builtins.toFile "script" executable ;
+                                                                        environment = environment injection ;
+                                                                    } ;
+                                                                in identity ( value { execute-shell-script = execute-shell-script ; write-shell-script = write-shell-script ; ) ;
                                                 filter =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then
@@ -172,7 +176,7 @@
                                                                                     in
                                                                                         if builtins.typeOf value.executable == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
                                                                                         else if builtins.typeOf value.executable == "string" then
-                                                                                            ''${ pkgs.coreutils }/bin/cat ${ builtins.toFile "string" value.executable } > $out/init.sh &&
+                                                                                            ''${ pkgs.coreutils }/bin/cat ${ value.executable } > $out/init.sh &&
                                                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&
                                                                                                     makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " value.environment }''
                                                                                         else builtins.throw "The ${ name }.executable for construction is not null nor string but ${ builtins.typeOf init }." ) );
@@ -276,12 +280,12 @@
                                                                             temporary =
                                                                                 {
                                                                                     a4374430e2a3ace64473d4c54891829ec96b4bfcd6ed6688d30cc4ff486b13dd9366bd4cb808d30c97471e99f200c605b28e7a4b7211834492d4f361c05b41c5 =
-                                                                                        shell-script :
+                                                                                        { execute-shell-script , ... } :
                                                                                             {
                                                                                                 init =
-                                                                                                    shell-script
+                                                                                                    execute-shell-script
                                                                                                         {
-                                                                                                            executable = let basePath = builtins.toPath self; x = builtins.toPath (basePath + "/scripts/test/temporary/executable.sh") ; in builtins.trace "x is a ${ builtins.typeOf x }" x ;
+                                                                                                            executablePath = self + "/scripts/test/temporary/executable.sh" ;
                                                                                                             environment =
                                                                                                                 { is-file , is-pipe , resource , standard-input , string , target } :
                                                                                                                     [
@@ -297,22 +301,22 @@
                                                                                                                     ] ;
                                                                                                         } ;
                                                                                             } ;
-                                                                                    foobar = shell-script : { } ;
+                                                                                    foobar = { write-shell-script , ... } : { } ;
                                                                                     mkdir =
-                                                                                        shell-script :
+                                                                                        { write-shell-script , ... } :
                                                                                             {
                                                                                                 init =
-                                                                                                    shell-script
+                                                                                                    write-shell-script
                                                                                                         {
                                                                                                             executable = "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
                                                                                                             environment = { string , target , ... } : [ ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
                                                                                                         } ;
                                                                                             } ;
                                                                                     touch =
-                                                                                        shell-script :
+                                                                                        { write-shell-script , ... } :
                                                                                             {
                                                                                                 init =
-                                                                                                    shell-script
+                                                                                                    write-shell-script
                                                                                                         {
                                                                                                             executable = "${ builtins.concatStringsSep "" [ "$" "{" "TOUCH" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
                                                                                                             environment = { string , target , ... } : [ ( string "TOUCH" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
