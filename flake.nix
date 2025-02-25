@@ -58,22 +58,43 @@
                                                                         init = init ;
                                                                         post = post ;
                                                                         release = release ;
-                                                                        tests = tests ;
+                                                                        tests =
+                                                                            let
+                                                                                identity =
+                                                                                    { paste ? null , pipe ? null , arguments ? null , file ? null } :
+                                                                                        {
+                                                                                            paste = paste ;
+                                                                                            pipe = pipe ;
+                                                                                            arguments = arguments ;
+                                                                                            file = file ;
+                                                                                            status = status ;
+                                                                                        } ;
+                                                                                in builtins.map identity tests ;
                                                                     } ;
                                                             in identity ( value ignore ) ;
                                                 filter =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then
                                                             let
+                                                                d = defaults value null ;
                                                                 test-derivation =
-                                                                    pkgs.mkDerivation
-                                                                        {
-                                                                            installPhase =
-                                                                                ''
-                                                                                '' ;
-                                                                            name = "test-derivation" ;
-                                                                            src = ./. ;
-                                                                        } ;
+                                                                    test :
+                                                                        pkgs.mkDerivation
+                                                                            {
+                                                                                installPhase =
+                                                                                    let
+                                                                                        command = temporary-derivation d.init d.release test.post ;
+                                                                                        arguments = if builtins.typeOf test.arguments == "null" then "" else "${ test.arguments }" ;
+                                                                                        file = if builtins.typeOf test.file == "null" then "" else " < ${ builtins.toFile "test" test.file }" ;
+                                                                                        paste = if builtins.typeOf test.paste == "null" then "" else "${ pkgs.coreutils }/bin/echo ${ test.paste } |" ;
+                                                                                        pipe = if builtins.typeOf test.pipe == "null" then "" else "${ pkgs.coreutils }/bin/echo ${ test.pipe } |" ;
+                                                                                        sub = "$( ${ pipe }${ command }${ arguments }${ file }" ;
+                                                                                        pass = "if ! ${ paste }${ sub } ; then ; fi" ;
+                                                                                        fail = "if ${ sub } ; then ; fi ;" ;
+                                                                                        in if test.status then pass else fail ;
+                                                                                name = "test-derivation" ;
+                                                                                src = ./. ;
+                                                                            } ;
                                                                 in true
                                                         else if builtins.typeOf value == "list" then true
                                                         else if builtins.typeOf value == "null" then true
