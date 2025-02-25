@@ -173,6 +173,8 @@
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                     ${ executable "init" init } &&
+                                                                                    ${ executable "release" release } &&
+                                                                                    ${ executable "post" post } &&
                                                                                     ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } > $out/setup.sh &&
                                                                                     ${ pkgs.coreutils }/bin/chmod 0550 $out/setup.sh &&
                                                                                     makeWrapper \
@@ -275,6 +277,33 @@
                                                                                                         {
                                                                                                             executable = "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
                                                                                                             environment = { string , target } : [ ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
+                                                                                                        } ;
+                                                                                            } ;
+                                                                                    test =
+                                                                                        shell-script :
+                                                                                            {
+                                                                                                init =
+                                                                                                    shell-script
+                                                                                                        {
+                                                                                                            executable = self + "/scripts/test/temporary/executable.sh" ;
+                                                                                                            environment =
+                                                                                                                { string , target } :
+                                                                                                                    [
+                                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                        ( string YQ "${ pkgs.yq }/bin/yq" )
+                                                                                                                        ( target { name = "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" ; } )
+                                                                                                                        ( string YQ "${ pkgs.yq }/bin/yq" )
+                                                                                                                    ]
+                                                                                                        }
+                                                                                            }
+                                                                                    touch =
+                                                                                        shell-script :
+                                                                                            {
+                                                                                                init =
+                                                                                                    shell-script
+                                                                                                        {
+                                                                                                            executable = "${ builtins.concatStringsSep "" [ "$" "{" "TOUCH" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
+                                                                                                            environment = { string , target } : [ ( string "TOUCH" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
                                                                                                         } ;
                                                                                             } ;
                                                                                 } ;
