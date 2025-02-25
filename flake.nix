@@ -87,6 +87,7 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                            ${ if builtins.typeOf init == "null" then "${ pkgs.coreutils }/bin/true init" else "${ pkgs.coreutils }/bin/ln --symbolic ${ init } $out/init } &&
                                                                             ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } > $out/setup.sh &&
                                                                             ${ pkgs.coreutils }/bin/chmod 0550 $out/setup.sh &&
                                                                             makeWrapper \
