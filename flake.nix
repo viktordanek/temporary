@@ -116,7 +116,19 @@
                                                                                 --set AT ${ at } \
                                                                                 --set ECHO ${ pkgs.coreutils }/bin/echo \
                                                                                 --set NICE ${ pkgs.coreutils }/bin/nice \
-                                                                                --set TEARDOWN_SYNCH $out/teardown-synch
+                                                                                --set TEARDOWN_SYNCH $out/teardown-synch &&
+                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/teardown-synch.sh" } > $out/teardown-synch.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0550 $out/teardown-synch.sh &&
+                                                                            makeWrapper \
+                                                                                $out/teardown-synch.sh \
+                                                                                $out/teardown-synch \
+                                                                                --set BASENAME ${ pkgs.coreutils }/bin/basename \
+                                                                                --set CHMOD ${ pkgs.coreutils }/bin/chmod \
+                                                                                --set ECHO ${ pkgs.coreutils }/bin/echo \
+                                                                                --set FIND ${ pkgs.findutils }/bin/find \
+                                                                                --set FLOCK ${ pkgs.flock }/bin/flock \
+                                                                                --set RM ${ pkgs.coreutils }/bin/rm \
+                                                                                --set TAIL ${ pkgs.coreutils }/bin/tail
                                                                     '' ;
                                                                 name = "temporary-derivation" ;
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
