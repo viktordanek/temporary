@@ -98,7 +98,8 @@
                                                                                                     pass = "if ! ${ paste }${ sub } ; then ; fi" ;
                                                                                                     fail = "if ${ sub } ; then ; fi ;" ;
                                                                                                     reps = builtins.genList ( index : if test.status then pass else fail ) test.count ;
-                                                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ reps [ "${ pkgs.coreutils }/bin/diff  
+                                                                                                    ultimate = "if [ -z \"$( ${ pkgs.diffutils }/bin/diff ${ d.expected } /build/observed )\" ] ; then ${ pkgs.coreutils }/bin/touch $out ; else ${ pkgs.coreutils }/bin/cat /build/observed > $out && exit 66"
+                                                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ reps [ ultimate ] ] ) ;
                                                                                             name = "test-observation" ;
                                                                                             src = ./. ;
                                                                                         } ;
