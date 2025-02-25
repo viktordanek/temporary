@@ -63,13 +63,14 @@
                                                                         tests =
                                                                             let
                                                                                 identity =
-                                                                                    { paste ? null , pipe ? null , arguments ? null , file ? null , status ? true } :
+                                                                                    { paste ? null , pipe ? null , arguments ? null , file ? null , status ? true , expectation , count ? 3 } :
                                                                                         {
                                                                                             paste = paste ;
                                                                                             pipe = pipe ;
                                                                                             arguments = arguments ;
                                                                                             file = file ;
                                                                                             status = status ;
+                                                                                            expectation = expectation ;
                                                                                         } ;
                                                                                 in builtins.map identity tests ;
                                                                     } ;
@@ -79,25 +80,30 @@
                                                         if builtins.typeOf value == "lambda" then
                                                             let
                                                                 d = defaults value null ;
-                                                                test-derivation =
+                                                                predicate =
                                                                     test :
-                                                                        pkgs.mkDerivation
-                                                                            {
-                                                                                installPhase =
-                                                                                    let
-                                                                                        command = temporary-derivation d.init d.release test.post ;
-                                                                                        arguments = if builtins.typeOf test.arguments == "null" then "" else "${ test.arguments }" ;
-                                                                                        file = if builtins.typeOf test.file == "null" then "" else " < ${ builtins.toFile "test" test.file }" ;
-                                                                                        paste = if builtins.typeOf test.paste == "null" then "" else "${ pkgs.coreutils }/bin/echo ${ test.paste } |" ;
-                                                                                        pipe = if builtins.typeOf test.pipe == "null" then "" else "${ pkgs.coreutils }/bin/echo ${ test.pipe } |" ;
-                                                                                        sub = "$( ${ pipe }${ command }${ arguments }${ file }" ;
-                                                                                        pass = "if ! ${ paste }${ sub } ; then ; fi" ;
-                                                                                        fail = "if ${ sub } ; then ; fi ;" ;
-                                                                                        in if test.status then pass else fail ;
-                                                                                name = "test-derivation" ;
-                                                                                src = ./. ;
-                                                                            } ;
-                                                                in true
+                                                                        let
+                                                                            observation-derivation =
+                                                                                test :
+                                                                                    pkgs.mkDerivation
+                                                                                        {
+                                                                                            installPhase =
+                                                                                                let
+                                                                                                    command = temporary-derivation d.init d.release test.post ;
+                                                                                                    arguments = if builtins.typeOf test.arguments == "null" then "" else "${ test.arguments }" ;
+                                                                                                    file = if builtins.typeOf test.file == "null" then "" else " < ${ builtins.toFile "test" test.file }" ;
+                                                                                                    paste = if builtins.typeOf test.paste == "null" then "" else "${ pkgs.coreutils }/bin/echo ${ test.paste } |" ;
+                                                                                                    pipe = if builtins.typeOf test.pipe == "null" then "" else "${ pkgs.coreutils }/bin/echo ${ test.pipe } |" ;
+                                                                                                    sub = "$( ${ pipe }${ command }${ arguments }${ file }" ;
+                                                                                                    pass = "if ! ${ paste }${ sub } ; then ; fi" ;
+                                                                                                    fail = "if ${ sub } ; then ; fi ;" ;
+                                                                                                    reps = builtins.genList ( index : if test.status then pass else fail ) test.count ;
+                                                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ reps [ "${ pkgs.coreutils }/bin/diff  
+                                                                                            name = "test-observation" ;
+                                                                                            src = ./. ;
+                                                                                        } ;
+                                                                            in
+                                                                in builtins.all predicate d.tests ;
                                                         else if builtins.typeOf value == "list" then true
                                                         else if builtins.typeOf value == "null" then true
                                                         else if builtins.typeOf value == "set" then true
