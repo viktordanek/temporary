@@ -52,7 +52,7 @@
                                                 defaults =
                                                     let
                                                         identity =
-                                                            { init ? null , post ? null , release ? null , tests ? [ ] } :
+                                                            value : { init ? null , post ? null , release ? null , tests ? [ ] } :
                                                                 {
                                                                     init = init ;
                                                                     post = post ;
