@@ -109,7 +109,7 @@
                                                                                 --set TEARDOWN_SYNCH $out/teardown-synch \
                                                                                 --set TEE ${ pkgs.coreutils }/bin/tee
                                                                     '' ;
-                                                                name = "temporary" ;
+                                                                name = "temporary-derivation" ;
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
                                                             } ;
