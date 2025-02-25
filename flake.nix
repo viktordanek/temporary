@@ -81,7 +81,7 @@
                                                                                                 } ;
                                                                                         in builtins.map identity tests ;
                                                                             } ;
-                                                            shell-script =
+                                                            shell-script = ### AAAA
                                                                 { executable , environment ? { } : null } :
                                                                     {
                                                                         executable = executable ;
@@ -170,8 +170,6 @@
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                     ${ executable "init" init } &&
-                                                                                    ${ if builtins.typeOf release == "null" then "${ pkgs.coreutils }/bin/true release" else "${ pkgs.coreutils }/bin/ln --symbolic ${ release } $out/release" } &&
-                                                                                    ${ if builtins.typeOf post == "null" then "${ pkgs.coreutils }/bin/true post" else "${ pkgs.coreutils }/bin/ln --symbolic ${ post } $out/post" } &&
                                                                                     ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } > $out/setup.sh &&
                                                                                     ${ pkgs.coreutils }/bin/chmod 0550 $out/setup.sh &&
                                                                                     makeWrapper \
