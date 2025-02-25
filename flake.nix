@@ -159,13 +159,16 @@
                                                             {
                                                                 installPhase =
                                                                     let
-                                                                        executable = ### BBB
+                                                                        executable =
                                                                             name : value :
                                                                                 let
                                                                                     in
                                                                                         if builtins.typeOf value.executable == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
-                                                                                        else if builtins.typeOf value.executable == "string" then ''${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "string" value } $out/init.sh && ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " value.environment } ) }''
-                                                                                        else builtins.throw "The ${ name } for construction is not null nor string but ${ builtins.typeOf init }." ;
+                                                                                        else if builtins.typeOf value.executable == "string" then
+                                                                                            ''${ pkgs.coreutils }/bin/cat ${ builtins.toFile "string" value.executable } > $out/init.sh &&
+                                                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&
+                                                                                                    makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " value.environment }''
+                                                                                        else builtins.throw "The ${ name }.executable for construction is not null nor string but ${ builtins.typeOf init }." ;
                                                                         in
                                                                             ''
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
@@ -267,7 +270,12 @@
                                                                                     mkdir =
                                                                                         shell-script :
                                                                                             {
-                                                                                                init = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ; environment = { string , target } : [ ( string target ) ] ; } ;
+                                                                                                init =
+                                                                                                    shell-script
+                                                                                                        {
+                                                                                                            executable = "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
+                                                                                                            environment = { string , target } : [ ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
+                                                                                                        } ;
                                                                                             } ;
                                                                                 } ;
                                                                         } ;
