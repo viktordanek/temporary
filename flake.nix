@@ -60,7 +60,7 @@
                                                                         executable =
                                                                             name : value :
                                                                                 if builtins.typeOf value == "lambda" then value shell-script
-                                                                                else if builtins.typeOf value == "null" then { }
+                                                                                else if builtins.typeOf value == "null" then { executable = null ;}
                                                                                 else builtins.throw "The ${ name } is not lambda nor null but ${ builtins.typeOf value }." ;
                                                                         in
                                                                             {
@@ -159,7 +159,7 @@
                                                             {
                                                                 installPhase =
                                                                     let
-                                                                        executable =
+                                                                        executable = ### BBB
                                                                             name : value :
                                                                                 let
                                                                                     in
