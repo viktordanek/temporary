@@ -47,7 +47,7 @@
                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                         ${ pkgs.coreutils }/bin/cat ${ builtins.toFile "constructor.sh" constructor } > $out/constructor.sh &&
                                                                         ${ pkgs.coreutils }/bin/chmod 0500 $out/constructor.sh &&
-                                                                        makeWrapper $out/constructor.sh $out/constructor --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
+                                                                        makeWrapper $out/constructor.sh $out/constructor --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.buildPackages.makeWrapper } --set STORE $out &&
                                                                         ${ builtins.trace "after map" "${ pkgs.coreutils }/bin/mkdir $out/temporary" } &&
                                                                         $out/constructor
                                                                 '' ;
@@ -63,11 +63,11 @@
                                                             hash = builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.trace "4bdf0fa0-e0ba-4d51-8a21-693ea81997a4" ( builtins.concatLists [ path [ name ] ] ) ) ) ) ;
                                                             store = builtins.concatStringsSep "" [ "$" "{" "STORE" "}" ] ;
                                                             in
-                                                                ignore : builtins.trace "3ab39c2f-f564-488a-95bb-1755b73ebe19"
+                                                                ignore :
                                                                     {
                                                                         constructor =
                                                                             [
-                                                                                ( builtins.trace "c537164b-f6a2-4377-97e6-e6fbe88e904a" "${ builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] } ${ store }/${ hash }" )
+                                                                                ( "${ builtins.concatStringsSep "" [ "$" "{" "ECHO" "}" ] } ${ store }/${ hash }" )
                                                                             ] ;
                                                                         hash = hash ;
                                                                         value = value ;
