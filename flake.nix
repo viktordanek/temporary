@@ -70,7 +70,7 @@
                                                                                 "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ store }/bin/${ hash }"
                                                                                 "${ builtins.concatStringsSep "" [ "$" "{" "CAT" "}" ] } ${ self + "/scripts/implementation/setup.sh" } > ${ store }/bin/${ hash }/setup.sh"
                                                                                 "${ builtins.concatStringsSep "" [ "$" "{" "CHMOD" "}" ] } 0555 ${ store }/bin/${ hash }/setup.sh"
-                                                                                "makeWrapper ${ store }/temporary/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup"
+                                                                                "makeWrapper ${ store }/bin/${ hash }/setup.sh ${ store }/bin/${ hash }/setup"
                                                                             ] ;
                                                                         hash = hash ;
                                                                         value = value ;
