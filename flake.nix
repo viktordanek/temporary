@@ -283,7 +283,7 @@
                                                                                                     shell-script
                                                                                                         {
                                                                                                             executable = "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
-                                                                                                            environment = { string , target } : [ ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
+                                                                                                            environment = { string , target , ... } : [ ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
                                                                                                         } ;
                                                                                             } ;
                                                                                     test =
