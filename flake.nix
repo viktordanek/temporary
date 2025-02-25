@@ -116,7 +116,7 @@
                                                                                             src = ./. ;
                                                                                         } ;
                                                                             in builtins.import "${ observation-derivation }/status" ;
-                                                                in builtins.all predicate d.tests ;
+                                                                in builtins.all predicate d.tests
                                                         else if builtins.typeOf value == "list" then true
                                                         else if builtins.typeOf value == "null" then true
                                                         else if builtins.typeOf value == "set" then true
