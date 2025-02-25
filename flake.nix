@@ -57,9 +57,9 @@
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] } :
                                                                     {
-                                                                        init = init ;
-                                                                        post = post ;
-                                                                        release = release ;
+                                                                        init = if builtins.typeOf init == "lambda" then init shell-script else if builtins.typeOf init == "null" then init else builtins.throw "The init is not lambda nor null but ${ builtins.typeOf init }." ;
+                                                                        post = if builtins.typeOf post == "lambda" then post shell-script else if builtins.typeOf post == "null" then init else builtins.throw "The post is not lambda nor null but ${ builtins.typeOf post }." ;
+                                                                        release = if builtins.typeOf release == "lambda" then release shell-script else if builtins.typeOf release == "null" then init else builtins.throw "The release is not lambda nor null but ${ builtins.typeOf release }." ;
                                                                         tests =
                                                                             let
                                                                                 identity =
@@ -74,6 +74,9 @@
                                                                                         } ;
                                                                                 in builtins.map identity tests ;
                                                                     } ;
+                                                            shell-script =
+                                                                { executable , environment ? { } : null } :
+                                                                    executable ;
                                                             in identity ( value ignore ) ;
                                                 filter =
                                                     path : name : value :
@@ -236,6 +239,12 @@
                                                                             temporary =
                                                                                 {
                                                                                     foobar = shell-script : { } ;
+                                                                                    touch =
+                                                                                        shell-script :
+                                                                                            {
+                                                                                                init = shell-script { executable = "${ pkgs.coreutils }/touch" ; } ;
+                                                                                                mkdir = shell-script { executable = "${ pkgs.coreutils }/bin/mkdir" ; } ;
+                                                                                            } ;
                                                                                 } ;
                                                                         } ;
                                                             } ;
