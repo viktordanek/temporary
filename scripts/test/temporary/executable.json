@@ -3,7 +3,7 @@
   "is_file" : env.IS_FILE ,
   "is_pipe" : env.IS_PIPE ,
   "pid" : env.PID ,
-  "post_seed" : env.POST_SEED ,
+  "path_seed" : env.PATH_SEED ,
   "speed" : env.SPEED ,
   "status" :  env.STATUS ,
   "standard_error" : env.STANDARD_ERROR ,
