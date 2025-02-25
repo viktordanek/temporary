@@ -164,7 +164,7 @@
                                                                                 let
                                                                                     in
                                                                                         if builtins.typeOf value.executable == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
-                                                                                        else if builtins.typeOf value.executable == "string" then ''${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "string" value } $out/init.sh && ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " ( value.environment { string = string ; target = target ; } ) }''
+                                                                                        else if builtins.typeOf value.executable == "string" then ''${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.toFile "string" value } $out/init.sh && ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " value.environment } ) }''
                                                                                         else builtins.throw "The ${ name } is not null nor string but ${ builtins.typeOf init }." ;
                                                                         in
                                                                             ''
