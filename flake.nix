@@ -60,7 +60,6 @@
                                                                         init =
                                                                             if builtins.typeOf init == "lambda" then init shell-script
                                                                             else if builtins.typeOf init == "null" then init
-                                                                            else if builtins.typeOf init == "string" then init
                                                                             else builtins.throw "The init is not lambda nor null but ${ builtins.typeOf init }." ;
                                                                         post =
                                                                             if builtins.typeOf post == "lambda" then post shell-script
