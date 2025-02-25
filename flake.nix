@@ -107,7 +107,16 @@
                                                                                 --set RESOURCE_MASK ${ resource-mask } \
                                                                                 --set TEARDOWN_ASYNCH $out/teardown-asynch \
                                                                                 --set TEARDOWN_SYNCH $out/teardown-synch \
-                                                                                --set TEE ${ pkgs.coreutils }/bin/tee
+                                                                                --set TEE ${ pkgs.coreutils }/bin/tee &&
+                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/teardown-asynch.sh" } > $out/teardown-asynch.sh &&
+                                                                            ${ pkgs.coreutils }/bin/chmod 0550 $out/teardown-asynch.sh &&
+                                                                            makeWrapper \
+                                                                                $out/teardown-asynch.sh \
+                                                                                $out/teardown-asynch \
+                                                                                --set AT ${ at } \
+                                                                                --set ECHO ${ pkgs.coreutils }/bin/echo \
+                                                                                --set NICE ${ pkgs.coreutils }/bin/nice \
+                                                                                --set TEARDOWN_SYNCH $out/teardown-synch
                                                                     '' ;
                                                                 name = "temporary-derivation" ;
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
