@@ -178,7 +178,7 @@
                                                                                         if builtins.typeOf value.executable == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
                                                                                         else if builtins.typeOf value.executable == "string" then
                                                                                             ''${ pkgs.coreutils }/bin/cat ${ value.executable } > $out/init.sh &&
-                                                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&
+                                                                                                    ${ pkgs.coreutils }/bin/chmod 0777 $out/${ name }.sh &&
                                                                                                     makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " value.environment }''
                                                                                         else builtins.throw "The ${ name }.executable for construction is not null nor string but ${ builtins.typeOf init }." ;
                                                                         in
@@ -337,7 +337,19 @@
                                                                                                                         ( string "YQ" "${ pkgs.yq }/bin/yq" )
                                                                                                                     ] ;
                                                                                                         } ;
-
+                                                                                                post =
+                                                                                                    execute-shell-script
+                                                                                                    {
+                                                                                                        executablePath = self + "/scripts/test/temporary/post.sh" ;
+                                                                                                        environment =
+                                                                                                            { resource , string , ... } :
+                                                                                                                [
+                                                                                                                    ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                                                    ( resource { name = "d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3" ; } )
+                                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                                    ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                                                ] ;
+                                                                                                    } ;
                                                                                             } ;
                                                                                     foobar = { write-shell-script , ... } : { } ;
                                                                                     mkdir =
