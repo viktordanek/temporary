@@ -96,7 +96,7 @@
                                                                     resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                     standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
                                                                     target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                    transient = name : fun : "--set ${ name } ${ fun derivation }" ;
+                                                                    transient = name : fun : "--set ${ name } ${ fun harvest }" ;
                                                                 } ;
                                                             write-shell-script =
                                                                 { executable ? null , executablePath ? null , environment ? { } : null } :
