@@ -374,10 +374,10 @@
                                                                                                         } ;
                                                                                             } ;
                                                                                     util =
-                                                                                        { executable-shell-script , ... } :
+                                                                                        { execute-shell-script , ... } :
                                                                                             {
                                                                                                 init =
-                                                                                                    executable-shell-script
+                                                                                                    execute-shell-script
                                                                                                         {
                                                                                                             executablePath = self + "/scripts/test/util/post.sh" ;
                                                                                                             environment =
