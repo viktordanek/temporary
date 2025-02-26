@@ -373,10 +373,7 @@
                                                                                                             environment = { string , target , ... } : [ ( string "TOUCH" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
                                                                                                         } ;
                                                                                             } ;
-                                                                                    util =
-                                                                                        {
 
-                                                                                        } ;
                                                                                 } ;
                                                                         } ;
                                                             } ;
