@@ -282,7 +282,7 @@
                                                                                 {
                                                                                     a4374430e2a3ace64473d4c54891829ec96b4bfcd6ed6688d30cc4ff486b13dd9366bd4cb808d30c97471e99f200c605b28e7a4b7211834492d4f361c05b41c5 =
                                                                                         { execute-shell-script , ... } :
-                                                                                            {
+                                                                                  init =          {
                                                                                                 init =
                                                                                                     execute-shell-script
                                                                                                         {
@@ -337,6 +337,19 @@
                                                                                                                         ( string "YQ" "${ pkgs.yq }/bin/yq" )
                                                                                                                     ] ;
                                                                                                         } ;
+                                                                                                post =
+                                                                                                    execute-shell-script
+                                                                                                    {
+                                                                                                        executablePath = self + "/scripts/test/temporary/post.sh" ;
+                                                                                                        environment =
+                                                                                                            { resource , string , ... } :
+                                                                                                                [
+                                                                                                                    ( string "FLOCK" "${ pkgs.flockutils }/bin/flock" )
+                                                                                                                    ( resource "d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3" )
+                                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                                    ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                                                ] ;
+                                                                                                    } ;
                                                                                             } ;
                                                                                     foobar = { write-shell-script , ... } : { } ;
                                                                                     mkdir =

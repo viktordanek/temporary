@@ -1,38 +1,23 @@
 RESOURCE=${d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3} &&
-  ${ECHO} ${STANDARD_OUTPUT} &&
-  ${ECHO} ${STANDARD_ERROR} >&2 &&
-  if [ ! -d /build/observed ]
-  then
-    ${MKDIR} /build/observed
-  fi &&
-  if [ ! -d /build/observed/alpha ]
-  then
-    ${MKDIR} /build/observed/alpha
-  fi &&
   DO=$( ${POST} ${RESOURCE} ) &&
-  UUID=$( ${CAT} ${DO} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
-  exec 200> /build/observed/alpha/${UUID}.lock &&
+  exec 200> /build/lock &&
   ${FLOCK} 200 &&
-  if [ ! -d /build/observed/alpha/${UUID} ]
+  if [ -f /build/count ]
   then
-    ${MKDIR} /build/observed/alpha/${UUID}
-  fi &&
-  if [ -f /build/observed/alpha/${UUID}/count ]
-  then
-    INDEX=$( ${CAT} /build/observed/alpha/${UUID}/count )
+    INDEX=$( ${CAT} /build/count )
   else
     INDEX=0
   fi &&
-  if [ -f /build/observed/alpha/${UUID}/observed.yaml ]
+  if [ -f /build/observed.yaml ]
   then
-    if [ ! -z "$( ${DIFF} /build/observed/alpha/${UUID}/observed.yaml ${DO} )" ]
+    if [ ! -z "$( ${DIFF} /build/observed.yaml ${DO} )" ]
     then
-      ${YQ} --yaml-output "." ${DO} > /build/observed/alpha/${UUID}/observed-${INDEX}.yaml
+      ${YQ} --yaml-output "." ${DO} > /build/observed-${INDEX}.yaml
     fi
   else
-    ${YQ} --yaml-output "." ${DO} > /build/observed/alpha/${UUID}/observed.yaml
+    ${YQ} --yaml-output "." ${DO} > /build/observed.yaml
   fi &&
-  ${ECHO} $(( ${INDEX} + 1 )) > /build/observed/alpha/${UUID}/count &&
-  ${RM} /build/observed/alpha/${UUID}.lock &&
+  ${ECHO} $(( ${INDEX} + 1 )) > /build/count &&
+  ${RM} /build/lock &&
   exit ${STATUS}
 
