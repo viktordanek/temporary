@@ -345,10 +345,33 @@
                                                                                                             { resource , string , ... } :
                                                                                                                 [
                                                                                                                     ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                                                    ( string "POST" "${ resources.foo.derivations.util.post }" )
                                                                                                                     ( resource { name = "d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3" ; } )
                                                                                                                     ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                                                     ( string "YQ" "${ pkgs.yq }/bin/yq" )
                                                                                                                 ] ;
+                                                                                                    } ;
+                                                                                                util =
+                                                                                                    {
+                                                                                                        post =
+                                                                                                            { executable-shell-script , ... } :
+                                                                                                                {
+                                                                                                                    init =
+                                                                                                                        exectuable-shell-script
+                                                                                                                            {
+                                                                                                                                executablePath = self + "/scripts/test/util/post.sh" ;
+                                                                                                                                environment =
+                                                                                                                                    { string , target , ... } :
+                                                                                                                                        [
+                                                                                                                                            ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
+                                                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                                            ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                                                                            ( string "SED" "${ pkgs.gnused }/bin/sed" )
+                                                                                                                                            ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                                            ( target { name = "e38a081823542c636b63a4aa3438db18fcf513e988ea7640503208f0d94252ff57a51ed0c931c4448d4b3396bfee7ce89e5c317d223e8bfd2ee4123eaf4ad1c6" ; } )
+                                                                                                                                        ] ;
+                                                                                                                            } ;
+                                                                                                                } ;
                                                                                                     } ;
                                                                                             } ;
                                                                                     foobar = { write-shell-script , ... } : { } ;
