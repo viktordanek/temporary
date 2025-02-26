@@ -105,7 +105,22 @@
                                                                         environment = environment injection ;
                                                                     } ;
                                                                 in identity ( value { execute-shell-script = execute-shell-script ; write-shell-script = write-shell-script ; } ) ;
-                                                filter =
+                                                lambda =
+                                                    path : name : value : ignore :
+                                                        let
+                                                            d = defaults path name value ignore ;
+                                                            in temporary-derivation d.init d.release d.post ;
+                                                mapper =
+                                                    path : name : value :
+                                                        if builtins.typeOf value == "lambda" then lambda path name value
+                                                        else if builtins.typeOf value == "list" then
+                                                            let
+                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( pkgs.lib.filterAttrs ( predicate ( builtins.concatLists [ path [ name ] ] ) index builtins.elemAt value index ) ) ;
+                                                                in builtins.genList generator ( builtins.length value )
+                                                        else if builtins.typeOf value == "null" then lambda path name ( x : { } )
+                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) ( pkgs.lib.filterAttrs ( predicate ( builtins.concatLists [ path [ name ] ] ) value ) )
+                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for mapping initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
+                                                predicate =
                                                     path : name : value :
                                                         if builtins.typeOf value == "lambda" then
                                                             let
@@ -151,21 +166,6 @@
                                                         else if builtins.typeOf value == "null" then true
                                                         else if builtins.typeOf value == "set" then true
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for filtering initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
-                                                lambda =
-                                                    path : name : value : ignore :
-                                                        let
-                                                            d = defaults path name value ignore ;
-                                                            in temporary-derivation d.init d.release d.post ;
-                                                mapper =
-                                                    path : name : value :
-                                                        if builtins.typeOf value == "lambda" then lambda path name value
-                                                        else if builtins.typeOf value == "list" then
-                                                            let
-                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( pkgs.lib.filterAttrs ( filter ( builtins.concatLists [ path [ name ] ] ) index builtins.elemAt value index ) ) ;
-                                                                in builtins.genList generator ( builtins.length value )
-                                                        else if builtins.typeOf value == "null" then lambda path name ( x : { } )
-                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) ( pkgs.lib.filterAttrs ( filter ( builtins.concatLists [ path [ name ] ] ) value ) )
-                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for mapping initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
                                                 temporary-derivation =
                                                     init : release : post :
                                                         pkgs.stdenv.mkDerivation
@@ -239,7 +239,7 @@
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
                                                             } ;
-                                                in builtins.mapAttrs ( mapper [ ] ) ( pkgs.lib.filterAttrs ( filter [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ) ;
+                                                in builtins.mapAttrs ( mapper [ ] ) ( pkgs.lib.filterAttrs ( predicate [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ) ;
                                         grandparent-pid = { name ? "GRANDPARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'" ;
                                         is-file = { name ? "IS_FILE" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         is-interactive = { name ? "IS_INTERACTIVE" } : "--run 'export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
