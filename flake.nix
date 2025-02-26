@@ -345,7 +345,7 @@
                                                                                                             { resource , string , ... } :
                                                                                                                 [
                                                                                                                     ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                                                                    # ( string "POST" "${ resources.foo.derivations.util.post }" )
+                                                                                                                    ( string "POST" "${ resources.foo.derivations.util }" )
                                                                                                                     ( resource { name = "d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3" ; } )
                                                                                                                     ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                                                     ( string "YQ" "${ pkgs.yq }/bin/yq" )
