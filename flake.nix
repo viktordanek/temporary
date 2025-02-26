@@ -289,7 +289,7 @@
                                                                                                         {
                                                                                                             executablePath = self + "/scripts/test/temporary/executable.sh" ;
                                                                                                             environment =
-                                                                                                                { is-file , is-pipe , resource , path , standard-input , string , target } :
+                                                                                                                { is-file , is-pipe , resource , path , standard-input , string , target , transient } :
                                                                                                                     [
                                                                                                                         ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
