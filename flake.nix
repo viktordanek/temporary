@@ -241,10 +241,6 @@
                                                             } ;
                                                 in builtins.mapAttrs ( mapper [ ] ) ( pkgs.lib.filterAttrs ( filter [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ) ;
                                         grandparent-pid = { name ? "GRANDPARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'" ;
-                                        harvest =
-                                            {
-                                                derivation = transient ;
-                                            } ;
                                         is-file = { name ? "IS_FILE" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         is-interactive = { name ? "IS_INTERACTIVE" } : "--run 'export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         is-pipe = { name ? "IS_PIPE" } : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
@@ -260,9 +256,9 @@
                                                                 generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
                                                                 in builtins.genList generator ( builtins.length value )
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
-                                                        else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for harvest is not lambda, list, nor set but ${ builtins.typeOf value }." ;
+                                                        else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for transient is not lambda, list, nor set but ${ builtins.typeOf value }." ;
                                                 in builtins.mapAttrs ( mapper [ ] ) dependencies ;
-                                        in harvest ;
+                                        in { transient = transient ; } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
                                 {
