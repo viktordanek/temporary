@@ -186,7 +186,7 @@
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                     ${ executable "init" init } &&
                                                                                     ${ executable "release" release } &&
-                                                                                    ${ executable "post" post } &&
+                                                                                    # ${ executable "post" post } &&
                                                                                     ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } > $out/setup.sh &&
                                                                                     ${ pkgs.coreutils }/bin/chmod 0550 $out/setup.sh &&
                                                                                     makeWrapper \
