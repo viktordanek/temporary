@@ -357,7 +357,7 @@
                                                                                                             { executable-shell-script , ... } :
                                                                                                                 {
                                                                                                                     init =
-                                                                                                                        exectuable-shell-script
+                                                                                                                        executable-shell-script
                                                                                                                             {
                                                                                                                                 executablePath = self + "/scripts/test/util/post.sh" ;
                                                                                                                                 environment =
