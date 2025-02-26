@@ -343,7 +343,7 @@
                                                                                                     {
                                                                                                         executablePath = self + "/scripts/test/temporary/post.sh" ;
                                                                                                         environment =
-                                                                                                            { resource , string , ... } :
+                                                                                                            { resource , string , transient , ... } :
                                                                                                                 [
                                                                                                                     ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                                                                     ( transient "POST" ( transient : transient.derivation.util ) )
