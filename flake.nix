@@ -282,7 +282,7 @@
                                                                                 {
                                                                                     a4374430e2a3ace64473d4c54891829ec96b4bfcd6ed6688d30cc4ff486b13dd9366bd4cb808d30c97471e99f200c605b28e7a4b7211834492d4f361c05b41c5 =
                                                                                         { execute-shell-script , ... } :
-                                                                                  init =          {
+                                                                                            {
                                                                                                 init =
                                                                                                     execute-shell-script
                                                                                                         {
