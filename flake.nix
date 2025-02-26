@@ -351,28 +351,6 @@
                                                                                                                     ( string "YQ" "${ pkgs.yq }/bin/yq" )
                                                                                                                 ] ;
                                                                                                     } ;
-                                                                                                util =
-                                                                                                    {
-                                                                                                        post =
-                                                                                                            { executable-shell-script , ... } :
-                                                                                                                {
-                                                                                                                    init =
-                                                                                                                        executable-shell-script
-                                                                                                                            {
-                                                                                                                                executablePath = self + "/scripts/test/util/post.sh" ;
-                                                                                                                                environment =
-                                                                                                                                    { string , target , ... } :
-                                                                                                                                        [
-                                                                                                                                            ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
-                                                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                                            ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                                                                                            ( string "SED" "${ pkgs.gnused }/bin/sed" )
-                                                                                                                                            ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                                                                                            ( target { name = "e38a081823542c636b63a4aa3438db18fcf513e988ea7640503208f0d94252ff57a51ed0c931c4448d4b3396bfee7ce89e5c317d223e8bfd2ee4123eaf4ad1c6" ; } )
-                                                                                                                                        ] ;
-                                                                                                                            } ;
-                                                                                                                } ;
-                                                                                                    } ;
                                                                                             } ;
                                                                                     foobar = { write-shell-script , ... } : { } ;
                                                                                     mkdir =
@@ -395,6 +373,28 @@
                                                                                                             environment = { string , target , ... } : [ ( string "TOUCH" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
                                                                                                         } ;
                                                                                             } ;
+                                                                                    util =
+                                                                                        {
+                                                                                            post =
+                                                                                                { executable-shell-script , ... } :
+                                                                                                    {
+                                                                                                        init =
+                                                                                                            executable-shell-script
+                                                                                                                {
+                                                                                                                    executablePath = self + "/scripts/test/util/post.sh" ;
+                                                                                                                    environment =
+                                                                                                                        { string , target , ... } :
+                                                                                                                            [
+                                                                                                                                ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
+                                                                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                                                                ( string "SED" "${ pkgs.gnused }/bin/sed" )
+                                                                                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                                ( target { name = "e38a081823542c636b63a4aa3438db18fcf513e988ea7640503208f0d94252ff57a51ed0c931c4448d4b3396bfee7ce89e5c317d223e8bfd2ee4123eaf4ad1c6" ; } )
+                                                                                                                            ] ;
+                                                                                                                } ;
+                                                                                                    } ;
+                                                                                        } ;
                                                                                 } ;
                                                                         } ;
                                                             } ;
