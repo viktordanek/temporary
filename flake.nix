@@ -100,6 +100,12 @@
                                                                             ] ;
                                                                     in
                                                                         [
+                                                                            [
+                                                                                "${ pkgs.coreutils }/bin/mkdir ${ directory }"
+                                                                            ]
+                                                                            ( executable "setup" setup )
+                                                                            ( executable "teardown-asynch" teardown-asynch )
+                                                                            ( executable "teardown-synch" teardown-synch )
                                                                             ( executable "init" point.init )
                                                                             ( executable "release" point.release )
                                                                             ( executable "post" point.post )
@@ -115,6 +121,61 @@
                                                                         enable = validate [ "bool" ] path tests ;
                                                                     } ;
                                                             point = identity ( value shell-script ) ;
+                                                            setup =
+                                                                {
+                                                                    environment =
+                                                                        { grandparent-pid , is-file , is-interactive , is-pipe , parent-pid , string , ... } :
+                                                                            [
+                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( grandparent-pid { } )
+                                                                                ( string "INIT" "$out/init" )
+                                                                                ( string "INITIALIZER" initializer )
+                                                                                ( is-file { } )
+                                                                                ( is-interactive { } )
+                                                                                ( is-pipe { } )
+                                                                                ( string "LN" "${ pkgs.coreutils }/bin/ln" )
+                                                                                ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                                ( parent-pid { } )
+                                                                                ( string "POST" "$out/post" )
+                                                                                ( string "RELEASE" "$out/release" )
+                                                                                ( string "RESOURCE_MASK" "${ resource-mask }" )
+                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                ( string "STANDARD_ERROR" standard-error )
+                                                                                ( string "TEARDOWN_ASYNCH" "$out/teardown-asynch" )
+                                                                                ( string "TEARDOWN_SYNCH" "$out/teardown-synch" )
+                                                                                ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
+                                                                            ] ;
+                                                                    executable = self + "/scripts/implementation/setup.sh" ;
+                                                                } ;
+                                                            teardown-asynch =
+                                                                {
+                                                                    environment =
+                                                                        { string , ... } :
+                                                                            [
+                                                                                ( string "AT" ${ at } )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
+                                                                                ( string "TEARDOWN_SYNCH" "$out/teardown-synch" )
+                                                                            ] ;
+                                                                    executable = self + "/scripts/implementation/teardown-asynch.sh" ;
+                                                                }
+                                                            teardown-synch =
+                                                                {
+                                                                    environment =
+                                                                        { string , ... } :
+                                                                            [
+                                                                                ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
+                                                                                ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                ( string "ECHO" "{ pkgs.coreutils }/bin/echo" )
+                                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                            ] ;
+                                                                    executable = self + "/scripts/implementation/teardown-synch.sh" ;
+                                                                } ;
                                                             shell-script =
                                                                 { environment ? x : [ ] , executable } :
                                                                     {
@@ -130,151 +191,6 @@
                                                                 } ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
-
-                                                # TO BE MOVED
-                                                defaults =
-                                                    path : name : value : ignore :
-                                                        let
-                                                            identity =
-                                                                { init ? null , post ? null , release ? null , tests ? [ ] } :
-                                                                    let
-                                                                        executable =
-                                                                            name : value :
-                                                                                if builtins.typeOf value == "null" then { executable = null ; }
-                                                                                else if builtins.typeOf value == "set" then value
-                                                                                else builtins.throw "The ${ name } for dependencies is not null nor set but ${ builtins.typeOf value }." ;
-                                                                        in
-                                                                            {
-                                                                                init = executable "init" init ;
-                                                                                post = executable "post" post ;
-                                                                                release = executable "release" release ;
-                                                                                tests =
-                                                                                    let
-                                                                                        identity =
-                                                                                            { paste ? null , pipe ? null , arguments ? null , file ? null , status ? true , expected , count ? 3 } :
-                                                                                                {
-                                                                                                    paste = paste ;
-                                                                                                    pipe = pipe ;
-                                                                                                    arguments = arguments ;
-                                                                                                    file = file ;
-                                                                                                    status = status ;
-                                                                                                    expected = expected ;
-                                                                                                } ;
-                                                                                        in builtins.map identity tests ;
-                                                                            } ;
-                                                            execute-shell-script =
-                                                                { executable ? null , executablePath ? null , environment ? { } : null } :
-                                                                    {
-                                                                        executable = executablePath ;
-                                                                        environment = environment injection ;
-                                                                    } ;
-                                                            injection =
-                                                                {
-                                                                    is-file = is-file ;
-                                                                    is-pipe = is-pipe ;
-                                                                    path = n : index : "--set ${ name } ${ builtins.toString ( builtins.elemAt ( builtins.concatLists [ path [ n ] ] ) index ) }" ;
-                                                                    string = name : value : "--set ${ name } ${ value }" ;
-                                                                    resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                                    standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
-                                                                    target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                    temporary = name : fun : "--set ${ name } ${ fun temporary_ }" ;
-                                                                } ;
-                                                            write-shell-script =
-                                                                { executable ? null , executablePath ? null , environment ? { } : null } :
-                                                                    {
-                                                                        executable = builtins.toFile "script" executable ;
-                                                                        environment = environment injection ;
-                                                                    } ;
-                                                                in identity ( value { execute-shell-script = execute-shell-script ; write-shell-script = write-shell-script ; } ) ;
-                                                lambda =
-                                                    path : name : value : ignore :
-                                                        let
-                                                            d = defaults path name value ignore ;
-                                                            in temporary-derivation d.init d.release d.post ;
-                                                mapper =
-                                                    path : name : value :
-                                                        if builtins.typeOf value == "lambda" then lambda path name value
-                                                        else if builtins.typeOf value == "list" then
-                                                            let
-                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.concatLists [ path [ name ] ] ) index builtins.elemAt value index ;
-                                                                in builtins.genList generator ( builtins.length value )
-                                                        else if builtins.typeOf value == "null" then lambda path name ( x : { } )
-                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) ( builtins.concatLists [ path [ name ] ] ) value
-                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for mapping initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
-                                                temporary-derivation =
-                                                    init : release : post :
-                                                        pkgs.stdenv.mkDerivation
-                                                            {
-                                                                installPhase =
-                                                                    let
-                                                                        executable =
-                                                                            name : value :
-                                                                                let
-                                                                                    in
-                                                                                        if builtins.typeOf value.executable == "null" then "${ pkgs.coreutils }/bin/true ${ name }"
-                                                                                        else if builtins.typeOf value.executable == "string" then
-                                                                                            ''${ pkgs.coreutils }/bin/cat ${ value.executable } > $out/${ name }.sh &&
-                                                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out/${ name }.sh &&
-                                                                                                    makeWrapper $out/${ name }.sh $out/${ name } ${ builtins.concatStringsSep " " value.environment }''
-                                                                                        else builtins.throw "The ${ name }.executable for construction is not null nor string but ${ builtins.typeOf init }." ;
-                                                                        in
-                                                                            ''
-                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                    ${ executable "init" init } &&
-                                                                                    ${ executable "release" release } &&
-                                                                                    ${ executable "post" post } &&
-                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/setup.sh" } > $out/setup.sh &&
-                                                                                    ${ pkgs.coreutils }/bin/chmod 0550 $out/setup.sh &&
-                                                                                    makeWrapper \
-                                                                                        $out/setup.sh \
-                                                                                        $out/setup \
-                                                                                        --set CAT ${ pkgs.coreutils }/bin/cat \
-                                                                                        --set CHMOD ${ pkgs.coreutils }/bin/chmod \
-                                                                                        --set ECHO ${ pkgs.coreutils }/bin/echo \
-                                                                                        ${ grandparent-pid { } } \
-                                                                                        --set INIT $out/init \
-                                                                                        --set INITIALIZER ${ builtins.toString initializer } \
-                                                                                        ${ is-file { } } \
-                                                                                        ${ is-interactive { } } \
-                                                                                        ${ is-pipe { } } \
-                                                                                        --set LN ${ pkgs.coreutils }/bin/ln \
-                                                                                        --set MKTEMP ${ pkgs.coreutils }/bin/mktemp \
-                                                                                        ${ parent-pid { } } \
-                                                                                        --set POST $out/post \
-                                                                                        --set RELEASE $out/release \
-                                                                                        --set RESOURCE_MASK ${ resource-mask } \
-                                                                                        --set RM ${ pkgs.coreutils }/bin/rm \
-                                                                                        --set STANDARD_ERROR ${ builtins.toString standard-error } \
-                                                                                        --set TEARDOWN_ASYNCH $out/teardown-asynch \
-                                                                                        --set TEARDOWN_SYNCH $out/teardown-synch \
-                                                                                        --set TEE ${ pkgs.coreutils }/bin/tee &&
-                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/teardown-asynch.sh" } > $out/teardown-asynch.sh &&
-                                                                                    ${ pkgs.coreutils }/bin/chmod 0550 $out/teardown-asynch.sh &&
-                                                                                    makeWrapper \
-                                                                                        $out/teardown-asynch.sh \
-                                                                                        $out/teardown-asynch \
-                                                                                        --set AT ${ at } \
-                                                                                        --set ECHO ${ pkgs.coreutils }/bin/echo \
-                                                                                        --set NICE ${ pkgs.coreutils }/bin/nice \
-                                                                                        --set TEARDOWN_SYNCH $out/teardown-synch &&
-                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/teardown-synch.sh" } > $out/teardown-synch.sh &&
-                                                                                    ${ pkgs.coreutils }/bin/chmod 0550 $out/teardown-synch.sh &&
-                                                                                    makeWrapper \
-                                                                                        $out/teardown-synch.sh \
-                                                                                        $out/teardown-synch \
-                                                                                        --set BASENAME ${ pkgs.coreutils }/bin/basename \
-                                                                                        --set CHMOD ${ pkgs.coreutils }/bin/chmod \
-                                                                                        --set ECHO ${ pkgs.coreutils }/bin/echo \
-                                                                                        --set FIND ${ pkgs.findutils }/bin/find \
-                                                                                        --set FLOCK ${ pkgs.flock }/bin/flock \
-                                                                                        --set RM ${ pkgs.coreutils }/bin/rm \
-                                                                                        --set TAIL ${ pkgs.coreutils }/bin/tail
-                                                                            '' ;
-                                                                name = "temporary-derivation" ;
-                                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                                src = ./. ;
-                                                            } ;
-                                                # in builtins.mapAttrs ( mapper [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ;
                                                 in elem [ ] temporary ;
                                         grandparent-pid = { name ? "GRANDPARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'" ;
                                         is-file = { name ? "IS_FILE" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
