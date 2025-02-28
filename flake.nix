@@ -67,7 +67,7 @@
                                                                                 ]
                                                                                 # ( elem [ ] dependencies )
                                                                                 [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir scripts"
+                                                                                    "${ pkgs.coreutils }/bin/mkdir $out/scripts"
                                                                                 ]
                                                                             ]
                                                                     ) ;
