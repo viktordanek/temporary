@@ -80,8 +80,8 @@
                                                                     executable =
                                                                         name : { environment , executable } :
                                                                             [
-                                                                                "${ pkgs.coreutils }/bin/cat ${ executable } > ${ directory }/${ name }.sh"
-                                                                                "${ pkgs.coreutils }/bin/chmod 0555 ${ directory }/${ name }.sh"
+                                                                                "${ pkgs.coreutils }/bin/cat ${ executable } > $out/${ directory }/${ name }.sh"
+                                                                                "${ pkgs.coreutils }/bin/chmod 0555 $out/${ directory }/${ name }.sh"
                                                                                 (
                                                                                     let
                                                                                         injection =
@@ -95,7 +95,7 @@
                                                                                                 target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
                                                                                                 temporary = name : fun : "--set ${ name } ${ fun temporary_ }" ;
                                                                                             } ;
-                                                                                        in "makeWrapper ${ directory }/${ name }.sh ${ directory }/${ name } ${ builtins.concatStringsSep " " ( environment injection ) }"
+                                                                                        in "makeWrapper $out/${ directory }/${ name }.sh $out/${ directory }/${ name } ${ builtins.concatStringsSep " " ( environment injection ) }"
                                                                                 )
                                                                             ] ;
                                                                     in
@@ -111,7 +111,7 @@
                                                                                 ( executable "release" point.release )
                                                                                 ( executable "post" point.post )
                                                                             ] ;
-                                                            directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
+                                                            directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] , enable ? true } :
                                                                     {
@@ -186,7 +186,7 @@
                                                             in
                                                                 {
                                                                     constructors = constructors ;
-                                                                    temporary =
+                                                                    directory =
                                                                         if point.enable then builtins.concatStringsSep "/" [ directory "setup" ]
                                                                         else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is disabled." ;
                                                                 } ;
@@ -211,7 +211,7 @@
                                                                 else if type == "list" then list path elem
                                                                 else if type == "set" then set path elem
                                                                 else elem ;
-                                                lambda = path : value : builtins.getAttr "temporary" ( value null ) ;
+                                                lambda = path : value : builtins.concatStringsSep "/" [ derivation ( builtins.getAttr "directory" ( value null ) ) ] ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] dependencies ;
