@@ -127,8 +127,8 @@
                                                                                 ( executable "setup" setup )
                                                                                 ( executable "teardown-asynch" teardown-asynch )
                                                                                 ( executable "teardown-synch" teardown-synch )
-                                                                                ( executable "init" point.init )
-                                                                                ( executable "release" point.release )
+                                                                                ( if builtins.typeOf point.init == "null" then [ ] else executable "init" point.init )
+                                                                                ( if builtins.typeOf point.release == "null" then [ ] executable "release" point.release )
                                                                                 # ( executable "post" point.post )
                                                                             ] ;
                                                             directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ base "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
