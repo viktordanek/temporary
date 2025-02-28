@@ -123,7 +123,7 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 ( executable "setup" setup )
-                                                                                # ( executable "teardown-asynch" teardown-asynch )
+                                                                                ( executable "teardown-asynch" teardown-asynch )
                                                                                 # ( executable "teardown-synch" teardown-synch )
                                                                                 # ( executable "init" point.init )
                                                                                 # ( executable "release" point.release )
