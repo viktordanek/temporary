@@ -115,57 +115,11 @@
                                                         if builtins.typeOf value == "lambda" then lambda path name value
                                                         else if builtins.typeOf value == "list" then
                                                             let
-                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( pkgs.lib.filterAttrs ( predicate ( builtins.concatLists [ path [ name ] ] ) index builtins.elemAt value index ) ) ;
+                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.concatLists [ path [ name ] ] ) index builtins.elemAt value index ;
                                                                 in builtins.genList generator ( builtins.length value )
                                                         else if builtins.typeOf value == "null" then lambda path name ( x : { } )
-                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) ( pkgs.lib.filterAttrs ( predicate ( builtins.concatLists [ path [ name ] ] ) value ) )
+                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) ( builtins.concatLists [ path [ name ] ] ) value
                                                         else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for mapping initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
-                                                predicate =
-                                                    path : name : value :
-                                                        if builtins.typeOf value == "lambda" then
-                                                            let
-                                                                d = defaults path name value null ;
-                                                                predicate =
-                                                                    test :
-                                                                        let
-                                                                            observation-derivation =
-                                                                                test :
-                                                                                    pkgs.mkDerivation
-                                                                                        {
-                                                                                            installPhase =
-                                                                                                let
-                                                                                                    command = temporary-derivation d.init d.release test.post ;
-                                                                                                    arguments = if builtins.typeOf test.arguments == "null" then "" else "${ test.arguments }" ;
-                                                                                                    file = if builtins.typeOf test.file == "null" then "" else " < ${ builtins.toFile "test" test.file }" ;
-                                                                                                    paste = if builtins.typeOf test.paste == "null" then "" else "${ pkgs.coreutils }/bin/echo ${ test.paste } |" ;
-                                                                                                    pipe = if builtins.typeOf test.pipe == "null" then "" else "${ pkgs.coreutils }/bin/echo ${ test.pipe } |" ;
-                                                                                                    sub = "$( ${ pipe }${ command }${ arguments }${ file }" ;
-                                                                                                    pass = "if ! ${ paste }${ sub } ; then ; fi" ;
-                                                                                                    fail = "if ${ sub } ; then ; fi ;" ;
-                                                                                                    reps = builtins.genList ( index : if test.status then pass else fail ) test.count ;
-                                                                                                    in
-                                                                                                        ''
-                                                                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                                                ${ builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : if test.status then pass else fail ) test.count ) } &&
-                                                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ test.expected } $out/expected &&
-                                                                                                                ${ pkgs.coreutils }/bin/cat /build/observed > $out/observed &&
-                                                                                                                ${ pkgs.diffutils }/bin/diff --brief --recursive --side-by-side $out/expected $out/observed > $out/diff &&
-                                                                                                                if [ -z "$( ${ pkgs.coreutils }/bin/cat $out/diff )" ]
-                                                                                                                then
-                                                                                                                    ${ pkgs.coreutils }/bin/echo true > $out/status
-                                                                                                                else
-                                                                                                                    ${ pkgs.coreutils }/bin/echo false > $out/status
-                                                                                                                fi
-                                                                                                        '' ;
-                                                                                            name = "test-observation" ;
-                                                                                            src = ./. ;
-                                                                                        } ;
-                                                                            in builtins.import "${ observation-derivation }/status" ;
-                                                                in builtins.all predicate d.tests
-                                                        else if builtins.typeOf value == "list" then true
-                                                        else if builtins.typeOf value == "null" then true
-                                                        else if builtins.typeOf value == "set" then true
-                                                        else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for filtering initialization is not lambda, list, null, nor set but ${ builtins.typeOf value }." ;
                                                 temporary-derivation =
                                                     init : release : post :
                                                         pkgs.stdenv.mkDerivation
@@ -239,7 +193,7 @@
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
                                                             } ;
-                                                in builtins.mapAttrs ( mapper [ ] ) ( pkgs.lib.filterAttrs ( predicate [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ) ;
+                                                in builtins.mapAttrs ( mapper [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ;
                                         grandparent-pid = { name ? "GRANDPARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'" ;
                                         is-file = { name ? "IS_FILE" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         is-interactive = { name ? "IS_INTERACTIVE" } : "--run 'export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
