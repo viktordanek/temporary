@@ -211,7 +211,7 @@
                                                                 else if type == "list" then list path elem
                                                                 else if type == "set" then set path elem
                                                                 else elem ;
-                                                lambda = path : value : builtins.concatStringsSep "/" [ ( builtins.getAttr "directory" ( value null ) ) ] ;
+                                                lambda = path : value : builtins.concatStringsSep "/" [ derivation ( builtins.getAttr "directory" ( value null ) ) ] ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] dependencies ;
