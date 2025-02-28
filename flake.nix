@@ -130,6 +130,8 @@
                                                                                 ( if builtins.typeOf point.init == "null" then [ ] else executable "init" point.init )
                                                                                 ( if builtins.typeOf point.release == "null" then [ ] else executable "release" point.release )
                                                                                 ( if builtins.typeOf point.post == "null" then [ ] else executable "post" point.post )
+                                                                                ( executable "setup" setup )
+                                                                                ( executable "post-test" post-test )
                                                                             ] ;
                                                             directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ base "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                             identity =
@@ -169,6 +171,49 @@
                                                                                 ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
                                                                             ] ;
                                                                     executable = self + "/scripts/implementation/setup.sh" ;
+                                                                } ;
+                                                            setup-test =
+                                                                {
+                                                                    environment =
+                                                                        { grandparent-pid , is-file , is-interactive , is-pipe , parent-pid , string , ... } :
+                                                                            [
+                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( grandparent-pid { } )
+                                                                                ( string "INIT" ( builtins.concatStringsSep "/" [ base "/init" ] ) )
+                                                                                ( string "INITIALIZER" initializer )
+                                                                                ( is-file { } )
+                                                                                ( is-interactive { } )
+                                                                                ( is-pipe { } )
+                                                                                ( string "LN" "${ pkgs.coreutils }/bin/ln" )
+                                                                                ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                                ( parent-pid { } )
+                                                                                ( string "POST" ( builtins.concatStringsSep "/" [ base "/post-test" ] ) )
+                                                                                ( string "RELEASE" ( builtins.concatStringsSep "/" [ base "/release" ] ) )
+                                                                                ( string "RESOURCE_MASK" "${ resource-mask }" )
+                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                ( string "STANDARD_ERROR" standard-error )
+                                                                                ( string "TEARDOWN_ASYNCH" ( builtins.concatStringsSep "/" [ base "/teardown-asynch" ] ) )
+                                                                                ( string "TEARDOWN_SYNCH" ( builtins.concatStringsSep "/" [ base "/teardown-synch" ] ) )
+                                                                                ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
+                                                                            ] ;
+                                                                    executable = self + "/scripts/implementation/setup.sh" ;
+                                                                } ;
+                                                            post-test =
+                                                                {
+                                                                    environment =
+                                                                        { resource , string , ... } :
+                                                                            [
+                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                ( string "DIFF" "${ pkgs.diffutils }/bin/diff" )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                ( resource { } )
+                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                            ] ;
+                                                                    executable = self + "/scripts/test/temporary/post.sh" ;
                                                                 } ;
                                                             teardown-asynch =
                                                                 {
