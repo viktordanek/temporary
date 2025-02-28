@@ -63,7 +63,7 @@
                                                                                     "${ pkgs.coreutils }/bin/mkdir $out"
                                                                                     "${ pkgs.coreutils }/bin/mkdir $out/temporary"
                                                                                 ]
-                                                                                ( elem [ ] dependencies )
+                                                                                # ( elem [ ] dependencies )
                                                                             ]
                                                                     ) ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
