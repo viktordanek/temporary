@@ -36,10 +36,7 @@
                                                                             else if type == "set" then set path elem
                                                                             else elem ;
                                                             lambda =
-                                                                path : value :
-                                                                    let
-                                                                        node = value "$out" ;
-                                                                        in builtins.trace ( builtins.typeOf node ) node.constructors ;
+                                                                path : value : builtins.getAttr "constructors" ( value "$out" ) ;
                                                             list =
                                                                 path : value :
                                                                     builtins.concatLists
