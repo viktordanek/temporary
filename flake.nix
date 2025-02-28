@@ -81,7 +81,7 @@
                                                                         name : { environment , executable } :
                                                                             [
                                                                                 "${ pkgs.coreutils }/bin/cat ${ executable } > ${ directory }/${ name }.sh"
-                                                                                "${ pkgs.coreutils }/bin/chmod 0555 ${ director }/${ name }.sh"
+                                                                                "${ pkgs.coreutils }/bin/chmod 0555 ${ directory }/${ name }.sh"
                                                                                 (
                                                                                     let
                                                                                         injection =
