@@ -179,7 +179,7 @@
                                                             shell-script =
                                                                 { environment ? x : [ ] , executable } :
                                                                     {
-                                                                        environment = environment injection ;
+                                                                        environment = environment ;
                                                                         executable = executable ;
                                                                     } ;
                                                             in
