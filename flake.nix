@@ -44,7 +44,7 @@
                                                                             [
                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
-                                                                            # ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) )
+                                                                            ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) )
                                                                         ] ;
                                                             set =
                                                                 path : value :
