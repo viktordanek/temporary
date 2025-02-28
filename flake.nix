@@ -128,7 +128,7 @@
                                                                                 ( executable "teardown-asynch" teardown-asynch )
                                                                                 ( executable "teardown-synch" teardown-synch )
                                                                                 ( executable "init" point.init )
-                                                                                # ( executable "release" point.release )
+                                                                                ( executable "release" point.release )
                                                                                 # ( executable "post" point.post )
                                                                             ] ;
                                                             directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ base "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
