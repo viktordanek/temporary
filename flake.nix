@@ -32,11 +32,11 @@
                                                                         elem = validate [ "lambda" "list" "set" ] path value ;
                                                                         type = builtins.typeOf elem ;
                                                                         in
-                                                                            if type == "lambda" then [ ( lambda path elem ) ]
-                                                                            else if type == "list" then builtins.concatLists ( list path elem )
-                                                                            else if type == "set" then builtins.concatLists ( builtins.attrValues ( set path elem ) )
+                                                                            if type == "lambda" then lambda path elem
+                                                                            else if type == "list" then list path elem
+                                                                            else if type == "set" then set path elem
                                                                             else elem ;
-                                                            lambda = path : value : [ ] ; # builtins.getAttr "constructors" ( value "$out" ) ;
+                                                            lambda = path : value : [ ( builtins.getAttr "constructors" ( value "$out" ) ) ] ;
                                                             list =
                                                                 path : value :
                                                                     builtins.concatLists
@@ -44,7 +44,7 @@
                                                                             [
                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
-                                                                            ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) )
+                                                                            ( builtins.concatLists ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ) )
                                                                         ] ;
                                                             set =
                                                                 path : value :
@@ -53,7 +53,7 @@
                                                                             [
                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
-                                                                            ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value )
+                                                                            ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
                                                                         ] ;
                                                             in builtins.concatStringsSep
                                                                 " &&\n"
