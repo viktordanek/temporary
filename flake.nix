@@ -25,32 +25,113 @@
                                                 {
                                                     installPhase =
                                                         let
-                                                            constructors =
-                                                                let
-                                                                    mapper =
-                                                                        path : name : value :
-                                                                            if builtins.typeOf value == "lambda" then [ "${ pkgs.coreutils }/bin/ln --symbolic ${ value null }/setup ${ resolve "$out" path name }" ]
-                                                                            else if builtins.typeOf value == "list" then
-                                                                                let
-                                                                                    generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                                    in builtins.concatLists ( builtins.genList generator ( builtins.length value ) )
-                                                                            else if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) ) value )
-                                                                            else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for construction is not lambda, list, nor set but ${ builtins.typeOf value }." ;
-                                                                    in builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( mapper [ ] ) dependencies ) ) ;
-                                                            in
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                        ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/clean.sh" } > $out/clean.sh &&
-                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out/clean &&
-                                                                        makeWrapper $out/clean.sh $out/clean --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin --set RESOURCE_MASK ${ resource-mask } --set SED ${ pkgs.gnused }/bin/sed
-                                                                        ${ builtins.concatStringsSep " &&\n\t" constructors }
-                                                                '' ;
+                                                            elem =
+                                                                path : value :
+                                                                    let
+                                                                        elem = validate [ "lambda" "list" "set" ] path value ;
+                                                                        type = builtins.typeOf elem ;
+                                                                        in
+                                                                            if type == "lambda" then [ ( lambda path elem ) ]
+                                                                            else if type == "list" then builtins.concatLists ( list path elem )
+                                                                            else if type == "set" then ( builtins.concatLists ( builtins.attrValues ( set path elem ) ) )
+                                                                            else elem ;
+                                                            lambda = path : value : builtins.getAttr "constuctors" ( value null ) ;
+                                                            list =
+                                                                path : value :
+                                                                    builtins.concatLists
+                                                                        [
+                                                                            [
+                                                                                "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                            ]
+                                                                            ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) )
+                                                                        ] ;
+                                                            set =
+                                                                path : value :
+                                                                    builtins.concatLists
+                                                                        [
+                                                                            [
+                                                                                "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                            ]
+                                                                            ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value )
+                                                                        ] ;
+                                                            in builtins.concatStringsSep " &&\n" ( builtins.concatLists [ [ "${ pkgs.coreutils }/mkdir $out" ] ( elem [ ] dependencies ) ] ) ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     name = "temporary-implementation" ;
                                                     src = ./. ;
                                                 } ;
                                         dependencies =
                                             let
+                                                elem =
+                                                    path : value :
+                                                        let
+                                                            elem = validate [ "lambda" "list" "null" "set" ] path value ;
+                                                            type = builtins.typeOf elem ;
+                                                            in
+                                                                if type == "lambda" then lambda path elem
+                                                                else if type == "list" then list path elem
+                                                                else if type == "null" then lambda path ( x : { } )
+                                                                else if type == "set" then set path elem
+                                                                else elem ;
+                                                lambda =
+                                                    path : value : ignore :
+                                                        let
+                                                            constructors =
+                                                                let
+                                                                    executable =
+                                                                        name : { environment , executable } :
+                                                                            [
+                                                                                "${ pkgs.coreutils }/bin/cat ${ executable } > ${ directory }/${ name }.sh"
+                                                                                "${ pkgs.coreutils }/bin/chmod 0555 ${ director }/${ name }.sh"
+                                                                                (
+                                                                                    let
+                                                                                        injection =
+                                                                                            {
+                                                                                                is-file = is-file ;
+                                                                                                is-pipe = is-pipe ;
+                                                                                                path = name : index : "--set ${ name } ${ builtins.toString ( builtins.elemAt ( builtins.concatLists [ path [ n ] ] ) index ) }" ;
+                                                                                                string = name : value : "--set ${ name } ${ value }" ;
+                                                                                                resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                                                                standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
+                                                                                                target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
+                                                                                                temporary = name : fun : "--set ${ name } ${ fun temporary_ }" ;
+                                                                                            } ;
+                                                                                        in "makeWrapper ${ directory }/${ name }.sh ${ directory }/${ name } ${ builtins.concatStringsSep " " ( environment injection ) }"
+                                                                                )
+                                                                            ] ;
+                                                                    in
+                                                                        [
+                                                                            ( executable "init" point.init )
+                                                                            ( executable "release" point.release )
+                                                                            ( executable "post" point.post )
+                                                                        ] ;
+                                                            directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
+                                                            identity =
+                                                                { init ? null , post ? null , release ? null , tests ? [ ] , enable ? true } :
+                                                                    {
+                                                                        init = validate [ "lambda" "null" ] path init ;
+                                                                        post = validate [ "lambda" "null" ] path post ;
+                                                                        release = validate [ "lambda" "null" ] path release ;
+                                                                        tests = validate [ "list" ] path tests ;
+                                                                        enable = validate [ "bool" ] path tests ;
+                                                                    } ;
+                                                            point = identity ( value shell-script ) ;
+                                                            shell-script =
+                                                                { environment ? x : [ ] , executable } :
+                                                                    {
+                                                                        environment = environment injection ;
+                                                                        executable = executable ;
+                                                                    } ;
+                                                            in
+                                                                {
+                                                                    constructors = constructors ;
+                                                                    temporary =
+                                                                        if point.enable then builtins.concatStringsSep "/" [ directory "setup" ]
+                                                                        else builtins.throw "The temporary at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is disabled." ;
+                                                                } ;
+                                                list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
+                                                set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
+
+                                                # TO BE MOVED
                                                 defaults =
                                                     path : name : value : ignore :
                                                         let
@@ -193,7 +274,8 @@
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
                                                             } ;
-                                                in builtins.mapAttrs ( mapper [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ;
+                                                # in builtins.mapAttrs ( mapper [ ] ) ( if builtins.typeOf temporary == "set" then temporary else builtins.throw "The temporary must be a set but it is a ${ builtins.typeOf temporary }." ) ;
+                                                in elem [ ] temporary ;
                                         grandparent-pid = { name ? "GRANDPARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'" ;
                                         is-file = { name ? "IS_FILE" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         is-interactive = { name ? "IS_INTERACTIVE" } : "--run 'export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
@@ -202,17 +284,24 @@
                                         resolve = derivation : path : name : builtins.concatStringsSep "/" ( builtins.map builtins.toString [ derivation ( builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ) ] ) ;
                                         temporary_ =
                                             let
-                                                mapper =
-                                                    path : name : value :
-                                                        if builtins.typeOf value == "lambda" then resolve derivation path name
-                                                        else if builtins.typeOf value == "list" then
-                                                            let
-                                                                generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
-                                                                in builtins.genList generator ( builtins.length value )
-                                                        else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
-                                                        else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for temporary_ is not lambda, list, nor set but ${ builtins.typeOf value }." ;
-                                                in builtins.mapAttrs ( mapper [ ] ) dependencies ;
-                                        in { temporary = temporary_ ; } ;
+                                                elem =
+                                                    path : value :
+                                                        let
+                                                            elem = validate [ "lambda" "list" "set" ] path value ;
+                                                            type = builtins.typeOf elem ;
+                                                            in
+                                                                if type == "lambda" then lambda path elem
+                                                                else if type == "list" then list path elem
+                                                                else if type == "set" then set path elem
+                                                                else elem ;
+                                                lambda = path : value : builtins.getAttr "temporary" ( value null ) ;
+                                                list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
+                                                set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ index ] ] ) value ) value ;
+                                                in elem [ ] dependencies ;
+                                        validate =
+                                            valid : path : value :
+                                                if builtins.any ( t : builtins.typeOf value == t ) value then value
+                                                else builtins.throw "The value provided at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not ${ builtins.concatStringsSep " , " path } but ${ builtins.typeOf value }.  It is ${ if builtins.any ( t : builtins.type value == t ) [ "bool" "float" "int" "path" "string" ] then builtins.toJSON value else "unstringable" }." ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
                                 {
@@ -233,12 +322,11 @@
                                                                             temporary =
                                                                                 {
                                                                                     a4374430e2a3ace64473d4c54891829ec96b4bfcd6ed6688d30cc4ff486b13dd9366bd4cb808d30c97471e99f200c605b28e7a4b7211834492d4f361c05b41c5 =
-                                                                                        { execute-shell-script , ... } :
+                                                                                        shell-script :
                                                                                             {
                                                                                                 init =
-                                                                                                    execute-shell-script
+                                                                                                    shell-script
                                                                                                         {
-                                                                                                            executablePath = self + "/scripts/test/temporary/executable.sh" ;
                                                                                                             environment =
                                                                                                                 { is-file , is-pipe , resource , path , standard-input , string , target , temporary } :
                                                                                                                     [
@@ -261,77 +349,57 @@
                                                                                                                         ( string "TEMPLATE_FILE" ( self + "/scripts/test/temporary/executable.json" ) )
                                                                                                                         ( string "YQ" "${ pkgs.yq }/bin/yq" )
                                                                                                                     ] ;
+                                                                                                            executable = self + "/scripts/test/temporary/executable.sh" ;
                                                                                                         } ;
                                                                                                 release =
-                                                                                                               execute-shell-script
-                                                                                                                   {
-                                                                                                                       executablePath = self + "/scripts/test/temporary/executable.sh" ;
-                                                                                                                       environment =
-                                                                                                                           { is-file , is-pipe , resource , path , standard-input , string , target , temporary } :
-                                                                                                                               [
-                                                                                                                                   ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                                                   ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                                                   ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                                                                                   ( string "HAS_STANDARD_ERROR" "false" )
-                                                                                                                                   ( is-file { name = "cd4d67f6ced1af72b6e50619ab0912f3ae836ecb8186343d64bb339ced909edd4548479d0dad93cb5ecb7f0606c78a8402b90c49a2b1d4c0a5d8200230e01809" ; } )
-                                                                                                                                   ( is-pipe { name = "bed950554a6c594ded4790bca8c9f65f0df4baa61b3fa78f33bcf8b9e3621544929d25e985698dfecc0b5a5f192e32ccf2cadbee0d2bc661374a7ded99e45579" ; } )
-                                                                                                                                   ( string "JQ" "${ pkgs.jq }/bin/jq" )
-                                                                                                                                   ( path "PATH_SEED" 0 )
-                                                                                                                                   ( resource { name = "c8abe0fd64014b729ad36cb4718564939f0981c7fa252deb5f0f90e460bc438033f7ff4e7204f2c4ca7243c77a356df83f89e31769ed35838c28a9e8b8135306" ; } )
-                                                                                                                                   ( string "SED" "${ pkgs.gnused }/bin/sed" )
-                                                                                                                                   ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                                                                                   ( string "STANDARD_ERROR" "73a1dfc58fd98ea3273295a3bba6c69a400b5ff382076a3ef54b8f7c2243e42bf769c0a55ac520e05059cc362eda16569db6404d1698fdd438faefdf3ccf5b87" )
-                                                                                                                                   ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
-                                                                                                                                   ( string "STANDARD_OUTPUT" "4a0047d9bf72b1d8bb481e61103e2208596a20661a2e47f3ef30dbcf14a60da980c565c7d7b90dd25dbadb97b1df7d054216fc77efee0dc8869d1626a90033d9" )
-                                                                                                                                   ( string "STATUS" "0" )
-                                                                                                                                   ( target { name = "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" ; } )
-                                                                                                                                   ( string "TEMPLATE_FILE" ( self + "/scripts/test/temporary/executable.json" ) )
-                                                                                                                                   ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                                                               ] ;
-                                                                                                                   } ;
+                                                                                                   shell-script
+                                                                                                       {
+                                                                                                           environment =
+                                                                                                               { is-file , is-pipe , resource , path , standard-input , string , target , temporary } :
+                                                                                                                   [
+                                                                                                                       ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                                       ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                                       ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                                                                       ( string "HAS_STANDARD_ERROR" "false" )
+                                                                                                                       ( is-file { name = "cd4d67f6ced1af72b6e50619ab0912f3ae836ecb8186343d64bb339ced909edd4548479d0dad93cb5ecb7f0606c78a8402b90c49a2b1d4c0a5d8200230e01809" ; } )
+                                                                                                                       ( is-pipe { name = "bed950554a6c594ded4790bca8c9f65f0df4baa61b3fa78f33bcf8b9e3621544929d25e985698dfecc0b5a5f192e32ccf2cadbee0d2bc661374a7ded99e45579" ; } )
+                                                                                                                       ( string "JQ" "${ pkgs.jq }/bin/jq" )
+                                                                                                                       ( path "PATH_SEED" 0 )
+                                                                                                                       ( resource { name = "c8abe0fd64014b729ad36cb4718564939f0981c7fa252deb5f0f90e460bc438033f7ff4e7204f2c4ca7243c77a356df83f89e31769ed35838c28a9e8b8135306" ; } )
+                                                                                                                       ( string "SED" "${ pkgs.gnused }/bin/sed" )
+                                                                                                                       ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                                                                                       ( string "STANDARD_ERROR" "73a1dfc58fd98ea3273295a3bba6c69a400b5ff382076a3ef54b8f7c2243e42bf769c0a55ac520e05059cc362eda16569db6404d1698fdd438faefdf3ccf5b87" )
+                                                                                                                       ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
+                                                                                                                       ( string "STANDARD_OUTPUT" "4a0047d9bf72b1d8bb481e61103e2208596a20661a2e47f3ef30dbcf14a60da980c565c7d7b90dd25dbadb97b1df7d054216fc77efee0dc8869d1626a90033d9" )
+                                                                                                                       ( string "STATUS" "0" )
+                                                                                                                       ( target { name = "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" ; } )
+                                                                                                                       ( string "TEMPLATE_FILE" ( self + "/scripts/test/temporary/executable.json" ) )
+                                                                                                                       ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                                                   ] ;
+                                                                                                           executable = self + "/scripts/test/temporary/executable.sh" ;
+                                                                                                       } ;
                                                                                                 post =
-                                                                                                    execute-shell-script
-                                                                                                    {
-                                                                                                        executablePath = self + "/scripts/test/temporary/post.sh" ;
-                                                                                                        environment =
-                                                                                                            { resource , string , temporary , ... } :
-                                                                                                                [
-                                                                                                                    ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                                                                    # ( temporary "POST" ( temporary : builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames temporary ) ) temporary.util ) )
-                                                                                                                    ( resource { name = "d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3" ; } )
-                                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                                    ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                                                ] ;
-                                                                                                    } ;
-                                                                                            } ;
-                                                                                    foobar = { write-shell-script , ... } : { } ;
-                                                                                    mkdir =
-                                                                                        { write-shell-script , ... } :
-                                                                                            {
-                                                                                                init =
-                                                                                                    write-shell-script
+                                                                                                    shell-script
                                                                                                         {
-                                                                                                            executable = "${ builtins.concatStringsSep "" [ "$" "{" "MKDIR" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
-                                                                                                            environment = { string , target , ... } : [ ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
-                                                                                                        } ;
-                                                                                            } ;
-                                                                                    touch =
-                                                                                        { write-shell-script , ... } :
-                                                                                            {
-                                                                                                init =
-                                                                                                    write-shell-script
-                                                                                                        {
-                                                                                                            executable = "${ builtins.concatStringsSep "" [ "$" "{" "TOUCH" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" ;
-                                                                                                            environment = { string , target , ... } : [ ( string "TOUCH" "${ pkgs.coreutils }/bin/mkdir" ) ( target { } ) ] ;
+                                                                                                            environment =
+                                                                                                                { resource , string , temporary , ... } :
+                                                                                                                    [
+                                                                                                                        ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                                                        # ( temporary "POST" ( temporary : builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames temporary ) ) temporary.util ) )
+                                                                                                                        ( resource { name = "d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3" ; } )
+                                                                                                                        ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                                                    ] ;
+                                                                                                            executable = self + "/scripts/test/temporary/post.sh" ;
                                                                                                         } ;
                                                                                             } ;
                                                                                     util =
-                                                                                        { execute-shell-script , ... } :
+                                                                                        shell-script :
                                                                                             {
                                                                                                 init =
-                                                                                                    execute-shell-script
+                                                                                                    shell-script
                                                                                                         {
-                                                                                                            executablePath = self + "/scripts/test/util/post.sh" ;
+                                                                                                            executable = self + "/scripts/test/util/post.sh" ;
                                                                                                             environment =
                                                                                                                 { string , target , ... } :
                                                                                                                     [
