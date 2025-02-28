@@ -17,7 +17,7 @@
                                     initializer ? 64 ,
                                     resource-mask ? "temporary.XXXXXXXX" ,
                                     standard-error ? 65 ,
-                                    temporary ? { } ,
+                                    temporary ? null ,
                                 } :
                                     let
                                         derivation =
@@ -35,7 +35,7 @@
                                                                             else if type == "list" then builtins.concatLists ( list path elem )
                                                                             else if type == "set" then ( builtins.concatLists ( builtins.attrValues ( set path elem ) ) )
                                                                             else elem ;
-                                                            lambda = path : value : builtins.getAttr "constuctors" ( value null ) ;
+                                                            lambda = path : value : builtins.getAttr "constructors" ( value null ) ;
                                                             list =
                                                                 path : value :
                                                                     builtins.concatLists
@@ -118,7 +118,7 @@
                                                                         post = validate [ "lambda" "null" ] path post ;
                                                                         release = validate [ "lambda" "null" ] path release ;
                                                                         tests = validate [ "list" ] path tests ;
-                                                                        enable = validate [ "bool" ] path tests ;
+                                                                        enable = validate [ "bool" ] path enable ;
                                                                     } ;
                                                             point = identity ( value shell-script ) ;
                                                             setup =
@@ -216,8 +216,8 @@
                                                 in elem [ ] dependencies ;
                                         validate =
                                             valid : path : value :
-                                                if builtins.any ( t : builtins.typeOf value == t ) value then value
-                                                else builtins.throw "The value provided at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not ${ builtins.concatStringsSep " , " path } but ${ builtins.typeOf value }.  It is ${ if builtins.any ( t : builtins.type value == t ) [ "bool" "float" "int" "path" "string" ] then builtins.toJSON value else "unstringable" }." ;
+                                                if builtins.any ( t : builtins.typeOf value == t ) valid then value
+                                                else builtins.throw "The value provided at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not ${ builtins.concatStringsSep " , " valid } but ${ builtins.typeOf value }.  It is ${ if builtins.any ( t : builtins.typeOf value == t ) [ "bool" "float" "int" "path" "string" ] then builtins.toJSON value else "unstringable" }." ;
                                         in
                                             {
                                                 temporary = temporary_ ;
