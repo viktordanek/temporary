@@ -121,7 +121,8 @@
                                                                     in
                                                                         builtins.concatLists
                                                                             [
-                                                                                ""
+                                                                                [
+                                                                                ]
                                                                                 ( executable "setup" setup )
                                                                                 ( executable "teardown-asynch" teardown-asynch )
                                                                                 # ( executable "teardown-synch" teardown-synch )
