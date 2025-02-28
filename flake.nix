@@ -33,7 +33,7 @@
                                                                         in
                                                                             if type == "lambda" then [ ( lambda path elem ) ]
                                                                             else if type == "list" then builtins.concatLists ( list path elem )
-                                                                            else if type == "set" then ( builtins.concatLists ( builtins.attrValues ( set path elem ) ) )
+                                                                            else if type == "set" then ( builtins.concatLists ( builtins.attrValues ( builtins.attrValues ( set path elem ) ) ) )
                                                                             else elem ;
                                                             lambda = path : value : builtins.getAttr "constructors" ( value null ) ;
                                                             list =
