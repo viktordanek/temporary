@@ -154,7 +154,7 @@
                                                                     environment =
                                                                         { string , ... } :
                                                                             [
-                                                                                ( string "AT" ${ at } )
+                                                                                ( string "AT" "${ at }" )
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                 ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
                                                                                 ( string "TEARDOWN_SYNCH" "$out/teardown-synch" )
