@@ -96,7 +96,7 @@
                                                                     resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                     standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
                                                                     target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
-                                                                    transient = name : fun : "--set ${ name } ${ fun transient }" ;
+                                                                    temporary_ = name : fun : "--set ${ name } ${ fun temporary_ }" ;
                                                                 } ;
                                                             write-shell-script =
                                                                 { executable ? null , executablePath ? null , environment ? { } : null } :
@@ -200,7 +200,7 @@
                                         is-pipe = { name ? "IS_PIPE" } : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         parent-pid = { name ? "PARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
                                         resolve = derivation : path : name : builtins.concatStringsSep "/" ( builtins.map builtins.toString [ derivation ( builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ) ] ) ;
-                                        transient =
+                                        temporary_ =
                                             let
                                                 mapper =
                                                     path : name : value :
@@ -210,9 +210,9 @@
                                                                 generator = index : mapper ( builtins.concatLists [ path [ name ] ] ) index ( builtins.elemAt value index ) ;
                                                                 in builtins.genList generator ( builtins.length value )
                                                         else if builtins.typeOf value == "set" then builtins.mapAttrs ( builtins.concatLists [ path [ name ] ] ) value
-                                                        else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for transient is not lambda, list, nor set but ${ builtins.typeOf value }." ;
+                                                        else builtins.throw "The dependency defined at ${ builtins.concatStringsSep " / " ( builtins.concatLists [ path [ name ] ] ) } for temporary_ is not lambda, list, nor set but ${ builtins.typeOf value }." ;
                                                 in builtins.mapAttrs ( mapper [ ] ) dependencies ;
-                                        in { transient = transient ; } ;
+                                        in { temporary_ = temporary_ ; } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
                                 {
@@ -240,7 +240,7 @@
                                                                                                         {
                                                                                                             executablePath = self + "/scripts/test/temporary/executable.sh" ;
                                                                                                             environment =
-                                                                                                                { is-file , is-pipe , resource , path , standard-input , string , target , transient } :
+                                                                                                                { is-file , is-pipe , resource , path , standard-input , string , target , temporary_ } :
                                                                                                                     [
                                                                                                                         ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
@@ -267,7 +267,7 @@
                                                                                                                    {
                                                                                                                        executablePath = self + "/scripts/test/temporary/executable.sh" ;
                                                                                                                        environment =
-                                                                                                                           { is-file , is-pipe , resource , path , standard-input , string , target , transient } :
+                                                                                                                           { is-file , is-pipe , resource , path , standard-input , string , target , temporary_ } :
                                                                                                                                [
                                                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
@@ -294,10 +294,10 @@
                                                                                                     {
                                                                                                         executablePath = self + "/scripts/test/temporary/post.sh" ;
                                                                                                         environment =
-                                                                                                            { resource , string , transient , ... } :
+                                                                                                            { resource , string , temporary_ , ... } :
                                                                                                                 [
                                                                                                                     ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                                                                    # ( transient "POST" ( transient : builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames transient ) ) transient.util ) )
+                                                                                                                    # ( temporary_ "POST" ( temporary_ : builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames temporary_ ) ) temporary_.util ) )
                                                                                                                     ( resource { name = "d099a4dd4385e0153b002087fb77aad8469edfe0b3f693249cbef7735bab86906062a7303a3795ccaece5d16509e046d13afb9b8603831562d2e30a98b5177d3" ; } )
                                                                                                                     ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                                                     ( string "YQ" "${ pkgs.yq }/bin/yq" )
@@ -350,7 +350,7 @@
                                                         in
                                                             ''
                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.transient.a4374430e2a3ace64473d4c54891829ec96b4bfcd6ed6688d30cc4ff486b13dd9366bd4cb808d30c97471e99f200c605b28e7a4b7211834492d4f361c05b41c5 } &&
+                                                                    ${ pkgs.coreutils }/bin/echo ${ resources.foobar.temporary_.a4374430e2a3ace64473d4c54891829ec96b4bfcd6ed6688d30cc4ff486b13dd9366bd4cb808d30c97471e99f200c605b28e7a4b7211834492d4f361c05b41c5 } &&
                                                                     exit 68
                                                             '' ;
                                                 name = "temporary-checks" ;
