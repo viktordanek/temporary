@@ -53,7 +53,7 @@
                                                                             [
                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
-                                                                            # ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value )
+                                                                            ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value )
                                                                         ] ;
                                                             in builtins.concatStringsSep
                                                                 " &&\n"
