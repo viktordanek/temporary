@@ -33,9 +33,9 @@
                                                                         in
                                                                             if type == "lambda" then [ ( lambda path elem ) ]
                                                                             else if type == "list" then builtins.concatLists ( list path elem )
-                                                                            else if type == "set" then builtins.concatLists ( builtins.attrValues ( builtins.attrValues ( set path elem ) ) )
+                                                                            else if type == "set" then builtins.concatLists ( builtins.attrValues ( set path elem ) )
                                                                             else elem ;
-                                                            lambda = path : value : builtins.getAttr "constructors" ( value null ) ;
+                                                            lambda = path : value : [ ] ; # builtins.getAttr "constructors" ( value null ) ;
                                                             list =
                                                                 path : value :
                                                                     builtins.concatLists
@@ -43,7 +43,7 @@
                                                                             [
                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
-                                                                            ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) )
+                                                                            # ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) )
                                                                         ] ;
                                                             set =
                                                                 path : value :
@@ -52,9 +52,20 @@
                                                                             [
                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
-                                                                            ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value )
+                                                                            # ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value )
                                                                         ] ;
-                                                            in builtins.concatStringsSep " &&\n" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" "${ pkgs.coreutils }/bin/mkdir $out/temporary" ] ( elem [ ] dependencies ) ] ) ;
+                                                            in builtins.concatStringsSep
+                                                                " &&\n"
+                                                                    (
+                                                                        builtins.concatLists
+                                                                            [
+                                                                                [
+                                                                                    "${ pkgs.coreutils }/bin/mkdir $out"
+                                                                                    "${ pkgs.coreutils }/bin/mkdir $out/temporary"
+                                                                                ]
+                                                                                ( elem [ ] dependencies )
+                                                                            ]
+                                                                    ) ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     name = "temporary-implementation" ;
                                                     src = ./. ;
