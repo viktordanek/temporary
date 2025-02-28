@@ -153,7 +153,7 @@
                                                                                 ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                 ( grandparent-pid { } )
-                                                                                ( string "INIT" ( builtins.concatStringsSep "/" [ director "/init" ] ) )
+                                                                                ( string "INIT" ( builtins.concatStringsSep "/" [ directory "/init" ] ) )
                                                                                 ( string "INITIALIZER" initializer )
                                                                                 ( is-file { } )
                                                                                 ( is-interactive { } )
