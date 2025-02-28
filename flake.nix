@@ -97,7 +97,6 @@
                                                                     executable =
                                                                         name : { environment , executable } :
                                                                             [
-                                                                                "${ pkgs.coreutils }/bin/mkdir ${ directory }"
                                                                                 "${ pkgs.coreutils }/bin/cat ${ executable } > ${ directory }/${ name }.sh"
                                                                                 "${ pkgs.coreutils }/bin/chmod 0555 ${ directory }/${ name }.sh"
                                                                                 (
@@ -122,6 +121,7 @@
                                                                     in
                                                                         builtins.concatLists
                                                                             [
+                                                                                "${ pkgs.coreutils }/bin/mkdir ${ directory }"
                                                                                 ( executable "setup" setup )
                                                                                 ( executable "teardown-asynch" teardown-asynch )
                                                                                 # ( executable "teardown-synch" teardown-synch )
