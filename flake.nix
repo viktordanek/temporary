@@ -99,17 +99,18 @@
                                                                                 )
                                                                             ] ;
                                                                     in
-                                                                        [
+                                                                        builtins.concatLists
                                                                             [
-                                                                                "${ pkgs.coreutils }/bin/mkdir ${ directory }"
-                                                                            ]
-                                                                            ( executable "setup" setup )
-                                                                            ( executable "teardown-asynch" teardown-asynch )
-                                                                            ( executable "teardown-synch" teardown-synch )
-                                                                            ( executable "init" point.init )
-                                                                            ( executable "release" point.release )
-                                                                            ( executable "post" point.post )
-                                                                        ] ;
+                                                                                [
+                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ directory }"
+                                                                                ]
+                                                                                ( executable "setup" setup )
+                                                                                ( executable "teardown-asynch" teardown-asynch )
+                                                                                ( executable "teardown-synch" teardown-synch )
+                                                                                ( executable "init" point.init )
+                                                                                ( executable "release" point.release )
+                                                                                ( executable "post" point.post )
+                                                                            ] ;
                                                             directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] , enable ? true } :
