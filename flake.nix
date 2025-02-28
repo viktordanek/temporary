@@ -130,7 +130,7 @@
                                                                                 ( if builtins.typeOf point.init == "null" then [ ] else executable "init" point.init )
                                                                                 ( if builtins.typeOf point.release == "null" then [ ] else executable "release" point.release )
                                                                                 ( if builtins.typeOf point.post == "null" then [ ] else executable "post" point.post )
-                                                                                ( executable "setup" setup )
+                                                                                ( executable "setup-test" setup-test )
                                                                                 ( executable "post-test" post-test )
                                                                             ] ;
                                                             directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ base "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
