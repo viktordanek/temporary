@@ -160,7 +160,7 @@
                                                                                 ( string "TEARDOWN_SYNCH" "$out/teardown-synch" )
                                                                             ] ;
                                                                     executable = self + "/scripts/implementation/teardown-asynch.sh" ;
-                                                                }
+                                                                } ;
                                                             teardown-synch =
                                                                 {
                                                                     environment =
