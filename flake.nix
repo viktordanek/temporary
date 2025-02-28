@@ -25,7 +25,6 @@
                                                 {
                                                     installPhase =
                                                         let
-                                                            elem2 = path : value : [ ] ;
                                                             elem =
                                                                 path : value :
                                                                     let
@@ -36,7 +35,11 @@
                                                                             else if type == "list" then list path elem
                                                                             else if type == "set" then set path elem
                                                                             else elem ;
-                                                            lambda = path : value : [ ( builtins.getAttr "constructors" ( value "$out" ) ) ] ;
+                                                            lambda =
+                                                                path : value :
+                                                                    let
+                                                                        node = value "$out" ;
+                                                                        in builtins.trace ( builtins.typeOf node ) node.constructors ;
                                                             list =
                                                                 path : value :
                                                                     builtins.concatLists
@@ -103,10 +106,13 @@
                                                                                     let
                                                                                         injection =
                                                                                             {
+                                                                                                grandparent-pid = grandparent-pid ;
                                                                                                 is-file = is-file ;
+                                                                                                is-interactive = is-interactive ;
                                                                                                 is-pipe = is-pipe ;
+                                                                                                parent-pid = parent-pid ;
                                                                                                 path = name : index : "--set ${ name } ${ builtins.toString ( builtins.elemAt path index ) }" ;
-                                                                                                string = name : value : "--set ${ name } ${ value }" ;
+                                                                                                string = name : value : "--set ${ name } ${ builtins.toString value }" ;
                                                                                                 resource = { name ? "RESOURCE" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                                                                 standard-input = { name ? "STANDARD_INPUT" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )'" ;
                                                                                                 target = { name ? "TARGET" } : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/target'" ;
@@ -118,23 +124,20 @@
                                                                     in
                                                                         builtins.concatLists
                                                                             [
-                                                                                [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ directory }"
-                                                                                ]
-                                                                                ( executable "setup" setup )
-                                                                                ( executable "teardown-asynch" teardown-asynch )
-                                                                                ( executable "teardown-synch" teardown-synch )
-                                                                                ( executable "init" point.init )
-                                                                                ( executable "release" point.release )
-                                                                                ( executable "post" point.post )
+                                                                                # ( executable "setup" setup )
+                                                                                # ( executable "teardown-asynch" teardown-asynch )
+                                                                                # ( executable "teardown-synch" teardown-synch )
+                                                                                # ( executable "init" point.init )
+                                                                                # ( executable "release" point.release )
+                                                                                # ( executable "post" point.post )
                                                                             ] ;
                                                             directory = builtins.concatStringsSep "/" ( builtins.concatLists [ [ base "temporary" ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] , enable ? true } :
                                                                     {
-                                                                        init = validate [ "lambda" "null" ] path init ;
-                                                                        post = validate [ "lambda" "null" ] path post ;
-                                                                        release = validate [ "lambda" "null" ] path release ;
+                                                                        init = validate [ "null" "set" ] path init ;
+                                                                        post = validate [ "null" "set" ] path post ;
+                                                                        release = validate [ "null" "set" ] path release ;
                                                                         tests = validate [ "list" ] path tests ;
                                                                         enable = validate [ "bool" ] path enable ;
                                                                     } ;
@@ -148,7 +151,7 @@
                                                                                 ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                 ( grandparent-pid { } )
-                                                                                ( string "INIT" "$out/init" )
+                                                                                ( string "INIT" ( builtins.concatStringsSep "/" [ base "/init" ] ) )
                                                                                 ( string "INITIALIZER" initializer )
                                                                                 ( is-file { } )
                                                                                 ( is-interactive { } )
@@ -156,13 +159,13 @@
                                                                                 ( string "LN" "${ pkgs.coreutils }/bin/ln" )
                                                                                 ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                                 ( parent-pid { } )
-                                                                                ( string "POST" "$out/post" )
-                                                                                ( string "RELEASE" "$out/release" )
+                                                                                ( string "POST" ( builtins.concatStringsSep "/" [ base "/post" ] ) )
+                                                                                ( string "RELEASE" ( builtins.concatStringsSep "/" [ base "/release" ] ) )
                                                                                 ( string "RESOURCE_MASK" "${ resource-mask }" )
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                 ( string "STANDARD_ERROR" standard-error )
-                                                                                ( string "TEARDOWN_ASYNCH" "$out/teardown-asynch" )
-                                                                                ( string "TEARDOWN_SYNCH" "$out/teardown-synch" )
+                                                                                ( string "TEARDOWN_ASYNCH" ( builtins.concatStringsSep "/" [ base "/teardown-asynch" ] ) )
+                                                                                ( string "TEARDOWN_SYNCH" ( builtins.concatStringsSep "/" [ base "/teardown-synch" ] ) )
                                                                                 ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
                                                                             ] ;
                                                                     executable = self + "/scripts/implementation/setup.sh" ;
@@ -266,7 +269,7 @@
                                                                                                     shell-script
                                                                                                         {
                                                                                                             environment =
-                                                                                                                { is-file , is-pipe , resource , path , standard-input , string , target , temporary } :
+                                                                                                                { is-file , is-pipe , resource , path , standard-input , string , target , temporary , ... } :
                                                                                                                     [
                                                                                                                         ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
@@ -293,7 +296,7 @@
                                                                                                    shell-script
                                                                                                        {
                                                                                                            environment =
-                                                                                                               { is-file , is-pipe , resource , path , standard-input , string , target , temporary } :
+                                                                                                               { is-file , is-pipe , resource , path , standard-input , string , target , temporary , ... } :
                                                                                                                    [
                                                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
