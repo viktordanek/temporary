@@ -17,8 +17,8 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${RESOURCE_MASK} ) &&
   else
     TARGET_PID=${PARENT_PID}
   fi &&
-  ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/${TARGET_PID// /}.pid &&
-  ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
+  ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/pid &&
+  ${CHMOD} 0400 ${RESOURCE}/pid
   if [ -x ${INIT} ]
   then
     ${LN} --symbolic ${INIT} ${RESOURCE}/init.sh
