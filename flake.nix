@@ -42,7 +42,7 @@
                                                                     builtins.concatLists
                                                                         [
                                                                             [
-                                                                                "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
                                                                             ( builtins.concatLists ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ) )
                                                                         ] ;
@@ -51,7 +51,7 @@
                                                                     builtins.concatLists
                                                                         [
                                                                             [
-                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
                                                                             ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
                                                                         ] ;
