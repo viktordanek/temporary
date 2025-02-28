@@ -189,7 +189,7 @@
                                                                             [
                                                                                 ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                                 ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                ( string "ECHO" "{ pkgs.coreutils }/bin/echo" )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                 ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                                 ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
