@@ -25,8 +25,8 @@
                                                 {
                                                     installPhase =
                                                         let
-                                                            elem = path : value : [ ] ;
-                                                            elem2 =
+                                                            elem2 = path : value : [ ] ;
+                                                            elem =
                                                                 path : value :
                                                                     let
                                                                         elem = validate [ "lambda" "list" "set" ] path value ;
