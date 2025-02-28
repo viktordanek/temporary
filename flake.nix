@@ -50,9 +50,9 @@
                                                                 path : value :
                                                                     builtins.concatLists
                                                                         [
-                                                                            [
-                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                            ]
+                                                                            # [
+                                                                            #      "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                            # ]
                                                                             ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
                                                                         ] ;
                                                             in builtins.concatStringsSep
