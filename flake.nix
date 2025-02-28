@@ -122,7 +122,7 @@
                                                                         builtins.concatLists
                                                                             [
                                                                                 [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ directory"
+                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ directory }"
                                                                                 ]
                                                                                 ( executable "setup" setup )
                                                                                 ( executable "teardown-asynch" teardown-asynch )
