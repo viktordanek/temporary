@@ -212,7 +212,7 @@
                                                                 else elem ;
                                                 lambda = path : value : builtins.getAttr "temporary" ( value null ) ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
-                                                set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ index ] ] ) value ) value ;
+                                                set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] dependencies ;
                                         validate =
                                             valid : path : value :
