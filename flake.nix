@@ -406,7 +406,7 @@
                                                                                     disabled =
                                                                                         shell-script :
                                                                                             {
-                                                                                                enable = false ;
+                                                                                                enable = true ;
                                                                                             } ;
                                                                                     util =
                                                                                         shell-script :
