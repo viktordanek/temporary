@@ -1,4 +1,5 @@
-export RESOURCE=$( ${MKTEMP} --directory -t ${RESOURCE_MASK} ) &&
+source ${MAKE_WRAPPER} &&
+  export RESOURCE=$( ${MKTEMP} --directory -t ${RESOURCE_MASK} ) &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if ${IS_INTERACTIVE}
@@ -18,46 +19,43 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${RESOURCE_MASK} ) &&
     TARGET_PID=${PARENT_PID}
   fi &&
   ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/pid &&
-  ${CHMOD} 0400 ${RESOURCE}/pid
-  if [ -x ${INIT} ]
-  then
-    ${LN} --symbolic ${INIT} ${RESOURCE}/init.sh
-  fi &&
-  if [ -x ${RELEASE} ]
-  then
-    ${LN} --symbolic ${RELEASE} ${RESOURCE}/release.sh
-  fi &&
-  if [ -x ${POST} ]
-   then
-     ${LN} --symbolic ${POST} ${RESOURCE}/post.sh
-  fi &&
+  ${CHMOD} 0400 ${RESOURCE}/pid &&
+  #
+  ${MAKE_WRAPPER_INIT} &&
+  #
+  #
+  ${MAKE_WRAPPER_RELEASE} &&
+  #
+  #
+  ${MAKE_WRAPPER_POST} &&
+  #
   ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
   ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
-  if [ -x ${RESOURCE}/init.sh ]
+  #
+  if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${RESOURCE}/init.sh $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
   then
-    if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${RESOURCE}/init.sh $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
-    then
-      STATUS=${?}
-    elif ${RESOURCE}/init.sh $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
-    then
-      STATUS=${?}
-    else
-      STATUS=${?}
-    fi &&
-    ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
-    ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status &&
-    if [ "${STATUS}" != 0 ]
-    then
-      ${RM} --force ${RESOURCE}/pid &&
-        ${RESOURCE}/teardown-asynch.sh &&
-        exit ${INITIALIZER}
-    elif [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error)" ]
-    then
-      ${RM} --force ${RESOURCE}/pid &&
-        ${RESOURCE}/teardown-asynch.sh &&
-        exit ${STANDARD_ERROR}
-    else
+    STATUS=${?}
+  elif ${RESOURCE}/init.sh $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
+  then
+    STATUS=${?}
+  else
+    STATUS=${?}
+  fi &&
+  ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
+  ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status &&
+  if [ "${STATUS}" != 0 ]
+  then
+    ${RM} --force ${RESOURCE}/pid &&
       ${RESOURCE}/teardown-asynch.sh &&
-        ${ECHO} ${RESOURCE}/target
-    fi
-  fi
+      exit ${INITIALIZER}
+  elif [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error)" ]
+  then
+    ${RM} --force ${RESOURCE}/pid &&
+      ${RESOURCE}/teardown-asynch.sh &&
+      exit ${STANDARD_ERROR}
+  else
+    ${RESOURCE}/teardown-asynch.sh &&
+      ${ECHO} ${RESOURCE}/target
+  fi &&
+  #
+  ${TRUE}

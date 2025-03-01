@@ -20,77 +20,6 @@
                                     temporary ? null ,
                                 } :
                                     let
-                                        derivation =
-                                            pkgs.stdenv.mkDerivation
-                                                {
-                                                    installPhase =
-                                                        let
-                                                            elem =
-                                                                path : value :
-                                                                    let
-                                                                        elem = validate [ "lambda" "list" "set" ] path value ;
-                                                                        type = builtins.typeOf elem ;
-                                                                        in
-                                                                            if type == "lambda" then lambda path elem
-                                                                            else if type == "list" then list path elem
-                                                                            else if type == "set" then set path elem
-                                                                            else elem ;
-                                                            lambda =
-                                                                path : value :
-                                                                    [
-                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                    ] ;
-                                                            list =
-                                                                path : value :
-                                                                    builtins.concatLists
-                                                                        [
-                                                                            [
-                                                                                "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                            ]
-                                                                            ( builtins.concatLists ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ) )
-                                                                        ] ;
-                                                            set =
-                                                                path : value :
-                                                                    builtins.concatLists
-                                                                        [
-                                                                            [
-                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                            ]
-                                                                            ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
-                                                                        ] ;
-                                                            in builtins.concatStringsSep " &&\n" ( elem [ ] temporary ) ;
-                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                    name = "temporary-implementation" ;
-                                                    src = ./. ;
-                                                } ;
-                                        derivation-setup =
-                                            init : release : post :
-                                                pkgs.stdenv.mkDerivation
-                                                    {
-                                                        installPhase =
-                                                            let
-                                                                variable = expression : builtins.concatStringsSep "" [ "$" "{" expression "}" ] ;
-                                                                list =
-                                                                    variable :
-                                                                    [
-                                                                        ( 0 0 0 ''export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory -t ${ resource-mask } )'' )
-                                                                        ( 0 0 0 ''${ pkgs.coreutils }/bin/echo "${ variable "@" }" > ${ variable "RESOURCE" }/init.arguments'' )
-                                                                        ( 0 0 0 ''${ pkgs.coreutils }/bin/chmod 0400 ${ variable "RESOURCE" }/init.arguments'' )
-                                                                        ( 0 0 0 ''if ${ variable "IS_INTERACTIVE" } ; then TARGET_PID=${ variable "PARENT_PID" } ; elif ${ variable "IS_PIPE" } then TARGET_PID=${ expression "GRANDPARENT_PID" } && ${ pkgs.coreutils }/bin/tee > ${ variable "RESOURCE" }/init.standard-input && ${ pkgs.coreutils }/bin/chmod 0400 ${ variable "RESOURCE" }/init.standard-input ; elif ${ variable "IS_FILE" } then TARGET_PID=${ variable "GRANDPARENT_PID" } && ${ pkgs.coreutils }/bin/cat  > ${ variable "RESOURCE" }/init.standard-input && ${ pkgs.coreutils }/bin/chmod 0400 ${ variable "RESOURCE" }/init.standard-input ; else TARGET_PID=${ variable "PARENT_PID" } ; fi'' )
-                                                                        ( 0 0 0 ''${ pkgs.coreutils }/bin/echo ${ variable "TARGET_PID// /" } > ${variable "RESOURCE" }/pid'' )
-                                                                        ( 0 0 0 ''${ pkgs.coreutils }/bin/chmod 0400 ${ variable "RESOURCE" }/pid'' )
-
-
-                                                                    ]
-                                                            ''
-                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                    ${ pkgs.coreutils }/bin/cat ${ } > $out/setup.sh &&
-                                                                    makeWrapper $out/setup.sh $out/setup
-                                                            '' ;
-                                                        name = "temporary-setup" ;
-                                                        nativeBuildInput = [ pkgs.makeWrapper ] ;
-                                                        src = ./. ;
-                                                    } ;
                                         dependencies =
                                             let
                                                 elem =
@@ -296,6 +225,70 @@
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] temporary ;
+                                        derivation =
+                                            pkgs.stdenv.mkDerivation
+                                                {
+                                                    installPhase =
+                                                        let
+                                                            elem =
+                                                                path : value :
+                                                                    let
+                                                                        elem = validate [ "lambda" "list" "set" ] path value ;
+                                                                        type = builtins.typeOf elem ;
+                                                                        in
+                                                                            if type == "lambda" then lambda path elem
+                                                                            else if type == "list" then list path elem
+                                                                            else if type == "set" then set path elem
+                                                                            else elem ;
+                                                            lambda =
+                                                                path : value :
+                                                                    let
+                                                                        setup =
+                                                                            init : release : post :
+                                                                                pkgs.stdenv.mkDerivation
+                                                                                    {
+                                                                                        installPhase =
+                                                                                            ''
+                                                                                                ${ pkgs.coreutils }/bin/head --lines 22 ${ self + "/scripts/implementation/setup.sh" } > $out &&
+                                                                                                    ${ if init then "${ pkgs.coreutils }/bin/head --lines 24 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
+                                                                                                    ${ if release then "${ pkgs.coreutils }/bin/head --lines 27 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
+                                                                                                    ${ if post then "${ pkgs.coreutils }/bin/head --lines 31 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/head --lines 33 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 2 >> $out &&
+                                                                                                    ${ if init then "${ pkgs.coreutils }/bin/head --lines 59 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 25 >> $out" else "#" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/head --lines 61 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out &&
+                                                                                                    ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                            '' ;
+                                                                                        name = "temporary-setup" ;
+                                                                                        src = ./. ;
+                                                                                    } ;
+                                                                        in
+                                                                            [
+                                                                                ''makeWrapper \
+                                                                                    ${ setup ( builtins.typeOf init == "set" ) ( builtins.typeOf release == "set" ) ( builtins.typeOf post == "set" ) } \
+                                                                                    ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }''
+                                                                            ] ;
+                                                            list =
+                                                                path : value :
+                                                                    builtins.concatLists
+                                                                        [
+                                                                            [
+                                                                                "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                            ]
+                                                                            ( builtins.concatLists ( builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ) )
+                                                                        ] ;
+                                                            set =
+                                                                path : value :
+                                                                        [
+                                                                            [
+                                                                                "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                            ]
+                                                                            ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
+                                                                        ] ;
+                                                    in builtins.concatStringsSep " &&\n\t" ( elem [ ] dependencies ) ;
+                                                    name = "temporary-implementation" ;
+                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                    src = ./. ;
+                                                } ;
                                         grandparent-pid = { name ? "GRANDPARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'" ;
                                         is-file = { name ? "IS_FILE" } : "--run 'export ${ name }=$( if [ -f /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         is-interactive = { name ? "IS_INTERACTIVE" } : "--run 'export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
@@ -315,17 +308,11 @@
                                                                 else if type == "set" then set path elem
                                                                 else elem ;
                                                 lambda =
-                                                    path : value :
-                                                        let
-                                                            enable = validate [ "bool" "string" ] path point.enable ;
-                                                            point = validate [ "set" ] path ( value null ) ;
-                                                            in
-                                                                if builtins.typeOf enable == "bool" && enable then builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] )
-                                                                else if builtins.typeOf enable == "bool" then builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not enabled."
-                                                                else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not enabled:  ${ enable }" ;
+                                                    path : value : builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivations.temporary ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] dependencies ;
+                                        test_ = null ;
                                         validate =
                                             valid : path : value :
                                                 if builtins.any ( t : builtins.typeOf value == t ) valid then value
@@ -333,7 +320,7 @@
                                         in
                                             {
                                                 temporary = temporary_ ;
-                                                # temporary.a4374430e2a3ace64473d4c54891829ec96b4bfcd6ed6688d30cc4ff486b13dd9366bd4cb808d30c97471e99f200c605b28e7a4b7211834492d4f361c05b41c5 = "HI" ;
+                                                test = test_ ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
