@@ -65,4 +65,5 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${RESOURCE_MASK} ) &&
   ${CHMOD} 0400 ${RESOURCE}/${TARGET_PID// /}.pid
   ${RESOURCE}/teardown-asynch.sh &&
   ${ECHO} ${RESOURCE}/target &&
+  ${ECHO} COMPLETED SETUP >> ${RESOURCE}/target &&
   exit 0
