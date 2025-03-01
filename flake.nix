@@ -105,15 +105,16 @@
                                                                         enable = validate [ "bool" "string" ] path enable ;
                                                                     } ;
                                                             shell-script =
-                                                                let
-                                                                    identity =
-                                                                        { environment ? x : [ ] , executable } :
-                                                                            {
-                                                                                environment = validate [ "lambda" ] path environment ;
-                                                                                executable = validate [ "string" ] path executable ;
-                                                                            } ;
-                                                #             in identity ( value shell-script ) ;
-                                                            in [ ] ;
+                                                                script :
+                                                                    let
+                                                                        identity =
+                                                                            { environment ? x : [ ] , executable } :
+                                                                                {
+                                                                                    environment = validate [ "lambda" ] path environment ;
+                                                                                    executable = validate [ "string" ] path executable ;
+                                                                                } ;
+                                                                        in identity script ;
+                                                            in identity ( value shell-script ) ;
                                                 lambda2 =
                                                     path : value : base :
                                                         let
