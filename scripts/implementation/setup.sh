@@ -59,6 +59,7 @@ export RESOURCE=$( ${MKTEMP} --directory -t ${RESOURCE_MASK} ) &&
     else
       ${RESOURCE}/teardown-asynch.sh &&
         ${ECHO} ${RESOURCE}/target &&
+        ${ECHO} COMPLETED SETUP >> ${RESOURCE}/debug &&
         exit 0
     fi
   fi
