@@ -280,10 +280,6 @@
                                         is-pipe = { name ? "IS_PIPE" } : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         parent-pid = { name ? "PARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
                                         resolve = derivation : path : name : builtins.concatStringsSep "/" ( builtins.map builtins.toString [ derivation ( builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ) ] ) ;
-                                        scripts =
-                                            {
-                                                clean = builtins.concatStringsSep "/" [ derivation "scripts" "clean" ] ;
-                                            } ;
                                         temporary_ =
                                             let
                                                 elem =
@@ -301,10 +297,11 @@
                                                         let
                                                             enable = validate [ "bool" "string" ] path point.enable ;
                                                             point = validate [ "set" ] path ( value null ) ;
-                                                            in
-                                                                if builtins.typeOf enable == "bool" && enable then builtins.concatStringsSep "/" [ ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ]
+                                                            x =
+                                                                if builtins.typeOf enable == "bool" && enable then builtins.concatStringsSep "/" [ ( builtins.concatLists [ [ ] ( builtins.map builtins.toJSON path ) ] ) ]
                                                                 else if builtins.typeOf enable == "bool" then builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not enabled."
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not enabled:  ${ enable }" ;
+                                                            in "hi" ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] dependencies ;
@@ -314,8 +311,8 @@
                                                 else builtins.throw "The value provided at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not ${ builtins.concatStringsSep " , " valid } but ${ builtins.typeOf value }.  It is ${ if builtins.any ( t : builtins.typeOf value == t ) [ "bool" "float" "int" "path" "string" ] then builtins.toJSON value else "unstringable" }." ;
                                         in
                                             {
-                                                scripts = scripts ;
                                                 temporary = temporary_ ;
+                                                # temporary.a4374430e2a3ace64473d4c54891829ec96b4bfcd6ed6688d30cc4ff486b13dd9366bd4cb808d30c97471e99f200c605b28e7a4b7211834492d4f361c05b41c5 = "HI" ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
