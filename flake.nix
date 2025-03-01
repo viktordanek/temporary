@@ -93,7 +93,7 @@
                                                                 else if type == "set" then set path elem
                                                                 else elem ;
                                                 lambda =
-                                                    path : value : base :
+                                                    path : value : ignore :
                                                         let
                                                             identity =
                                                                 { init ? null , post ? null , release ? null , tests ? [ ] , enable ? true } :
@@ -102,7 +102,7 @@
                                                                         post = validate [ "null" "set" ] path post ;
                                                                         release = validate [ "null" "set" ] path release ;
                                                                         tests = validate [ "list" ] path tests ;
-                                                                        enable = validate [ "bool" ] path enable ;
+                                                                        enable = validate [ "bool" "string" ] path enable ;
                                                                     } ;
                                                             shell-script =
                                                                 let
