@@ -104,15 +104,15 @@
                                                                         tests = validate [ "list" ] path tests ;
                                                                         enable = validate [ "bool" "string" ] path enable ;
                                                                     } ;
-                                                #            shell-script =
-                                                #                let
-                                                #                    identity =
-                                                #                        { environment ? x : [ ] , executable } :
-                                                #                            {
-                                                #                                environment = validate [ "lambda" ] path environment ;
-                                                #                                executable = validate [ "string" ] path executable ;
-                                                #                            } ;
-                                                #            in identity ( value shell-script ) ;
+                                                            shell-script =
+                                                                let
+                                                                    identity =
+                                                                        { environment ? x : [ ] , executable } :
+                                                                            {
+                                                                                environment = validate [ "lambda" ] path environment ;
+                                                                                executable = validate [ "string" ] path executable ;
+                                                                            } ;
+                                                #             in identity ( value shell-script ) ;
                                                             in [ ] ;
                                                 lambda2 =
                                                     path : value : base :
