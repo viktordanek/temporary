@@ -56,7 +56,7 @@
                                                                             ]
                                                                             ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
                                                                         ] ) ;
-                                                            x = builtins.concatStringsSep " &&\n" ( elem [ ] temporary ) ;
+                                                            x = builtins.concatStringsSep " &&\n" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] ( elem [ ] temporary ) ] ) ;
                                                             in builtins.trace "edfa8e74-46e3-4732-8caa-f3bf905becdc: x=${ x }" x ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     name = "temporary-implementation" ;
