@@ -63,16 +63,6 @@
                                                                                 [
                                                                                     "${ pkgs.coreutils }/bin/mkdir $out"
                                                                                 ]
-                                                                                [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir $out/scripts"
-                                                                                    "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/clean.sh" } > $out/scripts/clean.sh"
-                                                                                    "${ pkgs.coreutils }/bin/chmod 0555 $out/scripts/clean.sh"
-                                                                                    "makeWrapper $out/scripts/clean.sh $out/scripts/clean --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set RESOURCE_MASK ${ resource-mask } --set SED ${ pkgs.gnused }/bin/sed --set SORT ${ pkgs.coreutils }/bin/sort"
-                                                                                ]
-                                                                                [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir $out/temporary"
-                                                                                ]
-                                                                                ( elem [ ] dependencies )
                                                                             ]
                                                                     ) ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
