@@ -32,9 +32,9 @@
                                                                         type = builtins.typeOf elem ;
                                                                         in
                                                                             if type == "lambda" then lambda path ( builtins.trace "fae33c2e-db02-46b7-a88e-ca39cb46c82e" elem )
-                                                                            else if type == "list" then list path elem
+                                                                            else if type == "list" then list path ( builtins.trace "9e7fda0d-572b-4657-a9ce-3ee610010326" elem )
                                                                             else if type == "set" then set path ( builtins.trace "c16f0c72-1dfa-44c5-b79e-d26b9caf63de" elem )
-                                                                            else elem ;
+                                                                            else builtins.trace "f0f13374-856a-4236-a61e-fc289e9e9b54" elem ;
                                                             lambda =
                                                                 path : value : [ ] ;
                                                             list =
