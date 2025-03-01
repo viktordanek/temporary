@@ -312,7 +312,7 @@
                                                             enable = validate [ "bool" "string" ] path point.enable ;
                                                             point = validate [ "set" ] path ( value null ) ;
                                                             in
-                                                                if builtins.typeOf enable == "bool" && enable then builtins.concatStringsSep [ "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ]
+                                                                if builtins.typeOf enable == "bool" && enable then builtins.concatStringsSep "/" [ ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ]
                                                                 else if builtins.typeOf enable == "bool" then builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not enabled."
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not enabled:  ${ enable }" ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
