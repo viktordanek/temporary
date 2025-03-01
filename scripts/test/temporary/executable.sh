@@ -7,7 +7,7 @@ export IS_FILE=${cd4d67f6ced1af72b6e50619ab0912f3ae836ecb8186343d64bb339ced909ed
   then
     PID=$( ${CAT} ${RESOURCE}/pid )
   else
-    PID=
+    PID=NO
   fi &&
   if ${HAS_STANDARD_ERROR}
   then
@@ -15,6 +15,5 @@ export IS_FILE=${cd4d67f6ced1af72b6e50619ab0912f3ae836ecb8186343d64bb339ced909ed
   fi &&
   ${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "{init:.}" > ${TARGET} &&
   ${ECHO} "  pid:" >> ${TARGET} &&
-  ${FIND} ${RESOURCE} -mindepth 1 -maxdepth 1 -type f -name "*.pid" -exec ${CAT} {} \; | ${SORT} --numeric | ${SED} -e "s#^#    #" >> ${TARGET} &&
   ${ECHO} ${STANDARD_OUTPUT} &&
   exit ${STATUS}
