@@ -65,6 +65,9 @@
                                                                                 ]
                                                                                 [
                                                                                     "${ pkgs.coreutils }/bin/mkdir $out/scripts"
+                                                                                    "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/implementation/clean.sh" } $out/scripts/clean.sh"
+                                                                                    "${ pkgs.coreutils }/bin/chmod 0555 $out/scripts/clean.sh"
+                                                                                    "makeWrapper $out/scripts/clean.sh $out/scripts/clean --set DIRNAME ${ pkgs.coreutils }/bin/dirname --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set SED ${ pkgs.gnused }/bin/sed --set SORT ${ pkgs.coreutils }/bin/sort"
                                                                                 ]
                                                                                 [
                                                                                     "${ pkgs.coreutils }/bin/mkdir $out/temporary"
@@ -263,6 +266,10 @@
                                         is-pipe = { name ? "IS_PIPE" } : "--run 'export ${ name }=$( if [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'" ;
                                         parent-pid = { name ? "PARENT_PID" } : "--run 'export ${ name }=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
                                         resolve = derivation : path : name : builtins.concatStringsSep "/" ( builtins.map builtins.toString [ derivation ( builtins.hashString "sha512" ( builtins.concatStringsSep "" ( builtins.map builtins.toJSON ( builtins.concatLists [ path [ name ] ] ) ) ) ) ] ) ;
+                                        scripts =
+                                            {
+                                                clean = builtins.concatStringsSep "/" [ derivation "scripts" "clean" ] ;
+                                            } ;
                                         temporary_ =
                                             let
                                                 elem =
@@ -285,6 +292,7 @@
                                                 else builtins.throw "The value provided at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not ${ builtins.concatStringsSep " , " valid } but ${ builtins.typeOf value }.  It is ${ if builtins.any ( t : builtins.typeOf value == t ) [ "bool" "float" "int" "path" "string" ] then builtins.toJSON value else "unstringable" }." ;
                                         in
                                             {
+                                                scripts = scripts ;
                                                 temporary = temporary_ ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
