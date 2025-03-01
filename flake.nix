@@ -48,13 +48,14 @@
                                                                         ] ;
                                                             set =
                                                                 path : value :
+                                                                    builtins.trace "815dd187-f3dc-48fa-a9ea-5b825438fcee ${ builtins.toString ( builtins.length ( builtins.attrNames value ) ) }" (
                                                                     builtins.concatLists
                                                                         [
                                                                             # [
                                                                             #      "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "temporary" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             # ]
                                                                             ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
-                                                                        ] ;
+                                                                        ] ) ;
                                                             x = builtins.concatStringsSep " &&\n" ( elem [ ] temporary ) ;
                                                             in builtins.trace x x ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
