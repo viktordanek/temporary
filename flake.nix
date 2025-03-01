@@ -388,7 +388,7 @@
                                                                                     disabled =
                                                                                         shell-script :
                                                                                             {
-                                                                                                enabled = false ;
+                                                                                                enable = false ;
                                                                                             } ;
                                                                                     util =
                                                                                         shell-script :
