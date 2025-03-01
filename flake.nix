@@ -36,7 +36,10 @@
                                                                             else if type == "set" then set path ( builtins.trace "c16f0c72-1dfa-44c5-b79e-d26b9caf63de" elem )
                                                                             else builtins.trace "f0f13374-856a-4236-a61e-fc289e9e9b54" elem ;
                                                             lambda =
-                                                                path : value : [ ] ;
+                                                                path : value :
+                                                                    [
+                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                    ] ;
                                                             list =
                                                                 path : value :
                                                                     builtins.concatLists
@@ -56,7 +59,7 @@
                                                                             ]
                                                                             ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
                                                                         ] ) ;
-                                                            x = builtins.concatStringsSep " &&\n" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] ( elem [ ] temporary ) ] ) ;
+                                                            x = builtins.concatStringsSep " &&\n" ( elem [ ] temporary ) ;
                                                             in builtins.trace "edfa8e74-46e3-4732-8caa-f3bf905becdc: x=${ x }" x ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     name = "temporary-implementation" ;
