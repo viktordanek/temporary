@@ -63,6 +63,34 @@
                                                     name = "temporary-implementation" ;
                                                     src = ./. ;
                                                 } ;
+                                        derivation-setup =
+                                            init : release : post :
+                                                pkgs.stdenv.mkDerivation
+                                                    {
+                                                        installPhase =
+                                                            let
+                                                                variable = expression : builtins.concatStringsSep "" [ "$" "{" expression "}" ] ;
+                                                                list =
+                                                                    variable :
+                                                                    [
+                                                                        ( 0 0 0 ''export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory -t ${ resource-mask } )'' )
+                                                                        ( 0 0 0 ''${ pkgs.coreutils }/bin/echo "${ variable "@" }" > ${ variable "RESOURCE" }/init.arguments'' )
+                                                                        ( 0 0 0 ''${ pkgs.coreutils }/bin/chmod 0400 ${ variable "RESOURCE" }/init.arguments'' )
+                                                                        ( 0 0 0 ''if ${ variable "IS_INTERACTIVE" } ; then TARGET_PID=${ variable "PARENT_PID" } ; elif ${ variable "IS_PIPE" } then TARGET_PID=${ expression "GRANDPARENT_PID" } && ${ pkgs.coreutils }/bin/tee > ${ variable "RESOURCE" }/init.standard-input && ${ pkgs.coreutils }/bin/chmod 0400 ${ variable "RESOURCE" }/init.standard-input ; elif ${ variable "IS_FILE" } then TARGET_PID=${ variable "GRANDPARENT_PID" } && ${ pkgs.coreutils }/bin/cat  > ${ variable "RESOURCE" }/init.standard-input && ${ pkgs.coreutils }/bin/chmod 0400 ${ variable "RESOURCE" }/init.standard-input ; else TARGET_PID=${ variable "PARENT_PID" } ; fi'' )
+                                                                        ( 0 0 0 ''${ pkgs.coreutils }/bin/echo ${ variable "TARGET_PID// /" } > ${variable "RESOURCE" }/pid'' )
+                                                                        ( 0 0 0 ''${ pkgs.coreutils }/bin/chmod 0400 ${ variable "RESOURCE" }/pid'' )
+
+
+                                                                    ]
+                                                            ''
+                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                    ${ pkgs.coreutils }/bin/cat ${ } > $out/setup.sh &&
+                                                                    makeWrapper $out/setup.sh $out/setup
+                                                            '' ;
+                                                        name = "temporary-setup" ;
+                                                        nativeBuildInput = [ pkgs.makeWrapper ] ;
+                                                        src = ./. ;
+                                                    } ;
                                         dependencies =
                                             let
                                                 elem =
