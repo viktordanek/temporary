@@ -95,15 +95,15 @@
                                                 lambda =
                                                     path : value : ignore :
                                                         let
-                                                #            identity =
-                                                #                { init ? null , post ? null , release ? null , tests ? [ ] , enable ? true } :
-                                                #                    {
-                                                #                        init = validate [ "null" "set" ] path init ;
-                                                #                        post = validate [ "null" "set" ] path post ;
-                                                #                        release = validate [ "null" "set" ] path release ;
-                                                #                        tests = validate [ "list" ] path tests ;
-                                                #                        enable = validate [ "bool" "string" ] path enable ;
-                                                #                    } ;
+                                                            identity =
+                                                                { init ? null , post ? null , release ? null , tests ? [ ] , enable ? true } :
+                                                                    {
+                                                                        init = validate [ "null" "set" ] path init ;
+                                                                        post = validate [ "null" "set" ] path post ;
+                                                                        release = validate [ "null" "set" ] path release ;
+                                                                        tests = validate [ "list" ] path tests ;
+                                                                        enable = validate [ "bool" "string" ] path enable ;
+                                                                    } ;
                                                 #            shell-script =
                                                 #                let
                                                 #                    identity =
