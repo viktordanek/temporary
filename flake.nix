@@ -48,7 +48,7 @@
                                                                         ] ;
                                                             set =
                                                                 path : value :
-                                                                    builtins.trace "815dd187-f3dc-48fa-a9ea-5b825438fcee length=${ builtins.toString ( builtins.length ( builtins.attrNames value ) ) } names=${ builtins.concatStringsSep "," ( builtins.attrNames value ) }" (
+                                                                    builtins.trace "815dd187-f3dc-48fa-a9ea-5b825438fcee path=${ builtins.toJSON path } length=${ builtins.toString ( builtins.length ( builtins.attrNames value ) ) } names=${ builtins.concatStringsSep "," ( builtins.attrNames value ) }" (
                                                                     builtins.concatLists
                                                                         [
                                                                             [
