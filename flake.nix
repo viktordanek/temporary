@@ -33,7 +33,7 @@
                                                                         in
                                                                             if type == "lambda" then lambda path elem
                                                                             else if type == "list" then list path elem
-                                                                            else if type == "set" then set path ( builtins.trace "c16f0c72-1dfa-44c5-b79e-d26b9caf63de" elem )
+                                                                            else if type == "set" then set path elem
                                                                             else builtins.trace "f0f13374-856a-4236-a61e-fc289e9e9b54" elem ;
                                                             lambda =
                                                                 path : value :
