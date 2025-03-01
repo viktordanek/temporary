@@ -221,7 +221,7 @@
                                                             teardown-asynch =
                                                                 {
                                                                     environment =
-                                                                        { string , ... } :
+                                                                        { resource , string , ... } :
                                                                             [
                                                                                 ( string "AT" "${ at }" )
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
