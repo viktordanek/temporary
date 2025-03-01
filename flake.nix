@@ -233,12 +233,13 @@
                                                             teardown-synch =
                                                                 {
                                                                     environment =
-                                                                        { string , ... } :
+                                                                        { resource , string , ... } :
                                                                             [
                                                                                 ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                 ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                 ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                ( resource { } )
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                 ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
                                                                             ] ;
