@@ -22,10 +22,10 @@ ${ECHO} E >> /build/debug &&
         ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status
       fi &&
 ${ECHO} F >> /build/debug &&
-      if [ -L ${RESOURCE}/post.sh ]
-      then
-        ${RESOURCE}/post.sh || ${TRUE}
-      fi &&
+#      if [ -L ${RESOURCE}/post.sh ]
+#      then
+#        ${RESOURCE}/post.sh || ${TRUE}
+#      fi &&
 ${ECHO} G >> /build/debug &&
       ${RM} --recursive --force ${RESOURCE} &&
 ${ECHO} H >> /build/debug &&
