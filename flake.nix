@@ -226,7 +226,7 @@
                                                                                 ( string "AT" "${ at }" )
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                 ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
-                                                                                ( string "TEARDOWN_SYNCH" "$out/teardown-synch" )
+                                                                                ( string "TEARDOWN_SYNCH" "${ directory }/teardown-synch" )
                                                                             ] ;
                                                                     executable = self + "/scripts/implementation/teardown-asynch.sh" ;
                                                                 } ;
