@@ -243,6 +243,10 @@
                                                             lambda =
                                                                 path : value :
                                                                     let
+                                                                        init = validate [ "null" "set" ] path point.init ;
+                                                                        point = validate [ "set" ] path ( value null ) ;
+                                                                        post = validate [ "null" "set" ] path point.post ;
+                                                                        release = validate [ "null" "set" ] path point.release ;
                                                                         setup =
                                                                             init : release : post :
                                                                                 pkgs.stdenv.mkDerivation
