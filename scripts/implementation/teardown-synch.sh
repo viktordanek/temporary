@@ -1,3 +1,4 @@
+${ECHO} BEGIN TEARDOWN_SYNCH >> ${RESOURCE}/debug &&
 exec 200> ${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
