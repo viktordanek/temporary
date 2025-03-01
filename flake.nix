@@ -301,7 +301,7 @@
                                                                 if builtins.typeOf enable == "bool" && enable then builtins.concatStringsSep "/" [ ( builtins.concatLists [ [ ] ( builtins.map builtins.toJSON path ) ] ) ]
                                                                 else if builtins.typeOf enable == "bool" then builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not enabled."
                                                                 else builtins.throw "The temporary defined at ${ builtins.concatStringsSep " / " ( builtins.map builtins.toJSON path ) } is not enabled:  ${ enable }" ;
-                                                            in x
+                                                            in x ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] dependencies ;
