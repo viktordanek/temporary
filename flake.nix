@@ -312,7 +312,7 @@
                                                                 else if type == "set" then set path elem
                                                                 else elem ;
                                                 lambda =
-                                                    path : value : builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivations.temporary ] ( builtins.map builtins.toJSON path ) ] ) ;
+                                                    path : value : builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] dependencies ;
