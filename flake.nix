@@ -55,7 +55,8 @@
                                                                             # ]
                                                                             ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
                                                                         ] ;
-                                                            in builtins.concatStringsSep " &&\n" ( elem [ ] temporary ) ;
+                                                            x = builtins.concatStringsSep " &&\n" ( elem [ ] temporary ) ;
+                                                            in builtins.trace x x ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     name = "temporary-implementation" ;
                                                     src = ./. ;
