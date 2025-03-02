@@ -269,7 +269,18 @@
                                                                             [
                                                                                 ''makeWrapper \
                                                                                     ${ setup ( builtins.typeOf init == "set" ) ( builtins.typeOf release == "set" ) ( builtins.typeOf post == "set" ) } \
-                                                                                    ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }''
+                                                                                    ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) } \
+                                                                                    --set CAT ${ pkgs.coreutils }/bin/cat \
+                                                                                    --set CHMOD ${ pkgs.coreutils }/bin/chmod \
+                                                                                    --set ECHO ${ pkgs.coreutils }/bin/echo \
+                                                                                    --set MKTEMP ${ pkgs.coreutils }/bin/mktemp \
+                                                                                    --set MAKE_WRAPPER ${ pkgs.makeWrapper } \
+                                                                                    --set MAKE_WRAPPER_INIT WTF \
+                                                                                    --set MAKE_WRAPPER_RELEASE WTF \
+                                                                                    --set MAKE_WRAPPER_POST WTF \
+                                                                                    --set RESOURCE_MASK ${ resource-mask } \
+                                                                                    --set TEE ${ pkgs.coreutils }/bin/tee \
+                                                                                    ''
                                                                             ] ;
                                                             list =
                                                                 path : value :
@@ -282,13 +293,14 @@
                                                                         ] ;
                                                             set =
                                                                 path : value :
+                                                                    builtins.concatLists
                                                                         [
                                                                             [
                                                                                 "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                             ]
                                                                             ( builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ) ) )
                                                                         ] ;
-                                                    in builtins.concatStringsSep " &&\n\t" ( elem [ ] dependencies ) ;
+                                                        in builtins.concatStringsSep " &&\n\t" ( elem [ ] dependencies ) ;
                                                     name = "temporary-implementation" ;
                                                     nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                     src = ./. ;
@@ -311,8 +323,7 @@
                                                                 else if type == "list" then list path elem
                                                                 else if type == "set" then set path elem
                                                                 else elem ;
-                                                lambda =
-                                                    path : value : builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ;
+                                                lambda = path : value : builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                 list = path : value : builtins.genList ( index : elem ( builtins.concatLists [ path [ index ] ] ) ( builtins.elemAt value index ) ) ( builtins.length value ) ;
                                                 set = path : value : builtins.mapAttrs ( name : value : elem ( builtins.concatLists [ path [ name ] ] ) value ) value ;
                                                 in elem [ ] dependencies ;
