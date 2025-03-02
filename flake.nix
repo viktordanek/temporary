@@ -253,13 +253,13 @@
                                                                                     {
                                                                                         installPhase =
                                                                                             ''
-                                                                                                ${ pkgs.coreutils }/bin/head --lines 22 ${ self + "/scripts/implementation/setup.sh" } > $out &&
-                                                                                                    ${ if init then "${ pkgs.coreutils }/bin/head --lines 24 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
-                                                                                                    ${ if release then "${ pkgs.coreutils }/bin/head --lines 27 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
-                                                                                                    ${ if post then "${ pkgs.coreutils }/bin/head --lines 31 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
-                                                                                                    ${ pkgs.coreutils }/bin/head --lines 33 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 2 >> $out &&
-                                                                                                    ${ if init then "${ pkgs.coreutils }/bin/head --lines 59 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 25 >> $out" else "#" } &&
-                                                                                                    ${ pkgs.coreutils }/bin/head --lines 61 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out &&
+                                                                                                ${ pkgs.coreutils }/bin/head --lines 21 ${ self + "/scripts/implementation/setup.sh" } > $out &&
+                                                                                                    ${ if init then "${ pkgs.coreutils }/bin/head --lines 23 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
+                                                                                                    ${ if release then "${ pkgs.coreutils }/bin/head --lines 26 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
+                                                                                                    ${ if post then "${ pkgs.coreutils }/bin/head --lines 30 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out" else "#" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/head --lines 32 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 2 >> $out &&
+                                                                                                    ${ if init then "${ pkgs.coreutils }/bin/head --lines 58 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 25 >> $out" else "#" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/head --lines 60 ${ self + "/scripts/implementation/setup.sh" } | ${ pkgs.coreutils }/bin/tail --lines 1 >> $out &&
                                                                                                     ${ pkgs.coreutils }/bin/chmod 0555 $out
                                                                                             '' ;
                                                                                         name = "temporary-setup" ;
