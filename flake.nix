@@ -3,15 +3,16 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-scripts.url = "github:viktordanek/shell-scripts" ;
-            visitor.url = "github:viktordanke/visitor" ;
+            shell-script.url = "github:viktordanek/shell-script" ;
+            visitor.url = "github:viktordanek/visitor" ;
         } ;
     outputs =
-        { flake-utils , nixpkgs , self , shell-scripts , visitor } :
+        { flake-utils , nixpkgs , self , shell-script , visitor } :
             let
                 fun =
                     system :
                         let
+                            _shell-script = builtins.getAttr system shell-script.lib ;
                             lib =
                                 {
                                     at ? "/run/wrappers/bin/at" ,
@@ -22,49 +23,24 @@
                                     temporary ? null ,
                                 } :
                                     let
-                                        _shell-scripts = builtins.getAttr system shell-scripts.lib ;
                                         _visitor = builtins.getAttr system visitor.lib ;
-                                        atom =
-                                            fun :
-                                                _shell-scripts
-                                                    {
-                                                        mounts = mounts ;
-                                                        shell-scripts =
-                                                            _visitor
-                                                                {
-                                                                    lambda = path : value : [ { path = path ; value = fun value ; } ] ;
-                                                                    null = path : value : [ { path = path ; value = null ; } ] ;
-                                                                }
-                                                                {
-                                                                    list = path : list : builtins.concatLists [ list ] ;
-                                                                    set = path : set : builtins.concatLists ( builtins.attrValues set ) ;
-                                                                }
-                                                                temporary ;
-                                                    } ;
-                                        init = atom ( temporary : temporary.init ) ;
-                                        mounts =
-                                            {
-                                                "/temporary/resource" = host-resource-path ;
-                                                "/temporary/target" = host-target-path ;
-                                            } ;
-                                        post = atom ( temporary : temporary.post ) ;
-                                        release = atom ( temporary : temporary.release ) ;
-                                        temporary_ =
-                                            _shell-scripts
-                                                {
-                                                    mounts = mounts ;
-                                                    shell-scripts =
-                                                        {
-                                                            lambda =
-                                                                path : value :
-                                                                    let
-                                                        }
-                                                        {
-                                                        }
-                                                        temporary ;
-                                                } ;
+                                        in null ;
                             in
                                 {
+                                    checks =
+                                        {
+                                            shell-script =
+                                                let
+                                                    shell-script =
+                                                        _shell-script
+                                                            {
+                                                                shell-scripts =
+                                                                    {
+
+                                                                    } ;
+                                                            } ;
+                                                    in shell-script.tests ;
+                                        } ;
                                     lib = lib ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
