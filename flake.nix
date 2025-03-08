@@ -17,12 +17,16 @@
                             lib =
                                 {
                                     at ? "/run/wrappers/bin/at" ,
-                                    host-resource ,
+                                    host-path ,
                                     initializer ? 64 ,
                                     standard-error ? 65 ,
                                     temporary ? null ,
                                 } :
                                     let
+                                        mounts =
+                                            {
+                                                "/temporary" = host-path ;
+                                            } ;
                                         util =
                                             _shell-script
                                                 {
@@ -72,6 +76,11 @@
                                                                                     ( string "LN" "${ pkgs.coreutils }/bin/ln" )
                                                                                     ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                                     ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                    (
+                                                                                    )
+                                                                                    (
+                                                                                        string "TEARDOWN_SYNCH" "${ teardown-synch }"
+                                                                                    )
                                                                                     ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
                                                                                 ] ;
                                                                         script = self + "/scripts/setup.sh" ;
@@ -87,32 +96,132 @@
                                                                                     ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
                                                                                     ( resource "RESOURCE" )
                                                                                 ] ;
-                                                                        script = self + "/scripts/teardown-asynch.sh" ;
+                                                                        script =
+                                                                            pkgs.stdenv.mkDerivation
+                                                                                {
+                                                                                    installPhase =
+                                                                                        ''
+                                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/teardown-asynch.sh" } > $out &&
+                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                        '' ;
+                                                                                    name = "teardown-asynch" ;
+                                                                                    src = ./. ;
+                                                                                } ;
                                                                     } ;
                                                             teardown-synch =
-                                                                ignore :
-                                                                    {
-                                                                        environment =
-                                                                            { string , ... } :
-                                                                                [
-                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
-                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                ] ;
-                                                                        script = self + "/scripts/teardown-synch.sh" ;
-                                                                    } ;
+                                                                {
+                                                                    false =
+                                                                        {
+                                                                            false =
+                                                                                ignore :
+                                                                                    {
+                                                                                        environment =
+                                                                                            { string , ... } :
+                                                                                                [
+                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                                ] ;
+                                                                                        script =
+                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                {
+                                                                                                    installPhase =
+                                                                                                        ''
+                                                                                                            ${ pkgs.coreutils }/bin/head --lines 18 ${ self + "/scripts/teardown-synch.sh" } > $out &&
+                                                                                                                ${ pkgs.coreutils }/bin/head --lines 29 ${ self + "/scripts/teardown-synch.sh" } | ${ pkgs.coreutils }/bin/tail --lines 10 >> $out &&
+                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                        '' ;
+                                                                                                    name = "teardown-asynch" ;
+                                                                                                    src = ./. ;
+                                                                                                } ;
+                                                                                    } ;
+                                                                            true =
+                                                                                ignore :
+                                                                                    {
+                                                                                        environment =
+                                                                                            { string , ... } :
+                                                                                                [
+                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                                ] ;
+                                                                                        script =
+                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                {
+                                                                                                    installPhase =
+                                                                                                        ''
+                                                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/teardown-synch.sh" } > $out &&
+                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                        '' ;
+                                                                                                    name = "teardown-asynch" ;
+                                                                                                    src = ./. ;
+                                                                                                } ;
+                                                                                    } ;
+                                                                        } ;
+                                                                    true =
+                                                                        {
+                                                                            false =
+                                                                                ignore :
+                                                                                    {
+                                                                                        environment =
+                                                                                            { string , ... } :
+                                                                                                [
+                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                                ] ;
+                                                                                        script =
+                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                {
+                                                                                                    installPhase =
+                                                                                                        ''
+                                                                                                            ${ pkgs.coreutils }/bin/head --lines 18 ${ self + "/scripts/teardown-synch.sh" } > $out &&
+                                                                                                                ${ pkgs.coreutils }/bin/head --lines 29 ${ self + "/scripts/teardown-synch.sh" } | ${ pkgs.coreutils }/bin/tail --lines 10 >> $out &&
+                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                        '' ;
+                                                                                                    name = "teardown-asynch" ;
+                                                                                                    src = ./. ;
+                                                                                                } ;
+                                                                                    } ;
+                                                                            true =
+                                                                                ignore :
+                                                                                    {
+                                                                                        environment =
+                                                                                            { string , ... } :
+                                                                                                [
+                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                                ] ;
+                                                                                        script =
+                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                {
+                                                                                                    installPhase =
+                                                                                                        ''
+                                                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/teardown-synch.sh" } > $out &&
+                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                        '' ;
+                                                                                                    name = "teardown-asynch" ;
+                                                                                                    src = ./. ;
+                                                                                                } ;
+                                                                                    } ;
+                                                                        } ;
+                                                                } ;
                                                         } ;
                                                 } ;
                                         in
                                             {
 
                                             } ;
-                                mounts =
-                                    {
-                                        "/temporary" = host-path ;
-                                    } ;
+                                pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
                                 {
                                     checks =
