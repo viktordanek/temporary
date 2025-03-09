@@ -61,30 +61,48 @@
                                                     shell-scripts =
                                                         {
                                                             setup =
-                                                                ignore :
-                                                                    {
-                                                                        environment =
-                                                                            { grandparent-pid , is-interactive , is-file , is-pipe , parent-pid , string , ... } :
-                                                                                [
-                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                    ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                    ( grandparent-pid )
-                                                                                    ( is-file )
-                                                                                    ( is-interactive )
-                                                                                    ( is-pipe )
-                                                                                    ( string "LN" "${ pkgs.coreutils }/bin/ln" )
-                                                                                    ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                    (
-                                                                                    )
-                                                                                    (
-                                                                                        string "TEARDOWN_SYNCH" "${ teardown-synch }"
-                                                                                    )
-                                                                                    ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
-                                                                                ] ;
-                                                                        script = self + "/scripts/setup.sh" ;
-                                                                    } ;
+                                                                let
+                                                                    fun =
+                                                                        init : release : post : ignore :
+                                                                            {
+                                                                                environment =
+                                                                                    { grandparent-pid , is-interactive , is-file , is-pipe , parent-pid , string , ... } :
+                                                                                        [
+                                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                            ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                            ( grandparent-pid )
+                                                                                            ( is-file )
+                                                                                            ( is-interactive )
+                                                                                            ( is-pipe )
+                                                                                            ( string "LN" "${ pkgs.coreutils }/bin/ln" )
+                                                                                            ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                                            ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                            (
+                                                                                            )
+                                                                                            (
+                                                                                                string "TEARDOWN_SYNCH" "${ teardown-synch }"
+                                                                                            )
+                                                                                            ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
+                                                                                        ] ;
+                                                                                script = self + "/scripts/setup.sh" ;
+                                                                            } ;
+                                                                    in
+                                                                        {
+                                                                            false =
+                                                                                {
+                                                                                    false =
+                                                                                        {
+                                                                                            false = fun false false false ;
+                                                                                            false = fun false false true ;
+                                                                                        } ;
+                                                                                    true =
+                                                                                        {
+                                                                                            false = fun false true false ;
+                                                                                            false = fun false true true ;
+                                                                                        } ;
+                                                                                } ;
+                                                                        } ;
                                                             teardown-asynch =
                                                                 ignore :
                                                                     {
@@ -109,112 +127,53 @@
                                                                                 } ;
                                                                     } ;
                                                             teardown-synch =
-                                                                {
-                                                                    false =
+                                                                let
+                                                                    fun =
+                                                                        release : post : ignore :
+                                                                            {
+                                                                                environment =
+                                                                                    { string , ... } :
+                                                                                        [
+                                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                            ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                            ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                            ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                        ] ;
+                                                                                script =
+                                                                                    pkgs.stdenv.mkDerivation
+                                                                                        {
+                                                                                            installPhase =
+                                                                                                let
+                                                                                                    lines =
+                                                                                                        if release then
+                                                                                                            if post then ''-e "1,6p" -e "8,15,p" -e "17,17p" -e "19,19p" -e "21,27p"''
+                                                                                                            else ''-e "1,6p" -e "8,15,p"  -e "19,19p" -e "21,27p"''
+                                                                                                        else
+                                                                                                            if post then ''-e "1,6p" -e "17,17p" -e "21,27p"''
+                                                                                                            else ''-e "1,6p" -e "21,27p"'' ;
+                                                                                                    in
+                                                                                                        ''
+                                                                                                            ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
+                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                        '' ;
+                                                                                            name = "teardown-asynch" ;
+                                                                                            src = ./. ;
+                                                                                        } ;
+                                                                            } ;
+                                                                    in
                                                                         {
                                                                             false =
-                                                                                ignore :
-                                                                                    {
-                                                                                        environment =
-                                                                                            { string , ... } :
-                                                                                                [
-                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
-                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                                ] ;
-                                                                                        script =
-                                                                                            pkgs.stdenv.mkDerivation
-                                                                                                {
-                                                                                                    installPhase =
-                                                                                                        ''
-                                                                                                            ${ pkgs.coreutils }/bin/head --lines 18 ${ self + "/scripts/teardown-synch.sh" } > $out &&
-                                                                                                                ${ pkgs.coreutils }/bin/head --lines 29 ${ self + "/scripts/teardown-synch.sh" } | ${ pkgs.coreutils }/bin/tail --lines 10 >> $out &&
-                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                        '' ;
-                                                                                                    name = "teardown-asynch" ;
-                                                                                                    src = ./. ;
-                                                                                                } ;
-                                                                                    } ;
+                                                                                {
+                                                                                    false = fun false false ;
+                                                                                    true = fun false true ;
+                                                                                } ;
                                                                             true =
-                                                                                ignore :
-                                                                                    {
-                                                                                        environment =
-                                                                                            { string , ... } :
-                                                                                                [
-                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
-                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                                ] ;
-                                                                                        script =
-                                                                                            pkgs.stdenv.mkDerivation
-                                                                                                {
-                                                                                                    installPhase =
-                                                                                                        ''
-                                                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/teardown-synch.sh" } > $out &&
-                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                        '' ;
-                                                                                                    name = "teardown-asynch" ;
-                                                                                                    src = ./. ;
-                                                                                                } ;
-                                                                                    } ;
+                                                                                {
+                                                                                    false = fun true false ;
+                                                                                    true = run true true ;
+                                                                                } ;
                                                                         } ;
-                                                                    true =
-                                                                        {
-                                                                            false =
-                                                                                ignore :
-                                                                                    {
-                                                                                        environment =
-                                                                                            { string , ... } :
-                                                                                                [
-                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
-                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                                ] ;
-                                                                                        script =
-                                                                                            pkgs.stdenv.mkDerivation
-                                                                                                {
-                                                                                                    installPhase =
-                                                                                                        ''
-                                                                                                            ${ pkgs.coreutils }/bin/head --lines 18 ${ self + "/scripts/teardown-synch.sh" } > $out &&
-                                                                                                                ${ pkgs.coreutils }/bin/head --lines 29 ${ self + "/scripts/teardown-synch.sh" } | ${ pkgs.coreutils }/bin/tail --lines 10 >> $out &&
-                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                        '' ;
-                                                                                                    name = "teardown-asynch" ;
-                                                                                                    src = ./. ;
-                                                                                                } ;
-                                                                                    } ;
-                                                                            true =
-                                                                                ignore :
-                                                                                    {
-                                                                                        environment =
-                                                                                            { string , ... } :
-                                                                                                [
-                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
-                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                                ] ;
-                                                                                        script =
-                                                                                            pkgs.stdenv.mkDerivation
-                                                                                                {
-                                                                                                    installPhase =
-                                                                                                        ''
-                                                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/teardown-synch.sh" } > $out &&
-                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                        '' ;
-                                                                                                    name = "teardown-asynch" ;
-                                                                                                    src = ./. ;
-                                                                                                } ;
-                                                                                    } ;
-                                                                        } ;
-                                                                } ;
                                                         } ;
                                                 } ;
                                         in

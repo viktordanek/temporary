@@ -11,18 +11,18 @@ exec 200> ${RESOURCE}/lock &&
       else
         STATUS=${?}
       fi &&
-      #
-      #
       ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
       ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
       #
       ${RESOURCE}/post.sh || ${TRUE}
       #
       ${RM} --recursive --force ${RESOURCE} &&
-      if [ ! -z "${STATUS}" ] && [ ${STATUS} != 0 ]
+      #
+      if [ ${STATUS} != 0 ]
       then
         exit ${ERROR}
       fi
+      #
     else
       ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
         exit ${ERROR}
