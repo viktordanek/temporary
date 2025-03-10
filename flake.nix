@@ -79,7 +79,7 @@
                                                                                         ( builtins.concatLists ( builtins.attrValues set ) )
                                                                                     ] ;
                                                                     }
-                                                                    temporary ;
+                                                                    primary.temporary ;
                                                             name = "derivation" ;
                                                             src = ./. ;
                                                             in builtins.concatStringsSep " &&\n\t" constructors ;
@@ -302,7 +302,7 @@
                                                             lambda = path : value : builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                         }
                                                         { }
-                                                        temporary ;
+                                                        primary.temporary ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -414,7 +414,7 @@
                                                                                                 ( builtins.concatLists ( builtins.attrValues set ) )
                                                                                             ] ;
                                                                             }
-                                                                            temporary ;
+                                                                            primary.temporary ;
                                                                     in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
                                                             name = "tests" ;
                                                             src = ./. ;
