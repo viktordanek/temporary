@@ -31,7 +31,8 @@
                                                             constructors =
                                                                 _visitor
                                                                     {
-                                                                        lambda = path : value : fun value "${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }" ;
+                                                                        lambda =
+                                                                            path : value : [ ] ;
                                                                     }
                                                                     {
                                                                         list =
@@ -58,6 +59,33 @@
                                                     name = "derivation" ;
                                                     src = ./. ;
                                                 } ;
+                                        expanded =
+                                            _shell-script
+                                                {
+                                                    mounts = mounts ;
+                                                    shell-scripts =
+                                                        _visitor
+                                                            {
+                                                                lambda =
+                                                                    path : value :
+                                                                        let
+                                                                            identity =
+                                                                                {
+                                                                                    init ? null ,
+                                                                                    release ? null ,
+                                                                                    post ? null ,
+                                                                                    tests ? null
+                                                                                } :
+                                                                                    {
+                                                                                        init = init ;
+                                                                                        release = release ;
+                                                                                        post = post ;
+                                                                                    } ;
+                                                                            in identity ( value null ) ;
+                                                            }
+                                                            { }
+                                                            primary.temporary ;
+                                                } ;
                                         fun =
                                             value : target :
                                                 let
@@ -81,7 +109,7 @@
                                                         let
                                                             reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "lambda" then "true" else "false" ) previous ;
                                                             in builtins.foldl' reducer [ point.init point.release point.post ] util.shell-scripts.setup ;
-                                                    in "makeWrapper ${ setup } ${ target }" ;
+                                                    in "${ pkgs.coreutils }/bin/touch ${ target }" ;
                                         mounts =
                                             {
                                                 "/temporary" = primary.host-path ;
@@ -515,7 +543,7 @@
                                                             installPhase =
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/touch $out &&
-
+                                                                        ${ pkgs.coreutils }/bin/echo ${ temporary.derivation } &&
                                                                         ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                         exit 63
                                                                  '' ;
