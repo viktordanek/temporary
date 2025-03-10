@@ -1,4 +1,4 @@
-export RESOURCE=$( ${MKTEMP} --directory -t /temporary/XXXXXXXX ) &&
+## export RESOURCE=$( ${MKTEMP} --directory /temporary/XXXXXXXX ) &&
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if ${IS_INTERACTIVE}

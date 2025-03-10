@@ -56,129 +56,172 @@
                                                                 name = "resource" ;
                                                                 value =  name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
                                                             }
+                                                            {
+                                                                name = "resource-setup" ;
+                                                                value = "--run 'export _RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory --directory /temporary/XXXXXXXX )'" ;
+                                                            }
                                                         ] ;
                                                     mounts = mounts ;
                                                     shell-scripts =
-                                                        {
-                                                            setup =
-                                                                let
-                                                                    fun =
-                                                                        init : release : post : ignore :
-                                                                            {
-                                                                                environment =
-                                                                                    { grandparent-pid , is-interactive , is-file , is-pipe , parent-pid , string , ... } :
-                                                                                        [
-                                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                            ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                            ( grandparent-pid )
-                                                                                            ( is-file )
-                                                                                            ( is-interactive )
-                                                                                            ( is-pipe )
-                                                                                            ( string "LN" "${ pkgs.coreutils }/bin/ln" )
-                                                                                            ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                                            ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                            (
-                                                                                            )
-                                                                                            (
-                                                                                                string "TEARDOWN_SYNCH" "${ teardown-synch }"
-                                                                                            )
-                                                                                            ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
-                                                                                        ] ;
-                                                                                script = self + "/scripts/setup.sh" ;
-                                                                            } ;
-                                                                    in
-                                                                        {
-                                                                            false =
+                                                        let
+                                                            splits =
+                                                                splits :
+                                                                    builtins.concatStringsSep
+                                                                        " "
+                                                                        (
+                                                                            builtins.concatLists
+                                                                                (
+                                                                                    builtins.map ( s : if builtins.elemAt s 0 then [ "${ builtins.elemAt s 1 },${ builtins.elemAt s 2 }p" ] else [ ] ) splits
+                                                                                )
+                                                                        ) ;
+                                                            in
+                                                                {
+                                                                    setup =
+                                                                        let
+                                                                            fun =
+                                                                                init : release : post : ignore :
+                                                                                    {
+                                                                                        environment =
+                                                                                            { grandparent-pid , is-interactive , is-file , is-pipe , parent-pid , self , string , ... } :
+                                                                                                builtins.concatLists
+                                                                                                    [
+                                                                                                        [
+                                                                                                            ( resource-setup )
+                                                                                                        ]
+                                                                                                        [
+                                                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                            ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                            ( grandparent-pid )
+                                                                                                            ( is-file )
+                                                                                                            ( is-interactive )
+                                                                                                            ( is-pipe )
+                                                                                                            ( string "LN" "${ pkgs.coreutils }/bin/ln" )
+                                                                                                        ]
+                                                                                                        ( if init then [ ( string "MAKE_WRAPPER_INIT" "makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh" ) ] else [ ] )
+                                                                                                        ( if post then [ ( string "MAKE_WRAPPER_POST" "makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh" ) ] else [ ] )
+                                                                                                        ( if release then [ ( string "MAKE_WRAPPER_RELEASE" "makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh" ) ] else [ ] )
+                                                                                                        [
+                                                                                                            ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                                                            ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                            ( self "TEARDOWN_ASYNCH" ( self : self.teardown-asynch ) )
+                                                                                                            ( self "TEARDOWN_SYNCH" ( self : self.teardown-synch.${ release }.${ post } ) )
+                                                                                                            ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
+                                                                                                        ]
+                                                                                                    ] ;
+                                                                                        script =
+                                                                                            let
+                                                                                                lines =
+                                                                                                    splits
+                                                                                                        [
+                                                                                                            [ true 1 21 ]
+                                                                                                            [ init 23 23 ]
+                                                                                                            [ release 26 26 ]
+                                                                                                            [ post 29 29 ]
+                                                                                                            [ true 31 32 ]
+                                                                                                            [ init 34 58 ]
+                                                                                                            [ true 60 60 ]
+                                                                                                        ] ;
+                                                                                                in
+                                                                                                    ''
+                                                                                                        ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
+                                                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                    '' ;
+                                                                                    } ;
+                                                                            in
                                                                                 {
                                                                                     false =
                                                                                         {
-                                                                                            false = fun false false false ;
-                                                                                            false = fun false false true ;
-                                                                                        } ;
-                                                                                    true =
-                                                                                        {
-                                                                                            false = fun false true false ;
-                                                                                            false = fun false true true ;
+                                                                                            false =
+                                                                                                {
+                                                                                                    false = fun false false false ;
+                                                                                                    true = fun false false true ;
+                                                                                                } ;
+                                                                                            true =
+                                                                                                {
+                                                                                                    false = fun false true false ;
+                                                                                                    true = fun false true true ;
+                                                                                                } ;
                                                                                         } ;
                                                                                 } ;
-                                                                        } ;
-                                                            teardown-asynch =
-                                                                ignore :
-                                                                    {
-                                                                        environment =
-                                                                            { resource , string , ... } :
-                                                                                [
-                                                                                    ( string "AT" "${ at }" )
-                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                    ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
-                                                                                    ( resource "RESOURCE" )
-                                                                                ] ;
-                                                                        script =
-                                                                            pkgs.stdenv.mkDerivation
-                                                                                {
-                                                                                    installPhase =
-                                                                                        ''
-                                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/teardown-asynch.sh" } > $out &&
-                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                        '' ;
-                                                                                    name = "teardown-asynch" ;
-                                                                                    src = ./. ;
-                                                                                } ;
-                                                                    } ;
-                                                            teardown-synch =
-                                                                let
-                                                                    fun =
-                                                                        release : post : ignore :
+                                                                    teardown-asynch =
+                                                                        ignore :
                                                                             {
                                                                                 environment =
-                                                                                    { string , ... } :
+                                                                                    { resource , string , ... } :
                                                                                         [
-                                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                            ( string "AT" "${ at }" )
                                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                            ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
-                                                                                            ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                            ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                            ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
+                                                                                            ( resource "RESOURCE" )
                                                                                         ] ;
                                                                                 script =
                                                                                     pkgs.stdenv.mkDerivation
                                                                                         {
                                                                                             installPhase =
-                                                                                                let
-                                                                                                    lines =
-                                                                                                        if release then
-                                                                                                            if post then ''-e "1,6p" -e "8,15,p" -e "17,17p" -e "19,19p" -e "21,27p"''
-                                                                                                            else ''-e "1,6p" -e "8,15,p"  -e "19,19p" -e "21,27p"''
-                                                                                                        else
-                                                                                                            if post then ''-e "1,6p" -e "17,17p" -e "21,27p"''
-                                                                                                            else ''-e "1,6p" -e "21,27p"'' ;
-                                                                                                    in
-                                                                                                        ''
-                                                                                                            ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
-                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                        '' ;
+                                                                                                ''
+                                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/teardown-asynch.sh" } > $out &&
+                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                '' ;
                                                                                             name = "teardown-asynch" ;
                                                                                             src = ./. ;
                                                                                         } ;
                                                                             } ;
-                                                                    in
-                                                                        {
-                                                                            false =
+                                                                    teardown-synch =
+                                                                        let
+                                                                            fun =
+                                                                                release : post : ignore :
+                                                                                    {
+                                                                                        environment =
+                                                                                            { string , ... } :
+                                                                                                [
+                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                                ] ;
+                                                                                        script =
+                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                {
+                                                                                                    installPhase =
+                                                                                                        let
+                                                                                                            lines =
+                                                                                                                splits
+                                                                                                                    [
+                                                                                                                        [ true 1 6 ]
+                                                                                                                        [ release 8 15 ]
+                                                                                                                        [ post 17 17 ]
+                                                                                                                        [ release 21 24 ]
+                                                                                                                        [ true 26 29 ]
+                                                                                                                    ] ;
+                                                                                                            in
+                                                                                                                ''
+                                                                                                                    ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
+                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                '' ;
+                                                                                                    name = "teardown-asynch" ;
+                                                                                                    src = ./. ;
+                                                                                                } ;
+                                                                                    } ;
+                                                                            in
                                                                                 {
-                                                                                    false = fun false false ;
-                                                                                    true = fun false true ;
-                                                                                } ;
-                                                                            true =
-                                                                                {
-                                                                                    false = fun true false ;
-                                                                                    true = run true true ;
+                                                                                    false =
+                                                                                        {
+                                                                                            false = fun false false ;
+                                                                                            true = fun false true ;
+                                                                                        } ;
+                                                                                    true =
+                                                                                        {
+                                                                                            false = fun true false ;
+                                                                                            true = run true true ;
+                                                                                        } ;
                                                                                 } ;
                                                                         } ;
-                                                        } ;
                                                 } ;
                                         in
                                             {
-
+                                                util = util ;
                                             } ;
                                 pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
