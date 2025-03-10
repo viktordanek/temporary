@@ -84,6 +84,9 @@
                                                             src = ./. ;
                                                             in builtins.concatStringsSep " &&\n\t" constructors ;
                                                 } ;
+                                        fun =
+                                            init : release : post : target :
+                                                in null ;
                                         mounts =
                                             {
                                                 "/temporary" = primary.host-path ;
