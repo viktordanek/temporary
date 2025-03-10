@@ -31,33 +31,7 @@
                                                             constructors =
                                                                 _visitor
                                                                     {
-                                                                        lambda =
-                                                                            path : value :
-                                                                                let
-                                                                                    point =
-                                                                                        let
-                                                                                            identity =
-                                                                                                {
-                                                                                                    init ? null ,
-                                                                                                    release ? null ,
-                                                                                                    post ? null ,
-                                                                                                    tests ? null
-                                                                                                } :
-                                                                                                    {
-                                                                                                        init = init ;
-                                                                                                        release = release ;
-                                                                                                        post = post ;
-                                                                                                        tests = tests ;
-                                                                                                    } ;
-                                                                                            in identity ( value null ) ;
-                                                                                    setup =
-                                                                                        let
-                                                                                            reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "lambda" then "true" else "false" ) previous ;
-                                                                                            in builtins.foldl' reducer [ point.init point.release point.post ] util.setup ;
-                                                                                    in
-                                                                                        [
-                                                                                            "makeWrapper ${ setup } $out"
-                                                                                        ] ;
+                                                                        lambda = path : value : fun value "${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }" ;
                                                                     }
                                                                     {
                                                                         list =
@@ -85,8 +59,29 @@
                                                             in builtins.concatStringsSep " &&\n\t" constructors ;
                                                 } ;
                                         fun =
-                                            init : release : post : target :
-                                                null ;
+                                            value : target :
+                                                let
+                                                    point =
+                                                        let
+                                                            identity =
+                                                                {
+                                                                    init ? null ,
+                                                                    release ? null ,
+                                                                    post ? null ,
+                                                                    tests ? null
+                                                                } :
+                                                                    {
+                                                                        init = init ;
+                                                                        release = release ;
+                                                                        post = post ;
+                                                                        tests = tests ;
+                                                                    } ;
+                                                            in identity ( value null ) ;
+                                                    setup =
+                                                        let
+                                                            reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "lambda" then "true" else "false" ) previous ;
+                                                            in builtins.foldl' reducer [ point.init point.release point.post ] util.setup ;
+                                                    in "makeWrapper ${ setup } ${ target }" ;
                                         mounts =
                                             {
                                                 "/temporary" = primary.host-path ;
