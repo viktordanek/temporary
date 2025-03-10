@@ -32,7 +32,10 @@
                                                                 _visitor
                                                                     {
                                                                         lambda =
-                                                                            path : value : [ ] ;
+                                                                            path : value :
+                                                                                [
+                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                ] ;
                                                                     }
                                                                     {
                                                                         list =
@@ -58,33 +61,6 @@
                                                             in builtins.concatStringsSep " &&\n\t" constructors ;
                                                     name = "derivation" ;
                                                     src = ./. ;
-                                                } ;
-                                        expanded =
-                                            _shell-script
-                                                {
-                                                    mounts = mounts ;
-                                                    shell-scripts =
-                                                        _visitor
-                                                            {
-                                                                lambda =
-                                                                    path : value :
-                                                                        let
-                                                                            identity =
-                                                                                {
-                                                                                    init ? null ,
-                                                                                    release ? null ,
-                                                                                    post ? null ,
-                                                                                    tests ? null
-                                                                                } :
-                                                                                    {
-                                                                                        init = init ;
-                                                                                        release = release ;
-                                                                                        post = post ;
-                                                                                    } ;
-                                                                            in identity ( value null ) ;
-                                                            }
-                                                            { }
-                                                            primary.temporary ;
                                                 } ;
                                         fun =
                                             value : target :
