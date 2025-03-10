@@ -54,9 +54,9 @@
                                                                                     ] ;
                                                                     }
                                                                     primary.temporary ;
-                                                            name = "derivation" ;
-                                                            src = ./. ;
                                                             in builtins.concatStringsSep " &&\n\t" constructors ;
+                                                    name = "derivation" ;
+                                                    src = ./. ;
                                                 } ;
                                         fun =
                                             value : target :
@@ -80,7 +80,7 @@
                                                     setup =
                                                         let
                                                             reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "lambda" then "true" else "false" ) previous ;
-                                                            in builtins.foldl' reducer [ point.init point.release point.post ] util.setup ;
+                                                            in builtins.foldl' reducer [ point.init point.release point.post ] util.shell-scripts.setup ;
                                                     in "makeWrapper ${ setup } ${ target }" ;
                                         mounts =
                                             {
@@ -294,6 +294,7 @@
                                                 } ;
                                         in
                                             {
+                                                derivation = derivation ;
                                                 temporary =
                                                     _visitor
                                                         {
@@ -508,7 +509,19 @@
                                                                                 } ;
                                                                     } ;
                                                             } ;
-                                                    in pkgs.stdenv.mkDerivation { installPhase = "${ pkgs.coreutils }/bin/touch $out && ${ pkgs.coreutils }/bin/echo ${ temporary.tests } && exit 63" ; name = "NAME" ; src = ./. ; } ;
+                                                    in
+                                                        pkgs.stdenv.mkDerivation
+                                                        {
+                                                            installPhase =
+                                                                ''
+                                                                    ${ pkgs.coreutils }/bin/touch $out &&
+
+                                                                        ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
+                                                                        exit 63
+                                                                 '' ;
+                                                             name = "NAME" ;
+                                                             src = ./. ;
+                                                        } ;
                                         } ;
                                     lib = lib ;
                                 } ;
