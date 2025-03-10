@@ -18,122 +18,14 @@
                                 {
                                     at ? "/run/wrappers/bin/at" ,
                                     host-path ,
+                                    init ? null ,
                                     initializer ? 64 ,
+                                    post ? null ,
+                                    release ? null ,
                                     standard-error ? 65 ,
-                                    temporary ? null ,
+                                    tests ? null
                                 } :
                                     let
-                                        expanded =
-                                            _visitor
-                                                {
-                                                    lambda =
-                                                        path : value :
-                                                            let
-                                                                identity =
-                                                                    {
-                                                                        init ? null ,
-                                                                        release ? null ,
-                                                                        post ? null ,
-                                                                        tests ? null
-                                                                    } :
-                                                                        {
-                                                                            init = init ;
-                                                                            release = release ;
-                                                                            post = post ;
-                                                                            setup =
-                                                                                let
-                                                                                    reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "lambda" then "true" else "false" ) previous ;
-                                                                                    in builtins.foldl' reducer [ init release post ] util.shell-scripts.setup ;
-                                                                        } ;
-                                                                in identity ( value null ) ;
-                                                }
-                                                { }
-                                                primary.temporary ;
-                                        derivation =
-                                            pkgs.stdenv.mkDerivation
-                                                {
-                                                    installPhase =
-                                                        let
-                                                            constructors =
-                                                                _visitor
-                                                                    {
-                                                                        lambda =
-                                                                            path : value :
-                                                                                let
-                                                                                    point =
-                                                                                        let
-                                                                                            identity =
-                                                                                                {
-                                                                                                    init ? null ,
-                                                                                                    release ? null ,
-                                                                                                    post ? null ,
-                                                                                                    tests ? null
-                                                                                                } :
-                                                                                                    {
-                                                                                                        init = init ;
-                                                                                                        release = release ;
-                                                                                                        post = post ;
-                                                                                                        tests = tests ;
-                                                                                                    } ;
-                                                                                            in identity ( value null ) ;
-                                                                                    in
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                [
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
-
-                                                                                                ]
-                                                                                            ] ;
-                                                                    }
-                                                                    {
-                                                                        list =
-                                                                            path : list :
-                                                                                builtins.concatLists
-                                                                                    [
-                                                                                        [
-                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                        ]
-                                                                                        ( builtins.concatLists list )
-                                                                                    ] ;
-                                                                        set =
-                                                                            path : set :
-                                                                                builtins.concatLists
-                                                                                    [
-                                                                                        [
-                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                        ]
-                                                                                        ( builtins.concatLists ( builtins.attrValues set ) )
-                                                                                    ] ;
-                                                                    }
-                                                                    primary.temporary ;
-                                                            in builtins.concatStringsSep " &&\n\t" constructors ;
-                                                    name = "derivation" ;
-                                                    src = ./. ;
-                                                } ;
-                                        fun =
-                                            value : target :
-                                                let
-                                                    point =
-                                                        let
-                                                            identity =
-                                                                {
-                                                                    init ? null ,
-                                                                    release ? null ,
-                                                                    post ? null ,
-                                                                    tests ? null
-                                                                } :
-                                                                    {
-                                                                        init = init ;
-                                                                        release = release ;
-                                                                        post = post ;
-                                                                        tests = tests ;
-                                                                    } ;
-                                                            in identity ( value null ) ;
-                                                    setup =
-                                                        let
-                                                            reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "lambda" then "true" else "false" ) previous ;
-                                                            in builtins.foldl' reducer [ point.init point.release point.post ] util.shell-scripts.setup ;
-                                                    in "${ pkgs.coreutils }/bin/touch ${ target }" ;
                                         mounts =
                                             {
                                                 "/temporary" = primary.host-path ;
@@ -142,14 +34,11 @@
                                             {
                                                 at = if builtins.typeOf at == "string" then at else builtins.throw "at is not string but ${ builtins.typeOf at }." ;
                                                 host-path = if builtins.typeOf host-path == "string" then host-path else builtins.throw "host-path is not string but ${ builtins.typeOf host-path }." ;
+                                                init = if builtins.typeOf init == "null" then x : { } else if builtins.typeOf init == "lambda" then init else builtins.throw "init is not null, lambda but ${ builtins.typeOf init }." ;
                                                 initializer = if builtins.typeOf initializer == "int" then initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
+                                                release = if builtins.typeOf release == "null" then x : { } else if builtins.typeOf release == "lambda" then release else builtins.throw "release is not null, lambda but ${ builtins.typeOf release }." ;
+                                                post = if builtins.typeOf post == "null" then x : { } else if builtins.typeOf post == "lambda" then post else builtins.throw "post is not null, lambda but ${ builtins.typeOf post }." ;
                                                 standard-error = if builtins.typeOf standard-error == "int" then standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
-                                                temporary =
-                                                    if builtins.typeOf temporary == "lambda" then temporary
-                                                    else if builtins.typeOf temporary == "list" then temporary
-                                                    else if builtins.typeOf temporary == "null" then temporary
-                                                    else if builtins.typeOf temporary == "set" then temporary
-                                                    else builtins.throw "temporary is not lambda, list, null, set but ${ builtins.typeOf temporary }." ;
                                             } ;
                                         util =
                                             _shell-script
@@ -346,130 +235,6 @@
                                                 } ;
                                         in
                                             {
-                                                derivation = derivation ;
-                                                temporary =
-                                                    _visitor
-                                                        {
-                                                            lambda = path : value : builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ;
-                                                        }
-                                                        { }
-                                                        primary.temporary ;
-                                                tests =
-                                                    pkgs.stdenv.mkDerivation
-                                                        {
-                                                            installPhase =
-                                                                let
-                                                                    constructors =
-                                                                        _visitor
-                                                                            {
-                                                                                lambda =
-                                                                                    path : value :
-                                                                                        let
-                                                                                            candidate =
-                                                                                                pkgs.stdenv.mkDerivation
-                                                                                                    {
-                                                                                                        installPhase =
-                                                                                                            ''
-                                                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) } $out/bin/candidate
-                                                                                                            '' ;
-                                                                                                    } ;
-                                                                                                    expected = builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ;
-                                                                                                    observed = builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ;
-                                                                                                    tests = builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ;
-                                                                                                    point = value null ;
-                                                                                                    in
-                                                                                                        _visitor
-                                                                                                            {
-                                                                                                                lambda =
-                                                                                                                    path : value :
-                                                                                                                        let
-                                                                                                                            secondary =
-                                                                                                                                let
-                                                                                                                                    identity =
-                                                                                                                                        {
-                                                                                                                                            error ? "" ,
-                                                                                                                                            mounts ? { } ,
-                                                                                                                                            output ? "" ,
-                                                                                                                                            status ? 0 ,
-                                                                                                                                            test
-                                                                                                                                        } :
-                                                                                                                                            {
-                                                                                                                                                test = test ;
-                                                                                                                                            } ;
-                                                                                                                                    in identity ( value null ) ;
-                                                                                                                            user-environment =
-                                                                                                                                pkgs.buildFHSUserEnv
-                                                                                                                                    {
-                                                                                                                                        extraBrwapArgs = null ;
-                                                                                                                                        name = "test-candidate" ;
-                                                                                                                                        runScript = pkgs.writeShellScript "test" secondary.test ;
-                                                                                                                                        targetPkgs = pkgs : [ candidate ] ;
-                                                                                                                                    } ;
-                                                                                                                            in
-                                                                                                                                builtins.concatLists
-                                                                                                                                    [
-                                                                                                                                        [
-                                                                                                                                            "${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "test" secondary.test } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ tests ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                                                        ]
-                                                                                                                                    ] ;
-                                                                                                            }
-                                                                                                            {
-                                                                                                                list =
-                                                                                                                    path : list :
-                                                                                                                        builtins.concatLists
-                                                                                                                            [
-                                                                                                                                [
-                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ expected ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ observed ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ tests ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                                                ]
-                                                                                                                                ( builtins.concatLists list )
-                                                                                                                            ] ;
-                                                                                                                set =
-                                                                                                                    path : set :
-                                                                                                                        builtins.concatLists
-                                                                                                                            [
-                                                                                                                                [
-                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ expected ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ observed ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ tests ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                                                ]
-                                                                                                                                ( builtins.concatLists ( builtins.attrValues set ) )
-                                                                                                                            ] ;
-                                                                                                            }
-                                                                                                            point.tests ;
-                                                                            }
-                                                                            {
-                                                                                list =
-                                                                                    path : list :
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                [
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                ]
-                                                                                                ( builtins.concatLists list )
-                                                                                            ] ;
-                                                                                set =
-                                                                                    path : set :
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                [
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                ]
-                                                                                                ( builtins.concatLists ( builtins.attrValues set ) )
-                                                                                            ] ;
-                                                                            }
-                                                                            primary.temporary ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
-                                                            name = "tests" ;
-                                                            src = ./. ;
-                                                        } ;
                                                 util = util ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
@@ -526,54 +291,6 @@
                                                                     } ;
                                                             } ;
                                                     in shell-script.tests ;
-                                            temporary =
-                                                let
-                                                    temporary =
-                                                        lib
-                                                            {
-                                                                at = "/run/wrappers/bin/at" ;
-                                                                host-path = builtins.throw "DO NOT USE ME IN PRODUCTION" ;
-                                                                initializer = 66 ;
-                                                                standard-error = 67 ;
-                                                                temporary =
-                                                                    {
-                                                                        foobar =
-                                                                            ignore :
-                                                                                {
-                                                                                    init =
-                                                                                        ignore :
-                                                                                            {
-                                                                                                environment =
-                                                                                                    { path , self , standard-input , string } :
-                                                                                                        [
-                                                                                                        ] ;
-                                                                                                script = self + "/scripts/init.sh" ;
-                                                                                            } ;
-                                                                                    tests =
-                                                                                        [
-                                                                                            (
-                                                                                                ignore :
-                                                                                                    {
-                                                                                                        test = "candidate" ;
-                                                                                                    }
-                                                                                            )
-                                                                                        ] ;
-                                                                                } ;
-                                                                    } ;
-                                                            } ;
-                                                    in
-                                                        pkgs.stdenv.mkDerivation
-                                                        {
-                                                            installPhase =
-                                                                ''
-                                                                    ${ pkgs.coreutils }/bin/touch $out &&
-                                                                        ${ pkgs.coreutils }/bin/echo ${ temporary.derivation } &&
-                                                                        ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
-                                                                        exit 63
-                                                                 '' ;
-                                                             name = "NAME" ;
-                                                             src = ./. ;
-                                                        } ;
                                         } ;
                                     lib = lib ;
                                 } ;
