@@ -88,6 +88,19 @@
                                             {
                                                 "/temporary" = host-path ;
                                             } ;
+                                        primary =
+                                            {
+                                                at = if builtins.typeOf at == "string" then at else builtins.throw "at is not string but ${ builtins.typeOf at }." ;
+                                                host-path = if builtins.typeOf host-path == "string" then host-path else builtins.throw "host-path is not string but ${ builtins.typeOf host-path }." ;
+                                                initializer = if builtins.typeOf initializer == "int" then initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
+                                                standard-error = if builtins.typeOf standard-error == "int" then standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
+                                                temporary =
+                                                    if builtins.typeOf temporary == "lambda" then temporary
+                                                    else if builtins.typeOf temporary == "list" then temporary
+                                                    else if builtins.typeOf temporary == "null" then temporary
+                                                    else if builtins.typeOf temporary == "set" then temporary
+                                                    else builtins.throw "temporary is not lambda, list, null, set but ${ builtins.typeOf temporary }." ;
+                                            } ;
                                         util =
                                             _shell-script
                                                 {
@@ -212,7 +225,7 @@
                                                                                 environment =
                                                                                     { resource , string , ... } :
                                                                                         [
-                                                                                            ( string "AT" "${ at }" )
+                                                                                            ( string "AT" "${ primary.at }" )
                                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                             ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
                                                                                             ( resource "RESOURCE" )
