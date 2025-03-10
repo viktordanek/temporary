@@ -86,7 +86,7 @@
                                                 } ;
                                         fun =
                                             init : release : post : target :
-                                                in null ;
+                                                null ;
                                         mounts =
                                             {
                                                 "/temporary" = primary.host-path ;
