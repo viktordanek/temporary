@@ -1,4 +1,6 @@
-## export RESOURCE=$( ${MKTEMP} --directory /temporary/XXXXXXXX ) &&
+#
+source ${MAKE_WRAPPER} &&
+#
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if ${IS_INTERACTIVE}

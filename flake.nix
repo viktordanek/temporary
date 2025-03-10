@@ -50,21 +50,7 @@
                                                                                                     tests = tests ;
                                                                                                 } ;
                                                                                         in identity ( value null ) ;
-                                                                                in
-                                                                                    if builtins.typeOf point.init == "null" then
-                                                                                        if builtins.typeOf point.release == "null" then
-                                                                                            if builtins.typeOf point.post == "null" then "makeWrapper ${ util.shell-scripts.setup.false.false.false }"
-                                                                                            else ""
-                                                                                        else
-                                                                                            if builtins.typeOf point.post == "null" then ""
-                                                                                            else ""
-                                                                                    else
-                                                                                        if builtins.typeOf point.release == "null" then
-                                                                                            if builtins.typeOf point.post == "null" then ""
-                                                                                            else ""
-                                                                                        else
-                                                                                            if builtins.typeOf point.post == "null" then ""
-                                                                                            else "" ;
+                                                                                in null ;
                                                                     in
                                                                         {
                                                                             lambda = lambda ;
@@ -149,6 +135,7 @@
                                                                                                             ( is-pipe )
                                                                                                             ( string "LN" "${ pkgs.coreutils }/bin/ln" )
                                                                                                         ]
+                                                                                                        ( if ! ( init || release || post ) then [ ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" ) ] else [ ] )
                                                                                                         ( if init then [ ( string "MAKE_WRAPPER_INIT" "makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh" ) ] else [ ] )
                                                                                                         ( if post then [ ( string "MAKE_WRAPPER_POST" "makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh" ) ] else [ ] )
                                                                                                         ( if release then [ ( string "MAKE_WRAPPER_RELEASE" "makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh" ) ] else [ ] )
@@ -165,13 +152,13 @@
                                                                                                 lines =
                                                                                                     splits
                                                                                                         [
-                                                                                                            [ true 1 21 ]
-                                                                                                            [ init 23 23 ]
-                                                                                                            [ release 26 26 ]
-                                                                                                            [ post 29 29 ]
-                                                                                                            [ true 31 32 ]
-                                                                                                            [ init 34 58 ]
-                                                                                                            [ true 60 60 ]
+                                                                                                            [ ( ! ( init || release || post ) ) 1 1 ]
+                                                                                                            [ true 1 23 ]
+                                                                                                            [ init 25 25 ]
+                                                                                                            [ release 28 28 ]
+                                                                                                            [ post 31 31 ]
+                                                                                                            [ true 33 34 ]
+                                                                                                            [ init 36 60 ]
                                                                                                         ] ;
                                                                                                 in
                                                                                                     ''
@@ -285,9 +272,47 @@
                                                     shell-script =
                                                         _shell-script
                                                             {
+                                                                mounts = { "/temporary" = builtins.throw "This should not be used in production." ; } ;
                                                                 shell-scripts =
                                                                     {
-
+                                                                        foobar =
+                                                                            ignore :
+                                                                                {
+                                                                                    environment =
+                                                                                        { path , self , standard-input , string } :
+                                                                                            [
+                                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
+                                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                ( self "FOOBAR" ( self : self.foobar ) )
+                                                                                                ( path "NAME" 0 )
+                                                                                                ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
+                                                                                                ( standard-input { name = "ceb56d2bcebc8e9cc485a093712de696d47b96ca866254795e566f370e2e76d92d7522558aaf4e9e7cdd6b603b527cee48a1af68a0abc1b68f2348f055346408" ; } )
+                                                                                                ( string "TOKEN" "7861c7b30f4c436819c890600b78ca11e10494c9abea9cae750c26237bc70311b60bb9f8449b32832713438b36e8eaf5ec719445e6983c8799f7e193c9805a7" )
+                                                                                                ( string "TR" "${ pkgs.coreutils }/bin/tr" )
+                                                                                            ] ;
+                                                                                    script = self + "/scripts/foobar.sh" ;
+                                                                                    tests =
+                                                                                        [
+                                                                                            (
+                                                                                                ignore :
+                                                                                                   {
+                                                                                                        error = "50885ccf7ec0a2420f1c7555e54df8512508f93002313cfd71d6de510f8a8a6c035beca3589f2a5248069e02f57535ef3231004cd8d40f8a79b28d605fb6f89b" ;
+                                                                                                        mounts =
+                                                                                                            {
+                                                                                                                "/temporary" =
+                                                                                                                    {
+                                                                                                                        expected = self + "/mounts/RSGhGwNk" ;
+                                                                                                                        initial = self + "/mounts/QoqNiM1R" ;
+                                                                                                                    } ;
+                                                                                                            } ;
+                                                                                                        output = "45c6ae4c0d3b624d4aa46d90b1ff7dfc996f05827014339549e01b3cb4465cde65493280935d121481c08871aac8ef4739253347e132411d2a1d5075c66bf067" ;
+                                                                                                        test = "candidate c64de1b7282c845986c0cf68c2063a11974e7eb0182f30a315a786c071bd253b6e97ce0afbfb774659177fdf97471f9637b07a1e5c0dff4c6c3a5dfcb05f0a50" ;
+                                                                                                        status = 35 ;
+                                                                                                    }
+                                                                                            )
+                                                                                        ] ;
+                                                                                } ;
                                                                     } ;
                                                             } ;
                                                     in shell-script.tests ;
