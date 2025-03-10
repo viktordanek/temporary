@@ -290,6 +290,63 @@
                                                         }
                                                         { }
                                                         temporary ;
+                                                tests =
+                                                    pkgs.stdenv.mkDerivation
+                                                        {
+                                                            installPhase =
+                                                                let
+                                                                    constructors =
+                                                                        _visitor
+                                                                            {
+                                                                                lambda =
+                                                                                    path : value :
+                                                                                        let
+                                                                                            candidate =
+                                                                                                pkgs.stdenv.mkDerivation
+                                                                                                    {
+                                                                                                        installPhase =
+                                                                                                            ''
+                                                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) } $out/bin/candidate
+                                                                                                            '' ;
+                                                                                                    } ;
+                                                                                                    expected = builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ;
+                                                                                                    observed = builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ;
+                                                                                                    test = builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ;
+                                                                                                    point = value null ;
+                                                                                                    in
+                                                                                                        candidate ;
+                                                                            }
+                                                                            {
+                                                                                list =
+                                                                                    path : list :
+                                                                                        builtins.concatLists
+                                                                                            [
+                                                                                                [
+                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                ]
+                                                                                                ( builtins.concatLists list )
+                                                                                            ] ;
+                                                                                set =
+                                                                                    path : set :
+                                                                                        builtins.concatLists
+                                                                                            [
+                                                                                                [
+                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                ]
+                                                                                                ( builtins.concatLists ( builtins.attrValues set ) )
+                                                                                            ] ;
+                                                                            }
+                                                                            temporary ;
+                                                                    in builtins.concatStringsSep " &&\n\t" constructors ;
+                                                            name = "tests" ;
+                                                            src = ./. ;
+                                                        } ;
                                                 util = util ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
