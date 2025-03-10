@@ -23,6 +23,32 @@
                                     temporary ? null ,
                                 } :
                                     let
+                                        expanded =
+                                            _visitor
+                                                {
+                                                    lambda =
+                                                        path : value :
+                                                            let
+                                                                identity =
+                                                                    {
+                                                                        init ? null ,
+                                                                        release ? null ,
+                                                                        post ? null ,
+                                                                        tests ? null
+                                                                    } :
+                                                                        {
+                                                                            init = init ;
+                                                                            release = release ;
+                                                                            post = post ;
+                                                                            setup =
+                                                                                let
+                                                                                    reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "lambda" then "true" else "false" ) previous ;
+                                                                                    in builtins.foldl' reducer [ init release post ] util.shell-scripts.setup ;
+                                                                        } ;
+                                                                in identity ( value null ) ;
+                                                }
+                                                { }
+                                                primary.temporary ;
                                         derivation =
                                             pkgs.stdenv.mkDerivation
                                                 {
@@ -33,9 +59,31 @@
                                                                     {
                                                                         lambda =
                                                                             path : value :
-                                                                                [
-                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                ] ;
+                                                                                let
+                                                                                    point =
+                                                                                        let
+                                                                                            identity =
+                                                                                                {
+                                                                                                    init ? null ,
+                                                                                                    release ? null ,
+                                                                                                    post ? null ,
+                                                                                                    tests ? null
+                                                                                                } :
+                                                                                                    {
+                                                                                                        init = init ;
+                                                                                                        release = release ;
+                                                                                                        post = post ;
+                                                                                                        tests = tests ;
+                                                                                                    } ;
+                                                                                            in identity ( value null ) ;
+                                                                                    in
+                                                                                        builtins.concatLists
+                                                                                            [
+                                                                                                [
+                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
+
+                                                                                                ]
+                                                                                            ] ;
                                                                     }
                                                                     {
                                                                         list =
