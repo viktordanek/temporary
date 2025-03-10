@@ -24,42 +24,65 @@
                                 } :
                                     let
                                         derivation =
-                                            _shell-script
+                                            pkgs.stdenv.mkDerivation
                                                 {
-                                                    mounts = mounts ;
-                                                    shell-scripts =
-                                                        _visitor
-                                                            (
-                                                                let
-                                                                    lambda =
-                                                                        path : value :
-                                                                            let
-                                                                                point =
-                                                                                    let
-                                                                                        identity =
-                                                                                            {
-                                                                                                init ? null ,
-                                                                                                release ? null ,
-                                                                                                post ? null ,
-                                                                                                tests ? null
-                                                                                            } :
+                                                    installPhase =
+                                                        let
+                                                            constructors =
+                                                                _visitor
+                                                                    {
+                                                                        lambda =
+                                                                            path : value :
+                                                                                let
+                                                                                    point =
+                                                                                        let
+                                                                                            identity =
                                                                                                 {
-                                                                                                    init = init ;
-                                                                                                    release = release ;
-                                                                                                    post = post ;
-                                                                                                    tests = tests ;
-                                                                                                } ;
-                                                                                        in identity ( value null ) ;
-                                                                                setup = builtins.getAttr ( builtins.typeOf point.post == "lambda" ) ( builtins.getAttr ( builtins.typeOf point.release == "lambda" ) ( builtins.getAttr ( builtins.typeOf point.init == "lambda" ) util.setup ) ) ;
-                                                                                in setup ;
-                                                                    in
-                                                                        {
-                                                                            lambda = lambda ;
-                                                                            null = path : value : lambda path ( { ... } : { } ) ;
-                                                                        }
-                                                            )
-                                                            { }
-                                                            temporary ;
+                                                                                                    init ? null ,
+                                                                                                    release ? null ,
+                                                                                                    post ? null ,
+                                                                                                    tests ? null
+                                                                                                } :
+                                                                                                    {
+                                                                                                        init = init ;
+                                                                                                        release = release ;
+                                                                                                        post = post ;
+                                                                                                        tests = tests ;
+                                                                                                    } ;
+                                                                                            in identity ( value null ) ;
+                                                                                    setup =
+                                                                                        let
+                                                                                            reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "lambda" then "true" else "false" ) previous ;
+                                                                                            in builtins.foldl' reducer [ point.init point.release point.post ] util.setup ;
+                                                                                    in
+                                                                                        [
+                                                                                            "makeWrapper ${ setup } $out"
+                                                                                        ] ;
+                                                                    }
+                                                                    {
+                                                                        list =
+                                                                            path : list :
+                                                                                builtins.concatLists
+                                                                                    [
+                                                                                        [
+                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                        ]
+                                                                                        ( builtins.concatLists list )
+                                                                                    ] ;
+                                                                        set =
+                                                                            path : set :
+                                                                                builtins.concatLists
+                                                                                    [
+                                                                                        [
+                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                        ]
+                                                                                        ( builtins.concatLists ( builtins.attrValues set ) )
+                                                                                    ] ;
+                                                                    }
+                                                                    temporary ;
+                                                            name = "derivation" ;
+                                                            src = ./. ;
+                                                            in builtins.concatStringsSep " &&\n\t" constructors ;
                                                 } ;
                                         mounts =
                                             {
@@ -263,9 +286,7 @@
                                                 temporary =
                                                     _visitor
                                                         {
-                                                            lambda =
-                                                                path : value :
-                                                                      null ;
+                                                            lambda = path : value : builtins.concatStringsSep "/" ( builtins.concatLists [ [ derivation ] ( builtins.map builtins.toJSON path ) ] ) ;
                                                         }
                                                         { }
                                                         temporary ;
