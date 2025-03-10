@@ -297,7 +297,7 @@
                                                             ignore :
                                                                 {
                                                                     environment =
-                                                                        { resource , path , self , standard-input , string , target } :
+                                                                        { path , self , standard-input , string , ... } :
                                                                             [
                                                                                 ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                 ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
@@ -336,6 +336,21 @@
                                                                             )
                                                                         ] ;
                                                                 } ;
+                                                        vacuum =
+                                                            ignore :
+                                                                {
+                                                                    environment =
+                                                                        { string , ... } :
+                                                                            [
+                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                ( string "DIFF" "${ pkgs.coreutils }/bin/diff" )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                ( string "MV" "${ pkgs.coreutils }/bin/mv" )
+                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                            ] ;
+                                                                    script = self + "/scripts/vacuum.sh" ;
+                                                                } ;
                                                     } ;
                                             } ;
                                         temporary =
@@ -345,7 +360,7 @@
                                                     host-path = builtins.throw "Do not use in production." ;
                                                     init = scripts.executable ;
                                                     initializer = 66 ;
-                                                    post = null ;
+                                                    post = scripts.post ;
                                                     release = scripts.executable ;
                                                     standard-error = 67 ;
                                                     tests = null ;
