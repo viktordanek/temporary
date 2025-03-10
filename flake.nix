@@ -313,10 +313,69 @@
                                                                                                     } ;
                                                                                                     expected = builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ;
                                                                                                     observed = builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ;
-                                                                                                    test = builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ;
+                                                                                                    tests = builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ;
                                                                                                     point = value null ;
                                                                                                     in
-                                                                                                        candidate ;
+                                                                                                        _visitor
+                                                                                                            {
+                                                                                                                lambda =
+                                                                                                                    path : value :
+                                                                                                                        let
+                                                                                                                            secondary =
+                                                                                                                                let
+                                                                                                                                    identity =
+                                                                                                                                        {
+                                                                                                                                            error ? "" ,
+                                                                                                                                            mounts ? { } ,
+                                                                                                                                            output ? "" ,
+                                                                                                                                            status ? 0 ,
+                                                                                                                                            test
+                                                                                                                                        } :
+                                                                                                                                            {
+                                                                                                                                                test = test ;
+                                                                                                                                            } ;
+                                                                                                                                    in identity ( value null ) ;
+                                                                                                                            user-environment =
+                                                                                                                                pkgs.buildFHSUserEnv
+                                                                                                                                    {
+                                                                                                                                        extraBrwapArgs = null ;
+                                                                                                                                        name = "test-candidate" ;
+                                                                                                                                        runScript = pkgs.writeShellScript "test" secondary.test ;
+                                                                                                                                        targetPkgs = pkgs : [ candidate ] ;
+                                                                                                                                    } ;
+                                                                                                                            in
+                                                                                                                                builtins.concatLists
+                                                                                                                                    [
+                                                                                                                                        [
+                                                                                                                                            "${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "test" secondary.test } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "tests" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                        ]
+                                                                                                                                    ] ;
+                                                                                                            }
+                                                                                                            {
+                                                                                                                list =
+                                                                                                                    path : list :
+                                                                                                                        builtins.concatLists
+                                                                                                                            [
+                                                                                                                                [
+                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ expected ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ observed ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ tests ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                ]
+                                                                                                                                ( builtins.concatLists list )
+                                                                                                                            ] ;
+                                                                                                                set =
+                                                                                                                    path : set :
+                                                                                                                        builtins.concatLists
+                                                                                                                            [
+                                                                                                                                [
+                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ expected ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ observed ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ tests ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                ]
+                                                                                                                                ( builtins.concatLists ( builtins.attrValues set ) )
+                                                                                                                            ] ;
+                                                                                                            }
+                                                                                                            point.tests ;
                                                                             }
                                                                             {
                                                                                 list =
