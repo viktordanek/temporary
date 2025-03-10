@@ -50,7 +50,8 @@
                                                                                                     tests = tests ;
                                                                                                 } ;
                                                                                         in identity ( value null ) ;
-                                                                                in null ;
+                                                                                setup = builtins.getAttr ( builtins.typeOf point.post == "lambda" ) ( builtins.getAttr ( builtins.typeOf point.release == "lambda" ) ( builtins.getAttr ( builtins.typeOf point.init == "lambda" ) util.setup ) ) ;
+                                                                                in setup ;
                                                                     in
                                                                         {
                                                                             lambda = lambda ;
@@ -259,7 +260,15 @@
                                                 } ;
                                         in
                                             {
-                                                temporary = temporary ;
+                                                temporary =
+                                                    _visitor
+                                                        {
+                                                            lambda =
+                                                                path : value :
+                                                                      null ;
+                                                        }
+                                                        { }
+                                                        temporary ;
                                                 util = util ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
