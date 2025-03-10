@@ -86,7 +86,7 @@
                                                 } ;
                                         mounts =
                                             {
-                                                "/temporary" = host-path ;
+                                                "/temporary" = primary.host-path ;
                                             } ;
                                         primary =
                                             {
