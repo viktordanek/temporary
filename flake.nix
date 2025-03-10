@@ -66,10 +66,6 @@
                                                                 value =  "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
                                                             }
                                                             {
-                                                                name = "resource" ;
-                                                                value =  name : "--run 'export ${ name }=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                            }
-                                                            {
                                                                 name = "resource-setup" ;
                                                                 value = "--run 'export _RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory --directory /temporary/XXXXXXXX )'" ;
                                                             }
@@ -256,60 +252,111 @@
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
-                                {
-                                    checks =
+                                let
+                                    scripts =
+                                        _shell-script
+                                            {
+                                                extensions =
+                                                    [
+                                                        {
+                                                            name = "resource" ;
+                                                            value =  "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                        }
+                                                        {
+                                                            name = "target" ;
+                                                            value =  "--run 'export TARGET=$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } ) )'" ;
+                                                        }
+                                                    ] ;
+                                                mounts =
+                                                    {
+                                                        "/temporary" = builtins.throw "This should not be used in production." ;
+                                                        "/post" = builtins.throw "This should not be used in production." ;
+                                                    } ;
+                                                shell-scripts =
+                                                    {
+                                                        executable =
+                                                            ignore :
+                                                                {
+                                                                    environment =
+                                                                        { resource , self , path , standard-input , string , target } :
+                                                                            [
+                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( self "FOOBAR" ( self : self.foobar ) )
+                                                                                ( string "JQ" "${ pkgs.jq }/bin/jq" )
+                                                                                ( path "NAME" 0 )
+                                                                                ( resource )
+                                                                                ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
+                                                                                ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                ( target )
+                                                                            ] ;
+                                                                    script = self + "/scripts/executable.sh" ;
+                                                                    tests = null ;
+                                                                } ;
+                                                        foobar =
+                                                            ignore :
+                                                                {
+                                                                    environment =
+                                                                        { resource , path , self , standard-input , string , target } :
+                                                                            [
+                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( self "FOOBAR" ( self : self.foobar ) )
+                                                                                ( path "NAME" 0 )
+                                                                                ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
+                                                                                ( standard-input { name = "ceb56d2bcebc8e9cc485a093712de696d47b96ca866254795e566f370e2e76d92d7522558aaf4e9e7cdd6b603b527cee48a1af68a0abc1b68f2348f055346408" ; } )
+                                                                                ( string "TOKEN" "7861c7b30f4c436819c890600b78ca11e10494c9abea9cae750c26237bc70311b60bb9f8449b32832713438b36e8eaf5ec719445e6983c8799f7e193c9805a7" )
+                                                                                ( string "TR" "${ pkgs.coreutils }/bin/tr" )
+                                                                            ] ;
+                                                                    script = self + "/scripts/foobar.sh" ;
+                                                                    tests =
+                                                                        [
+                                                                            (
+                                                                                ignore :
+                                                                                   {
+                                                                                        error = "50885ccf7ec0a2420f1c7555e54df8512508f93002313cfd71d6de510f8a8a6c035beca3589f2a5248069e02f57535ef3231004cd8d40f8a79b28d605fb6f89b" ;
+                                                                                        mounts =
+                                                                                            {
+                                                                                                "/post" =
+                                                                                                    {
+                                                                                                        expected = self + "/mounts/QoqNiM1R" ;
+                                                                                                        initial = self + "/mounts/QoqNiM1R" ;
+                                                                                                    } ;
+                                                                                                "/temporary" =
+                                                                                                    {
+                                                                                                        expected = self + "/mounts/RSGhGwNk" ;
+                                                                                                        initial = self + "/mounts/QoqNiM1R" ;
+                                                                                                    } ;
+                                                                                            } ;
+                                                                                        output = "45c6ae4c0d3b624d4aa46d90b1ff7dfc996f05827014339549e01b3cb4465cde65493280935d121481c08871aac8ef4739253347e132411d2a1d5075c66bf067" ;
+                                                                                        test = "candidate c64de1b7282c845986c0cf68c2063a11974e7eb0182f30a315a786c071bd253b6e97ce0afbfb774659177fdf97471f9637b07a1e5c0dff4c6c3a5dfcb05f0a50" ;
+                                                                                        status = 35 ;
+                                                                                    }
+                                                                            )
+                                                                        ] ;
+                                                                } ;
+                                                    } ;
+                                            } ;
+                                        temporary =
+                                            lib
+                                                {
+                                                    at = "/run/wrappers/bin/at" ;
+                                                    host-path = builtins.throw "Do not use in production." ;
+                                                    init = scripts.executable ;
+                                                    initializer = 66 ;
+                                                    post = null ;
+                                                    release = scripts.executable ;
+                                                    standard-error = 67 ;
+                                                    tests = null ;
+                                                } ;
+                                    in
                                         {
-                                            shell-script =
-                                                let
-                                                    shell-script =
-                                                        _shell-script
-                                                            {
-                                                                mounts = { "/temporary" = builtins.throw "This should not be used in production." ; } ;
-                                                                shell-scripts =
-                                                                    {
-                                                                        foobar =
-                                                                            ignore :
-                                                                                {
-                                                                                    environment =
-                                                                                        { path , self , standard-input , string } :
-                                                                                            [
-                                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
-                                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                ( self "FOOBAR" ( self : self.foobar ) )
-                                                                                                ( path "NAME" 0 )
-                                                                                                ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
-                                                                                                ( standard-input { name = "ceb56d2bcebc8e9cc485a093712de696d47b96ca866254795e566f370e2e76d92d7522558aaf4e9e7cdd6b603b527cee48a1af68a0abc1b68f2348f055346408" ; } )
-                                                                                                ( string "TOKEN" "7861c7b30f4c436819c890600b78ca11e10494c9abea9cae750c26237bc70311b60bb9f8449b32832713438b36e8eaf5ec719445e6983c8799f7e193c9805a7" )
-                                                                                                ( string "TR" "${ pkgs.coreutils }/bin/tr" )
-                                                                                            ] ;
-                                                                                    script = self + "/scripts/foobar.sh" ;
-                                                                                    tests =
-                                                                                        [
-                                                                                            (
-                                                                                                ignore :
-                                                                                                   {
-                                                                                                        error = "50885ccf7ec0a2420f1c7555e54df8512508f93002313cfd71d6de510f8a8a6c035beca3589f2a5248069e02f57535ef3231004cd8d40f8a79b28d605fb6f89b" ;
-                                                                                                        mounts =
-                                                                                                            {
-                                                                                                                "/temporary" =
-                                                                                                                    {
-                                                                                                                        expected = self + "/mounts/RSGhGwNk" ;
-                                                                                                                        initial = self + "/mounts/QoqNiM1R" ;
-                                                                                                                    } ;
-                                                                                                            } ;
-                                                                                                        output = "45c6ae4c0d3b624d4aa46d90b1ff7dfc996f05827014339549e01b3cb4465cde65493280935d121481c08871aac8ef4739253347e132411d2a1d5075c66bf067" ;
-                                                                                                        test = "candidate c64de1b7282c845986c0cf68c2063a11974e7eb0182f30a315a786c071bd253b6e97ce0afbfb774659177fdf97471f9637b07a1e5c0dff4c6c3a5dfcb05f0a50" ;
-                                                                                                        status = 35 ;
-                                                                                                    }
-                                                                                            )
-                                                                                        ] ;
-                                                                                } ;
-                                                                    } ;
-                                                            } ;
-                                                    in shell-script.tests ;
+                                            checks =
+                                                {
+                                                    shell-script = scripts.tests ;
+                                                } ;
+                                            lib = lib ;
                                         } ;
-                                    lib = lib ;
-                                } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
 }
