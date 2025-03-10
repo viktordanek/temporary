@@ -20,7 +20,6 @@
                                     host-path ,
                                     init ? null ,
                                     initializer ? 64 ,
-                                    name ,
                                     post ? null ,
                                     release ? null ,
                                     standard-error ? 65 ,
@@ -37,7 +36,6 @@
                                                 host-path = if builtins.typeOf host-path == "string" then host-path else builtins.throw "host-path is not string but ${ builtins.typeOf host-path }." ;
                                                 init = if builtins.typeOf init == "null" then init else if builtins.typeOf init == "lambda" then init else builtins.throw "init is not null, lambda but ${ builtins.typeOf init }." ;
                                                 initializer = if builtins.typeOf initializer == "int" then initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
-                                                name = if builtins.typeOf name == "string" then name else builtins.throw "name is not string but ${ builtins.typeOf name }." ;
                                                 release = if builtins.typeOf release == "null" then release else if builtins.typeOf release == "lambda" then release else builtins.throw "release is not null, lambda but ${ builtins.typeOf release }." ;
                                                 post = if builtins.typeOf post == "null" then post else if builtins.typeOf post == "lambda" then post else builtins.throw "post is not null, lambda but ${ builtins.typeOf post }." ;
                                                 standard-error = if builtins.typeOf standard-error == "int" then standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
