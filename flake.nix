@@ -316,6 +316,33 @@
                                                                     } ;
                                                             } ;
                                                     in shell-script.tests ;
+                                            temporary =
+                                                let
+                                                    temporary =
+                                                        lib
+                                                            {
+                                                                at = "/run/wrappers/bin/at" ;
+                                                                host-path = builtins.throw "DO NOT USE ME IN PRODUCTION" ;
+                                                                initializer = 66 ;
+                                                                standard-error = 67 ;
+                                                                temporary =
+                                                                    {
+                                                                        foobar =
+                                                                            ignore :
+                                                                                {
+                                                                                    init =
+                                                                                        ignore :
+                                                                                            {
+                                                                                                environment =
+                                                                                                    { path , self , standard-input , string } :
+                                                                                                        [
+                                                                                                        ] ;
+                                                                                                script = self + "/scripts/init.sh" ;
+                                                                                            } ;
+                                                                                } ;
+                                                                    } ;
+                                                            } ;
+                                                    in pkgs.stdenv.mkDerivation { installPhase = "${ pkgs.coreutils }/bin/touch $out" ; name = "NAME" ; src = ./. ; } ;
                                         } ;
                                     lib = lib ;
                                 } ;
