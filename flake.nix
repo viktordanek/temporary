@@ -23,6 +23,57 @@
                                     temporary ? null ,
                                 } :
                                     let
+                                        derivation =
+                                            _shell-script
+                                                {
+                                                    mounts = mounts ;
+                                                    shell-scripts =
+                                                        _visitor
+                                                            (
+                                                                let
+                                                                    lambda =
+                                                                        path : value :
+                                                                            let
+                                                                                point =
+                                                                                    let
+                                                                                        identity =
+                                                                                            {
+                                                                                                init ? null ,
+                                                                                                release ? null ,
+                                                                                                post ? null ,
+                                                                                                tests ? null
+                                                                                            } :
+                                                                                                {
+                                                                                                    init = init ;
+                                                                                                    release = release ;
+                                                                                                    post = post ;
+                                                                                                    tests = tests ;
+                                                                                                } ;
+                                                                                        in identity ( value null ) ;
+                                                                                in
+                                                                                    if builtins.typeOf point.init == "null" then
+                                                                                        if builtins.typeOf point.release == "null" then
+                                                                                            if builtins.typeOf point.post == "null" then "makeWrapper ${ util.shell-scripts.setup.false.false.false }"
+                                                                                            else ""
+                                                                                        else
+                                                                                            if builtins.typeOf point.post == "null" then ""
+                                                                                            else ""
+                                                                                    else
+                                                                                        if builtins.typeOf point.release == "null" then
+                                                                                            if builtins.typeOf point.post == "null" then ""
+                                                                                            else ""
+                                                                                        else
+                                                                                            if builtins.typeOf point.post == "null" then ""
+                                                                                            else "" ;
+                                                                    in
+                                                                        {
+                                                                            lambda = lambda ;
+                                                                            null = path : value : lambda path ( { ... } : { } ) ;
+                                                                        }
+                                                            )
+                                                            { }
+                                                            temporary ;
+                                                } ;
                                         mounts =
                                             {
                                                 "/temporary" = host-path ;
@@ -82,7 +133,7 @@
                                                                                 init : release : post : ignore :
                                                                                     {
                                                                                         environment =
-                                                                                            { grandparent-pid , is-interactive , is-file , is-pipe , parent-pid , self , string , ... } :
+                                                                                            { grandparent-pid , is-interactive , is-file , is-pipe , parent-pid , resource-setup , self , string , ... } :
                                                                                                 builtins.concatLists
                                                                                                     [
                                                                                                         [
@@ -214,16 +265,17 @@
                                                                                     true =
                                                                                         {
                                                                                             false = fun true false ;
-                                                                                            true = run true true ;
+                                                                                            true = fun true true ;
                                                                                         } ;
                                                                                 } ;
                                                                         } ;
                                                 } ;
                                         in
                                             {
+                                                temporary = temporary ;
                                                 util = util ;
                                             } ;
-                                pkgs = builtins.import nixpkgs { system = system ; } ;
+                            pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
                                 {
                                     checks =
