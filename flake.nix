@@ -347,7 +347,7 @@
                                                                                                                                 builtins.concatLists
                                                                                                                                     [
                                                                                                                                         [
-                                                                                                                                            # "${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "test" secondary.test } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "tests" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                            "${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "test" secondary.test } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ tests ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                                                         ]
                                                                                                                                     ] ;
                                                                                                             }
