@@ -347,7 +347,7 @@
                                                                                                                                 builtins.concatLists
                                                                                                                                     [
                                                                                                                                         [
-                                                                                                                                            "${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "test" secondary.test } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "tests" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                                            # "${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "test" secondary.test } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "tests" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                                                         ]
                                                                                                                                     ] ;
                                                                                                             }
@@ -396,13 +396,13 @@
                                                                                                 [
                                                                                                     "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                     "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                 ]
                                                                                                 ( builtins.concatLists ( builtins.attrValues set ) )
                                                                                             ] ;
                                                                             }
                                                                             temporary ;
-                                                                    in builtins.concatStringsSep " &&\n\t" constructors ;
+                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
                                                             name = "tests" ;
                                                             src = ./. ;
                                                         } ;
@@ -485,10 +485,19 @@
                                                                                                         ] ;
                                                                                                 script = self + "/scripts/init.sh" ;
                                                                                             } ;
+                                                                                    tests =
+                                                                                        [
+                                                                                            (
+                                                                                                ignore :
+                                                                                                    {
+                                                                                                        test = "candidate" ;
+                                                                                                    }
+                                                                                            )
+                                                                                        ] ;
                                                                                 } ;
                                                                     } ;
                                                             } ;
-                                                    in pkgs.stdenv.mkDerivation { installPhase = "${ pkgs.coreutils }/bin/touch $out" ; name = "NAME" ; src = ./. ; } ;
+                                                    in pkgs.stdenv.mkDerivation { installPhase = "${ pkgs.coreutils }/bin/touch $out && ${ pkgs.coreutils }/bin/echo ${ temporary.tests } && exit 63" ; name = "NAME" ; src = ./. ; } ;
                                         } ;
                                     lib = lib ;
                                 } ;
