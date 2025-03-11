@@ -300,7 +300,8 @@
                                                                                                                     ''
                                                                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                                                                            ${ setup }
+                                                                                                                            ${ pkgs.coreutils }/bin/touch $out/bin/candidate &&
+                                                                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/candidate
                                                                                                                     '' ;
                                                                                                         name = "candidate" ;
                                                                                                         src = ./. ;
@@ -329,19 +330,19 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = script ;
-                                                                                                        targetPkgs = pkgs : [ ] ;
+                                                                                                        targetPkgs = pkgs : [ candidate ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
                                                                                                     [
                                                                                                         [
+                                                                                                            "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "${ user-environment }/bin/test-candidate"
-                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                        ]
-                                                                                                        [
+                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/ln --symbolic ${ script } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/echo $out"
+                                                                                                            "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
