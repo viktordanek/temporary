@@ -260,12 +260,51 @@
                                                                             {
                                                                                 lambda =
                                                                                     path : value :
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                [
-                                                                                                    "${ pkgs.coreutils }/bin/echo"
-                                                                                                ]
-                                                                                            ] ;
+                                                                                        let
+                                                                                            candidate =
+                                                                                                pkgs.stdenv.mkDerivation
+                                                                                                    {
+                                                                                                        installPhase =
+                                                                                                            ''
+                                                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ temporary } $out/bin/candidate
+                                                                                                            '' ;
+                                                                                                    } ;
+                                                                                            script = pkgs.writeShellScript "test" secondary.test ;
+                                                                                            secondary =
+                                                                                                let
+                                                                                                    identity =
+                                                                                                        {
+                                                                                                            count ? 2 ,
+                                                                                                            expected ,
+                                                                                                            test
+                                                                                                        } :
+                                                                                                            {
+                                                                                                                count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
+                                                                                                                expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
+                                                                                                                test = if builtins.typeOf test == "string" then test else builtins.throw "test is not string but ${ builtins.typeOf test }." ;
+                                                                                                            } ;
+                                                                                                    in identity ( value null ) ;
+                                                                                            user-environment =
+                                                                                                pkgs.buildFHSUserEnv
+                                                                                                    {
+                                                                                                        name = "test-candidate" ;
+                                                                                                        runScript = script ;
+                                                                                                        targetPkgs = pkgs : [ candidate ] ;
+                                                                                                    } ;
+                                                                                            in
+                                                                                                builtins.concatLists
+                                                                                                    [
+                                                                                                        [
+                                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                        ]
+                                                                                                        [
+                                                                                                            "${ pkgs.coreutils }/bin/ln --symbolic ${ script } ${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                        ]
+                                                                                                    ] ;
                                                                             }
                                                                             {
                                                                                 list =
@@ -292,7 +331,7 @@
                                                                                             ] ;
                                                                             }
                                                                             primary.tests ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors  [ "exit 64" ] ] ) ;
+                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors  [ "${ pkgs.coreutils }/bin/echo $out" "exit 64" ] ] ) ;
                                                             name = "tests" ;
                                                             src = ./. ;
                                                         } ;
