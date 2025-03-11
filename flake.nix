@@ -329,7 +329,7 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = script ;
-                                                                                                        targetPkgs = pkgs : [ candidate ] ;
+                                                                                                        targetPkgs = pkgs : [ ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
