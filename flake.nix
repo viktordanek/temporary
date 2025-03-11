@@ -292,7 +292,7 @@
                                                                                             ] ;
                                                                             }
                                                                             primary.tests ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
+                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors  [ "exit 64" ] ] ) ;
                                                             name = "tests" ;
                                                             src = ./. ;
                                                         } ;
