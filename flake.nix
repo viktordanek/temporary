@@ -295,6 +295,8 @@
                                                                     installPhase =
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                ${ pkgs.coreutils }/bin/echo $out &&
+
                                                                                 true
                                                                         '' ;
                                                                     name = "test" ;
