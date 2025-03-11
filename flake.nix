@@ -176,19 +176,19 @@
                                                                                                 } ;
                                                                                         } ;
                                                                                 } ;
-                                                                    teardown-asynch = builtins.trace "2c7c166e-d3ac-4c81-9937-2d3503160b6f" (
-                                                                        ignore : builtins.trace "0d8f8706-64e2-4080-96db-f2cd36ef2583" (
+                                                                    teardown-asynch =
+                                                                        ignore :
                                                                             {
-                                                                                environment = builtins.trace "a4492530-275e-4a8b-9cd1-9004cd3345be" (
-                                                                                    { resource , string , ... } : builtins.trace "d32d2f56-7277-45cb-b2a7-234f3da710f2" (
+                                                                                environment =
+                                                                                    { resource , string , ... } :
                                                                                         [
-                                                                                            # ( string "AT" "${ primary.at }" )
-                                                                                            # ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                            # ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
-                                                                                            # ( resource )
-                                                                                        ] ) ) ;
-                                                                                script = builtins.trace "e5656e3e-e442-47b6-9111-bd5a807124d7" ( self + "/scripts/teardown-asynch.sh" ) ;
-                                                                            } ) ) ;
+                                                                                            ( string "AT" "${ primary.at }" )
+                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                            ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
+                                                                                            ( resource )
+                                                                                        ] ;
+                                                                                script = self + "/scripts/teardown-asynch.sh" ;
+                                                                            } ;
                                                                     teardown-synch =
                                                                         let
                                                                             fun =
