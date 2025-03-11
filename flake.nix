@@ -289,6 +289,10 @@
                                                                                             user-environment =
                                                                                                 pkgs.buildFHSUserEnv
                                                                                                     {
+                                                                                                        extraBwrapArgs =
+                                                                                                            [
+                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
+                                                                                                            ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = script ;
                                                                                                         targetPkgs = pkgs : [ candidate ] ;
@@ -298,6 +302,7 @@
                                                                                                     [
                                                                                                         [
                                                                                                             "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory } )"
                                                                                                             "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
