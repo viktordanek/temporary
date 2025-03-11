@@ -39,7 +39,25 @@
                                                 release = if builtins.typeOf release == "null" then release else if builtins.typeOf release == "lambda" then release else builtins.throw "release is not null, lambda but ${ builtins.typeOf release }." ;
                                                 post = if builtins.typeOf post == "null" then post else if builtins.typeOf post == "lambda" then post else builtins.throw "post is not null, lambda but ${ builtins.typeOf post }." ;
                                                 standard-error = if builtins.typeOf standard-error == "int" then standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
+                                                tests = if builtins.typeOf tests == "null" then tests else if builtins.typeOf tests == "list" then tests else if builtins.typeOf tests == "set" then tests else builtins.throw "tests is not null, list, set but ${ builtins.typeOf tests }." ;
                                             } ;
+                                        temporary =
+                                            pkgs.stdenv.mkDerivation
+                                                {
+                                                    installPhase =
+                                                        let
+                                                            setup =
+                                                                let
+                                                                    reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "string" then "true" else "false" ) previous ;
+                                                                    in builtins.foldl' reducer [ primary.init primary.release primary.post ] util.shell-scripts.setup ;
+                                                            in
+                                                                ''
+                                                                    makeWrapper ${ setup } $out
+                                                                '' ;
+                                                    name = "temporary" ;
+                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                    src = ./. ;
+                                                } ;
                                         util =
                                             _shell-script
                                                 {
@@ -231,23 +249,57 @@
                                                 } ;
                                         in
                                             {
-                                                temporary =
-                                                    pkgs.stdenv.mkDerivation
-                                                        {
-                                                            installPhase =
-                                                                let
-                                                                    setup =
-                                                                        let
-                                                                            reducer = previous : current : builtins.getAttr current previous ;
-                                                                            in builtins.foldl' reducer [ "init" "release" "post" ] util.setup ;
-                                                                    in
+                                                temporary = temporary ;
+                                                tests =
+                                                    let
+                                                        candidate =
+                                                            pkgs.stdenv.mkDerivation
+                                                                {
+                                                                    installPhase =
                                                                         ''
-                                                                            makeWrapper ${ setup } $out
+                                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ temporary } $out/bin/candidate
                                                                         '' ;
-                                                            name = "temporary" ;
-                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                            src = ./. ;
-                                                        } ;
+                                                                    name = "candidate" ;
+                                                                    src = ./. ;
+                                                                } ;
+                                                        secondary =
+                                                            let
+                                                                identity =
+                                                                    {
+                                                                        count ? 2 ,
+                                                                        expected ,
+                                                                        test
+                                                                    } :
+                                                                        {
+                                                                            count = count ;
+                                                                            expected = expected ;
+                                                                            test = test ;
+                                                                        } ;
+                                                                in identity primary.tests ;
+                                                        user-environment =
+                                                            pkgs.buildFHSUserEnv
+                                                                {
+                                                                    extraBwrapArgs =
+                                                                        [
+                                                                            "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
+                                                                        ] ;
+                                                                    name = "test-candidate" ;
+                                                                    runScript = pkgs.writeShellScript "test" ( builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : secondary.test ) secondary.count ) ) ;
+                                                                    targetPkgs = pkgs : [ candidate ] ;
+                                                                } ;
+                                                        in
+                                                            pkgs.stdenv.mkDerivation
+                                                                {
+                                                                    installPhase =
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                true
+                                                                        '' ;
+                                                                    name = "test" ;
+                                                                    src = ./. ;
+                                                                } ;
                                                 util = util ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
@@ -363,13 +415,24 @@
                                                     post = scripts.post ;
                                                     release = scripts.executable ;
                                                     standard-error = 67 ;
-                                                    tests = null ;
+                                                    tests =
+                                                        [
+                                                            (
+                                                                ignore :
+                                                                    {
+                                                                        count = 2 ;
+                                                                        expected = self + "/mounts/" ;
+                                                                        test = "${ pkgs.coreutils }/bin/echo 8315b9981bd91e569ab551632b4b06da8d1926e6f421b58c3d880c9ba648fc8edc1ea9fd62574836622de8bfabd59fa2ce92819c370a1c974dab9d84286cabff | candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
+                                                                    }
+                                                            )
+                                                        ] ;
                                                 } ;
                                     in
                                         {
                                             checks =
                                                 {
                                                     shell-script = scripts.tests ;
+                                                    temporary = temporary.tests ;
                                                 } ;
                                             lib = lib ;
                                         } ;
