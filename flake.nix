@@ -98,7 +98,7 @@
                                                                         (
                                                                             builtins.concatLists
                                                                                 (
-                                                                                    builtins.map ( s : if builtins.elemAt s 0 then [ "${ builtins.elemAt s 1 },${ builtins.elemAt s 2 }p" ] else [ ] ) splits
+                                                                                    builtins.map ( s : if builtins.elemAt s 0 then [ "${ builtins.toString ( builtins.elemAt s 1 ) },${ builtins.toString ( builtins.elemAt s 2 ) }p" ] else [ ] ) splits
                                                                                 )
                                                                         ) ;
                                                             in
@@ -127,13 +127,14 @@
                                                                                                         ]
                                                                                                         ( if ! ( init || release || post ) then [ ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" ) ] else [ ] )
                                                                                                         ( if init then [ ( string "MAKE_WRAPPER_INIT" "makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh" ) ] else [ ] )
+
                                                                                                         ( if post then [ ( string "MAKE_WRAPPER_POST" "makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh" ) ] else [ ] )
                                                                                                         ( if release then [ ( string "MAKE_WRAPPER_RELEASE" "makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh" ) ] else [ ] )
                                                                                                         [
                                                                                                             ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                                                             ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                                             ( self "TEARDOWN_ASYNCH" ( self : self.teardown-asynch ) )
-                                                                                                            ( self "TEARDOWN_SYNCH" ( self : self.teardown-synch.${ release }.${ post } ) )
+                                                                                                            ( self "TEARDOWN_SYNCH" ( self : self.teardown-synch.${ if release then "true" else "false" }.${ if post then "true" else "false" } ) )
                                                                                                             ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
                                                                                                         ]
                                                                                                     ] ;
@@ -183,17 +184,7 @@
                                                                                             ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
                                                                                             ( resource "RESOURCE" )
                                                                                         ] ;
-                                                                                script =
-                                                                                    pkgs.stdenv.mkDerivation
-                                                                                        {
-                                                                                            installPhase =
-                                                                                                ''
-                                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/teardown-asynch.sh" } > $out &&
-                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                '' ;
-                                                                                            name = "teardown-asynch" ;
-                                                                                            src = ./. ;
-                                                                                        } ;
+                                                                                script = self + "/scripts/teardown-asynch.sh" ;
                                                                             } ;
                                                                     teardown-synch =
                                                                         let
@@ -297,6 +288,7 @@
                                                                                                                         reducer = previous : current : builtins.getAttr ( if current == "string" then "true" else "false" ) previous ;
                                                                                                                         in builtins.foldl' ( builtins.map builtins.typeOf [ primary.init primary.release "string" ] ) reducer util.shell-scripts.setup ;
                                                                                                                 in
+                                                                                                                    builtins.trace ( builtins.typeOf util.shell-scripts.teardown-asynch )
                                                                                                                     ''
                                                                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
@@ -330,7 +322,7 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = script ;
-                                                                                                        targetPkgs = pkgs : [ candidate ] ;
+                                                                                                        targetPkgs = pkgs : [ ( builtins.trace ( builtins.toString candidate ) candidate ) ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
