@@ -251,61 +251,13 @@
                                             {
                                                 temporary = temporary ;
                                                 tests =
-                                                    let
-                                                        candidate =
-                                                            pkgs.stdenv.mkDerivation
-                                                                {
-                                                                    installPhase =
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ temporary } $out/bin/candidate
-                                                                        '' ;
-                                                                    name = "candidate" ;
-                                                                    src = ./. ;
-                                                                } ;
-                                                        secondary =
-                                                            let
-                                                                identity =
-                                                                    {
-                                                                        count ? 2 ,
-                                                                        expected ,
-                                                                        test
-                                                                    } :
-                                                                        {
-                                                                            count = count ;
-                                                                            expected = expected ;
-                                                                            test = test ;
-                                                                        } ;
-                                                                in identity primary.tests ;
-                                                        user-environment =
-                                                            pkgs.buildFHSUserEnv
-                                                                {
-                                                                    extraBwrapArgs =
-                                                                        [
-                                                                            "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
-                                                                        ] ;
-                                                                    name = "test-candidate" ;
-                                                                    runScript = pkgs.writeShellScript "test" ( builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : secondary.test ) secondary.count ) ) ;
-                                                                    targetPkgs = pkgs : [ candidate ] ;
-                                                                } ;
-                                                        in
-                                                                                                                 #                       ${ user-environment }/bin/test-candidate &&
-                                                                                                                 #                       ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } $out/observed &&
-                                                                                                                 #                       ${ pkgs.diffutils }/bin/diff ${ secondary.expected } $out/post
-                                                            pkgs.stdenv.mkDerivation
-                                                                {
-                                                                    installPhase =
-                                                                        ''
-                                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                ${ pkgs.coreutils }/bin/echo $out &&
-                                                                                POST=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                                ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } $out/observed &&
-                                                                                true
-                                                                        '' ;
-                                                                    name = "test" ;
-                                                                    src = ./. ;
-                                                                } ;
+                                                    pkgs.stdenv.mkDerivation
+                                                        {
+                                                            installPhase =
+                                                                "${ pkgs.coreutils }/bin/mkdir $out" ;
+                                                            name = "tests" ;
+                                                            src = ./. ;
+                                                        } ;
                                                 util = util ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
