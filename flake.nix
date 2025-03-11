@@ -84,6 +84,10 @@
                                                                 value =  "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
                                                             }
                                                             {
+                                                                name = "resource" ;
+                                                                value = "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                            }
+                                                            {
                                                                 name = "resource-setup" ;
                                                                 value = "--run 'export _RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory --directory /temporary/XXXXXXXX )'" ;
                                                             }
@@ -126,10 +130,9 @@
                                                                                                             ( string "LN" "${ pkgs.coreutils }/bin/ln" )
                                                                                                         ]
                                                                                                         ( if ! ( init || release || post ) then [ ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" ) ] else [ ] )
-                                                                                                        ( if init then [ ( string "MAKE_WRAPPER_INIT" "makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh" ) ] else [ ] )
-
-                                                                                                        ( if post then [ ( string "MAKE_WRAPPER_POST" "makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh" ) ] else [ ] )
-                                                                                                        ( if release then [ ( string "MAKE_WRAPPER_RELEASE" "makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh" ) ] else [ ] )
+                                                                                                        # ( if init then [ ( string "MAKE_WRAPPER_INIT" "makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh" ) ] else [ ] )
+                                                                                                        # ( if post then [ ( string "MAKE_WRAPPER_POST" "makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh" ) ] else [ ] )
+                                                                                                        # ( if release then [ ( string "MAKE_WRAPPER_RELEASE" "makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh" ) ] else [ ] )
                                                                                                         [
                                                                                                             ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                                                             ( string "RM" "${ pkgs.coreutils }/bin/rm" )
@@ -173,19 +176,19 @@
                                                                                                 } ;
                                                                                         } ;
                                                                                 } ;
-                                                                    teardown-asynch =
-                                                                        ignore :
+                                                                    teardown-asynch = builtins.trace "2c7c166e-d3ac-4c81-9937-2d3503160b6f" (
+                                                                        ignore : builtins.trace "0d8f8706-64e2-4080-96db-f2cd36ef2583" (
                                                                             {
-                                                                                environment =
-                                                                                    { resource , string , ... } :
+                                                                                environment = builtins.trace "a4492530-275e-4a8b-9cd1-9004cd3345be" (
+                                                                                    { resource , string , ... } : builtins.trace "d32d2f56-7277-45cb-b2a7-234f3da710f2" (
                                                                                         [
-                                                                                            ( string "AT" "${ primary.at }" )
-                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                            ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
-                                                                                            ( resource "RESOURCE" )
-                                                                                        ] ;
-                                                                                script = self + "/scripts/teardown-asynch.sh" ;
-                                                                            } ;
+                                                                                            # ( string "AT" "${ primary.at }" )
+                                                                                            # ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                            # ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
+                                                                                            # ( resource )
+                                                                                        ] ) ) ;
+                                                                                script = builtins.trace "e5656e3e-e442-47b6-9111-bd5a807124d7" ( self + "/scripts/teardown-asynch.sh" ) ;
+                                                                            } ) ) ;
                                                                     teardown-synch =
                                                                         let
                                                                             fun =
@@ -288,7 +291,7 @@
                                                                                                                         reducer = previous : current : builtins.getAttr ( if current == "string" then "true" else "false" ) previous ;
                                                                                                                         in builtins.foldl' ( builtins.map builtins.typeOf [ primary.init primary.release "string" ] ) reducer util.shell-scripts.setup ;
                                                                                                                 in
-                                                                                                                    builtins.trace ( builtins.typeOf util.shell-scripts.teardown-asynch )
+                                                                                                                    builtins.trace ( builtins.typeOf util.shell-scripts.foobar )
                                                                                                                     ''
                                                                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
@@ -322,7 +325,7 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = script ;
-                                                                                                        targetPkgs = pkgs : [ ( builtins.trace ( builtins.toString candidate ) candidate ) ] ;
+                                                                                                        targetPkgs = pkgs : [ candidate ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
@@ -499,7 +502,8 @@
                                             checks =
                                                 {
                                                     shell-script = scripts.tests ;
-                                                    temporary = temporary.tests ;
+                                                    util = temporary.util.tests ;
+                                                    # temporary = temporary.tests ;
                                                 } ;
                                             lib = lib ;
                                         } ;
