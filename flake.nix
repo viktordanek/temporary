@@ -271,7 +271,7 @@
                                                                                                                     ${ pkgs.coreutils }/bin/ln --symbolic ${ temporary } $out/bin/candidate
                                                                                                             '' ;
                                                                                                     } ;
-                                                                                            script = pkgs.writeShellScript "test" secondary.test ;
+                                                                                            script = pkgs.writeShellScript "test" ( builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : secondary.test ) secondary.count ) ) ;
                                                                                             secondary =
                                                                                                 let
                                                                                                     identity =
