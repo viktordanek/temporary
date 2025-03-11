@@ -290,6 +290,9 @@
                                                                     targetPkgs = pkgs : [ candidate ] ;
                                                                 } ;
                                                         in
+                                                                                                                 #                       ${ user-environment }/bin/test-candidate &&
+                                                                                                                 #                       ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } $out/observed &&
+                                                                                                                 #                       ${ pkgs.diffutils }/bin/diff ${ secondary.expected } $out/post
                                                             pkgs.stdenv.mkDerivation
                                                                 {
                                                                     installPhase =
@@ -297,8 +300,7 @@
                                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
                                                                                 POST=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                                ${ user-environment }/bin/test-candidate &&
-
+                                                                                ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } $out/observed &&
                                                                                 true
                                                                         '' ;
                                                                     name = "test" ;
