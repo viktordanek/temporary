@@ -294,8 +294,8 @@
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
-                                                                                                        runScript = script ;
-                                                                                                        targetPkgs = pkgs : [ candidate ] ;
+                                                                                                        # runScript = script ;
+                                                                                                        # targetPkgs = pkgs : [ candidate ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
