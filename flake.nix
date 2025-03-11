@@ -302,7 +302,7 @@
                                                                                                     [
                                                                                                         [
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-
+                                                                                                            "${ user-environment }/bin/test-candidate"
                                                                                                             "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
