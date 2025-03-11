@@ -267,9 +267,10 @@
                                                                                                         installPhase =
                                                                                                             ''
                                                                                                                 ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ temporary } $out/bin/candidate
+                                                                                                                    ${ pkgs.coreutils }/bin/mkdir $out/binx
                                                                                                             '' ;
+                                                                                                        name = "candidate" ;
+                                                                                                        src = ./. ;
                                                                                                     } ;
                                                                                             script = pkgs.writeShellScript "test" ( builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : secondary.test ) secondary.count ) ) ;
                                                                                             secondary =
@@ -295,7 +296,7 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = script ;
-                                                                                                        # targetPkgs = pkgs : [ candidate ] ;
+                                                                                                        targetPkgs = pkgs : [ candidate ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
