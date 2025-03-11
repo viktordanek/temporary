@@ -296,6 +296,7 @@
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                 ${ pkgs.coreutils }/bin/echo $out &&
+                                                                                POST=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
 
                                                                                 true
                                                                         '' ;
