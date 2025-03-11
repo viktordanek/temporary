@@ -265,10 +265,43 @@
                                                                                                 pkgs.stdenv.mkDerivation
                                                                                                     {
                                                                                                         installPhase =
-                                                                                                            ''
-                                                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                                                    ${ pkgs.coreutils }/bin/mkdir $out/binx
-                                                                                                            '' ;
+                                                                                                            let
+                                                                                                                init = if builtins.typeOf primary.init == "string" then [ primary.init ] else [ ] ;
+                                                                                                                release = if builtins.typeOf primary.release == "string" then [ primary.release ] else [ ] ;
+                                                                                                                post =
+                                                                                                                    pkgs.stdenv.mkDerivation
+                                                                                                                        {
+                                                                                                                            installPhase =
+                                                                                                                                let
+                                                                                                                                    post =
+                                                                                                                                        pkgs.stdenv.mkDerivation
+                                                                                                                                            {
+                                                                                                                                                installPhase =
+                                                                                                                                                    ''
+                                                                                                                                                        ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
+                                                                                                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                                                    '' ;
+                                                                                                                                                name = "post" ;
+                                                                                                                                                src = ./. ;
+                                                                                                                                            } ;
+                                                                                                                                    in
+                                                                                                                                        ''
+                                                                                                                                            makeWrapper ${ post } $out --set CAT ${ pkgs.coreutils }/bin/cat --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm
+                                                                                                                                        '' ;
+                                                                                                                            name = "post" ;
+                                                                                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                                                                                            src = ./. ;
+                                                                                                                        } ;
+                                                                                                                setup =
+                                                                                                                    let
+                                                                                                                        reducer = previous : current : builtins.getAttr ( if current == "string" then "true" else "false" ) previous ;
+                                                                                                                        in builtins.foldl' ( builtins.map builtins.typeOf [ primary.init primary.release "string" ] ) reducer util.shell-scripts.setup ;
+                                                                                                                in
+                                                                                                                    ''
+                                                                                                                        ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                                                            ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                                                                            ${ setup }
+                                                                                                                    '' ;
                                                                                                         name = "candidate" ;
                                                                                                         src = ./. ;
                                                                                                     } ;
