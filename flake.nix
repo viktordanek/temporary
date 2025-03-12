@@ -297,7 +297,6 @@
                                                                                                                         reducer = previous : current : builtins.getAttr ( if current == "string" then "true" else "false" ) previous ;
                                                                                                                         in builtins.foldl' ( builtins.map builtins.typeOf [ primary.init primary.release "string" ] ) reducer util.shell-scripts.setup ;
                                                                                                                 in
-                                                                                                                    builtins.trace ( builtins.typeOf util.shell-scripts.foobar )
                                                                                                                     ''
                                                                                                                         ${ pkgs.coreutils }/bin/mkdir $out &&
                                                                                                                             ${ pkgs.coreutils }/bin/mkdir $out/bin &&
