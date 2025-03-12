@@ -107,11 +107,11 @@
                                                                                     [
                                                                                         "--set NICE ${ pkgs.coreutils }/bin/nice"
                                                                                         "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
-                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory )'"
+                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory /tmp/RESOURCE.XXXXXXXX )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
                                                                                         "--set TAIL ${ pkgs.coreutils }/bin/tail"
                                                                                         "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
-                                                                                        # "--set TEARDOWN_SYNCH ${ teardown-synch }"
+                                                                                        "--set TEARDOWN_SYNCH ${ teardown-synch }"
                                                                                         "--set TRUE ${ pkgs.coreutils }/bin/true"
                                                                                     ]
                                                                                 ] ;
