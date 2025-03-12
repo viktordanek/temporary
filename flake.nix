@@ -239,9 +239,11 @@
                                                                 let
                                                                     setup =
                                                                         let
-                                                                            reducer = previous : current : builtins.getAttr ( if current == "string" then "true" else "false" ) previous ;
+                                                                            reducer = previous : current : builtins.trace "HI ${ current } ${ builtins.typeOf previous }" ( builtins.getAttr ( if current == "string" then "true" else "false" ) previous ) ;
                                                                             in builtins.foldl' reducer ( builtins.map builtins.typeOf [ primary.init primary.release primary.post ] ) util.shell-scripts.setup ;
-                                                                    in setup ;
+                                                                    # in builtins.trace "HI ${ builtins.typeOf ( util.shell-scripts.setup ) }" "" ;
+                                                                    # in setup ;
+                                                                    in util.shell-scripts.setup.false.false.false ;
                                                                 name = "temporary" ;
                                                                 src = ./. ;
                                                         } ;
