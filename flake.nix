@@ -34,13 +34,62 @@
                                             {
                                                 at = if builtins.typeOf at == "string" then at else builtins.throw "at is not string but ${ builtins.typeOf at }." ;
                                                 host-path = if builtins.typeOf host-path == "string" then host-path else builtins.throw "host-path is not string but ${ builtins.typeOf host-path }." ;
-                                                init = if builtins.typeOf init == "null" then init else if builtins.typeOf init == "lambda" then init else builtins.throw "init is not null, lambda but ${ builtins.typeOf init }." ;
+                                                init = if builtins.typeOf init == "null" then init else if builtins.typeOf init == "string" then init else builtins.throw "init is not null, string but ${ builtins.typeOf init }." ;
                                                 initializer = if builtins.typeOf initializer == "int" then initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
-                                                release = if builtins.typeOf release == "null" then release else if builtins.typeOf release == "lambda" then release else builtins.throw "release is not null, lambda but ${ builtins.typeOf release }." ;
-                                                post = if builtins.typeOf post == "null" then post else if builtins.typeOf post == "lambda" then post else builtins.throw "post is not null, lambda but ${ builtins.typeOf post }." ;
+                                                release = if builtins.typeOf release == "null" then release else if builtins.typeOf release == "string" then release else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
+                                                post = if builtins.typeOf post == "null" then post else if builtins.typeOf post == "string" then post else builtins.throw "post is not null, string but ${ builtins.typeOf post }." ;
                                                 standard-error = if builtins.typeOf standard-error == "int" then standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
                                                 tests = if builtins.typeOf tests == "null" then tests else if builtins.typeOf tests == "list" then tests else if builtins.typeOf tests == "set" then tests else builtins.throw "tests is not null, list, set but ${ builtins.typeOf tests }." ;
                                             } ;
+                                        setup =
+                                            init : release : post :
+                                                let
+                                                    setup =
+                                                        source
+                                                            ( self + "/scripts/setup.sh" )
+                                                            [
+                                                                [ ( builtins.any ( x : builtins.typeOf x == "string" ) [ init release post ] )1 1 ]
+                                                                [ true 1 23 ]
+                                                                [ ( builtins.typeOf init == "string" ) 25 25 ]
+                                                                [ ( builtins.typeOf release == "string" ) 28 28 ]
+                                                                [ ( builtins.typeOf post == "string" ) 31 31 ]
+                                                                [ true 33 34 ]
+                                                                [ ( builtins.typeOf init == "string" ) 36 60 ]
+                                                            ] ;
+                                                    source =
+                                                        file : lines :
+                                                            pkgs.stdenv.mkDerivation
+                                                                {
+                                                                    installPhase =
+                                                                        ''
+                                                                            ${ pkgs.gnused }/bin/sed -n ${ builtins.concatStringsSep " " ( builtins.concatLists ( builtins.map ( x : if builtins.elemAt x 0 then [ "-e ${ builtins.toString ( builtins.elemAt x 1 ) },${ builtins.toString ( builtins.elemAt x 2 ) }p " ] else [ ] ) lines ) ) } ${ file } > $out &&
+                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                        '' ;
+                                                                    name = "source" ;
+                                                                    src = ./. ;
+                                                                } ;
+                                                    teardown-asynch = source ( self + "/scripts/teardown-asynch.sh" ) ;
+                                                    teardown-synch =
+                                                        source
+                                                            ( self + "/scripts/teardown-synch.sh" )
+                                                            [
+                                                                [ true 1 6 ]
+                                                                [ ( builtins.typeOf release == "string" ) 8 15 ]
+                                                                [ ( builtins.typeOf post == "string" ) 17 17 ]
+                                                                [ ( builtins.typeOf release == "string" ) 21 24 ]
+                                                                [ true 26 29 ]
+                                                            ] ;
+                                                    in
+                                                        pkgs.stdenv.mkDerivation
+                                                            {
+                                                                installPhase =
+                                                                    ''
+                                                                        makeWrapper ${ setup } $out
+                                                                    '' ;
+                                                                name = "bin" ;
+                                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                                src = ./. ;
+                                                            } ;
                                         util =
                                             _shell-script
                                                 {
@@ -229,24 +278,7 @@
                                                 } ;
                                         in
                                             {
-                                                temporary =
-                                                    pkgs.stdenv.mkDerivation
-                                                        {
-                                                            installPhase =
-                                                                let
-                                                                    setup =
-                                                                        let
-                                                                            reducer = previous : current : builtins.trace "HI ${ current } ${ builtins.typeOf previous }" ( builtins.getAttr ( if current == "string" then "true" else "false" ) previous ) ;
-                                                                            in builtins.foldl' reducer ( builtins.map builtins.typeOf [ primary.init primary.release primary.post ] ) util.shell-scripts.setup ;
-                                                                    # in builtins.trace "HI ${ builtins.typeOf ( util.shell-scripts.setup ) }" "" ;
-                                                                    # in setup ;
-                                                                    # in builtins.trace "${ util.shell-scripts.setup.false.false.false }" util.shell-scripts.setup.false.false.false ;
-                                                                    # in util.shell-scripts.teardown-asynch ;
-                                                                    in "makeWrapper ${ util.shell-scripts.setup.false.false.false } $out" ;
-                                                                name = "temporary" ;
-                                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                                src = ./. ;
-                                                        } ;
+                                                temporary = setup primary.init primary.release primary.post ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -393,8 +425,8 @@
                                                     ] ;
                                                 mounts =
                                                     {
-                                                        "/temporary" = builtins.throw "This should not be used in production." ;
-                                                        "/post" = builtins.throw "This should not be used in production." ;
+                                                        "/temporary" = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
+                                                        "/post" = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
                                                     } ;
                                                 shell-scripts =
                                                     {
@@ -482,10 +514,10 @@
                                                 {
                                                     at = "/run/wrappers/bin/at" ;
                                                     host-path = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
-                                                    init = scripts.executable ;
+                                                    init = scripts.shell-scripts.executable ;
                                                     initializer = 66 ;
-                                                    post = scripts.post ;
-                                                    release = scripts.executable ;
+                                                    post = scripts.shell-scripts.vacuum ;
+                                                    release = scripts.shell-scripts.executable ;
                                                     standard-error = 67 ;
                                                     tests =
                                                         [
