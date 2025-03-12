@@ -143,22 +143,31 @@
                                                                                                     ] ;
                                                                                         script =
                                                                                             let
-                                                                                                lines =
-                                                                                                    splits
-                                                                                                        [
-                                                                                                            [ ( ! ( init || release || post ) ) 1 1 ]
-                                                                                                            [ true 1 23 ]
-                                                                                                            [ init 25 25 ]
-                                                                                                            [ release 28 28 ]
-                                                                                                            [ post 31 31 ]
-                                                                                                            [ true 33 34 ]
-                                                                                                            [ init 36 60 ]
-                                                                                                        ] ;
-                                                                                                in
-                                                                                                    ''
-                                                                                                        ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
-                                                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                    '' ;
+                                                                                                derivation =
+                                                                                                    pkgs.stdenv.mkDerivation
+                                                                                                        {
+                                                                                                            installPhase =
+                                                                                                                let
+                                                                                                                    lines =
+                                                                                                                        splits
+                                                                                                                            [
+                                                                                                                                [ ( ! ( init || release || post ) ) 1 1 ]
+                                                                                                                                [ true 1 23 ]
+                                                                                                                                [ init 25 25 ]
+                                                                                                                                [ release 28 28 ]
+                                                                                                                                [ post 31 31 ]
+                                                                                                                                [ true 33 34 ]
+                                                                                                                                [ init 36 60 ]
+                                                                                                                            ] ;
+                                                                                                                    in
+                                                                                                                        ''
+                                                                                                                            ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
+                                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                        '' ;
+                                                                                                            name = "setup" ;
+                                                                                                            src = ./. ;
+                                                                                                        } ;
+                                                                                                in derivation ;
                                                                                     } ;
                                                                             in
                                                                                 {
@@ -204,27 +213,30 @@
                                                                                                     ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
                                                                                                 ] ;
                                                                                         script =
-                                                                                            pkgs.stdenv.mkDerivation
-                                                                                                {
-                                                                                                    installPhase =
-                                                                                                        let
-                                                                                                            lines =
-                                                                                                                splits
-                                                                                                                    [
-                                                                                                                        [ true 1 6 ]
-                                                                                                                        [ release 8 15 ]
-                                                                                                                        [ post 17 17 ]
-                                                                                                                        [ release 21 24 ]
-                                                                                                                        [ true 26 29 ]
-                                                                                                                    ] ;
-                                                                                                            in
-                                                                                                                ''
-                                                                                                                    ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
-                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                '' ;
-                                                                                                    name = "teardown-asynch" ;
-                                                                                                    src = ./. ;
-                                                                                                } ;
+                                                                                            let
+                                                                                                derivation =
+                                                                                                    pkgs.stdenv.mkDerivation
+                                                                                                        {
+                                                                                                            installPhase =
+                                                                                                                let
+                                                                                                                    lines =
+                                                                                                                        splits
+                                                                                                                            [
+                                                                                                                                [ true 1 6 ]
+                                                                                                                                [ release 8 15 ]
+                                                                                                                                [ post 17 17 ]
+                                                                                                                                [ release 21 24 ]
+                                                                                                                                [ true 26 29 ]
+                                                                                                                            ] ;
+                                                                                                                    in
+                                                                                                                        ''
+                                                                                                                            ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
+                                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                        '' ;
+                                                                                                            name = "teardown-asynch" ;
+                                                                                                            src = ./. ;
+                                                                                                        } ;
+                                                                                                in derivation ;
                                                                                     } ;
                                                                             in
                                                                                 {
