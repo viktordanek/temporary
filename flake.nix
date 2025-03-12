@@ -69,7 +69,7 @@
                                                                     name = "source" ;
                                                                     src = ./. ;
                                                                 } ;
-                                                    teardown-asynch = source ( self + "/scripts/teardown-asynch.sh" ) ;
+                                                    teardown-asynch = source ( self + "/scripts/teardown-asynch.sh" ) [ [ true 1 1 ] ] ;
                                                     teardown-synch =
                                                         source
                                                             ( self + "/scripts/teardown-synch.sh" )
@@ -83,30 +83,34 @@
                                                     in
                                                         pkgs.stdenv.mkDerivation
                                                             {
-                                                                installPhase = ## FIND ME
+                                                                installPhase =
                                                                     let
                                                                         environment =
                                                                             builtins.concatLists
                                                                                 [
                                                                                     [
+                                                                                        "--set AT ${ primary.at }"
                                                                                         "--set CAT ${ pkgs.coreutils }/bin/cat"
                                                                                         "--set CHMOD ${ pkgs.coreutils }/bin/chmod"
                                                                                         "--set ECHO ${ pkgs.coreutils }/bin/echo"
+                                                                                        "--set FLOCK ${ pkgs.flock }/bin/flock"
                                                                                         "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
                                                                                         "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--set MAKE_WRAPPER ${ pkgs.makeWrapper }"
+                                                                                        "--set LN ${ pkgs.coreutils }/bin/ln"
                                                                                     ]
                                                                                     ( if builtins.typeOf init == "string" then [ ''--run "export MAKE_WRAPPER_INIT='makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "\\" "$" "{" "RESOURCE" "}" ] }/init.sh'"'' ] else [ ] )
                                                                                     ( if builtins.typeOf release == "string" then [ ''--run "export MAKE_WRAPPER_RELEASE='makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "\\" "$" "{" "RESOURCE" "}" ] }/release.sh'"'' ] else [ ] )
                                                                                     ( if builtins.typeOf post == "string" then [ ''--run "export MAKE_WRAPPER_POST='makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "\\" "$" "{" "RESOURCE" "}" ] }/post.sh'"'' ] else [ ] )
                                                                                     [
-                                                                                        "--set LN ${ pkgs.coreutils }/bin/ln"
+                                                                                        "--set NICE ${ pkgs.coreutils }/bin/nice"
                                                                                         "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
                                                                                         "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
-                                                                                        # "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
+                                                                                        "--set TAIL ${ pkgs.coreutils }/bin/tail"
+                                                                                        "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
                                                                                         # "--set TEARDOWN_SYNCH ${ teardown-synch }"
                                                                                         "--set TRUE ${ pkgs.coreutils }/bin/true"
                                                                                     ]

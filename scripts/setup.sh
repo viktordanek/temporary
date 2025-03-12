@@ -30,8 +30,8 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   #
   ${MAKE_WRAPPER_POST} &&
   #
-  ${LN} --symbolic ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh &&
-  ${LN} --symbolic ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh &&
+  makeWrapper ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch --set AT ${AT} --set ECHO ${ECHO} --set NICE ${NICE} --set RESOURCE ${RESOURCE} &&
+  makeWrapper ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh --set CAT ${CAT} --set CHMOD ${CHMOD} --set ECHO ${ECHO} --set FLOCK ${FLOCK} --set RESOURCE ${RESOURCE} --set RM ${RM} --set TAIL ${TAIL} &&
   #
   if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${RESOURCE}/init.sh $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
   then
