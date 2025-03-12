@@ -1,5 +1,5 @@
 #
-source ${MAKE_WRAPPER} &&
+source ${MAKE_WRAPPER}/nix-support/setup-hook &&
 #
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
