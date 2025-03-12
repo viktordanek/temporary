@@ -481,7 +481,7 @@
                                             lib
                                                 {
                                                     at = "/run/wrappers/bin/at" ;
-                                                    host-path = "/tmp/IQdwRFE7" ;
+                                                    host-path = "/tmp/RFE7" ;
                                                     init = scripts.executable ;
                                                     initializer = 66 ;
                                                     post = scripts.post ;
