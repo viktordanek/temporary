@@ -483,6 +483,9 @@
                                                                                         ( string "YQ" "${ pkgs.yq }/bin/yq" )
                                                                                         # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
                                                                                         # ( target )
+                                                                                        ( string "STANDARD_ERROR" "\"\"" )
+                                                                                        ( string "STANDARD_OUTPUT" "9c8f38b45d5d275508221e29f424d0c796210f658cb55e62e13adc793f8f91c58567c7eaf116a6e844dc26f49ced8572a4582e5ab977bfb8ba0da62258653ee6" )
+                                                                                        ( string "STATUS" 0 )
                                                                                         ( string "TEMPLATE_FILE" template-file )
                                                                                     ] ;
                                                                     script = self + "/scripts/executable.sh" ;
