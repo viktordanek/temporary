@@ -468,20 +468,23 @@
                                                             ignore :
                                                                 {
                                                                     environment =
-                                                                        { self , path , standard-input , string } :
-                                                                            [
-                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                ( self "FOOBAR" ( self : self.foobar ) )
-                                                                                ( string "JQ" "${ pkgs.jq }/bin/jq" )
-                                                                                ( path "NAME" 0 )
-                                                                                # ( resource )
-                                                                                ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
-                                                                                ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
-                                                                                # ( target )
-                                                                                # ( string "TEMPLATE_FILE" "${ self + "/scripts/executable.json" }" )
-                                                                            ] ;
+                                                                        let
+                                                                            template-file = self + "/scripts/executable.json" ;
+                                                                            in
+                                                                                { self , path , standard-input , string } :
+                                                                                    [
+                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                        ( self "FOOBAR" ( self : self.foobar ) )
+                                                                                        ( string "JQ" "${ pkgs.jq }/bin/jq" )
+                                                                                        ( path "NAME" 0 )
+                                                                                        # ( resource )
+                                                                                        ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
+                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                        # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
+                                                                                        # ( target )
+                                                                                        ( string "TEMPLATE_FILE" template-file )
+                                                                                    ] ;
                                                                     script = self + "/scripts/executable.sh" ;
                                                                     tests = null ;
                                                                 } ;
