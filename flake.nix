@@ -113,9 +113,6 @@
                                                                                                             ( string "LN" "${ pkgs.coreutils }/bin/ln" )
                                                                                                         ]
                                                                                                         ( if ! ( init || release || post ) then [ ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" ) ] else [ ] )
-                                                                                                        # ( if init then [ ( string "MAKE_WRAPPER_INIT" "makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh" ) ] else [ ] )
-                                                                                                        # ( if post then [ ( string "MAKE_WRAPPER_POST" "makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh" ) ] else [ ] )
-                                                                                                        # ( if release then [ ( string "MAKE_WRAPPER_RELEASE" "makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh" ) ] else [ ] )
                                                                                                         [
                                                                                                             ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                                                             ( string "RM" "${ pkgs.coreutils }/bin/rm" )
@@ -243,8 +240,11 @@
                                                                             in builtins.foldl' reducer ( builtins.map builtins.typeOf [ primary.init primary.release primary.post ] ) util.shell-scripts.setup ;
                                                                     # in builtins.trace "HI ${ builtins.typeOf ( util.shell-scripts.setup ) }" "" ;
                                                                     # in setup ;
-                                                                    in util.shell-scripts.setup.false.false.false ;
+                                                                    # in builtins.trace "${ util.shell-scripts.setup.false.false.false }" util.shell-scripts.setup.false.false.false ;
+                                                                    # in util.shell-scripts.teardown-asynch ;
+                                                                    in "makeWrapper ${ util.shell-scripts.setup.false.false.false } $out" ;
                                                                 name = "temporary" ;
+                                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
                                                         } ;
                                                 tests =
@@ -481,7 +481,7 @@
                                             lib
                                                 {
                                                     at = "/run/wrappers/bin/at" ;
-                                                    host-path = "/tmp/RFE7" ;
+                                                    host-path = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
                                                     init = scripts.executable ;
                                                     initializer = 66 ;
                                                     post = scripts.post ;
