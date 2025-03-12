@@ -501,6 +501,18 @@
                                         {
                                             checks =
                                                 {
+                                                    foobar =
+                                                        pkgs.stdenv.mkDerivation
+                                                            {
+                                                                installPhase =
+                                                                    ''
+                                                                        ${ pkgs.coreutils }/bin/touch $out &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.util.shell-scripts.teardown-asynch } &&
+                                                                            exit 62
+                                                                    '' ;
+                                                                name = "foobar" ;
+                                                                src = ./. ;
+                                                            } ;
                                                     shell-script = scripts.tests ;
                                                     util = temporary.util.tests ;
                                                     # temporary = temporary.tests ;
