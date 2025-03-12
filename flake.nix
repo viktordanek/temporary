@@ -142,32 +142,29 @@
                                                                                                         ]
                                                                                                     ] ;
                                                                                         script =
-                                                                                            let
-                                                                                                derivation =
-                                                                                                    pkgs.stdenv.mkDerivation
-                                                                                                        {
-                                                                                                            installPhase =
-                                                                                                                let
-                                                                                                                    lines =
-                                                                                                                        splits
-                                                                                                                            [
-                                                                                                                                [ ( ! ( init || release || post ) ) 1 1 ]
-                                                                                                                                [ true 1 23 ]
-                                                                                                                                [ init 25 25 ]
-                                                                                                                                [ release 28 28 ]
-                                                                                                                                [ post 31 31 ]
-                                                                                                                                [ true 33 34 ]
-                                                                                                                                [ init 36 60 ]
-                                                                                                                            ] ;
-                                                                                                                    in
-                                                                                                                        ''
-                                                                                                                            ${ pkgs.gnused }/bin/sed -n ${ builtins.trace lines lines } > $out &&
-                                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                        '' ;
-                                                                                                            name = "setup" ;
-                                                                                                            src = ./. ;
-                                                                                                        } ;
-                                                                                                in builtins.toString derivation ;
+                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                {
+                                                                                                    installPhase =
+                                                                                                        let
+                                                                                                            lines =
+                                                                                                                splits
+                                                                                                                    [
+                                                                                                                        [ ( ! ( init || release || post ) ) 1 1 ]
+                                                                                                                        [ true 1 23 ]
+                                                                                                                        [ init 25 25 ]
+                                                                                                                        [ release 28 28 ]
+                                                                                                                        [ post 31 31 ]
+                                                                                                                        [ true 33 34 ]
+                                                                                                                        [ init 36 60 ]
+                                                                                                                    ] ;
+                                                                                                            in
+                                                                                                                ''
+                                                                                                                    ${ pkgs.gnused }/bin/sed -n ${ builtins.trace lines lines } > $out &&
+                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                '' ;
+                                                                                                    name = "setup" ;
+                                                                                                    src = ./. ;
+                                                                                                } ;
                                                                                     } ;
                                                                             in
                                                                                 {
