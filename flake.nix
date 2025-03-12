@@ -324,51 +324,6 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
-                                                                                            candidate =
-                                                                                                pkgs.stdenv.mkDerivation
-                                                                                                    {
-                                                                                                        installPhase =
-                                                                                                            let
-                                                                                                                init = if builtins.typeOf primary.init == "string" then [ primary.init ] else [ ] ;
-                                                                                                                release = if builtins.typeOf primary.release == "string" then [ primary.release ] else [ ] ;
-                                                                                                                post =
-                                                                                                                    pkgs.stdenv.mkDerivation
-                                                                                                                        {
-                                                                                                                            installPhase =
-                                                                                                                                let
-                                                                                                                                    post =
-                                                                                                                                        pkgs.stdenv.mkDerivation
-                                                                                                                                            {
-                                                                                                                                                installPhase =
-                                                                                                                                                    ''
-                                                                                                                                                        ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
-                                                                                                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                                                    '' ;
-                                                                                                                                                name = "post" ;
-                                                                                                                                                src = ./. ;
-                                                                                                                                            } ;
-                                                                                                                                    in
-                                                                                                                                        ''
-                                                                                                                                            makeWrapper ${ post } $out --set CAT ${ pkgs.coreutils }/bin/cat --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm
-                                                                                                                                        '' ;
-                                                                                                                            name = "post" ;
-                                                                                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                                                                                            src = ./. ;
-                                                                                                                        } ;
-                                                                                                                setup =
-                                                                                                                    let
-                                                                                                                        reducer = previous : current : builtins.getAttr ( if current == "string" then "true" else "false" ) previous ;
-                                                                                                                        in builtins.foldl' ( builtins.map builtins.typeOf [ primary.init primary.release "string" ] ) reducer util.shell-scripts.setup ;
-                                                                                                                in
-                                                                                                                    ''
-                                                                                                                        ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                                                            ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                                                                            ${ pkgs.coreutils }/bin/touch $out/bin/candidate &&
-                                                                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out/bin/candidate
-                                                                                                                    '' ;
-                                                                                                        name = "candidate" ;
-                                                                                                        src = ./. ;
-                                                                                                    } ;
                                                                                             script = pkgs.writeShellScript "test" ( builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : secondary.test ) secondary.count ) ) ;
                                                                                             secondary =
                                                                                                 let
@@ -393,7 +348,7 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = script ;
-                                                                                                        targetPkgs = pkgs : [ candidate ] ;
+                                                                                                        targetPkgs = pkgs : [ ( pkgs.writeShellScriptBin "candidate" ( setup primary.init primary.release primary.post ) ) ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
@@ -568,7 +523,7 @@
                                                                     {
                                                                         count = 2 ;
                                                                         expected = self + "/mounts/" ;
-                                                                        test = "${ pkgs.coreutils }/bin/echo 8315b9981bd91e569ab551632b4b06da8d1926e6f421b58c3d880c9ba648fc8edc1ea9fd62574836622de8bfabd59fa2ce92819c370a1c974dab9d84286cabff | candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
+                                                                        test = "candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
                                                                     }
                                                             )
                                                         ] ;
@@ -584,6 +539,7 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 62
                                                                     '' ;
                                                                 name = "foobar" ;
