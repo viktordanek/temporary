@@ -210,30 +210,27 @@
                                                                                                     ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
                                                                                                 ] ;
                                                                                         script =
-                                                                                            let
-                                                                                                derivation =
-                                                                                                    pkgs.stdenv.mkDerivation
-                                                                                                        {
-                                                                                                            installPhase =
-                                                                                                                let
-                                                                                                                    lines =
-                                                                                                                        splits
-                                                                                                                            [
-                                                                                                                                [ true 1 6 ]
-                                                                                                                                [ release 8 15 ]
-                                                                                                                                [ post 17 17 ]
-                                                                                                                                [ release 21 24 ]
-                                                                                                                                [ true 26 29 ]
-                                                                                                                            ] ;
-                                                                                                                    in
-                                                                                                                        ''
-                                                                                                                            ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
-                                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                        '' ;
-                                                                                                            name = "teardown-asynch" ;
-                                                                                                            src = ./. ;
-                                                                                                        } ;
-                                                                                                in builtins.toString derivation ;
+                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                {
+                                                                                                    installPhase =
+                                                                                                        let
+                                                                                                            lines =
+                                                                                                                splits
+                                                                                                                    [
+                                                                                                                        [ true 1 6 ]
+                                                                                                                        [ release 8 15 ]
+                                                                                                                        [ post 17 17 ]
+                                                                                                                        [ release 21 24 ]
+                                                                                                                        [ true 26 29 ]
+                                                                                                                    ] ;
+                                                                                                            in
+                                                                                                                ''
+                                                                                                                    ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
+                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                '' ;
+                                                                                                    name = "teardown-asynch" ;
+                                                                                                    src = ./. ;
+                                                                                                } ;
                                                                                     } ;
                                                                             in
                                                                                 {
