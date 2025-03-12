@@ -523,7 +523,8 @@
                                                                     {
                                                                         count = 2 ;
                                                                         expected = self + "/mounts/" ;
-                                                                        test = "candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
+                                                                        # test = "candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
+                                                                        test = "${ pkgs.which }/bin/which candidate" ;
                                                                     }
                                                             )
                                                         ] ;
