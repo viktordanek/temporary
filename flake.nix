@@ -41,23 +41,6 @@
                                                 standard-error = if builtins.typeOf standard-error == "int" then standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
                                                 tests = if builtins.typeOf tests == "null" then tests else if builtins.typeOf tests == "list" then tests else if builtins.typeOf tests == "set" then tests else builtins.throw "tests is not null, list, set but ${ builtins.typeOf tests }." ;
                                             } ;
-                                        temporary =
-                                            pkgs.stdenv.mkDerivation
-                                                {
-                                                    installPhase =
-                                                        let
-                                                            setup =
-                                                                let
-                                                                    reducer = previous : current : builtins.getAttr ( if builtins.typeOf current == "string" then "true" else "false" ) previous ;
-                                                                    in builtins.foldl' reducer [ primary.init primary.release primary.post ] util.shell-scripts.setup ;
-                                                            in
-                                                                ''
-                                                                    makeWrapper ${ setup } $out
-                                                                '' ;
-                                                    name = "temporary" ;
-                                                    nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                    src = ./. ;
-                                                } ;
                                         util =
                                             _shell-script
                                                 {
@@ -249,7 +232,19 @@
                                                 } ;
                                         in
                                             {
-                                                temporary = temporary ;
+                                                temporary =
+                                                    pkgs.stdenv.mkDerivation
+                                                        {
+                                                            installPhase =
+                                                                let
+                                                                    setup =
+                                                                        let
+                                                                            reducer = previous : current : builtins.getAttr ( if current == "string" then "true" else "false" ) previous ;
+                                                                            in builtins.foldl' reducer ( builtins.map builtins.typeOf [ primary.init primary.release primary.post ] ) util.shell-scripts.setup ;
+                                                                    in setup ;
+                                                                name = "temporary" ;
+                                                                src = ./. ;
+                                                        } ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -512,7 +507,7 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.util.shell-scripts.teardown-asynch } &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
                                                                             exit 62
                                                                     '' ;
                                                                 name = "foobar" ;
