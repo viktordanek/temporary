@@ -159,7 +159,7 @@
                                                                                                                     ] ;
                                                                                                             in
                                                                                                                 ''
-                                                                                                                    ${ pkgs.gnused }/bin/sed -n ${ builtins.trace lines lines } > $out &&
+                                                                                                                    ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
                                                                                                                         ${ pkgs.coreutils }/bin/chmod 0555 $out
                                                                                                                 '' ;
                                                                                                     name = "setup" ;
