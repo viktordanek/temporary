@@ -101,15 +101,16 @@
                                                                                         "--set MAKE_WRAPPER ${ pkgs.makeWrapper }"
                                                                                         "--set LN ${ pkgs.coreutils }/bin/ln"
                                                                                     ]
-                                                                                    ( if builtins.typeOf init == "string" then [ ''--run "export MAKE_WRAPPER_INIT='makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "\\" "$" "{" "RESOURCE" "}" ] }/init.sh'"'' ] else [ ] )
-                                                                                    ( if builtins.typeOf release == "string" then [ ''--run "export MAKE_WRAPPER_RELEASE='makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "\\" "$" "{" "RESOURCE" "}" ] }/release.sh'"'' ] else [ ] )
-                                                                                    ( if builtins.typeOf post == "string" then [ ''--run "export MAKE_WRAPPER_POST='makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "\\" "$" "{" "RESOURCE" "}" ] }/post.sh'"'' ] else [ ] )
+                                                                                    ( if builtins.typeOf init == "string" then [ "--set MAKE_WRAPPER_INIT ${ init }" ] else [ ] )
+                                                                                    ( if builtins.typeOf release == "string" then [ "--set MAKE_WRAPPER_RELEASE ${ release }" ] else [ ] )
+                                                                                    ( if builtins.typeOf post == "string" then [ "--set MAKE_WRAPPER_POST ${ post }" ] else [ ] )
                                                                                     [
                                                                                         "--set NICE ${ pkgs.coreutils }/bin/nice"
                                                                                         "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
                                                                                         "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory /tmp/RESOURCE.XXXXXXXX )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
                                                                                         "--set TAIL ${ pkgs.coreutils }/bin/tail"
+                                                                                        "--run 'export TARGET=${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/target'"
                                                                                         "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
                                                                                         "--set TEARDOWN_SYNCH ${ teardown-synch }"
                                                                                         "--set TRUE ${ pkgs.coreutils }/bin/true"
@@ -447,14 +448,14 @@
                                             {
                                                 extensions =
                                                     [
-                                                        {
-                                                            name = "resource" ;
-                                                            value =  "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                        }
-                                                        {
-                                                            name = "target" ;
-                                                            value =  "--run 'export TARGET=$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } ) )'" ;
-                                                        }
+                                                        # {
+                                                        #     name = "resource" ;
+                                                        #     value =  "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
+                                                        # }
+                                                        # {
+                                                        #     name = "target" ;
+                                                        #     value =  "--run 'export TARGET=$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } ) )'" ;
+                                                        # }
                                                     ] ;
                                                 mounts =
                                                     {
@@ -467,17 +468,19 @@
                                                             ignore :
                                                                 {
                                                                     environment =
-                                                                        { resource , self , path , standard-input , string , target } :
+                                                                        { self , path , standard-input , string } :
                                                                             [
                                                                                 ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                 ( self "FOOBAR" ( self : self.foobar ) )
                                                                                 ( string "JQ" "${ pkgs.jq }/bin/jq" )
                                                                                 ( path "NAME" 0 )
-                                                                                ( resource )
+                                                                                # ( resource )
                                                                                 ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
                                                                                 ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                ( target )
+                                                                                # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
+                                                                                # ( target )
+                                                                                # ( string "TEMPLATE_FILE" "${ self + "/scripts/executable.json" }" )
                                                                             ] ;
                                                                     script = self + "/scripts/executable.sh" ;
                                                                     tests = null ;

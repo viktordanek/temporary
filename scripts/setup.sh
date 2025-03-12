@@ -22,13 +22,13 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/pid &&
   ${CHMOD} 0400 ${RESOURCE}/pid &&
   #
-  ${MAKE_WRAPPER_INIT} &&
+  makeWrapper ${MAKE_WRAPPER_INIT} ${RESOURCE}/init.sh --set RESOURCE ${RESOURCE} --set TARGET ${TARGET} &&
   #
   #
-  ${MAKE_WRAPPER_RELEASE} &&
+  makeWrapper ${MAKE_WRAPPER_RELEASE} ${RESOURCE}/release.sh &&
   #
   #
-  ${MAKE_WRAPPER_POST} &&
+  makeWrapper ${MAKE_WRAPPER_POST} ${RESOURCE}/post.sh &&
   #
   makeWrapper ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch --set AT ${AT} --set ECHO ${ECHO} --set NICE ${NICE} --set RESOURCE ${RESOURCE} &&
   makeWrapper ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh --set CAT ${CAT} --set CHMOD ${CHMOD} --set ECHO ${ECHO} --set FLOCK ${FLOCK} --set RESOURCE ${RESOURCE} --set RM ${RM} --set TAIL ${TAIL} &&
