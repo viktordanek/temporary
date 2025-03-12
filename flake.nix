@@ -48,8 +48,8 @@
                                                         source
                                                             ( self + "/scripts/setup.sh" )
                                                             [
-                                                                [ ( builtins.any ( x : builtins.typeOf x == "string" ) [ init release post ] )1 1 ]
-                                                                [ true 1 23 ]
+                                                                [ ( builtins.any ( x : builtins.typeOf x == "string" ) [ init release post ] ) 2 2 ]
+                                                                [ true 4 23 ]
                                                                 [ ( builtins.typeOf init == "string" ) 25 25 ]
                                                                 [ ( builtins.typeOf release == "string" ) 28 28 ]
                                                                 [ ( builtins.typeOf post == "string" ) 31 31 ]
@@ -82,9 +82,34 @@
                                                     in
                                                         pkgs.stdenv.mkDerivation
                                                             {
-                                                                installPhase =
-                                                                    ''
-                                                                        makeWrapper ${ setup } $out
+                                                                installPhase = ## FIND ME
+                                                                    let
+                                                                        environment =
+                                                                            builtins.concatLists
+                                                                                [
+                                                                                    [
+                                                                                        "--set CAT ${ pkgs.coreutils }/bin/cat"
+                                                                                        "--set CHMOD ${ pkgs.coreutils }/bin/chmod"
+                                                                                        "--set ECHO ${ pkgs.coreutils }/bin/echo"
+                                                                                        # "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
+                                                                                        # "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
+                                                                                        # "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
+                                                                                        # "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
+                                                                                        "--set MAKE_WRAPPER ${ pkgs.makeWrapper }"
+                                                                                    ]
+                                                                                    ( if builtins.typeOf init == "string" then [ "run 'export MAKE_WRAPPER_INIT='makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh'" ] else [ ] )
+                                                                                    ( if builtins.typeOf release == "string" then [ "run 'export MAKE_WRAPPER_RELEASE='makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh'" ] else [ ] )
+                                                                                    ( if builtins.typeOf post == "string" then [ "run 'export MAKE_WRAPPER_POST='makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh'" ] else [ ] )
+                                                                                    [
+                                                                                        "--set LN ${ pkgs.coreutils }/bin/ln }"
+                                                                                        # "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
+                                                                                        "set RM ${ pkgs.coreutils }/bin/rm"
+                                                                                        "set TRUE ${ pkgs.coreutils }/bin/true"
+                                                                                    ]
+                                                                                ] ;
+                                                                        in
+                                                                            ''
+                                                                                makeWrapper ${ setup } $out ${ builtins.concatStringsSep " " environment }
                                                                     '' ;
                                                                 name = "bin" ;
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
