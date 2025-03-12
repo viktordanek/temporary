@@ -101,8 +101,8 @@
                                                                                     # ( if builtins.typeOf release == "string" then [ "run 'export MAKE_WRAPPER_RELEASE='makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh'" ] else [ ] )
                                                                                     # ( if builtins.typeOf post == "string" then [ "run 'export MAKE_WRAPPER_POST='makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh'" ] else [ ] )
                                                                                     [
-                                                                                        # "--set LN ${ pkgs.coreutils }/bin/ln }"
-                                                                                        # "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
+                                                                                        "--set LN ${ pkgs.coreutils }/bin/ln"
+                                                                                        "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
                                                                                         "--set TRUE ${ pkgs.coreutils }/bin/true"
                                                                                     ]
