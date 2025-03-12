@@ -97,7 +97,7 @@
                                                                                         "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--set MAKE_WRAPPER ${ pkgs.makeWrapper }"
                                                                                     ]
-                                                                                    # ( if builtins.typeOf init == "string" then [ "run 'export MAKE_WRAPPER_INIT='makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh'" ] else [ ] )
+                                                                                    ( if builtins.typeOf init == "string" then [ ''--run "export MAKE_WRAPPER_INIT='makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh'"'' ] else [ ] )
                                                                                     # ( if builtins.typeOf release == "string" then [ "run 'export MAKE_WRAPPER_RELEASE='makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh'" ] else [ ] )
                                                                                     # ( if builtins.typeOf post == "string" then [ "run 'export MAKE_WRAPPER_POST='makeWrapper ${ post } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/post.sh'" ] else [ ] )
                                                                                     [
