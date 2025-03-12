@@ -102,7 +102,7 @@
                                                                         (
                                                                             builtins.concatLists
                                                                                 (
-                                                                                    builtins.map ( s : if builtins.elemAt s 0 then [ "${ builtins.toString ( builtins.elemAt s 1 ) },${ builtins.toString ( builtins.elemAt s 2 ) }p" ] else [ ] ) splits
+                                                                                    builtins.map ( s : if builtins.elemAt s 0 then [ "-e ${ builtins.toString ( builtins.elemAt s 1 ) },${ builtins.toString ( builtins.elemAt s 2 ) }p" ] else [ ] ) splits
                                                                                 )
                                                                         ) ;
                                                             in
@@ -161,13 +161,13 @@
                                                                                                                             ] ;
                                                                                                                     in
                                                                                                                         ''
-                                                                                                                            ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
+                                                                                                                            ${ pkgs.gnused }/bin/sed -n ${ builtins.trace lines lines } > $out &&
                                                                                                                                 ${ pkgs.coreutils }/bin/chmod 0555 $out
                                                                                                                         '' ;
                                                                                                             name = "setup" ;
                                                                                                             src = ./. ;
                                                                                                         } ;
-                                                                                                in derivation ;
+                                                                                                in builtins.toString derivation ;
                                                                                     } ;
                                                                             in
                                                                                 {
@@ -236,7 +236,7 @@
                                                                                                             name = "teardown-asynch" ;
                                                                                                             src = ./. ;
                                                                                                         } ;
-                                                                                                in derivation ;
+                                                                                                in builtins.toString derivation ;
                                                                                     } ;
                                                                             in
                                                                                 {
@@ -491,7 +491,7 @@
                                             lib
                                                 {
                                                     at = "/run/wrappers/bin/at" ;
-                                                    host-path = builtins.throw "Do not use in production." ;
+                                                    host-path = "/tmp/y8NbY4kY" ;
                                                     init = scripts.executable ;
                                                     initializer = 66 ;
                                                     post = scripts.post ;
