@@ -324,18 +324,20 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
-                                                                                            script = pkgs.writeShellScript "test" ( builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : secondary.test ) secondary.count ) ) ;
+                                                                                            script = pkgs.writeShellScript "test" ( builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : "if ! ${ secondary.test } ; then exit 64 ; fi" ) secondary.count ) ) ;
                                                                                             secondary =
                                                                                                 let
                                                                                                     identity =
                                                                                                         {
                                                                                                             count ? 2 ,
                                                                                                             expected ,
+                                                                                                            status ? true ,
                                                                                                             test
                                                                                                         } :
                                                                                                             {
                                                                                                                 count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
                                                                                                                 expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
+                                                                                                                status = if builtins.typeOf status == "bool" then status else builtins.throw "status is not bool but ${ builtins.typeOf status }." ;
                                                                                                                 test = if builtins.typeOf test == "string" then test else builtins.throw "test is not string but ${ builtins.typeOf test }." ;
                                                                                                             } ;
                                                                                                     in identity ( value null ) ;
@@ -524,7 +526,8 @@
                                                                         count = 2 ;
                                                                         expected = self + "/mounts/" ;
                                                                         # test = "candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
-                                                                        test = "${ pkgs.which }/bin/which candidate" ;
+                                                                        status = true ;
+                                                                        test = "candidate" ;
                                                                     }
                                                             )
                                                         ] ;
