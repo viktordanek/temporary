@@ -88,14 +88,14 @@
                                                                             builtins.concatLists
                                                                                 [
                                                                                     [
-                                                                                        # "--set CAT ${ pkgs.coreutils }/bin/cat"
-                                                                                        # "--set CHMOD ${ pkgs.coreutils }/bin/chmod"
-                                                                                        # "--set ECHO ${ pkgs.coreutils }/bin/echo"
-                                                                                        # "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
-                                                                                        # "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
-                                                                                        # "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
-                                                                                        # "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
-                                                                                        # "--set MAKE_WRAPPER ${ pkgs.makeWrapper }"
+                                                                                        "--set CAT ${ pkgs.coreutils }/bin/cat"
+                                                                                        "--set CHMOD ${ pkgs.coreutils }/bin/chmod"
+                                                                                        "--set ECHO ${ pkgs.coreutils }/bin/echo"
+                                                                                        "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
+                                                                                        "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
+                                                                                        "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
+                                                                                        "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
+                                                                                        "--set MAKE_WRAPPER ${ pkgs.makeWrapper }"
                                                                                     ]
                                                                                     # ( if builtins.typeOf init == "string" then [ "run 'export MAKE_WRAPPER_INIT='makeWrapper ${ init } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/init.sh'" ] else [ ] )
                                                                                     # ( if builtins.typeOf release == "string" then [ "run 'export MAKE_WRAPPER_RELEASE='makeWrapper ${ release } ${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/release.sh'" ] else [ ] )
@@ -103,8 +103,8 @@
                                                                                     [
                                                                                         # "--set LN ${ pkgs.coreutils }/bin/ln }"
                                                                                         # "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
-                                                                                        # "set RM ${ pkgs.coreutils }/bin/rm"
-                                                                                        # "set TRUE ${ pkgs.coreutils }/bin/true"
+                                                                                        "--set RM ${ pkgs.coreutils }/bin/rm"
+                                                                                        "--set TRUE ${ pkgs.coreutils }/bin/true"
                                                                                     ]
                                                                                 ] ;
                                                                         in
