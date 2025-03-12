@@ -329,18 +329,32 @@
                                                                                                 let
                                                                                                     identity =
                                                                                                         {
+                                                                                                            arguments ? null ,
                                                                                                             count ? 2 ,
                                                                                                             expected ,
-                                                                                                            status ? true ,
-                                                                                                            test
+                                                                                                            file ? null ,
+                                                                                                            paste ? null ,
+                                                                                                            pipe ? null ,
+                                                                                                            status ? true
                                                                                                         } :
                                                                                                             {
+                                                                                                                arguments = if builtins.typeOf arguments == "null" then arguments else if builtins.typeOf arguments == "string" then arguments else builtins.throw "arguments is not null, string but ${ builtins.typeOf file }." ;
                                                                                                                 count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
                                                                                                                 expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
+                                                                                                                file = if builtins.typeOf file == "null" then file else if builtins.typeOf file == "string" then file else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
+                                                                                                                paste = if builtins.typeOf paste == "null" then paste else if builtins.typeOf paste == "string" then paste else builtins.throw "paste is not null, string but ${ builtins.typeOf paste }." ;
+                                                                                                                pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf paste == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf paste }." ;
                                                                                                                 status = if builtins.typeOf status == "bool" then status else builtins.throw "status is not bool but ${ builtins.typeOf status }." ;
-                                                                                                                test = if builtins.typeOf test == "string" then test else builtins.throw "test is not string but ${ builtins.typeOf test }." ;
                                                                                                             } ;
                                                                                                     in identity ( value null ) ;
+                                                                                            test =
+                                                                                                let
+                                                                                                    arguments = if builtins.typeOf secondary.arguments == "null" then "candidate" else "candidate ${ secondary.arguments }" ;
+                                                                                                    pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
+                                                                                                    file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
+                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then file else "${ pkgs.coreutils }/bin/echo ${ secondary.paste } > $( ${ file } )" ;
+                                                                                                    status = if secondary.paste then "if ! ${ paste } > /dev/null ; then exit 64 ; fi ;" else "if ${ paste } > /dev/null ; then exit 64 ; fi ;" ;
+                                                                                                    count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) ) secondary.count ;
                                                                                             user-environment =
                                                                                                 pkgs.buildFHSUserEnv
                                                                                                     {
