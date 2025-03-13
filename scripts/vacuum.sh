@@ -1,4 +1,6 @@
 ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
+  ${CHMOD} a-wx ${RESOURCE}
+  ${CHMOD} a+r ${RESOURCE} &&
   exec 201> /post.lock &&
   if ${FLOCK} 201
   then

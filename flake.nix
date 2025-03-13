@@ -345,7 +345,7 @@
                                                                                                                         } ;
                                                                                                                 in
                                                                                                                     ''
-                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm
+                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm
                                                                                                                     '' ;
                                                                                                         name = "post" ;
                                                                                                         nativeBuildInputs = [ pkgs.makeWrapper ] ;
@@ -398,16 +398,16 @@
                                                                                                 builtins.concatLists
                                                                                                     [
                                                                                                         [
-                                                                                                            "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            # "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "${ user-environment }/bin/test-candidate"
                                                                                                             "${ pkgs.coreutils }/bin/sleep 10s"
                                                                                                             "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) [ "leakage" ] ] ) }"
+                                                                                                            "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) [ "leaks" ] ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/echo $out"
-                                                                                                            "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            # "${ pkgs.coreutils }/bin/echo $out"
+                                                                                                            # "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
