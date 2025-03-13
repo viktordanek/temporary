@@ -1,5 +1,5 @@
 #
-source ${MAKE_WRAPPER}/nix-support/setup-hook &&
+source ${MAKE_WRAPPER}/nix-support/setup-hook && ${ECHO} AAA >> /post/debug &&
 #
   ${ECHO} "${@}" > ${RESOURCE}/init.arguments &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
@@ -31,7 +31,7 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   makeWrapper ${MAKE_WRAPPER_POST} ${RESOURCE}/post.sh &&
   #
   makeWrapper ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh --set AT ${AT} --set ECHO ${ECHO} --set NICE ${NICE} --set RESOURCE ${RESOURCE} &&
-  makeWrapper ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh --set CAT ${CAT} --set CHMOD ${CHMOD} --set ECHO ${ECHO} --set FLOCK ${FLOCK} --set RESOURCE ${RESOURCE} --set RM ${RM} --set TAIL ${TAIL} &&
+  makeWrapper ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh --set CAT ${CAT} --set CHMOD ${CHMOD} --set ECHO ${ECHO} --set FLOCK ${FLOCK} --set RESOURCE ${RESOURCE} --set RM ${RM} --set TAIL ${TAIL}  --set FIND ${FIND} &&
   #
   if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${RESOURCE}/init.sh $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
   then
@@ -59,4 +59,4 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
       ${ECHO} ${RESOURCE}/target
   fi &&
   #
-  ${TRUE}
+  ${TRUE} && ${ECHO} AZA >> /post/debug

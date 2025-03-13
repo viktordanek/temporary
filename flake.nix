@@ -114,6 +114,7 @@
                                                                                         "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
                                                                                         "--set TEARDOWN_SYNCH ${ teardown-synch }"
                                                                                         "--set TRUE ${ pkgs.coreutils }/bin/true"
+                                                                                        "--set FIND ${ pkgs.findutils }/bin/find"
                                                                                     ]
                                                                                 ] ;
                                                                         in
@@ -326,6 +327,28 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
+                                                                                            post =
+                                                                                                pkgs.stdenv.mkDerivation
+                                                                                                    {
+                                                                                                        installPhase =
+                                                                                                            let
+                                                                                                                source =
+                                                                                                                    pkgs.stdenv.mkDerivation
+                                                                                                                        {
+                                                                                                                            installPhase =
+                                                                                                                                ''
+                                                                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
+                                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                                '' ;
+                                                                                                                        } ;
+                                                                                                                in
+                                                                                                                    ''
+                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm
+                                                                                                                    '' ;
+                                                                                                        name = "post" ;
+                                                                                                        nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                                                                        src = ./. ;
+                                                                                                    } ;
                                                                                             secondary =
                                                                                                 let
                                                                                                     identity =
@@ -367,7 +390,7 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = test ;
-                                                                                                        targetPkgs = pkgs : [ ( setup primary.init primary.release primary.post ) ] ;
+                                                                                                        targetPkgs = pkgs : [ ( setup primary.init primary.release post ) ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
