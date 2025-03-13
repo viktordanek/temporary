@@ -1,4 +1,4 @@
-${ECHO} CAA ${0} >> /post/debug && ${FIND} ${RESOURCE} >> /post/debug && ${CAT} ${RESOURCE}/post.sh >> /post/debug && exec 200> ${RESOURCE}/lock &&
+${ECHO} CAA ${0} >> /post/debug && ${FIND} ${RESOURCE} >> /post/debug && ${CAT} ${RESOURCE}/release.sh >> /post/debug && exec 200> ${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
     PID=$( ${CAT} ${RESOURCE}/pid ) &&

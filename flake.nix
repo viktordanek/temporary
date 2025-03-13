@@ -461,8 +461,8 @@
                                                     ] ;
                                                 mounts =
                                                     {
-                                                        "/temporary" = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
-                                                        "/post" = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
+                                                        "/temporary" = "/tmp/xwRS9fls" ;
+                                                        "/post" = "/tmp/SdmCftVV" ;
                                                     } ;
                                                 shell-scripts =
                                                     {
