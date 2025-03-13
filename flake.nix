@@ -354,7 +354,7 @@
                                                                                                     pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
                                                                                                     paste = if builtins.typeOf secondary.paste == "null" then file else "${ pkgs.coreutils }/bin/echo ${ secondary.paste } > $( ${ file } )" ;
-                                                                                                    status = if secondary.status then "if ! ${ paste } > /tmp/null ; then exit 74 ; fi" else "if ${ paste } > /dev/null ; then exit 84 ; fi" ;
+                                                                                                    status = if secondary.status then "if ! ${ paste } ; then exit 74 ; fi" else "if ${ paste } ; then exit 84 ; fi" ;
                                                                                                     count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
                                                                                                     in pkgs.writeShellScript "test-candidate" ( builtins.trace count count ) ;
                                                                                             user-environment =
@@ -529,7 +529,13 @@
                                         temporary =
                                             lib
                                                 {
-                                                    at = "/run/wrappers/bin/at" ;
+                                                    at =
+                                                        builtins.toString (
+                                                        pkgs.writeShellScript
+                                                            "at"
+                                                            ''
+                                                                ${ pkgs.coreutils }/bin/true
+                                                            '' ) ;
                                                     host-path = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
                                                     init = scripts.shell-scripts.executable ;
                                                     initializer = 66 ;
