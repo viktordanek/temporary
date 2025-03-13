@@ -350,7 +350,7 @@
                                                                                                     in identity ( value null ) ;
                                                                                             test =
                                                                                                 let
-                                                                                                    arguments = if builtins.typeOf secondary.arguments == "null" then "setup" else "setup ${ secondary.arguments }" ;
+                                                                                                    arguments = if builtins.typeOf secondary.arguments == "null" then "temporary" else "temporary ${ secondary.arguments }" ;
                                                                                                     pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
                                                                                                     paste = if builtins.typeOf secondary.paste == "null" then file else "${ pkgs.coreutils }/bin/echo ${ secondary.paste } > $( ${ file } )" ;
@@ -366,7 +366,7 @@
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
-                                                                                                        runScript = "${ pkgs.which }/bin/which temporary" ; # test ;
+                                                                                                        runScript = test ;
                                                                                                         targetPkgs = pkgs : [ ( setup primary.init primary.release primary.post ) ] ;
                                                                                                     } ;
                                                                                             in
