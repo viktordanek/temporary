@@ -1,3 +1,4 @@
+${ECHO} hello > /post/file &&
 exec 201> /post.lock &&
   if ${FLOCK} 201
   then

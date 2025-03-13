@@ -377,6 +377,7 @@
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "${ user-environment }/bin/test-candidate"
+                                                                                                            "${ pkgs.coreutils }/bin/sleep 10s"
                                                                                                             "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             # "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             # "${ pkgs.coreutils }/bin/echo $out"
@@ -533,7 +534,7 @@
                                                         pkgs.writeShellScript
                                                             "at"
                                                             ''
-                                                                $( ${ pkgs.coreutils }/bin/cat ) &
+                                                                $( ${ pkgs.coreutils }/bin/tee ) &
                                                             '' ;
                                                     host-path = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
                                                     init = scripts.shell-scripts.executable ;
