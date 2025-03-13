@@ -118,7 +118,9 @@
                                                                                 ] ;
                                                                         in
                                                                             ''
-                                                                                makeWrapper ${ setup } $out ${ builtins.concatStringsSep " " environment }
+                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
+                                                                                    makeWrapper ${ setup } $out/bin/temporary ${ builtins.concatStringsSep " " environment }
                                                                             '' ;
                                                                 name = "bin" ;
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
@@ -312,7 +314,7 @@
                                                 } ;
                                         in
                                             {
-                                                temporary = setup primary.init primary.release primary.post ;
+                                                temporary = "${ setup primary.init primary.release primary.post }/bin/temporary" ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -364,7 +366,7 @@
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
-                                                                                                        runScript = "${ pkgs.which }/bin/which setup" ; # test ;
+                                                                                                        runScript = "${ pkgs.which }/bin/which temporary" ; # test ;
                                                                                                         targetPkgs = pkgs : [ ( setup primary.init primary.release primary.post ) ] ;
                                                                                                     } ;
                                                                                             in
