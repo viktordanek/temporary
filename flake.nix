@@ -364,7 +364,7 @@
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
-                                                                                                        runScript = test ;
+                                                                                                        runScript = "${ pkgs.which }/bin/which setup" ; # test ;
                                                                                                         targetPkgs = pkgs : [ ( setup primary.init primary.release primary.post ) ] ;
                                                                                                     } ;
                                                                                             in
