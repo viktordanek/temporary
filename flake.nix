@@ -461,8 +461,8 @@
                                                     ] ;
                                                 mounts =
                                                     {
-                                                        "/temporary" = "/tmp/xwRS9fls" ;
-                                                        "/post" = "/tmp/SdmCftVV" ;
+                                                        # "/temporary" = "/tmp/xwRS9fls" ;
+                                                        # "/post" = "/tmp/SdmCftVV" ;
                                                     } ;
                                                 shell-scripts =
                                                     {
