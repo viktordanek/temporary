@@ -340,6 +340,8 @@
                                                                                                                                     ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
                                                                                                                                         ${ pkgs.coreutils }/bin/chmod 0555 $out
                                                                                                                                 '' ;
+                                                                                                                            name = "post" ;
+                                                                                                                            src = ./. ;
                                                                                                                         } ;
                                                                                                                 in
                                                                                                                     ''
@@ -390,7 +392,7 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = test ;
-                                                                                                        targetPkgs = pkgs : [ ( setup primary.init primary.release post ) ] ;
+                                                                                                        targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
