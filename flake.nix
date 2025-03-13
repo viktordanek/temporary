@@ -324,6 +324,12 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
+                                                                                            candidate =
+                                                                                                pkgs.stdenv.mkDerivation
+                                                                                                    {
+                                                                                                        installPhase = setup primary.init primary.release primary.post ;
+                                                                                                        
+                                                                                                    }
                                                                                             secondary =
                                                                                                 let
                                                                                                     identity =
