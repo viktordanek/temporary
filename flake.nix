@@ -409,7 +409,7 @@
                                                                                             ] ;
                                                                             }
                                                                             primary.tests ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors  [ "${ pkgs.coreutils }/bin/echo $out" "exit 64" ] ] ) ;
+                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
                                                             name = "tests" ;
                                                             src = ./. ;
                                                         } ;
@@ -559,7 +559,7 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
+                                                                            # ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
                                                                             # ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 62
                                                                     '' ;
