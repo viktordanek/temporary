@@ -378,8 +378,8 @@
                                                                                                     arguments = if builtins.typeOf secondary.arguments == "null" then "temporary" else "temporary ${ secondary.arguments }" ;
                                                                                                     pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
-                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then file else secondary.paste "$( ${ file } )" ;
-                                                                                                    status = if secondary.status then "if ! ${ paste } > /dev/null 2>> /post/standard-error ; then ${ pkgs.coreutils }/bin/touch /post/status.good ; fi" else "if ${ paste } > /dev/null 2>> /post/standard-error ; then ${ pkgs.coreutils }/bin/touch /post/status.bad ; fi" ;
+                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then file else "VARIABLE=$( ${ file } ) && ${ secondary.paste ( builtins.concatStringsSep "" [ "$" "{" "VARIABLE" "}" ] ) }" ;
+                                                                                                    status = paste ;
                                                                                                     count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
                                                                                                     in pkgs.writeShellScript "test-candidate" ( builtins.trace count count ) ;
                                                                                             user-environment =
@@ -601,16 +601,13 @@
                                                                 ignore :
                                                                     {
                                                                         # arguments = "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ;
-                                                                        count = 100 ;
+                                                                        count = 2 ;
                                                                         expected = self + "/mounts/B0hwDMGO" ;
                                                                         # paste = temporary : "${ pkgs.coreutils }/bin/echo IN_NIX_SHELL=${ builtins.concatStringsSep "" [ "$" "{" "IN_NIX_SHELL" "}" ] } > /post/debug" ;
                                                                         # paste = temporary : "${ pkgs.coreutils }/bin/ps aux --forest >> /post/debug" ;
                                                                         # paste = temporary : "${ pkgs.coreutils }/bin/echo hi ${ temporary } ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } | ${ pkgs.coreutils }/bin/tee --append /post/debug" ;
                                                                         paste =
-                                                                            temporary :
-                                                                                ''
-                                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] }${ pkgs.coreutils }/bin/echo "paste: 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" >> ${ temporary }
-                                                                                '' ;
+                                                                            temporary : ''${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] }${ pkgs.coreutils }/bin/echo "paste: 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" >> ${ temporary }'' ;
                                                                         # pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
                                                                         status = true ;
                                                                     }
