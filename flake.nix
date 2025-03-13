@@ -324,7 +324,6 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
-                                                                                            script = pkgs.writeShellScript "test" ( builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : "if ! ${ secondary.test } ; then exit 64 ; fi" ) secondary.count ) ) ;
                                                                                             secondary =
                                                                                                 let
                                                                                                     identity =
@@ -354,7 +353,8 @@
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
                                                                                                     paste = if builtins.typeOf secondary.paste == "null" then file else "${ pkgs.coreutils }/bin/echo ${ secondary.paste } > $( ${ file } )" ;
                                                                                                     status = if secondary.paste then "if ! ${ paste } > /dev/null ; then exit 64 ; fi ;" else "if ${ paste } > /dev/null ; then exit 64 ; fi ;" ;
-                                                                                                    count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) ) secondary.count ;
+                                                                                                    count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
+                                                                                                    in count ;
                                                                                             user-environment =
                                                                                                 pkgs.buildFHSUserEnv
                                                                                                     {
@@ -363,7 +363,7 @@
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
-                                                                                                        runScript = script ;
+                                                                                                        runScript = test ;
                                                                                                         targetPkgs = pkgs : [ ( pkgs.writeShellScriptBin "candidate" ( setup primary.init primary.release primary.post ) ) ] ;
                                                                                                     } ;
                                                                                             in
@@ -374,7 +374,7 @@
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "${ user-environment }/bin/test-candidate"
                                                                                                             "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/ln --symbolic ${ script } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/echo $out"
                                                                                                             "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
@@ -541,7 +541,6 @@
                                                                         expected = self + "/mounts/" ;
                                                                         # test = "candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
                                                                         status = true ;
-                                                                        test = "candidate" ;
                                                                     }
                                                             )
                                                         ] ;
