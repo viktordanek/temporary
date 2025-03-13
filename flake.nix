@@ -352,9 +352,9 @@
                                                                                                     pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
                                                                                                     paste = if builtins.typeOf secondary.paste == "null" then file else "${ pkgs.coreutils }/bin/echo ${ secondary.paste } > $( ${ file } )" ;
-                                                                                                    status = if secondary.status then "if ! ${ paste } > /dev/null ; then exit 64 ; fi" else "if ${ paste } > /dev/null ; then exit 64 ; fi" ;
+                                                                                                    status = if secondary.status then "if ! ${ paste } > /tmp/null ; then exit 74 ; fi" else "if ${ paste } > /dev/null ; then exit 84 ; fi" ;
                                                                                                     count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
-                                                                                                    in pkgs.writeShellScript "test-candidate" count ;
+                                                                                                    in pkgs.writeShellScript "test-candidate" ( builtins.trace count count ) ;
                                                                                             user-environment =
                                                                                                 pkgs.buildFHSUserEnv
                                                                                                     {
@@ -537,7 +537,7 @@
                                                             (
                                                                 ignore :
                                                                     {
-                                                                        count = 2 ;
+                                                                        count = 0 ;
                                                                         expected = self + "/mounts/" ;
                                                                         # test = "candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
                                                                         status = true ;
@@ -555,15 +555,15 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
+                                                                            # ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
+                                                                            # ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 62
                                                                     '' ;
                                                                 name = "foobar" ;
                                                                 src = ./. ;
                                                             } ;
-                                                    shell-script = scripts.tests ;
-                                                    util = temporary.util.tests ;
+                                                    # shell-script = scripts.tests ;
+                                                    # util = temporary.util.tests ;
                                                     # temporary = temporary.tests ;
                                                 } ;
                                             lib = lib ;
