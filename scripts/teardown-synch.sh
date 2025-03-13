@@ -14,7 +14,7 @@ ${ECHO} CAA ${0} >> /post/debug && ${FIND} ${RESOURCE} >> /post/debug && ${CAT} 
       ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
       ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
       #
-      ${ECHO} CAM >> /post/debug && /nix/store/j4fwy5gi1rdlrlbk2c0vnbs7fmlm60a7-coreutils-9.1/bin/ls ${RESOURCE} >> /post/debug && ${RESOURCE}/post.sh || ${TRUE}
+      ${ECHO} CAM >> /post/debug && ${RESOURCE}/post.sh || ${TRUE}
       #
       ${RM} --recursive --force ${RESOURCE} &&
       #
