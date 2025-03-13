@@ -376,7 +376,7 @@
                                                                                                             "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "${ user-environment }/bin/test-candidate"
+                                                                                                            # "${ user-environment }/bin/test-candidate"
                                                                                                             # "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             # "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             # "${ pkgs.coreutils }/bin/echo $out"
@@ -559,7 +559,7 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            # ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
                                                                             # ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 62
                                                                     '' ;
