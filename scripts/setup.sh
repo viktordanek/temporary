@@ -5,19 +5,19 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   ${CHMOD} 0400 ${RESOURCE}/init.arguments &&
   if ${IS_INTERACTIVE}
   then
-    TARGET_PID=${PARENT_PID} && ${ECHO} 1 >> /post/debug
+    TARGET_PID=${PARENT_PID}
   elif ${IS_PIPE}
   then
-    TARGET_PID=${GRANDPARENT_PID} && ${ECHO} 2 >> /post/debug &&
+    TARGET_PID=${GRANDPARENT_PID} &&
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   elif ${IS_FILE}
   then
-    TARGET_PID=${GRANDPARENT_PID} && ${ECHO} 3 >> /post/debug &&
+    TARGET_PID=${GRANDPARENT_PID} &&
       ${CAT} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
-    TARGET_PID=${GRANDPARENT_PID} && ${ECHO} 4 >> /post/debug # ${PARENT_PID}
+    TARGET_PID=${GRANDPARENT_PID}
   fi &&
   ${ECHO} ${TARGET_PID// /} > ${RESOURCE}/pid &&
   ${CHMOD} 0400 ${RESOURCE}/pid &&
