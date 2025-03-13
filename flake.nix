@@ -603,7 +603,7 @@
                                                                         arguments = "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ;
                                                                         count = 1 ;
                                                                         expected = self + "/mounts/B0hwDMGO" ;
-                                                                        # paste = "022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" ;
+                                                                        paste = "022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" ;
                                                                         pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
                                                                         status = true ;
                                                                     }
