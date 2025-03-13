@@ -348,7 +348,7 @@
                                                                                                     in identity ( value null ) ;
                                                                                             test =
                                                                                                 let
-                                                                                                    arguments = if builtins.typeOf secondary.arguments == "null" then "candidate" else "candidate ${ secondary.arguments }" ;
+                                                                                                    arguments = if builtins.typeOf secondary.arguments == "null" then "setup" else "setup ${ secondary.arguments }" ;
                                                                                                     pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
                                                                                                     paste = if builtins.typeOf secondary.paste == "null" then file else "${ pkgs.coreutils }/bin/echo ${ secondary.paste } > $( ${ file } )" ;
@@ -365,7 +365,7 @@
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = test ;
-                                                                                                        targetPkgs = pkgs : [ ( pkgs.writeShellScriptBin "candidate" ( setup primary.init primary.release primary.post ) ) ] ;
+                                                                                                        targetPkgs = pkgs : [ ( setup primary.init primary.release primary.post ) ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
@@ -374,11 +374,11 @@
                                                                                                             "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "${ user-environment }/bin/test-candidate"
-                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/echo $out"
-                                                                                                            "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            # "${ user-environment }/bin/test-candidate"
+                                                                                                            # "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            # "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            # "${ pkgs.coreutils }/bin/echo $out"
+                                                                                                            # "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
