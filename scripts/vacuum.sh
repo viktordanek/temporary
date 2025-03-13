@@ -1,10 +1,9 @@
-${ECHO} hello > /post/file &&
-exec 201> /post.lock &&
+exec 201> /lock/lock &&
   if ${FLOCK} 201
   then
-    if [ -f /post/index ] && [ -d /post/resource ]
+    if [ -f /counter/index ] && [ -d /cou]
     then
-      INDEX=$( ${CAT} /post/index ) &&
+      INDEX=$( ${CAT} /counter/index ) &&
         if [ ! -z "$( ${DIFF} /post/resource ${RESOURCE} )" ]
         then
           ${MV} ${RESOURCE} /post/resource.${INDEX}
@@ -13,7 +12,7 @@ exec 201> /post.lock &&
       ${ECHO} 1 > /post/index &&
         ${MV} ${RESOURCE} /post/resource
     fi &&
-    ${RM} /post.lock
+    ${RM} /lock/lock
   else
     ${ECHO} Locking Problem &>2 &&
       exit 64
