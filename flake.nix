@@ -352,9 +352,9 @@
                                                                                                     pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
                                                                                                     paste = if builtins.typeOf secondary.paste == "null" then file else "${ pkgs.coreutils }/bin/echo ${ secondary.paste } > $( ${ file } )" ;
-                                                                                                    status = if secondary.paste then "if ! ${ paste } > /dev/null ; then exit 64 ; fi ;" else "if ${ paste } > /dev/null ; then exit 64 ; fi ;" ;
-                                                                                                    count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) 3 ) ;
-                                                                                                    in count ;
+                                                                                                    status = if secondary.status then "if ! ${ paste } > /dev/null ; then exit 64 ; fi" else "if ${ paste } > /dev/null ; then exit 64 ; fi" ;
+                                                                                                    count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
+                                                                                                    in pkgs.writeShellScript "test-candidate" count ;
                                                                                             user-environment =
                                                                                                 pkgs.buildFHSUserEnv
                                                                                                     {
