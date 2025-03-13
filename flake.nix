@@ -378,7 +378,7 @@
                                                                                                     arguments = if builtins.typeOf secondary.arguments == "null" then "temporary" else "temporary ${ secondary.arguments }" ;
                                                                                                     pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
-                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then file else "${ pkgs.coreutils }/bin/echo ${ secondary.paste } > $( ${ file } )" ;
+                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then file else ''${ pkgs.coreutils }/bin/echo "paste: ${ secondary.paste }" >> $( ${ file } )'' ;
                                                                                                     status = if secondary.status then "if ! ${ paste } > /dev/null 2>> /post/standard-error ; then ${ pkgs.coreutils }/bin/touch /post/status.good ; fi" else "if ${ paste } > /dev/null 2>> /post/standard-error ; then ${ pkgs.coreutils }/bin/touch /post/status.bad ; fi" ;
                                                                                                     count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
                                                                                                     in pkgs.writeShellScript "test-candidate" ( builtins.trace count count ) ;
@@ -602,7 +602,7 @@
                                                                     {
                                                                         count = 1 ;
                                                                         expected = self + "/mounts/B0hwDMGO" ;
-                                                                        # test = "candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
+                                                                        paste = "022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" ;
                                                                         status = true ;
                                                                     }
                                                             )
