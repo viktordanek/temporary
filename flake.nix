@@ -537,8 +537,8 @@
                                                             (
                                                                 ignore :
                                                                     {
-                                                                        count = 0 ;
-                                                                        expected = self + "/mounts/" ;
+                                                                        count = 1 ;
+                                                                        expected = self + "mounts/B0hwDMGO" ;
                                                                         # test = "candidate ff2d4ae2261b9c3cf783e38158bdbac15471ca106ca7d6070b9bd7683f0c2adad9304508051babb35bd0721237070c7657de06ff5a29b0b9572230546876f94a" ;
                                                                         status = true ;
                                                                     }
