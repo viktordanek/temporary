@@ -466,33 +466,6 @@
                                                     } ;
                                                 shell-scripts =
                                                     {
-                                                        executable =
-                                                            ignore :
-                                                                {
-                                                                    environment =
-                                                                        let
-                                                                            template-file = self + "/scripts/executable.json" ;
-                                                                            in
-                                                                                { self , path , standard-input , string } :
-                                                                                    [
-                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                        ( self "FOOBAR" ( self : self.foobar ) )
-                                                                                        ( string "JQ" "${ pkgs.jq }/bin/jq" )
-                                                                                        ( path "NAME" 0 )
-                                                                                        # ( resource )
-                                                                                        ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
-                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                        # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
-                                                                                        # ( target )
-                                                                                        ( string "STANDARD_ERROR" "\"\"" )
-                                                                                        ( string "STANDARD_OUTPUT" "9c8f38b45d5d275508221e29f424d0c796210f658cb55e62e13adc793f8f91c58567c7eaf116a6e844dc26f49ced8572a4582e5ab977bfb8ba0da62258653ee6" )
-                                                                                        ( string "STATUS" 0 )
-                                                                                        ( string "TEMPLATE_FILE" template-file )
-                                                                                    ] ;
-                                                                    script = self + "/scripts/executable.sh" ;
-                                                                    tests = null ;
-                                                                } ;
                                                         foobar =
                                                             ignore :
                                                                 {
@@ -536,7 +509,61 @@
                                                                             )
                                                                         ] ;
                                                                 } ;
-                                                        vacuum =
+                                                        init =
+                                                            ignore :
+                                                                {
+                                                                    environment =
+                                                                        let
+                                                                            template-file = self + "/scripts/executable.json" ;
+                                                                            in
+                                                                                { self , path , standard-input , string } :
+                                                                                    [
+                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                        ( self "FOOBAR" ( self : self.foobar ) )
+                                                                                        ( string "JQ" "${ pkgs.jq }/bin/jq" )
+                                                                                        ( path "NAME" 0 )
+                                                                                        # ( resource )
+                                                                                        ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
+                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                        # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
+                                                                                        # ( target )
+                                                                                        ( string "STANDARD_ERROR" "\"\"" )
+                                                                                        ( string "STANDARD_OUTPUT" "9c8f38b45d5d275508221e29f424d0c796210f658cb55e62e13adc793f8f91c58567c7eaf116a6e844dc26f49ced8572a4582e5ab977bfb8ba0da62258653ee6" )
+                                                                                        ( string "STATUS" 0 )
+                                                                                        ( string "TEMPLATE_FILE" template-file )
+                                                                                    ] ;
+                                                                    script = self + "/scripts/executable.sh" ;
+                                                                    tests = null ;
+                                                                } ;
+                                                        release =
+                                                            ignore :
+                                                                {
+                                                                    environment =
+                                                                        let
+                                                                            template-file = self + "/scripts/executable.json" ;
+                                                                            in
+                                                                                { self , path , standard-input , string } :
+                                                                                    [
+                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                        ( self "FOOBAR" ( self : self.foobar ) )
+                                                                                        ( string "JQ" "${ pkgs.jq }/bin/jq" )
+                                                                                        ( path "NAME" 0 )
+                                                                                        # ( resource )
+                                                                                        ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
+                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
+                                                                                        # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
+                                                                                        # ( target )
+                                                                                        ( string "STANDARD_ERROR" "\"\"" )
+                                                                                        ( string "STANDARD_OUTPUT" "9c8f38b45d5d275508221e29f424d0c796210f658cb55e62e13adc793f8f91c58567c7eaf116a6e844dc26f49ced8572a4582e5ab977bfb8ba0da62258653ee6" )
+                                                                                        ( string "STATUS" 0 )
+                                                                                        ( string "TEMPLATE_FILE" template-file )
+                                                                                    ] ;
+                                                                    script = self + "/scripts/executable.sh" ;
+                                                                    tests = null ;
+                                                                } ;
+                                                        post =
                                                             ignore :
                                                                 {
                                                                     environment =
@@ -563,10 +590,10 @@
                                                                 $( ${ pkgs.coreutils }/bin/tee ) &
                                                             '' ;
                                                     host-path = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
-                                                    init = scripts.shell-scripts.executable ;
+                                                    init = scripts.shell-scripts.init ;
                                                     initializer = 66 ;
-                                                    post = scripts.shell-scripts.vacuum ;
-                                                    release = scripts.shell-scripts.executable ;
+                                                    post = scripts.shell-scripts.post ;
+                                                    release = scripts.shell-scripts.release ;
                                                     standard-error = 67 ;
                                                     tests =
                                                         [
