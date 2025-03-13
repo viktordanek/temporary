@@ -1,4 +1,4 @@
-${ECHO} CAA ${0} >> /post/debug && ${FIND} ${RESOURCE} >> /post/debug && ${CAT} ${RESOURCE}/release.sh >> /post/debug && exec 200> ${RESOURCE}/lock &&
+exec 200> ${RESOURCE}/lock &&
   if ${FLOCK} 200
   then
     PID=$( ${CAT} ${RESOURCE}/pid ) &&
@@ -14,7 +14,7 @@ ${ECHO} CAA ${0} >> /post/debug && ${FIND} ${RESOURCE} >> /post/debug && ${CAT} 
       ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
       ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
       #
-      ${ECHO} CAM >> /post/debug && ${RESOURCE}/post.sh || ${TRUE}
+      ${RESOURCE}/post.sh || ${TRUE}
       #
       ${RM} --recursive --force ${RESOURCE} &&
       #
@@ -26,4 +26,4 @@ ${ECHO} CAA ${0} >> /post/debug && ${FIND} ${RESOURCE} >> /post/debug && ${CAT} 
     else
       ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
         exit ${ERROR}
-  fi && ${ECHO} CZA >> /post/debug
+  fi
