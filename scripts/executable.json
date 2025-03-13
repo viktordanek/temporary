@@ -1,4 +1,5 @@
 {
+  "arguments": env.ARGUMENTS ,
   "name" : env.NAME ,
   "pid": env.PID ,
   "status" :  env.STATUS ,
