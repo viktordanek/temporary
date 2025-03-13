@@ -361,6 +361,7 @@
                                                                                                         extraBwrapArgs =
                                                                                                             [
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
+                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }/temporary"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
                                                                                                         runScript = test ;
@@ -372,6 +373,7 @@
                                                                                                         [
                                                                                                             "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                            "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "${ user-environment }/bin/test-candidate"
                                                                                                             "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
