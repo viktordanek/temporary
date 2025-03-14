@@ -430,18 +430,6 @@
                                         {
                                             checks =
                                                 {
-                                                    foobar =
-                                                        pkgs.stdenv.mkDerivation
-                                                            {
-                                                                installPhase =
-                                                                    ''
-                                                                        ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests }
-                                                                    '' ;
-                                                                name = "foobar" ;
-                                                                src = ./. ;
-                                                            } ;
                                                     shell-script = scripts.tests ;
                                                     temporary = temporary.tests ;
                                                 } ;
