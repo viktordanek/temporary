@@ -131,129 +131,130 @@
                                             {
                                                 temporary = "${ setup primary.init primary.release primary.post }/bin/temporary" ;
                                                 tests =
-                                                    pkgs.stdenv.mkDerivation
-                                                        {
-                                                            installPhase =
-                                                                let
-                                                                    constructors =
-                                                                        _visitor
-                                                                            {
-                                                                                lambda =
-                                                                                    path : value :
-                                                                                        let
-                                                                                            post =
-                                                                                                pkgs.stdenv.mkDerivation
-                                                                                                    {
-                                                                                                        installPhase =
-                                                                                                            let
-                                                                                                                source =
-                                                                                                                    pkgs.stdenv.mkDerivation
-                                                                                                                        {
-                                                                                                                            installPhase =
-                                                                                                                                ''
-                                                                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
-                                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                                '' ;
-                                                                                                                            name = "post" ;
-                                                                                                                            src = ./. ;
-                                                                                                                        } ;
-                                                                                                                in
-                                                                                                                    ''
-                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set CUT ${ pkgs.coreutils }/bin/cut --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm --set SHA512SUM ${ pkgs.coreutils }/bin/sha512sum
-                                                                                                                    '' ;
-                                                                                                        name = "post" ;
-                                                                                                        nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                                                                        src = ./. ;
-                                                                                                    } ;
-                                                                                            secondary =
-                                                                                                let
-                                                                                                    identity =
+                                                    sleep :
+                                                        pkgs.stdenv.mkDerivation
+                                                            {
+                                                                installPhase =
+                                                                    let
+                                                                        constructors =
+                                                                            _visitor
+                                                                                {
+                                                                                    lambda =
+                                                                                        path : value :
+                                                                                            let
+                                                                                                post =
+                                                                                                    pkgs.stdenv.mkDerivation
                                                                                                         {
-                                                                                                            arguments ? null ,
-                                                                                                            count ? 2 ,
-                                                                                                            expected ,
-                                                                                                            file ? null ,
-                                                                                                            paste ? null ,
-                                                                                                            pipe ? null ,
-                                                                                                            status ? true
-                                                                                                        } :
+                                                                                                            installPhase =
+                                                                                                                let
+                                                                                                                    source =
+                                                                                                                        pkgs.stdenv.mkDerivation
+                                                                                                                            {
+                                                                                                                                installPhase =
+                                                                                                                                    ''
+                                                                                                                                        ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
+                                                                                                                                            ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                                    '' ;
+                                                                                                                                name = "post" ;
+                                                                                                                                src = ./. ;
+                                                                                                                            } ;
+                                                                                                                    in
+                                                                                                                        ''
+                                                                                                                            makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set CUT ${ pkgs.coreutils }/bin/cut --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm --set SHA512SUM ${ pkgs.coreutils }/bin/sha512sum --set STAT ${ pkgs.coreutils }/bin/stat
+                                                                                                                        '' ;
+                                                                                                            name = "post" ;
+                                                                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                                                                            src = ./. ;
+                                                                                                        } ;
+                                                                                                secondary =
+                                                                                                    let
+                                                                                                        identity =
                                                                                                             {
-                                                                                                                arguments = if builtins.typeOf arguments == "null" then arguments else if builtins.typeOf arguments == "string" then arguments else builtins.throw "arguments is not null, string but ${ builtins.typeOf file }." ;
-                                                                                                                count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
-                                                                                                                expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
-                                                                                                                file = if builtins.typeOf file == "null" then file else if builtins.typeOf file == "string" then file else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
-                                                                                                                paste = if builtins.typeOf paste == "null" then paste else if builtins.typeOf paste == "lambda" then paste else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
-                                                                                                                pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
-                                                                                                                status = if builtins.typeOf status == "bool" then status else builtins.throw "status is not bool but ${ builtins.typeOf status }." ;
-                                                                                                            } ;
-                                                                                                    in identity ( value null ) ;
-                                                                                            test =
-                                                                                                let
-                                                                                                    arguments = if builtins.typeOf secondary.arguments == "null" then "temporary" else "temporary ${ secondary.arguments }" ;
-                                                                                                    pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
-                                                                                                    file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
-                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then file else "VARIABLE=$( ${ file } ) && ${ secondary.paste ( builtins.concatStringsSep "" [ "$" "{" "VARIABLE" "}" ] ) }" ;
-                                                                                                    status = paste ;
-                                                                                                    count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
-                                                                                                    in pkgs.writeShellScript "test-candidate" count ;
-                                                                                            user-environment =
-                                                                                                pkgs.buildFHSUserEnv
-                                                                                                    {
-                                                                                                        extraBwrapArgs =
-                                                                                                            [
-                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
-                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
-                                                                                                            ] ;
-                                                                                                        name = "test-candidate" ;
-                                                                                                        runScript = test ;
-                                                                                                        targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
-                                                                                                    } ;
-                                                                                            in
-                                                                                                builtins.concatLists
-                                                                                                    [
+                                                                                                                arguments ? null ,
+                                                                                                                count ? 2 ,
+                                                                                                                expected ,
+                                                                                                                file ? null ,
+                                                                                                                paste ? null ,
+                                                                                                                pipe ? null ,
+                                                                                                                status ? true
+                                                                                                            } :
+                                                                                                                {
+                                                                                                                    arguments = if builtins.typeOf arguments == "null" then arguments else if builtins.typeOf arguments == "string" then arguments else builtins.throw "arguments is not null, string but ${ builtins.typeOf file }." ;
+                                                                                                                    count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
+                                                                                                                    expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
+                                                                                                                    file = if builtins.typeOf file == "null" then file else if builtins.typeOf file == "string" then file else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
+                                                                                                                    paste = if builtins.typeOf paste == "null" then paste else if builtins.typeOf paste == "lambda" then paste else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
+                                                                                                                    pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
+                                                                                                                    status = if builtins.typeOf status == "bool" then status else builtins.throw "status is not bool but ${ builtins.typeOf status }." ;
+                                                                                                                } ;
+                                                                                                        in identity ( value null ) ;
+                                                                                                test =
+                                                                                                    let
+                                                                                                        arguments = if builtins.typeOf secondary.arguments == "null" then "temporary" else "temporary ${ secondary.arguments }" ;
+                                                                                                        pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
+                                                                                                        file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
+                                                                                                        paste = if builtins.typeOf secondary.paste == "null" then file else "VARIABLE=$( ${ file } ) && ${ secondary.paste ( builtins.concatStringsSep "" [ "$" "{" "VARIABLE" "}" ] ) }" ;
+                                                                                                        status = paste ;
+                                                                                                        count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
+                                                                                                        in pkgs.writeShellScript "test-candidate" count ;
+                                                                                                user-environment =
+                                                                                                    pkgs.buildFHSUserEnv
+                                                                                                        {
+                                                                                                            extraBwrapArgs =
+                                                                                                                [
+                                                                                                                    "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
+                                                                                                                    "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
+                                                                                                                ] ;
+                                                                                                            name = "test-candidate" ;
+                                                                                                            runScript = test ;
+                                                                                                            targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
+                                                                                                        } ;
+                                                                                                in
+                                                                                                    builtins.concatLists
                                                                                                         [
-                                                                                                            "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected }/${ builtins.concatStringsSep "/" ( builtins.map builtins.toJSON path ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "${ user-environment }/bin/test-candidate"
-                                                                                                            "${ pkgs.coreutils }/bin/sleep 10s"
-                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) [ "leakage" ] ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/echo $out"
-                                                                                                            "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                        ]
-                                                                                                    ] ;
-                                                                            }
-                                                                            {
-                                                                                list =
-                                                                                    path : list :
-                                                                                        builtins.concatLists
-                                                                                            [
+                                                                                                            [
+                                                                                                                "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected }/${ builtins.concatStringsSep "/" ( builtins.map builtins.toJSON path ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                                "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                                "${ user-environment }/bin/test-candidate"
+                                                                                                                "${ pkgs.coreutils }/bin/sleep ${ builtins.toString sleep }s"
+                                                                                                                "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) [ "leakage" ] ] ) }"
+                                                                                                                "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                                "${ pkgs.coreutils }/bin/echo $out"
+                                                                                                                "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            ]
+                                                                                                        ] ;
+                                                                                }
+                                                                                {
+                                                                                    list =
+                                                                                        path : list :
+                                                                                            builtins.concatLists
                                                                                                 [
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                ]
-                                                                                                ( builtins.concatLists list )
-                                                                                            ] ;
-                                                                                set =
-                                                                                    path : set :
-                                                                                        builtins.concatLists
-                                                                                            [
+                                                                                                    [
+                                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                    ]
+                                                                                                    ( builtins.concatLists list )
+                                                                                                ] ;
+                                                                                    set =
+                                                                                        path : set :
+                                                                                            builtins.concatLists
                                                                                                 [
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                ]
-                                                                                                ( builtins.concatLists ( builtins.attrNames set set ) )
-                                                                                            ] ;
-                                                                            }
-                                                                            primary.tests ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
-                                                            name = "tests" ;
-                                                            src = ./. ;
-                                                        } ;
+                                                                                                    [
+                                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                        "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                    ]
+                                                                                                    ( builtins.concatLists ( builtins.attrNames set set ) )
+                                                                                                ] ;
+                                                                                }
+                                                                                primary.tests ;
+                                                                        in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
+                                                                name = "tests" ;
+                                                                src = ./. ;
+                                                            } ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
@@ -437,7 +438,7 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests }
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests 20 }
                                                                     '' ;
                                                                 name = "foobar" ;
                                                                 src = ./. ;
