@@ -8,13 +8,16 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
     else
       INDEX=0
     fi &&
+    ${ECHO} A ${INDEX} >> /post/mark &&
     ${ECHO} ${INDEX} > /post/index &&
     ${FIND} ${RESOURCE} | while read FILE
     do
-      ${ECHO} CAT ${INDEX} ${FILE#"$RESOURCE"} | ${SHA512SUM} | ${CUT} --bytes -128 >> /post/debug
+      CAT_LOC=$( ${ECHO} CAT ${INDEX} ${FILE#"$RESOURCE"} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+        ${CAT} ${FILE} > /post/${CAT_LOC}
     done &&
     ${MV} ${RESOURCE} /post/resource.${INDEX}
-    ${RM} /post.lock
+    ${RM} /post.lock &&
+    ${ECHO} Z ${INDEX} >> /post/mark
   else
     ${ECHO} Locking Problem >> /post/lock &&
       exit 64
