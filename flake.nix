@@ -381,7 +381,7 @@
                                                                                                     paste = if builtins.typeOf secondary.paste == "null" then file else "VARIABLE=$( ${ file } ) && ${ secondary.paste ( builtins.concatStringsSep "" [ "$" "{" "VARIABLE" "}" ] ) }" ;
                                                                                                     status = paste ;
                                                                                                     count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
-                                                                                                    in pkgs.writeShellScript "test-candidate" ( builtins.trace count count ) ;
+                                                                                                    in pkgs.writeShellScript "test-candidate" count ;
                                                                                             user-environment =
                                                                                                 pkgs.buildFHSUserEnv
                                                                                                     {
