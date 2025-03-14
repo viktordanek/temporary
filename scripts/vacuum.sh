@@ -12,11 +12,11 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
     ${ECHO} ${INDEX} > /post/index &&
     ${FIND} ${RESOURCE} | while read FILE
     do
-      CAT_NAME=$( ${ECHO} CAT ${INDEX} ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) # &&
-        # if [ -f ${FILE} ]
-        # then
-        #   ${CAT} ${FILE} > /post/${CAT_NAME}
-        # fi
+      CAT_NAME=$( ${ECHO} CAT ${INDEX} ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+        if [ -f ${FILE} ]
+        then
+          ${ECHO} "${CAT} ${FILE} > /post/${CAT_NAME}" >> /post/debug
+        fi
     done &&
     ${MV} ${RESOURCE} /post/resource.${INDEX} &&
     ${RM} /post/lock
