@@ -127,192 +127,6 @@
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
                                                             } ;
-                                        util =
-                                            _shell-script
-                                                {
-                                                    extensions =
-                                                        [
-                                                            {
-                                                                name = "is-interactive" ;
-                                                                value = "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"  ;
-                                                            }
-                                                            {
-                                                                name = "is-pipe" ;
-                                                                value = "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"  ;
-                                                            }
-                                                            {
-                                                                name = "is-file" ;
-                                                                value = "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"  ;
-                                                            }
-                                                            {
-                                                                name = "grandparent-pid" ;
-                                                                value =  "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'" ;
-                                                            }
-                                                            {
-                                                                name = "parent-pid" ;
-                                                                value =  "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'" ;
-                                                            }
-                                                            {
-                                                                name = "resource" ;
-                                                                value = "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                            }
-                                                            {
-                                                                name = "resource-setup" ;
-                                                                value = "--run 'export _RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory --directory /temporary/XXXXXXXX )'" ;
-                                                            }
-                                                        ] ;
-                                                    mounts = mounts ;
-                                                    shell-scripts =
-                                                        let
-                                                            splits =
-                                                                splits :
-                                                                    builtins.concatStringsSep
-                                                                        " "
-                                                                        (
-                                                                            builtins.concatLists
-                                                                                (
-                                                                                    builtins.map ( s : if builtins.elemAt s 0 then [ "-e ${ builtins.toString ( builtins.elemAt s 1 ) },${ builtins.toString ( builtins.elemAt s 2 ) }p" ] else [ ] ) splits
-                                                                                )
-                                                                        ) ;
-                                                            in
-                                                                {
-                                                                    setup =
-                                                                        let
-                                                                            fun =
-                                                                                init : release : post : ignore :
-                                                                                    {
-                                                                                        environment =
-                                                                                            { grandparent-pid , is-interactive , is-file , is-pipe , parent-pid , resource-setup , self , string , ... } :
-                                                                                                builtins.concatLists
-                                                                                                    [
-                                                                                                        [
-                                                                                                            ( resource-setup )
-                                                                                                        ]
-                                                                                                        [
-                                                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                            ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                            ( grandparent-pid )
-                                                                                                            ( is-file )
-                                                                                                            ( is-interactive )
-                                                                                                            ( is-pipe )
-                                                                                                            ( string "LN" "${ pkgs.coreutils }/bin/ln" )
-                                                                                                        ]
-                                                                                                        ( if ! ( init || release || post ) then [ ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" ) ] else [ ] )
-                                                                                                        [
-                                                                                                            ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                                                            ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                            ( self "TEARDOWN_ASYNCH" ( self : self.teardown-asynch ) )
-                                                                                                            ( self "TEARDOWN_SYNCH" ( self : self.teardown-synch.${ if release then "true" else "false" }.${ if post then "true" else "false" } ) )
-                                                                                                            ( string "TEE" "${ pkgs.coreutils }/bin/tee" )
-                                                                                                        ]
-                                                                                                    ] ;
-                                                                                        script =
-                                                                                            pkgs.stdenv.mkDerivation
-                                                                                                {
-                                                                                                    installPhase =
-                                                                                                        let
-                                                                                                            lines =
-                                                                                                                splits
-                                                                                                                    [
-                                                                                                                        [ ( ! ( init || release || post ) ) 1 1 ]
-                                                                                                                        [ true 1 23 ]
-                                                                                                                        [ init 25 25 ]
-                                                                                                                        [ release 28 28 ]
-                                                                                                                        [ post 31 31 ]
-                                                                                                                        [ true 33 34 ]
-                                                                                                                        [ init 36 60 ]
-                                                                                                                    ] ;
-                                                                                                            in
-                                                                                                                ''
-                                                                                                                    ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
-                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                '' ;
-                                                                                                    name = "setup" ;
-                                                                                                    src = ./. ;
-                                                                                                } ;
-                                                                                    } ;
-                                                                            in
-                                                                                {
-                                                                                    false =
-                                                                                        {
-                                                                                            false =
-                                                                                                {
-                                                                                                    false = fun false false false ;
-                                                                                                    true = fun false false true ;
-                                                                                                } ;
-                                                                                            true =
-                                                                                                {
-                                                                                                    false = fun false true false ;
-                                                                                                    true = fun false true true ;
-                                                                                                } ;
-                                                                                        } ;
-                                                                                } ;
-                                                                    teardown-asynch =
-                                                                        ignore :
-                                                                            {
-                                                                                environment =
-                                                                                    { resource , string , ... } :
-                                                                                        [
-                                                                                            ( string "AT" "${ primary.at }" )
-                                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                            ( string "NICE" "${ pkgs.coreutils }/bin/nice" )
-                                                                                            ( resource )
-                                                                                        ] ;
-                                                                                script = self + "/scripts/teardown-asynch.sh" ;
-                                                                            } ;
-                                                                    teardown-synch =
-                                                                        let
-                                                                            fun =
-                                                                                release : post : ignore :
-                                                                                    {
-                                                                                        environment =
-                                                                                            { string , ... } :
-                                                                                                [
-                                                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                    ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
-                                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                                ] ;
-                                                                                        script =
-                                                                                            pkgs.stdenv.mkDerivation
-                                                                                                {
-                                                                                                    installPhase =
-                                                                                                        let
-                                                                                                            lines =
-                                                                                                                splits
-                                                                                                                    [
-                                                                                                                        [ true 1 6 ]
-                                                                                                                        [ release 8 15 ]
-                                                                                                                        [ post 17 17 ]
-                                                                                                                        [ release 21 24 ]
-                                                                                                                        [ true 26 29 ]
-                                                                                                                    ] ;
-                                                                                                            in
-                                                                                                                ''
-                                                                                                                    ${ pkgs.gnused }/bin/sed -n ${ lines } > $out &&
-                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                '' ;
-                                                                                                    name = "teardown-asynch" ;
-                                                                                                    src = ./. ;
-                                                                                                } ;
-                                                                                    } ;
-                                                                            in
-                                                                                {
-                                                                                    false =
-                                                                                        {
-                                                                                            false = fun false false ;
-                                                                                            true = fun false true ;
-                                                                                        } ;
-                                                                                    true =
-                                                                                        {
-                                                                                            false = fun true false ;
-                                                                                            true = fun true true ;
-                                                                                        } ;
-                                                                                } ;
-                                                                        } ;
-                                                } ;
                                         in
                                             {
                                                 temporary = "${ setup primary.init primary.release primary.post }/bin/temporary" ;
@@ -440,7 +254,6 @@
                                                             name = "tests" ;
                                                             src = ./. ;
                                                         } ;
-                                                util = util ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
@@ -630,7 +443,6 @@
                                                                 src = ./. ;
                                                             } ;
                                                     shell-script = scripts.tests ;
-                                                    # util = temporary.util.tests ;
                                                     # temporary = temporary.tests ;
                                                 } ;
                                             lib = lib ;
