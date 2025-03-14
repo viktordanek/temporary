@@ -1,1 +1,0 @@
-${DIFF} --recursive --suppress-common-lines --side-by-side expected ${SELF}/observed

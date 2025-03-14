@@ -1,1 +1,0 @@
-${ECHO} "${STANDARD_INPUT}-${@}" >> ${TARGET}
