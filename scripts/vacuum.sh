@@ -10,6 +10,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
       INDEX=0
     fi &&
     ${ECHO} ${INDEX} > /post/index &&
+    ${MKDIR} /post/resource.${INDEX} &&
     ${FIND} ${RESOURCE} | while read FILE
     do
       CAT_NAME=$( ${ECHO} CAT ${INDEX} ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
