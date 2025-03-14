@@ -11,7 +11,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
     ${ECHO} ${INDEX} > /post/index &&
     ${FIND} ${RESOURCE} | while read FILE
     do
-      CAT_NAME=$( ${ECHO} CAT ${INDEX} ${FILE#${RESOURCE}} )
+      CAT_NAME=$( ${ECHO} CAT ${INDEX} ${FILE#${RESOURCE}} | ${SHA512SUM} )
     done &&
     ${MV} ${RESOURCE} /post/resource.${INDEX} &&
     ${RM} /post.lock
