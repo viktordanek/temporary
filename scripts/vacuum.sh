@@ -11,7 +11,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
     ${ECHO} ${INDEX} > /post/index &&
     ${FIND} ${RESOURCE} | while read FILE
     do
-      ${ECHO} ${FILE#"$RESOURCE"} >> /post/debug
+      ${ECHO} CAT ${INDEX} ${FILE#"$RESOURCE"} >> /post/debug
     done &&
     ${MV} ${RESOURCE} /post/resource.${INDEX}
     ${RM} /post.lock
