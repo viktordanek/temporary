@@ -9,6 +9,15 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
       INDEX=0
     fi &&
     ${ECHO} ${INDEX} > /post/index &&
+    ${FIND} ${RESOURCE} | while read FILE
+    do
+      CAT_LOC=$( ${ECHO} ${INDEX} ${FILE#"${RESOURCE}"} CAT | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
+        if [ -f ${FILE} ]
+        then
+          ${CAT} ${FILE} > /post/${CAT_LOC} &&
+            ${CHMOD} 0444 /post/${CAT_LOC}
+        fi
+    done &&
     ${MV} ${RESOURCE} /post/resource.${INDEX} &&
     ${RM} /post.lock
   else
