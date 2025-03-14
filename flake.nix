@@ -443,7 +443,7 @@
                                                                 src = ./. ;
                                                             } ;
                                                     shell-script = scripts.tests ;
-                                                    # temporary = temporary.tests ;
+                                                    temporary = temporary.tests ;
                                                 } ;
                                             lib = lib ;
                                         } ;
