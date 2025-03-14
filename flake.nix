@@ -629,7 +629,7 @@
                                                                 name = "foobar" ;
                                                                 src = ./. ;
                                                             } ;
-                                                    # shell-script = scripts.tests ;
+                                                    shell-script = scripts.tests ;
                                                     # util = temporary.util.tests ;
                                                     # temporary = temporary.tests ;
                                                 } ;
