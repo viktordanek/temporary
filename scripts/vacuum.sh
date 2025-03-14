@@ -1,6 +1,6 @@
 ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
   exec 201> /post/lock &&
-  ${ECHO} ${0} >> /post/debug &&
+  # ${ECHO} ${0} >> /post/debug &&
   if ${FLOCK} 201
   then
     if [ -f /post/index ]
@@ -15,7 +15,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
       CAT_NAME=$( ${ECHO} CAT ${INDEX} ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
         if [ -f ${FILE} ]
         then
-          ${ECHO} "${CAT} ${FILE} > /post/${CAT_NAME}" >> /post/debug
+          ${CAT} ${FILE} > /post/${CAT_NAME}
         fi
     done &&
     ${MV} ${RESOURCE} /post/resource.${INDEX} &&

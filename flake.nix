@@ -216,7 +216,7 @@
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "${ user-environment }/bin/test-candidate"
-                                                                                                            "${ pkgs.coreutils }/bin/sleep 1s"
+                                                                                                            "${ pkgs.coreutils }/bin/sleep 10s"
                                                                                                             "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) [ "leakage" ] ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
