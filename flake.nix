@@ -159,7 +159,7 @@
                                                                                                                         } ;
                                                                                                                 in
                                                                                                                     ''
-                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm
+                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm
                                                                                                                     '' ;
                                                                                                         name = "post" ;
                                                                                                         nativeBuildInputs = [ pkgs.makeWrapper ] ;
