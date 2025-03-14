@@ -2,18 +2,14 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
   exec 201> /post.lock &&
   if ${FLOCK} 201
   then
-    if [ -f /post/index ] && [ -d /post/resource ]
+    if [ -f /post/index ]
     then
-      INDEX=$(( $( ${CAT} /post/index ) + 1 )) &&
-        if [ ! -z "$( ${DIFF} --recursive /post/resource ${RESOURCE} )" ]
-        then
-          ${MV} ${RESOURCE} /post/resource.${INDEX}
-        fi &&
-        ${ECHO} ${INDEX} > /post/index
+      INDEX=$(( $( ${CAT} /post/index ) + 1 ))
     else
-      ${ECHO} 1 > /post/index &&
-        ${MV} ${RESOURCE} /post/resource
+      INDEX=0
     fi &&
+    ${ECHO} ${INDEX} > /post/index &&
+    ${MV} ${RESOURCE} /post/resource.${INDEX}
     ${RM} /post.lock
   else
     ${ECHO} Locking Problem >> /post/lock &&
