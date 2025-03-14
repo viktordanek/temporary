@@ -22,7 +22,6 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
         ${STAT} --format="%a" ${FILE} > /post/${STAT_NAME} &&
           ${CHMOD} 0444 /post/${STAT_NAME}
     done &&
-    ${MV} ${RESOURCE} /post/resource.${INDEX} &&
     ${RM} /post/lock
   else
     ${ECHO} Locking Problem >> /post/lock.error &&
