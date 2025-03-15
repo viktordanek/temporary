@@ -175,7 +175,7 @@
                                                                                                             file ? null ,
                                                                                                             paste ? null ,
                                                                                                             pipe ? null ,
-                                                                                                            sleep ? 32 ,
+                                                                                                            sleep ? 16 ,
                                                                                                             status ? true
                                                                                                         } :
                                                                                                             {
@@ -448,7 +448,8 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests }
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
+                                                                            exit 60
                                                                     '' ;
                                                                 name = "foobar" ;
                                                                 src = ./. ;
