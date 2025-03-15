@@ -141,6 +141,12 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
+                                                                                            outer =
+                                                                                                ''
+                                                                                                    ${ pkgs.writeShellScript "inner " test } &&
+                                                                                                        ${ pkgs.coreutils }/bin/sleep ${ builtins.toString secondary.sleep } &&
+                                                                                                        ${ pkgs.findutils }/bin/find /temporary -mindepth 1 -maxdepth 1 -type d >> /post/xxx
+                                                                                                '' ;
                                                                                             post =
                                                                                                 pkgs.stdenv.mkDerivation
                                                                                                     {
@@ -208,7 +214,7 @@
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] } /util"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
-                                                                                                        runScript = test ;
+                                                                                                        runScript = pkgs.writeShellScript "outer" outer ;
                                                                                                         targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
                                                                                                     } ;
                                                                                             in
