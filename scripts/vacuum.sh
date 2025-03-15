@@ -2,6 +2,9 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
   exec 201> /post/.lock &&
   if ${FLOCK} 201
   then
+    ${ECHO} >> /post/debug &&
+    ${ECHO} RESOURCE=${RESOURCE} >> /post/debug &&
+    ${FIND} /temporary -mindepth 1 -maxdepth 1 >> /post/debug &&
     DECREMENT=$(( $( ${FIND} /temporary -mindepth 1 -maxdepth 1 | ${WC} --lines ) - 2 )) &&
       ${ECHO} ${DECREMENT} > /post/decrement &&
       if [ -f /util/increment ]
