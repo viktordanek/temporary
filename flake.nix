@@ -204,6 +204,7 @@
                                                                                                                 [
                                                                                                                     "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
                                                                                                                     "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
+                                                                                                                    "--bind ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] } /util"
                                                                                                                 ] ;
                                                                                                             name = "test-candidate" ;
                                                                                                             runScript = test ;
@@ -215,14 +216,16 @@
                                                                                                             [
                                                                                                                 "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                                 "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                                "export UTIL=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                                 "${ user-environment }/bin/test-candidate"
                                                                                                                 "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected }/${ builtins.concatStringsSep "/" ( builtins.map builtins.toJSON path ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                                 "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                                 "${ pkgs.coreutils }/bin/echo $out"
                                                                                                                 "${ pkgs.coreutils }/bin/sleep ${ builtins.toString sleep }s"
+                                                                                                                "if [ $( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/index ) != ${ builtins.toString ( secondary.count - 1 ) } ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/index ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/index ; fi"
                                                                                                                 "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                                "${ pkgs.coreutils }/bin/chmod 0770 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                                 "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) [ "leaks" ] ] ) }"
+                                                                                                                "${ pkgs.coreutils }/bin/chmod 0770 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                                 "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             ]
                                                                                                         ] ;
@@ -439,7 +442,8 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests 20 }
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests 20 } &&
+                                                                            exit 60
                                                                     '' ;
                                                                 name = "foobar" ;
                                                                 src = ./. ;
