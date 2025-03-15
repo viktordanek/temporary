@@ -404,7 +404,7 @@
                                                             ''
                                                                 $( ${ pkgs.coreutils }/bin/tee ) &
                                                             '' ;
-                                                    host-path = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
+                                                    host-path = "/tmp" ;
                                                     init = scripts.shell-scripts.init ;
                                                     initializer = 66 ;
                                                     release = scripts.shell-scripts.release ;
