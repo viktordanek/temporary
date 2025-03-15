@@ -4,7 +4,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
   ${ECHO} RESOURCE=${RESOURCE} >> /post/debug &&
   ${FIND} /temporary -mindepth 1 -maxdepth 1 >> /post/debug &&
   ${LSOF} >> /post/debug &&
-  DECREMENT=$(( $( ${FIND} /temporary -mindepth 2 -maxdepth 2 -type d -name target -print | ${WC} --lines ) - 2 )) &&
+  DECREMENT=$(( $( ${FIND} /temporary -mindepth 2 -maxdepth 2 -type f -name target -print | ${WC} --lines ) - 2 )) &&
     ${ECHO} ${DECREMENT} > /post/decrement &&
     if [ -f /util/increment ]
     then
