@@ -4,13 +4,13 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
   then
     ${FIND} /temporary -mindepth 1 -maxdepth 1 | ${WC} --lines > /post/decrement &&
       DECREMENT=$(( $( ${CAT} /post/decrement ) - 2 )) &&
-      if [ -f /util/increment ]
+      if [ -f /post/increment ]
       then
-        INCREMENT=$(( $( ${CAT} /util/increment ) + 1 ))
+        INCREMENT=$(( $( ${CAT} /post/increment ) + 1 ))
       else
         INCREMENT=0
       fi &&
-      ${ECHO} ${INCREMENT} > /util/increment &&
+      ${ECHO} ${INCREMENT} > /post/increment &&
       ${MKDIR} /post/resource.${INCREMENT} &&
       ${FIND} ${RESOURCE} | while read FILE
       do
