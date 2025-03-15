@@ -24,8 +24,8 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
               ${CHMOD} 0444 /post/resource.${INCREMENT}/${CAT_NAME}.cat
           fi &&
           STAT_NAME=$( ${ECHO} STAT 0 ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
-          ${STAT} --format="%a" ${FILE} > /post/resource.${INCREMENT}/${STAT_NAME} &&
-            ${CHMOD} 0444 /post/resource.${INCREMENT}/${STAT_NAME}
+          ${STAT} --format="%a" ${FILE} > /post/resource.${INCREMENT}/${CAT_NAME}.stat &&
+            ${CHMOD} 0444 /post/resource.${INCREMENT}/${CAT_NAME}.stat
       done &&
       if [ ${INCREMENT} -gt 0 ] && [ -z "$( ${DIFF} --recursive /post/resource.0 /post/resource.${INCREMENT} )" ]
       then
