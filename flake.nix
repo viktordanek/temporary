@@ -426,7 +426,7 @@
                                                                 ignore :
                                                                     {
                                                                         arguments = "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ;
-                                                                        count = 2 ;
+                                                                        count = 4 ;
                                                                         expected = self + "/mounts/B0hwDMGO" ;
                                                                         # file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
                                                                         paste = temporary : ''${ pkgs.coreutils }/bin/echo "- 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" >> ${ temporary }'' ;
