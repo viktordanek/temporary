@@ -175,7 +175,7 @@
                                                                                                             file ? null ,
                                                                                                             paste ? null ,
                                                                                                             pipe ? null ,
-                                                                                                            sleep ? 16 ,
+                                                                                                            sleep ? 32 ,
                                                                                                             status ? true
                                                                                                         } :
                                                                                                             {
@@ -431,6 +431,7 @@
                                                                         # file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
                                                                         paste = temporary : ''${ pkgs.coreutils }/bin/echo "- 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" >> ${ temporary }'' ;
                                                                         pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
+                                                                        sleep = 16 ;
                                                                         # status = true ;
                                                                     }
                                                             )
