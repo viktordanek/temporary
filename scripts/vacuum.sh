@@ -1,5 +1,7 @@
 ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
-  exec 201> /post/lock &&
+  exec 201> /post/.lock &&
+  ${ECHO} >> /post/debug &&
+  ${FIND} /temporary >> /post/debug &&
   if ${FLOCK} 201
   then
     if [ -f /util/index ]
@@ -25,8 +27,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
     if [ ${INDEX} -gt 0 ] && [ -z "$( ${DIFF} --recursive /post/resource.0 /post/resource.${INDEX} )" ]
     then
       ${RM} --recursive --force /post/resource.${INDEX}
-    fi &&
-    ${RM} /post/lock
+    fi
   else
     ${ECHO} Locking Problem >> /post/lock.error &&
       exit 64
