@@ -2,8 +2,8 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
   exec 201> /post/.lock &&
   if ${FLOCK} 201
   then
-    ${FIND} /temporary -mindepth 1 -maxdepth 1 | ${WC} --lines > /post/decrement &&
-      DECREMENT=$(( $( ${CAT} /post/decrement ) - 2 )) &&
+    DECREMENT=$(( $( ${FIND} /temporary -mindepth 1 -maxdepth 1 | ${WC} --lines ) - 2 )) &&
+      ${ECHO} ${DECREMENT} > /post/decrement &&
       if [ -f /util/increment ]
       then
         INCREMENT=$(( $( ${CAT} /util/increment ) + 1 ))
@@ -28,7 +28,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
       then
         ${RM} --recursive --force /post/resource.${INCREMENT}
       fi &&
-      ${ECHO} "${INCREMENT} + ${DECREMENT} + 1 = $(( ${INCREMENT} + ${DECREMENT} + 1 )) =? ${COUNT}" >> /post/count
+      ${ECHO} "${INCREMENT} + ${DECREMENT} = $(( ${INCREMENT} + ${DECREMENT} )) =? ${COUNT}" >> /post/count
   else
     ${ECHO} Locking Problem >> /post/lock.error &&
       exit 64
