@@ -216,7 +216,7 @@
                                                                                                     [
                                                                                                         [
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                            "export TEMPORARY=${ host-path }"
                                                                                                             "export UTIL=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "${ user-environment }/bin/test-candidate > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-output 2> ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-error"
                                                                                                             "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
