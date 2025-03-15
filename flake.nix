@@ -210,7 +210,8 @@
                                                                                                         extraBwrapArgs =
                                                                                                             [
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
-                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
+                                                                                                                # "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
+                                                                                                                "--tmpfs /temporary"
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] } /util"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
