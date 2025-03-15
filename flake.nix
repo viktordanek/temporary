@@ -424,7 +424,7 @@
                                                             (
                                                                 ignore :
                                                                     {
-                                                                        # arguments = "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ;
+                                                                        arguments = "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ;
                                                                         count = 2 ;
                                                                         expected = self + "/mounts/B0hwDMGO" ;
                                                                         # paste = temporary : "${ pkgs.coreutils }/bin/echo IN_NIX_SHELL=${ builtins.concatStringsSep "" [ "$" "{" "IN_NIX_SHELL" "}" ] } > /post/debug" ;
