@@ -8,12 +8,12 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
     TARGET_PID=${PARENT_PID}
   elif ${IS_PIPE}
   then
-    TARGET_PID=${GRANDPARENT_PID} &&
+    TARGET_PID=${GREAT_GRANDPARENT_PID} &&
       ${TEE} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   elif ${IS_FILE}
   then
-    TARGET_PID=${GRANDPARENT_PID} &&
+    TARGET_PID=${GREAT_GRANDPARENT_PID} &&
       ${CAT} > ${RESOURCE}/init.standard-input &&
       ${CHMOD} 0400 ${RESOURCE}/init.standard-input
   else
