@@ -200,7 +200,8 @@
                                                                                                     arguments = if builtins.typeOf secondary.arguments == "null" then "temporary" else "temporary ${ secondary.arguments }" ;
                                                                                                     pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
                                                                                                     file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
-                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then "VARIABLE=$( ${ pipe } 2>> /util/temporary-error )" else "VARIABLE=$( ${ pipe } 2>> /util/temporary-error ) && ${ secondary.paste ( builtins.concatStringsSep "" [ "$" "{" "VARIABLE" "}" ] ) }" ;
+                                                                                                    variable = "VARIABLE=$( ${ pipe } 2>> /post/temporary.standard-error )" ;
+                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then variable else "${ variable } && ${ secondary.paste ( builtins.concatStringsSep "" [ "$" "{" "VARIABLE" "}" ] ) }" ;
                                                                                                     status = paste ;
                                                                                                     count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
                                                                                                     in pkgs.writeShellScript "test-candidate" count ;
