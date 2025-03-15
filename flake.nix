@@ -390,21 +390,6 @@
                                                                     script = self + "/scripts/executable.sh" ;
                                                                     tests = null ;
                                                                 } ;
-                                                        post =
-                                                            ignore :
-                                                                {
-                                                                    environment =
-                                                                        { string , ... } :
-                                                                            [
-                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                ( string "DIFF" "${ pkgs.coreutils }/bin/diff" )
-                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                                ( string "MV" "${ pkgs.coreutils }/bin/mv" )
-                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                            ] ;
-                                                                    script = self + "/scripts/vacuum.sh" ;
-                                                                } ;
                                                     } ;
                                             } ;
                                         temporary =
@@ -419,7 +404,6 @@
                                                     host-path = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
                                                     init = scripts.shell-scripts.init ;
                                                     initializer = 66 ;
-                                                    post = scripts.shell-scripts.post ;
                                                     release = scripts.shell-scripts.release ;
                                                     standard-error = 67 ;
                                                     tests =
