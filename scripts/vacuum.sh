@@ -2,6 +2,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
   exec 201> /post/.lock2 &&
   if ${FLOCK} 201
   then
+    ${RM} /post/.lock2 &&
     ${ECHO} >> /post/debug &&
     ${ECHO} RESOURCE=${RESOURCE} >> /post/debug &&
     ${FIND} /temporary -mindepth 1 -maxdepth 1 >> /post/debug &&
