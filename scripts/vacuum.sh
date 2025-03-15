@@ -20,8 +20,8 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
         CAT_NAME=$( ${ECHO} CAT 0 ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
           if [ -f ${FILE} ]
           then
-            ${CAT} ${FILE} > /post/resource.${INCREMENT}/${CAT_NAME} &&
-              ${CHMOD} 0444 /post/resource.${INCREMENT}/${CAT_NAME}
+            ${CAT} ${FILE} > /post/resource.${INCREMENT}/${CAT_NAME}.cat &&
+              ${CHMOD} 0444 /post/resource.${INCREMENT}/${CAT_NAME}.cat
           fi &&
           STAT_NAME=$( ${ECHO} STAT 0 ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
           ${STAT} --format="%a" ${FILE} > /post/resource.${INCREMENT}/${STAT_NAME} &&
