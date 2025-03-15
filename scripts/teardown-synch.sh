@@ -1,5 +1,5 @@
-exec 200> ${RESOURCE}/lock &&
-  if ${FLOCK} 200
+exec 201> ${RESOURCE}/lock &&
+  if ${FLOCK} 201
   then
     PID=$( ${CAT} ${RESOURCE}/pid ) &&
       ${TAIL} --follow /dev/null --pid ${PID} &&
@@ -23,7 +23,7 @@ exec 200> ${RESOURCE}/lock &&
         exit ${ERROR}
       fi
       #
-    else
-      ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
-        exit ${ERROR}
+  else
+    ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
+      exit ${ERROR}
   fi
