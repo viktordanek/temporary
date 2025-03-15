@@ -1,11 +1,4 @@
 ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
-  ${SYNC} &&
-  ${ECHO} >> /post/debug &&
-  ${ECHO} RESOURCE=${RESOURCE} >> /post/debug &&
-  ${FIND} /temporary -mindepth 1 -maxdepth 1 >> /post/debug &&
-  ${LSOF} >> /post/debug &&
-  DECREMENT=$(( $( ${FIND} /temporary -mindepth 2 -maxdepth 2 -type f -name target -print | ${WC} --lines ) - 2 )) &&
-    ${ECHO} ${DECREMENT} > /post/decrement &&
     if [ -f /util/increment ]
     then
       INCREMENT=$(( $( ${CAT} /util/increment ) + 1 ))
@@ -31,5 +24,4 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
     if [ ${INCREMENT} -gt 0 ] && [ -z "$( ${DIFF} --recursive /post/resource.0 /post/resource.${INCREMENT} )" ]
     then
       ${RM} --recursive --force /post/resource.${INCREMENT}
-    fi &&
-    ${ECHO} "${INCREMENT} + ${DECREMENT} = $(( ${INCREMENT} + ${DECREMENT} )) =? ${COUNT}" >> /post/count
+    fi

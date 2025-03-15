@@ -149,6 +149,10 @@
                                                                                                         then
                                                                                                             ${ pkgs.coreutils }/bin/rm /post/temporary.standard-error
                                                                                                         fi &&
+                                                                                                        if [ $(( $( ${ pkgs.coreutils }/bin/cat /post/increment ) + 1 )) == ${ builtins.toString secondary.count } ]
+                                                                                                        then
+                                                                                                            ${ pkgs.coreutils }/bin/rm /post/increment
+                                                                                                        fi &&
                                                                                                         ${ pkgs.findutils }/bin/find /temporary -mindepth 1 -maxdepth 1 -type d >> /post/xxx
                                                                                                 '' ;
                                                                                             post =
@@ -237,7 +241,6 @@
                                                                                                             "${ pkgs.coreutils }/bin/sleep ${ builtins.toString secondary.sleep }s"
                                                                                                             "exec 202> ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/.lock"
                                                                                                             "${ pkgs.flock }/bin/flock 202"
-                                                                                                            "if [ $( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/increment ) != ${ builtins.toString ( secondary.count - 1 ) } ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/increment ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/increment ; fi"
                                                                                                             "# ${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 -maxdepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks"
                                                                                                             "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 -maxdepth 1 > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks"
                                                                                                             "# if [ $( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ) != 0 ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/leaks ; fi"
