@@ -175,7 +175,7 @@
                                                                                                             file ? null ,
                                                                                                             paste ? null ,
                                                                                                             pipe ? null ,
-                                                                                                            sleep ? 16 ,
+                                                                                                            sleep ? 32 ,
                                                                                                             status ? true
                                                                                                         } :
                                                                                                             {
@@ -225,8 +225,10 @@
                                                                                                             "${ pkgs.coreutils }/bin/echo $out"
                                                                                                             "${ pkgs.coreutils }/bin/sleep ${ builtins.toString secondary.sleep }s"
                                                                                                             "if [ $( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/index ) != ${ builtins.toString ( secondary.count - 1 ) } ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/index ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/index ; fi"
-                                                                                                            "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks"
-                                                                                                            "if [ $( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ) != 0 ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/leaks ; fi"
+                                                                                                            "# ${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks"
+                                                                                                            "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks"
+                                                                                                            "# if [ $( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ) != 0 ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/leaks ; fi"
+                                                                                                            "if ${ pkgs.coreutils }/bin/true ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/leaks ; fi"
                                                                                                             ''if [ ! -z "$( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-output )" ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-output ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/standard-output ; fi''
                                                                                                             ''if [ ! -z "$( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-error )" ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-error ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/standard-error ; fi''
                                                                                                             ''if [ ! -z "$( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/temporary-error )" ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/temporary-error ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/temporary-error ; fi''
@@ -431,7 +433,7 @@
                                                                         # file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
                                                                         paste = temporary : ''${ pkgs.coreutils }/bin/echo "- 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" >> ${ temporary }'' ;
                                                                         pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
-                                                                        sleep = 32 ;
+                                                                        sleep = 1 ; # 128 ;
                                                                         # status = true ;
                                                                     }
                                                             )
@@ -448,14 +450,13 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
-                                                                            exit 60
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests }
                                                                     '' ;
                                                                 name = "foobar" ;
                                                                 src = ./. ;
                                                             } ;
                                                     shell-script = scripts.tests ;
-                                                    # temporary = temporary.tests ;
+                                                    temporary = temporary.tests ;
                                                 } ;
                                             lib = lib ;
                                         } ;
