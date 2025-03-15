@@ -145,6 +145,10 @@
                                                                                                 ''
                                                                                                     ${ pkgs.writeShellScript "inner " test } > /post/outer.standard-input 2> /post/outer.standard-error &&
                                                                                                         ${ pkgs.coreutils }/bin/sleep ${ builtins.toString secondary.sleep } &&
+                                                                                                        if [ -z "$( ${ pkgs.coreutils }/bin/cat /post/temporary.standard-error )" ]
+                                                                                                        then
+                                                                                                            ${ pkgs.coreutils }/bin/rm /post/temporary.standard-error
+                                                                                                        fi &&
                                                                                                         ${ pkgs.findutils }/bin/find /temporary -mindepth 1 -maxdepth 1 -type d >> /post/xxx
                                                                                                 '' ;
                                                                                             post =
