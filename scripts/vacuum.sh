@@ -1,5 +1,5 @@
 ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
-  exec 201> /post/.lock &&
+  exec 201> /post/.lock2 &&
   if ${FLOCK} 201
   then
     ${ECHO} >> /post/debug &&

@@ -1,4 +1,4 @@
-exec 201> ${RESOURCE}/lock &&
+exec 201> ${RESOURCE}/.lock &&
   if ${FLOCK} 201
   then
     PID=$( ${CAT} ${RESOURCE}/pid ) &&
