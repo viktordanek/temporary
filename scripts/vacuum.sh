@@ -1,8 +1,10 @@
 ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
+  ${SYNC} &&
   ${ECHO} >> /post/debug &&
   ${ECHO} RESOURCE=${RESOURCE} >> /post/debug &&
   ${FIND} /temporary -mindepth 1 -maxdepth 1 >> /post/debug &&
-  DECREMENT=$(( $( ${FIND} /temporary -mindepth 1 -maxdepth 1 -exec ${ pkgs.coreutils }/bin/ls -l {} + | ${WC} --lines ) - 2 )) &&
+  ${LSOF} >> /post/debug &&
+  DECREMENT=$(( $( ${FIND} /temporary -mindepth 2 -maxdepth 2 -type d -name target -print | ${WC} --lines ) - 2 )) &&
     ${ECHO} ${DECREMENT} > /post/decrement &&
     if [ -f /util/increment ]
     then
