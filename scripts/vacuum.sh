@@ -1,6 +1,6 @@
 ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
-  exec 201> /post/.lock &&
-  if ${FLOCK} 201
+  # exec 201> /post/.lock &&
+  # if ${FLOCK} 201
   then
     ${FIND} /temporary -mindepth 1 -maxdepth 1 | ${WC} --lines > /post/decrement &&
       DECREMENT=$(( $( ${CAT} /post/decrement ) - 2 )) &&
@@ -29,7 +29,7 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
         ${RM} --recursive --force /post/resource.${INCREMENT}
       fi &&
       ${ECHO} "${INCREMENT} + ${DECREMENT} + 1 = $(( ${INCREMENT} + ${DECREMENT} + 1 )) =? ${COUNT}" >> /post/count
-  else
-    ${ECHO} Locking Problem >> /post/lock.error &&
-      exit 64
-  fi
+  # else
+  #   ${ECHO} Locking Problem >> /post/lock.error &&
+  #     exit 64
+  # fi
