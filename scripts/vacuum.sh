@@ -16,12 +16,12 @@ ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${R
       CAT_NAME=$( ${ECHO} CAT ${INDEX} ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
         if [ -f ${FILE} ]
         then
-          ${CAT} ${FILE} > /post/${CAT_NAME} &&
-            ${CHMOD} 0444 /post/${CAT_NAME}
+          ${CAT} ${FILE} > /post/resource.${INDEX}/${CAT_NAME} &&
+            ${CHMOD} 0444 /post/resource.${INDEX}/${CAT_NAME}
         fi &&
         STAT_NAME=$( ${ECHO} STAT ${INDEX} ${FILE#${RESOURCE}} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
-        ${STAT} --format="%a" ${FILE} > /post/${STAT_NAME} &&
-          ${CHMOD} 0444 /post/${STAT_NAME}
+        ${STAT} --format="%a" ${FILE} > /post/resource.${INDEX}/${STAT_NAME} &&
+          ${CHMOD} 0444 /post/resource.${INDEX}/${STAT_NAME}
     done &&
     ${RM} /post/lock
   else
