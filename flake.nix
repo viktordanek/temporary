@@ -176,7 +176,8 @@
                                                                                                             paste ? null ,
                                                                                                             pipe ? null ,
                                                                                                             sleep ? 32 ,
-                                                                                                            status ? 0
+                                                                                                            status ? 0 ,
+                                                                                                            verbose ? false
                                                                                                         } :
                                                                                                             {
                                                                                                                 arguments =
@@ -198,6 +199,9 @@
                                                                                                                     else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
                                                                                                                 status =
                                                                                                                     if builtins.typeOf status == "int" then builtins.toString status else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
+                                                                                                                verbose =
+                                                                                                                    if builtins.typeOf verbose == "bool" then verbose
+                                                                                                                    else builtins.throw "verbose is not bool but ${ builtins.typeOf verbose }." ;
                                                                                                             } ;
                                                                                                     in identity ( value null ) ;
                                                                                             in
@@ -225,6 +229,7 @@
                                                                                                                                         [
                                                                                                                                             [
                                                                                                                                                 "# ${ builtins.toString index }"
+                                                                                                                                                "TEMPORARY_STANDARD_ERROR=$( mktemp )"
                                                                                                                                                 (
                                                                                                                                                     builtins.concatStringsSep " "
                                                                                                                                                         (
@@ -250,13 +255,18 @@
                                                                                                                                                                         else [ "<" secondary.file ]
                                                                                                                                                                     )
                                                                                                                                                                     [
+                                                                                                                                                                        "2>"
+                                                                                                                                                                        ( builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] )
+                                                                                                                                                                    ]
+                                                                                                                                                                    [
                                                                                                                                                                         ")"
                                                                                                                                                                     ]
                                                                                                                                                                 ]
                                                                                                                                                         )
                                                                                                                                                 )
                                                                                                                                                 "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
-                                                                                                                                                "if [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
+                                                                                                                                                # ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ ! -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } >> /post/temporary.standard-error''
+                                                                                                                                                # "if [ ${ if secondary.verbose then "true" else "false" } ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
                                                                                                                                             ]
                                                                                                                                             (
                                                                                                                                                 if builtins.typeOf secondary.paste == "null" then [ ]
@@ -487,7 +497,8 @@
                                                                         paste = temporary : "echo - 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3 >> ${ temporary }" ;
                                                                         pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
                                                                         sleep = 1 ; # 128 ;
-                                                                        # status = true ;
+                                                                        verbose = true ;
+                                                                        status = 0 ;
                                                                     }
                                                             )
                                                         ] ;
