@@ -141,20 +141,6 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
-                                                                                            outer =
-                                                                                                ''
-                                                                                                    ${ pkgs.writeShellScript "inner " test } > /post/outer.standard-input 2> /post/outer.standard-error &&
-                                                                                                        ${ pkgs.coreutils }/bin/sleep ${ builtins.toString secondary.sleep } &&
-                                                                                                        if [ -z "$( ${ pkgs.coreutils }/bin/cat /post/temporary.standard-error )" ]
-                                                                                                        then
-                                                                                                            ${ pkgs.coreutils }/bin/rm /post/temporary.standard-error
-                                                                                                        fi &&
-                                                                                                        if [ $(( $( ${ pkgs.coreutils }/bin/cat /post/increment ) + 1 )) == ${ builtins.toString secondary.count } ]
-                                                                                                        then
-                                                                                                            ${ pkgs.coreutils }/bin/rm /post/increment
-                                                                                                        fi &&
-                                                                                                        ${ pkgs.findutils }/bin/find /temporary -mindepth 1 -maxdepth 1 -type d >> /post/xxx
-                                                                                                '' ;
                                                                                             post =
                                                                                                 pkgs.stdenv.mkDerivation
                                                                                                     {
@@ -183,36 +169,40 @@
                                                                                                 let
                                                                                                     identity =
                                                                                                         {
-                                                                                                            arguments ? null ,
+                                                                                                            arguments ? [ ] ,
                                                                                                             count ? 2 ,
                                                                                                             expected ,
                                                                                                             file ? null ,
                                                                                                             paste ? null ,
                                                                                                             pipe ? null ,
                                                                                                             sleep ? 32 ,
-                                                                                                            status ? true
+                                                                                                            status ? true ,
+                                                                                                            verbose ? false
                                                                                                         } :
                                                                                                             {
-                                                                                                                arguments = if builtins.typeOf arguments == "null" then arguments else if builtins.typeOf arguments == "string" then arguments else builtins.throw "arguments is not null, string but ${ builtins.typeOf file }." ;
+                                                                                                                arguments =
+                                                                                                                    if builtins.typeOf arguments == "list" then builtins.map ( a : if builtins.typeOf a == "string" then a else builtins.throw "argument is not string but ${ builtins.typeOf a }." ) arguments
+                                                                                                                    else builtins.throw "arguments is not list but ${ builtins.typeOf file }." ;
                                                                                                                 count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
                                                                                                                 expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
-                                                                                                                file = builtins.throw "UNIMPLEMENTED" ; # if builtins.typeOf file == "null" then file else if builtins.typeOf file == "string" then file else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
-                                                                                                                paste = if builtins.typeOf paste == "null" then paste else if builtins.typeOf paste == "lambda" then paste else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
+                                                                                                                file =
+                                                                                                                    if builtins.typeOf file == "null" then file
+                                                                                                                    else if builtins.typeOf file == "string" then builtins.toFile "file" file
+                                                                                                                    else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
+                                                                                                                paste =
+                                                                                                                    if builtins.typeOf paste == "null" then paste
+                                                                                                                    else if builtins.typeOf paste == "lambda" then
+                                                                                                                        let
+                                                                                                                            p =
+                                                                                                                                paste "${ builtins.concatStringsSep "" [ "$" "{" "@" "}" ] }" ;
+                                                                                                                            in if builtins.typeOf p == "string" then builtins.toFile "paste" p else builtins.throw "paste temporary is not string but ${ builtins.typeOf p }"
+                                                                                                                    else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                                 pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
                                                                                                                 sleep = if builtins.typeOf sleep == "int" then sleep else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
                                                                                                                 status = builtins.throw "UNIMPLEMENTED" ; # if builtins.typeOf status == "bool" then status else builtins.throw "status is not bool but ${ builtins.typeOf status }." ;
+                                                                                                                verbose = if builtins.typeOf verbose == "bool" then builtins.toJSON verbose else builtins.throw "verbose is not bool but ${ builtins.typeOf verbose }." ;
                                                                                                             } ;
                                                                                                     in identity ( value null ) ;
-                                                                                            test =
-                                                                                                let
-                                                                                                    arguments = if builtins.typeOf secondary.arguments == "null" then "temporary" else "temporary ${ secondary.arguments }" ;
-                                                                                                    pipe = if builtins.typeOf secondary.pipe == "null" then arguments else "${ pkgs.coreutils }/bin/echo ${ secondary.pipe } | ${ arguments }" ;
-                                                                                                    file = if builtins.typeOf secondary.file == "null" then pipe else "${ pipe } < ${ builtins.toFile "file" secondary.file }" ;
-                                                                                                    variable = "VARIABLE=$( ${ pipe } 2>> /post/temporary.standard-error ) && if [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] } >> /post/temporary.status ; fi" ;
-                                                                                                    paste = if builtins.typeOf secondary.paste == "null" then variable else "${ variable } && ${ secondary.paste ( builtins.concatStringsSep "" [ "$" "{" "VARIABLE" "}" ] ) }" ;
-                                                                                                    status = paste ;
-                                                                                                    count = builtins.concatStringsSep " &&\n\t" ( builtins.genList ( index : status ) secondary.count ) ;
-                                                                                                    in pkgs.writeShellScript "test-candidate" count ;
                                                                                             user-environment =
                                                                                                 pkgs.buildFHSUserEnv
                                                                                                     {
@@ -224,33 +214,62 @@
                                                                                                                 "--bind ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] } /util"
                                                                                                             ] ;
                                                                                                         name = "test-candidate" ;
-                                                                                                        runScript = pkgs.writeShellScript "outer" outer ;
+                                                                                                        # runScript = pkgs.writeShellScript "outer" outer ;
                                                                                                         targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
                                                                                                     } ;
                                                                                             in
                                                                                                 builtins.concatLists
                                                                                                     [
                                                                                                         [
-                                                                                                            "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "export TEMPORARY=${ host-path }"
-                                                                                                            "export UTIL=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "${ user-environment }/bin/test-candidate > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-output 2> ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-error"
-                                                                                                            "${ pkgs.coreutils }/bin/cp --recursive --preserve=mode ${ secondary.expected }/${ builtins.concatStringsSep "/" ( builtins.map builtins.toJSON path ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/cat '${ test }' > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/echo $out"
-                                                                                                            "${ pkgs.coreutils }/bin/sleep ${ builtins.toString secondary.sleep }s"
-                                                                                                            "exec 202> ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/.lock"
-                                                                                                            "${ pkgs.flock }/bin/flock 202"
-                                                                                                            "# ${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 -maxdepth 1 | ${ pkgs.coreutils }/bin/wc --lines > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks"
-                                                                                                            "${ pkgs.findutils }/bin/find ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } -mindepth 1 -maxdepth 1 > ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks"
-                                                                                                            "# if [ $( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ) != 0 ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/leaks ; fi"
-                                                                                                            "if ${ pkgs.coreutils }/bin/true ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/leaks ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/leaks ; fi"
-                                                                                                            ''if [ ! -z "$( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-output )" ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-output ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/standard-output ; fi''
-                                                                                                            ''if [ ! -z "$( ${ pkgs.coreutils }/bin/cat ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-error )" ] ; then ${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] }/standard-error ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/standard-error ; fi''
-                                                                                                            "${ pkgs.coreutils }/bin/rm ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] }/.lock"
-                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/chmod 0777 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.diffutils }/bin/diff --recursive ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/cat ${ secondary.paste } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste.sh" ] ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste.sh" ] ] ) }"
+                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } --set PATH ${ pkgs.coreutils }/bin"
+                                                                                                            (
+                                                                                                                let
+                                                                                                                    inner =
+                                                                                                                        let
+                                                                                                                            generator =
+                                                                                                                                index :
+                                                                                                                                    [
+                                                                                                                                        "# ${ builtins.toString index }"
+                                                                                                                                        "TEMPORARY_STANDARD_ERROR=$( mktemp )"
+                                                                                                                                        (
+                                                                                                                                            builtins.concatStringsSep
+                                                                                                                                                " "
+                                                                                                                                                (
+                                                                                                                                                    builtins.concatLists
+                                                                                                                                                        [
+                                                                                                                                                            [
+                                                                                                                                                                "TEMPORARY=$("
+                                                                                                                                                            ]
+                                                                                                                                                            (
+                                                                                                                                                                if builtins.typeOf secondary.pipe == "null" then [ ]
+                                                                                                                                                                else [ "echo" secondary.pipe "|" ]
+                                                                                                                                                            )
+                                                                                                                                                            [
+                                                                                                                                                                "temporary"
+                                                                                                                                                            ]
+                                                                                                                                                            (
+                                                                                                                                                                if builtins.typeOf secondary.file == "null"  then [ ]
+                                                                                                                                                                else [ "<" secondary.file ]
+                                                                                                                                                            )
+                                                                                                                                                            secondary.arguments
+                                                                                                                                                            [
+                                                                                                                                                                "2>"
+                                                                                                                                                                ( builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] )
+                                                                                                                                                                ")"
+                                                                                                                                                            ]
+                                                                                                                                                    ]
+                                                                                                                                                )
+                                                                                                                                        )
+                                                                                                                                    ] ;
+                                                                                                                            in builtins.toFile "inner" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ) ;
+                                                                                                                    in
+                                                                                                                        "${ pkgs.coreutils }/bin/cat ${ inner } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
+                                                                                                            )
+                                                                                                            "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
+                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release post }/bin"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
@@ -281,6 +300,7 @@
                                                                             primary.tests ;
                                                                     in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
                                                             name = "tests" ;
+                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                             src = ./. ;
                                                         } ;
                                             } ;
@@ -426,14 +446,15 @@
                                                             (
                                                                 ignore :
                                                                     {
-                                                                        arguments = "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ;
+                                                                        arguments = [ "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ] ;
                                                                         count = 32 ;
                                                                         expected = self + "/mounts/B0hwDMGO" ;
                                                                         # file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
-                                                                        paste = temporary : ''${ pkgs.coreutils }/bin/echo "- 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3" >> ${ temporary }'' ;
+                                                                        paste = temporary : "echo - 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3 >> ${ temporary }" ;
                                                                         pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
                                                                         sleep = 1 ; # 128 ;
                                                                         # status = true ;
+                                                                        verbose = true ;
                                                                     }
                                                             )
                                                         ] ;
@@ -449,7 +470,8 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests }
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
+                                                                            exit 49
                                                                     '' ;
                                                                 name = "foobar" ;
                                                                 src = ./. ;
