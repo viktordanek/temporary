@@ -14,7 +14,7 @@ exec 201> ${RESOURCE}/.lock &&
       ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
       ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
       #
-      if ${RESOURCE}/post.sh || ${TRUE} ; then ${ECHO} AAI1 >> /post/zzz ; else ${ECHO} AAI2 >> /post/zzz ; fi &&
+      ( ${RESOURCE}/post.sh || ${TRUE} ) &&
       #
       ${RM} --recursive --force ${RESOURCE} &&
       #
