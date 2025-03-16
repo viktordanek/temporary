@@ -242,7 +242,7 @@
                                                                                                                                                 )
                                                                                                                                                 "TEMPORARY_STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
                                                                                                                                                 ''if [ ${ secondary.verbose } ] || [ ${ if secondary.status == "0" then "" else "!" } -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } >> /post/temporary.standard-output ; fi''
-                                                                                                                                                ''if [ ${ secondary.verbose } ] || [ ${ if secondary.status == "0" then "!" else "" } -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" ] } >> /post/temporary.standard-error ; fi''
+                                                                                                                                                ''if [ ${ secondary.verbose } ] || [ ${ if secondary.status == "0" then "!" else "" } -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } >> /post/temporary.standard-error ; fi''
                                                                                                                                                 "if [ ${ secondary.verbose } ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STATUS" "}" ] } >> /post/temporary.status ; fi"
                                                                                                                                             ]
                                                                                                                                             (
@@ -311,11 +311,11 @@
                                                                                                                                         "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
                                                                                                                                         "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
                                                                                                                                     ] ;
-                                                                                                                                name = "test-candidate" ;
+                                                                                                                                name = "test" ;
                                                                                                                                 runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
                                                                                                                                 targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
                                                                                                                             } ;
-                                                                                                                    in "true"
+                                                                                                                    in "${ user-environment }/bin/test"
                                                                                                             )
                                                                                                         ]
                                                                                                     ] ;
