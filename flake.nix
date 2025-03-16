@@ -238,7 +238,11 @@
                                                                                                                                                                         else [ "echo" secondary.pipe "|" ]
                                                                                                                                                                     )
                                                                                                                                                                     [
-                                                                                                                                                                        "temporary"
+                                                                                                                                                                        (
+                                                                                                                                                                            let
+                                                                                                                                                                                temporary = setup primary.init primary.release post ;
+                                                                                                                                                                                in "${ temporary }/bin/temporary"
+                                                                                                                                                                        )
                                                                                                                                                                     ]
                                                                                                                                                                     (
                                                                                                                                                                         if builtins.typeOf secondary.file == "null" then [ ]
