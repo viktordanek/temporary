@@ -153,9 +153,19 @@
                                                                                                                             builtins.concatLists
                                                                                                                                 [
                                                                                                                                     [
-                                                                                                                                        "TEMPORARY=("
+                                                                                                                                        "TEMPORARY=$("
+                                                                                                                                    ]
+                                                                                                                                    (
+                                                                                                                                        if builtins.typeOf secondary.pipe == "null" then [ ]
+                                                                                                                                        else [ "echo" secondary.pipe "|" ]
+                                                                                                                                    )
+                                                                                                                                    [
                                                                                                                                         "temporary"
                                                                                                                                     ]
+                                                                                                                                    (
+                                                                                                                                        if builtins.typeOf secondary.file == "null" then [ ]
+                                                                                                                                        else [ "<" secondary.file ]
+                                                                                                                                    )
                                                                                                                                     secondary.arguments
                                                                                                                                     [
                                                                                                                                         ")"
@@ -210,7 +220,10 @@
                                                                                                                     else builtins.throw "arguments is not list but ${ builtins.typeOf arguments }." ;
                                                                                                                 count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
                                                                                                                 expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
-                                                                                                                file = builtins.throw "UNIMPLEMENTED" ; # if builtins.typeOf file == "null" then file else if builtins.typeOf file == "string" then file else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
+                                                                                                                file =
+                                                                                                                    if builtins.typeOf file == "null" then file
+                                                                                                                    else if builtins.typeOf file == "string" then builtins.toFile "file" file
+                                                                                                                    else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
                                                                                                                 paste =
                                                                                                                     if builtins.typeOf paste == "null" then paste
                                                                                                                     else if builtins.typeOf paste == "lambda" then pkgs.writeShellScript "paste" ( paste ( builtins.concatStringsSep "" [ "$" "{" "@" "}" ] ) )
@@ -428,7 +441,7 @@
                                                                         arguments = [ "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ] ;
                                                                         count = 32 ;
                                                                         expected = self + "/mounts/B0hwDMGO" ;
-                                                                        # file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
+                                                                        file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
                                                                         paste = temporary : "echo - 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3 >> ${ temporary }" ;
                                                                         pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
                                                                         sleep = 1 ; # 128 ;
