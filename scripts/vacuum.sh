@@ -1,16 +1,11 @@
-${ECHO} AAAA >> /post/yyy &&
 exec 202> /post/.lock &&
   if ${FLOCK} 202
   then
-${ECHO} AAAB >> /post/yyy &&
     ${RM} --force ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
-${ECHO} AAAC >> /post/yyy &&
         if [ -f /util/increment ]
         then
-${ECHO} AAAD >> /post/yyy &&
           INCREMENT=$(( $( ${CAT} /util/increment ) + 1 ))
         else
-${ECHO} AAAE >> /post/yyy &&
           INCREMENT=0
         fi &&
 ${ECHO} AAAF >> /post/yyy &&
