@@ -28,7 +28,7 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   makeWrapper ${MAKE_WRAPPER_RELEASE} ${RESOURCE}/release.sh --set RESOURCE ${RESOURCE} --set STORE ${STORE} --set TARGET ${TARGET} &&
   #
   #
-  makeWrapper ${MAKE_WRAPPER_POST} ${RESOURCE}/post.sh --set RESOURCE ${RESOURCE} --set $TORE ${STORE} --set TARGET ${TARGET} &&
+  makeWrapper ${MAKE_WRAPPER_POST} ${RESOURCE}/post.sh --set RESOURCE ${RESOURCE} --set STORE ${STORE} --set TARGET ${TARGET} &&
   #
   makeWrapper ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh --set AT ${AT} --set ECHO ${ECHO} --set NICE ${NICE} --set RESOURCE ${RESOURCE} --set STORE ${STORE} &&
   makeWrapper ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh --set CAT ${CAT} --set CHMOD ${CHMOD} --set ECHO ${ECHO} --set FLOCK ${FLOCK} --set RESOURCE ${RESOURCE} --set RM ${RM} --set STORE ${STORE} --set TAIL ${TAIL}  --set FIND ${FIND} &&
