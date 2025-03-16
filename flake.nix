@@ -200,19 +200,6 @@
                                                                                                                     if builtins.typeOf status == "int" then builtins.toString status else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
                                                                                                             } ;
                                                                                                     in identity ( value null ) ;
-                                                                                            user-environment =
-                                                                                                pkgs.buildFHSUserEnv
-                                                                                                    {
-                                                                                                        extraBwrapArgs =
-                                                                                                            [
-                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
-                                                                                                                "--tmpfs /temporary"
-                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] } /util"
-                                                                                                            ] ;
-                                                                                                        name = "test-candidate" ;
-                                                                                                        # runScript = pkgs.writeShellScript "outer" outer ;
-                                                                                                        # targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
-                                                                                                    } ;
                                                                                             in
                                                                                                 builtins.concatLists
                                                                                                     [
@@ -294,6 +281,25 @@
                                                                                                                 in
                                                                                                                     [ "makeWrapper ${ outer } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set RM ${ pkgs.coreutils }/bin/rm --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep } --set WC ${ pkgs.coreutils }/bin/wc" ]
                                                                                                         )
+                                                                                                        [
+                                                                                                            "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                            (
+                                                                                                                let
+                                                                                                                    user-environment =
+                                                                                                                        pkgs.buildFHSUserEnv
+                                                                                                                            {
+                                                                                                                                extraBwrapArgs =
+                                                                                                                                    [
+                                                                                                                                        "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
+                                                                                                                                        "--tmpfs /temporary"
+                                                                                                                                    ] ;
+                                                                                                                                name = "test" ;
+                                                                                                                                runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
+                                                                                                                                targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
+                                                                                                                            } ;
+                                                                                                                    in "${ user-environment }/bin/test"
+                                                                                                            )
+                                                                                                        ]
                                                                                                     ] ;
                                                                             }
                                                                             {
