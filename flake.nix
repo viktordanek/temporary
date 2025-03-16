@@ -115,7 +115,6 @@
                                                                                         "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
                                                                                         "--set TEARDOWN_SYNCH ${ teardown-synch }"
                                                                                         "--set TRUE ${ pkgs.coreutils }/bin/true"
-                                                                                        "--set FIND ${ pkgs.findutils }/bin/find"
                                                                                     ]
                                                                                 ] ;
                                                                         in

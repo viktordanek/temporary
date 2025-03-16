@@ -12,11 +12,11 @@ exec 201> ${RESOURCE}/.lock &&
         STATUS=${?} && ${ECHO}
       fi &&
       ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
-      ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status && ${ECHO} AAH $( ls ${RESOURCE}  ) ${STORE} >> /post/zzz &&
+      ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
       #
-      if ${RESOURCE}/post.sh || true ; then ${ECHO} AAI1 >> /post/zzz ; else ${ECHO} AAI2 >> /post/zzz ; fi &&
+      if ${RESOURCE}/post.sh || ${TRUE} ; then ${ECHO} AAI1 >> /post/zzz ; else ${ECHO} AAI2 >> /post/zzz ; fi &&
       #
-      ${RM} --recursive --force ${RESOURCE} && ${ECHO} AAI >> /post/zzz &&
+      ${RM} --recursive --force ${RESOURCE} &&
       #
       if [ ${STATUS} != 0 ]
       then

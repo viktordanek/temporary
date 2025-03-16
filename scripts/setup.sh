@@ -31,7 +31,7 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   makeWrapper ${MAKE_WRAPPER_POST} ${RESOURCE}/post.sh --set RESOURCE ${RESOURCE} --set STORE ${STORE} --set TARGET ${TARGET} &&
   #
   makeWrapper ${TEARDOWN_ASYNCH} ${RESOURCE}/teardown-asynch.sh --set AT ${AT} --set ECHO ${ECHO} --set NICE ${NICE} --set RESOURCE ${RESOURCE} --set STORE ${STORE} &&
-  makeWrapper ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh --set CAT ${CAT} --set CHMOD ${CHMOD} --set ECHO ${ECHO} --set FLOCK ${FLOCK} --set RESOURCE ${RESOURCE} --set RM ${RM} --set STORE ${STORE} --set TAIL ${TAIL}  --set FIND ${FIND} &&
+  makeWrapper ${TEARDOWN_SYNCH} ${RESOURCE}/teardown-synch.sh --set CAT ${CAT} --set CHMOD ${CHMOD} --set ECHO ${ECHO} --set FLOCK ${FLOCK} --set RESOURCE ${RESOURCE} --set RM ${RM} --set STORE ${STORE} --set TAIL ${TAIL} --set TRUE ${TRUE} &&
   #
   if [ -f ${RESOURCE}/init.standard-input ] && ${CAT} ${RESOURCE}/init.standard-input | ${RESOURCE}/init.sh $( ${CAT} ${RESOURCE}/init.arguments ) > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
   then
