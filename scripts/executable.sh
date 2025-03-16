@@ -25,6 +25,8 @@ export ARGUMENTS=${@} &&
   then
     ${ECHO} ${STANDARD_ERROR} >&2
   fi &&
+  ${ECHO} ${RESOURCE} >&2 &&
+  ls ${RESOURCE} >&2 &&
   ${JQ} -n -f ${TEMPLATE_FILE} | ${YQ} --yaml-output "[.]" >> ${TARGET} &&
   ${ECHO} ${STANDARD_OUTPUT} &&
   exit ${STATUS}

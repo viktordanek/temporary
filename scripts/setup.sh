@@ -42,21 +42,23 @@ source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   else
     STATUS=${?}
   fi &&
-  ${ECHO} ${STATUS} > ${RESOURCE}/init.status &&
-  ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status &&
+  ${ECHO} ${STATUS} > ${RESOURCE}/init.status && ${ECHO} ZZA >> /post/zz &&
+  ${CHMOD} 0400 ${RESOURCE}/init.standard-output ${RESOURCE}/init.standard-error ${RESOURCE}/init.status && ${ECHO} ZZB >> /post/zz &&
   if [ "${STATUS}" != 0 ]
   then
-    ${RM} --force ${RESOURCE}/pid &&
-      ${RESOURCE}/teardown-asynch.sh &&
-      exit ${INITIALIZER}
+    ${RM} --force ${RESOURCE}/pid && ${ECHO} ZZC >> /post/zz &&
+      ${RESOURCE}/teardown-asynch.sh && ${ECHO} ZZD ${RESOURCE} ${0} ${STATUS} >> /post/zz && ls ${RESOURCE} >> /post/zz && ${CAT} ${RESOURCE}/init.standard-error >> /post/zz && ${CAT} ${RESOURCE}/init.status >> /post/zz &&
+      ${ECHO} ${RESOURCE} >&2 &&
+      exit 0 # ${INITIALIZER}
   elif [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error)" ]
   then
-    ${RM} --force ${RESOURCE}/pid &&
-      ${RESOURCE}/teardown-asynch.sh &&
-      exit ${STANDARD_ERROR}
+    ${RM} --force ${RESOURCE}/pid && ${ECHO} ZZE >> /post/zz &&
+      ${RESOURCE}/teardown-asynch.sh && ${ECHO} ZZF >> /post/zz &&
+      ${ECHO} RESOURCE >&2 &&
+      exit 0 # ${STANDARD_ERROR}
   else
-    ${RESOURCE}/teardown-asynch.sh &&
-      ${ECHO} ${RESOURCE}/target
+    ${RESOURCE}/teardown-asynch.sh && ${ECHO} ZZG >> /post/zz &&
+      ${ECHO} ${RESOURCE}/target && ${ECHO} ZZH >> /post/zz
   fi &&
   #
   ${TRUE}

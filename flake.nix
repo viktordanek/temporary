@@ -35,10 +35,10 @@
                                                 at = if builtins.typeOf at == "set" then at else if builtins.typeOf at == "string" then at else builtins.throw "at is not set, string but ${ builtins.typeOf at }." ;
                                                 host-path = if builtins.typeOf host-path == "string" then host-path else builtins.throw "host-path is not string but ${ builtins.typeOf host-path }." ;
                                                 init = if builtins.typeOf init == "null" then init else if builtins.typeOf init == "string" then init else builtins.throw "init is not null, string but ${ builtins.typeOf init }." ;
-                                                initializer = if builtins.typeOf initializer == "int" then initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
+                                                initializer = if builtins.typeOf initializer == "int" then builtins.toString initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
                                                 release = if builtins.typeOf release == "null" then release else if builtins.typeOf release == "string" then release else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
                                                 post = if builtins.typeOf post == "null" then post else if builtins.typeOf post == "string" then post else builtins.throw "post is not null, string but ${ builtins.typeOf post }." ;
-                                                standard-error = if builtins.typeOf standard-error == "int" then standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
+                                                standard-error = if builtins.typeOf standard-error == "int" then builtins.toString standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
                                                 tests = if builtins.typeOf tests == "null" then tests else if builtins.typeOf tests == "list" then tests else if builtins.typeOf tests == "set" then tests else builtins.throw "tests is not null, list, set but ${ builtins.typeOf tests }." ;
                                             } ;
                                         setup =
@@ -54,8 +54,8 @@
                                                                 [ ( builtins.typeOf release == "string" ) 28 28 ]
                                                                 [ ( builtins.typeOf post == "string" ) 31 31 ]
                                                                 [ true 33 34 ]
-                                                                [ ( builtins.typeOf init == "string" ) 36 60 ]
-                                                                [ true 62 62 ]
+                                                                [ ( builtins.typeOf init == "string" ) 36 62 ]
+                                                                [ true 64 64 ]
                                                             ] ;
                                                     source =
                                                         file : lines :
@@ -95,6 +95,7 @@
                                                                                         "--set ECHO ${ pkgs.coreutils }/bin/echo"
                                                                                         "--set FLOCK ${ pkgs.flock }/bin/flock"
                                                                                         "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
+                                                                                        "--set INITIALIZER ${ primary.initializer }"
                                                                                         "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
@@ -109,6 +110,7 @@
                                                                                         "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
                                                                                         "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory ${ host-path }/XXXXXXXX )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
+                                                                                        "--set STANDARD_ERROR ${ primary.standard-error }"
                                                                                         "--set TAIL ${ pkgs.coreutils }/bin/tail"
                                                                                         "--run 'export TARGET=${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/target'"
                                                                                         "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
@@ -240,7 +242,7 @@
                                                                                                                                                             builtins.concatLists
                                                                                                                                                                 [
                                                                                                                                                                     [
-                                                                                                                                                                        "TEMPORARY=$("
+                                                                                                                                                                        "# TEMPORARY=$("
                                                                                                                                                                     ]
                                                                                                                                                                     (
                                                                                                                                                                         if builtins.typeOf secondary.pipe == "null" then [ ]
@@ -268,11 +270,13 @@
                                                                                                                                                                 ]
                                                                                                                                                         )
                                                                                                                                                 )
-                                                                                                                                                "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
-                                                                                                                                                "cat $( ${ pkgs.which }/bin/which temporary ) > /post/temporary.sh"
-                                                                                                                                                ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ -z "${ builtins.concatStringsSep "$" [ "$" "{" "TEMPORARY" "}" ] }" ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } >> /post/temporary.standard-output ; fi''
-                                                                                                                                                ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ ! -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } >> /post/temporary.standard-error ; fi''
-                                                                                                                                                "if [ ${ if secondary.verbose then "true" else "false" } ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
+                                                                                                                                                "if ! ${ setup primary.init primary.release post }/bin/temporary 2> /post/terror ; then true ; fi"
+                                                                                                                                                "${ pkgs.coreutils }/bin/cat ${ setup primary.init primary.release post }/bin/temporary > /post/tfind"
+                                                                                                                                                "${ pkgs.findutils }/bin/find /temporary > /post/find"
+                                                                                                                                                # "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
+                                                                                                                                                # ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ -z "${ builtins.concatStringsSep "$" [ "$" "{" "TEMPORARY" "}" ] }" ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } >> /post/temporary.standard-output ; fi''
+                                                                                                                                                # ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ ! -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } >> /post/temporary.standard-error ; fi''
+                                                                                                                                                # "if [ ${ if secondary.verbose then "true" else "false" } ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
                                                                                                                                             ]
                                                                                                                                             (
                                                                                                                                                 if builtins.typeOf secondary.paste == "null" then [ ]
@@ -319,6 +323,9 @@
                                                                                                                     in "${ user-environment }/bin/test"
                                                                                                             )
                                                                                                             "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                        ]
+                                                                                                        [
+                                                                                                            "${ pkgs.coreutils }/bin/true"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
