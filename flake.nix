@@ -299,7 +299,7 @@
                                                                                                                                 src = ./. ;
                                                                                                                             } ;
                                                                                                                     in
-                                                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PASTE ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release post }/bin"
+                                                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PASTE ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release ( builtins.toString post ) }/bin"
                                                                                                             )
                                                                                                             "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/outer.sh" } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
@@ -521,7 +521,6 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 49
                                                                     '' ;
