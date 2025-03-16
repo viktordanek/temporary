@@ -8,7 +8,7 @@ exec 202> /post/.lock &&
         else
           INCREMENT=0
         fi &&
-${ECHO} AAAF >> /post/yyy &&
+${ECHO} AAAF ${INCREMENT} ${0} ${RESOURCE} ${STORE} >> /post/yyy &&
         ${ECHO} ${INCREMENT} > /util/increment &&
 ${ECHO} AAAG >> /post/yyy &&
         ${MKDIR} /post/resource.${INCREMENT} &&
