@@ -170,6 +170,10 @@
                                                                                                                                     [
                                                                                                                                         ")"
                                                                                                                                     ]
+                                                                                                                                    (
+                                                                                                                                        if builtins.typeOf secondary.paste == "null" then [ ]
+                                                                                                                                        else "${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }"
+                                                                                                                                    )
                                                                                                                                 ]
                                                                                                                         )
                                                                                                                 )
