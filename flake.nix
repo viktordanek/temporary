@@ -185,7 +185,7 @@
                                                                                                                 file = builtins.throw "UNIMPLEMENTED" ; # if builtins.typeOf file == "null" then file else if builtins.typeOf file == "string" then file else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
                                                                                                                 paste =
                                                                                                                     if builtins.typeOf paste == "null" then paste
-                                                                                                                    else if builtins.typeOf paste == "lambda" then pkgs.writeShellScript "paste" ( builtins.toFile "paste" ( paste ( builtins.concatStringsSep "" [ "$" "{" "@" "}" ] ) ) )
+                                                                                                                    else if builtins.typeOf paste == "lambda" then pkgs.writeShellScript "paste" ( paste ( builtins.concatStringsSep "" [ "$" "{" "@" "}" ] ) )
                                                                                                                     else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                                 pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
                                                                                                                 sleep = if builtins.typeOf sleep == "int" then sleep else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
@@ -219,6 +219,8 @@
                                                                                                                     "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } --set PATH ${ pkgs.coreutils }/bin"
                                                                                                                 ]
                                                                                                         )
+                                                                                                        [
+                                                                                                        ]
                                                                                                     ] ;
                                                                             }
                                                                             {
