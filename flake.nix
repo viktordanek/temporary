@@ -195,14 +195,23 @@
                                                                                                                         let
                                                                                                                             p =
                                                                                                                                 paste "${ builtins.concatStringsSep "" [ "$" "{" "@" "}" ] }" ;
-                                                                                                                            in if builtins.typeOf p == "string" then builtins.toFile "paste" p else builtins.throw "paste temporary is not string but ${ builtins.typeOf p }"
+                                                                                                                            in
+                                                                                                                                if builtins.typeOf p == "string" then
+                                                                                                                                    if status == 0 then builtins.toFile "paste" p
+                                                                                                                                    else builtins.throw "it does not make sense to have a failure status and a paste"
+                                                                                                                                else builtins.throw "paste temporary is not string but ${ builtins.typeOf p }"
                                                                                                                     else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                                 pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
                                                                                                                 sleep =
                                                                                                                     if builtins.typeOf sleep == "int" then builtins.toString sleep
                                                                                                                     else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
                                                                                                                 status =
-                                                                                                                    if builtins.typeOf status == "int" then builtins.toString status
+                                                                                                                    if builtins.typeOf status == "int" then
+                                                                                                                        let
+                                                                                                                            s = builtins.toString status ;
+                                                                                                                            in
+                                                                                                                                if s == "0" || builtins.typeOf paste == "null" then builtins.toString status
+                                                                                                                                else builtins.throw "it does not make sense to have a failure status and a paste"
                                                                                                                     else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
                                                                                                                 verbose = if builtins.typeOf verbose == "bool" then builtins.toJSON verbose else builtins.throw "verbose is not bool but ${ builtins.typeOf verbose }." ;
                                                                                                             } ;
