@@ -145,41 +145,44 @@
                                                                                                 let
                                                                                                     generator =
                                                                                                         index :
-                                                                                                            [
-                                                                                                                "# ${ builtins.toString index }"
-                                                                                                                (
-                                                                                                                    builtins.concatStringsSep " "
+                                                                                                            builtins.concatLists
+                                                                                                                [
+                                                                                                                    [
+                                                                                                                        "# ${ builtins.toString index }"
                                                                                                                         (
-                                                                                                                            builtins.concatLists
-                                                                                                                                [
-                                                                                                                                    [
-                                                                                                                                        "TEMPORARY=$("
-                                                                                                                                    ]
-                                                                                                                                    (
-                                                                                                                                        if builtins.typeOf secondary.pipe == "null" then [ ]
-                                                                                                                                        else [ "echo" secondary.pipe "|" ]
-                                                                                                                                    )
-                                                                                                                                    [
-                                                                                                                                        "temporary"
-                                                                                                                                    ]
-                                                                                                                                    (
-                                                                                                                                        if builtins.typeOf secondary.file == "null" then [ ]
-                                                                                                                                        else [ "<" secondary.file ]
-                                                                                                                                    )
-                                                                                                                                    secondary.arguments
-                                                                                                                                    [
-                                                                                                                                        ")"
-                                                                                                                                    ]
-                                                                                                                                    (
-                                                                                                                                        if builtins.typeOf secondary.paste == "null" then [ ]
-                                                                                                                                        else [ "${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }" ]
-                                                                                                                                    )
-                                                                                                                                ]
+                                                                                                                            builtins.concatStringsSep " "
+                                                                                                                                (
+                                                                                                                                    builtins.concatLists
+                                                                                                                                        [
+                                                                                                                                            [
+                                                                                                                                                "TEMPORARY=$("
+                                                                                                                                            ]
+                                                                                                                                            (
+                                                                                                                                                if builtins.typeOf secondary.pipe == "null" then [ ]
+                                                                                                                                                else [ "echo" secondary.pipe "|" ]
+                                                                                                                                            )
+                                                                                                                                            [
+                                                                                                                                                "temporary"
+                                                                                                                                            ]
+                                                                                                                                            (
+                                                                                                                                                if builtins.typeOf secondary.file == "null" then [ ]
+                                                                                                                                                else [ "<" secondary.file ]
+                                                                                                                                            )
+                                                                                                                                            secondary.arguments
+                                                                                                                                            [
+                                                                                                                                                ")"
+                                                                                                                                            ]
+                                                                                                                                        ]
+                                                                                                                                )
                                                                                                                         )
-                                                                                                                )
-                                                                                                                "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
-                                                                                                                "if [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != 0 ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
-                                                                                                            ] ;
+                                                                                                                        "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
+                                                                                                                        "if [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != 0 ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
+                                                                                                                    ]
+                                                                                                                    (
+                                                                                                                        if builtins.typeOf secondary.paste == "null" then [ ]
+                                                                                                                        else [ "${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }" ]
+                                                                                                                    )
+                                                                                                                ] ;
                                                                                                     in pkgs.writeShellScript "inner" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ) ;
                                                                                             post =
                                                                                                 pkgs.stdenv.mkDerivation
