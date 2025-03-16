@@ -180,7 +180,7 @@
                                                                                                                     ]
                                                                                                                     (
                                                                                                                         if builtins.typeOf secondary.paste == "null" then [ ]
-                                                                                                                        else [ "${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }" ]
+                                                                                                                        else [ "$( dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/paste ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }" ]
                                                                                                                     )
                                                                                                                 ] ;
                                                                                                     in pkgs.writeShellScript "inner" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ) ;
