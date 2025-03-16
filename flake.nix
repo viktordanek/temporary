@@ -107,7 +107,7 @@
                                                                                     [
                                                                                         "--set NICE ${ pkgs.coreutils }/bin/nice"
                                                                                         "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
-                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory /tmp/RESOURCE.XXXXXXXX )'"
+                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory ${ host-path }/XXXXXXXX )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
                                                                                         "--set TAIL ${ pkgs.coreutils }/bin/tail"
                                                                                         "--run 'export TARGET=${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/target'"
@@ -269,12 +269,14 @@
                                                                                                                                                         )
                                                                                                                                                 )
                                                                                                                                                 "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
+                                                                                                                                                "cat $( ${ pkgs.which }/bin/which temporary ) > /post/temporary.sh"
+                                                                                                                                                ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ -z "${ builtins.concatStringsSep "$" [ "$" "{" "TEMPORARY" "}" ] }" ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } >> /post/temporary.standard-output ; fi''
                                                                                                                                                 ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ ! -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } >> /post/temporary.standard-error ; fi''
                                                                                                                                                 "if [ ${ if secondary.verbose then "true" else "false" } ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
                                                                                                                                             ]
                                                                                                                                             (
                                                                                                                                                 if builtins.typeOf secondary.paste == "null" then [ ]
-                                                                                                                                                else [ "$( dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/paste ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }" ]
+                                                                                                                                                else [ ] # [ "$( dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )/paste ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }" ]
                                                                                                                                             )
                                                                                                                                         ] ;
                                                                                                                             in pkgs.writeShellScript "inner" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ) ;
@@ -297,7 +299,7 @@
                                                                                                                             src = ./. ;
                                                                                                                         } ;
                                                                                                                 in
-                                                                                                                    [ "makeWrapper ${ outer } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set RM ${ pkgs.coreutils }/bin/rm --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep } --set WC ${ pkgs.coreutils }/bin/wc" ]
+                                                                                                                    [ "makeWrapper ${ outer } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set RM ${ pkgs.coreutils }/bin/rm --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep } --set WC ${ pkgs.coreutils }/bin/wc" ]
                                                                                                         )
                                                                                                         [
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
@@ -309,7 +311,6 @@
                                                                                                                                 extraBwrapArgs =
                                                                                                                                     [
                                                                                                                                         "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
-                                                                                                                                        "--tmpfs /temporary"
                                                                                                                                     ] ;
                                                                                                                                 name = "test" ;
                                                                                                                                 runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
@@ -484,7 +485,7 @@
                                                             ''
                                                                 $( ${ pkgs.coreutils }/bin/tee ) &
                                                             '' ;
-                                                    host-path = "/tmp" ;
+                                                    host-path = "/temporary" ;
                                                     init = scripts.shell-scripts.init ;
                                                     initializer = 66 ;
                                                     release = scripts.shell-scripts.release ;

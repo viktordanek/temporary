@@ -1,4 +1,5 @@
-${INNER} &&
+${MKDIR} /temporary &&
+  ${INNER} &&
   ${SLEEP} ${TIMEOUT} &&
   exec 203> /post/.lock &&
   ${FLOCK} 203 &&

@@ -1,6 +1,7 @@
-exec 201> ${RESOURCE}/.lock && ${ECHO} CAA >> /post/debug
-  if ${FLOCK} 201
+exec 201> ${RESOURCE}/.lock && ${ECHO} CAA ${RESOURCE} >> /post/debug
+  if ${FLOCK} -n 201
   then
+    ${ECHO} CAB >> /post/debug &&
     PID=$( ${CAT} ${RESOURCE}/pid ) &&
       ${TAIL} --follow /dev/null --pid ${PID} &&
       ${RM} ${RESOURCE}/pid
@@ -24,6 +25,6 @@ exec 201> ${RESOURCE}/.lock && ${ECHO} CAA >> /post/debug
       fi
       #
   else
-    ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
+    ${ECHO} Unable to acquire an exclusive lock 2>&1 && ${ECHO} CAC >> /post/debug
       exit ${ERROR}
   fi
