@@ -176,7 +176,7 @@
                                                                                                                                 )
                                                                                                                         )
                                                                                                                         "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
-                                                                                                                        "if [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != 0 ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
+                                                                                                                        "if [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
                                                                                                                     ]
                                                                                                                     (
                                                                                                                         if builtins.typeOf secondary.paste == "null" then [ ]
@@ -219,7 +219,7 @@
                                                                                                             paste ? null ,
                                                                                                             pipe ? null ,
                                                                                                             sleep ? 32 ,
-                                                                                                            status ? true
+                                                                                                            status ? 0
                                                                                                         } :
                                                                                                             {
                                                                                                                 arguments =
@@ -237,7 +237,8 @@
                                                                                                                     else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                                 pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
                                                                                                                 sleep = if builtins.typeOf sleep == "int" then sleep else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
-                                                                                                                status = builtins.throw "UNIMPLEMENTED" ; # if builtins.typeOf status == "bool" then status else builtins.throw "status is not bool but ${ builtins.typeOf status }." ;
+                                                                                                                status =
+                                                                                                                    if builtins.typeOf status == "int" then builtins.toString status else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
                                                                                                             } ;
                                                                                                     in identity ( value null ) ;
                                                                                             user-environment =
