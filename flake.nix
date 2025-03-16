@@ -141,30 +141,6 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
-                                                                                            post =
-                                                                                                pkgs.stdenv.mkDerivation
-                                                                                                    {
-                                                                                                        installPhase =
-                                                                                                            let
-                                                                                                                source =
-                                                                                                                    pkgs.stdenv.mkDerivation
-                                                                                                                        {
-                                                                                                                            installPhase =
-                                                                                                                                ''
-                                                                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
-                                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                                '' ;
-                                                                                                                            name = "post" ;
-                                                                                                                            src = ./. ;
-                                                                                                                        } ;
-                                                                                                                in
-                                                                                                                    ''
-                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set COUNT ${ builtins.toString secondary.count } --set CUT ${ pkgs.coreutils }/bin/cut --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set LSOF ${ pkgs.lsof }/bin/lsof --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm --set SHA512SUM ${ pkgs.coreutils }/bin/sha512sum --set STAT ${ pkgs.coreutils }/bin/stat --set SYNCH ${ pkgs.uutils-coreutils-noprefix }/bin/sync --set WC ${ pkgs.coreutils }/bin/wc
-                                                                                                                    '' ;
-                                                                                                        name = "post" ;
-                                                                                                        nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                                                                        src = ./. ;
-                                                                                                    } ;
                                                                                             secondary =
                                                                                                 let
                                                                                                     identity =
@@ -216,20 +192,6 @@
                                                                                                                 verbose = if builtins.typeOf verbose == "bool" then builtins.toJSON verbose else builtins.throw "verbose is not bool but ${ builtins.typeOf verbose }." ;
                                                                                                             } ;
                                                                                                     in identity ( value null ) ;
-                                                                                            user-environment =
-                                                                                                pkgs.buildFHSUserEnv
-                                                                                                    {
-                                                                                                        extraBwrapArgs =
-                                                                                                            [
-                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
-                                                                                                                # "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
-                                                                                                                "--tmpfs /temporary"
-                                                                                                                "--bind ${ builtins.concatStringsSep "" [ "$" "{" "UTIL" "}" ] } /util"
-                                                                                                            ] ;
-                                                                                                        name = "test-candidate" ;
-                                                                                                        # runScript = pkgs.writeShellScript "outer" outer ;
-                                                                                                        targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
-                                                                                                    } ;
                                                                                             in
                                                                                                 builtins.concatLists
                                                                                                     [
@@ -313,6 +275,48 @@
                                                                                                             "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/outer.sh" } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
                                                                                                             "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep }"
+                                                                                                            "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                            "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                            (
+                                                                                                                let
+                                                                                                                    post =
+                                                                                                                        pkgs.stdenv.mkDerivation
+                                                                                                                            {
+                                                                                                                                installPhase =
+                                                                                                                                    let
+                                                                                                                                        source =
+                                                                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                                                                {
+                                                                                                                                                    installPhase =
+                                                                                                                                                        ''
+                                                                                                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
+                                                                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                                                        '' ;
+                                                                                                                                                    name = "post" ;
+                                                                                                                                                    src = ./. ;
+                                                                                                                                                } ;
+                                                                                                                                        in
+                                                                                                                                            ''
+                                                                                                                                                makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set COUNT ${ builtins.toString secondary.count } --set CUT ${ pkgs.coreutils }/bin/cut --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set LSOF ${ pkgs.lsof }/bin/lsof --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm --set SHA512SUM ${ pkgs.coreutils }/bin/sha512sum --set STAT ${ pkgs.coreutils }/bin/stat --set SYNCH ${ pkgs.uutils-coreutils-noprefix }/bin/sync --set WC ${ pkgs.coreutils }/bin/wc
+                                                                                                                                            '' ;
+                                                                                                                                name = "post" ;
+                                                                                                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                                                                                                src = ./. ;
+                                                                                                                            } ;
+                                                                                                                    user-environment =
+                                                                                                                        pkgs.buildFHSUserEnv
+                                                                                                                            {
+                                                                                                                                extraBwrapArgs =
+                                                                                                                                    [
+                                                                                                                                        "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
+                                                                                                                                        "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
+                                                                                                                                    ] ;
+                                                                                                                                name = "test-candidate" ;
+                                                                                                                                runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
+                                                                                                                                targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
+                                                                                                                            } ;
+                                                                                                                    in "true"
+                                                                                                            )
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
