@@ -1,6 +1,6 @@
-exec 202> ${RESOURCE}/.lock
-  if ${FLOCK} 202
-  then
+# exec 202> ${RESOURCE}/.lock
+  # if ${FLOCK} 202
+  # then
     ${RM} --force ${RESOURCE}/.lock ${RESOURCE}/init.sh ${RESOURCE}/post.sh ${RESOURCE}/release.sh ${RESOURCE}/setup.sh ${RESOURCE}/teardown-asynch.sh ${RESOURCE}/teardown-synch.sh &&
       if [ -f /util/increment ]
       then
@@ -28,6 +28,6 @@ exec 202> ${RESOURCE}/.lock
       then
         ${RM} --recursive --force /post/resource.${INCREMENT}
       fi
-    else
-      ${TOUCH} ${RESOURCE}/lock
-    fi
+    # else
+    #   ${TOUCH} ${RESOURCE}/lock
+    # fi

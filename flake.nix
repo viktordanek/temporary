@@ -244,11 +244,11 @@
                                                                                                                                                                                 in "${ temporary }/bin/temporary"
                                                                                                                                                                         )
                                                                                                                                                                     ]
+                                                                                                                                                                    secondary.arguments
                                                                                                                                                                     (
                                                                                                                                                                         if builtins.typeOf secondary.file == "null" then [ ]
                                                                                                                                                                         else [ "<" secondary.file ]
                                                                                                                                                                     )
-                                                                                                                                                                    secondary.arguments
                                                                                                                                                                     [
                                                                                                                                                                         ")"
                                                                                                                                                                     ]
@@ -303,6 +303,7 @@
                                                                                                                             } ;
                                                                                                                     in "${ user-environment }/bin/test"
                                                                                                             )
+                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
