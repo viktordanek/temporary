@@ -148,9 +148,20 @@
                                                                                                             [
                                                                                                                 "# ${ builtins.toString index }"
                                                                                                                 (
-                                                                                                                    let
-                                                                                                                        in
-                                                                                                                            "# "
+                                                                                                                    builtins.concatStringsSep " "
+                                                                                                                        (
+                                                                                                                            builtins.concatLists
+                                                                                                                                [
+                                                                                                                                    [
+                                                                                                                                        "TEMPORARY=("
+                                                                                                                                        "temporary"
+                                                                                                                                    ]
+                                                                                                                                    secondary.arguments
+                                                                                                                                    [
+                                                                                                                                        ")"
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                                        )
                                                                                                                 )
                                                                                                                 "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
                                                                                                                 "if [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != 0 ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
@@ -184,7 +195,7 @@
                                                                                                 let
                                                                                                     identity =
                                                                                                         {
-                                                                                                            arguments ? null ,
+                                                                                                            arguments ? [ ] ,
                                                                                                             count ? 2 ,
                                                                                                             expected ,
                                                                                                             file ? null ,
@@ -194,7 +205,9 @@
                                                                                                             status ? true
                                                                                                         } :
                                                                                                             {
-                                                                                                                arguments = if builtins.typeOf arguments == "null" then arguments else if builtins.typeOf arguments == "string" then arguments else builtins.throw "arguments is not null, string but ${ builtins.typeOf file }." ;
+                                                                                                                arguments =
+                                                                                                                    if builtins.typeOf arguments == "list" then builtins.map ( a : if builtins.typeOf a == "string" then a else builtins.throw "argument is not string but ${ builtins.typeOf a }." ) arguments
+                                                                                                                    else builtins.throw "arguments is not list but ${ builtins.typeOf arguments }." ;
                                                                                                                 count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
                                                                                                                 expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
                                                                                                                 file = builtins.throw "UNIMPLEMENTED" ; # if builtins.typeOf file == "null" then file else if builtins.typeOf file == "string" then file else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
@@ -412,7 +425,7 @@
                                                             (
                                                                 ignore :
                                                                     {
-                                                                        arguments = "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ;
+                                                                        arguments = [ "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ] ;
                                                                         count = 32 ;
                                                                         expected = self + "/mounts/B0hwDMGO" ;
                                                                         # file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
