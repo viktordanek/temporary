@@ -236,7 +236,9 @@
                                                                                                                     else if builtins.typeOf paste == "lambda" then pkgs.writeShellScript "paste" ( paste ( builtins.concatStringsSep "" [ "$" "{" "@" "}" ] ) )
                                                                                                                     else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                                 pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
-                                                                                                                sleep = if builtins.typeOf sleep == "int" then sleep else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
+                                                                                                                sleep =
+                                                                                                                    if builtins.typeOf sleep == "int" then builtins.toString sleep
+                                                                                                                    else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
                                                                                                                 status =
                                                                                                                     if builtins.typeOf status == "int" then builtins.toString status else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
                                                                                                             } ;
@@ -270,7 +272,24 @@
                                                                                                         )
                                                                                                         [
                                                                                                             "${ pkgs.coreutils }/bin/ln --symbolic ${ inner } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
+                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PATH ${ pkgs.coreutils }/bin --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep }"
                                                                                                         ]
+                                                                                                        (
+                                                                                                            let
+                                                                                                                outer =
+                                                                                                                    pkgs.stdenv.mkDerivation
+                                                                                                                        {
+                                                                                                                            installPhase =
+                                                                                                                                ''
+                                                                                                                                    ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/outer.sh" } > $out &&
+                                                                                                                                        ${ pkgs.coreutils }/bin/chmod 0555 $out
+                                                                                                                                '' ;
+                                                                                                                            name = "outer" ;
+                                                                                                                            src = ./. ;
+                                                                                                                        } ;
+                                                                                                                in
+                                                                                                                    [ "makeWrapper ${ outer } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) }"  ]
+                                                                                                        )
                                                                                                     ] ;
                                                                             }
                                                                             {
