@@ -249,7 +249,7 @@
                                                                                                                                                 if builtins.typeOf secondary.paste == "null" then [ ]
                                                                                                                                                 else
                                                                                                                                                     [
-                                                                                                                                                        ''if [ -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STATUS" "}" ] } != 0 ] ; then exit 63 ; fi''
+                                                                                                                                                        ''if [ ! -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STATUS" "}" ] } != 0 ] ; then exit 63 ; fi''
                                                                                                                                                     ]
                                                                                                                                             )
                                                                                                                                             (
@@ -317,6 +317,7 @@
                                                                                                                             } ;
                                                                                                                     in "${ user-environment }/bin/test"
                                                                                                             )
+                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
