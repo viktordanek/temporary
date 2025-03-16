@@ -1,4 +1,4 @@
-exec 201> ${RESOURCE}/.lock &&
+exec 201> ${RESOURCE}/.lock && ${ECHO} CAA >> /post/debug
   if ${FLOCK} 201
   then
     PID=$( ${CAT} ${RESOURCE}/pid ) &&

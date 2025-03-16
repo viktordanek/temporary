@@ -1,3 +1,4 @@
+${ECHO} DAA >> /post/trace
 # exec 202> ${RESOURCE}/.lock
   # if ${FLOCK} 202
   # then

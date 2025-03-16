@@ -159,7 +159,7 @@
                                                                                                                         } ;
                                                                                                                 in
                                                                                                                     ''
-                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set COUNT ${ builtins.toString secondary.count } --set CUT ${ pkgs.coreutils }/bin/cut --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set LSOF ${ pkgs.lsof }/bin/lsof --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm --set SHA512SUM ${ pkgs.coreutils }/bin/sha512sum --set STAT ${ pkgs.coreutils }/bin/stat --set SYNCH ${ pkgs.uutils-coreutils-noprefix }/bin/sync --set TOUCH ${ pkgs.coreutils }/bin/touch --set WC ${ pkgs.coreutils }/bin/wc
+                                                                                                                        makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set COUNT ${ builtins.toString secondary.count } --set CUT ${ pkgs.coreutils }/bin/cut --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set LSOF ${ pkgs.lsof }/bin/lsof --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm --set SHA512SUM ${ pkgs.coreutils }/bin/sha512sum --set STAT ${ pkgs.coreutils }/bin/stat --set SYNCH ${ pkgs.uutils-coreutils-noprefix }/bin/sync --set TOUCH ${ pkgs.coreutils }/bin/touch --set TRACE ${ if secondary.trace then "true" else "false" } --set WC ${ pkgs.coreutils }/bin/wc
                                                                                                                     '' ;
                                                                                                         name = "post" ;
                                                                                                         nativeBuildInputs = [ pkgs.makeWrapper ] ;
@@ -177,6 +177,7 @@
                                                                                                             pipe ? null ,
                                                                                                             sleep ? 32 ,
                                                                                                             status ? 0 ,
+                                                                                                            trace ? false ,
                                                                                                             verbose ? false
                                                                                                         } :
                                                                                                             {
@@ -199,6 +200,9 @@
                                                                                                                     else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
                                                                                                                 status =
                                                                                                                     if builtins.typeOf status == "int" then builtins.toString status else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
+                                                                                                                trace =
+                                                                                                                    if builtins.typeOf trace == "bool" then trace
+                                                                                                                    else builtins.throw "trace is not bool but ${ builtins.typeOf trace }." ;
                                                                                                                 verbose =
                                                                                                                     if builtins.typeOf verbose == "bool" then verbose
                                                                                                                     else builtins.throw "verbose is not bool but ${ builtins.typeOf verbose }." ;
@@ -265,7 +269,7 @@
                                                                                                                                                         )
                                                                                                                                                 )
                                                                                                                                                 "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
-                                                                                                                                                # ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ ! -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } >> /post/temporary.standard-error''
+                                                                                                                                                ''if [ ${ if secondary.verbose then "true" else "false" } ] || [ ! -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } >> /post/temporary.standard-error ; fi''
                                                                                                                                                 "if [ ${ if secondary.verbose then "true" else "false" } ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
                                                                                                                                             ]
                                                                                                                                             (
@@ -497,8 +501,9 @@
                                                                         paste = temporary : "echo - 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3 >> ${ temporary }" ;
                                                                         pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
                                                                         sleep = 1 ; # 128 ;
-                                                                        verbose = true ;
                                                                         status = 0 ;
+                                                                        trace = true ;
+                                                                        verbose = true ;
                                                                     }
                                                             )
                                                         ] ;
