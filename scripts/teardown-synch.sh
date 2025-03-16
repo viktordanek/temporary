@@ -1,22 +1,22 @@
 exec 201> ${RESOURCE}/.lock &&
   if ${FLOCK} 201
   then
-    PID=$( ${CAT} ${RESOURCE}/pid ) &&
-      ${TAIL} --follow /dev/null --pid ${PID} &&
-      ${RM} ${RESOURCE}/pid
+    PID=$( ${CAT} ${RESOURCE}/pid ) && ${ECHO} AAB >> /post/zzz &&
+      ${TAIL} --follow /dev/null --pid ${PID} && ${ECHO} AAC >> /post/zzz &&
+      ${RM} ${RESOURCE}/pid && ${ECHO} AAD >> /post/zzz
       #
       if ${RESOURCE}/release.sh > ${RESOURCE}/release.standard-output 2> ${RESOURCE}/release.standard-error
       then
-        STATUS=${?}
+        STATUS=${?} && ${ECHO} AAE >> /post/zzz
       else
-        STATUS=${?}
+        STATUS=${?} && ${ECHO} AAF >> /post/zzz
       fi &&
-      ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
-      ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
+      ${ECHO} ${STATUS} > ${RESOURCE}/release.status && ${ECHO} AAG >> /post/zzz &&
+      ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status && ${ECHO} AAH $( ls ${RESOURCE}  ) ${STORE} >> /post/zzz &&
       #
-      ${RESOURCE}/post.sh || ${TRUE}
+      if ${RESOURCE}/post.sh ; then true ; fi &&
       #
-      ${RM} --recursive --force ${RESOURCE} &&
+      ${RM} --recursive --force ${RESOURCE} && ${ECHO} AAI >> /post/zzz &&
       #
       if [ ${STATUS} != 0 ]
       then
@@ -24,6 +24,6 @@ exec 201> ${RESOURCE}/.lock &&
       fi
       #
   else
-    ${ECHO} Unable to acquire an exclusive lock 2>&1 &&
+    ${ECHO} Unable to acquire an exclusive lock 2>&1 && ${ECHO} AAJ >> /post/zzz
       exit ${ERROR}
   fi

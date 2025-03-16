@@ -103,12 +103,13 @@
                                                                                     ]
                                                                                     ( if builtins.typeOf init == "string" then [ "--set MAKE_WRAPPER_INIT ${ init }" ] else [ ] )
                                                                                     ( if builtins.typeOf release == "string" then [ "--set MAKE_WRAPPER_RELEASE ${ release }" ] else [ ] )
-                                                                                    ( if builtins.typeOf post == "string" then [ "--set MAKE_WRAPPER_POST ${ post }" ] else [ ] )
+                                                                                    ( builtins.trace "HI ${ builtins.typeOf post }" ( if builtins.typeOf post == "string" then [ "--set MAKE_WRAPPER_POST ${ post }" ] else [ ] ) )
                                                                                     [
                                                                                         "--set NICE ${ pkgs.coreutils }/bin/nice"
                                                                                         "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
                                                                                         "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory /tmp/RESOURCE.XXXXXXXX )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
+                                                                                        "--set STORE $out"
                                                                                         "--set TAIL ${ pkgs.coreutils }/bin/tail"
                                                                                         "--run 'export TARGET=${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/target'"
                                                                                         "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
@@ -271,12 +272,6 @@
                                                                                                                         "${ pkgs.coreutils }/bin/cat ${ inner } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
                                                                                                             )
                                                                                                             "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
-                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PASTE ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release post }/bin"
-                                                                                                            "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/outer.sh" } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
-                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep }"
-                                                                                                            "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             (
                                                                                                                 let
                                                                                                                     post =
@@ -303,6 +298,16 @@
                                                                                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                                                                                 src = ./. ;
                                                                                                                             } ;
+                                                                                                                    in
+                                                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PASTE ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release post }/bin"
+                                                                                                            )
+                                                                                                            "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/outer.sh" } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
+                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep }"
+                                                                                                            "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                            "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
+                                                                                                            (
+                                                                                                                let
                                                                                                                     user-environment =
                                                                                                                         pkgs.buildFHSUserEnv
                                                                                                                             {
@@ -313,7 +318,6 @@
                                                                                                                                     ] ;
                                                                                                                                 name = "test" ;
                                                                                                                                 runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
-                                                                                                                                targetPkgs = pkgs : [ ( setup primary.init primary.release ( builtins.toString post ) ) ] ;
                                                                                                                             } ;
                                                                                                                     in "${ user-environment }/bin/test"
                                                                                                             )
@@ -500,7 +504,7 @@
                                                                         # file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
                                                                         paste = temporary : "echo - 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3 >> ${ temporary }" ;
                                                                         pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
-                                                                        sleep = 1 ; # 128 ;
+                                                                        sleep = 10 ; # 128 ;
                                                                         # status = true ;
                                                                         verbose = true ;
                                                                     }
