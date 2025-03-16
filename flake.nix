@@ -176,7 +176,7 @@
                                                                                                             paste ? null ,
                                                                                                             pipe ? null ,
                                                                                                             sleep ? 32 ,
-                                                                                                            status ? true ,
+                                                                                                            status ? 0 ,
                                                                                                             verbose ? false
                                                                                                         } :
                                                                                                             {
@@ -199,7 +199,9 @@
                                                                                                                     else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                                 pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
                                                                                                                 sleep = if builtins.typeOf sleep == "int" then sleep else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
-                                                                                                                status = builtins.throw "UNIMPLEMENTED" ; # if builtins.typeOf status == "bool" then status else builtins.throw "status is not bool but ${ builtins.typeOf status }." ;
+                                                                                                                status =
+                                                                                                                    if builtins.typeOf status == "int" then builtins.toString status
+                                                                                                                    else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
                                                                                                                 verbose = if builtins.typeOf verbose == "bool" then builtins.toJSON verbose else builtins.throw "verbose is not bool but ${ builtins.typeOf verbose }." ;
                                                                                                             } ;
                                                                                                     in identity ( value null ) ;
@@ -263,13 +265,17 @@
                                                                                                                                                     ]
                                                                                                                                                 )
                                                                                                                                         )
+                                                                                                                                        "TEMPORARY_STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
+                                                                                                                                        "echo ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STATUS" "}" ] } >> /post/temporary.status"
+                                                                                                                                        "cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" ] } >> /post/temporary.standard-error"
+                                                                                                                                        "${ builtins.concatStringsSep "" [ "$" "{" "PASTE" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] }"
                                                                                                                                     ] ;
                                                                                                                             in builtins.toFile "inner" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ) ;
                                                                                                                     in
                                                                                                                         "${ pkgs.coreutils }/bin/cat ${ inner } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
                                                                                                             )
                                                                                                             "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
-                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release post }/bin"
+                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PASTE ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release post }/bin"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
