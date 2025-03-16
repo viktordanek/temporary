@@ -141,6 +141,21 @@
                                                                                 lambda =
                                                                                     path : value :
                                                                                         let
+                                                                                            inner =
+                                                                                                let
+                                                                                                    generator =
+                                                                                                        index :
+                                                                                                            [
+                                                                                                                "# ${ builtins.toString index }"
+                                                                                                                (
+                                                                                                                    let
+                                                                                                                        in
+                                                                                                                            "# "
+                                                                                                                )
+                                                                                                                "STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
+                                                                                                                "if [ ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } != 0 ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "STATUS" "}" ] } >> /post/temporary.status ; fi"
+                                                                                                            ] ;
+                                                                                                    in pkgs.writeShellScript "inner" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ) ;
                                                                                             post =
                                                                                                 pkgs.stdenv.mkDerivation
                                                                                                     {
@@ -220,6 +235,7 @@
                                                                                                                 ]
                                                                                                         )
                                                                                                         [
+                                                                                                            "${ pkgs.coreutils }/bin/ln --symbolic ${ inner } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
