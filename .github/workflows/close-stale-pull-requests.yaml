@@ -1,66 +1,48 @@
-name: Close Stale Pull Requests
-on:
-  schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight
-  workflow_dispatch:      # Allows manual execution
+#!/bin/bash
 
-permissions:
-  pull-requests: write    # Needed to close PRs and add comments
+# Set up error handling
+  set -e
+  
+  # GitHub API token (use the secret or environment variable)
+  GH_TOKEN="${{ secrets.GH_PAT }}"
 
-jobs:
-  close_old_prs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Fetch all branches and history for the repo
+# Get a list of open PRs
+PRs=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/pulls?state=open")
 
-      - name: Close PRs inactive for more than a month
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}  # Use your personal access token here
-        run: |
-          #!/bin/bash
-          set -e
+# Debugging: print the raw response to see if "createdAt" and "updatedAt" are present
+  echo "Raw PR Data:"
+  echo "$PRs"
+  
+  # Loop through each PR
+  echo "$PRs" | jq -r '.[] | .number' | while read pr_number; do
+# Get the PR details with a specific request for createdAt and updatedAt
+pr_data=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/pulls/$pr_number")
 
-          # Get date from 14 days ago (in ISO 8601 format)
-          fourteen_days_ago=$(date -u -d '31 days ago' +%Y-%m-%dT%H:%M:%SZ)
-
-          echo "Date 14 days ago: $fourteen_days_ago"
-
-          # Fetch open PRs and print out their details
-          prs=$(gh pr list --state open --json number,updatedAt,createdAt --jq \
-            '.[] | {number, updatedAt, createdAt}')
-
-          echo "Found the following open PRs:"
-          echo "$prs"
-
-          # Loop over each PR to check if it is stale
-          for pr in $(echo "$prs" | jq -r '. | {number} | @base64'); do
-              # Decode each PR object from base64
-              pr_json=$(echo "$pr" | base64 --decode)
-              pr_number=$(echo "$pr_json" | jq -r '.number')
-              pr_updated_at=$(echo "$pr_json" | jq -r '.updatedAt')
-              pr_created_at=$(echo "$pr_json" | jq -r '.createdAt')
-
-              echo "PR #$pr_number - Updated: $pr_updated_at, Created: $pr_created_at"
-
-              # Debug: If we have null values, print raw data
-              if [[ "$pr_updated_at" == "null" || "$pr_created_at" == "null" ]]; then
-                  echo "Error: PR #$pr_number has null fields"
-                  echo "Raw PR data: $pr_json"
-              fi
-
-              # Compare updatedAt date with the date 14 days ago
-              if [[ "$pr_updated_at" < "$fourteen_days_ago" && "$pr_created_at" < "$fourteen_days_ago" ]]; then
-                  echo "Closing PR #$pr_number (inactive for over 14 days)"
-          
-                  # Add a comment before closing
-                  gh pr comment $pr_number --body "This pull request has been inactive for over 31 days and is now being closed automatically. Feel free to reopen if needed. 🚀"
-          
-                  # Close the PR
-                  gh pr close $pr_number
-              else
-                  echo "Keeping PR #$pr_number (Not inactive for over 14 days)"
-              fi
-          done
+# Debugging: print the full PR data for each pull request
+echo "PR Data: $pr_data"
+  
+  created_at=$(echo "$pr_data" | jq -r '.created_at')
+  updated_at=$(echo "$pr_data" | jq -r '.updated_at')
+  
+  if [[ "$created_at" == "null" || "$updated_at" == "null" ]]; then
+echo "Error: PR #$pr_number has null fields"
+echo "Raw PR data: $pr_data"
+  continue
+  fi
+  
+  # Calculate the age of the PR
+  current_date=$(date +%s)
+  pr_created_at_date=$(date -d "$created_at" +%s)
+  pr_updated_at_date=$(date -d "$updated_at" +%s)
+  
+  # Determine which timestamp to use (created or updated)
+  pr_age=$(( (current_date - pr_updated_at_date) / 86400 ))  # Use updated_at for age
+  
+  # If the PR is older than 14 days, close it
+  if [ "$pr_age" -gt 14 ]; then
+  echo "Closing PR #$pr_number - Inactive for $pr_age days"
+curl -s -X PATCH -H "Authorization: token $GH_TOKEN" -d '{"state": "closed"}' "https://api.github.com/repos/${{ github.repository }}/pulls/$pr_number"
+  else
+  echo "Keeping PR #$pr_number (Inactive for only $pr_age days)"
+  fi
+  done
