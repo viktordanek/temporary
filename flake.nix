@@ -123,7 +123,7 @@
                                                             } ;
                                         in
                                             {
-                                                temporary = "${ setup primary.init primary.release primary.post }/bin/temporary" ;
+                                                # temporary = "${ setup primary.init primary.release primary.post }/bin/temporary" ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
