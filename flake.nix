@@ -17,7 +17,6 @@
                             lib =
                                 {
                                     at ? "/run/wrappers/bin/at" ,
-                                    host-path ,
                                     init ? null ,
                                     initializer ? 64 ,
                                     post ? null ,
@@ -26,14 +25,9 @@
                                     tests ? null
                                 } :
                                     let
-                                        mounts =
-                                            {
-                                                "/temporary" = primary.host-path ;
-                                            } ;
                                         primary =
                                             {
                                                 at = if builtins.typeOf at == "set" then at else if builtins.typeOf at == "string" then at else builtins.throw "at is not set, string but ${ builtins.typeOf at }." ;
-                                                host-path = if builtins.typeOf host-path == "string" then host-path else builtins.throw "host-path is not string but ${ builtins.typeOf host-path }." ;
                                                 init = if builtins.typeOf init == "null" then init else if builtins.typeOf init == "string" then init else builtins.throw "init is not null, string but ${ builtins.typeOf init }." ;
                                                 initializer = if builtins.typeOf initializer == "int" then initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
                                                 release = if builtins.typeOf release == "null" then release else if builtins.typeOf release == "string" then release else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
@@ -488,7 +482,6 @@
                                                             ''
                                                                 $( ${ pkgs.coreutils }/bin/tee ) &
                                                             '' ;
-                                                    host-path = "/temporary" ;
                                                     init = scripts.shell-scripts.init ;
                                                     initializer = 66 ;
                                                     release = scripts.shell-scripts.release ;
