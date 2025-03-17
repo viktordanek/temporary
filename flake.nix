@@ -515,7 +515,7 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            TEMP_DIR=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
+                                                                            export TEMP_DIR=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.temporary ( builtins.concatStringsSep "" [ "$" "{" "TEMP_DIR" "}" ] ) } &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 49
