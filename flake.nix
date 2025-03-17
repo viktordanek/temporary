@@ -488,7 +488,7 @@
                                                             ''
                                                                 $( ${ pkgs.coreutils }/bin/tee ) &
                                                             '' ;
-                                                    host-path = "/tmp" ;
+                                                    host-path = "/temporary" ;
                                                     init = scripts.shell-scripts.init ;
                                                     initializer = 66 ;
                                                     release = scripts.shell-scripts.release ;
