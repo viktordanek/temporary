@@ -1,4 +1,4 @@
-name: Delete Old Issue Branches
+name: Delete Stale Issue Branches
 on:
   schedule:
     - cron: '0 0 * * *'
@@ -8,14 +8,14 @@ permissions:
   issues: read
   pull-requests: read
 jobs:
-  delete_old_scratch_branches:
+  delete_stale_scratch_branches:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Delete scratch branches older than 7 days
+      - name: Delete issue branches older than 31 days
         run: |
           #!/bin/bash
           set -e  # Stop on errors
@@ -33,9 +33,7 @@ jobs:
               # Remove "origin/" prefix
               local_branch=${branch#origin/}
               if [[ "$local_branch" == issue/* ]]; then
-                  # Get the last commit date of the branch in seconds
                   last_commit_date=$(git log -1 --format="%ct" "origin/$local_branch")
-                  # Calculate the age of the branch in days
                   age=$(( (current_date - last_commit_date) / 86400 ))
                   if [ "$age" -gt 31 ]; then
                       echo "Deleting remote branch: $local_branch (Age: $age days)"

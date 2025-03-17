@@ -1,49 +1,58 @@
-name: Delete Stale Scratch Branches
+name: Close Stale Pull Requests
 on:
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+    - cron: '0 0 * * *'  # Runs daily at midnight
+  workflow_dispatch:      # Allows manual execution
+
 permissions:
-  contents: write
-  issues: read
-  pull-requests: read
+  pull-requests: write    # Needed to close PRs and add comments
+
 jobs:
-  delete_stale_scratch_branches:
+  close_old_prs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-      - name: Close Scratch Branches older than 7 days
+          fetch-depth: 0  # Fetch all branches and history for the repo
+
+      - name: Close PRs inactive for over 14 days
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}  # Use your personal access token here
         run: |
           #!/bin/bash
-          set -e  # Stop on errors
-          # Ensure we're on main branch
-          git checkout main
-          git fetch origin --prune
-          # Get current date in seconds
-          current_date=$(date +%s)
-          # Debug: Print all branches
-          echo "Found branches:"
-          git for-each-ref --sort=committerdate --format='%(refname:short) %(committerdate:iso8601)' refs/remotes/origin/
-          # Get all remote branches
-          branches=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/remotes/origin/)
-          for branch in $branches; do
-              # Remove "origin/" prefix
-              local_branch=${branch#origin/}
-              if [[ "$local_branch" == scratch/* ]]; then
-                  # Get the last commit date of the branch in seconds
-                  last_commit_date=$(git log -1 --format="%ct" "origin/$local_branch")
-                  # Calculate the age of the branch in days
-                  age=$(( (current_date - last_commit_date) / 86400 ))
-                  if [ "$age" -gt 7 ]; then
-                      echo "Deleting remote branch: $local_branch (Age: $age days)"
-                      git push origin --delete "$local_branch"
-                  else
-                      echo "Keeping: $local_branch (Age: $age days)"
-                  fi
-              else
-                  echo "Skipping branch: $local_branch (Not a scratch branch)"
+          set -e
+
+          # Get date from 14 days ago (in ISO 8601 format)
+          fourteen_days_ago=$(date -u -d '14 days ago' +%Y-%m-%dT%H:%M:%SZ)
+
+          echo "Date 14 days ago: $fourteen_days_ago"
+
+          # Fetch open PRs and loop through them
+          prs=$(gh pr list --state open --json number --jq '.[] | .number')
+          
+          echo "Found the following open PRs:"
+          echo "$prs"
+
+          # Loop over each PR to check if it is stale
+          for pr_number in $prs; do
+              # Fetch detailed information for the PR
+              pr_details=$(gh pr view "$pr_number" --json updatedAt,createdAt --jq '{updatedAt, createdAt, number}')
+
+              pr_updated_at=$(echo "$pr_details" | jq -r '.updatedAt')
+              pr_created_at=$(echo "$pr_details" | jq -r '.createdAt')
+
+              echo "PR #$pr_number - Updated: $pr_updated_at, Created: $pr_created_at"
+
+              # Debug: If we have null values, print raw data
+              if [[ "$pr_updated_at" == "null" || "$pr_created_at" == "null" ]]; then
+                  echo "Error: PR #$pr_number has null fields"
+                  echo "Raw PR data: $pr_details"
               fi
-          done
+
+              # Compare updatedAt date with the date 14 days ago
+              if [[ "$pr_updated_at" < "$fourteen_days_ago" && "$pr_created_at" < "$fourteen_days_ago" ]]; then
+                  echo "Closing PR #$pr_number (inactive for over 14 days)"
+          
+                  # Add a comment before closing
+                  gh pr comment "$pr_number" --body "This pull request has been inactive fo
