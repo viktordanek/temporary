@@ -1,18 +1,24 @@
+name: Delete Old Scratch Branches
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:  # Allows manual triggering
+
 jobs:
   delete_old_scratch_branches:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Ensures the workflow can push changes
+      contents: write  # Ensure the workflow can push changes
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_PAT }}  # Ensure token is used
+          token: ${{ secrets.GH_PAT }}
 
       - name: Delete scratch branches older than 35 days
         run: |
-          #!/bin/bash
           current_date=$(date +%s)
           branches=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/heads/)
           for branch in $branches; do
