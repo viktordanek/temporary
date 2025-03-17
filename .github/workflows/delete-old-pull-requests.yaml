@@ -36,23 +36,25 @@ jobs:
           echo "$prs"
 
           # Loop over each PR to check if it is stale
-          for pr in $(echo "$prs" | jq -r '.number'); do
-              # Get the updated date and created date for each PR
-              pr_updated_at=$(echo "$prs" | jq -r --arg pr "$pr" '.[] | select(.number == ($pr | tonumber)) | .updatedAt')
-              pr_created_at=$(echo "$prs" | jq -r --arg pr "$pr" '.[] | select(.number == ($pr | tonumber)) | .createdAt')
+          for pr in $(echo "$prs" | jq -r '. | {number} | @base64'); do
+              # Decode each PR object from base64
+              pr_json=$(echo "$pr" | base64 --decode)
+              pr_number=$(echo "$pr_json" | jq -r '.number')
+              pr_updated_at=$(echo "$pr_json" | jq -r '.updatedAt')
+              pr_created_at=$(echo "$pr_json" | jq -r '.createdAt')
 
-              echo "PR #$pr - Updated: $pr_updated_at, Created: $pr_created_at"
+              echo "PR #$pr_number - Updated: $pr_updated_at, Created: $pr_created_at"
 
               # Compare updatedAt date with the date 14 days ago
               if [[ "$pr_updated_at" < "$fourteen_days_ago" && "$pr_created_at" < "$fourteen_days_ago" ]]; then
-                  echo "Closing PR #$pr (inactive for over 14 days)"
+                  echo "Closing PR #$pr_number (inactive for over 14 days)"
           
                   # Add a comment before closing
-                  gh pr comment $pr --body "This pull request has been inactive for over 14 days and is now being closed automatically. Feel free to reopen if needed. 🚀"
+                  gh pr comment $pr_number --body "This pull request has been inactive for over 14 days and is now being closed automatically. Feel free to reopen if needed. 🚀"
           
                   # Close the PR
-                  gh pr close $pr
+                  gh pr close $pr_number
               else
-                  echo "Keeping PR #$pr (Not inactive for over 14 days)"
+                  echo "Keeping PR #$pr_number (Not inactive for over 14 days)"
               fi
           done
