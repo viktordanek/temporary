@@ -1,0 +1,28 @@
+name: Close Old Pull Requests
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight
+  workflow_dispatch:      # Allows manual execution
+permissions:
+  pull-requests: write    # Required to close PRs and comment
+jobs:
+  close_old_prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close pull requests older than 30 days
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          #!/bin/bash
+          set -e
+          # Get current date in seconds
+          current_date=$(date +%s)
+          # Fetch all open PRs with updated time
+          prs=$(gh pr list --state open --json number,updatedAt --jq '.[] | select(.updatedAt < "'$(date -u -d '2 days ago' +%Y-%m-%dT%H:%M:%SZ)'" ) | .number')
+          for pr in $prs; do
+              echo "Closing PR #$pr (last updated more than 30 days ago)"
+              # Add a comment before closing
+              gh pr comment $pr --body "This pull request has been inactive for 30+ days and is being closed automatically."
+              # Close the PR
+              gh pr close $pr
+          done
