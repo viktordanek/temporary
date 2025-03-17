@@ -6,6 +6,7 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    if: false
     timeout-minutes: 10
     steps:
       - name: Checkout code

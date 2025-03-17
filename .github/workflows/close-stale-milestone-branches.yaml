@@ -1,4 +1,4 @@
-name: Delete Stale Milestone Branches
+name: Close Stale Milestone Branches
 on:
   schedule:
     - cron: '0 0 * * *'
@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Delete milestone branches older than 91 days
+      - name: Close Milestone Branches older than 1 quarter
         run: |
           #!/bin/bash
           set -e  # Stop on errors
@@ -33,9 +33,7 @@ jobs:
               # Remove "origin/" prefix
               local_branch=${branch#origin/}
               if [[ "$local_branch" == milestone/* ]]; then
-                  # Get the last commit date of the branch in seconds
                   last_commit_date=$(git log -1 --format="%ct" "origin/$local_branch")
-                  # Calculate the age of the branch in days
                   age=$(( (current_date - last_commit_date) / 86400 ))
                   if [ "$age" -gt 91 ]; then
                       echo "Deleting remote branch: $local_branch (Age: $age days)"

@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all branches and history for the repo
 
-      - name: Close PRs inactive for over 14 days
+      - name: Close PRs inactive for more than a month
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}  # Use your personal access token here
         run: |
@@ -24,7 +24,7 @@ jobs:
           set -e
 
           # Get date from 14 days ago (in ISO 8601 format)
-          fourteen_days_ago=$(date -u -d '14 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          fourteen_days_ago=$(date -u -d '31 days ago' +%Y-%m-%dT%H:%M:%SZ)
 
           echo "Date 14 days ago: $fourteen_days_ago"
 
@@ -56,7 +56,7 @@ jobs:
                   echo "Closing PR #$pr_number (inactive for over 14 days)"
           
                   # Add a comment before closing
-                  gh pr comment $pr_number --body "This pull request has been inactive for over 14 days and is now being closed automatically. Feel free to reopen if needed. 🚀"
+                  gh pr comment $pr_number --body "This pull request has been inactive for over 31 days and is now being closed automatically. Feel free to reopen if needed. 🚀"
           
                   # Close the PR
                   gh pr close $pr_number
