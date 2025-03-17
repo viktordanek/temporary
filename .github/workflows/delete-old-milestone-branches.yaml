@@ -1,4 +1,4 @@
-name: Delete Old Scratch Branches
+name: Delete Old Milestone Branches
 on:
   schedule:
     - cron: '0 0 * * *'
