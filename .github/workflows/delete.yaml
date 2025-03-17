@@ -27,25 +27,9 @@ jobs:
                   age=$(( (current_date - last_commit_date) / 86400 ))
                   if [ "$age" -gt 7 ]; then
                       echo "Deleting branch: $branch (Age: $age days)"
-                      git branch -D "$branch"
+                      git push origin --delete "$branch"
                   fi
-              fi
-              if [[ "$branch" == issue/* ]]; then
-                  last_commit_date=$(git log -1 --format="%ct" "$branch")
-                  age=$(( (current_date - last_commit_date) / 86400 ))
-                  if [ "$age" -gt 35 ]; then
-                      echo "Deleting branch: $branch (Age: $age days)"
-                      git branch -D "$branch"
-                  fi
-              fi
-              if [[ "$branch" == milestone/* ]]; then
-                  last_commit_date=$(git log -1 --format="%ct" "$branch")
-                  age=$(( (current_date - last_commit_date) / 86400 ))
-                  if [ "$age" -gt 14 ]; then
-                      echo "Deleting branch: $branch (Age: $age days)"
-                      git branch -D "$branch"
-                  fi
-              fi          
+              fi        
           done
 
       - name: Push changes
