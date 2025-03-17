@@ -12,11 +12,11 @@ exec 201> ${RESOURCE}/.lock &&
         STATUS=${?} && ${ECHO}
       fi &&
       ${ECHO} ${STATUS} > ${RESOURCE}/release.status &&
-      ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status &&
+      ${CHMOD} 0400 ${RESOURCE}/release.standard-output ${RESOURCE}/release.standard-error ${RESOURCE}/release.status && ${ECHO} 1 >> /post/aaa &&
       #
-      ( ${RESOURCE}/post.sh || ${TRUE} ) &&
+      ( ${RESOURCE}/post.sh || ${TRUE} ) && ${ECHO} 2 ${0} >> /post/aaa &&
       #
-      ${RM} --recursive --force ${RESOURCE} &&
+      ${RM} --recursive --force ${RESOURCE} && ${ECHO} 3 >> /post/aaa &&
       #
       if [ ${STATUS} != 0 ]
       then

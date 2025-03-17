@@ -71,6 +71,7 @@
                                                                 [ true 1 6 ]
                                                                 [ ( builtins.typeOf release == "string" ) 8 15 ]
                                                                 [ ( builtins.typeOf post == "string" ) 17 17 ]
+                                                                [ true 19 19 ]
                                                                 [ ( builtins.typeOf release == "string" ) 21 24 ]
                                                                 [ true 26 29 ]
                                                             ] ;
