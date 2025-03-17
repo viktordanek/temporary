@@ -9,7 +9,10 @@ exec 202> /post/.lock &&
           INCREMENT=0
         fi &&
         DECREMENT=$( ${FIND} /temporary -mindepth 1 -maxdepth 1 -type d | ${WC} --lines ) &&
-        ${ECHO} ${INCREMENT} + ${DECREMENT} + ${RESOURCE} + ${TARGET} >> /post/counts &&
+        if [ $(( ${INCREMENT} + ${DECREMENT} )) != ${COUNT} ]
+        then
+            ${ECHO} ${DECREMENT} >> /post/decrement
+        fi &&
         ${ECHO} ${INCREMENT} > /util/increment &&
         ${MKDIR} /post/resource.${INCREMENT} &&
         ${FIND} ${RESOURCE} | while read FILE
