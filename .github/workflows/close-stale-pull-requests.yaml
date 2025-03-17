@@ -45,6 +45,12 @@ jobs:
 
               echo "PR #$pr_number - Updated: $pr_updated_at, Created: $pr_created_at"
 
+              # Debug: If we have null values, print raw data
+              if [[ "$pr_updated_at" == "null" || "$pr_created_at" == "null" ]]; then
+                  echo "Error: PR #$pr_number has null fields"
+                  echo "Raw PR data: $pr_json"
+              fi
+
               # Compare updatedAt date with the date 14 days ago
               if [[ "$pr_updated_at" < "$fourteen_days_ago" && "$pr_created_at" < "$fourteen_days_ago" ]]; then
                   echo "Closing PR #$pr_number (inactive for over 14 days)"
