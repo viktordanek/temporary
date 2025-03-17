@@ -1,14 +1,12 @@
 name: Delete Old Scratch Branches
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight
-  workflow_dispatch:  # Allows manual trigger
-
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 permissions:
   contents: write
   issues: read
   pull-requests: read
-
 jobs:
   delete_old_scratch_branches:
     runs-on: ubuntu-latest
@@ -17,37 +15,29 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
       - name: Delete scratch branches older than 7 days
         run: |
           #!/bin/bash
           set -e  # Stop on errors
-
           # Ensure we're on main branch
           git checkout main
           git fetch origin --prune
-
           # Get current date in seconds
           current_date=$(date +%s)
-
           # Debug: Print all branches
           echo "Found branches:"
           git for-each-ref --sort=committerdate --format='%(refname:short) %(committerdate:iso8601)' refs/remotes/origin/
-
           # Get all remote branches
           branches=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/remotes/origin/)
           for branch in $branches; do
               # Remove "origin/" prefix
               local_branch=${branch#origin/}
-
-              if [[ "$local_branch" == scratch/* ]]; then
+              if [[ "$local_branch" == issue/* ]]; then
                   # Get the last commit date of the branch in seconds
                   last_commit_date=$(git log -1 --format="%ct" "origin/$local_branch")
                   # Calculate the age of the branch in days
                   age=$(( (current_date - last_commit_date) / 86400 ))
-
-                  # Check if the branch is older than 7 days
-                  if [ "$age" -gt 7 ]; then
+                  if [ "$age" -gt 31 ]; then
                       echo "Deleting remote branch: $local_branch (Age: $age days)"
                       git push origin --delete "$local_branch"
                   else
