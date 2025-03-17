@@ -16,19 +16,19 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all branches and history for the repo
 
-      - name: Close PRs inactive for over a year
+      - name: Close PRs inactive for over 14 days
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           #!/bin/bash
           set -e
 
-          # Get date from 1 year ago
-          one_year_ago=$(date -u -d '1 year ago' +%Y-%m-%dT%H:%M:%SZ)
+          # Get date from 14 days ago
+          fourteen_days_ago=$(date -u -d '14 days ago' +%Y-%m-%dT%H:%M:%SZ)
 
-          # Fetch open PRs that were last updated over a year ago
+          # Fetch open PRs that were last updated over 14 days ago
           prs=$(gh pr list --state open --json number,updatedAt,createdAt --jq \
-            '.[] | select(.updatedAt < "'$one_year_ago'" and .createdAt < "'$one_year_ago'") | .number')
+            '.[] | select(.updatedAt < "'$fourteen_days_ago'" and .createdAt < "'$fourteen_days_ago'") | .number')
 
           if [ -z "$prs" ]; then
               echo "No PRs to close."
@@ -36,10 +36,10 @@ jobs:
           fi
 
           for pr in $prs; do
-              echo "Closing PR #$pr (inactive for over a year)"
+              echo "Closing PR #$pr (inactive for over 14 days)"
           
               # Add a comment before closing
-              gh pr comment $pr --body "This pull request has been inactive for over a year and is now being closed automatically. Feel free to reopen if needed. 🚀"
+              gh pr comment $pr --body "This pull request has been inactive for over 14 days and is now being closed automatically. Feel free to reopen if needed. 🚀"
           
               # Close the PR
               gh pr close $pr
