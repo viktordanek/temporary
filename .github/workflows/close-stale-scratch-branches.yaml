@@ -1,4 +1,4 @@
-name: Delete Old Scratch Branches
+name: Delete Stale Scratch Branches
 on:
   schedule:
     - cron: '0 0 * * *'
@@ -8,14 +8,14 @@ permissions:
   issues: read
   pull-requests: read
 jobs:
-  delete_old_scratch_branches:
+  delete_stale_scratch_branches:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Delete scratch branches older than 7 days
+      - name: Close Scratch Branches older than 7 days
         run: |
           #!/bin/bash
           set -e  # Stop on errors
