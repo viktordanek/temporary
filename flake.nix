@@ -1,535 +1,610 @@
 {
     inputs =
         {
+            environment-variable-lib.url = "github:viktordanek/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils" ;
+            has-standard-input-lib.url = "github:viktordanek/has-standard-input" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script" ;
-            visitor.url = "github:viktordanek/visitor" ;
+            strip-lib.url = "github:viktordanek/strip" ;
         } ;
     outputs =
-        { flake-utils , nixpkgs , self , shell-script , visitor } :
+        { environment-variable-lib , flake-utils , has-standard-input-lib , nixpkgs , self , strip-lib } :
             let
                 fun =
                     system :
                         let
-                            _shell-script = builtins.getAttr system shell-script.lib ;
-                            _visitor = builtins.getAttr system visitor.lib ;
+                            environment-variable = builtins.getAttr system ( builtins.getAttr "lib" environment-variable-lib ) ;
+                            has-standard-input = builtins.getAttr system ( builtins.getAttr "lib" has-standard-input-lib ) ;
                             lib =
                                 {
                                     at ? "/run/wrappers/bin/at" ,
-                                    init ? null ,
-                                    initializer ? 64 ,
-                                    post ? null ,
-                                    release ? null ,
-                                    standard-error ? 65 ,
-                                    tests ? null
+                                    debug ? "/dev/null" ,
+                                    invalid-script-throw ? value : "b01a14bb7131a8e7bd216e451e4203a123c0b8df5e15dbf52ab6aea134f9eebc33572e663103bf60fcdb71ea6761d8bcb2cc6f8a9170165b5023138f05d1b172:  ${ builtins.typeOf value }" ,
+                                    invalid-temporary-throw ? value : "5a675ed32421e1ca7f99ad18413cc5ae2b4bde11700e6f0cf77e326c1af9767cc27a87ecb806979701239425790efeb06bc3e3e65d501fdc799a0a685ecf4ad2:  ${ builtins.typeOf value }" ,
+                                    mask-reference ? "/tmp/*.ce6807e0feab65315f584831e5721245e6f6280d" ,
+                                    out ? "e07240d0b9209443a0219b9486f9c4e1fbbc3a3f58875105789ea8210f114bbf2c4d420efff457da21738b8cd00c5ae2c0935fc17ca575260d51d0903797f82d" ,
+                                    resource ? "bf01d7a5dfd1ad0c7bd4a8ecba39063384d09898d821698c82691d8f28d9aa1067e4abeff96cf3641ab311d22cb5937b9429b6ca0c151d6365fbe0025c575f01" ,
+                                    secondary ? { } ,
+                                    scripts ? secondary : { } ,
+                                    target ? "e4608844be8ee356014f54c180b70cce7b8f1c34d9b73a8f3d9f516135ef5b889f9bd2ca55f4d1d66d3b81ed58f2c90a5e7ff082fa3c704339c0772ead4c644a" ,
+                                    temporary ? { } ,
+                                    temporary-hold ? 0 ,
+                                    temporary-init-error-code ? 64 ,
+                                    temporary-resource-directory ? "${ pkgs.coreutils }/bin/mktemp --directory -t XXXXXXXX.ce6807e0feab65315f584831e5721245e6f6280d" ,
+                                    temporary-broken-directory ? "${ pkgs.coreutils }/bin/mktemp --dry-run -t XXXXXXXX.62f7ff21050af91d081b577d4ce480f8c94b98e1"
                                 } :
-                                    let
-                                        primary =
-                                            {
-                                                at = if builtins.typeOf at == "set" then at else if builtins.typeOf at == "string" then at else builtins.throw "at is not set, string but ${ builtins.typeOf at }." ;
-                                                init = if builtins.typeOf init == "null" then init else if builtins.typeOf init == "string" then init else builtins.throw "init is not null, string but ${ builtins.typeOf init }." ;
-                                                initializer = if builtins.typeOf initializer == "int" then initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
-                                                release = if builtins.typeOf release == "null" then release else if builtins.typeOf release == "string" then release else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
-                                                post = if builtins.typeOf post == "null" then post else if builtins.typeOf post == "string" then post else builtins.throw "post is not null, string but ${ builtins.typeOf post }." ;
-                                                standard-error = if builtins.typeOf standard-error == "int" then standard-error else builtins.throw "standard-error is not int but ${ builtins.typeOf standard-error }." ;
-                                                tests = if builtins.typeOf tests == "null" then tests else if builtins.typeOf tests == "list" then tests else if builtins.typeOf tests == "set" then tests else builtins.throw "tests is not null, list, set but ${ builtins.typeOf tests }." ;
-                                            } ;
-                                        setup =
-                                            init : release : post : host-path :
-                                                let
-                                                    setup =
-                                                        source
-                                                            ( self + "/scripts/setup.sh" )
-                                                            [
-                                                                [ ( builtins.any ( x : builtins.typeOf x == "string" ) [ init release post ] ) 2 2 ]
-                                                                [ true 4 23 ]
-                                                                [ ( builtins.typeOf init == "string" ) 25 25 ]
-                                                                [ ( builtins.typeOf release == "string" ) 28 28 ]
-                                                                [ ( builtins.typeOf post == "string" ) 31 31 ]
-                                                                [ true 33 34 ]
-                                                                [ ( builtins.typeOf init == "string" ) 36 60 ]
-                                                                [ true 62 62 ]
-                                                            ] ;
-                                                    source =
-                                                        file : lines :
-                                                            pkgs.stdenv.mkDerivation
-                                                                {
-                                                                    installPhase =
-                                                                        ''
-                                                                            ${ pkgs.gnused }/bin/sed -n ${ builtins.concatStringsSep " " ( builtins.concatLists ( builtins.map ( x : if builtins.elemAt x 0 then [ "-e ${ builtins.toString ( builtins.elemAt x 1 ) },${ builtins.toString ( builtins.elemAt x 2 ) }p " ] else [ ] ) lines ) ) } ${ file } > $out &&
-                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                        '' ;
-                                                                    name = "source" ;
-                                                                    src = ./. ;
-                                                                } ;
-                                                    teardown-asynch = source ( self + "/scripts/teardown-asynch.sh" ) [ [ true 1 1 ] ] ;
-                                                    teardown-synch =
-                                                        source
-                                                            ( self + "/scripts/teardown-synch.sh" )
-                                                            [
-                                                                [ true 1 6 ]
-                                                                [ ( builtins.typeOf release == "string" ) 8 15 ]
-                                                                [ ( builtins.typeOf post == "string" ) 17 17 ]
-                                                                [ true 19 19 ]
-                                                                [ ( builtins.typeOf release == "string" ) 21 24 ]
-                                                                [ true 26 29 ]
-                                                            ] ;
-                                                    in
-                                                        pkgs.stdenv.mkDerivation
-                                                            {
-                                                                installPhase =
-                                                                    let
-                                                                        environment =
-                                                                            builtins.concatLists
-                                                                                [
-                                                                                    [
-                                                                                        "--set AT ${ primary.at }"
-                                                                                        "--set CAT ${ pkgs.coreutils }/bin/cat"
-                                                                                        "--set CHMOD ${ pkgs.coreutils }/bin/chmod"
-                                                                                        "--set ECHO ${ pkgs.coreutils }/bin/echo"
-                                                                                        "--set FLOCK ${ pkgs.flock }/bin/flock"
-                                                                                        "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
-                                                                                        "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
-                                                                                        "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
-                                                                                        "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
-                                                                                        "--set MAKE_WRAPPER ${ pkgs.makeWrapper }"
-                                                                                        "--set LN ${ pkgs.coreutils }/bin/ln"
-                                                                                    ]
-                                                                                    ( if builtins.typeOf init == "string" then [ "--set MAKE_WRAPPER_INIT ${ init }" ] else [ ] )
-                                                                                    ( if builtins.typeOf release == "string" then [ "--set MAKE_WRAPPER_RELEASE ${ release }" ] else [ ] )
-                                                                                    ( if builtins.typeOf post == "string" then [ "--set MAKE_WRAPPER_POST ${ post }" ] else [ ] )
-                                                                                    [
-                                                                                        "--set NICE ${ pkgs.coreutils }/bin/nice"
-                                                                                        "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
-                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory ${ host-path }/XXXXXXXX )'"
-                                                                                        "--set RM ${ pkgs.coreutils }/bin/rm"
-                                                                                        "--set STORE $out"
-                                                                                        "--set TAIL ${ pkgs.coreutils }/bin/tail"
-                                                                                        "--run 'export TARGET=${ builtins.concatStringsSep "" [ "$" "{" "RESOURCE" "}" ] }/target'"
-                                                                                        "--set TEARDOWN_ASYNCH ${ teardown-asynch }"
-                                                                                        "--set TEARDOWN_SYNCH ${ teardown-synch }"
-                                                                                        "--set TRUE ${ pkgs.coreutils }/bin/true"
-                                                                                    ]
-                                                                                ] ;
-                                                                        in
-                                                                            ''
-                                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                    ${ pkgs.coreutils }/bin/mkdir $out/bin &&
-                                                                                    makeWrapper ${ setup } $out/bin/temporary ${ builtins.concatStringsSep " " environment }
-                                                                            '' ;
-                                                                name = "bin" ;
-                                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                                src = ./. ;
-                                                            } ;
-                                        in
-                                            {
-                                                temporary = host-path : "${ setup primary.init primary.release primary.post host-path }/bin/temporary" ;
-                                                tests =
-                                                    pkgs.stdenv.mkDerivation
-                                                        {
-                                                            installPhase =
-                                                                let
-                                                                    constructors =
-                                                                        _visitor
-                                                                            {
-                                                                                lambda =
-                                                                                    path : value :
-                                                                                        let
-                                                                                            secondary =
-                                                                                                let
-                                                                                                    identity =
-                                                                                                        {
-                                                                                                            arguments ? [ ] ,
-                                                                                                            count ? 2 ,
-                                                                                                            expected ,
-                                                                                                            file ? null ,
-                                                                                                            paste ? null ,
-                                                                                                            pipe ? null ,
-                                                                                                            sleep ? 32 ,
-                                                                                                            status ? 0 ,
-                                                                                                            verbose ? false
-                                                                                                        } :
-                                                                                                            {
-                                                                                                                arguments =
-                                                                                                                    if builtins.typeOf arguments == "list" then builtins.map ( a : if builtins.typeOf a == "string" then a else builtins.throw "argument is not string but ${ builtins.typeOf a }." ) arguments
-                                                                                                                    else builtins.throw "arguments is not list but ${ builtins.typeOf file }." ;
-                                                                                                                count = if builtins.typeOf count == "int" then count else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
-                                                                                                                expected = if builtins.typeOf expected == "string" then expected else builtins.throw "expected is not string but ${ builtins.typeOf expected }." ;
-                                                                                                                file =
-                                                                                                                    if builtins.typeOf file == "null" then file
-                                                                                                                    else if builtins.typeOf file == "string" then builtins.toFile "file" file
-                                                                                                                    else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
-                                                                                                                paste =
-                                                                                                                    if builtins.typeOf paste == "null" then paste
-                                                                                                                    else if builtins.typeOf paste == "lambda" then
-                                                                                                                        let
-                                                                                                                            p =
-                                                                                                                                paste "${ builtins.concatStringsSep "" [ "$" "{" "@" "}" ] }" ;
-                                                                                                                            in
-                                                                                                                                if builtins.typeOf p == "string" then
-                                                                                                                                    if status == 0 then builtins.toFile "paste" p
-                                                                                                                                    else builtins.throw "it does not make sense to have a failure status and a paste"
-                                                                                                                                else builtins.throw "paste temporary is not string but ${ builtins.typeOf p }"
-                                                                                                                    else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
-                                                                                                                pipe = if builtins.typeOf pipe == "null" then pipe else if builtins.typeOf pipe == "string" then pipe else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
-                                                                                                                sleep =
-                                                                                                                    if builtins.typeOf sleep == "int" then builtins.toString sleep
-                                                                                                                    else builtins.throw "sleep is not int but ${ builtins.typeOf sleep }." ;
-                                                                                                                status =
-                                                                                                                    if builtins.typeOf status == "int" then
-                                                                                                                        let
-                                                                                                                            s = builtins.toString status ;
-                                                                                                                            in
-                                                                                                                                if s == "0" || builtins.typeOf paste == "null" then builtins.toString status
-                                                                                                                                else builtins.throw "it does not make sense to have a failure status and a paste"
-                                                                                                                    else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
-                                                                                                                verbose = if builtins.typeOf verbose == "bool" then builtins.toJSON verbose else builtins.throw "verbose is not bool but ${ builtins.typeOf verbose }." ;
-                                                                                                            } ;
-                                                                                                    in identity ( value null ) ;
-                                                                                            in
-                                                                                                builtins.concatLists
-                                                                                                    [
-                                                                                                        [
-                                                                                                            "${ pkgs.coreutils }/bin/mkdir /build/post"
-                                                                                                            "${ pkgs.coreutils }/bin/mkdir /build/temporary"
-                                                                                                        ]
-                                                                                                        [
-                                                                                                            "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/cat ${ secondary.paste } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste.sh" ] ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste.sh" ] ] ) }"
-                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } --set PATH ${ pkgs.coreutils }/bin"
-                                                                                                            (
-                                                                                                                let
-                                                                                                                    inner =
-                                                                                                                        let
-                                                                                                                            generator =
-                                                                                                                                index :
-                                                                                                                                    builtins.concatLists
-                                                                                                                                        [
-                                                                                                                                            [
-                                                                                                                                                "# ${ builtins.toString index }"
-                                                                                                                                                "TEMPORARY_STANDARD_ERROR=$( mktemp )"
-                                                                                                                                                (
-                                                                                                                                                    builtins.concatStringsSep
-                                                                                                                                                        " "
-                                                                                                                                                        (
-                                                                                                                                                            builtins.concatLists
-                                                                                                                                                                [
-                                                                                                                                                                    [
-                                                                                                                                                                        "TEMPORARY=$("
-                                                                                                                                                                    ]
-                                                                                                                                                                    (
-                                                                                                                                                                        if builtins.typeOf secondary.pipe == "null" then [ ]
-                                                                                                                                                                        else [ "echo" secondary.pipe "|" ]
-                                                                                                                                                                    )
-                                                                                                                                                                    [
-                                                                                                                                                                        "temporary"
-                                                                                                                                                                    ]
-                                                                                                                                                                    (
-                                                                                                                                                                        if builtins.typeOf secondary.file == "null"  then [ ]
-                                                                                                                                                                        else [ "<" secondary.file ]
-                                                                                                                                                                    )
-                                                                                                                                                                    secondary.arguments
-                                                                                                                                                                    [
-                                                                                                                                                                        "2>"
-                                                                                                                                                                        ( builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] )
-                                                                                                                                                                        ")"
-                                                                                                                                                                    ]
-                                                                                                                                                            ]
-                                                                                                                                                        )
-                                                                                                                                                )
-                                                                                                                                                "TEMPORARY_STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
-                                                                                                                                                ''if [ ${ secondary.verbose } ] || [ ${ if secondary.status == "0" then "" else "!" } -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } >> /post/temporary.standard-output ; fi''
-                                                                                                                                                ''if [ ${ secondary.verbose } ] || [ ${ if secondary.status == "0" then "!" else "" } -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } >> /post/temporary.standard-error ; fi''
-                                                                                                                                                "if [ ${ secondary.verbose } ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STATUS" "}" ] } != ${ secondary.status } ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STATUS" "}" ] } >> /post/temporary.status ; fi"
-                                                                                                                                            ]
-                                                                                                                                            (
-                                                                                                                                                if builtins.typeOf secondary.paste == "null" then [ ]
-                                                                                                                                                else
-                                                                                                                                                    [
-                                                                                                                                                        # ''if [ ! -z "$( cat ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STANDARD_ERROR" "}" ] } )" ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY_STATUS" "}" ] } != 0 ] ; then exit 63 ; fi''
-                                                                                                                                                    ]
-                                                                                                                                            )
-                                                                                                                                            (
-                                                                                                                                                if builtins.typeOf secondary.paste == "null" then [ ]
-                                                                                                                                                else
-                                                                                                                                                    [
-                                                                                                                                                        "PASTE_STANDARD_OUTPUT=$( mktemp )"
-                                                                                                                                                        "PASTE_STANDARD_ERROR=$(mktemp )"
-                                                                                                                                                        "${ builtins.concatStringsSep "" [ "$" "{" "PASTE" "}" ] } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } > ${ builtins.concatStringsSep "" [ "$" "{" "PASTE_STANDARD_OUTPUT" "}" ] } 2> ${ builtins.concatStringsSep "" [ "$" "{" "PASTE_STANDARD_ERROR" "}" ] }"
-                                                                                                                                                        "PASTE_STATUS=${ builtins.concatStringsSep "" [ "$" "{" "?" "}" ] }"
-                                                                                                                                                        ''if [ ${ secondary.verbose } ] || [ ! -z "${ builtins.concatStringsSep "" [ "$" "{" "PASTE_STANDARD_OUTPUT" "}" ] }" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "PASTE_STANDARD_OUTPUT" "}" ] } >> /post/paste.standard-output ; fi''
-                                                                                                                                                        ''if [ ${ secondary.verbose } ] || [ ! -z "${ builtins.concatStringsSep "" [ "$" "{" "PASTE_STANDARD_ERROR" "}" ] }" ] ; then cat ${ builtins.concatStringsSep "" [ "$" "{" "PASTE_STANDARD_ERROR" "}" ] } >> /post/paste.standard-error ; fi''
-                                                                                                                                                        "if [ ${ secondary.verbose } ] || [ ${ builtins.concatStringsSep "" [ "$" "{" "PASTE_STATUS" "}" ] } != 0 ] ; then echo ${ builtins.concatStringsSep "" [ "$" "{" "PASTE_STATUS" "}" ] } >> /post/paste.status ; fi"
-                                                                                                                                                    ]
-                                                                                                                                            )
-                                                                                                                                        ] ;
-                                                                                                                            in builtins.toFile "inner" ( builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ) ;
-                                                                                                                    in
-                                                                                                                        "${ pkgs.coreutils }/bin/cat ${ inner } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
-                                                                                                            )
-                                                                                                            "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) }"
-                                                                                                            (
-                                                                                                                let
-                                                                                                                    post =
-                                                                                                                        pkgs.stdenv.mkDerivation
-                                                                                                                            {
-                                                                                                                                installPhase =
-                                                                                                                                    let
-                                                                                                                                        source =
-                                                                                                                                            pkgs.stdenv.mkDerivation
-                                                                                                                                                {
-                                                                                                                                                    installPhase =
-                                                                                                                                                        ''
-                                                                                                                                                            ${ pkgs.coreutils }/bin/cat ${ self + "/scripts/vacuum.sh" } > $out &&
-                                                                                                                                                                ${ pkgs.coreutils }/bin/chmod 0555 $out
-                                                                                                                                                        '' ;
-                                                                                                                                                    name = "post" ;
-                                                                                                                                                    src = ./. ;
-                                                                                                                                                } ;
-                                                                                                                                        in
-                                                                                                                                            ''
-                                                                                                                                                makeWrapper ${ source } $out --set CAT ${ pkgs.coreutils }/bin/cat --set CHMOD ${ pkgs.coreutils }/bin/chmod --set COUNT ${ builtins.toString secondary.count } --set CUT ${ pkgs.coreutils }/bin/cut --set DIFF ${ pkgs.diffutils }/bin/diff --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set LSOF ${ pkgs.lsof }/bin/lsof --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set MV ${ pkgs.coreutils }/bin/mv --set RM ${ pkgs.coreutils }/bin/rm --set SHA512SUM ${ pkgs.coreutils }/bin/sha512sum --set STAT ${ pkgs.coreutils }/bin/stat --set SYNCH ${ pkgs.uutils-coreutils-noprefix }/bin/sync --set WC ${ pkgs.coreutils }/bin/wc
-                                                                                                                                            '' ;
-                                                                                                                                name = "post" ;
-                                                                                                                                nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                                                                                                src = ./. ;
-                                                                                                                            } ;
-                                                                                                                    in
-                                                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PASTE ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release ( builtins.toString post ) "/build/temporary" }/bin"
-                                                                                                            )
-                                                                                                            "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/outer.sh" } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
-                                                                                                            "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set RM ${ pkgs.coreutils }/bin/rm --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep } --set VERBOSE ${ secondary.verbose } --set WC ${ pkgs.coreutils }/bin/wc"
-                                                                                                            (
-                                                                                                                let
-                                                                                                                    user-environment =
-                                                                                                                        pkgs.buildFHSUserEnv
-                                                                                                                            {
-                                                                                                                                extraBwrapArgs =
-                                                                                                                                    [
-                                                                                                                                        "--bind /build/post /post"
-                                                                                                                                        "--bind /build/temporary /temporary"
-                                                                                                                                        "--tmpfs /util"
-                                                                                                                                    ] ;
-                                                                                                                                name = "test" ;
-                                                                                                                                runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
-                                                                                                                            } ;
-                                                                                                                    in "${ user-environment }/bin/test"
-                                                                                                            )
-                                                                                                            "${ pkgs.coreutils }/bin/mv /build/post ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                            "${ pkgs.coreutils }/bin/rm --recursive --force /build/temp"
-                                                                                                        ]
-                                                                                                    ] ;
-                                                                            }
-                                                                            {
-                                                                                list =
-                                                                                    path : list :
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                [
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                ]
-                                                                                                ( builtins.concatLists list )
-                                                                                            ] ;
-                                                                                set =
-                                                                                    path : set :
-                                                                                        builtins.concatLists
-                                                                                            [
-                                                                                                [
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "expected" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                    "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
-                                                                                                ]
-                                                                                                ( builtins.concatLists ( builtins.attrNames set set ) )
-                                                                                            ] ;
-                                                                            }
-                                                                            primary.tests ;
-                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ [ "${ pkgs.coreutils }/bin/mkdir $out" ] constructors ] ) ;
-                                                            name = "tests" ;
-                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
-                                                            src = ./. ;
-                                                        } ;
-                                            } ;
-                            pkgs = builtins.import nixpkgs { system = system ; } ;
-                            in
-                                let
-                                    scripts =
-                                        _shell-script
-                                            {
-                                                extensions =
-                                                    [
-                                                        # {
-                                                        #     name = "resource" ;
-                                                        #     value =  "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } )'" ;
-                                                        # }
-                                                        # {
-                                                        #     name = "target" ;
-                                                        #     value =  "--run 'export TARGET=$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/dirname ${ builtins.concatStringsSep "" [ "$" "{" "0" "}" ] } ) )'" ;
-                                                        # }
-                                                    ] ;
-                                                mounts =
-                                                    {
-                                                        "/temporary" = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
-                                                        "/post" = "$( ${ pkgs.coreutils }/bin/mktemp --directory )" ;
-                                                    } ;
-                                                shell-scripts =
-                                                    {
-                                                        foobar =
-                                                            ignore :
-                                                                {
-                                                                    environment =
-                                                                        { path , self , standard-input , string , ... } :
-                                                                            [
-                                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
-                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                ( self "FOOBAR" ( self : self.foobar ) )
-                                                                                ( path "NAME" 0 )
-                                                                                ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
-                                                                                ( standard-input { name = "ceb56d2bcebc8e9cc485a093712de696d47b96ca866254795e566f370e2e76d92d7522558aaf4e9e7cdd6b603b527cee48a1af68a0abc1b68f2348f055346408" ; } )
-                                                                                ( string "TOKEN" "7861c7b30f4c436819c890600b78ca11e10494c9abea9cae750c26237bc70311b60bb9f8449b32832713438b36e8eaf5ec719445e6983c8799f7e193c9805a7" )
-                                                                                ( string "TR" "${ pkgs.coreutils }/bin/tr" )
-                                                                            ] ;
-                                                                    script = self + "/scripts/foobar.sh" ;
-                                                                    tests =
-                                                                        [
-                                                                            (
-                                                                                ignore :
-                                                                                   {
-                                                                                        error = "50885ccf7ec0a2420f1c7555e54df8512508f93002313cfd71d6de510f8a8a6c035beca3589f2a5248069e02f57535ef3231004cd8d40f8a79b28d605fb6f89b" ;
-                                                                                        mounts =
-                                                                                            {
-                                                                                                "/post" =
-                                                                                                    {
-                                                                                                        expected = self + "/mounts/QoqNiM1R" ;
-                                                                                                        initial = self + "/mounts/QoqNiM1R" ;
-                                                                                                    } ;
-                                                                                                "/temporary" =
-                                                                                                    {
-                                                                                                        expected = self + "/mounts/RSGhGwNk" ;
-                                                                                                        initial = self + "/mounts/QoqNiM1R" ;
-                                                                                                    } ;
-                                                                                            } ;
-                                                                                        output = "45c6ae4c0d3b624d4aa46d90b1ff7dfc996f05827014339549e01b3cb4465cde65493280935d121481c08871aac8ef4739253347e132411d2a1d5075c66bf067" ;
-                                                                                        test = "candidate c64de1b7282c845986c0cf68c2063a11974e7eb0182f30a315a786c071bd253b6e97ce0afbfb774659177fdf97471f9637b07a1e5c0dff4c6c3a5dfcb05f0a50" ;
-                                                                                        status = 35 ;
-                                                                                    }
-                                                                            )
-                                                                        ] ;
-                                                                } ;
-                                                        init =
-                                                            ignore :
-                                                                {
-                                                                    environment =
-                                                                        let
-                                                                            template-file = self + "/scripts/executable.json" ;
-                                                                            in
-                                                                                { self , path , standard-input , string } :
-                                                                                    [
-                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                        ( self "FOOBAR" ( self : self.foobar ) )
-                                                                                        ( string "JQ" "${ pkgs.jq }/bin/jq" )
-                                                                                        ( path "NAME" 0 )
-                                                                                        # ( resource )
-                                                                                        ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
-                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                        # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
-                                                                                        # ( target )
-                                                                                        ( string "STANDARD_ERROR" "\"\"" )
-                                                                                        ( string "STANDARD_OUTPUT" "9c8f38b45d5d275508221e29f424d0c796210f658cb55e62e13adc793f8f91c58567c7eaf116a6e844dc26f49ced8572a4582e5ab977bfb8ba0da62258653ee6" )
-                                                                                        ( string "STATUS" 0 )
-                                                                                        ( string "TEMPLATE_FILE" template-file )
-                                                                                    ] ;
-                                                                    script = self + "/scripts/executable.sh" ;
-                                                                    tests = null ;
-                                                                } ;
-                                                        release =
-                                                            ignore :
-                                                                {
-                                                                    environment =
-                                                                        let
-                                                                            template-file = self + "/scripts/executable.json" ;
-                                                                            in
-                                                                                { self , path , standard-input , string } :
-                                                                                    [
-                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                        ( self "FOOBAR" ( self : self.foobar ) )
-                                                                                        ( string "JQ" "${ pkgs.jq }/bin/jq" )
-                                                                                        ( path "NAME" 0 )
-                                                                                        # ( resource )
-                                                                                        ( standard-input { name = "d41b97db28e49daef96554b8535fe7418ec4ac916ad5689eefd26d2b72266125db6f765c93d30d98b21e24e8473c9bc24ad8e8f297fad993aae68c4792dfba64" ; } )
-                                                                                        ( string "YQ" "${ pkgs.yq }/bin/yq" )
-                                                                                        # ( string "d3acba00ade7e9841335effc04350b1e5744ba5a2abf7f1d096536af11f1bd6b4143426263f237cc0a4b45d6303c32e2259495e309f18653a33e8481fa568b2e" "${ builtins.concatStringsSep "" [ "$" "{" "TARGET" "}" ] }" )
-                                                                                        # ( target )
-                                                                                        ( string "STANDARD_ERROR" "\"\"" )
-                                                                                        ( string "STANDARD_OUTPUT" "9c8f38b45d5d275508221e29f424d0c796210f658cb55e62e13adc793f8f91c58567c7eaf116a6e844dc26f49ced8572a4582e5ab977bfb8ba0da62258653ee6" )
-                                                                                        ( string "STATUS" 0 )
-                                                                                        ( string "TEMPLATE_FILE" template-file )
-                                                                                    ] ;
-                                                                    script = self + "/scripts/executable.sh" ;
-                                                                    tests = null ;
-                                                                } ;
-                                                    } ;
-                                            } ;
-                                        temporary =
-                                            lib
-                                                {
-                                                    at =
-                                                        pkgs.writeShellScript
-                                                            "at"
-                                                            ''
-                                                                $( ${ pkgs.coreutils }/bin/tee ) &
-                                                            '' ;
-                                                    init = scripts.shell-scripts.init ;
-                                                    initializer = 66 ;
-                                                    release = scripts.shell-scripts.release ;
-                                                    standard-error = 67 ;
-                                                    tests =
-                                                        [
-                                                            (
-                                                                ignore :
-                                                                    {
-                                                                        arguments = [ "cc5094dbdb456a268a5ba30672881129510d4239be61dfdb553f2f14754bc71094cb9f600b0b7f192e63d7a1b7a61034c554f947dd339cc410ee99eacebe2ccc" ] ;
-                                                                        count = 32 ;
-                                                                        expected = self + "/mounts/B0hwDMGO" ;
-                                                                        # file = "00e8de6ec1ad1419fdd2ac14882333cf6f4adbac1280124179964464492ec4046b0b6b8f4350809c3fea4ce8b4169022f366efec0edc533c3e186d4ae6c7f9b3" ;
-                                                                        paste = temporary : "echo - 022f5919fa3e2909c7057e0511ce754c93d7cd159d84ccbf391ee21b87055e07a6ce8804ffa4def7f5dd1e41145a115f9d8d4ca1704e43236c5e56a8bc22bec3 >> ${ temporary }" ;
-                                                                        pipe = "1eebb8354b8969ef670f556fcd11b500f2d472c4b4d6eae3c3ce4fd784654189af939005d9348f0359da6184a7096edf20bd35d3746f00f491df0ad7cb31b3b4" ;
-                                                                        sleep = 10 ; # 128 ;
-                                                                        # status = true ;
-                                                                        verbose = true ;
-                                                                    }
-                                                            )
-                                                        ] ;
-                                                } ;
-                                    in
+                                    pkgs.stdenv.mkDerivation
                                         {
-                                            checks =
-                                                {
-                                                    foobar =
-                                                        pkgs.stdenv.mkDerivation
-                                                            {
-                                                                installPhase =
-                                                                    ''
-                                                                        ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            export TEMP_DIR=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary "/tmp" } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
-                                                                            exit 49
-                                                                    '' ;
-                                                                name = "foobar" ;
-                                                                src = ./. ;
-                                                            } ;
-                                                    shell-script = scripts.tests ;
-                                                    temporary = temporary.tests ;
-                                                } ;
-                                            lib = lib ;
+                                            name = "implementation" ;
+                                            src = ./. ;
+                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                            installPhase =
+                                                let
+                                                    paths =
+                                                        let
+                                                            mapper =
+                                                                path : name : value :
+                                                                    if builtins.typeOf value == "lambda" then builtins.concatStringsSep "/" ( builtins.concatLists [ path [ name ] ] )
+                                                                    else builtins.mapAttrs ( mapper ( builtins.concatLists [ path [ name ] ] ) ) value ;
+                                                            in
+                                                                {
+                                                                    scripts = builtins.mapAttrs ( mapper [ ( environment-variable out ) "scripts" ] ) ( scripts ) ;
+                                                                    temporary = builtins.mapAttrs ( mapper [ ( environment-variable out ) "temporary" ] ) temporary ;
+                                                                } ;
+                                                    mappers =
+                                                        let
+                                                             scripts =
+                                                                path : name : value :
+                                                                    if builtins.typeOf value == "lambda" then
+                                                                        strip
+                                                                            ''
+                                                                                write_it ${ pkgs.writeShellScript name ( strip ( value secondary target ) ) } ${ builtins.concatStringsSep "/" path } "${ name }"
+                                                                            ''
+                                                                    else if builtins.typeOf value == "set" then  builtins.mapAttrs ( scripts ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                    else builtins.throw ( invalid-script-throw value ) ;
+                                                            temporary =
+                                                                path : name : value :
+                                                                    if builtins.typeOf value == "lambda" then
+                                                                        let
+                                                                            init =
+                                                                                let
+                                                                                    clean =
+                                                                                        let
+                                                                                            wipe =
+                                                                                                let
+                                                                                                    null =
+                                                                                                        ''
+                                                                                                            ${ pkgs.coreutils }/bin/rm --recursive --force ${ environment-variable resource }
+                                                                                                        '' ;
+                                                                                                    set =
+                                                                                                        ''
+                                                                                                            if ${ pkgs.writeShellScript "release" temporary.release } > ${ environment-variable resource }/release.out.log 2> ${ environment-variable resource }/release.err.log
+                                                                                                            then
+                                                                                                                ${ pkgs.coreutils }/bin/echo ${ environment-variable "?" } > ${ environment-variable resource }/release.status.asc &&
+                                                                                                                    ${ pkgs.coreutils }/bin/chmod 0400 ${ environment-variable resource }/release.out.log ${ environment-variable resource }/release.err.log ${ environment-variable resource }/release.status.asc &&
+                                                                                                                    ${ pkgs.coreutils }/bin/sleep ${ builtins.toString temporary-hold }s &&
+                                                                                                                    ${ pkgs.coreutils }/bin/rm --recursive --force ${ environment-variable resource }
+                                                                                                            else
+                                                                                                                ${ pkgs.coreutils }/bin/echo ${ environment-variable "?" } > ${ environment-variable resource }/release.status.asc &&
+                                                                                                                    ${ pkgs.coreutils }/bin/chmod 0400 ${ environment-variable resource }/release.out.log ${ environment-variable resource }/release.err.log ${ environment-variable resource }/release.status.asc &&
+                                                                                                                    ${ pkgs.coreutils }/bin/sleep ${ builtins.toString temporary-hold }s &&
+                                                                                                                    ${ pkgs.coreutils }/bin/mv ${ environment-variable resource } $( ${ temporary-broken-directory } )
+                                                                                                            fi
+                                                                                                        '' ;
+                                                                                                    in
+                                                                                                        ''
+                                                                                                            ${ pkgs.findutils }/bin/find ${ environment-variable resource } -mindepth 1 -maxdepth 1 -type f -name "*.pid" | while read PID_FILE
+                                                                                                            do
+                                                                                                                PID=$( ${ pkgs.coreutils }/bin/cat ${ environment-variable "PID_FILE" } ) &&
+                                                                                                                     ${ pkgs.coreutils }/bin/tail --follow /dev/null --pid ${ environment-variable "PID" } &&
+                                                                                                                     ${ pkgs.coreutils }/bin/rm ${ environment-variable "PID_FILE" }
+                                                                                                            done &&
+                                                                                                            export ${ target }=${ environment-variable resource }/target &&
+                                                                                                            ${ if builtins.typeOf temporary.release == "null" then null else set }
+                                                                                                        '' ;
+                                                                                            in
+                                                                                                ''
+                                                                                                    export ${ resource }=$( ${ pkgs.coreutils }/bin/dirname ${ environment-variable 0 } ) &&
+                                                                                                        ${ pkgs.coreutils }/bin/nice --adjustment 19 ${ pkgs.writeShellScript "wipe" wipe }
+                                                                                                '' ;
+                                                                                    prepare =
+                                                                                        if builtins.typeOf temporary.init == "null" then
+                                                                                            {
+                                                                                                does-not-have-standard-input = "${ pkgs.coreutils }/bin/echo 0" ;
+                                                                                                has-standard-input = "${ pkgs.coreutils }/bin/echo 0" ;
+                                                                                            }
+                                                                                        else
+                                                                                            {
+                                                                                                does-not-have-standard-input =
+                                                                                                    ''
+                                                                                                        ARGUMENTS=${ environment-variable "@" } &&
+                                                                                                            ${ pkgs.coreutils }/bin/cat ${ temporary.init } > ${ environment-variable resource }/init.sh &&
+                                                                                                            ${ pkgs.coreutils }/bin/echo ${ environment-variable "ARGUMENTS" } > ${ environment-variable resource }/arguments.asc &&
+                                                                                                            if ${ temporary.init } ${ environment-variable "ARGUMENTS" } > ${ environment-variable resource }/init.out.log 2> ${ environment-variable resource }/init.err.log
+                                                                                                            then
+                                                                                                                STATUS=${ environment-variable "?" } &&
+                                                                                                                    ${ pkgs.coreutils }/bin/echo 0
+                                                                                                            else
+                                                                                                                STATUS=${ environment-variable "?" } &&
+                                                                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.toString temporary-init-error-code }
+                                                                                                            fi &&
+                                                                                                            ${ pkgs.coreutils }/bin/echo ${ environment-variable "STATUS" } > ${ environment-variable resource }/init.status.asc &&
+                                                                                                            ${ pkgs.coreutils }/bin/chmod 0400 ${ environment-variable resource }/init.sh ${ environment-variable resource }/arguments.asc ${ environment-variable resource }/init.out.log ${ environment-variable resource }/init.err.log ${ environment-variable resource }/init.status.asc
+                                                                                                    '' ;
+                                                                                                has-standard-input =
+                                                                                                    ''
+                                                                                                        ARGUMENTS=${ environment-variable "@" } &&
+                                                                                                            STANDARD_INPUT=$( ${ pkgs.coreutils }/bin/tee ) &&
+                                                                                                            ${ pkgs.coreutils }/bin/cat ${ temporary.init } > ${ environment-variable resource }/init.sh &&
+                                                                                                            ${ pkgs.coreutils }/bin/echo ${ environment-variable "ARGUMENTS" } > ${ environment-variable resource }/arguments.asc &&
+                                                                                                            ${ pkgs.coreutils }/bin/echo ${ environment-variable "STANDARD_INPUT" } > ${ environment-variable resource }/standard-input.asc &&
+                                                                                                            if ${ pkgs.coreutils }/bin/echo ${ environment-variable "STANDARD_INPUT" } | ${ temporary.init } ${ environment-variable "ARGUMENTS" } > ${ environment-variable resource }/init.out.log 2> ${ environment-variable resource }/init.err.log
+                                                                                                            then
+                                                                                                                STATUS=${ environment-variable "?" } &&
+                                                                                                                    ${ pkgs.coreutils }/bin/echo 0
+                                                                                                            else
+                                                                                                                STATUS=${ environment-variable "?" } &&
+                                                                                                                    ${ pkgs.coreutils }/bin/echo ${ builtins.toString temporary-init-error-code }
+                                                                                                            fi &&
+                                                                                                            ${ pkgs.coreutils }/bin/echo ${ environment-variable "STATUS" } > ${ environment-variable resource }/init.status.asc
+                                                                                                            ${ pkgs.coreutils }/bin/chmod 0400 ${ environment-variable resource }/init.sh ${ environment-variable resource }/arguments.asc ${ environment-variable resource }/standard-input.asc ${ environment-variable resource }/init.out.log ${ environment-variable resource }/init.err.log ${ environment-variable resource }/init.status.asc
+                                                                                                     '' ;
+                                                                                            } ;
+                                                                                    in
+                                                                                        ''
+                                                                                            export ${ resource }=$( ${ temporary-resource-directory } ) &&
+                                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "clean" clean } ${ environment-variable resource }/clean &&
+                                                                                                export ${ target }=${ environment-variable resource }/target &&
+                                                                                                if ${ has-standard-input }
+                                                                                                then
+                                                                                                    WAIT_PID=${ environment-variable "PPID" } &&
+                                                                                                        STATUS=$( ${ pkgs.coreutils }/bin/tee | ${ pkgs.writeShellScript "prepare" prepare.has-standard-input } ${ environment-variable "@" } )
+                                                                                                else
+                                                                                                    WAIT_PID=$( ${ pkgs.procps }/bin/ps -o ppid= -p ${ environment-variable "PPID" } | ${ pkgs.findutils }/bin/xargs ) &&
+                                                                                                        STATUS=$( ${ pkgs.writeShellScript "prepare" prepare.does-not-have-standard-input } ${ environment-variable "@" } )
+                                                                                                fi &&
+                                                                                                ${ pkgs.coreutils }/bin/echo ${ environment-variable "WAIT_PID" } > ${ environment-variable resource }/${ environment-variable "WAIT_PID" }.pid
+                                                                                                if [ ${ environment-variable "STATUS" } == 0 ]
+                                                                                                then
+                                                                                                    ${ pkgs.coreutils }/bin/echo ${ environment-variable target } &&
+                                                                                                        ${ pkgs.coreutils }/bin/echo "${ pkgs.coreutils }/bin/nice --adjustment 19 ${ environment-variable resource }/clean" | ${ at } now
+                                                                                                else
+                                                                                                    BROKEN=$( ${ temporary-broken-directory } ) &&
+                                                                                                        ${ pkgs.coreutils }/bin/mv ${ environment-variable resource } ${ environment-variable "BROKEN" } &&
+                                                                                                        ${ pkgs.coreutils }/bin/echo ${ environment-variable "BROKEN" }/target &&
+                                                                                                        exit ${ builtins.toString temporary-init-error-code }
+                                                                                                fi
+                                                                                        '' ;
+                                                                            temporary =
+                                                                                let
+                                                                                    identity =
+                                                                                        {
+                                                                                            init ? builtins.null ,
+                                                                                            release ? builtins.null
+                                                                                        } :
+                                                                                            {
+                                                                                                init = init ;
+                                                                                                release = release ;
+                                                                                            } ;
+                                                                                    in identity ( value paths.scripts ) ;
+                                                                            in
+                                                                                strip
+                                                                                    ''
+                                                                                        write_it ${ pkgs.writeShellScript name init } ${ builtins.concatStringsSep "/" path } "${ name }"
+                                                                                    ''
+                                                                else if builtins.typeOf value == "set" then builtins.mapAttrs ( temporary ( builtins.concatLists [ path [ name ] ] ) ) value
+                                                                else builtins.throw ( invalid-temporary-throw value ) ;
+                                                            in
+                                                                {
+                                                                    scripts = scripts [ ( environment-variable out ) "scripts" ] ;
+                                                                    temporary = temporary [ ( environment-variable out ) "temporary" ] ;
+                                                                } ;
+                                                    service =
+                                                        ''
+                                                            ${ pkgs.findutils }/bin/find ${ mask-reference } -mindepth 1 -maxdepth 1 -type l -name clean -exec {} \;
+                                                        '' ;
+                                                    write =
+                                                        let
+                                                            input =
+                                                                {
+                                                                    "${ environment-variable out }" =
+                                                                        {
+                                                                            scripts = builtins.mapAttrs mappers.scripts scripts ;
+                                                                            temporary = builtins.mapAttrs mappers.temporary temporary ;
+                                                                        } ;
+                                                                } ;
+                                                            list = builtins.concatLists ( builtins.attrValues output ) ;
+                                                            mapper = name : value : if builtins.typeOf value == "set" then builtins.concatLists ( builtins.attrValues ( builtins.mapAttrs mapper value ) ) else [ ( builtins.toString value ) ] ;
+                                                            output = builtins.mapAttrs mapper input ;
+                                                            in builtins.concatStringsSep "&&\n" list ;
+                                                    in
+                                                        ''
+                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                export ${ out }=$out &&
+                                                                write_it ( )
+                                                                    {
+                                                                        ${ pkgs.coreutils }/bin/mkdir --parents ${ environment-variable 2 } &&
+                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ environment-variable 1 } ${ environment-variable 2 }/${ environment-variable 3 }.sh &&
+                                                                             makeWrapper ${ environment-variable 2 }/${ environment-variable 3 }.sh ${ environment-variable 2 }/${ environment-variable 3 } --set ${ out } $out
+                                                                    } &&
+                                                                ${ write } &&
+                                                                ${ pkgs.coreutils }/bin/echo '${ service }' > $out/service.sh &&
+                                                                ${ pkgs.coreutils }/bin/chmod 0500 $out/service.sh &&
+                                                                makeWrapper $out/service.sh $out/service
+                                                        '' ;
                                         } ;
+                            pkgs = import nixpkgs { system = system ; } ;
+                            strip = builtins.getAttr system ( builtins.getAttr "lib" strip-lib ) ;
+                            in
+                                {
+                                    checks.testLib =
+                                        pkgs.stdenv.mkDerivation
+                                            {
+                                                name = "test-lib" ;
+                                                src = ./. ;
+                                                installPhase =
+                                                    let
+                                                        at =
+                                                            pkgs.writeShellScript
+                                                                "at"
+                                                                ''
+                                                                    COMMAND=$( ${ pkgs.coreutils }/bin/tee ) &&
+                                                                        if [ -z "${ environment-variable "COMMAND" }" ]
+                                                                        then
+                                                                            ${ pkgs.coreutils }/bin/false
+                                                                        else
+                                                                            ${ pkgs.bash }/bin/bash -c "${ environment-variable "COMMAND" }" &
+                                                                        fi
+                                                                '' ;
+                                                        debug = "/build/debug" ;
+                                                        out = "f37312f2785157f375f8fe159e6122c7c9378b5a4052cadd17e6faff1851b35c749baa51c5d132da58bdfb88e54a81ecc36a989e07baa9cca69dab2f6e28024d" ;
+                                                        resources =
+                                                            {
+                                                                scripts =
+                                                                    lib
+                                                                        {
+                                                                            debug = debug ;
+                                                                            mask-reference = "/build/*.resources" ;
+                                                                            out = out ;
+                                                                            scripts =
+                                                                                let
+                                                                                    script =
+                                                                                        status : { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                ARGUMENTS=${ environment-variable "@" } &&
+                                                                                                    if ${ has-standard-input }
+                                                                                                    then
+                                                                                                        STANDARD_INPUT=$( ${ pkgs.coreutils }/bin/tee ) &&
+                                                                                                            HAS_STANDARD_INPUT=true
+                                                                                                    else
+                                                                                                        STANDARD_INPUT= &&
+                                                                                                            HAS_STANDARD_INPUT=false
+                                                                                                    fi &&
+                                                                                                    RELATIVE=$( ${ pkgs.coreutils }/bin/echo ${ environment-variable 0 } | ${ pkgs.gnused }/bin/sed -e "s#^${ environment-variable out }/scripts/##" -e "s#[.]sh\$##" ) &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo SCRIPT OUTPUT ${ environment-variable "RELATIVE" } ${ environment-variable "ARGUMENTS" } ${ environment-variable "HAS_STANDARD_INPUT" } ${ environment-variable "STANDARD_INPUT" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo SCRIPT ERROR ${ environment-variable "RELATIVE" } ${ environment-variable "ARGUMENTS" } ${ environment-variable "HAS_STANDARD_INPUT" } ${ environment-variable "STANDARD_INPUT" } >&2 &&
+                                                                                                    exit ${ builtins.toString status }
+                                                                                            '' ;
+                                                                                    in
+                                                                                        {
+                                                                                            bad = script 65 ;
+                                                                                            good = script 0 ;
+                                                                                        } ;
+                                                                            secondary = secondary ;
+                                                                        } ;
+                                                                service =
+                                                                    lib
+                                                                        {
+                                                                            at = at ;
+                                                                            debug = debug ;
+                                                                            mask-reference = "/build/*.service" ;
+                                                                            out = out ;
+                                                                            scripts =
+                                                                                {
+                                                                                    init =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                ${ pkgs.coreutils }/bin/true
+                                                                                            '' ;
+                                                                                    release =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                ${ pkgs.coreutils }/bin/true
+                                                                                            '' ;
+                                                                                } ;
+                                                                            secondary = secondary ;
+                                                                            temporary =
+                                                                                {
+                                                                                    instance = scripts : { init = scripts.init ; release = scripts.release ; } ;
+                                                                                } ;
+                                                                            temporary-resource-directory = "${ pkgs.coreutils }/bin/mktemp -t XXXXXXXX.service" ;
+                                                                        } ;
+                                                                temporary =
+                                                                    lib
+                                                                        {
+                                                                            at = at ;
+                                                                            debug = debug ;
+                                                                            out = out ;
+                                                                            scripts =
+                                                                                let
+                                                                                    script =
+                                                                                        status : { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                ARGUMENTS=${ environment-variable "@" } &&
+                                                                                                    if ${ has-standard-input }
+                                                                                                    then
+                                                                                                        STANDARD_INPUT=$( ${ pkgs.coreutils }/bin/tee ) &&
+                                                                                                            HAS_STANDARD_INPUT=true
+                                                                                                    else
+                                                                                                        STANDARD_INPUT= &&
+                                                                                                            HAS_STANDARD_INPUT=false
+                                                                                                    fi &&
+                                                                                                    RELATIVE=$( ${ pkgs.coreutils }/bin/echo ${ environment-variable 0 } | ${ pkgs.gnused }/bin/sed -e "s#^${ environment-variable out }/scripts/##" -e "s#[.]sh\$##" ) &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo TEMPORARY OUTPUT ${ environment-variable "RELATIVE" } ${ environment-variable "ARGUMENTS" } ${ environment-variable "HAS_STANDARD_INPUT" } ${ environment-variable "STANDARD_INPUT" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo TEMPORARY ERROR ${ environment-variable "RELATIVE" } ${ environment-variable "ARGUMENTS" } ${ environment-variable "HAS_STANDARD_INPUT" } ${ environment-variable "STANDARD_INPUT" } >&2 &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo TEMPORARY TARGET ${ environment-variable "ARGUMENTS" } ${ environment-variable "STANDARD_INPUT" } >> ${ environment-variable target } &&
+                                                                                                    ${ pkgs.coreutils }/bin/chmod a+rwx ${ environment-variable target } &&
+                                                                                                    exit ${ builtins.toString status }
+                                                                                            '' ;
+                                                                                    in
+                                                                                        {
+                                                                                            bad = script 66 ;
+                                                                                            good = script 0 ;
+                                                                                        } ;
+                                                                            secondary = { pkgs = pkgs ; } ;
+                                                                            temporary =
+                                                                                {
+                                                                                    bad =
+                                                                                        {
+                                                                                            bad = scripts : { init = scripts.bad ; release = scripts.bad ; } ;
+                                                                                            good = scripts : { init = scripts.bad ; release = scripts.good ; } ;
+                                                                                            null = scripts : { init = scripts.bad ; } ;
+                                                                                        } ;
+                                                                                    good =
+                                                                                        {
+                                                                                            bad = scripts : { init = scripts.good ; release = scripts.bad ; } ;
+                                                                                            good = scripts : { init = scripts.good ; release = scripts.good ; } ;
+                                                                                            null = scripts : { init = scripts.good ; } ;
+                                                                                        } ;
+                                                                                    null =
+                                                                                        {
+                                                                                            bad = scripts : { release = scripts.bad ; } ;
+                                                                                            good = scripts : { release = scripts.good ; } ;
+                                                                                            null = scripts : { } ;
+                                                                                        } ;
+                                                                                } ;
+                                                                            temporary-hold = 1 ;
+                                                                        } ;
+                                                                util =
+                                                                    lib
+                                                                        {
+                                                                            at = at ;
+                                                                            debug = debug ;
+                                                                            out = out ;
+                                                                            scripts =
+                                                                                {
+                                                                                    directory =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                INPUT=${ environment-variable 1 } &&
+                                                                                                    CAT_DIRECTORY=${ environment-variable 2 } &&
+                                                                                                    STAT_DIRECTORY=${ environment-variable 3 } &&
+                                                                                                    ERROR_FLAG=${ environment-variable 4 } &&
+                                                                                                    if [ -d ${ environment-variable "INPUT" } ]
+                                                                                                    then
+                                                                                                        ${ pkgs.findutils }/bin/find ${ environment-variable "INPUT" } -not -name "*.pid" | while read I
+                                                                                                        do
+                                                                                                            RELATIVE=$( ${ pkgs.coreutils }/bin/echo ${ environment-variable "I" } | ${ pkgs.gnused }/bin/sed -e "s#^${ environment-variable "INPUT" }##" ) &&
+                                                                                                                ABSOLUTE_CAT=${ environment-variable "CAT_DIRECTORY" }${ environment-variable "RELATIVE" } &&
+                                                                                                                ABSOLUTE_STAT=${ environment-variable "STAT_DIRECTORY" }${ environment-variable "RELATIVE" } &&
+                                                                                                                if [ -e ${ environment-variable "ABSOLUTE_CAT" } ]
+                                                                                                                then
+                                                                                                                    ${ pkgs.coreutils }/bin/echo "The file - ${ environment-variable "RELATIVE" } - has already been cat." >> ${ environment-variable "ERROR_FLAG" }
+                                                                                                                fi &&
+                                                                                                                if [ -e ${ environment-variable "ABSOLUTE_STAT" } ]
+                                                                                                                then
+                                                                                                                    ${ pkgs.coreutils }/bin/echo "The file - ${ environment-variable "RELATIVE" } - has already been stat." >> ${ environment-variable "STAT_DUPLICATE" }
+                                                                                                                fi &&
+                                                                                                                if [ -d ${ environment-variable "I" } ]
+                                                                                                                then
+                                                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ environment-variable "ABSOLUTE_CAT" } &&
+                                                                                                                        ${ pkgs.coreutils }/bin/mkdir ${ environment-variable "ABSOLUTE_STAT" }
+                                                                                                                else
+                                                                                                                    ${ pkgs.gnused }/bin/sed -e "s#/nix/store/[a-z0-9]\{32\}#/nix/store#g" -e w${ environment-variable "ABSOLUTE_CAT" } ${ environment-variable "I" } >> ${ debug } 2>&1 &&
+                                                                                                                        ${ pkgs.coreutils }/bin/stat --format %A ${ environment-variable "I" } > ${ environment-variable "ABSOLUTE_STAT" }
+                                                                                                                fi
+                                                                                                        done
+                                                                                                    else
+                                                                                                        ${ pkgs.coreutils }/bin/echo "We did not find the INPUT directory." > ${ environment-variable "ERROR_FLAG" }
+                                                                                                    fi
+                                                                                            '' ;
+                                                                                    post-create =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                INPUT=${ environment-variable 1 } &&
+                                                                                                    CAT_DIRECTORY=${ environment-variable 2 } &&
+                                                                                                    STAT_DIRECTORY=${ environment-variable 3 } &&
+                                                                                                    DELETE_FLAG=${ environment-variable 4 } &&
+                                                                                                    MOVE_FLAG=${ environment-variable 5 } &&
+                                                                                                    OUT_FLAG=${ environment-variable 6 } &&
+                                                                                                    ERROR_FLAG=${ environment-variable 7 } &&
+                                                                                                    ${ pkgs.inotify-tools }/bin/inotifywait --monitor --event create ${ environment-variable "INPUT" } --format %f | while read FILE
+                                                                                                    do
+                                                                                                        if [ ${ environment-variable "FILE" } == "release.status.asc" ]
+                                                                                                        then
+                                                                                                            ${ pkgs.coreutils }/bin/echo "${ environment-variable out }/scripts/directory ${ environment-variable "INPUT" } ${ environment-variable "CAT_DIRECTORY" } ${ environment-variable "STAT_DIRECTORY" } ${ environment-variable "ERROR_FLAG" }" | ${ at } now >> ${ debug } 2>&1 &&
+                                                                                                                ${ pkgs.coreutils }/bin/echo ${ environment-variable out }/scripts/post-operate ${ environment-variable "INPUT" } delete_self ${ environment-variable "DELETE_FLAG" } | ${ at } now >> ${ debug } 2>&1
+                                                                                                                ${ pkgs.coreutils }/bin/echo ${ environment-variable out }/scripts/post-operate ${ environment-variable "INPUT" } move_self ${ environment-variable "MOVE_FLAG" } | ${ at } now >> ${ debug } 2>&1
+                                                                                                        fi &&
+                                                                                                            ${ pkgs.coreutils }/bin/echo ${ environment-variable "FILE" } >> ${ environment-variable "OUT_FLAG" }
+                                                                                                    done
+                                                                                            '' ;
+                                                                                    post-operate =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                INPUT=${ environment-variable 1 } &&
+                                                                                                    OPERATION=${ environment-variable 2 } &&
+                                                                                                    FLAG=${ environment-variable 3 } &&
+                                                                                                    ${ pkgs.inotify-tools }/bin/inotifywait --monitor --event ${ environment-variable "OPERATION" } ${ environment-variable "INPUT" } --format %f | while read FILE
+                                                                                                    do
+                                                                                                        ${ pkgs.coreutils }/bin/echo ${ environment-variable "OPERATION" } ${ environment-variable "FILE" } >> ${ environment-variable "FLAG" }
+                                                                                                    done
+                                                                                            '' ;
+                                                                                    record =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                COMMAND=${ environment-variable 1 } &&
+                                                                                                    HAS_STANDARD_INPUT=${ environment-variable 2 } &&
+                                                                                                    ARGUMENTS=${ environment-variable 3 } &&
+                                                                                                    STANDARD_INPUT=${ environment-variable 4 } &&
+                                                                                                    ABSOLUTE=${ environment-variable 5 } &&
+                                                                                                    IS_TEMPORARY=${ environment-variable 6 } &&
+                                                                                                    # The below is an ugly kludge.
+                                                                                                    # I think that it works.
+                                                                                                    # It tests good.
+                                                                                                    # However when I try to use it, it freezes.
+                                                                                                    # I think that is because of the mock at that I use.
+                                                                                                    # The real at is not available in the virtual testing environment.
+                                                                                                    TEMPORARY_OUT=$( ${ pkgs.coreutils }/bin/mktemp )  &&
+                                                                                                    OUT=${ environment-variable "ABSOLUTE" }/out &&
+                                                                                                    ERR=${ environment-variable "ABSOLUTE" }/err &&
+                                                                                                    STATUS=${ environment-variable "ABSOLUTE" }/status &&
+                                                                                                    ${ pkgs.coreutils }/bin/mkdir ${ environment-variable "ABSOLUTE" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo ${ environment-variable "HAS_STANDARD_INPUT" } > ${ environment-variable "ABSOLUTE" }/has-standard-input &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo ${ environment-variable "ARGUMENTS" } > ${ environment-variable "ABSOLUTE" }/arguments &&
+                                                                                                    if [ ${ environment-variable "HAS_STANDARD_INPUT" } == true ]
+                                                                                                    then
+                                                                                                        ${ pkgs.coreutils }/bin/echo ${ environment-variable "STANDARD_INPUT" } > ${ environment-variable "ABSOLUTE" }/standard-input &&
+                                                                                                            if ${ pkgs.coreutils }/bin/echo ${ environment-variable "STANDARD_INPUT" } | ${ environment-variable "COMMAND" } ${ environment-variable "ARGUMENTS" } > ${ environment-variable "TEMPORARY_OUT" } 2> ${ environment-variable "ERR" }
+                                                                                                            then
+                                                                                                                ${ pkgs.coreutils }/bin/echo ${ environment-variable "?" } > ${ environment-variable "STATUS" }
+                                                                                                            else
+                                                                                                                ${ pkgs.coreutils }/bin/echo ${ environment-variable "?" } > ${ environment-variable "STATUS" }
+                                                                                                            fi
+                                                                                                    else
+                                                                                                        if ${ environment-variable "COMMAND" } ${ environment-variable "ARGUMENTS" } > ${ environment-variable "TEMPORARY_OUT" } 2> ${ environment-variable "ERR" }
+                                                                                                        then
+                                                                                                            ${ pkgs.coreutils }/bin/echo ${ environment-variable "?" } > ${ environment-variable "STATUS" }
+                                                                                                        else
+                                                                                                            ${ pkgs.coreutils }/bin/echo ${ environment-variable "?" } > ${ environment-variable "STATUS" }
+                                                                                                        fi
+                                                                                                    fi &&
+                                                                                                    ${ pkgs.gnused }/bin/sed -e "s#/build/[0-9a-zA-Z]\{8\}[.]ce6807e0feab65315f584831e5721245e6f6280d/target\$#resource#g" -e "s#/build/[0-9a-zA-Z]\{8\}[.]62f7ff21050af91d081b577d4ce480f8c94b98e1/target\$#broken#g" -e w${ environment-variable "OUT" } ${ environment-variable "TEMPORARY_OUT" } &&
+                                                                                                    if [ ${ environment-variable "IS_TEMPORARY" } == true ]
+                                                                                                    then
+                                                                                                        PRE_CAT_DIRECTORY=${ environment-variable "ABSOLUTE" }/pre.cat &&
+                                                                                                            PRE_STAT_DIRECTORY=${ environment-variable "ABSOLUTE" }/pre.stat &&
+                                                                                                            PRE_ERROR_FLAG=${ environment-variable "ABSOLUTE" }/pre.error &&
+                                                                                                            POST_CAT_DIRECTORY=${ environment-variable "ABSOLUTE" }/post.cat &&
+                                                                                                            POST_STAT_DIRECTORY=${ environment-variable "ABSOLUTE" }/post.stat &&
+                                                                                                            POST_DELETE_FLAG=${ environment-variable "ABSOLUTE" }/post.delete &&
+                                                                                                            POST_MOVE_FLAG=${ environment-variable "ABSOLUTE" }/post.move &&
+                                                                                                            POST_OUT_FLAG=${ environment-variable "ABSOLUTE" }/post.out &&
+                                                                                                            POST_ERROR_FLAG=${ environment-variable "ABSOLUTE" }/post.error &&
+                                                                                                            INPUT=$( ${ pkgs.coreutils }/bin/dirname $( ${ pkgs.coreutils }/bin/cat ${ environment-variable "TEMPORARY_OUT" } ) ) &&
+                                                                                                            ${ environment-variable out }/scripts/directory ${ environment-variable "INPUT" } ${ environment-variable "PRE_CAT_DIRECTORY" } ${ environment-variable "PRE_STAT_DIRECTORY" } ${ environment-variable "PRE_ERROR_FLAG" } >> ${ debug } 2>&1 &&
+                                                                                                            ${ pkgs.coreutils }/bin/echo "${ environment-variable out }/scripts/post-create ${ environment-variable "INPUT" } ${ environment-variable "POST_CAT_DIRECTORY" } ${ environment-variable "POST_STAT_DIRECTORY" } ${ environment-variable "POST_DELETE_FLAG" } ${ environment-variable "POST_MOVE_FLAG" } ${ environment-variable "POST_OUT_FLAG" } ${ environment-variable "POST_ERROR_FLAG" }" | ${ at } now >> ${ debug } 2>&1
+                                                                                                    fi
+                                                                                            '' ;
+                                                                                    scripts =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                COMMAND=${ environment-variable 1 } &&
+                                                                                                    ARGUMENTS=${ environment-variable 2 } &&
+                                                                                                    STANDARD_INPUT=${ environment-variable 3 } &&
+                                                                                                    RELATIVE=$( ${ pkgs.coreutils }/bin/realpath --relative-to ${ resources.scripts }/scripts ${ environment-variable "COMMAND" } ) &&
+                                                                                                    ABSOLUTE=${ environment-variable "OBSERVED_DIRECTORY" }/scripts/${ environment-variable "RELATIVE" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/mkdir --parents ${ environment-variable "ABSOLUTE" } &&
+                                                                                                    ${ environment-variable out }/scripts/record ${ environment-variable "COMMAND" } false $( ${ environment-variable out }/scripts/sha512 ${ environment-variable "ARGUMENTS" } scripts false ) $( ${ environment-variable out }/scripts/sha512 ${ environment-variable "STANDARD_INPUT" } scripts false ) ${ environment-variable "ABSOLUTE" }/false false &&
+                                                                                                    ${ environment-variable out }/scripts/record ${ environment-variable "COMMAND" } true $( ${ environment-variable out }/scripts/sha512 ${ environment-variable "ARGUMENTS" } scripts true ) $( ${ environment-variable out }/scripts/sha512 ${ environment-variable "STANDARD_INPUT" } scripts true ) ${ environment-variable "ABSOLUTE" }/true false
+                                                                                            '' ;
+                                                                                    service =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                TEMPORARY_COMMAND=${ environment-variable 1 } &&
+                                                                                                    TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
+                                                                                                    ${ pkgs.coreutils }/bin/cp --recursive $( ${ pkgs.coreutils }/bin/dirname $( ${ environment-variable "TEMPORARY_COMMAND" } ) ) ${ environment-variable "TEMPORARY" } &&
+                                                                                                    # ${ pkgs.coreutils }/bin/cp --recursive $( ${ pkgs.coreutils }/bin/dirname ${ environment-variable "TEMPORARY_COMMAND" } ) ${ environment-variable "TEMPORARY" }
+                                                                                                    ${ pkgs.coreutils }/bin/true
+                                                                                            '' ;
+                                                                                    sha512 =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                ${ pkgs.coreutils }/bin/echo ${ environment-variable "@" } | ${ pkgs.coreutils }/bin/sha512sum | ${ pkgs.coreutils }/bin/cut --bytes -128
+                                                                                            '' ;
+                                                                                    temporary =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                               COMMAND=${ environment-variable 1 } &&
+                                                                                                    ARGUMENTS=${ environment-variable 2 } &&
+                                                                                                    STANDARD_INPUT=${ environment-variable 3 } &&
+                                                                                                    RELATIVE=$( ${ pkgs.coreutils }/bin/realpath --relative-to ${ resources.temporary }/temporary ${ environment-variable "COMMAND" } ) &&
+                                                                                                    ABSOLUTE=${ environment-variable "OBSERVED_DIRECTORY" }/temporary/${ environment-variable "RELATIVE" } &&
+                                                                                                    ${ pkgs.coreutils }/bin/mkdir --parents ${ environment-variable "ABSOLUTE" } &&
+                                                                                                    ${ environment-variable out }/scripts/record ${ environment-variable "COMMAND" } false $( ${ environment-variable out }/scripts/sha512 ${ environment-variable "ARGUMENTS" } temporary false ) $( ${ environment-variable out }/scripts/sha512 ${ environment-variable "STANDARD_INPUT" } temporary false ) ${ environment-variable "ABSOLUTE" }/false true &&
+                                                                                                    ${ environment-variable out }/scripts/record ${ environment-variable "COMMAND" } true $( ${ environment-variable out }/scripts/sha512 ${ environment-variable "ARGUMENTS" } temporary true ) $( ${ environment-variable out }/scripts/sha512 ${ environment-variable "STANDARD_INPUT" } temporary true ) ${ environment-variable "ABSOLUTE" }/true true
+                                                                                            '' ;
+                                                                                    test =
+                                                                                        { pkgs , ... } : target :
+                                                                                            ''
+                                                                                                test_diff ( )
+                                                                                                    {
+                                                                                                        ${ pkgs.coreutils }/bin/echo ${ environment-variable "OBSERVED_DIRECTORY" } &&
+                                                                                                            assert_equals "" "$( ${ pkgs.diffutils }/bin/diff --brief --recursive ${ environment-variable "EXPECTED_DIRECTORY" } ${ environment-variable "OBSERVED_DIRECTORY" } )" "We expect expected to exactly equal observed."
+                                                                                                    } &&
+                                                                                                        test_expected_observed ( )
+                                                                                                            {
+                                                                                                                ${ pkgs.findutils }/bin/find ${ environment-variable "EXPECTED_DIRECTORY" } -type f | while read EXPECTED_FILE
+                                                                                                                do
+                                                                                                                    RELATIVE=$( ${ pkgs.coreutils }/bin/realpath --relative-to ${ environment-variable "EXPECTED_DIRECTORY" } ${ environment-variable "EXPECTED_FILE" } ) &&
+                                                                                                                        OBSERVED_FILE=${ environment-variable "OBSERVED_DIRECTORY" }/${ environment-variable "RELATIVE" } &&
+                                                                                                                        if [ ! -f ${ environment-variable "OBSERVED_FILE" } ]
+                                                                                                                        then
+                                                                                                                            fail "The observed file for ${ environment-variable "RELATIVE" } does not exist."
+                                                                                                                        fi &&
+                                                                                                                        assert_equals "$( ${ pkgs.coreutils }/bin/cat ${ environment-variable "EXPECTED_FILE" } )" "$( ${ pkgs.coreutils }/bin/cat ${ environment-variable "OBSERVED_FILE" } )" "The expected file does not equal the observed file for ${ environment-variable "RELATIVE" }."
+                                                                                                                done
+                                                                                                            } &&
+                                                                                                        test_observed_expected ( )
+                                                                                                            {
+                                                                                                                ${ pkgs.findutils }/bin/find ${ environment-variable "OBSERVED_DIRECTORY" } -type f | while read OBSERVED_FILE
+                                                                                                                do
+                                                                                                                    RELATIVE=$( ${ pkgs.coreutils }/bin/realpath --relative-to ${ environment-variable "OBSERVED_DIRECTORY" } ${ environment-variable "OBSERVED_FILE" } ) &&
+                                                                                                                        EXPECTED_FILE=${ environment-variable "EXPECTED_DIRECTORY" }/${ environment-variable "RELATIVE" } &&
+                                                                                                                        if [ ! -f ${ environment-variable "EXPECTED_FILE" } ]
+                                                                                                                        then
+                                                                                                                            fail "The expected file for ${ environment-variable "RELATIVE" } does not exist."
+                                                                                                                        fi &&
+                                                                                                                        assert_equals "$( ${ pkgs.coreutils }/bin/cat ${ environment-variable "EXPECTED_FILE" } )" "$( ${ pkgs.coreutils }/bin/cat ${ environment-variable "OBSERVED_FILE" } )" "The observed file does not equal the expected file for ${ environment-variable "RELATIVE" }."
+                                                                                                                done
+                                                                                                            }
+                                                                                            '' ;
+                                                                                } ;
+                                                                            secondary = secondary ;
+                                                                            temporary =
+                                                                                {
+                                                                                    out = scripts : { } ;
+                                                                                } ;
+                                                                        } ;
+                                                                    } ;
+                                                                secondary = { pkgs = pkgs ; } ;
+                                                        in
+                                                            ''
+                                                                ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                    export EXPECTED_DIRECTORY=${ ./expected } &&
+                                                                    export OBSERVED_DIRECTORY=$out &&
+                                                                    ${ pkgs.findutils }/bin/find ${ resources.scripts }/scripts -mindepth 1 -type f -not -name "*.sh" -exec ${ resources.util }/scripts/scripts {} a0d791e90486ab349661235cd0913d11649f6659c848ef4fb8639d04267ecfa03d1c922c455f53727e01fd42749a37b816334d75588127384b9772a61840a25b 9f94b1c83ef72dc398aadf0931f9e723303d34781d433efb685ca793d054c810c6a752c94c0a4944ab43658cede7f1059616659110d3944e8645f5c79aeff59e \; &&
+                                                                    ${ pkgs.findutils }/bin/find ${ resources.temporary }/temporary -mindepth 1 -type f -not -name "*.sh" -exec ${ resources.util }/scripts/temporary {} f00f5a32e1ce243eec06f855b1a92661b0dac509bf625840334d7eb133be726000501227713c666f2e2f69f41b2792f5f77a3374be332a4c07eed1dbd74974d0 1e9e30f7de05fc8d9e3487d10ca229ffd3018ac54dd2213ee56e6891bb05709914478b1836dcc8f40cc0b6fe62616cfdda9f41d032da9069f671e656de1bddd2 \; &&
+                                                                    # The below is an ugly kludge.
+                                                                    # We should test the service but we do not.
+                                                                    # This is because of the previously mentioned kludge I do not think that I can realisticly test the service.
+                                                                    # The service probably works but we should consider it broken until we can come up with a working test strategy.
+                                                                    # ${ resources.util }/scripts/service ${ resources.service } &&
+                                                                    ${ pkgs.coreutils }/bin/sleep 15s &&
+                                                                    ${ pkgs.bash_unit }/bin/bash_unit ${ resources.util }/scripts/test.sh
+                                                            '' ;
+                                            } ;
+                                    lib = lib ;
+                                } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
 }
