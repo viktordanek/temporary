@@ -89,6 +89,7 @@
                                                                                         "--set ECHO ${ pkgs.coreutils }/bin/echo"
                                                                                         "--set FLOCK ${ pkgs.flock }/bin/flock"
                                                                                         "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
+                                                                                        "--set HOST_PATH A${ host-path }Z"
                                                                                         "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
@@ -123,7 +124,7 @@
                                                             } ;
                                         in
                                             {
-                                                # temporary = "${ setup primary.init primary.release primary.post }/bin/temporary" ;
+                                                temporary = host-path : "${ setup primary.init primary.release primary.post host-path }/bin/temporary" ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -514,6 +515,7 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary "/tmp" } &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 49
                                                                     '' ;
