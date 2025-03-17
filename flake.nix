@@ -17,7 +17,6 @@
                             lib =
                                 {
                                     at ? "/run/wrappers/bin/at" ,
-                                    host-path ,
                                     init ? null ,
                                     initializer ? 64 ,
                                     post ? null ,
@@ -26,14 +25,9 @@
                                     tests ? null
                                 } :
                                     let
-                                        mounts =
-                                            {
-                                                "/temporary" = primary.host-path ;
-                                            } ;
                                         primary =
                                             {
                                                 at = if builtins.typeOf at == "set" then at else if builtins.typeOf at == "string" then at else builtins.throw "at is not set, string but ${ builtins.typeOf at }." ;
-                                                host-path = if builtins.typeOf host-path == "string" then host-path else builtins.throw "host-path is not string but ${ builtins.typeOf host-path }." ;
                                                 init = if builtins.typeOf init == "null" then init else if builtins.typeOf init == "string" then init else builtins.throw "init is not null, string but ${ builtins.typeOf init }." ;
                                                 initializer = if builtins.typeOf initializer == "int" then initializer else builtins.throw "initializer is not int but ${ builtins.typeOf initializer }." ;
                                                 release = if builtins.typeOf release == "null" then release else if builtins.typeOf release == "string" then release else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
@@ -42,7 +36,7 @@
                                                 tests = if builtins.typeOf tests == "null" then tests else if builtins.typeOf tests == "list" then tests else if builtins.typeOf tests == "set" then tests else builtins.throw "tests is not null, list, set but ${ builtins.typeOf tests }." ;
                                             } ;
                                         setup =
-                                            init : release : post :
+                                            init : release : post : host-path :
                                                 let
                                                     setup =
                                                         source
@@ -80,7 +74,7 @@
                                                                 [ ( builtins.typeOf release == "string" ) 21 24 ]
                                                                 [ true 26 29 ]
                                                             ] ;
-                                                    in
+                                                    ttt =
                                                         pkgs.stdenv.mkDerivation
                                                             {
                                                                 installPhase =
@@ -107,7 +101,7 @@
                                                                                     [
                                                                                         "--set NICE ${ pkgs.coreutils }/bin/nice"
                                                                                         "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
-                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory /tmp/RESOURCE.XXXXXXXX )'"
+                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory /temporary/XXXXXXXX )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
                                                                                         "--set STORE $out"
                                                                                         "--set TAIL ${ pkgs.coreutils }/bin/tail"
@@ -127,9 +121,16 @@
                                                                 nativeBuildInputs = [ pkgs.makeWrapper ] ;
                                                                 src = ./. ;
                                                             } ;
+                                                    in
+                                                        pkgs.buildFHSUserEnv
+                                                            {
+                                                                extraBWrapArgs = [ "--bind ${ host-path } /temporary" ] ;
+                                                                runScript = "${ ttt }/bin/temporary" ;
+                                                                name = "temporary" ;
+                                                            } ;
                                         in
                                             {
-                                                temporary = "${ setup primary.init primary.release primary.post }/bin/temporary" ;
+                                                temporary = "${ setup primary.init primary.release primary.post "/tmp" }/bin/temporary" ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -298,30 +299,30 @@
                                                                                                                                 src = ./. ;
                                                                                                                             } ;
                                                                                                                     in
-                                                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PASTE ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release ( builtins.toString post ) }/bin"
+                                                                                                                        "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set PASTE ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste" ] ] ) } ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } --set PATH ${ pkgs.coreutils }/bin:${ setup primary.init primary.release ( builtins.toString post ) ( builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] ) }/bin"
                                                                                                             )
                                                                                                             "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/outer.sh" } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
                                                                                                             "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set RM ${ pkgs.coreutils }/bin/rm --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep } --set VERBOSE ${ secondary.verbose } --set WC ${ pkgs.coreutils }/bin/wc"
                                                                                                             "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
                                                                                                             "export TEMPORARY=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            (
-                                                                                                                let
-                                                                                                                    user-environment =
-                                                                                                                        pkgs.buildFHSUserEnv
-                                                                                                                            {
-                                                                                                                                extraBwrapArgs =
-                                                                                                                                    [
-                                                                                                                                        "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
-                                                                                                                                        "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
-                                                                                                                                        "--tmpfs /util"
-                                                                                                                                    ] ;
-                                                                                                                                name = "test" ;
-                                                                                                                                runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
-                                                                                                                            } ;
-                                                                                                                    in "${ user-environment }/bin/test"
-                                                                                                            )
-                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            # (
+                                                                                                            #     let
+                                                                                                            #         user-environment =
+                                                                                                            #             pkgs.buildFHSUserEnv
+                                                                                                            #                 {
+                                                                                                            #                     extraBwrapArgs =
+                                                                                                            #                         [
+                                                                                                            #                             "--bind ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } /post"
+                                                                                                            #                             "--bind ${ builtins.concatStringsSep "" [ "$" "{" "TEMPORARY" "}" ] } /temporary"
+                                                                                                            #                            "--tmpfs /util"
+                                                                                                            #                         ] ;
+                                                                                                            #                     name = "test" ;
+                                                                                                            #                     runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
+                                                                                                            #                 } ;
+                                                                                                            #         in "${ user-environment }/bin/test"
+                                                                                                            # )
+                                                                                                            # "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
@@ -488,7 +489,6 @@
                                                             ''
                                                                 $( ${ pkgs.coreutils }/bin/tee ) &
                                                             '' ;
-                                                    host-path = "/temporary" ;
                                                     init = scripts.shell-scripts.init ;
                                                     initializer = 66 ;
                                                     release = scripts.shell-scripts.release ;
