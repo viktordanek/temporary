@@ -25,7 +25,7 @@ jobs:
 
           # Ensure we're on main branch
           git checkout main
-          git pull origin main
+          git fetch origin
 
           # Get current date in seconds
           current_date=$(date +%s)
