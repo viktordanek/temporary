@@ -1,16 +1,16 @@
-name: Close Old Pull Requests
+name: Auto Close Stale PRs
+
 on:
   schedule:
     - cron: '0 0 * * *'  # Runs daily at midnight
   workflow_dispatch:  # Allows manual trigger
 
 permissions:
-  contents: write
-  issues: read
   pull-requests: write
+  contents: read
 
 jobs:
-  close_old_pull_requests:
+  close_stale_prs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,53 +18,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Close PRs older than 14 days
+      - name: Close stale PRs older than 7 days
         run: |
           #!/bin/bash
+          set -e  # Stop on errors
 
-          # Set up error handling
-          set -e
-
-          # GitHub API token (use the secret or environment variable)
-          GH_TOKEN="${{ secrets.GH_PAT }}"
-
-          # Get a list of open PRs
-          PRs=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/pulls?state=open")
-
-          # Debugging: print the raw response to see if "createdAt" and "updatedAt" are present
-          echo "Raw PR Data:"
-          echo "$PRs"
-
-          # Loop through each PR
-          echo "$PRs" | jq -r '.[] | .number' | while read pr_number; do
-              # Get the PR details with a specific request for createdAt and updatedAt
-              pr_data=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/pulls/$pr_number")
-
-              # Debugging: print the full PR data for each pull request
-              echo "PR Data: $pr_data"
-
-              created_at=$(echo "$pr_data" | jq -r '.created_at')
-              updated_at=$(echo "$pr_data" | jq -r '.updated_at')
-
-              if [[ "$created_at" == "null" || "$updated_at" == "null" ]]; then
-                  echo "Error: PR #$pr_number has null fields"
-                  echo "Raw PR data: $pr_data"
-                  continue
-              fi
-
-              # Calculate the age of the PR
-              current_date=$(date +%s)
-              pr_created_at_date=$(date -d "$created_at" +%s)
-              pr_updated_at_date=$(date -d "$updated_at" +%s)
-
-              # Determine which timestamp to use (created or updated)
-              pr_age=$(( (current_date - pr_updated_at_date) / 86400 ))  # Use updated_at for age
-
-              # If the PR is older than 14 days, close it
-              if [ "$pr_age" -gt 14 ]; then
-                  echo "Closing PR #$pr_number - Inactive for $pr_age days"
-                  curl -s -X PATCH -H "Authorization: token $GH_TOKEN" -d '{"state": "closed"}' "https://api.github.com/repos/${{ github.repository }}/pulls/$pr_number"
-              else
-                  echo "Keeping PR #$pr_number (Inactive for only $pr_age days)"
-              fi
-          done
+          # Fetch all pull requests
+          prs=$(curl -s -H "Authorization: Bearer $GH_PAT" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls?state=open
