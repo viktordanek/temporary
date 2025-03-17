@@ -1,0 +1,9 @@
+{
+  "arguments" : env.ARGUMENTS ,
+  "name" : env.NAME ,
+  "pid": env.PID ,
+  "status" :  env.STATUS ,
+  "standard_error" : env.STANDARD_ERROR ,
+  "standard_input" : env.STANDARD_INPUT ,
+  "standard_output" : env.STANDARD_OUTPUT
+}
