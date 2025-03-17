@@ -89,7 +89,6 @@
                                                                                         "--set ECHO ${ pkgs.coreutils }/bin/echo"
                                                                                         "--set FLOCK ${ pkgs.flock }/bin/flock"
                                                                                         "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
-                                                                                        "--set HOST_PATH ${ host-path }"
                                                                                         "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
@@ -102,7 +101,7 @@
                                                                                     [
                                                                                         "--set NICE ${ pkgs.coreutils }/bin/nice"
                                                                                         "--run 'export PARENT_PID=$( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= )'"
-                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory /tmp/RESOURCE.XXXXXXXX )'"
+                                                                                        "--run 'export RESOURCE=$( ${ pkgs.coreutils }/bin/mktemp --directory ${ host-path }/XXXXXXXX )'"
                                                                                         "--set RM ${ pkgs.coreutils }/bin/rm"
                                                                                         "--set STORE $out"
                                                                                         "--set TAIL ${ pkgs.coreutils }/bin/tail"
@@ -190,6 +189,10 @@
                                                                                             in
                                                                                                 builtins.concatLists
                                                                                                     [
+                                                                                                        [
+                                                                                                            "${ pkgs.coreutils }/bin/mkdir /build/post"
+                                                                                                            "${ pkgs.coreutils }/bin/mkdir /build/temporary"
+                                                                                                        ]
                                                                                                         [
                                                                                                             "${ pkgs.coreutils }/bin/mkdir ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/cat ${ secondary.paste } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "paste.sh" ] ] ) }"
@@ -298,11 +301,6 @@
                                                                                                             "${ pkgs.coreutils }/bin/cat ${ self + "/scripts/outer.sh" } > ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
                                                                                                             "${ pkgs.coreutils }/bin/chmod 0555 ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) }"
                                                                                                             "makeWrapper ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer.sh" ] ] ) } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) } --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set FLOCK ${ pkgs.flock }/bin/flock --set INNER ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "inner" ] ] ) } --set RM ${ pkgs.coreutils }/bin/rm --set SLEEP ${ pkgs.coreutils }/bin/sleep --set TIMEOUT ${ secondary.sleep } --set VERBOSE ${ secondary.verbose } --set WC ${ pkgs.coreutils }/bin/wc"
-                                                                                                            "export POST=$( ${ pkgs.coreutils }/bin/mktemp --directory )"
-                                                                                                            "TEMPORARY=/build/temporary"
-                                                                                                            "${ pkgs.coreutils }/bin/mkdir /build/post"
-                                                                                                            "${ pkgs.coreutils }/bin/mkdir /build/temporary"
-                                                                                                            "${ pkgs.coreutils }/bin/mkdir /build/util"
                                                                                                             (
                                                                                                                 let
                                                                                                                     user-environment =
@@ -312,14 +310,15 @@
                                                                                                                                     [
                                                                                                                                         "--bind /build/post /post"
                                                                                                                                         "--bind /build/temporary /temporary"
-                                                                                                                                        "--bind /build/util /util"
+                                                                                                                                        "--tmpfs /util"
                                                                                                                                     ] ;
                                                                                                                                 name = "test" ;
                                                                                                                                 runScript = builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "test" ] ( builtins.map builtins.toJSON path ) [ "outer" ] ] ) ;
                                                                                                                             } ;
                                                                                                                     in "${ user-environment }/bin/test"
                                                                                                             )
-                                                                                                            "${ pkgs.coreutils }/bin/mv ${ builtins.concatStringsSep "" [ "$" "{" "POST" "}" ] } ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/mv /build/post ${ builtins.concatStringsSep "/" ( builtins.concatLists [ [ "$out" "observed" ] ( builtins.map builtins.toJSON path ) ] ) }"
+                                                                                                            "${ pkgs.coreutils }/bin/rm --recursive --force /build/temp"
                                                                                                         ]
                                                                                                     ] ;
                                                                             }
