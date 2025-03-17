@@ -521,6 +521,7 @@
                                                                 installPhase =
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary } &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 49
                                                                     '' ;
