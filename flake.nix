@@ -89,7 +89,7 @@
                                                                                         "--set ECHO ${ pkgs.coreutils }/bin/echo"
                                                                                         "--set FLOCK ${ pkgs.flock }/bin/flock"
                                                                                         "--run 'export GRANDPARENT_PID=$( ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= )'"
-                                                                                        "--set HOST_PATH A${ host-path }Z"
+                                                                                        ( builtins.trace "host-path = [${ host-path }]" "--set HOST_PATH A${ host-path }" )
                                                                                         "--run 'export IS_FILE=$( if [ -f 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_PIPE=$( if [ -p 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
                                                                                         "--run 'export IS_INTERACTIVE=$( if [ -t 0 ] ; then ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/echo ${ pkgs.coreutils }/bin/false ; fi )'"
@@ -516,7 +516,7 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             export TEMP_DIR=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary ( builtins.concatStringsSep "" [ "$" "{" "TEMP_DIR" "}" ] ) } &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary "/tmp" } &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
                                                                             exit 49
                                                                     '' ;
