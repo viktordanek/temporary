@@ -18,29 +18,41 @@ jobs:
 
       - name: Close PRs inactive for over 14 days
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}  # Use your personal access token here
         run: |
           #!/bin/bash
           set -e
 
-          # Get date from 14 days ago
+          # Get date from 14 days ago (in ISO 8601 format)
           fourteen_days_ago=$(date -u -d '14 days ago' +%Y-%m-%dT%H:%M:%SZ)
 
-          # Fetch open PRs that were last updated over 14 days ago
+          echo "Date 14 days ago: $fourteen_days_ago"
+
+          # Fetch open PRs and print out their details
           prs=$(gh pr list --state open --json number,updatedAt,createdAt --jq \
-            '.[] | select(.updatedAt < "'$fourteen_days_ago'" and .createdAt < "'$fourteen_days_ago'") | .number')
+            '.[] | {number, updatedAt, createdAt}')
 
-          if [ -z "$prs" ]; then
-              echo "No PRs to close."
-              exit 0
-          fi
+          echo "Found the following open PRs:"
+          echo "$prs"
 
-          for pr in $prs; do
-              echo "Closing PR #$pr (inactive for over 14 days)"
+          # Loop over each PR to check if it is stale
+          for pr in $(echo "$prs" | jq -r '.number'); do
+              # Get the updated date and created date for each PR
+              pr_updated_at=$(echo "$prs" | jq -r --arg pr "$pr" '.[] | select(.number == ($pr | tonumber)) | .updatedAt')
+              pr_created_at=$(echo "$prs" | jq -r --arg pr "$pr" '.[] | select(.number == ($pr | tonumber)) | .createdAt')
+
+              echo "PR #$pr - Updated: $pr_updated_at, Created: $pr_created_at"
+
+              # Compare updatedAt date with the date 14 days ago
+              if [[ "$pr_updated_at" < "$fourteen_days_ago" && "$pr_created_at" < "$fourteen_days_ago" ]]; then
+                  echo "Closing PR #$pr (inactive for over 14 days)"
           
-              # Add a comment before closing
-              gh pr comment $pr --body "This pull request has been inactive for over 14 days and is now being closed automatically. Feel free to reopen if needed. 🚀"
+                  # Add a comment before closing
+                  gh pr comment $pr --body "This pull request has been inactive for over 14 days and is now being closed automatically. Feel free to reopen if needed. 🚀"
           
-              # Close the PR
-              gh pr close $pr
+                  # Close the PR
+                  gh pr close $pr
+              else
+                  echo "Keeping PR #$pr (Not inactive for over 14 days)"
+              fi
           done
