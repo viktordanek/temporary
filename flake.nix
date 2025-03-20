@@ -124,7 +124,7 @@
                                                             } ;
                                         in
                                             {
-                                                temporary = host-path : "${ setup primary.init primary.release primary.post host-path }/bin/temporary" ;
+                                                shell-scripts = host-path : "${ setup primary.init primary.release primary.post host-path }/bin/temporary" ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -519,7 +519,7 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             export TEMP_DIR=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.temporary "/tmp" } &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.shell-scripts "/tmp" } &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.tests }
                                                                     '' ;
                                                                 name = "foobar" ;
