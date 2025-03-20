@@ -16,7 +16,7 @@
                             _visitor = builtins.getAttr system visitor.lib ;
                             lib =
                                 {
-                                    at ? "/run/wrappers/bin/at" ,
+                                    at ? pkgs.writeShellScript "at" "$( ${ pkgs.coreutils }/bin/tee ) &" ,
                                     init ? null ,
                                     initializer ? 64 ,
                                     post ? null ,
@@ -520,8 +520,7 @@
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             export TEMP_DIR=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ temporary.temporary "/tmp" } &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests } &&
-                                                                            exit 49
+                                                                            ${ pkgs.coreutils }/bin/echo ${ temporary.tests }
                                                                     '' ;
                                                                 name = "foobar" ;
                                                                 src = ./. ;
