@@ -89,9 +89,12 @@
                                                 pkgs.stdenv.mkDerivation
                                                     {
                                                         installPhase =
-                                                            ''
-                                                                ${ pkgs.coreutils }/bin/touch $out
-                                                            '' ;
+                                                            let
+                                                                foobar = { } ;
+                                                                in
+                                                                    ''
+                                                                        ${ pkgs.coreutils }/bin/touch $out
+                                                                    '' ;
                                                         name = "foobar" ;
                                                         src = ./. ;
                                                     } ;
