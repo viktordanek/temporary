@@ -66,6 +66,7 @@
                                                                                 environment =
                                                                                     {
                                                                                         PID = "9999" ;
+                                                                                        RESOURCE = "/resource/eTjWuQRy" ;
                                                                                     } ;
                                                                                 mounts =
                                                                                     {
@@ -75,11 +76,12 @@
                                                                                                     [
                                                                                                         "mkdir /mount/target"
                                                                                                         "touch /mount/target/.gitkeep"
+                                                                                                        "mkdir /mount/target/eTjWuQRy"
                                                                                                     ] ;
                                                                                                 expected = self + "/expected/mounts/resource" ;
                                                                                             } ;
                                                                                     } ;
-                                                                                status = 168 ;
+                                                                                status = 0 ;
                                                                             } ;
                                                                 } ;
                                                     } ;
