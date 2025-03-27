@@ -53,7 +53,7 @@
                                                                             string = builtins.getAttr system string.lib ;
                                                                         } ;
                                                                     name = "teardown" ;
-                                                                    script = self + "/teardown.sh" ;
+                                                                    script = builtins.toFile "teardown" ( builtins.readFile ( self + "/teardown.sh" ) ) ;
                                                                     tests =
                                                                         ignore :
                                                                             {
