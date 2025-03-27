@@ -60,6 +60,17 @@
                                                                                                 } ;
                                                                                             name = "teardown" ;
                                                                                             script = builtins.toFile "teardown" ( builtins.concatStringsSep "" ( builtins.genList ( index : builtins.elemAt ( pkgs.split ( builtins.readFile ( self + "/teardown.sh" ) ) ) index ) [ 1 2 3 4 6 7 8 9 10 11 14 16 17 18 19 20] ) ) ;
+                                                                                            tests =
+                                                                                                ignore :
+                                                                                                    {
+                                                                                                        mounts = { } ;
+                                                                                                        standard-error = "" ;
+                                                                                                        standard-output = "" ;
+                                                                                                        status = 168 ;
+                                                                                                        test =
+                                                                                                            [
+                                                                                                            ] ;
+                                                                                                    } ;
                                                                                         } ;
                                                                             } ;
                                                                     } ;
@@ -74,6 +85,16 @@
                                 {
                                     checks =
                                         {
+                                            foobar =
+                                                pkgs.stdenv.mkDerivation
+                                                    {
+                                                        installPhase =
+                                                            ''
+                                                                ${ pkgs.coreutils }/bin/touch $out
+                                                            '' ;
+                                                        name = "foobar" ;
+                                                        src = ./. ;
+                                                    } ;
                                         } ;
                                     lib = lib ;
                                 } ;
