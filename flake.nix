@@ -36,45 +36,36 @@
                                                 in
                                                     {
                                                         teardown =
-                                                            {
-                                                                setup =
-                                                                    {
-                                                                        true =
+                                                            _shell-script
+                                                                {
+                                                                    environment =
+                                                                        { string } :
+                                                                            [
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
+                                                                            ] ;
+                                                                    extension =
+                                                                        {
+                                                                            string = builtins.getAttr system string.lib ;
+                                                                        } ;
+                                                                    name = "teardown" ;
+                                                                    script = builtins.toFile "teardown" ( builtins.concatStringsSep "" ( builtins.genList ( index : builtins.elemAt ( pkgs.split ( builtins.readFile ( self + "/teardown.sh" ) ) ) index ) [ 1 2 3 4 6 7 8 9 10 11 14 16 17 18 19 20] ) ) ;
+                                                                    tests =
+                                                                        ignore :
                                                                             {
-                                                                                true =
-                                                                                    _shell-script
-                                                                                        {
-                                                                                            environment =
-                                                                                                { string } :
-                                                                                                    [
-                                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                        ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
-                                                                                                        ( string "LOCK_FAILURE" primary.lock-failure )
-                                                                                                        ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                        ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                                        ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
-                                                                                                    ] ;
-                                                                                            extension =
-                                                                                                {
-                                                                                                    string = builtins.getAttr system string.lib ;
-                                                                                                } ;
-                                                                                            name = "teardown" ;
-                                                                                            script = builtins.toFile "teardown" ( builtins.concatStringsSep "" ( builtins.genList ( index : builtins.elemAt ( pkgs.split ( builtins.readFile ( self + "/teardown.sh" ) ) ) index ) [ 1 2 3 4 6 7 8 9 10 11 14 16 17 18 19 20] ) ) ;
-                                                                                            tests =
-                                                                                                ignore :
-                                                                                                    {
-                                                                                                        mounts = { } ;
-                                                                                                        standard-error = "" ;
-                                                                                                        standard-output = "" ;
-                                                                                                        status = 168 ;
-                                                                                                        test =
-                                                                                                            [
-                                                                                                            ] ;
-                                                                                                    } ;
-                                                                                        } ;
+                                                                                mounts = { } ;
+                                                                                standard-error = "" ;
+                                                                                standard-output = "" ;
+                                                                                status = 168 ;
+                                                                                test =
+                                                                                    [
+                                                                                    ] ;
                                                                             } ;
-                                                                    } ;
-                                                            } ;
+                                                                } ;
                                                     } ;
                                         in
                                             {
