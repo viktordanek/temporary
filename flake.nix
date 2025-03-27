@@ -3,7 +3,7 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script" ;
+            shell-script.url = "github:viktordanek/shell-script/milestone/03282025" ;
             string.url = "github:viktordanek/string" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
@@ -57,15 +57,24 @@
                                                                         let
                                                                             all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
                                                                             with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 5 6 7 8 9 10 13 16 17 18 19 ] ) with-index ;
+                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 5 16 17 18 19 ] ) with-index ;
                                                                             simplified = builtins.map ( x : x.line ) filtered ;
                                                                             in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
                                                                     tests =
                                                                         ignore :
                                                                             {
-                                                                                mounts = { } ;
-                                                                                standard-error = "" ;
-                                                                                standard-output = "" ;
+                                                                                mounts =
+                                                                                    {
+                                                                                        "/resource" =
+                                                                                            {
+                                                                                                initial =
+                                                                                                    [
+                                                                                                        "mkdir /mount/target"
+                                                                                                        "touch /mount/target/.gitkeep"
+                                                                                                    ] ;
+                                                                                                expected = self + "/expected/mounts/resource" ;
+                                                                                            } ;
+                                                                                    } ;
                                                                                 status = 168 ;
                                                                             } ;
                                                                 } ;
@@ -89,7 +98,19 @@
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
                                                                             ${ pkgs.coreutils }/bin/echo ${ foobar.scripts.teardown.shell-script } &&
-                                                                            exit 71
+                                                                            if [ -f ${ foobar.scripts.teardown.tests }/SUCCESS ]
+                                                                            then
+                                                                                ${ pkgs.coreutils }/bin/echo There was a successful test of ${ foobar.scripts.teardown.tests }. &&
+                                                                                    exit 71
+                                                                            elif [ -f ${ foobar.scripts.teardown.tests }/FAILURE ]
+                                                                            then
+                                                                                ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&]
+                                                                                    exit 63
+                                                                            else
+                                                                                ${ pkgs.coreutils }/bin/echo There was an unpredicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
+                                                                                    exit 62
+                                                                            fi &&
+                                                                            exit 61
                                                                     '' ;
                                                         name = "foobar" ;
                                                         src = ./. ;
