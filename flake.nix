@@ -3,7 +3,7 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script" ;
+            shell-script.url = "github:viktordanek/shell-script/scratch/065546ed-4dd9-4cf1-84e8-c0421cbddc88" ;
             string.url = "github:viktordanek/string" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
@@ -63,6 +63,10 @@
                                                                     tests =
                                                                         ignore :
                                                                             {
+                                                                                environment =
+                                                                                    {
+                                                                                        PID = "9999" ;
+                                                                                    } ;
                                                                                 mounts =
                                                                                     {
                                                                                         "/resource" =
