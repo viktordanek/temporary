@@ -1,4 +1,4 @@
-exec 201 > ${RESOURCE}/lock &&
+exec 201> ${RESOURCE}/lock &&
   if ${FLOCK} 201
   then
     ${TAIL} --follow --pid ${PID} &&
@@ -10,6 +10,7 @@ exec 201 > ${RESOURCE}/lock &&
         ${ECHO} ${?} > ${RESOURCE}/release.status
       fi &&
 #
+      ${TRUE}
 #
       ( ${POST} || ${TRUE} ) &&
 #
