@@ -53,7 +53,9 @@
                                                                             string = builtins.getAttr system string.lib ;
                                                                         } ;
                                                                     name = "teardown" ;
-                                                                    script = builtins.toFile "teardown" ( builtins.concatStringsSep "\n" [ ( builtins.readFile ( self + "/teardown.sh" ) ) ] ) ;
+                                                                    script =
+                                                                        let
+                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" [ ( builtins.readFile ( self + "/teardown.sh" ) ) ] ) ;
                                                                     tests =
                                                                         ignore :
                                                                             {
