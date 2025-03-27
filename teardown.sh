@@ -1,4 +1,4 @@
-exec 201> ${RESOURCE}/lock &&
+exec 201> ${RESOURCE}/lock && ${ECHO} ${RESOURCE} >&2 && cat ${0} >&2 &&
   if ${FLOCK} 201
   then
     ${TAIL} --follow --pid ${PID} &&
