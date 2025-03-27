@@ -48,12 +48,12 @@
                                                                                 ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
                                                                                 ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
                                                                             ] ;
-                                                                    extension =
+                                                                    extensions =
                                                                         {
                                                                             string = builtins.getAttr system string.lib ;
                                                                         } ;
                                                                     name = "teardown" ;
-                                                                    script = builtins.toFile "teardown" ( builtins.concatStringsSep "" ( builtins.genList ( index : builtins.elemAt ( pkgs.split ( builtins.readFile ( self + "/teardown.sh" ) ) ) index ) [ 1 2 3 4 6 7 8 9 10 11 14 16 17 18 19 20] ) ) ;
+                                                                    script = self + "/teardown.sh" ;
                                                                     tests =
                                                                         ignore :
                                                                             {
@@ -61,9 +61,6 @@
                                                                                 standard-error = "" ;
                                                                                 standard-output = "" ;
                                                                                 status = 168 ;
-                                                                                test =
-                                                                                    [
-                                                                                    ] ;
                                                                             } ;
                                                                 } ;
                                                     } ;
@@ -81,10 +78,12 @@
                                                     {
                                                         installPhase =
                                                             let
-                                                                foobar = { } ;
+                                                                foobar = lib { } ;
                                                                 in
                                                                     ''
-                                                                        ${ pkgs.coreutils }/bin/touch $out
+                                                                        ${ pkgs.coreutils }/bin/touch $out &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames foobar ) ) foobar.scripts.teardown.shell-script } &&
+                                                                            exit 71
                                                                     '' ;
                                                         name = "foobar" ;
                                                         src = ./. ;
