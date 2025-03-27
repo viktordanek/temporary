@@ -55,7 +55,8 @@
                                                                     name = "teardown" ;
                                                                     script =
                                                                         let
-                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" [ ( builtins.readFile ( self + "/teardown.sh" ) ) ] ) ;
+                                                                            all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" ( builtins.trace ( builtins.concatStringsSep ";" ( builtins.map builtins.typeOf all ) ) all ) ) ;
                                                                     tests =
                                                                         ignore :
                                                                             {
