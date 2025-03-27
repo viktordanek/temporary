@@ -56,7 +56,7 @@
                                                                     script =
                                                                         let
                                                                             all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
-                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" ( builtins.trace ( builtins.concatStringsSep ";" ( builtins.map builtins.typeOf all ) ) all ) ) ;
+                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" all ) ;
                                                                     tests =
                                                                         ignore :
                                                                             {
@@ -85,7 +85,7 @@
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ builtins.trace ( builtins.concatStringsSep " ; " ( builtins.attrNames foobar ) ) foobar.scripts.teardown.shell-script } &&
+                                                                            ${ pkgs.coreutils }/bin/echo ${ foobar.scripts.teardown.shell-script } &&
                                                                             exit 71
                                                                     '' ;
                                                         name = "foobar" ;
