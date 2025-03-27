@@ -56,6 +56,7 @@
                                                                     script =
                                                                         let
                                                                             all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                                            filtered = builtins.genList ( index : builtins.elemAt all index ) [ 0 1 2 3 4 6 7 8 9 10 11 14 16 17 18 19 ] ;
                                                                             in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" all ) ;
                                                                     tests =
                                                                         ignore :
