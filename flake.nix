@@ -3,7 +3,7 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script/scratch/065546ed-4dd9-4cf1-84e8-c0421cbddc88" ;
+            shell-script.url = "github:viktordanek/shell-script/scratch/e52e1c4c-a23f-4f54-9752-fc5b8a6d0164" ;
             string.url = "github:viktordanek/string" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
