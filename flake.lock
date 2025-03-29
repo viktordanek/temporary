@@ -234,16 +234,16 @@
         "visitor": "visitor"
       },
       "locked": {
-        "lastModified": 1743254070,
+        "lastModified": 1743285075,
         "narHash": "sha256-dHgwVaJLH6j471ycVen7xRcbSL7KqSGKt/H+TP6yPLY=",
         "owner": "viktordanek",
         "repo": "shell-script",
-        "rev": "92900a118b55d6f06405cb3cf841c054255fc7ec",
+        "rev": "7b4b0cab9d0ab3c3792c3f0a06a2ac35ea5c476a",
         "type": "github"
       },
       "original": {
         "owner": "viktordanek",
-        "ref": "scratch/e52e1c4c-a23f-4f54-9752-fc5b8a6d0164",
+        "ref": "milestone/03282025",
         "repo": "shell-script",
         "type": "github"
       }
