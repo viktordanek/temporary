@@ -66,11 +66,11 @@
                                                                                 environment =
                                                                                     {
                                                                                         PID = "9999" ;
-                                                                                        RESOURCE = "/resource/eTjWuQRy" ;
+                                                                                        RESOURCE = "/parent/eTjWuQRy" ;
                                                                                     } ;
                                                                                 mounts =
                                                                                     {
-                                                                                        "/resource" =
+                                                                                        "/parent" =
                                                                                             {
                                                                                                 initial =
                                                                                                     [
@@ -78,7 +78,7 @@
                                                                                                         "touch /mount/target/.gitkeep"
                                                                                                         "mkdir /mount/target/eTjWuQRy"
                                                                                                     ] ;
-                                                                                                expected = self + "/expected/mounts/resource" ;
+                                                                                                expected = self + "/expected/mounts/parent" ;
                                                                                             } ;
                                                                                     } ;
                                                                                 status = 0 ;
