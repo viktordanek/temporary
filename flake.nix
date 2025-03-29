@@ -104,7 +104,7 @@
                                                                                     exit 71
                                                                             elif [ -f ${ foobar.scripts.teardown.tests }/FAILURE ]
                                                                             then
-                                                                                ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&]
+                                                                                ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
                                                                                     exit 63
                                                                             else
                                                                                 ${ pkgs.coreutils }/bin/echo There was an unpredicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
