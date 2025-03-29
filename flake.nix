@@ -3,7 +3,7 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script/scratch/e52e1c4c-a23f-4f54-9752-fc5b8a6d0164" ;
+            shell-script.url = "github:viktordanek/shell-script/milestone/03282025" ;
             string.url = "github:viktordanek/string" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
@@ -106,8 +106,7 @@
                                                                             ${ pkgs.coreutils }/bin/echo ${ foobar.scripts.teardown.shell-script } &&
                                                                             if [ -f ${ foobar.scripts.teardown.tests }/SUCCESS ]
                                                                             then
-                                                                                ${ pkgs.coreutils }/bin/echo There was a successful test of ${ foobar.scripts.teardown.tests }. &&
-                                                                                    exit 71
+                                                                                ${ pkgs.coreutils }/bin/echo There was a successful test of ${ foobar.scripts.teardown.tests }.
                                                                             elif [ -f ${ foobar.scripts.teardown.tests }/FAILURE ]
                                                                             then
                                                                                 ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&]
@@ -115,8 +114,7 @@
                                                                             else
                                                                                 ${ pkgs.coreutils }/bin/echo There was an unpredicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
                                                                                     exit 62
-                                                                            fi &&
-                                                                            exit 61
+                                                                            fi
                                                                     '' ;
                                                         name = "foobar" ;
                                                         src = ./. ;
