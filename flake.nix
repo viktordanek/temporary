@@ -3,7 +3,7 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script/scratch/e52e1c4c-a23f-4f54-9752-fc5b8a6d0164" ;
+            shell-script.url = "github:viktordanek/shell-script/issue/36-i-think-that-temporarytests-is-failing-because-of-an-issue-with-this-flake" ;
             string.url = "github:viktordanek/string" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
