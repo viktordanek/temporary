@@ -234,16 +234,16 @@
         "visitor": "visitor"
       },
       "locked": {
-        "lastModified": 1743254070,
+        "lastModified": 1743257514,
         "narHash": "sha256-dHgwVaJLH6j471ycVen7xRcbSL7KqSGKt/H+TP6yPLY=",
         "owner": "viktordanek",
         "repo": "shell-script",
-        "rev": "92900a118b55d6f06405cb3cf841c054255fc7ec",
+        "rev": "cee0b340b35b1d55a96bdd812d1c247c03862eba",
         "type": "github"
       },
       "original": {
         "owner": "viktordanek",
-        "ref": "scratch/e52e1c4c-a23f-4f54-9752-fc5b8a6d0164",
+        "ref": "issue/36-i-think-that-temporarytests-is-failing-because-of-an-issue-with-this-flake",
         "repo": "shell-script",
         "type": "github"
       }
