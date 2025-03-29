@@ -3,7 +3,7 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script" ;
+            shell-script.url = "github:viktordanek/shell-script/milestone/03282025" ;
             string.url = "github:viktordanek/string" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
@@ -42,7 +42,7 @@
                                                                         { string } :
                                                                             [
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                                 ( string "LOCK_FAILURE" primary.lock-failure )
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                 ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
@@ -57,25 +57,31 @@
                                                                         let
                                                                             all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
                                                                             with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 5 16 17 18 19 ] ) with-index ;
+                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 15 16 17 18 19 ] ) with-index ;
                                                                             simplified = builtins.map ( x : x.line ) filtered ;
                                                                             in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
                                                                     tests =
                                                                         ignore :
                                                                             {
+                                                                                environment =
+                                                                                    {
+                                                                                        PID = "9999" ;
+                                                                                        RESOURCE = "/parent/eTjWuQRy" ;
+                                                                                    } ;
                                                                                 mounts =
                                                                                     {
-                                                                                        "/resource" =
+                                                                                        "/parent" =
                                                                                             {
                                                                                                 initial =
                                                                                                     [
                                                                                                         "mkdir /mount/target"
                                                                                                         "touch /mount/target/.gitkeep"
+                                                                                                        "mkdir /mount/target/eTjWuQRy"
                                                                                                     ] ;
-                                                                                                expected = self + "/expected/mounts/resource" ;
+                                                                                                expected = self + "/expected/mounts/parent" ;
                                                                                             } ;
                                                                                     } ;
-                                                                                status = 168 ;
+                                                                                status = 0 ;
                                                                             } ;
                                                                 } ;
                                                     } ;
@@ -100,8 +106,7 @@
                                                                             ${ pkgs.coreutils }/bin/echo ${ foobar.scripts.teardown.shell-script } &&
                                                                             if [ -f ${ foobar.scripts.teardown.tests }/SUCCESS ]
                                                                             then
-                                                                                ${ pkgs.coreutils }/bin/echo There was a successful test of ${ foobar.scripts.teardown.tests }. &&
-                                                                                    exit 71
+                                                                                ${ pkgs.coreutils }/bin/echo There was a successful test of ${ foobar.scripts.teardown.tests }.
                                                                             elif [ -f ${ foobar.scripts.teardown.tests }/FAILURE ]
                                                                             then
                                                                                 ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&]
@@ -109,8 +114,7 @@
                                                                             else
                                                                                 ${ pkgs.coreutils }/bin/echo There was an unpredicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
                                                                                     exit 62
-                                                                            fi &&
-                                                                            exit 61
+                                                                            fi
                                                                     '' ;
                                                         name = "foobar" ;
                                                         src = ./. ;
