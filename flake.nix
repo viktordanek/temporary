@@ -3,7 +3,7 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script" ;
+            shell-script.url = "github:viktordanek/shell-script/scratch/c8733ac4-470a-405f-9f06-6b02103ca3c0" ;
             string.url = "github:viktordanek/string" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
@@ -38,7 +38,16 @@
                                                         teardown =
                                                             _shell-script
                                                                 {
-                                                                    environment =
+                                                                    extensions =
+                                                                        {
+                                                                            string = builtins.getAttr system string.lib ;
+                                                                        } ;
+                                                                    mounts =
+                                                                        {
+                                                                            "/resource" = { } ;
+                                                                        } ;
+                                                                    name = "teardown" ;
+                                                                    profile =
                                                                         { string } :
                                                                             [
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
@@ -48,16 +57,11 @@
                                                                                 ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
                                                                                 ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
                                                                             ] ;
-                                                                    extensions =
-                                                                        {
-                                                                            string = builtins.getAttr system string.lib ;
-                                                                        } ;
-                                                                    name = "teardown" ;
                                                                     script =
                                                                         let
                                                                             all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
                                                                             with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 5 16 17 18 19 ] ) with-index ;
+                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 15 16 17 18 19 ] ) with-index ;
                                                                             simplified = builtins.map ( x : x.line ) filtered ;
                                                                             in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
                                                                     tests =
