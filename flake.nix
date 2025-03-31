@@ -53,7 +53,7 @@
                                                                 {
                                                                     "/flags/post" =
                                                                         {
-                                                                            is-read-only = false ;
+                                                                            is-read-only = true ;
                                                                         } ;
                                                                     "/flags/release" =
                                                                         {
@@ -117,7 +117,7 @@
                                                                             {
                                                                                 "/flags/post" =
                                                                                     {
-                                                                                        expected = self + "/expected/mounts/flags/post" ;
+                                                                                        expected = self + "/expected/mounts/flags/post.down" ;
                                                                                         initial =
                                                                                             [
                                                                                                 "touch /mount/target"
@@ -125,7 +125,7 @@
                                                                                     } ;
                                                                                 "/flags/release" =
                                                                                     {
-                                                                                        expected = self + "/expected/mounts/flags/release" ;
+                                                                                        expected = self + "/expected/mounts/flags/release.down" ;
                                                                                         initial =
                                                                                             [
                                                                                                 "touch /mount/target"
@@ -174,14 +174,14 @@
                                                                                             is-read-only = false ;
                                                                                        } ;
                                                                                 } ;
-                                                                            name = "post" ;
+                                                                            name = "flag" ;
                                                                             profile =
                                                                                 { string } :
                                                                                     [
                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                         ( string "UUID" "3e5249f35257c22a56745efa3e0314aa6af4aa1fba26980de324ff1bae22475a81143bef69bc0316e67279ebd3cace490c4d43b9b0885fa73c7826d0edb60b0d" )
                                                                                     ] ;
-                                                                            script = self + "/post.sh" ;
+                                                                            script = self + "/flag.sh" ;
                                                                             tests = null ;
                                                                         } ;
                                                                 tests =
