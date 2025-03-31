@@ -3,12 +3,11 @@
         {
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script/scratch/c8733ac4-470a-405f-9f06-6b02103ca3c0" ;
-            string.url = "github:viktordanek/string" ;
+            shell-script.url = "github:viktordanek/shell-script/scratch/0d2e6138-6c74-4217-8e36-65f0ad07d7de" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
     outputs =
-        { flake-utils , nixpkgs , self , shell-script , string , visitor } :
+        { flake-utils , nixpkgs , self , shell-script , visitor } :
             let
                 fun =
                     system :
@@ -40,11 +39,14 @@
                                                                 {
                                                                     extensions =
                                                                         {
-                                                                            string = builtins.getAttr system string.lib ;
+                                                                            string = name : value : "export ${ name }=${ value }" ;
                                                                         } ;
                                                                     mounts =
                                                                         {
-                                                                            "/resource" = { } ;
+                                                                            "/mount" =
+                                                                                {
+                                                                                    is-read-only = false ;
+                                                                                } ;
                                                                         } ;
                                                                     name = "teardown" ;
                                                                     profile =
@@ -69,12 +71,12 @@
                                                                             {
                                                                                 mounts =
                                                                                     {
-                                                                                        "/resource" =
+                                                                                        "/mount" =
                                                                                             {
                                                                                                 initial =
                                                                                                     [
                                                                                                         "mkdir /mount/target"
-                                                                                                        "touch /mount/target/.gitkeep"
+                                                                                                        "touch /mount/target/resource"
                                                                                                     ] ;
                                                                                                 expected = self + "/expected/mounts/resource" ;
                                                                                             } ;
@@ -108,7 +110,7 @@
                                                                                     exit 71
                                                                             elif [ -f ${ foobar.scripts.teardown.tests }/FAILURE ]
                                                                             then
-                                                                                ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&]
+                                                                                ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
                                                                                     exit 63
                                                                             else
                                                                                 ${ pkgs.coreutils }/bin/echo There was an unpredicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
