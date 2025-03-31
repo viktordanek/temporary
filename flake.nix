@@ -28,156 +28,90 @@
                                                 lock-failure =
                                                     if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
                                                     else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
+                                                post =
+                                                    if builtins.typeOf post == "null" then post
+                                                    else if builtins.typeOf post == "string" then post
+                                                    else builtins.throw "post is not null, string but ${ builtins.typeOf post }." ;
+                                                release =
+                                                    if builtins.typeOf release == "null" then release
+                                                    else if builtins.typeOf release == "string" then release
+                                                    else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
                                             } ;
                                         scripts =
                                             let
                                                 _shell-script = builtins.getAttr system shell-script.lib ;
                                                 in
                                                     {
-                                                        post =
+                                                        teardown =
                                                             _shell-script
                                                                 {
                                                                     extensions =
                                                                         {
-                                                                            string = name : value "export ${ name }=${ builtins.toString value }" ;
+                                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
                                                                         } ;
                                                                     mounts =
                                                                         {
-                                                                            "/srv" =
+                                                                            "/mount" =
                                                                                 {
                                                                                     is-read-only = false ;
                                                                                 } ;
                                                                         } ;
-                                                                    name = "post" ;
+                                                                    name = "teardown" ;
                                                                     profile =
                                                                         { string } :
                                                                             [
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                ( string "UUID" "7fb775000894f6aa122852f23b1cda59548d6121d7a5e42f40da654d0dad38ecb65135ec1d223ca4f20b4db049fc5fc0f05db4dcb40235aaf77f745fb8e1c399" )
+                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                                ( string "PID" 9999 )
+                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
                                                                             ] ;
-                                                                    script = self + "/post.sh" ;
+                                                                    script =
+                                                                        let
+                                                                            all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                                            array =
+                                                                                builtins.concatLists
+                                                                                    [
+                                                                                        [ 0 ]
+                                                                                        [ 1 ]
+                                                                                        [ 2 ]
+                                                                                        [ 3 ]
+                                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 5 ] )
+                                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 6 ] )
+                                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 7 ] )
+                                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
+                                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
+                                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
+                                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ 14 ] )
+                                                                                        [ 15 ]
+                                                                                        [ 16 ]
+                                                                                        [ 17 ]
+                                                                                        [ 18 ]
+                                                                                        [ 19 ]
+                                                                                    ] ;
+                                                                            with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
+                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
+                                                                            simplified = builtins.map ( x : x.line ) filtered ;
+                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
                                                                     tests =
                                                                         ignore :
                                                                             {
                                                                                 mounts =
                                                                                     {
-                                                                                        expected = self + "/expected/mounts" ;
-                                                                                        initial =
-                                                                                            [
-                                                                                                "touch /mount/target"
-                                                                                            ] ;
+                                                                                        "/mount" =
+                                                                                            {
+                                                                                                initial =
+                                                                                                    [
+                                                                                                        "mkdir /mount/target"
+                                                                                                        "touch /mount/target/resource"
+                                                                                                    ] ;
+                                                                                                expected = self + "/expected/mounts/resource" ;
+                                                                                            } ;
                                                                                     } ;
                                                                             } ;
                                                                 } ;
-                                                        teardown =
-                                                            {
-                                                                true =
-                                                                    {
-                                                                        true =
-                                                                            _shell-script
-                                                                                {
-                                                                                    extensions =
-                                                                                        {
-                                                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                                        } ;
-                                                                                    mounts =
-                                                                                        {
-                                                                                            "/mount" =
-                                                                                                {
-                                                                                                    is-read-only = false ;
-                                                                                                } ;
-                                                                                        } ;
-                                                                                    name = "teardown" ;
-                                                                                    profile =
-                                                                                        { string } :
-                                                                                            [
-                                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                                                ( string "LOCK_FAILURE" primary.lock-failure )
-                                                                                                ( string "PID" 9999 )
-                                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                                ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
-                                                                                            ] ;
-                                                                                    script =
-                                                                                        let
-                                                                                            all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
-                                                                                            with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 15 16 17 18 19 ] ) with-index ;
-                                                                                            simplified = builtins.map ( x : x.line ) filtered ;
-                                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
-                                                                                    tests =
-                                                                                        ignore :
-                                                                                            {
-                                                                                                mounts =
-                                                                                                    {
-                                                                                                        "/mount" =
-                                                                                                            {
-                                                                                                                initial =
-                                                                                                                    [
-                                                                                                                        "mkdir /mount/target"
-                                                                                                                        "touch /mount/target/resource"
-                                                                                                                    ] ;
-                                                                                                                expected = self + "/expected/mounts/resource" ;
-                                                                                                            } ;
-                                                                                                    } ;
-                                                                                            } ;
-                                                                                } ;
-                                                                    } ;
-                                                                false =
-                                                                    {
-                                                                        false =
-                                                                            _shell-script
-                                                                                {
-                                                                                    extensions =
-                                                                                        {
-                                                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                                        } ;
-                                                                                    mounts =
-                                                                                        {
-                                                                                            "/mount" =
-                                                                                                {
-                                                                                                    is-read-only = false ;
-                                                                                                } ;
-                                                                                        } ;
-                                                                                    name = "teardown" ;
-                                                                                    profile =
-                                                                                        { string } :
-                                                                                            [
-                                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                                                ( string "LOCK_FAILURE" primary.lock-failure )
-                                                                                                ( string "PID" 9999 )
-                                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                                ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                                ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
-                                                                                            ] ;
-                                                                                    script =
-                                                                                        let
-                                                                                            all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
-                                                                                            with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 15 16 17 18 19 ] ) with-index ;
-                                                                                            simplified = builtins.map ( x : x.line ) filtered ;
-                                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
-                                                                                    tests =
-                                                                                        ignore :
-                                                                                            {
-                                                                                                mounts =
-                                                                                                    {
-                                                                                                        "/mount" =
-                                                                                                            {
-                                                                                                                initial =
-                                                                                                                    [
-                                                                                                                        "mkdir /mount/target"
-                                                                                                                        "touch /mount/target/resource"
-                                                                                                                    ] ;
-                                                                                                                expected = self + "/expected/mounts/resource" ;
-                                                                                                            } ;
-                                                                                                    } ;
-                                                                                            } ;
-                                                                                } ;
-                                                                    } ;
-                                                            } ;
                                                     } ;
                                         in
                                             {
@@ -197,17 +131,17 @@
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ foobar.scripts.teardown.false.false.shell-script } &&
-                                                                            if [ -f ${ foobar.scripts.teardown.false.false.tests }/SUCCESS ]
+                                                                            ${ pkgs.coreutils }/bin/echo ${ foobar.scripts.teardown.shell-script } &&
+                                                                            if [ -f ${ foobar.scripts.teardown.tests }/SUCCESS ]
                                                                             then
-                                                                                ${ pkgs.coreutils }/bin/echo There was a successful test of ${ foobar.scripts.teardown.false.false.tests }. &&
+                                                                                ${ pkgs.coreutils }/bin/echo There was a successful test of ${ foobar.scripts.teardown.tests }. &&
                                                                                     exit 71
-                                                                            elif [ -f ${ foobar.scripts.teardown.false.false.tests }/FAILURE ]
+                                                                            elif [ -f ${ foobar.scripts.teardown.tests }/FAILURE ]
                                                                             then
-                                                                                ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.false.false.tests }. >&2 &&
+                                                                                ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
                                                                                     exit 63
                                                                             else
-                                                                                ${ pkgs.coreutils }/bin/echo There was an unpredicted failure in ${ foobar.scripts.teardown.false.false.tests }. >&2 &&
+                                                                                ${ pkgs.coreutils }/bin/echo There was an unpredicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
                                                                                     exit 62
                                                                             fi &&
                                                                             exit 61
