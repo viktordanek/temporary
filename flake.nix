@@ -51,14 +51,6 @@
                                                                 } ;
                                                             mounts =
                                                                 {
-                                                                    "/flags/post" =
-                                                                        {
-                                                                            is-read-only = true ;
-                                                                        } ;
-                                                                    "/flags/release" =
-                                                                        {
-                                                                            is-read-only = true ;
-                                                                        } ;
                                                                     "/mount" =
                                                                         {
                                                                             is-read-only = false ;
@@ -115,22 +107,6 @@
                                                                     {
                                                                         mounts =
                                                                             {
-                                                                                "/flags/post" =
-                                                                                    {
-                                                                                        expected = self + "/expected/mounts/flags/post.down" ;
-                                                                                        initial =
-                                                                                            [
-                                                                                                "touch /mount/target"
-                                                                                            ] ;
-                                                                                    } ;
-                                                                                "/flags/release" =
-                                                                                    {
-                                                                                        expected = self + "/expected/mounts/flags/release.down" ;
-                                                                                        initial =
-                                                                                            [
-                                                                                                "touch /mount/target"
-                                                                                            ] ;
-                                                                                    } ;
                                                                                 "/mount" =
                                                                                     {
                                                                                         expected = self + "/expected/mounts/resource" ;
@@ -158,81 +134,35 @@
                                                     {
                                                         installPhase =
                                                             let
-                                                                foobar = lib { post = post.shell-script ; } ;
-                                                                post =
-                                                                    _shell-script
-                                                                        {
-                                                                            extensions =
-                                                                                {
-                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                                } ;
-                                                                            mounts =
-                                                                                {
-                                                                                   "/flag" =
-                                                                                        {
-                                                                                            is-read-only = false ;
-                                                                                       } ;
-                                                                                } ;
-                                                                            name = "flag" ;
-                                                                            profile =
-                                                                                { string } :
-                                                                                    [
-                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                        ( string "UUID" "3e5249f35257c22a56745efa3e0314aa6af4aa1fba26980de324ff1bae22475a81143bef69bc0316e67279ebd3cace490c4d43b9b0885fa73c7826d0edb60b0d" )
-                                                                                    ] ;
-                                                                            script = self + "/flag.sh" ;
-                                                                            tests =
-                                                                                ignore :
+                                                                foobars =
+                                                                    {
+                                                                        false =
+                                                                            {
+                                                                                false =
                                                                                     {
-                                                                                        mounts =
-                                                                                            {
-                                                                                                "/flag" =
-                                                                                                    {
-                                                                                                        expected = self + "/expected/mounts/flags/post.test" ;
-                                                                                                        initial =
-                                                                                                            [
-                                                                                                                "echo 732900788f9ef240d8e83f56269be2230dce5cbdeed51d38628d94e128dc867c5a992b5f8101f3c06815c6fd41b4be59a8c4655d26cb009165e3449dea884984 > /mount/target"
-                                                                                                            ] ;
-                                                                                                    } ;
-                                                                                            } ;
+                                                                                        false = lib { } ;
                                                                                     } ;
-                                                                        } ;
-                                                                release =
+                                                                            } ;
+                                                                    } ;
+                                                                init =
                                                                     _shell-script
                                                                         {
                                                                             extensions =
                                                                                 {
                                                                                     string = name : value : "export ${ name }=${ builtins.toString value }" ;
                                                                                 } ;
-                                                                            mounts =
-                                                                                {
-                                                                                   "/flag" =
-                                                                                        {
-                                                                                            is-read-only = false ;
-                                                                                       } ;
-                                                                                } ;
                                                                             name = "flag" ;
                                                                             profile =
                                                                                 { string } :
                                                                                     [
                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                        ( string "UUID" "77c2dc27abdda7bb2b8737c344d2512bb21259d9d1e78b670dafde93df815272b9e04c2c2d5d65870d4b050a463c28d50f187a486424715ea9f5adbaa80a3aa7" )
+                                                                                        ( string "UUID" "3493629e1bbb07cd22b4554cb8557e9a9b30d71cf0e292f182fc522aca04042396c7c21a4d5cbcc8ac4061bc20f433c6a70af81d93a39b50ad34dc8e00ce3ac8" )
                                                                                     ] ;
                                                                             script = self + "/flag.sh" ;
                                                                             tests =
                                                                                 ignore :
                                                                                     {
-                                                                                        mounts =
-                                                                                            {
-                                                                                                "/flag" =
-                                                                                                    {
-                                                                                                        expected = self + "/expected/mounts/flags/post.test" ;
-                                                                                                        initial =
-                                                                                                            [
-                                                                                                                "echo d6baa284c152920e7d78a55153c5684cdbf6c809bc60a4cb00b3d27cfa9986825db8ec2f52738a957856d8a9afd0b2e9f3d6ec5383d3eb7536f40d39cae14ae2 > /mount/target"
-                                                                                                            ] ;
-                                                                                                    } ;
-                                                                                            } ;
+                                                                                        standard-output = self + "/expected/init/standard-output" ;
                                                                                     } ;
                                                                         } ;
                                                                 tests =
@@ -243,7 +173,10 @@
                                                                                     "${ pkgs.coreutils }/bin/echo ${ script.shell-script }"
                                                                                     "if [ -f ${ script.tests }/SUCCESS ] ; then ${ pkgs.coreutils }/bin/echo There was success at ${ script.tests }. ; elif [ -f ${ script.tests }/FAILURE ] ; then ${ pkgs.coreutils }/bin/echo There was predicted failure at ${ script.tests }. >&2 && exit 63 ; else ${ pkgs.coreutils }/bin/echo There was unpredicted failure at ${ script.tests } >&2 && exit 62 ; fi"
                                                                                 ] ;
-                                                                        scripts = [ foobar.scripts.teardown post release ] ;
+                                                                        scripts =
+                                                                            [
+                                                                                init
+                                                                            ] ;
                                                                         in builtins.concatLists ( builtins.map mapper scripts ) ;
                                                                 in
                                                                     ''

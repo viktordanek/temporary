@@ -1,1 +1,1 @@
-${ECHO} ${UUID} > /flag
+${ECHO} ${UUID}
