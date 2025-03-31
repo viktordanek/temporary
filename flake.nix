@@ -34,11 +34,95 @@
                                                 _shell-script = builtins.getAttr system shell-script.lib ;
                                                 in
                                                     {
+                                                        post =
+                                                            _shell-script
+                                                                {
+                                                                    extensions =
+                                                                        {
+                                                                            string = name : value "export ${ name }=${ builtins.toString value }" ;
+                                                                        } ;
+                                                                    mounts =
+                                                                        {
+                                                                            "/srv" =
+                                                                                {
+                                                                                    is-read-only = false ;
+                                                                                } ;
+                                                                        } ;
+                                                                    name = "post" ;
+                                                                    profile =
+                                                                        { string } :
+                                                                            [
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( string "UUID" "7fb775000894f6aa122852f23b1cda59548d6121d7a5e42f40da654d0dad38ecb65135ec1d223ca4f20b4db049fc5fc0f05db4dcb40235aaf77f745fb8e1c399" )
+                                                                            ] ;
+                                                                    script = self + "/post.sh" ;
+                                                                    tests =
+                                                                        ignore :
+                                                                            {
+                                                                                mounts =
+                                                                                    {
+                                                                                        expected = self + "/expected/mounts" ;
+                                                                                        initial =
+                                                                                            [
+                                                                                                "touch /mount/target"
+                                                                                            ] ;
+                                                                                    } ;
+                                                                            } ;
+                                                                } ;
                                                         teardown =
                                                             {
                                                                 true =
                                                                     {
-
+                                                                        true =
+                                                                            _shell-script
+                                                                                {
+                                                                                    extensions =
+                                                                                        {
+                                                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                                                        } ;
+                                                                                    mounts =
+                                                                                        {
+                                                                                            "/mount" =
+                                                                                                {
+                                                                                                    is-read-only = false ;
+                                                                                                } ;
+                                                                                        } ;
+                                                                                    name = "teardown" ;
+                                                                                    profile =
+                                                                                        { string } :
+                                                                                            [
+                                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                                ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                                                ( string "PID" 9999 )
+                                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                                ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                                ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
+                                                                                            ] ;
+                                                                                    script =
+                                                                                        let
+                                                                                            all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                                                            with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
+                                                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) [ 0 1 2 3 15 16 17 18 19 ] ) with-index ;
+                                                                                            simplified = builtins.map ( x : x.line ) filtered ;
+                                                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
+                                                                                    tests =
+                                                                                        ignore :
+                                                                                            {
+                                                                                                mounts =
+                                                                                                    {
+                                                                                                        "/mount" =
+                                                                                                            {
+                                                                                                                initial =
+                                                                                                                    [
+                                                                                                                        "mkdir /mount/target"
+                                                                                                                        "touch /mount/target/resource"
+                                                                                                                    ] ;
+                                                                                                                expected = self + "/expected/mounts/resource" ;
+                                                                                                            } ;
+                                                                                                    } ;
+                                                                                            } ;
+                                                                                } ;
                                                                     } ;
                                                                 false =
                                                                     {
