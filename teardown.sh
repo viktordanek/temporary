@@ -1,4 +1,4 @@
-exec 201 > /mount/resource.lock &&
+exec 201> /mount/resource.lock &&
   if ${FLOCK} 201
   then
     ${TAIL} --follow --pid ${PID} &&

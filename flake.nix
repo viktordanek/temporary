@@ -39,7 +39,7 @@
                                                                 {
                                                                     extensions =
                                                                         {
-                                                                            string = name : value : "export ${ name }=${ value }" ;
+                                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
                                                                         } ;
                                                                     mounts =
                                                                         {
@@ -53,8 +53,9 @@
                                                                         { string } :
                                                                             [
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                ( string "FLOCK" "${ pkgs.coreutils }/bin/flock" )
+                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                                 ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                                ( string "PID" 9999 )
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                 ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
                                                                                 ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
