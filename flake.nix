@@ -82,7 +82,6 @@
                                                                                                 expected = self + "/expected/mounts/resource" ;
                                                                                             } ;
                                                                                     } ;
-                                                                                status = 168 ;
                                                                             } ;
                                                                 } ;
                                                     } ;
