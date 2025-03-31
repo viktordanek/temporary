@@ -125,7 +125,7 @@
                                                                                     } ;
                                                                                 "/flags/release" =
                                                                                     {
-                                                                                        expected = self + "/expected/mounts/flags/post" ;
+                                                                                        expected = self + "/expected/mounts/flags/release" ;
                                                                                         initial =
                                                                                             [
                                                                                                 "touch /mount/target"
