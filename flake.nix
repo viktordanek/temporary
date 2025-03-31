@@ -189,7 +189,7 @@
                                                                                             {
                                                                                                 "/flag" =
                                                                                                     {
-                                                                                                        expected = self + "/expected/mounts/flags/post.up" ;
+                                                                                                        expected = self + "/expected/mounts/flags/post.test" ;
                                                                                                         initial =
                                                                                                             [
                                                                                                                 "echo 732900788f9ef240d8e83f56269be2230dce5cbdeed51d38628d94e128dc867c5a992b5f8101f3c06815c6fd41b4be59a8c4655d26cb009165e3449dea884984 > /mount/target"
