@@ -144,36 +144,35 @@
                                                                                 {
                                                                                    "/flag" =
                                                                                         {
+                                                                                            # host-path = _environment-variable "POST_FLAG" ;
                                                                                             is-read-only = true ;
-                                                                                        } ;
-                                                                                    name = "post" ;
-                                                                                    profile =
-                                                                                        { string } :
-                                                                                            [
-                                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                                ( string "UUID" "3e5249f35257c22a56745efa3e0314aa6af4aa1fba26980de324ff1bae22475a81143bef69bc0316e67279ebd3cace490c4d43b9b0885fa73c7826d0edb60b0d" )
-                                                                                            ] ;
-                                                                                    script = self + "/post.sh" ;
-                                                                                    tests = null ;
+                                                                                       } ;
                                                                                 } ;
+                                                                            name = "post" ;
+                                                                            profile =
+                                                                                { string } :
+                                                                                    [
+                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                        ( string "UUID" "3e5249f35257c22a56745efa3e0314aa6af4aa1fba26980de324ff1bae22475a81143bef69bc0316e67279ebd3cace490c4d43b9b0885fa73c7826d0edb60b0d" )
+                                                                                    ] ;
+                                                                            script = self + "/post.sh" ;
+                                                                            tests = null ;
                                                                         } ;
+                                                                tests =
+                                                                    let
+                                                                        mapper =
+                                                                            script :
+                                                                                [
+                                                                                    "${ pkgs.coreutils }/bin/echo ${ script.shell-script }"
+                                                                                    "if [ -f ${ script.tests }/SUCCESS ] ; then ${ pkgs.coreutils }/bin/echo There was success at ${ script.tests }. ; elif [ -f ${ script.tests }/FAILURE ] ; then ${ pkgs.coreutils }/bin/echo There was predicted failure at ${ script.tests }. >&2 && exit 63 ; else ${ pkgs.coreutils }/bin/echo There was unpredicted failure at ${ script.tests } >&2 && exit 62 ; fi"
+                                                                                ] ;
+                                                                        scripts = [ foobar.scripts.teardown post ] ;
+                                                                        in builtins.concatLists ( builtins.map mapper scripts ) ;
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ pkgs.coreutils }/bin/echo ${ foobar.scripts.teardown.shell-script } &&
-                                                                            if [ -f ${ foobar.scripts.teardown.tests }/SUCCESS ]
-                                                                            then
-                                                                                ${ pkgs.coreutils }/bin/echo There was a successful test of ${ foobar.scripts.teardown.tests }. &&
-                                                                                    exit 71
-                                                                            elif [ -f ${ foobar.scripts.teardown.tests }/FAILURE ]
-                                                                            then
-                                                                                ${ pkgs.coreutils }/bin/echo There was a predicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
-                                                                                    exit 63
-                                                                            else
-                                                                                ${ pkgs.coreutils }/bin/echo There was an unpredicted failure in ${ foobar.scripts.teardown.tests }. >&2 &&
-                                                                                    exit 62
-                                                                            fi &&
-                                                                            exit 61
+                                                                            ${ builtins.concatStringsSep " &&\n\t" tests } &&
+                                                                            exit 81
                                                                     '' ;
                                                         name = "foobar" ;
                                                         src = ./. ;
