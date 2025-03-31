@@ -1,1 +1,1 @@
-${ECHO} ${UUID} > /srv
+${ECHO} ${UUID} > /flag

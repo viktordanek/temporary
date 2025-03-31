@@ -144,8 +144,8 @@
                                                                                 {
                                                                                    "/flag" =
                                                                                         {
-                                                                                            # host-path = _environment-variable "POST_FLAG" ;
-                                                                                            is-read-only = true ;
+                                                                                            host-path = "/tmp/tmp.1LdRFwrhRn" ;
+                                                                                            is-read-only = false ;
                                                                                        } ;
                                                                                 } ;
                                                                             name = "post" ;
