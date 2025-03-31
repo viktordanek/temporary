@@ -182,7 +182,21 @@
                                                                                         ( string "UUID" "3e5249f35257c22a56745efa3e0314aa6af4aa1fba26980de324ff1bae22475a81143bef69bc0316e67279ebd3cace490c4d43b9b0885fa73c7826d0edb60b0d" )
                                                                                     ] ;
                                                                             script = self + "/flag.sh" ;
-                                                                            tests = null ;
+                                                                            tests =
+                                                                                ignore :
+                                                                                    {
+                                                                                        mounts =
+                                                                                            {
+                                                                                                "/flag" =
+                                                                                                    {
+                                                                                                        expected = self + "/expected/mounts/flags/post.up" ;
+                                                                                                        initial =
+                                                                                                            [
+                                                                                                                "echo 732900788f9ef240d8e83f56269be2230dce5cbdeed51d38628d94e128dc867c5a992b5f8101f3c06815c6fd41b4be59a8c4655d26cb009165e3449dea884984 > /mount/target"
+                                                                                                            ] ;
+                                                                                                    } ;
+                                                                                            } ;
+                                                                                    } ;
                                                                         } ;
                                                                 tests =
                                                                     let
