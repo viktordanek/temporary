@@ -51,6 +51,14 @@
                                                                 } ;
                                                             mounts =
                                                                 {
+                                                                    "/flags/post" =
+                                                                        {
+                                                                            is-read-only = false ;
+                                                                        } ;
+                                                                    "/flags/release" =
+                                                                        {
+                                                                            is-read-only = true ;
+                                                                        } ;
                                                                     "/mount" =
                                                                         {
                                                                             is-read-only = false ;
@@ -107,14 +115,30 @@
                                                                     {
                                                                         mounts =
                                                                             {
+                                                                                "/flags/post" =
+                                                                                    {
+                                                                                        expected = self + "/expected/mounts/flags/post" ;
+                                                                                        initial =
+                                                                                            [
+                                                                                                "touch /mount/target"
+                                                                                            ] ;
+                                                                                    } ;
+                                                                                "/flags/release" =
+                                                                                    {
+                                                                                        expected = self + "/expected/mounts/flags/post" ;
+                                                                                        initial =
+                                                                                            [
+                                                                                                "touch /mount/target"
+                                                                                            ] ;
+                                                                                    } ;
                                                                                 "/mount" =
                                                                                     {
+                                                                                        expected = self + "/expected/mounts/resource" ;
                                                                                         initial =
                                                                                             [
                                                                                                 "mkdir /mount/target"
                                                                                                 "touch /mount/target/resource"
                                                                                             ] ;
-                                                                                        expected = self + "/expected/mounts/resource" ;
                                                                                     } ;
                                                                             } ;
                                                                     } ;
@@ -134,7 +158,7 @@
                                                     {
                                                         installPhase =
                                                             let
-                                                                foobar = lib { } ;
+                                                                foobar = lib { post = post.shell-script ; } ;
                                                                 post =
                                                                     _shell-script
                                                                         {
