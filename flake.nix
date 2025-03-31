@@ -170,7 +170,6 @@
                                                                                 {
                                                                                    "/flag" =
                                                                                         {
-                                                                                            host-path = _environment-variable "POST_FLAG_FILE" ;
                                                                                             is-read-only = false ;
                                                                                        } ;
                                                                                 } ;
@@ -198,6 +197,44 @@
                                                                                             } ;
                                                                                     } ;
                                                                         } ;
+                                                                release =
+                                                                    _shell-script
+                                                                        {
+                                                                            extensions =
+                                                                                {
+                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                                                } ;
+                                                                            mounts =
+                                                                                {
+                                                                                   "/flag" =
+                                                                                        {
+                                                                                            is-read-only = false ;
+                                                                                       } ;
+                                                                                } ;
+                                                                            name = "flag" ;
+                                                                            profile =
+                                                                                { string } :
+                                                                                    [
+                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                        ( string "UUID" "77c2dc27abdda7bb2b8737c344d2512bb21259d9d1e78b670dafde93df815272b9e04c2c2d5d65870d4b050a463c28d50f187a486424715ea9f5adbaa80a3aa7" )
+                                                                                    ] ;
+                                                                            script = self + "/flag.sh" ;
+                                                                            tests =
+                                                                                ignore :
+                                                                                    {
+                                                                                        mounts =
+                                                                                            {
+                                                                                                "/flag" =
+                                                                                                    {
+                                                                                                        expected = self + "/expected/mounts/flags/post.test" ;
+                                                                                                        initial =
+                                                                                                            [
+                                                                                                                "echo d6baa284c152920e7d78a55153c5684cdbf6c809bc60a4cb00b3d27cfa9986825db8ec2f52738a957856d8a9afd0b2e9f3d6ec5383d3eb7536f40d39cae14ae2 > /mount/target"
+                                                                                                            ] ;
+                                                                                                    } ;
+                                                                                            } ;
+                                                                                    } ;
+                                                                        } ;
                                                                 tests =
                                                                     let
                                                                         mapper =
@@ -206,7 +243,7 @@
                                                                                     "${ pkgs.coreutils }/bin/echo ${ script.shell-script }"
                                                                                     "if [ -f ${ script.tests }/SUCCESS ] ; then ${ pkgs.coreutils }/bin/echo There was success at ${ script.tests }. ; elif [ -f ${ script.tests }/FAILURE ] ; then ${ pkgs.coreutils }/bin/echo There was predicted failure at ${ script.tests }. >&2 && exit 63 ; else ${ pkgs.coreutils }/bin/echo There was unpredicted failure at ${ script.tests } >&2 && exit 62 ; fi"
                                                                                 ] ;
-                                                                        scripts = [ foobar.scripts.teardown post ] ;
+                                                                        scripts = [ foobar.scripts.teardown post release ] ;
                                                                         in builtins.concatLists ( builtins.map mapper scripts ) ;
                                                                 in
                                                                     ''
