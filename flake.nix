@@ -1,17 +1,19 @@
 {
     inputs =
         {
+            environment-variable.url = "github:/viktordanek/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
             shell-script.url = "github:viktordanek/shell-script/scratch/0d2e6138-6c74-4217-8e36-65f0ad07d7de" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
     outputs =
-        { flake-utils , nixpkgs , self , shell-script , visitor } :
+        { environment-variable , flake-utils , nixpkgs , self , shell-script , visitor } :
             let
                 fun =
                     system :
                         let
+                            _environment-variable = builtins.getAttr system environment-variable.lib ;
                             _shell-script = builtins.getAttr system shell-script.lib ;
                             lib =
                                 {
@@ -144,7 +146,7 @@
                                                                                 {
                                                                                    "/flag" =
                                                                                         {
-                                                                                            host-path = "/tmp/tmp.1LdRFwrhRn" ;
+                                                                                            host-path = _environment-variable "POST_FLAG_FILE" ;
                                                                                             is-read-only = false ;
                                                                                        } ;
                                                                                 } ;
