@@ -104,6 +104,7 @@
                                                             tests =
                                                                 ignore :
                                                                     {
+                                                                        status = 103 ;
                                                                         test =
                                                                             [
                                                                                 "CANDIDATE+$( candidate )"
