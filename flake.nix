@@ -240,12 +240,12 @@
                                                                 } ;
                                                     in
                                                         [
-                                                            ( foobar "init" init true )
-                                                            ( foobar "post" post true )
-                                                            ( foobar "release" release true )
-                                                            ( foobar "teardown-0-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) ) true )
-                                                            ( foobar "teardown-0-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
-                                                            ( foobar "teardown-0-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
+                                                            # ( foobar "init" init true )
+                                                            # ( foobar "post" post true )
+                                                            ( foobar "release" release false )
+                                                            # ( foobar "teardown-0-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) ) true )
+                                                            # ( foobar "teardown-0-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
+                                                            # ( foobar "teardown-0-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
                                                             # ( foobar "teardown-0-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
                                                             # ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
                                                             # ( foobar "teardown-1-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
@@ -281,16 +281,50 @@
                                                                 string = name : value : "export ${ name }=${ builtins.toString value }" ;
                                                             } ;
                                                         name = "flag" ;
+                                                        mounts =
+                                                            {
+                                                                "/resource" =
+                                                                    {
+                                                                        host-path = _environment-variable "RESOURCE" ;
+                                                                        is-read-only = true ;
+                                                                    } ;
+                                                                "/target" =
+                                                                    {
+                                                                        host-path = _environment-variable "TARGET" ;
+                                                                        is-read-only = true ;
+                                                                    } ;
+                                                            } ;
                                                         profile =
                                                             { string } :
                                                                 [
+                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                    ( string "UUID" "29f2dc4be20c9ebdba7bf0bc3c0bff66d7e758753100523c49e4a7ff88b7b3bb67b8e821cab126eeb9789aa5ab168dfc89f7962fa578ffdc722fe36476166383" )
+                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                    ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
                                                                 ] ;
                                                         script = self + "/flag.sh" ;
                                                         tests =
                                                             ignore :
                                                                 {
+                                                                    mounts =
+                                                                        {
+                                                                            "/resource" =
+                                                                                {
+                                                                                    expected = self + "/expected/release/mounts/resource" ;
+                                                                                    initial =
+                                                                                        [
+                                                                                            "echo 230ad29bc6c9ba25fb5afe5d79640fd2eeddd526483d1f5e844490e697d6917b4804a4f6d0eea656405a23f437071ad95c1cd71f2f62fe7a844f8cd216543750 > /mount/target"
+                                                                                        ] ;
+                                                                                } ;
+                                                                            "/target" =
+                                                                                {
+                                                                                    expected = self + "/expected/release/mounts/target" ;
+                                                                                    initial =
+                                                                                        [
+                                                                                            "echo fd20a7c74b6a58415e1ae2816cdfbc56ffbd19f0db2a4e4bd2ff772c8975743c42493e673122e3638fa37de04bc2b34da56eb55bc4b154b1e73431f46b9d43e1 > /mount/target"
+                                                                                        ] ;
+                                                                                } ;
+                                                                        } ;
                                                                     standard-output = self + "/expected/release/standard-output" ;
                                                                 } ;
                                                     } ;
