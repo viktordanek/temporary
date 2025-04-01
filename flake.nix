@@ -242,6 +242,8 @@
                                                     in
                                                         [
                                                             ( foobar "init" init true )
+                                                            ( foobar "post" post true )
+                                                            ( foobar "release" release true )
                                                         ] ;
                                             post =
                                                 _shell-script
