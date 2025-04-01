@@ -42,6 +42,58 @@
                                             } ;
                                         scripts =
                                             {
+                                                setup =
+                                                    _shell-script
+                                                        {
+                                                            extensions =
+                                                                {
+                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                                } ;
+                                                            mounts =
+                                                                {
+                                                                    "/mount" =
+                                                                        {
+                                                                            is-read-only = false ;
+                                                                        } ;
+                                                                } ;
+                                                            name = "setup" ;
+                                                            profile =
+                                                                { string } :
+                                                                    [
+                                                                    ] ;
+                                                            script =
+                                                                let
+                                                                    all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                                    array =
+                                                                        builtins.concatLists
+                                                                            [
+                                                                                [ 0 ]
+                                                                                [ 1 ]
+                                                                                [ 2 ]
+                                                                                [ 3 ]
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 5 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 6 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 7 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
+                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ 14 ] )
+                                                                                [ 15 ]
+                                                                                [ 16 ]
+                                                                                [ 17 ]
+                                                                                [ 18 ]
+                                                                                [ 19 ]
+                                                                            ] ;
+                                                                    with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
+                                                                    filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
+                                                                    simplified = builtins.map ( x : x.line ) filtered ;
+                                                                    in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
+                                                            tests =
+                                                                ignore :
+                                                                    {
+
+                                                                    } ;
+                                                        } ;
                                                 teardown =
                                                     _shell-script
                                                         {
