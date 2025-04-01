@@ -292,7 +292,7 @@
                                                                                     expected = self + "/expected/post/mounts/resource" ;
                                                                                     initial =
                                                                                         [
-                                                                                            "echo 230ad29bc6c9ba25fb5afe5d79640fd2eeddd526483d1f5e844490e697d6917b4804a4f6d0eea656405a23f437071ad95c1cd71f2f62fe7a844f8cd216543750 > /mount/target"
+                                                                                            "echo c019fafab6f1d19b6266c357f4fa9ba6e6c88ef21e6f02a7777c2a94afec6608660f8252393648307b81da9d1a74552fbcaff38444bf42925a3001504fa5a65d > /mount/target"
                                                                                         ] ;
                                                                                 } ;
                                                                             "/target" =
@@ -304,7 +304,7 @@
                                                                                         ] ;
                                                                                 } ;
                                                                         } ;
-                                                                    standard-output = self + "/expected/release/standard-output" ;
+                                                                    standard-output = self + "/expected/post/standard-output" ;
                                                                 } ;
                                                     } ;
                                             release =
