@@ -189,16 +189,50 @@
                                                                 string = name : value : "export ${ name }=${ builtins.toString value }" ;
                                                             } ;
                                                         name = "flag" ;
+                                                        mounts =
+                                                            {
+                                                                "/resource" =
+                                                                    {
+                                                                        host-path = _environment-variable "RESOURCE" ;
+                                                                        is-read-only = true ;
+                                                                    } ;
+                                                                "/target" =
+                                                                    {
+                                                                        host-path = _environment-variable "TARGET" ;
+                                                                        is-read-only = true ;
+                                                                    } ;
+                                                            } ;
                                                         profile =
                                                             { string } :
                                                                 [
+                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                    ( string "UUID" "3493629e1bbb07cd22b4554cb8557e9a9b30d71cf0e292f182fc522aca04042396c7c21a4d5cbcc8ac4061bc20f433c6a70af81d93a39b50ad34dc8e00ce3ac8" )
+                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                    ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
                                                                 ] ;
                                                         script = self + "/flag.sh" ;
                                                         tests =
                                                             ignore :
                                                                 {
+                                                                    mounts =
+                                                                        {
+                                                                            "/resource" =
+                                                                                {
+                                                                                    expected = self + "/expected/init/mounts/resource" ;
+                                                                                    initial =
+                                                                                        [
+                                                                                            "echo c019fafab6f1d19b6266c357f4fa9ba6e6c88ef21e6f02a7777c2a94afec6608660f8252393648307b81da9d1a74552fbcaff38444bf42925a3001504fa5a65d > /mount/target"
+                                                                                        ] ;
+                                                                                } ;
+                                                                            "/target" =
+                                                                                {
+                                                                                    expected = self + "/expected/init/mounts/target" ;
+                                                                                    initial =
+                                                                                        [
+                                                                                            "echo aa4b0468d9b5bc33422777fcb8892f76073a60fc9cd2f6089ca9dbe12336c89861e9b6149832ed99b30be163177d0c3b561554bef3ba9eebb8da96a22838b08e > /mount/target"
+                                                                                        ] ;
+                                                                                } ;
+                                                                        } ;
                                                                     standard-output = self + "/expected/init/standard-output" ;
                                                                 } ;
                                                     } ;
@@ -240,7 +274,7 @@
                                                                 } ;
                                                     in
                                                         [
-                                                            # ( foobar "init" init true )
+                                                            ( foobar "init" init true )
                                                             ( foobar "post" post false )
                                                             ( foobar "release" release true )
                                                             # ( foobar "teardown-0-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) ) true )
