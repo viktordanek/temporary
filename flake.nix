@@ -282,7 +282,7 @@
                                                                                                 if [ -f ${ tests }/SUCCESS ]
                                                                                                 then
                                                                                                     ${ pkgs.coreutils }/bin/echo There was success in ${ tests }. &&
-                                                                                                        exit 97 # ${ success-code }
+                                                                                                        exit ${ success-code }
                                                                                                 elif [ -f ${ tests }/FAILURE ]
                                                                                                 then
                                                                                                     ${ pkgs.coreutils }/bin/echo There was failure in ${ tests }. >&2 &&
@@ -305,7 +305,7 @@
                                                             ( foobar "teardown-0-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-0-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-0-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
-                                                            ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
+                                                            ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) false )
                                                             # ( foobar "teardown-1-0-0" ( builtins.getAttr "setup" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) false )
                                                             ( foobar "teardown-1-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
