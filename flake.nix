@@ -229,7 +229,7 @@
                                                                                     expected = self + "/expected/init/mounts/target" ;
                                                                                     initial =
                                                                                         [
-                                                                                            "echo aa4b0468d9b5bc33422777fcb8892f76073a60fc9cd2f6089ca9dbe12336c89861e9b6149832ed99b30be163177d0c3b561554bef3ba9eebb8da96a22838b08e > /mount/target"
+                                                                                            "echo 089cd1f177d042495e7f0975e861bf91e98234139e802769d85df406e70e8bd0fad9b68a557a56cddcbbbea10bc4e92095a77d190fc508c34bb715c910c2d804 > /mount/target"
                                                                                         ] ;
                                                                                 } ;
                                                                         } ;
@@ -274,7 +274,7 @@
                                                                 } ;
                                                     in
                                                         [
-                                                            ( foobar "init" init false )
+                                                            ( foobar "init" init true )
                                                             ( foobar "post" post true )
                                                             ( foobar "release" release true )
                                                             # ( foobar "teardown-0-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) ) true )
