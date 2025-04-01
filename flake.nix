@@ -120,7 +120,7 @@
                                                                                 ( string "PID" 9999 )
                                                                             ]
                                                                             ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post ) ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release ) ] )
+                                                                            ( if builtins.typeOf primary.release == "null" then builtins.trace "NO" [ ] else builtins.trace "YES" [ ( string "RELEASE" primary.release ) ] )
                                                                             [
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                 ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
@@ -247,11 +247,11 @@
                                                             ( foobar "teardown-0-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) ) true )
                                                             ( foobar "teardown-0-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-0-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
-                                                            # ( foobar "teardown-0-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release ; post = post ; } ) ) ) true )
-                                                            # ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init ; } ) ) ) true )
-                                                            # ( foobar "teardown-1-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post ; } ) ) ) true )
-                                                            # ( foobar "teardown-1-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release ; } ) ) ) true )
-                                                            # ( foobar "teardown-1-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init ; release = release ; post = post ; } ) ) ) true )
+                                                            # ( foobar "teardown-0-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
                                                         ] ;
                                             post =
                                                 _shell-script

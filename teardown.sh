@@ -1,20 +1,20 @@
-exec 201> /mount/resource.lock &&
+exec 201> /resource/lock &&
   if ${FLOCK} 201
   then
     ${TAIL} --follow --pid ${PID} &&
 #
-      if ${RELEASE} > /mount/resource/release.standard-output >2 /mount/resource/release.standard-error
-      then
-        ${ECHO} ${?} > /mount/resource/release.status
-      else
-        ${ECHO} ${?} > /mount/resource/release.status
-      fi &&
+    if ${RELEASE} > /resource/release.standard-output >2 /resource/release.standard-error
+    then
+      ${ECHO} ${?} > /resource/release.status
+    else
+      ${ECHO} ${?} > /resource/release.status
+    fi &&
 #
 #
       ( ${POST} || ${TRUE} ) &&
 #
-      ${RM} --recursive --force /mount/resource /mount/resource.lock
+      ${RM} --recursive --force /resource
   else
-    ${ECHO} FAILED TO LOCK /mount/resource.lock >&2 &&
+    ${ECHO} FAILED TO LOCK /resource.lock >&2 &&
       exit ${LOCK_FAILURE}
   fi
