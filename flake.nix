@@ -143,7 +143,7 @@
                                                                                 ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
                                                                                 ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
                                                                                 ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
-                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ 14 ] )
+                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ 13 ] )
                                                                                 [ 15 ]
                                                                                 [ 16 ]
                                                                                 [ 17 ]
@@ -244,6 +244,14 @@
                                                             ( foobar "init" init true )
                                                             ( foobar "post" post true )
                                                             ( foobar "release" release true )
+                                                            ( foobar "teardown-0-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) ) true )
+                                                            ( foobar "teardown-0-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) false )
+                                                            # ( foobar "teardown-0-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release ; } ) ) ) true )
+                                                            # ( foobar "teardown-0-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release ; post = post ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init ; release = release ; post = post ; } ) ) ) true )
                                                         ] ;
                                             post =
                                                 _shell-script
