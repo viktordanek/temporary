@@ -52,18 +52,27 @@
                                                                 {
                                                                     string = name : value : "export ${ name }=${ builtins.toString value }" ;
                                                                 } ;
-                                                            mounts =
-                                                                {
-                                                                    "/mount" =
-                                                                        {
-                                                                            is-read-only = false ;
-                                                                        } ;
-                                                                } ;
                                                             name = "setup" ;
                                                             profile =
                                                                 { string } :
-                                                                    [
-                                                                    ] ;
+                                                                    builtins.concatLists
+                                                                        [
+                                                                            [
+                                                                                ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                ( string "HAS_STANDARD_INPUT" "WTF" )
+                                                                                ( string "FIND" "${ pkgs.coreutils }/bin/find" )
+                                                                                ( string "INIT" init )
+                                                                                ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                                ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                                ( string "STANDARD_INPUT" "WTF" )
+                                                                                ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
+                                                                                ( string "UNINITIALIZED_TARGET_ERROR_MESSAGE" primary.uninitialized-target-error-message )
+                                                                                ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
+                                                                                ( string "OVER_INITIALIZED_TARGET_ERROR_MESSAGE" primary.over-initialized-target-error-message )
+
+                                                                            ]
+                                                                        ] ;
                                                             script =
                                                                 let
                                                                     all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/setup.sh" ) ) ) ) ;
@@ -95,7 +104,13 @@
                                                             tests =
                                                                 ignore :
                                                                     {
-
+                                                                        test =
+                                                                            [
+                                                                                "CANDIDATE+$( candidate )"
+                                                                                "echo ${ _environment-variable "CANDIDATE" }"
+                                                                                "echo 100"
+                                                                                "exit 101"
+                                                                            ] ;
                                                                     } ;
                                                         } ;
                                                 teardown =
@@ -290,7 +305,7 @@
                                                             ( foobar "teardown-0-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-0-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
-                                                            ( foobar "teardown-1-0-0" ( builtins.getAttr "setup" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
+                                                            ( foobar "teardown-1-0-0" ( builtins.getAttr "setup" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) false )
                                                             ( foobar "teardown-1-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
