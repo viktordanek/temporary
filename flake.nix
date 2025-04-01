@@ -269,8 +269,7 @@
                                                                 in
                                                                     ''
                                                                         ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ builtins.concatStringsSep " &&\n\t" tests } &&
-                                                                            exit 81
+                                                                            ${ builtins.concatStringsSep " &&\n\t" tests }
                                                                     '' ;
                                                         name = "foobar" ;
                                                         src = ./. ;
