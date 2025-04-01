@@ -165,6 +165,48 @@
                                                                                         standard-output = self + "/expected/init/standard-output" ;
                                                                                     } ;
                                                                         } ;
+                                                                post =
+                                                                    _shell-script
+                                                                        {
+                                                                            extensions =
+                                                                                {
+                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                                                } ;
+                                                                            name = "flag" ;
+                                                                            profile =
+                                                                                { string } :
+                                                                                    [
+                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                        ( string "UUID" "62279656383ea24097dba41e855b8639e142bbefcb33753cd55e2249086aed5c51c83775e49ccd8850f9e5e7e77b28778842aea3e4e6d87c511d076d1d4c995e" )
+                                                                                    ] ;
+                                                                            script = self + "/flag.sh" ;
+                                                                            tests =
+                                                                                ignore :
+                                                                                    {
+                                                                                        standard-output = self + "/expected/post/standard-output" ;
+                                                                                    } ;
+                                                                        } ;
+                                                                release =
+                                                                    _shell-script
+                                                                        {
+                                                                            extensions =
+                                                                                {
+                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                                                } ;
+                                                                            name = "flag" ;
+                                                                            profile =
+                                                                                { string } :
+                                                                                    [
+                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                        ( string "UUID" "29f2dc4be20c9ebdba7bf0bc3c0bff66d7e758753100523c49e4a7ff88b7b3bb67b8e821cab126eeb9789aa5ab168dfc89f7962fa578ffdc722fe36476166383" )
+                                                                                    ] ;
+                                                                            script = self + "/flag.sh" ;
+                                                                            tests =
+                                                                                ignore :
+                                                                                    {
+                                                                                        standard-output = self + "/expected/release/standard-output" ;
+                                                                                    } ;
+                                                                        } ;
                                                                 tests =
                                                                     let
                                                                         mapper =
@@ -176,6 +218,8 @@
                                                                         scripts =
                                                                             [
                                                                                 init
+                                                                                post
+                                                                                release
                                                                             ] ;
                                                                         in builtins.concatLists ( builtins.map mapper scripts ) ;
                                                                 in
