@@ -325,6 +325,7 @@
                                                                                         ] ;
                                                                                 } ;
                                                                         } ;
+                                                                    standard-output = self + "/expected/release/standard-output" ;
                                                                 } ;
                                                     } ;
                                             in builtins.listToAttrs ( list ) ;
