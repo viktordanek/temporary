@@ -113,7 +113,7 @@
                                                                             {
                                                                                 "/mount" =
                                                                                     {
-                                                                                        expected = self + "/expected/mounts/resource" ;
+                                                                                        expected = self + "/expected/teardown/mounts/resource" ;
                                                                                         initial =
                                                                                             [
                                                                                                 "mkdir /mount/target"
@@ -122,13 +122,14 @@
                                                                                     } ;
                                                                                 "/target" =
                                                                                     {
-                                                                                        expected = self + "/expected/mounts/target" ;
+                                                                                        expected = self + "/expected/teardown/mounts/target" ;
                                                                                         initial =
                                                                                             [
                                                                                                 "echo 4f7364e68e0ec0bff4384b86099e763e7818c88b95de4d341fd96bfbb68ee86724c1c959517c1e7639316d207ec15558d1a29ca80da5002096c81c6fe6bcbca5 > /mount/target"
                                                                                             ] ;
                                                                                     } ;
                                                                             } ;
+                                                                        standard-output = self + "/expected/teardown/standard-output" ;
                                                                     } ;
                                                         } ;
                                             } ;
@@ -232,6 +233,7 @@
                                                                                 init
                                                                                 post
                                                                                 release
+                                                                                foobars.false.false.false.scripts.teardown
                                                                             ] ;
                                                                         in builtins.concatLists ( builtins.map mapper scripts ) ;
                                                                 in
