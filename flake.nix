@@ -241,7 +241,7 @@
                                                                 } ;
                                                     in
                                                         [
-                                                            ( foobar "init" init false )
+                                                            ( foobar "init" init true )
                                                         ] ;
                                             post =
                                                 _shell-script
