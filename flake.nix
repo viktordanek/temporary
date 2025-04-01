@@ -135,16 +135,6 @@
                                                     {
                                                         installPhase =
                                                             let
-                                                                foobars =
-                                                                    {
-                                                                        false =
-                                                                            {
-                                                                                false =
-                                                                                    {
-                                                                                        false = lib { } ;
-                                                                                    } ;
-                                                                            } ;
-                                                                    } ;
                                                                 init =
                                                                     _shell-script
                                                                         {
@@ -221,7 +211,7 @@
                                                                                 init
                                                                                 post
                                                                                 release
-                                                                                foobars.false.false.false.scripts.teardown
+                                                                                ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) )
                                                                             ] ;
                                                                         in builtins.concatLists ( builtins.map mapper scripts ) ;
                                                                 in
