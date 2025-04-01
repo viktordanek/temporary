@@ -28,6 +28,9 @@
                                     let
                                         primary =
                                             {
+                                                init =
+                                                    if builtins.typeOf init == "string" then init
+                                                    else builtins.throw "init is not string but ${ builtins.typeOf init }." ;
                                                 lock-failure =
                                                     if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
                                                     else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
@@ -63,7 +66,7 @@
                                                                     ] ;
                                                             script =
                                                                 let
-                                                                    all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                                    all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/setup.sh" ) ) ) ) ;
                                                                     array =
                                                                         builtins.concatLists
                                                                             [
@@ -87,7 +90,8 @@
                                                                     with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
                                                                     filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
                                                                     simplified = builtins.map ( x : x.line ) filtered ;
-                                                                    in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
+                                                                    # in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
+                                                                    in self + "/setup.sh" ;
                                                             tests =
                                                                 ignore :
                                                                     {
@@ -286,6 +290,7 @@
                                                             ( foobar "teardown-0-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-0-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
+                                                            # ( foobar "teardown-1-0-0" ( builtins.getAttr "setup" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
