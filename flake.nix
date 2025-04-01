@@ -117,13 +117,16 @@
                                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                 ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                                 ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                                ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                                 ( string "PID" 9999 )
                                                                             ]
                                                                             ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post ) ] )
                                                                             ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release ) ] )
                                                                             [
+                                                                                ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                 ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
                                                                                 ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
                                                                             ]
                                                                         ] ;
@@ -278,8 +281,8 @@
                                                             ( foobar "init" init true )
                                                             ( foobar "post" post true )
                                                             ( foobar "release" release true )
-                                                            ( foobar "teardown-0-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) ) false )
-                                                            # ( foobar "teardown-0-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
+                                                            ( foobar "teardown-0-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) ) true )
+                                                            ( foobar "teardown-0-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) false )
                                                             # ( foobar "teardown-0-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
                                                             # ( foobar "teardown-0-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
                                                             # ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
