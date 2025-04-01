@@ -117,7 +117,7 @@
                                                                                             ] ;
                                                                                     } ;
                                                                             } ;
-                                                                        standard-output = self + "/expected/teardown/standard-output" ;
+                                                                        standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "false" else "true" }-${ if builtins.typeOf primary.post == "null" then "false" else "true" }" ;
                                                                     } ;
                                                         } ;
                                             } ;
