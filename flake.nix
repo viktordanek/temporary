@@ -120,7 +120,7 @@
                                                                                 ( string "PID" 9999 )
                                                                             ]
                                                                             ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post ) ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then builtins.trace "NO" [ ] else builtins.trace "YES" [ ( string "RELEASE" primary.release ) ] )
+                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release ) ] )
                                                                             [
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                 ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
@@ -164,9 +164,7 @@
                                                                                         expected = self + "/expected/teardown/mounts/resource" ;
                                                                                         initial =
                                                                                             [
-                                                                                                "mkdir /mount/target"
-                                                                                                "mkdir /mount/target/resources"
-                                                                                                "touch /mount/target/resources/lock"
+                                                                                                "mkdir --parents /mount/target/resources"
                                                                                             ] ;
                                                                                     } ;
                                                                             } ;

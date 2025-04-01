@@ -1,4 +1,4 @@
-ls -lah / >&2 && exec 201> /mount/resources/lock &&
+exec 201> /mount/resources/lock &&
   if ${FLOCK} 201
   then
     ${TAIL} --follow --pid ${PID} &&
