@@ -181,100 +181,111 @@
                             in
                                 {
                                     checks =
-                                        {
-                                            foobar =
-                                                pkgs.stdenv.mkDerivation
+                                        let
+                                            init =
+                                                _shell-script
                                                     {
-                                                        installPhase =
-                                                            let
-                                                                init =
-                                                                    _shell-script
-                                                                        {
-                                                                            extensions =
-                                                                                {
-                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                                } ;
-                                                                            name = "flag" ;
-                                                                            profile =
-                                                                                { string } :
-                                                                                    [
-                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                        ( string "UUID" "3493629e1bbb07cd22b4554cb8557e9a9b30d71cf0e292f182fc522aca04042396c7c21a4d5cbcc8ac4061bc20f433c6a70af81d93a39b50ad34dc8e00ce3ac8" )
-                                                                                    ] ;
-                                                                            script = self + "/flag.sh" ;
-                                                                            tests =
-                                                                                ignore :
-                                                                                    {
-                                                                                        standard-output = self + "/expected/init/standard-output" ;
-                                                                                    } ;
-                                                                        } ;
-                                                                post =
-                                                                    _shell-script
-                                                                        {
-                                                                            extensions =
-                                                                                {
-                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                                } ;
-                                                                            name = "flag" ;
-                                                                            profile =
-                                                                                { string } :
-                                                                                    [
-                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                        ( string "UUID" "62279656383ea24097dba41e855b8639e142bbefcb33753cd55e2249086aed5c51c83775e49ccd8850f9e5e7e77b28778842aea3e4e6d87c511d076d1d4c995e" )
-                                                                                    ] ;
-                                                                            script = self + "/flag.sh" ;
-                                                                            tests =
-                                                                                ignore :
-                                                                                    {
-                                                                                        standard-output = self + "/expected/post/standard-output" ;
-                                                                                    } ;
-                                                                        } ;
-                                                                release =
-                                                                    _shell-script
-                                                                        {
-                                                                            extensions =
-                                                                                {
-                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                                } ;
-                                                                            name = "flag" ;
-                                                                            profile =
-                                                                                { string } :
-                                                                                    [
-                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                        ( string "UUID" "29f2dc4be20c9ebdba7bf0bc3c0bff66d7e758753100523c49e4a7ff88b7b3bb67b8e821cab126eeb9789aa5ab168dfc89f7962fa578ffdc722fe36476166383" )
-                                                                                    ] ;
-                                                                            script = self + "/flag.sh" ;
-                                                                            tests =
-                                                                                ignore :
-                                                                                    {
-                                                                                        standard-output = self + "/expected/release/standard-output" ;
-                                                                                    } ;
-                                                                        } ;
-                                                                tests =
-                                                                    let
-                                                                        mapper =
-                                                                            script :
-                                                                                [
-                                                                                    "${ pkgs.coreutils }/bin/echo ${ script.shell-script }"
-                                                                                    "if [ -f ${ script.tests }/SUCCESS ] ; then ${ pkgs.coreutils }/bin/echo There was success at ${ script.tests }. ; elif [ -f ${ script.tests }/FAILURE ] ; then ${ pkgs.coreutils }/bin/echo There was predicted failure at ${ script.tests }. >&2 && exit 63 ; else ${ pkgs.coreutils }/bin/echo There was unpredicted failure at ${ script.tests } >&2 && exit 62 ; fi"
-                                                                                ] ;
-                                                                        scripts =
-                                                                            [
-                                                                                init
-                                                                                post
-                                                                                release
-                                                                                ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { } ) ) )
-                                                                            ] ;
-                                                                        in builtins.concatLists ( builtins.map mapper scripts ) ;
-                                                                in
-                                                                    ''
-                                                                        ${ pkgs.coreutils }/bin/touch $out &&
-                                                                            ${ builtins.concatStringsSep " &&\n\t" tests }
-                                                                    '' ;
-                                                        name = "foobar" ;
-                                                        src = ./. ;
+                                                        extensions =
+                                                            {
+                                                                string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                            } ;
+                                                        name = "flag" ;
+                                                        profile =
+                                                            { string } :
+                                                                [
+                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                    ( string "UUID" "3493629e1bbb07cd22b4554cb8557e9a9b30d71cf0e292f182fc522aca04042396c7c21a4d5cbcc8ac4061bc20f433c6a70af81d93a39b50ad34dc8e00ce3ac8" )
+                                                                ] ;
+                                                        script = self + "/flag.sh" ;
+                                                        tests =
+                                                            ignore :
+                                                                {
+                                                                    standard-output = self + "/expected/init/standard-output" ;
+                                                                } ;
                                                     } ;
-                                        } ;
+                                            list =
+                                                let
+                                                    foobar =
+                                                        name : script : success :
+                                                            {
+                                                                name = name ;
+                                                                value =
+                                                                    pkgs.stdenv.mkDerivation
+                                                                        {
+                                                                            installPhase =
+                                                                                let
+                                                                                    shell-script = script.shell-script ;
+                                                                                    tests = script.tests ;
+                                                                                    success-code = if success then "0" else "61" ;
+                                                                                    in
+                                                                                        ''
+                                                                                            ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                                ${ pkgs.coreutils }/bin/echo ${ name } &&
+                                                                                                ${ pkgs.coreutils }/bin/echo ${ shell-script } &&
+                                                                                                if [ -f ${ tests }/SUCCESS ]
+                                                                                                then
+                                                                                                    ${ pkgs.coreutils }/bin/echo There was success in ${ tests }. &&
+                                                                                                        exit ${ success-code }
+                                                                                                elif [ -f ${ tests }/FAILURE ]
+                                                                                                then
+                                                                                                    ${ pkgs.coreutils }/bin/echo There was failure in ${ tests }. >&2 &&
+                                                                                                        exit 63
+                                                                                                else
+                                                                                                    ${ pkgs.coreutils }/bin/echo There was error in ${ tests }. >&2 &&
+                                                                                                        exit 62
+                                                                                                fi
+                                                                                        '' ;
+                                                                            name = name ;
+                                                                            src = ./. ;
+                                                                        } ;
+                                                                } ;
+                                                    in
+                                                        [
+                                                            ( foobar "init" init false )
+                                                        ] ;
+                                            post =
+                                                _shell-script
+                                                    {
+                                                        extensions =
+                                                            {
+                                                                string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                            } ;
+                                                        name = "flag" ;
+                                                        profile =
+                                                            { string } :
+                                                                [
+                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                    ( string "UUID" "62279656383ea24097dba41e855b8639e142bbefcb33753cd55e2249086aed5c51c83775e49ccd8850f9e5e7e77b28778842aea3e4e6d87c511d076d1d4c995e" )
+                                                                ] ;
+                                                        script = self + "/flag.sh" ;
+                                                        tests =
+                                                            ignore :
+                                                                {
+                                                                    standard-output = self + "/expected/post/standard-output" ;
+                                                                } ;
+                                                    } ;
+                                            release =
+                                                _shell-script
+                                                    {
+                                                        extensions =
+                                                            {
+                                                                string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                            } ;
+                                                        name = "flag" ;
+                                                        profile =
+                                                            { string } :
+                                                                [
+                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                    ( string "UUID" "29f2dc4be20c9ebdba7bf0bc3c0bff66d7e758753100523c49e4a7ff88b7b3bb67b8e821cab126eeb9789aa5ab168dfc89f7962fa578ffdc722fe36476166383" )
+                                                                ] ;
+                                                        script = self + "/flag.sh" ;
+                                                        tests =
+                                                            ignore :
+                                                                {
+                                                                    standard-output = self + "/expected/release/standard-output" ;
+                                                                } ;
+                                                    } ;
+                                            in builtins.listToAttrs ( list ) ;
                                     lib = lib ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
