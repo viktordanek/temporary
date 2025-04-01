@@ -55,10 +55,6 @@
                                                                         {
                                                                             is-read-only = false ;
                                                                         } ;
-                                                                    "/target" =
-                                                                        {
-                                                                            is-read-only = true ;
-                                                                        } ;
                                                                 } ;
                                                             name = "teardown" ;
                                                             profile =
@@ -118,14 +114,6 @@
                                                                                             [
                                                                                                 "mkdir /mount/target"
                                                                                                 "echo bf1016292448b486870e23c6023fd44091f9fda04c5153b2f59e35de2edf9bf7707bba1f08b53223b2d10247014cf6e2fc920f5beb23eed6dad36bb777978308 > /mount/target/resource"
-                                                                                            ] ;
-                                                                                    } ;
-                                                                                "/target" =
-                                                                                    {
-                                                                                        expected = self + "/expected/teardown/mounts/target" ;
-                                                                                        initial =
-                                                                                            [
-                                                                                                "echo 4f7364e68e0ec0bff4384b86099e763e7818c88b95de4d341fd96bfbb68ee86724c1c959517c1e7639316d207ec15558d1a29ca80da5002096c81c6fe6bcbca5 > /mount/target"
                                                                                             ] ;
                                                                                     } ;
                                                                             } ;
