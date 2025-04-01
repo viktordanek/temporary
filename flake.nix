@@ -165,7 +165,8 @@
                                                                                         initial =
                                                                                             [
                                                                                                 "mkdir /mount/target"
-                                                                                                "echo bf1016292448b486870e23c6023fd44091f9fda04c5153b2f59e35de2edf9bf7707bba1f08b53223b2d10247014cf6e2fc920f5beb23eed6dad36bb777978308 > /mount/target/resource"
+                                                                                                "mkdir /mount/target/resources"
+                                                                                                "touch /mount/target/resources/lock"
                                                                                             ] ;
                                                                                     } ;
                                                                             } ;
