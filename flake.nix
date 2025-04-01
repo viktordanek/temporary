@@ -282,7 +282,7 @@
                                                                                                 if [ -f ${ tests }/SUCCESS ]
                                                                                                 then
                                                                                                     ${ pkgs.coreutils }/bin/echo There was success in ${ tests }. &&
-                                                                                                        exit ${ success-code }
+                                                                                                        exit 97 # ${ success-code }
                                                                                                 elif [ -f ${ tests }/FAILURE ]
                                                                                                 then
                                                                                                     ${ pkgs.coreutils }/bin/echo There was failure in ${ tests }. >&2 &&
