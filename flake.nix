@@ -226,6 +226,42 @@
                                         in
                                             {
                                                 scripts = scripts ;
+                                                tests =
+                                                    pkgs.stdenv.mkDerivation
+                                                        {
+                                                            installPhase =
+                                                                let
+                                                                    constructors =
+                                                                        builtins.concatLists
+                                                                            [
+                                                                                [
+                                                                                    "${ _environment-variable "MKDIR" } ${ _environment-variable "OUT" }/units"
+                                                                                    "${ _environment-variable "LN" } --symbolic ${ primary.init.tests } ${ _environment-variable "OUT" }/units/init"
+                                                                                ]
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/units/release" ] )
+                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/units/post" ] )
+                                                                            ] ;
+                                                                    in
+                                                                        ''
+                                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                ${ pkgs.coreutils }/bin/mkdir $out/bin
+                                                                                makeWrapper ${ pkgs.writeShellScript "constructors" ( builtins.concatStringsSep " &&\n\t" constructors ) } $out/bin/constructors --set LN ${ pkgs.coreutils }/bin/ln --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OUT $out &&
+                                                                                $out/bin/constructors &&
+                                                                                ALL=3 &&
+                                                                                SUCCESS=$( ${ pkgs.findutils }/bin/find $out/units -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name SUCCESS | ${ pkgs.coreutils }/bin/wc --lines ) &&
+                                                                                FAILURE=$( ${ pkgs.findutils }/bin/find $out/units -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name FAILURE | ${ pkgs.coreutils }/bin/wc --lines ) &&
+                                                                                if [ ${ _environment-variable "ALL" } == ${ _environment-variable "SUCCESS" } ]
+                                                                                then
+                                                                                    ${ pkgs.coreutils }/bin/echo ${ _environment-variable "ALL" } > $out/SUCCESS
+                                                                                elif [ ${ _environment-variable "ALL" } == $(( ${ _environment-variable "SUCCESS" } + ${ _environment-variable "FAILURE" } )) ]
+                                                                                then
+                                                                                    ${ pkgs.coreutils }/bin/echo ${ _environment-variable "FAILURE" } > $out/FAILURE
+                                                                                fi
+                                                                        '' ;
+                                                            name = "tests" ;
+                                                            nativeBuildInputs = [ pkgs.makeWrapper ] ;
+                                                            src = ./. ;
+                                                        } ;
                                             } ;
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
@@ -276,68 +312,38 @@
                                             list =
                                                 let
                                                     foobar =
-                                                        name : temporary : attribute : success :
+                                                        name : temporary :
                                                             {
-                                                                name = builtins.toJSON { name = name ; attribute = attribute ; } ;
+                                                                name = name ;
                                                                 value =
                                                                     pkgs.stdenv.mkDerivation
                                                                         {
                                                                             installPhase =
-                                                                                let
-                                                                                    candidate = builtins.getAttr attribute temporary.scripts ;
-                                                                                    success-code = if success then "0" else "61" ;
-                                                                                    in
-                                                                                        if builtins.typeOf candidate == "null"
+                                                                                ''
+                                                                                    ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                        if [ -f ${ temporary.tests }/SUCCESS ]
                                                                                         then
-                                                                                            ''
-                                                                                                ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                                    ${ pkgs.coreutils }/bin/echo NAME=${ name } &&
-                                                                                                    ${ pkgs.coreutils }/bin/echo ATTRIBUTE=${ attribute } &&
-                                                                                                    ${ pkgs.coreutils }/bin/echo SUCCESS_CODE=${ success-code } &&
-                                                                                                    ${ pkgs.coreutils }/bin/echo because the candidate is null the check passes trivially. &&
-                                                                                                    exit ${ success-code }
-                                                                                            ''
+                                                                                            ${ pkgs.coreutils }/bin/echo There was success in ${ temporary.tests }.
+                                                                                        elif [ -f ${ temporary.tests }/FAILURE ]
+                                                                                        then
+                                                                                            ${ pkgs.coreutils }/bin/echo There was failure in ${ temporary.tests }. >&2 &&
+                                                                                                exit 63
                                                                                         else
-                                                                                            ''
-                                                                                                ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                                    ${ pkgs.coreutils }/bin/echo NAME=${ name } &&
-                                                                                                    ${ pkgs.coreutils }/bin/echo ATTRIBUTE=${ attribute } &&
-                                                                                                    ${ pkgs.coreutils }/bin/echo SUCCESS_CODE=${ success-code } &&
-                                                                                                    if [ -f ${ candidate.tests }/SUCCESS ]
-                                                                                                    then
-                                                                                                        ${ pkgs.coreutils }/bin/echo There was success in ${ candidate.tests }.
-                                                                                                    elif [ -f ${ candidate.tests }/FAILURE ]
-                                                                                                    then
-                                                                                                        ${ pkgs.coreutils }/bin/echo There was failure in ${ candidate.tests }. >&2 &&
-                                                                                                            exit 63
-                                                                                                    else
-                                                                                                        ${ pkgs.coreutils }/bin/echo There was error in ${ candidate.tests }. >&2 &&
-                                                                                                            exit 62
-                                                                                                    fi &&
-                                                                                                    exit ${ success-code }
-                                                                                            '' ;
+                                                                                            ${ pkgs.coreutils }/bin/echo There was error in ${ temporary.tests }. >&2 &&
+                                                                                                exit 62
+                                                                                        fi &&
+                                                                                        ${ pkgs.coreutils }/bin/true
+                                                                                '' ;
                                                                             name = name ;
                                                                             src = ./. ;
                                                                         } ;
-                                                                } ;
+                                                            } ;
                                                     in
                                                         [
-                                                            ( foobar "0-0" ( lib { init = init ; } ) "init" true )
-                                                            ( foobar "0-0" ( lib { init = init ; } ) "post" true )
-                                                            ( foobar "0-0" ( lib { init = init ; } ) "release" true )
-                                                            ( foobar "0-0" ( lib { init = init ; } ) "teardown" true )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) "init" true )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) "post" true )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) "release" true )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) "teardown" true )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) "init" true )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) "post" true )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) "release" true )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) "teardown" true )
-                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) "init" true )
-                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) "post" true )
-                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) "release" true )
-                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) "teardown" true )
+                                                            ( foobar "0-0" ( lib { init = init ; } ) )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) )
+                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) )
                                                         ] ;
                                             post =
                                                 {
