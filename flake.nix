@@ -28,55 +28,87 @@
                                 } :
                                     let
                                         primary =
-                                            {
-                                                init =
-                                                    if builtins.typeOf init == "string" then init
-                                                    else builtins.throw "init is not string but ${ builtins.typeOf init }." ;
-                                                lock-failure =
-                                                    if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
-                                                    else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
-                                                post_ =
-                                                    if builtins.typeOf post_ == "null" then post_
-                                                    else if builtins.typeOf post_ == "set" then
-                                                        let
-                                                            eval = builtins.tryEval ( _shell-script set-plus ) ;
-                                                            mounts =
-                                                                if builtins.hasAttr "mounts" post_ then builtins.getAttr "mounts" post_
-                                                                else [ ] ;
-                                                            mounts-plus =
-                                                                {
-                                                                    "${ resource }" =
+                                            let
+                                                enrich =
+                                                    name : set :
+                                                        if name == "init" && builtins.typeOf set == "null" then builtins.throw "${ name } is null not set."
+                                                        else if builtins.typeOf set == "null" then set
+                                                        else if builtins.typeOf set == "set" then
+                                                            let
+                                                                arguments-minus = builtins.removeAttrs set [ "mounts" "resource" "target" ] ;
+                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                eval = builtins.tryEval arguments-plus ;
+                                                                mounts =
+                                                                    {
+                                                                        "${ resource }" =
+                                                                            {
+                                                                                host-path = _environment-variable "RESOURCE" ;
+                                                                                is-read-only = true ;
+                                                                            } ;
+                                                                        "${ target }" =
+                                                                            {
+                                                                                host-path = "${ _environment-variable "RESOURCE" }/mount/target" ;
+                                                                                is-read-only = name != "init" ;
+                                                                            } ;
+                                                                    } ;
+                                                                resource =
+                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
+                                                                    else "/resource" ;
+                                                                target =
+                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
+                                                                    else "/target" ;
+                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating ${ name }."
+                                                        else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
+                                                in
+                                                    {
+                                                        init =
+                                                            if builtins.typeOf init == "string" then init
+                                                            else builtins.throw "init is not string but ${ builtins.typeOf init }." ;
+                                                        lock-failure =
+                                                            if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
+                                                            else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
+                                                        post_ =
+                                                            if builtins.typeOf post_ == "null" then post_
+                                                            else if builtins.typeOf post_ == "set" then
+                                                                let
+                                                                    eval = builtins.tryEval ( _shell-script set-plus ) ;
+                                                                    mounts =
+                                                                        if builtins.hasAttr "mounts" post_ then builtins.getAttr "mounts" post_
+                                                                        else [ ] ;
+                                                                    mounts-plus =
                                                                         {
-                                                                            host-path = _environment-variable "RESOURCE" ;
-                                                                            is-read-only = true ;
+                                                                            "${ resource }" =
+                                                                                {
+                                                                                    host-path = _environment-variable "RESOURCE" ;
+                                                                                    is-read-only = true ;
+                                                                                } ;
+                                                                            "${ target }" =
+                                                                                {
+                                                                                    host-path = "${ _environment-variable "RESOURCE" }/mount/target" ;
+                                                                                    is-read-only = true ;
+                                                                                } ;
                                                                         } ;
-                                                                    "${ target }" =
-                                                                        {
-                                                                            host-path = "${ _environment-variable "RESOURCE" }/mount/target" ;
-                                                                            is-read-only = true ;
-                                                                        } ;
-                                                                } ;
-                                                            resource =
-                                                                if builtins.hasAttr "resource" post_ then builtins.getAttr "resource" post_
-                                                                else "/resource" ;
-                                                            set-minus = builtins.removeAttrs [ "mounts" "resource" "target" ] post_ ;
-                                                            set-plus = set-minus // { mounts = mounts // mounts-plus ; } ;
-                                                            target =
-                                                                if builtins.hasAttr "target" post_ then builtins.getAttr "target" post_
-                                                                else "/target" ;
-                                                            in
-                                                                if eval.success then eval.value
-                                                                else builtins.throw "We were unable to evaluate the post."
-                                                    else builtins.throw "post is not null, set but ${ builtins.typeOf post_ }." ;
-                                                post =
-                                                    if builtins.typeOf post == "null" then post
-                                                    else if builtins.typeOf post == "string" then post
-                                                    else builtins.throw "post is not null, string but ${ builtins.typeOf post }." ;
-                                                release =
-                                                    if builtins.typeOf release == "null" then release
-                                                    else if builtins.typeOf release == "string" then release
-                                                    else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
-                                            } ;
+                                                                    resource =
+                                                                        if builtins.hasAttr "resource" post_ then builtins.getAttr "resource" post_
+                                                                        else "/resource" ;
+                                                                    set-minus = builtins.removeAttrs [ "mounts" "resource" "target" ] post_ ;
+                                                                    set-plus = set-minus // { mounts = mounts // mounts-plus ; } ;
+                                                                    target =
+                                                                        if builtins.hasAttr "target" post_ then builtins.getAttr "target" post_
+                                                                        else "/target" ;
+                                                                    in
+                                                                        if eval.success then eval.value
+                                                                        else builtins.throw "We were unable to evaluate the post."
+                                                            else builtins.throw "post is not null, set but ${ builtins.typeOf post_ }." ;
+                                                        post =
+                                                            if builtins.typeOf post == "null" then post
+                                                            else if builtins.typeOf post == "string" then post
+                                                            else builtins.throw "post is not null, string but ${ builtins.typeOf post }." ;
+                                                        release =
+                                                            if builtins.typeOf release == "null" then release
+                                                            else if builtins.typeOf release == "string" then release
+                                                            else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
+                                                    } ;
                                         scripts =
                                             {
                                                 post = primary.post_ ;
