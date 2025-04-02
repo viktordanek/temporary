@@ -322,7 +322,9 @@
                                                                 } ;
                                                     in
                                                         [
-                                                            ( foobar "0-0" ( lib { init = init ; } ) "init" false )
+                                                            ( foobar "0-0" ( lib { init = init ; } ) "init" true )
+                                                            ( foobar "0-0" ( lib { init = init ; } ) "post" true )
+                                                            ( foobar "0-0" ( lib { init = init ; } ) "release" true )
                                                         ] ;
                                             post =
                                                 {
