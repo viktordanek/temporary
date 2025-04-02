@@ -80,22 +80,15 @@
                                                             builtins.concatLists
                                                                 [
                                                                     [
-                                                                        ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                        ( string "HAS_STANDARD_INPUT" "WTF" )
-                                                                        ( string "FIND" "${ pkgs.coreutils }/bin/find" )
-                                                                        ( string "INIT" init )
-                                                                        ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                        ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                        ( string "STANDARD_INPUT" "WTF" )
-                                                                        ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
-                                                                        ( string "UNINITIALIZED_TARGET_ERROR_MESSAGE" primary.uninitialized-target-error-message )
-                                                                        ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
-                                                                        ( string "OVER_INITIALIZED_TARGET_ERROR_MESSAGE" primary.over-initialized-target-error-message )
 
                                                                     ]
                                                                 ] ;
                                                     script = self + "/setup.sh" ;
+                                                    tests =
+                                                        ignore :
+                                                            {
+
+                                                            } ;
                                                 } ;
                                         teardown =
                                             _shell-script
