@@ -79,6 +79,7 @@
                                             } ;
                                         scripts =
                                             {
+                                                post = primary.post_ ;
                                                 setup =
                                                     _shell-script
                                                         {
