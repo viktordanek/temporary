@@ -23,7 +23,9 @@
                                     post ? null ,
                                     release ? null ,
                                     shell-scripts ? { } ,
-                                    tests ? null
+                                    tests ? null ,
+                                    uninitialized-target-error-code ? 65 ,
+                                    uninitialized-target-error-message ? "Uninitialized Target Error"
                                 } :
                                     let
                                         primary =
@@ -66,25 +68,36 @@
                                                             else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
                                                         post = enrich "post" post ;
                                                         release = enrich "release" release ;
+                                                        uninitialized-target-error-code =
+                                                            if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
+                                                            else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
+                                                        uninitialized-target-error-message =
+                                                            if builtins.typeOf uninitialized-target-error-message == "string" then uninitialized-target-error-message
+                                                            else builtins.throw "uninitialized-target-error-message is not string but ${ builtins.typeOf uninitialized-target-error-message }." ;
                                                     } ;
                                         setup =
                                             _shell-script
                                                 {
                                                     extensions =
                                                         {
-                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                            has-standard-input = name : "export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/false ; fi )" ;
+                                                            standard-input = name : "export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )" ;
+                                                            string = name : value : "export ${ name }=\"${ builtins.toString value }\"" ;
                                                         } ;
                                                     name = "setup" ;
                                                     profile =
-                                                        { string } :
+                                                        { has-standard-input , standard-input , string } :
                                                             builtins.concatLists
                                                                 [
                                                                     [
                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                        ( string "HAS_STANDARD_INPUT" "${ pkgs.coreutils }/bin/false" )
+                                                                        ( has-standard-input "HAS_STANDARD_INPUT" )
                                                                         ( string "INIT" primary.init.shell-script )
+                                                                        ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
+                                                                        ( string "UNINITIALIZED_TARGET_ERROR_MESSAGE" primary.uninitialized-target-error-message )
                                                                         ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                        ( standard-input "STANDARD_INPUT" )
                                                                     ]
                                                                 ] ;
                                                     script = self + "/setup.sh" ;

@@ -1,4 +1,4 @@
-export RESOURCE=$( ${MKTEMP} --directory ) &&
+export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   ${MKDIR} ${TARGET_MOUNT} &&
   if ${HAS_STANDARD_INPUT}
@@ -16,4 +16,9 @@ export RESOURCE=$( ${MKTEMP} --directory ) &&
     else
       ${ECHO} ${?} > ${RESOURCE}/init.status
     fi
+  fi &&
+  if [ ! -e ${RESOURCE}/mount/target ]
+  then
+    ${ECHO} ${UNINITIALIZED_TARGET_ERROR_MESSAGE} >&2 &&
+      exit ${UNINITIALIZED_TARGET_ERROR_CODE}
   fi
