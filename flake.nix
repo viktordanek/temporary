@@ -168,7 +168,7 @@
                                                                                 ( string "PID" 9999 )
                                                                             ]
                                                                             ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release ) ] )
+                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
                                                                             [
                                                                                 ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
                                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
@@ -330,6 +330,14 @@
                                                             ( foobar "0-1" ( lib { init = init ; post = post ; } ) "post" true )
                                                             ( foobar "0-1" ( lib { init = init ; post = post ; } ) "release" true )
                                                             ( foobar "0-1" ( lib { init = init ; post = post ; } ) "teardown" true )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) "init" true )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) "post" true )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) "release" true )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) "teardown" true )
+                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) "init" true )
+                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) "post" true )
+                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) "release" true )
+                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) "teardown" true )
                                                         ] ;
                                             post =
                                                 {
