@@ -201,7 +201,7 @@
                                                                             [
                                                                                 [
                                                                                     "${ _environment-variable "MKDIR" } ${ _environment-variable "OUT" }/units"
-                                                                                #     "${ _environment-variable "LN" } --symbolic ${ primary.init.tests } ${ _environment-variable "OUT" }/units/init"
+                                                                                    "${ _environment-variable "LN" } --symbolic ${ primary.init.tests } ${ _environment-variable "OUT" }/units/init"
                                                                                 ]
                                                                                 ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/units/release" ] )
                                                                                 ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/units/post" ] )
@@ -267,7 +267,7 @@
                                                                                         "echo 4806851f94f416164d4f20028664c37e592579ebed9be9976f55045699f35cd5ef3335775e1f774e0803ba3a1fee5a67aba1be7f1005fa9aec5bbd952dac207e > /mount/target"
                                                                                     ] ;
                                                                             } ;
-                                                                        "/target" =
+                                                                        "/mount" =
                                                                             {
                                                                                 expected = self + "/expected/init/mounts/target" ;
                                                                                 initial =
