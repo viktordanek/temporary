@@ -326,6 +326,10 @@
                                                             ( foobar "0-0" ( lib { init = init ; } ) "post" true )
                                                             ( foobar "0-0" ( lib { init = init ; } ) "release" true )
                                                             ( foobar "0-0" ( lib { init = init ; } ) "teardown" true )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) "init" true )
+                                                            # ( foobar "0-1" ( lib { init = init ; post = post ; } ) "post" true )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) "release" true )
+                                                            #  foobar "0-1" ( lib { init = init ; post = post ; } ) "teardown" true )
                                                         ] ;
                                             post =
                                                 {
