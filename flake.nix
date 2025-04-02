@@ -67,165 +67,158 @@
                                                         post = enrich "post" post ;
                                                         release = enrich "release" release ;
                                                     } ;
-                                        scripts =
-                                            {
-                                                init = primary.init ;
-                                                post = primary.post ;
-                                                release = primary.release ;
-                                                setup =
-                                                    _shell-script
+                                        setup =
+                                            _shell-script
+                                                {
+                                                    extensions =
                                                         {
-                                                            extensions =
-                                                                {
-                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                } ;
-                                                            name = "setup" ;
-                                                            profile =
-                                                                { string } :
-                                                                    builtins.concatLists
-                                                                        [
-                                                                            [
-                                                                                ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                ( string "HAS_STANDARD_INPUT" "WTF" )
-                                                                                ( string "FIND" "${ pkgs.coreutils }/bin/find" )
-                                                                                ( string "INIT" init )
-                                                                                ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                                ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                                ( string "STANDARD_INPUT" "WTF" )
-                                                                                ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
-                                                                                ( string "UNINITIALIZED_TARGET_ERROR_MESSAGE" primary.uninitialized-target-error-message )
-                                                                                ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
-                                                                                ( string "OVER_INITIALIZED_TARGET_ERROR_MESSAGE" primary.over-initialized-target-error-message )
+                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                        } ;
+                                                    name = "setup" ;
+                                                    profile =
+                                                        { string } :
+                                                            builtins.concatLists
+                                                                [
+                                                                    [
+                                                                        ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                        ( string "HAS_STANDARD_INPUT" "WTF" )
+                                                                        ( string "FIND" "${ pkgs.coreutils }/bin/find" )
+                                                                        ( string "INIT" init )
+                                                                        ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                        ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                        ( string "STANDARD_INPUT" "WTF" )
+                                                                        ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
+                                                                        ( string "UNINITIALIZED_TARGET_ERROR_MESSAGE" primary.uninitialized-target-error-message )
+                                                                        ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
+                                                                        ( string "OVER_INITIALIZED_TARGET_ERROR_MESSAGE" primary.over-initialized-target-error-message )
 
-                                                                            ]
-                                                                        ] ;
-                                                            script =
-                                                                let
-                                                                    all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/setup.sh" ) ) ) ) ;
-                                                                    array =
-                                                                        builtins.concatLists
-                                                                            [
-                                                                                [ 0 ]
-                                                                                [ 1 ]
-                                                                                [ 2 ]
-                                                                                [ 3 ]
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 5 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 6 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 7 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
-                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ 14 ] )
-                                                                                [ 15 ]
-                                                                                [ 16 ]
-                                                                                [ 17 ]
-                                                                                [ 18 ]
-                                                                                [ 19 ]
-                                                                            ] ;
-                                                                    with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                                    filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
-                                                                    simplified = builtins.map ( x : x.line ) filtered ;
-                                                                    # in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
-                                                                    in self + "/setup.sh" ;
-                                                            tests =
-                                                                ignore :
-                                                                    {
-                                                                        status = 103 ;
-                                                                        test =
-                                                                            [
-                                                                                "CANDIDATE+$( candidate )"
-                                                                                "echo ${ _environment-variable "CANDIDATE" }"
-                                                                                "echo 100"
-                                                                                "exit 101"
-                                                                            ] ;
-                                                                    } ;
-                                                        } ;
-                                                teardown =
-                                                    _shell-script
+                                                                    ]
+                                                                ] ;
+                                                    script =
+                                                        let
+                                                            all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/setup.sh" ) ) ) ) ;
+                                                            array =
+                                                                builtins.concatLists
+                                                                    [
+                                                                        [ 0 ]
+                                                                        [ 1 ]
+                                                                        [ 2 ]
+                                                                        [ 3 ]
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 5 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 6 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 7 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
+                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ 14 ] )
+                                                                        [ 15 ]
+                                                                        [ 16 ]
+                                                                        [ 17 ]
+                                                                        [ 18 ]
+                                                                        [ 19 ]
+                                                                    ] ;
+                                                            with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
+                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
+                                                            simplified = builtins.map ( x : x.line ) filtered ;
+                                                            # in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
+                                                            in self + "/setup.sh" ;
+                                                    tests =
+                                                        ignore :
+                                                            {
+                                                                status = 103 ;
+                                                                test =
+                                                                    [
+                                                                        "CANDIDATE+$( candidate )"
+                                                                        "echo ${ _environment-variable "CANDIDATE" }"
+                                                                        "echo 100"
+                                                                        "exit 101"
+                                                                    ] ;
+                                                            } ;
+                                                } ;
+                                        teardown =
+                                            _shell-script
+                                                {
+                                                    extensions =
                                                         {
-                                                            extensions =
-                                                                {
-                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                } ;
-                                                            mounts =
-                                                                {
-                                                                    "/mount" =
-                                                                        {
-                                                                            is-read-only = false ;
-                                                                        } ;
-                                                                } ;
-                                                            name = "teardown" ;
-                                                            profile =
-                                                                { string } :
-                                                                    builtins.concatLists
-                                                                        [
-                                                                            [
-                                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                                ( string "LOCK_FAILURE" primary.lock-failure )
-                                                                                ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                                ( string "PID" 9999 )
-                                                                            ]
-                                                                            ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
-                                                                            [
-                                                                                ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
-                                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
-                                                                                ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
-                                                                            ]
-                                                                        ] ;
-                                                            script =
-                                                                let
-                                                                    all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
-                                                                    array =
-                                                                        builtins.concatLists
-                                                                            [
-                                                                                [ 0 ]
-                                                                                [ 1 ]
-                                                                                [ 2 ]
-                                                                                [ 3 ]
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 5 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 6 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 7 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
-                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ 13 ] )
-                                                                                [ 15 ]
-                                                                                [ 16 ]
-                                                                                [ 17 ]
-                                                                                [ 18 ]
-                                                                                [ 19 ]
-                                                                            ] ;
-                                                                    with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                                    filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
-                                                                    simplified = builtins.map ( x : x.line ) filtered ;
-                                                                    in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
-                                                            tests =
-                                                                ignore :
-                                                                    {
-                                                                        mounts =
-                                                                            {
-                                                                                "/mount" =
-                                                                                    {
-                                                                                        expected = self + "/expected/teardown/mounts/resource" ;
-                                                                                        initial =
-                                                                                            [
-                                                                                                "mkdir --parents /mount/target/resource"
-                                                                                                "echo a60aa448919abcb69f7804ee9f3879fc9bd06765172f6c86cc697cc217719ae46278551a687cd80cc5a7d2c22ba2d79fccee95905ebb2865da1609da90d491c1 > /mount/target/resource/target"
-                                                                                            ] ;
-                                                                                    } ;
-                                                                            } ;
-                                                                        standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf primary.post == "null" then "0" else "1" }" ;
-                                                                    } ;
+                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
                                                         } ;
-                                            } ;
+                                                    mounts =
+                                                        {
+                                                            "/mount" =
+                                                                {
+                                                                    is-read-only = false ;
+                                                                } ;
+                                                        } ;
+                                                    name = "teardown" ;
+                                                    profile =
+                                                        { string } :
+                                                            builtins.concatLists
+                                                                [
+                                                                    [
+                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                        ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                        ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                        ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                        ( string "PID" 9999 )
+                                                                    ]
+                                                                    ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
+                                                                    ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
+                                                                    [
+                                                                        ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
+                                                                        ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                        ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                        ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
+                                                                        ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
+                                                                    ]
+                                                                ] ;
+                                                    script =
+                                                        let
+                                                            all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                            array =
+                                                                builtins.concatLists
+                                                                    [
+                                                                        [ 0 ]
+                                                                        [ 1 ]
+                                                                        [ 2 ]
+                                                                        [ 3 ]
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 5 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 6 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 7 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
+                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ 13 ] )
+                                                                        [ 15 ]
+                                                                        [ 16 ]
+                                                                        [ 17 ]
+                                                                        [ 18 ]
+                                                                        [ 19 ]
+                                                                    ] ;
+                                                            with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
+                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
+                                                            simplified = builtins.map ( x : x.line ) filtered ;
+                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
+                                                    tests =
+                                                        ignore :
+                                                            {
+                                                                mounts =
+                                                                    {
+                                                                        "/mount" =
+                                                                            {
+                                                                                expected = self + "/expected/teardown/mounts/resource" ;
+                                                                                initial =
+                                                                                    [
+                                                                                        "mkdir --parents /mount/target/resource"
+                                                                                        "echo a60aa448919abcb69f7804ee9f3879fc9bd06765172f6c86cc697cc217719ae46278551a687cd80cc5a7d2c22ba2d79fccee95905ebb2865da1609da90d491c1 > /mount/target/resource/target"
+                                                                                    ] ;
+                                                                            } ;
+                                                                    } ;
+                                                                standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf primary.post == "null" then "0" else "1" }" ;
+                                                            } ;
+                                                } ;
                                         in
                                             {
-                                                scripts = scripts ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -240,6 +233,9 @@
                                                                                 ]
                                                                                 ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/units/release" ] )
                                                                                 ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/units/post" ] )
+                                                                                [
+                                                                                    "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/units/teardown"
+                                                                                ]
                                                                             ] ;
                                                                     in
                                                                         ''
@@ -247,7 +243,7 @@
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out/bin
                                                                                 makeWrapper ${ pkgs.writeShellScript "constructors" ( builtins.concatStringsSep " &&\n\t" constructors ) } $out/bin/constructors --set LN ${ pkgs.coreutils }/bin/ln --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OUT $out &&
                                                                                 $out/bin/constructors &&
-                                                                                ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) ) } &&
+                                                                                ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 ) } &&
                                                                                 SUCCESS=$( ${ pkgs.findutils }/bin/find $out/units -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name SUCCESS | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 FAILURE=$( ${ pkgs.findutils }/bin/find $out/units -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name FAILURE | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 if [ ${ _environment-variable "ALL" } == ${ _environment-variable "SUCCESS" } ]
