@@ -3,4 +3,8 @@ do
   ${ECHO} ${FILE} &&
     ${CAT} ${FILE} &&
     ${ECHO}
-done
+done &&
+if [ ! -z "${UUID}" ]
+then
+  ${ECHO} ${UUID} > /mount/target
+fi

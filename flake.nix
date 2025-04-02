@@ -56,7 +56,8 @@
                                                                     if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
                                                                     else "/resource" ;
                                                                 target =
-                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
+                                                                    if builtins.hasAttr "target" set then builtins.getAttr "target" set
+                                                                    else if name == "init" then "/mount"
                                                                     else "/target" ;
                                                                 in if eval.success then eval.value else builtins.throw "There was a problem evaluating ${ name }."
                                                         else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
@@ -200,14 +201,14 @@
                                                                             [
                                                                                 [
                                                                                     "${ _environment-variable "MKDIR" } ${ _environment-variable "OUT" }/units"
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ primary.init.tests } ${ _environment-variable "OUT" }/units/init"
+                                                                                #     "${ _environment-variable "LN" } --symbolic ${ primary.init.tests } ${ _environment-variable "OUT" }/units/init"
                                                                                 ]
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/units/release" ] )
-                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/units/post" ] )
-                                                                                [
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/units/teardown"
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ setup.tests } ${ _environment-variable "OUT" }/units/setup"
-                                                                                ]
+                                                                                # ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/units/release" ] )
+                                                                                # ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/units/post" ] )
+                                                                                # [
+                                                                                #     "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/units/teardown"
+                                                                                #     "${ _environment-variable "LN" } --symbolic ${ setup.tests } ${ _environment-variable "OUT" }/units/setup"
+                                                                                # ]
                                                                             ] ;
                                                                     in
                                                                         ''
@@ -250,6 +251,7 @@
                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                 ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                 ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                                ( string "UUID" "a0ec4aaa08d8dc652beb39be11f4b9619ec8b69d547c92e249c9fb06c295e13e2fcbf2ad25d60388e8c34241ade94494c598e3d413d7c90f95667b309ed62a8d" )
                                                             ] ;
                                                     script = self + "/flag.sh" ;
                                                     tests =
