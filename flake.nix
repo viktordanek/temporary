@@ -80,7 +80,8 @@
                                                             builtins.concatLists
                                                                 [
                                                                     [
-
+                                                                        ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                        ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                     ]
                                                                 ] ;
                                                     script = self + "/setup.sh" ;
