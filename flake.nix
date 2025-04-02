@@ -20,6 +20,7 @@
                                     host-path ? "\${TMP_DIR}" ,
                                     init ? null ,
                                     lock-failure ? 64 ,
+                                    post_ ? null ,
                                     post ? null ,
                                     release ? null ,
                                     shell-scripts ? { } ,
@@ -34,6 +35,39 @@
                                                 lock-failure =
                                                     if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
                                                     else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
+                                                post_ =
+                                                    if builtins.typeOf post_ == "null" then post_
+                                                    else if builtins.typeOf post_ == "set" then
+                                                        let
+                                                            eval = builtins.tryEval ( _shell-script set-plus ) ;
+                                                            mounts =
+                                                                if builtins.hasAttr "mounts" post_ then builtins.getAttr "mounts" post_
+                                                                else [ ] ;
+                                                            mounts-plus =
+                                                                {
+                                                                    "${ resource }" =
+                                                                        {
+                                                                            host-path = _environment-variable "RESOURCE" ;
+                                                                            is-read-only = true ;
+                                                                        } ;
+                                                                    "${ target }" =
+                                                                        {
+                                                                            host-path = "${ _environment-variable "RESOURCE" }/mount/target" ;
+                                                                            is-read-only = true ;
+                                                                        } ;
+                                                                } ;
+                                                            resource =
+                                                                if builtins.hasAttr "resource" post_ then builtins.getAttr "resource" post_
+                                                                else "/resource" ;
+                                                            set-minus = builtins.removeAttrs [ "mounts" "resource" "target" ] post_ ;
+                                                            set-plus = set-minus // { mounts = mounts // mounts-plus ; } ;
+                                                            target =
+                                                                if builtins.hasAttr "target" post_ then builtins.getAttr "target" post_
+                                                                else "/target" ;
+                                                            in
+                                                                if eval.success then eval.value
+                                                                else builtins.throw "We were unable to evaluate the post."
+                                                    else builtins.throw "post is not null, set but ${ builtins.typeOf post_ }." ;
                                                 post =
                                                     if builtins.typeOf post == "null" then post
                                                     else if builtins.typeOf post == "string" then post
@@ -307,6 +341,47 @@
                                                             ( foobar "teardown-1-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
                                                             ( foobar "teardown-1-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
                                                         ] ;
+                                            post_ =
+                                                {
+                                                    extensions =
+                                                        {
+                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                        } ;
+                                                    name = "post" ;
+                                                    profile =
+                                                        { string } :
+                                                            [
+                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                            ] ;
+                                                    script = self + "/flag.sh" ;
+                                                    tests =
+                                                        ignore :
+                                                            {
+                                                                mounts =
+                                                                    {
+                                                                        "/resource" =
+                                                                            {
+                                                                                expected = self + "/expected/post/mounts/resource" ;
+                                                                                initial =
+                                                                                    [
+                                                                                        "echo c019fafab6f1d19b6266c357f4fa9ba6e6c88ef21e6f02a7777c2a94afec6608660f8252393648307b81da9d1a74552fbcaff38444bf42925a3001504fa5a65d > /mount/target"
+                                                                                    ] ;
+                                                                            } ;
+                                                                        "/target" =
+                                                                            {
+                                                                                expected = self + "/expected/post/mounts/target" ;
+                                                                                initial =
+                                                                                    [
+                                                                                        "echo aa4b0468d9b5bc33422777fcb8892f76073a60fc9cd2f6089ca9dbe12336c89861e9b6149832ed99b30be163177d0c3b561554bef3ba9eebb8da96a22838b08e > /mount/target"
+                                                                                    ] ;
+                                                                            } ;
+                                                                    } ;
+                                                                standard-output = self + "/expected/post/standard-output" ;
+                                                            } ;
+                                                } ;
                                             post =
                                                 _shell-script
                                                     {
