@@ -272,7 +272,7 @@
                                                                                 expected = self + "/expected/init/mounts/target" ;
                                                                                 initial =
                                                                                     [
-                                                                                        "echo 089cd1f177d042495e7f0975e861bf91e98234139e802769d85df406e70e8bd0fad9b68a557a56cddcbbbea10bc4e92095a77d190fc508c34bb715c910c2d804 > /mount/target"
+                                                                                        "mkdir /mount/target"
                                                                                     ] ;
                                                                             } ;
                                                                     } ;
