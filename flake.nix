@@ -20,7 +20,6 @@
                                     host-path ? "\${TMP_DIR}" ,
                                     init ? null ,
                                     lock-failure ? 64 ,
-                                    post_ ? null ,
                                     post ? null ,
                                     release ? null ,
                                     shell-scripts ? { } ,
@@ -37,7 +36,7 @@
                                                             let
                                                                 arguments-minus = builtins.removeAttrs set [ "mounts" "resource" "target" ] ;
                                                                 arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                eval = builtins.tryEval arguments-plus ;
+                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
                                                                 mounts =
                                                                     {
                                                                         "${ resource }" =
@@ -61,57 +60,18 @@
                                                         else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
                                                 in
                                                     {
-                                                        init =
-                                                            if builtins.typeOf init == "string" then init
-                                                            else builtins.throw "init is not string but ${ builtins.typeOf init }." ;
+                                                        init = enrich "init" init ;
                                                         lock-failure =
                                                             if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
                                                             else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
-                                                        post_ =
-                                                            if builtins.typeOf post_ == "null" then post_
-                                                            else if builtins.typeOf post_ == "set" then
-                                                                let
-                                                                    eval = builtins.tryEval ( _shell-script set-plus ) ;
-                                                                    mounts =
-                                                                        if builtins.hasAttr "mounts" post_ then builtins.getAttr "mounts" post_
-                                                                        else [ ] ;
-                                                                    mounts-plus =
-                                                                        {
-                                                                            "${ resource }" =
-                                                                                {
-                                                                                    host-path = _environment-variable "RESOURCE" ;
-                                                                                    is-read-only = true ;
-                                                                                } ;
-                                                                            "${ target }" =
-                                                                                {
-                                                                                    host-path = "${ _environment-variable "RESOURCE" }/mount/target" ;
-                                                                                    is-read-only = true ;
-                                                                                } ;
-                                                                        } ;
-                                                                    resource =
-                                                                        if builtins.hasAttr "resource" post_ then builtins.getAttr "resource" post_
-                                                                        else "/resource" ;
-                                                                    set-minus = builtins.removeAttrs [ "mounts" "resource" "target" ] post_ ;
-                                                                    set-plus = set-minus // { mounts = mounts // mounts-plus ; } ;
-                                                                    target =
-                                                                        if builtins.hasAttr "target" post_ then builtins.getAttr "target" post_
-                                                                        else "/target" ;
-                                                                    in
-                                                                        if eval.success then eval.value
-                                                                        else builtins.throw "We were unable to evaluate the post."
-                                                            else builtins.throw "post is not null, set but ${ builtins.typeOf post_ }." ;
-                                                        post =
-                                                            if builtins.typeOf post == "null" then post
-                                                            else if builtins.typeOf post == "string" then post
-                                                            else builtins.throw "post is not null, string but ${ builtins.typeOf post }." ;
-                                                        release =
-                                                            if builtins.typeOf release == "null" then release
-                                                            else if builtins.typeOf release == "string" then release
-                                                            else builtins.throw "release is not null, string but ${ builtins.typeOf release }." ;
+                                                        post = enrich "post" post ;
+                                                        release = enrich "release" release ;
                                                     } ;
                                         scripts =
                                             {
-                                                post = primary.post_ ;
+                                                init = primary.init ;
+                                                post = primary.post ;
+                                                release = primary.release ;
                                                 setup =
                                                     _shell-script
                                                         {
@@ -273,91 +233,77 @@
                                     checks =
                                         let
                                             init =
-                                                _shell-script
-                                                    {
-                                                        extensions =
+                                                {
+                                                    extensions =
+                                                        {
+                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                        } ;
+                                                    name = "init" ;
+                                                    profile =
+                                                        { string } :
+                                                            [
+                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                            ] ;
+                                                    script = self + "/flag.sh" ;
+                                                    tests =
+                                                        ignore :
                                                             {
-                                                                string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                            } ;
-                                                        name = "flag" ;
-                                                        mounts =
-                                                            {
-                                                                "/resource" =
+                                                                mounts =
                                                                     {
-                                                                        host-path = _environment-variable "RESOURCE" ;
-                                                                        is-read-only = true ;
+                                                                        "/resource" =
+                                                                            {
+                                                                                expected = self + "/expected/init/mounts/resource" ;
+                                                                                initial =
+                                                                                    [
+                                                                                        "echo 4806851f94f416164d4f20028664c37e592579ebed9be9976f55045699f35cd5ef3335775e1f774e0803ba3a1fee5a67aba1be7f1005fa9aec5bbd952dac207e > /mount/target"
+                                                                                    ] ;
+                                                                            } ;
+                                                                        "/target" =
+                                                                            {
+                                                                                expected = self + "/expected/init/mounts/target" ;
+                                                                                initial =
+                                                                                    [
+                                                                                        "echo 089cd1f177d042495e7f0975e861bf91e98234139e802769d85df406e70e8bd0fad9b68a557a56cddcbbbea10bc4e92095a77d190fc508c34bb715c910c2d804 > /mount/target"
+                                                                                    ] ;
+                                                                            } ;
                                                                     } ;
-                                                                "/target" =
-                                                                    {
-                                                                        host-path = _environment-variable "TARGET" ;
-                                                                        is-read-only = true ;
-                                                                    } ;
+                                                                standard-output = self + "/expected/init/standard-output" ;
                                                             } ;
-                                                        profile =
-                                                            { string } :
-                                                                [
-                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                    ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                ] ;
-                                                        script = self + "/flag.sh" ;
-                                                        tests =
-                                                            ignore :
-                                                                {
-                                                                    mounts =
-                                                                        {
-                                                                            "/resource" =
-                                                                                {
-                                                                                    expected = self + "/expected/init/mounts/resource" ;
-                                                                                    initial =
-                                                                                        [
-                                                                                            "echo 4806851f94f416164d4f20028664c37e592579ebed9be9976f55045699f35cd5ef3335775e1f774e0803ba3a1fee5a67aba1be7f1005fa9aec5bbd952dac207e > /mount/target"
-                                                                                        ] ;
-                                                                                } ;
-                                                                            "/target" =
-                                                                                {
-                                                                                    expected = self + "/expected/init/mounts/target" ;
-                                                                                    initial =
-                                                                                        [
-                                                                                            "echo 089cd1f177d042495e7f0975e861bf91e98234139e802769d85df406e70e8bd0fad9b68a557a56cddcbbbea10bc4e92095a77d190fc508c34bb715c910c2d804 > /mount/target"
-                                                                                        ] ;
-                                                                                } ;
-                                                                        } ;
-                                                                    standard-output = self + "/expected/init/standard-output" ;
-                                                                } ;
-                                                    } ;
+                                                } ;
                                             list =
                                                 let
                                                     foobar =
-                                                        name : script : success :
+                                                        name : temporary : attribute : success :
                                                             {
-                                                                name = name ;
+                                                                name = "${ name }-${ attribute }" ;
                                                                 value =
                                                                     pkgs.stdenv.mkDerivation
                                                                         {
                                                                             installPhase =
                                                                                 let
-                                                                                    shell-script = script.shell-script ;
-                                                                                    tests = script.tests ;
+                                                                                    candidate = builtins.getAttr attribute temporary.scripts ;
                                                                                     success-code = if success then "0" else "61" ;
                                                                                     in
                                                                                         ''
                                                                                             ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                                ${ pkgs.coreutils }/bin/echo ${ name } &&
-                                                                                                ${ pkgs.coreutils }/bin/echo ${ shell-script } &&
-                                                                                                if [ -f ${ tests }/SUCCESS ]
+                                                                                                ${ pkgs.coreutils }/bin/echo NAME=${ name } &&
+                                                                                                ${ pkgs.coreutils }/bin/echo ATTRIBUTE=${ attribute } &&
+                                                                                                ${ pkgs.coreutils }/bin/echo SUCCESS_CODE=${ success-code } &&
+                                                                                                if [ -f ${ candidate.tests }/SUCCESS ]
                                                                                                 then
-                                                                                                    ${ pkgs.coreutils }/bin/echo There was success in ${ tests }. &&
-                                                                                                        exit ${ success-code }
-                                                                                                elif [ -f ${ tests }/FAILURE ]
+                                                                                                    ${ pkgs.coreutils }/bin/echo There was success in ${ candidate.tests }.
+                                                                                                elif [ -f ${ candidate.tests }/FAILURE ]
                                                                                                 then
-                                                                                                    ${ pkgs.coreutils }/bin/echo There was failure in ${ tests }. >&2 &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo There was failure in ${ candidate.tests }. >&2 &&
                                                                                                         exit 63
                                                                                                 else
-                                                                                                    ${ pkgs.coreutils }/bin/echo There was error in ${ tests }. >&2 &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo There was error in ${ candidate.tests }. >&2 &&
                                                                                                         exit 62
-                                                                                                fi
+                                                                                                fi &&
+                                                                                                exit ${ success-code }
                                                                                         '' ;
                                                                             name = name ;
                                                                             src = ./. ;
@@ -365,16 +311,9 @@
                                                                 } ;
                                                     in
                                                         [
-                                                            ( foobar "init" init true )
-                                                            ( foobar "post" post true )
-                                                            ( foobar "release" release true )
-                                                            ( foobar "teardown-1-0-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) true )
-                                                            # ( foobar "setup-1-0-0" ( builtins.getAttr "setup" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; } ) ) ) false )
-                                                            ( foobar "teardown-1-0-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { post = post.shell-script ; } ) ) ) true )
-                                                            ( foobar "teardown-1-1-0" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { release = release.shell-script ; } ) ) ) true )
-                                                            ( foobar "teardown-1-1-1" ( builtins.getAttr "teardown" ( builtins.getAttr "scripts" ( lib { init = init.shell-script ; release = release.shell-script ; post = post.shell-script ; } ) ) ) true )
+                                                            ( foobar "0-0" ( lib { init = init ; } ) "init" false )
                                                         ] ;
-                                            post_ =
+                                            post =
                                                 {
                                                     extensions =
                                                         {
@@ -415,116 +354,60 @@
                                                                 standard-output = self + "/expected/post/standard-output" ;
                                                             } ;
                                                 } ;
-                                            post =
-                                                _shell-script
-                                                    {
-                                                        extensions =
-                                                            {
-                                                                string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                            } ;
-                                                        name = "flag" ;
-                                                        mounts =
-                                                            {
-                                                                "/resource" =
-                                                                    {
-                                                                        host-path = _environment-variable "RESOURCE" ;
-                                                                        is-read-only = true ;
-                                                                    } ;
-                                                                "/target" =
-                                                                    {
-                                                                        host-path = _environment-variable "TARGET" ;
-                                                                        is-read-only = true ;
-                                                                    } ;
-                                                            } ;
-                                                        profile =
-                                                            { string } :
-                                                                [
-                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                    ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                ] ;
-                                                        script = self + "/flag.sh" ;
-                                                        tests =
-                                                            ignore :
-                                                                {
-                                                                    mounts =
-                                                                        {
-                                                                            "/resource" =
-                                                                                {
-                                                                                    expected = self + "/expected/post/mounts/resource" ;
-                                                                                    initial =
-                                                                                        [
-                                                                                            "echo c019fafab6f1d19b6266c357f4fa9ba6e6c88ef21e6f02a7777c2a94afec6608660f8252393648307b81da9d1a74552fbcaff38444bf42925a3001504fa5a65d > /mount/target"
-                                                                                        ] ;
-                                                                                } ;
-                                                                            "/target" =
-                                                                                {
-                                                                                    expected = self + "/expected/post/mounts/target" ;
-                                                                                    initial =
-                                                                                        [
-                                                                                            "echo aa4b0468d9b5bc33422777fcb8892f76073a60fc9cd2f6089ca9dbe12336c89861e9b6149832ed99b30be163177d0c3b561554bef3ba9eebb8da96a22838b08e > /mount/target"
-                                                                                        ] ;
-                                                                                } ;
-                                                                        } ;
-                                                                    standard-output = self + "/expected/post/standard-output" ;
-                                                                } ;
-                                                    } ;
                                             release =
-                                                _shell-script
-                                                    {
-                                                        extensions =
-                                                            {
-                                                                string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                            } ;
-                                                        name = "flag" ;
-                                                        mounts =
-                                                            {
-                                                                "/resource" =
-                                                                    {
-                                                                        host-path = _environment-variable "RESOURCE" ;
-                                                                        is-read-only = true ;
-                                                                    } ;
-                                                                "/target" =
-                                                                    {
-                                                                        host-path = _environment-variable "TARGET" ;
-                                                                        is-read-only = true ;
-                                                                    } ;
-                                                            } ;
-                                                        profile =
-                                                            { string } :
-                                                                [
-                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                    ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                ] ;
-                                                        script = self + "/flag.sh" ;
-                                                        tests =
-                                                            ignore :
+                                                {
+                                                    extensions =
+                                                        {
+                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                        } ;
+                                                    name = "release" ;
+                                                    mounts =
+                                                        {
+                                                            "/resource" =
                                                                 {
-                                                                    mounts =
-                                                                        {
-                                                                            "/resource" =
-                                                                                {
-                                                                                    expected = self + "/expected/release/mounts/resource" ;
-                                                                                    initial =
-                                                                                        [
-                                                                                            "echo 230ad29bc6c9ba25fb5afe5d79640fd2eeddd526483d1f5e844490e697d6917b4804a4f6d0eea656405a23f437071ad95c1cd71f2f62fe7a844f8cd216543750 > /mount/target"
-                                                                                        ] ;
-                                                                                } ;
-                                                                            "/target" =
-                                                                                {
-                                                                                    expected = self + "/expected/release/mounts/target" ;
-                                                                                    initial =
-                                                                                        [
-                                                                                            "echo fd20a7c74b6a58415e1ae2816cdfbc56ffbd19f0db2a4e4bd2ff772c8975743c42493e673122e3638fa37de04bc2b34da56eb55bc4b154b1e73431f46b9d43e1 > /mount/target"
-                                                                                        ] ;
-                                                                                } ;
-                                                                        } ;
-                                                                    standard-output = self + "/expected/release/standard-output" ;
+                                                                    host-path = _environment-variable "RESOURCE" ;
+                                                                    is-read-only = true ;
                                                                 } ;
-                                                    } ;
+                                                            "/target" =
+                                                                {
+                                                                    host-path = _environment-variable "TARGET" ;
+                                                                    is-read-only = true ;
+                                                                } ;
+                                                        } ;
+                                                    profile =
+                                                        { string } :
+                                                            [
+                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                            ] ;
+                                                    script = self + "/flag.sh" ;
+                                                    tests =
+                                                        ignore :
+                                                            {
+                                                                mounts =
+                                                                    {
+                                                                        "/resource" =
+                                                                            {
+                                                                                expected = self + "/expected/release/mounts/resource" ;
+                                                                                initial =
+                                                                                    [
+                                                                                        "echo 230ad29bc6c9ba25fb5afe5d79640fd2eeddd526483d1f5e844490e697d6917b4804a4f6d0eea656405a23f437071ad95c1cd71f2f62fe7a844f8cd216543750 > /mount/target"
+                                                                                    ] ;
+                                                                            } ;
+                                                                        "/target" =
+                                                                            {
+                                                                                expected = self + "/expected/release/mounts/target" ;
+                                                                                initial =
+                                                                                    [
+                                                                                        "echo fd20a7c74b6a58415e1ae2816cdfbc56ffbd19f0db2a4e4bd2ff772c8975743c42493e673122e3638fa37de04bc2b34da56eb55bc4b154b1e73431f46b9d43e1 > /mount/target"
+                                                                                    ] ;
+                                                                            } ;
+                                                                    } ;
+                                                                standard-output = self + "/expected/release/standard-output" ;
+                                                            } ;
+                                                } ;
                                             in builtins.listToAttrs ( list ) ;
                                     lib = lib ;
                                 } ;
