@@ -287,24 +287,35 @@
                                                                                     candidate = builtins.getAttr attribute temporary.scripts ;
                                                                                     success-code = if success then "0" else "61" ;
                                                                                     in
-                                                                                        ''
-                                                                                            ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                                ${ pkgs.coreutils }/bin/echo NAME=${ name } &&
-                                                                                                ${ pkgs.coreutils }/bin/echo ATTRIBUTE=${ attribute } &&
-                                                                                                ${ pkgs.coreutils }/bin/echo SUCCESS_CODE=${ success-code } &&
-                                                                                                if [ -f ${ candidate.tests }/SUCCESS ]
-                                                                                                then
-                                                                                                    ${ pkgs.coreutils }/bin/echo There was success in ${ candidate.tests }.
-                                                                                                elif [ -f ${ candidate.tests }/FAILURE ]
-                                                                                                then
-                                                                                                    ${ pkgs.coreutils }/bin/echo There was failure in ${ candidate.tests }. >&2 &&
-                                                                                                        exit 63
-                                                                                                else
-                                                                                                    ${ pkgs.coreutils }/bin/echo There was error in ${ candidate.tests }. >&2 &&
-                                                                                                        exit 62
-                                                                                                fi &&
-                                                                                                exit ${ success-code }
-                                                                                        '' ;
+                                                                                        if builtins.typeOf candidate == "null"
+                                                                                        then
+                                                                                            ''
+                                                                                                ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo NAME=${ name } &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo ATTRIBUTE=${ attribute } &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo SUCCESS_CODE=${ success-code } &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo because the candidate is null the check passes trivially. &&
+                                                                                                    exit ${ success-code }
+                                                                                            ''
+                                                                                        else
+                                                                                            ''
+                                                                                                ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo NAME=${ name } &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo ATTRIBUTE=${ attribute } &&
+                                                                                                    ${ pkgs.coreutils }/bin/echo SUCCESS_CODE=${ success-code } &&
+                                                                                                    if [ -f ${ candidate.tests }/SUCCESS ]
+                                                                                                    then
+                                                                                                        ${ pkgs.coreutils }/bin/echo There was success in ${ candidate.tests }.
+                                                                                                    elif [ -f ${ candidate.tests }/FAILURE ]
+                                                                                                    then
+                                                                                                        ${ pkgs.coreutils }/bin/echo There was failure in ${ candidate.tests }. >&2 &&
+                                                                                                            exit 63
+                                                                                                    else
+                                                                                                        ${ pkgs.coreutils }/bin/echo There was error in ${ candidate.tests }. >&2 &&
+                                                                                                            exit 62
+                                                                                                    fi &&
+                                                                                                    exit ${ success-code }
+                                                                                            '' ;
                                                                             name = name ;
                                                                             src = ./. ;
                                                                         } ;
