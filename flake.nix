@@ -46,7 +46,7 @@
                                                                             } ;
                                                                         "${ target }" =
                                                                             {
-                                                                                host-path = "${ _environment-variable "RESOURCE" }/mount/target" ;
+                                                                                host-path = "${ _environment-variable "TARGET" }" ;
                                                                                 is-read-only = name != "init" ;
                                                                             } ;
                                                                     } ;
@@ -167,7 +167,7 @@
                                                                                 ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                                 ( string "PID" 9999 )
                                                                             ]
-                                                                            ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post ) ] )
+                                                                            ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
                                                                             ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release ) ] )
                                                                             [
                                                                                 ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
@@ -329,7 +329,7 @@
                                                             ( foobar "0-1" ( lib { init = init ; post = post ; } ) "init" true )
                                                             ( foobar "0-1" ( lib { init = init ; post = post ; } ) "post" true )
                                                             ( foobar "0-1" ( lib { init = init ; post = post ; } ) "release" true )
-                                                            #  foobar "0-1" ( lib { init = init ; post = post ; } ) "teardown" true )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) "teardown" true )
                                                         ] ;
                                             post =
                                                 {
