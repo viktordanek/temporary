@@ -278,7 +278,7 @@
                                                     foobar =
                                                         name : temporary : attribute : success :
                                                             {
-                                                                name = "${ name }-${ attribute }" ;
+                                                                name = builtins.toJSON { name = name ; attribute = attribute ; } ;
                                                                 value =
                                                                     pkgs.stdenv.mkDerivation
                                                                         {
