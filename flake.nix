@@ -80,6 +80,9 @@
                                                             builtins.concatLists
                                                                 [
                                                                     [
+                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                        ( string "HAS_STANDARD_INPUT" "${ pkgs.coreutils }/bin/false" )
+                                                                        ( string "INIT" primary.init.shell-script )
                                                                         ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                     ]
