@@ -23,3 +23,7 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
     ${ECHO} ${UNINITIALIZED_TARGET_ERROR_MESSAGE} >&2 &&
       exit ${UNINITIALIZED_TARGET_ERROR_CODE}
   fi
+  source ${MAKE_WRAPPER}/nix-support/setup-hook
+  #
+
+  #
