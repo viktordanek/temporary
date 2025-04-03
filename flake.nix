@@ -17,14 +17,12 @@
                             _shell-script = builtins.getAttr system shell-script.lib ;
                             lib =
                                 {
-                                    failure ? null ,
                                     host-path ? "\${TMP_DIR}" ,
                                     init ? null ,
                                     lock-failure ? 64 ,
                                     post ? null ,
                                     release ? null ,
                                     shell-scripts ? { } ,
-                                    success ? null ,
                                     tests ? null ,
                                     uninitialized-target-error-code ? 65 ,
                                     uninitialized-target-error-message ? "Uninitialized Target Error"
@@ -71,10 +69,11 @@
                                                             else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
                                                         post = enrich "post" post ;
                                                         release = enrich "release" release ;
-                                                        success =
-                                                            if builtins.typeOf success == "null" then success
-                                                            else if builtins.typeOf success == "string" then success
-                                                            else builtins.throw "success is not null, string but ${ builtins.typeOf success }." ;
+                                                        tests =
+                                                            if builtins.typeOf tests == "lambda" then tests
+                                                            else if builtins.typeOf tests == "null" then tests
+                                                            else if builtins.typeOf tests == "set" then tests
+                                                            else builtins.throw "tests is not lambda, list, null, set but ${ builtins.typeOf tests }." ;
                                                         uninitialized-target-error-code =
                                                             if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
                                                             else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
@@ -109,22 +108,7 @@
                                                                     ]
                                                                 ] ;
                                                     script = self + "/setup.sh" ;
-                                                    tests =
-                                                        let
-                                                            success =
-                                                                if builtins.typeOf primary.success == "null" then { }
-                                                                else
-                                                                    {
-                                                                        success =
-                                                                            ignore :
-                                                                                {
-                                                                                    test =
-                                                                                        [
-                                                                                            ''sh -c "CANDIDATE=$( ${ primary.success } 2> /build/candidate.standard-error ) && if [ -z \"${ _environment-variable "CANDIDATE" }\" ] ; then echo failed to make >&2 ; fi"''
-                                                                                        ] ;
-                                                                                } ;
-                                                                    } ;
-                                                            in success ;
+                                                    tests = null ;
                                                 } ;
                                         teardown =
                                             _shell-script
@@ -330,10 +314,10 @@
                                                             } ;
                                                     in
                                                         [
-                                                            ( foobar "0-0" ( lib { init = init ; success = "candidate" ; } ) )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; success = "candidate" ; } ) )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; success = "candidate" ; } ) )
-                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; success = "candidate" ; } ) )
+                                                            ( foobar "0-0" ( lib { init = init ; } ) )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) )
+                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) )
                                                         ] ;
                                             post =
                                                 {

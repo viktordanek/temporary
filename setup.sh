@@ -6,18 +6,19 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   then
     if ${ECHO} "${STANDARD_INPUT}" | ${INIT} ${@} > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      ${ECHO} ${?} > ${RESOURCE}/init.status
+      STATUS=${?}
     else
-      ${ECHO} ${?} > ${RESOURCE}/init.status
+      STATUS=${?}
     fi
   else
     if ${INIT} ${@} > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
     then
-      ${ECHO} ${?} > ${RESOURCE}/init.status
+      STATUS=${?}
     else
-      ${ECHO} ${?} > ${RESOURCE}/init.status
+      STATUS=${?}
     fi
   fi &&
+  ${ECHO} ${?} > ${RESOURCE}/init.status
   if [ ! -e ${TARGET} ]
   then
     ${ECHO} ${UNINITIALIZED_TARGET_ERROR_MESSAGE} >&2 &&
@@ -27,3 +28,4 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   #
 
   #
+  ${ECHO} ${TARGET}
