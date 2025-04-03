@@ -106,9 +106,10 @@
                                                     tests =
                                                         ignore :
                                                             {
+                                                                status = 98 ;
                                                                 test =
                                                                     [
-                                                                        "candidate"
+                                                                        ''sh -c "CANDIDATE=$( candidate > /build/candidate/standard-error ) && if [ ! -e ${ _environment-variable "CANDIDATE" } ] ; then echo "failed to build target" >&2 ; fi ; fi"''
                                                                     ] ;
                                                             } ;
                                                 } ;
