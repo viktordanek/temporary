@@ -156,7 +156,7 @@
                                                                     ]
                                                                 ] ;
                                                     script = self + "/setup.sh" ;
-                                                    tests = null ;
+                                                    tests = primary.tests ;
                                                 } ;
                                         teardown =
                                             _shell-script
