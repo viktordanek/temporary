@@ -98,7 +98,7 @@
                                                                                                         else if builtins.typeOf file == "string" then [ "< ${ builtins.toFile "file" file }" ]
                                                                                                         else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
                                                                                                     paste =
-                                                                                                        if builtins.typeOf paste == "null" then paste
+                                                                                                        if builtins.typeOf paste == "null" then ""
                                                                                                         else if builtins.typeOf paste == "string" then paste
                                                                                                         else builtins.throw "arguments is not null, string but ${ builtins.typeOf paste }." ;
                                                                                                     pipe =
@@ -116,7 +116,11 @@
                                                                                 in
                                                                                     {
                                                                                         status = secondary.status ;
-                                                                                        test = "bash -c \"if CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } ) ; then true ; else true ; fi\"" ;
+                                                                                        test =
+                                                                                            if secondary.status == 0 then
+                                                                                                "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\""
+                                                                                            else
+                                                                                                "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\"" ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
@@ -361,9 +365,13 @@
                                                                         } ;
                                                             } ;
                                                         tests =
-                                                            ignore :
-                                                                {
-                                                                } ;
+                                                            {
+                                                                success =
+                                                                    ignore :
+                                                                        {
+                                                                            arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
+                                                                        } ;
+                                                            } ;
                                                     in
                                                         [
                                                             ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
