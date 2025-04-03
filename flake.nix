@@ -25,6 +25,7 @@
                                     post ? null ,
                                     release ? null ,
                                     shell-scripts ? { } ,
+                                    stderr-emitted-error-code ? 67 ,
                                     tests ? null ,
                                     uninitialized-target-error-code ? 65 ,
                                 } :
@@ -73,6 +74,9 @@
                                                             else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
                                                         post = enrich "post" post ;
                                                         release = enrich "release" release ;
+                                                        stderr-emitted-error-code =
+                                                            if builtins.typeOf stderr-emitted-error-code == "int" then builtins.toString stderr-emitted-error-code
+                                                            else builtins.throw "stderr-emitted-error-code is not int but ${ builtins.typeOf stderr-emitted-error-code }." ;
                                                         tests =
                                                             _visitor
                                                                 {
@@ -127,7 +131,7 @@
                                                                                                         (
                                                                                                             if secondary.status == 0 then
                                                                                                                 ''
-                                                                                                                    CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )
+                                                                                                                    bash -c "CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } 2> /build/candidate.standard-error ) && if [ -z \"${ _environment-variable "CANDIDATE" }\" ] ; then echo empty candidate >&2 ; fi"
                                                                                                                 ''
                                                                                                             else
                                                                                                                 ''
@@ -161,6 +165,7 @@
                                                             builtins.concatLists
                                                                 [
                                                                     [
+                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                         ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                         ( has-standard-input "HAS_STANDARD_INPUT" )
@@ -169,6 +174,7 @@
                                                                         ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                         ( standard-input "STANDARD_INPUT" )
+                                                                        ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
                                                                         ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
                                                                     ]
                                                                 ] ;
