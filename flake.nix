@@ -120,19 +120,21 @@
                                                                                     {
                                                                                         status = secondary.status ;
                                                                                         test =
-                                                                                            if secondary.status == 0 then
-                                                                                                "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\""
-                                                                                            else
-                                                                                                builtins.toString
-                                                                                                    (
-                                                                                                        pkgs.writeShellScript
-                                                                                                            "script"
-                                                                                                            ''
-                                                                                                                CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } ) &&
-                                                                                                                    echo ${ _environment-variable "CANDIDATE" } &&
-                                                                                                                    exit ${ _environment-variable "?" }
-                                                                                                            ''
-                                                                                                    ) ;
+                                                                                            builtins.toString
+                                                                                                (
+                                                                                                    pkgs.writeShellScript
+                                                                                                        "script"
+                                                                                                        (
+                                                                                                            if secondary.status == 0 then
+                                                                                                                "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\""
+                                                                                                            else
+                                                                                                                ''
+                                                                                                                    CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } ) &&
+                                                                                                                        echo ${ _environment-variable "CANDIDATE" } &&
+                                                                                                                        exit ${ _environment-variable "?" }
+                                                                                                                ''
+                                                                                                        )
+                                                                                                ) ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
