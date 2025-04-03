@@ -20,13 +20,13 @@
                                 {
                                     host-path ? "\${TMP_DIR}" ,
                                     init ? null ,
+                                    initialization-error-code ? 66 ,
                                     lock-failure ? 64 ,
                                     post ? null ,
                                     release ? null ,
                                     shell-scripts ? { } ,
                                     tests ? null ,
                                     uninitialized-target-error-code ? 65 ,
-                                    uninitialized-target-error-message ? "Uninitialized Target Error"
                                 } :
                                     let
                                         primary =
@@ -65,6 +65,9 @@
                                                 in
                                                     {
                                                         init = enrich "init" init ;
+                                                        initialization-error-code =
+                                                            if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
+                                                            else builtins.throw "initialization-error-code is not int but ${ builtins.typeOf initialization-error-code }." ;
                                                         lock-failure =
                                                             if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
                                                             else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
@@ -115,7 +118,7 @@
                                                                                         in identity ( value null ) ;
                                                                                 in
                                                                                     {
-                                                                                        status = 0 ; # FIXME secondary.status ;
+                                                                                        status = secondary.status ;
                                                                                         test =
                                                                                             if secondary.status == 0 then
                                                                                                 "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\""
@@ -126,7 +129,8 @@
                                                                                                             "script"
                                                                                                             ''
                                                                                                                 CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } ) &&
-                                                                                                                    exit 18
+                                                                                                                    echo ${ _environment-variable "CANDIDATE" } &&
+                                                                                                                    exit ${ _environment-variable "?" }
                                                                                                             ''
                                                                                                     ) ;
                                                                                     } ;
@@ -137,9 +141,6 @@
                                                         uninitialized-target-error-code =
                                                             if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
                                                             else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
-                                                        uninitialized-target-error-message =
-                                                            if builtins.typeOf uninitialized-target-error-message == "string" then uninitialized-target-error-message
-                                                            else builtins.throw "uninitialized-target-error-message is not string but ${ builtins.typeOf uninitialized-target-error-message }." ;
                                                     } ;
                                         setup =
                                             _shell-script
@@ -160,11 +161,11 @@
                                                                         ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                         ( has-standard-input "HAS_STANDARD_INPUT" )
                                                                         ( string "INIT" primary.init.shell-script )
-                                                                        ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
-                                                                        ( string "UNINITIALIZED_TARGET_ERROR_MESSAGE" primary.uninitialized-target-error-message )
+                                                                        ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
                                                                         ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                         ( standard-input "STANDARD_INPUT" )
+                                                                        ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
                                                                     ]
                                                                 ] ;
                                                     script = self + "/setup.sh" ;
@@ -378,7 +379,7 @@
                                                                     ignore :
                                                                         {
                                                                             arguments = "fd4107d952c0d02f4ea2e8963d673543791619d2ff0178d03222ea551c539c235a516d9f6dbb2c852618c634ead3ebc72d6beff6ee08880d422e10341390a94c" ;
-                                                                            status = 19 ;
+                                                                            status = 66 ;
                                                                         } ;
                                                                 success =
                                                                     ignore :

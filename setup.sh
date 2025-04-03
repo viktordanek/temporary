@@ -21,11 +21,15 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   ${ECHO} ${?} > ${RESOURCE}/init.status
   if [ ! -e ${TARGET} ]
   then
-    ${ECHO} ${UNINITIALIZED_TARGET_ERROR_MESSAGE} >&2 &&
-      exit ${UNINITIALIZED_TARGET_ERROR_CODE}
+    exit ${UNINITIALIZED_TARGET_ERROR_CODE}
   fi
   source ${MAKE_WRAPPER}/nix-support/setup-hook
   #
 
   #
-  ${ECHO} ${TARGET}
+  if [ ${STATUS} != 0 ]
+  then
+    exit ${INITIALIZATION_ERROR_CODE}
+  else
+    ${ECHO} ${TARGET}
+  fi
