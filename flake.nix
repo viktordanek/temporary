@@ -84,7 +84,7 @@
                                                                                                 file ? null ,
                                                                                                 paste ? null ,
                                                                                                 pipe ? null ,
-                                                                                                status ? null ,
+                                                                                                status ? 0 ,
                                                                                                 vacuum ? "TBD"
                                                                                             } :
                                                                                                 {
@@ -106,7 +106,7 @@
                                                                                                         else if builtins.typeOf pipe == "string" then [ "cat ${ builtins.toFile "pipe" pipe } |" ]
                                                                                                         else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
                                                                                                     status =
-                                                                                                        if builtins.typeOf status == "int" then builtins.toString status
+                                                                                                        if builtins.typeOf status == "int" then status
                                                                                                         else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
                                                                                                     vacuum =
                                                                                                         if builtins.typeOf vacuum == "string" then vacuum
@@ -115,8 +115,8 @@
                                                                                         in identity ( value null ) ;
                                                                                 in
                                                                                     {
-                                                                                        status = primary.status ;
-                                                                                        test = "CANDIDATE=$( ${ builtins.concatStringsSep " " [ secondary.pipe [ "candidate" ] secondary.arguments .secondary.file ] } )" ;
+                                                                                        status = secondary.status ;
+                                                                                        test = "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ [ "candidate" ] ] ) } )\"" ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
@@ -360,12 +360,16 @@
                                                                             src = ./. ;
                                                                         } ;
                                                             } ;
+                                                        tests =
+                                                            ignore :
+                                                                {
+                                                                } ;
                                                     in
                                                         [
-                                                            ( foobar "0-0" ( lib { init = init ; } ) )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) )
-                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) )
+                                                            ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
+                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
                                                         ] ;
                                             post =
                                                 {
