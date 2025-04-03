@@ -120,7 +120,7 @@
                                                                                 {
                                                                                     test =
                                                                                         [
-                                                                                            ''sh -c "CANDIDATE=$( ${ primary.success } 2> /build/candidate.standard-error )"''
+                                                                                            ''sh -c "CANDIDATE=$( ${ primary.success } 2> /build/candidate.standard-error ) && if [ -z \"${ _environment-variable "CANDIDATE" }\" ] ; then echo failed to make ; fi"''
                                                                                         ] ;
                                                                                 } ;
                                                                     } ;
