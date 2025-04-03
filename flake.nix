@@ -48,7 +48,7 @@
                                                                             } ;
                                                                         "${ target }" =
                                                                             {
-                                                                                host-path = "${ _environment-variable "TARGET" }" ;
+                                                                                host-path = _environment-variable ( if name == "init" then "TARGET_MOUNT" else "TARGET" ) ;
                                                                                 is-read-only = name != "init" ;
                                                                             } ;
                                                                     } ;
@@ -92,6 +92,7 @@
                                                                 [
                                                                     [
                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                        ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                         ( has-standard-input "HAS_STANDARD_INPUT" )
                                                                         ( string "INIT" primary.init.shell-script )
                                                                         ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
@@ -107,6 +108,7 @@
                                                             {
                                                                 test =
                                                                     [
+                                                                        "candidate"
                                                                     ] ;
                                                             } ;
                                                 } ;
