@@ -22,7 +22,7 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   if [ ! -e ${TARGET} ]
   then
     exit ${UNINITIALIZED_TARGET_ERROR_CODE}
-  fi
+  fi &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook
   #
 
@@ -32,6 +32,7 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
     exit ${INITIALIZATION_ERROR_CODE}
   elif [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error )" ]
   then
+    # echo "${INIT} ${@} > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error" &&
     exit ${STDERR_EMITTED_ERROR_CODE}
   else
     ${ECHO} ${TARGET}

@@ -129,16 +129,19 @@
                                                                                                     pkgs.writeShellScript
                                                                                                         "script"
                                                                                                         (
-                                                                                                            if secondary.status == 0 then
-                                                                                                                ''
-                                                                                                                    bash -c "CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } 2> /build/candidate.standard-error ) && if [ -z \"${ _environment-variable "CANDIDATE" }\" ] ; then echo empty candidate >&2 ; fi"
-                                                                                                                ''
-                                                                                                            else
-                                                                                                                ''
-                                                                                                                    CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } ) &&
-                                                                                                                        echo ${ _environment-variable "CANDIDATE" } &&
-                                                                                                                        exit ${ _environment-variable "?" }
-                                                                                                                ''
+                                                                                                            let
+                                                                                                                candidate = builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) ;
+                                                                                                                in
+                                                                                                                    if secondary.status == 0 then
+                                                                                                                        ''
+                                                                                                                            bash -c "CANDIDATE=$( ${ candidate} 2> /build/candidate.standard-error ) && if [ -z \"${ _environment-variable "CANDIDATE" }\" ] ; then echo ${ _environment-variable "?" } 'empty candidate for ${ candidate }' >&2 ; fi"
+                                                                                                                        ''
+                                                                                                                    else
+                                                                                                                        ''
+                                                                                                                            CANDIDATE=$( ${ candidate } ) &&
+                                                                                                                                echo ${ _environment-variable "CANDIDATE" } &&
+                                                                                                                                exit ${ _environment-variable "?" }
+                                                                                                                        ''
                                                                                                         )
                                                                                                 ) ;
                                                                                     } ;
