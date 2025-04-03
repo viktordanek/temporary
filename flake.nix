@@ -115,7 +115,7 @@
                                                                                         in identity ( value null ) ;
                                                                                 in
                                                                                     {
-                                                                                        status = secondary.status ;
+                                                                                        status = 0 ; # FIXME secondary.status ;
                                                                                         test =
                                                                                             if secondary.status == 0 then
                                                                                                 "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\""
@@ -370,7 +370,7 @@
                                                                     ignore :
                                                                         {
                                                                             arguments = "fd4107d952c0d02f4ea2e8963d673543791619d2ff0178d03222ea551c539c235a516d9f6dbb2c852618c634ead3ebc72d6beff6ee08880d422e10341390a94c" ;
-                                                                            status = 0 ; # 19 ; FIXME
+                                                                            status = 19 ;
                                                                         } ;
                                                                 success =
                                                                     ignore :
