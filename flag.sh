@@ -5,7 +5,7 @@ ${TOUCH} /target &&
       ${CAT} ${FILE} &&
       ${ECHO}
   done &&
-  if [ ! -z "${UUID}" ]
+  if [ ${NAME} == "init" ]
   then
     ${ECHO} ${UUID} > /mount/target
   fi

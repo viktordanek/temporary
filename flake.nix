@@ -250,6 +250,7 @@
                                                                 ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                 ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "NAME" "init" )
                                                                 ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
                                                                 ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
                                                                 ( string "UUID" "a0ec4aaa08d8dc652beb39be11f4b9619ec8b69d547c92e249c9fb06c295e13e2fcbf2ad25d60388e8c34241ade94494c598e3d413d7c90f95667b309ed62a8d" )
@@ -329,6 +330,7 @@
                                                                 ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                 ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "NAME" "post" )
                                                                 ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
                                                                 ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
                                                             ] ;
@@ -384,6 +386,7 @@
                                                                 ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                 ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "NAME" "release" )
                                                                 ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
                                                                 ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
                                                             ] ;
