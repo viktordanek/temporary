@@ -15,6 +15,7 @@
                         let
                             _environment-variable = builtins.getAttr system environment-variable.lib ;
                             _shell-script = builtins.getAttr system shell-script.lib ;
+                            _visitor = builtins.getAttr system visitor.lib ;
                             lib =
                                 {
                                     host-path ? "\${TMP_DIR}" ,
@@ -70,10 +71,57 @@
                                                         post = enrich "post" post ;
                                                         release = enrich "release" release ;
                                                         tests =
-                                                            if builtins.typeOf tests == "lambda" then tests
-                                                            else if builtins.typeOf tests == "null" then tests
-                                                            else if builtins.typeOf tests == "set" then tests
-                                                            else builtins.throw "tests is not lambda, list, null, set but ${ builtins.typeOf tests }." ;
+                                                            _visitor
+                                                                {
+                                                                    lambda =
+                                                                        path : value : ignore :
+                                                                            let
+                                                                                secondary =
+                                                                                    let
+                                                                                        identity =
+                                                                                            {
+                                                                                                arguments ? null ,
+                                                                                                file ? null ,
+                                                                                                paste ? null ,
+                                                                                                pipe ? null ,
+                                                                                                status ? null ,
+                                                                                                vacuum ? "TBD"
+                                                                                            } :
+                                                                                                {
+                                                                                                    arguments =
+                                                                                                        if builtins.typeOf arguments == "list" then builtins.map ( value : if builtins.typeOf value == "string" then value else builtins.throw "argument is not string but ${ builtins.typeOf value }." ) arguments
+                                                                                                        else if builtins.typeOf arguments == "null" then [ ]
+                                                                                                        else if builtins.typeOf arguments == "string" then [ arguments ]
+                                                                                                        else builtins.throw "arguments is not list, null, string but ${ builtins.typeOf arguments }." ;
+                                                                                                    file =
+                                                                                                        if builtins.typeOf file == "null" then [ ]
+                                                                                                        else if builtins.typeOf file == "string" then [ "< ${ builtins.toFile "file" file }" ]
+                                                                                                        else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
+                                                                                                    paste =
+                                                                                                        if builtins.typeOf paste == "null" then paste
+                                                                                                        else if builtins.typeOf paste == "string" then paste
+                                                                                                        else builtins.throw "arguments is not null, string but ${ builtins.typeOf paste }." ;
+                                                                                                    pipe =
+                                                                                                        if builtins.typeOf pipe == "null" then [ ]
+                                                                                                        else if builtins.typeOf pipe == "string" then [ "cat ${ builtins.toFile "pipe" pipe } |" ]
+                                                                                                        else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
+                                                                                                    status =
+                                                                                                        if builtins.typeOf status == "int" then builtins.toString status
+                                                                                                        else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
+                                                                                                    vacuum =
+                                                                                                        if builtins.typeOf vacuum == "string" then vacuum
+                                                                                                        else builtins.throw "vacuum is not string but ${ builtins.typeOf vacuum }." ;
+                                                                                                } ;
+                                                                                        in identity ( value null ) ;
+                                                                                in
+                                                                                    {
+                                                                                        status = primary.status ;
+                                                                                        test = "CANDIDATE=$( ${ builtins.concatStringsSep " " [ secondary.pipe [ "candidate" ] secondary.arguments .secondary.file ] } )" ;
+                                                                                    } ;
+                                                                    null = path : value : null ;
+                                                                }
+                                                                { }
+                                                                tests ;
                                                         uninitialized-target-error-code =
                                                             if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
                                                             else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
