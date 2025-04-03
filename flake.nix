@@ -116,7 +116,7 @@
                                                                                 in
                                                                                     {
                                                                                         status = secondary.status ;
-                                                                                        test = "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] ] ) } )\"" ;
+                                                                                        test = "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments ] ) } )\"" ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
