@@ -120,7 +120,15 @@
                                                                                             if secondary.status == 0 then
                                                                                                 "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\""
                                                                                             else
-                                                                                                "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\"" ;
+                                                                                                builtins.toString
+                                                                                                    (
+                                                                                                        pkgs.writeShellScript
+                                                                                                            "script"
+                                                                                                            ''
+                                                                                                                CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } ) &&
+                                                                                                                    exit 18
+                                                                                                            ''
+                                                                                                    ) ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
