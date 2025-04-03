@@ -17,12 +17,14 @@
                             _shell-script = builtins.getAttr system shell-script.lib ;
                             lib =
                                 {
+                                    failure ? null ,
                                     host-path ? "\${TMP_DIR}" ,
                                     init ? null ,
                                     lock-failure ? 64 ,
                                     post ? null ,
                                     release ? null ,
                                     shell-scripts ? { } ,
+                                    success ? null ,
                                     tests ? null ,
                                     uninitialized-target-error-code ? 65 ,
                                     uninitialized-target-error-message ? "Uninitialized Target Error"
@@ -69,6 +71,10 @@
                                                             else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
                                                         post = enrich "post" post ;
                                                         release = enrich "release" release ;
+                                                        success =
+                                                            if builtins.typeOf success == "null" then success
+                                                            else if builtins.typeOf success == "string" then success
+                                                            else builtins.throw "success is not null, string but ${ builtins.typeOf success }." ;
                                                         uninitialized-target-error-code =
                                                             if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
                                                             else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
@@ -104,14 +110,21 @@
                                                                 ] ;
                                                     script = self + "/setup.sh" ;
                                                     tests =
-                                                        ignore :
-                                                            {
-                                                                status = 98 ;
-                                                                test =
-                                                                    [
-                                                                        ''sh -c "CANDIDATE=$( candidate > /build/candidate/standard-error ) && if [ ! -e ${ _environment-variable "CANDIDATE" } ] ; then echo "failed to build target" >&2 ; fi ; fi"''
-                                                                    ] ;
-                                                            } ;
+                                                        let
+                                                            success =
+                                                                if builtins.typeOf primary.success == "null" then { }
+                                                                else
+                                                                    {
+                                                                        success =
+                                                                            ignore :
+                                                                                {
+                                                                                    test =
+                                                                                        [
+                                                                                            ''sh -c "CANDIDATE=$( ${ primary.success } 2> /build/candidate.standard-error )"''
+                                                                                        ] ;
+                                                                                } ;
+                                                                    } ;
+                                                            in success ;
                                                 } ;
                                         teardown =
                                             _shell-script
