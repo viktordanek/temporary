@@ -126,7 +126,9 @@
                                                                                                         "script"
                                                                                                         (
                                                                                                             if secondary.status == 0 then
-                                                                                                                "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\""
+                                                                                                                ''
+                                                                                                                    bash -c "CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )"
+                                                                                                                ''
                                                                                                             else
                                                                                                                 ''
                                                                                                                     CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } ) &&
