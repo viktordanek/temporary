@@ -116,7 +116,7 @@
                                                                                 in
                                                                                     {
                                                                                         status = secondary.status ;
-                                                                                        test = "bash -c \"CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )\"" ;
+                                                                                        test = "bash -c \"if CANDIDATE=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } ) ; then true ; else true ; fi\"" ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
