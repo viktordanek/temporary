@@ -330,10 +330,10 @@
                                                             } ;
                                                     in
                                                         [
-                                                            ( foobar "0-0" ( lib { init = init ; } ) )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; } ) )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; } ) )
-                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; } ) )
+                                                            ( foobar "0-0" ( lib { init = init ; success = "candidate" ; } ) )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; success = "candidate" ; } ) )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; success = "candidate" ; } ) )
+                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; success = "candidate" ; } ) )
                                                         ] ;
                                             post =
                                                 {
