@@ -191,8 +191,7 @@
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         in
                                                                                                                             ''
-                                                                                                                                ${ pkgs.coreutils }/bin/echo PID=${ _environment-variable "$" } &&
-                                                                                                                                    ${ initialization } &&
+                                                                                                                                ${ initialization } &&
                                                                                                                                     ${ testing }
                                                                                                                             ''
                                                                                                                 )
