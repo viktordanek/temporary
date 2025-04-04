@@ -30,7 +30,7 @@ export RESOURCES=${TMP_DIR} &&
   fi &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook
   makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE ${RESOURCE} --set STATUS ${STATUS} --set TARGET ${TARGET} &&
-  ${RESOURCE}/teardown.sh &&
+  ( ${RESOURCE}/teardown.sh & ) &&
   if [ ${STATUS} != 0 ]
   then
     exit ${INITIALIZATION_ERROR_CODE}
