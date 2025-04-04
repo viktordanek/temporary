@@ -1,7 +1,7 @@
 exec 201> /mount/resource/lock &&
   if ${FLOCK} 201
   then
-    ${TAIL} --follow --pid ${PID} &&
+    ${TAIL} --follow --pid ${ORIGINATOR_PID} &&
 #
     if ${RELEASE} > /mount/resource/release.standard-output >2 /mount/resource/release.standard-error
     then

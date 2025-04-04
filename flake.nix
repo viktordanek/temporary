@@ -270,7 +270,7 @@
                                                                         ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                         ( string "LOCK_FAILURE" primary.lock-failure )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                        ( string "PID" 9999 )
+                                                                        ( string "ORIGINATOR_PID" 9999 )
                                                                     ]
                                                                     ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
                                                                     ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
