@@ -7,6 +7,10 @@ fi &&
   then
     ${ECHO} did touch /resource
   fi &&
+  if [ ${NAME} != "init" ] && ${TOUCH} /target > /dev/null 2>&1
+  then
+    ${ECHO} did touch /target
+  fi &&
   ${FIND} /resource -type f | ${SORT} | while read FILE
   do
     ${ECHO} ${FILE} &&
