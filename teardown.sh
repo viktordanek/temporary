@@ -1,4 +1,4 @@
-exec 201> /mount/resource/lock &&
+exec 201> /mount/resource.lock &&
   if ${FLOCK} 201
   then
     if [ ${STATUS} == 0 ]
@@ -16,8 +16,8 @@ exec 201> /mount/resource/lock &&
 #
       ( ${POST} || ${TRUE} ) &&
 #
-      ${RM} --recursive --force /mount/resource
+      ${RM} --recursive --force /mount/resource /mount/resource.lock
   else
-    ${ECHO} FAILED TO LOCK /mount/resource/lock >&2 &&
+    ${ECHO} FAILED TO LOCK /mount/resource.lock >&2 &&
       exit ${LOCK_FAILURE}
   fi
