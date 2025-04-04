@@ -41,6 +41,5 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   then
     exit ${STDERR_EMITTED_ERROR_CODE}
   else
-    ${ECHO} BEFORE${TARGET}AFTER &&
-      exit 99
+    ${TARGET}
   fi
