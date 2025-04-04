@@ -142,7 +142,11 @@
                                                                                                                 in
                                                                                                                     if secondary.status == 0 then
                                                                                                                         ''
-                                                                                                                            $( ${ candidate} 2> /build/candidate.standard-error ) && if [ -z \"${ _environment-variable "CANDIDATE" }\" ] ; then echo ${ _environment-variable "?" } 'empty candidate for ${ candidate }' >&2 ; fi
+                                                                                                                            CANDIDATE=$( ${ candidate} 2> /build/candidate.standard-error ) &&
+                                                                                                                            if [ -z "${ _environment-variable "CANDIDATE" }" ]
+                                                                                                                            then
+                                                                                                                                echo ${ _environment-variable "?" } 'empty candidate for ${ candidate }' >&2
+                                                                                                                            fi
                                                                                                                         ''
                                                                                                                     else
                                                                                                                         ''
