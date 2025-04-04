@@ -218,31 +218,23 @@
                                                     name = "setup" ;
                                                     profile =
                                                         { has-standard-input , standard-input , string } :
-                                                            builtins.concatLists
-                                                                [
-                                                                    [
-                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                        ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                        ( has-standard-input "HAS_STANDARD_INPUT" )
-                                                                        ( string "INIT" primary.init.shell-script )
-                                                                        ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
-                                                                        ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
-                                                                    ]
-                                                                    (
-                                                                        if builtins.typeOf primary.release == "null" then [ ]
-                                                                        else [ ( string "MAKE_WRAPPER_RELEASE" primary.release.shell-script ) ]
-                                                                    )
-                                                                    [
-                                                                        ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                        ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                        ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
-                                                                        ( standard-input "STANDARD_INPUT" )
-                                                                        ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
-                                                                        ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
-                                                                        ( string "WC" "${ pkgs.coreutils }/bin/wc" )
-                                                                    ]
-                                                                ] ;
+                                                            [
+                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( has-standard-input "HAS_STANDARD_INPUT" )
+                                                                ( string "INIT" primary.init.shell-script )
+                                                                ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
+                                                                ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
+                                                                ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
+                                                                ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
+                                                                ( standard-input "STANDARD_INPUT" )
+                                                                ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
+                                                                ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
+                                                                ( string "WC" "${ pkgs.coreutils }/bin/wc" )
+                                                            ] ;
                                                     script = self + "/setup.sh" ;
                                                     tests = primary.tests ;
                                                 } ;
