@@ -33,9 +33,6 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   #
   if [ ${STATUS} != 0 ]
   then
-    ${ECHO} ---- ${STATUS} >&2 &&
-    ${CAT} ${RESOURCE}/init.standard-error >&2 &&
-    ${ECHO} ---- ${STATUS} >&2 &&
     exit ${INITIALIZATION_ERROR_CODE}
   elif [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error )" ]
   then

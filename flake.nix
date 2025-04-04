@@ -132,30 +132,33 @@
                                                                                     {
                                                                                         status = secondary.status ;
                                                                                         test =
-                                                                                            builtins.toString
-                                                                                                (
-                                                                                                    pkgs.writeShellScript
-                                                                                                        "script"
+                                                                                            let
+                                                                                                program =
+                                                                                                    builtins.toString
                                                                                                         (
-                                                                                                            let
-                                                                                                                candidate = builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) ;
-                                                                                                                in
-                                                                                                                    if secondary.status == 0 then
-                                                                                                                        ''
-                                                                                                                            CANDIDATE=$( ${ candidate} 2> /build/candidate.standard-error ) &&
-                                                                                                                            if [ -z "${ _environment-variable "CANDIDATE" }" ]
-                                                                                                                            then
-                                                                                                                                echo ${ _environment-variable "?" } 'empty candidate for ${ candidate }' >&2
-                                                                                                                            fi
-                                                                                                                        ''
-                                                                                                                    else
-                                                                                                                        ''
-                                                                                                                            CANDIDATE=$( ${ candidate } ) &&
-                                                                                                                                echo ${ _environment-variable "CANDIDATE" } &&
-                                                                                                                                exit ${ _environment-variable "?" }
-                                                                                                                        ''
-                                                                                                        )
-                                                                                                ) ;
+                                                                                                            pkgs.writeShellScript
+                                                                                                                "script"
+                                                                                                                (
+                                                                                                                    let
+                                                                                                                        candidate = builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ ( _environment-variable "1" ) ] secondary.arguments secondary.file ] ) ;
+                                                                                                                        in
+                                                                                                                            if secondary.status == 0 then
+                                                                                                                                ''
+                                                                                                                                    CANDIDATE=$( ${ candidate } 2> /build/candidate.standard-error ) &&
+                                                                                                                                    if [ -z "${ _environment-variable "CANDIDATE" }" ]
+                                                                                                                                    then
+                                                                                                                                        echo ${ _environment-variable "?" } 'empty candidate for ${ candidate }' >&2
+                                                                                                                                    fi
+                                                                                                                                ''
+                                                                                                                            else
+                                                                                                                                ''
+                                                                                                                                    CANDIDATE=$( ${ candidate } ) &&
+                                                                                                                                        # echo ${ _environment-variable "CANDIDATE" } &&
+                                                                                                                                        exit ${ _environment-variable "?" }
+                                                                                                                                ''
+                                                                                                                )
+                                                                                                        ) ;
+                                                                                                    in "${ program } $( ${ pkgs.which }/bin/which candidate )" ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
