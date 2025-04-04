@@ -173,15 +173,14 @@
                                                                                                                                             in
                                                                                                                                                 if secondary.status == 0
                                                                                                                                                 then
-                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e ${ _environment-variable "CANDIDATE_${ i }" } ] ; then echo non-existant candidate ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi''
+                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e ${ _environment-variable "CANDIDATE_${ i }" } ] ; then echo non-existant candidate ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates }''
                                                                                                                                                 else
                                                                                                                                                    ''if [ ! -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-empty candidate ${ i } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi'' ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         in
                                                                                                                             ''
                                                                                                                                 ${ initialization } &&
-                                                                                                                                    ${ testing } &&
-                                                                                                                                    ${ duplicates }
+                                                                                                                                    ${ testing }
                                                                                                                             ''
                                                                                                                 )
                                                                                                         ) ;
