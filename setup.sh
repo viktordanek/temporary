@@ -28,7 +28,7 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
     exit ${OVER_INITIALIZED_TARGET_ERROR_CODE}
   fi &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook
-  # makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID=${ORIGINATOR_PID} --set RESOURCE=${RESOURCE} --set STATUS=${STATUS} --set TARGET=${TARGET} &&
+  makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE ${RESOURCE} --set STATUS ${STATUS} --set TARGET ${TARGET} &&
   if [ ${STATUS} != 0 ]
   then
     exit ${INITIALIZATION_ERROR_CODE}

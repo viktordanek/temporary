@@ -229,6 +229,7 @@
                                                                 ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
                                                                 ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                 ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                ( string "ORIGINATOR_PID" "TBD" )
                                                                 ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
                                                                 ( standard-input "STANDARD_INPUT" )
                                                                 ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
