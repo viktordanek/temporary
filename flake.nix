@@ -162,7 +162,7 @@
                                                                                                                                                         j = builtins.toString index ;
                                                                                                                                                         in
                                                                                                                                                             if i == j then "true"
-                                                                                                                                                            else "if [ ${ _environment-variable "CANDIDATE_${ i }" } == ${ _environment-variable "CANDIDATE_${ j }" } ] ; then echo candidate_${ i } EQUALS candidate_${ j } ; fi" ;
+                                                                                                                                                            else ''if [ "${ _environment-variable "CANDIDATE_${ i }" }" == "${ _environment-variable "CANDIDATE_${ j }" }" ] ; then echo candidate_${ i } ${ _environment-variable "CANDIDATE_${ i }" } EQUALS candidate_${ j } ${ _environment-variable "CANDIDATE_${ j }" } ; fi'' ;
                                                                                                                                             i = builtins.toString index ;
                                                                                                                                             in builtins.genList generator secondary.count ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ;
@@ -185,7 +185,7 @@
                                                                                                                                             in
                                                                                                                                                 if secondary.status == 0
                                                                                                                                                 then
-                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e ${ _environment-variable "CANDIDATE_${ i }" } ] ; then echo non-existant candidate ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
+                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-existant candidate ${ _environment-variable "CANDIDATE_${ i }" } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
                                                                                                                                                 else
                                                                                                                                                    ''if [ ! -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-empty candidate ${ i } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi'' ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
@@ -483,14 +483,14 @@
                                                                         {
                                                                             arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
                                                                             file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
-                                                                            paste = candidate : "echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/file" ;
+                                                                            # paste = candidate : "echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/file" ;
                                                                             # pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
                                                                         } ;
                                                             } ;
                                                     in
                                                         [
                                                             ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
-                                                            # ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
                                                             # ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
                                                             # ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
                                                         ] ;
