@@ -252,6 +252,7 @@
                                                         {
                                                             "/mount" =
                                                                 {
+                                                                    host-path = _environment-variable "RESOURCES" ;
                                                                     is-read-only = false ;
                                                                 } ;
                                                         } ;
