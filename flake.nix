@@ -173,6 +173,7 @@
                                                                                                                                             in
                                                                                                                                                 "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
+                                                                                                                        paste = if builtins.typeOf secondary.paste == "null" then "true" else secondary.paste ;
                                                                                                                         testing =
                                                                                                                             let
                                                                                                                                 generator =
@@ -182,7 +183,7 @@
                                                                                                                                             in
                                                                                                                                                 if secondary.status == 0
                                                                                                                                                 then
-                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e ${ _environment-variable "CANDIDATE_${ i }" } ] ; then echo non-existant candidate ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates }''
+                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e ${ _environment-variable "CANDIDATE_${ i }" } ] ; then echo non-existant candidate ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
                                                                                                                                                 else
                                                                                                                                                    ''if [ ! -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-empty candidate ${ i } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi'' ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
@@ -451,6 +452,7 @@
                                                                     ignore :
                                                                         {
                                                                             arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
+                                                                            pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
                                                                         } ;
                                                             } ;
                                                     in
