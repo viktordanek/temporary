@@ -1,4 +1,4 @@
-exec 201> /mount/resource.lock &&
+exec 201> /mount/resource.lock && ${ECHO} STATUS=${STATUS} ORIGINATOR_PID=${ORIGINATOR_PID} >&2 &&
   if ${FLOCK} 201
   then
     if [ ${STATUS} == 0 ]

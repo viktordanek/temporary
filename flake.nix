@@ -230,7 +230,6 @@
                                                                 ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
                                                                 ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                 ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                # ( string "ORIGINATOR_PID" "FIXME" )
                                                                 ( originator-pid "ORIGINATOR_PID" )
                                                                 ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
                                                                 ( standard-input "STANDARD_INPUT" )
@@ -266,7 +265,6 @@
                                                                         ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                         ( string "LOCK_FAILURE" primary.lock-failure )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                        ( string "ORIGINATOR_PID" 9999 )
                                                                     ]
                                                                     ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
                                                                     ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
@@ -323,7 +321,6 @@
                                                                                     ] ;
                                                                             } ;
                                                                     } ;
-
                                                                 profile =
                                                                     { string } :
                                                                         builtins.concatLists
