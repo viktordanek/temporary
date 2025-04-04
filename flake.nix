@@ -92,6 +92,7 @@
                                                                                         identity =
                                                                                             {
                                                                                                 arguments ? null ,
+                                                                                                count ? 2 ,
                                                                                                 file ? null ,
                                                                                                 paste ? null ,
                                                                                                 pipe ? null ,
@@ -104,6 +105,9 @@
                                                                                                         else if builtins.typeOf arguments == "null" then [ ]
                                                                                                         else if builtins.typeOf arguments == "string" then [ arguments ]
                                                                                                         else builtins.throw "arguments is not list, null, string but ${ builtins.typeOf arguments }." ;
+                                                                                                    count =
+                                                                                                        if builtins.typeOf count == "int" then count
+                                                                                                        else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
                                                                                                     file =
                                                                                                         if builtins.typeOf file == "null" then [ ]
                                                                                                         else if builtins.typeOf file == "string" then [ "< ${ builtins.toFile "file" file }" ]
@@ -138,7 +142,7 @@
                                                                                                                 in
                                                                                                                     if secondary.status == 0 then
                                                                                                                         ''
-                                                                                                                            bash -c "CANDIDATE=$( ${ candidate} 2> /build/candidate.standard-error ) && if [ -z \"${ _environment-variable "CANDIDATE" }\" ] ; then echo ${ _environment-variable "?" } 'empty candidate for ${ candidate }' >&2 ; fi"
+                                                                                                                            $( ${ candidate} 2> /build/candidate.standard-error ) && if [ -z \"${ _environment-variable "CANDIDATE" }\" ] ; then echo ${ _environment-variable "?" } 'empty candidate for ${ candidate }' >&2 ; fi
                                                                                                                         ''
                                                                                                                     else
                                                                                                                         ''
