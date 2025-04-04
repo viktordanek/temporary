@@ -232,6 +232,7 @@
                                                                 ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
                                                                 ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                 ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                ( string "NOHUP" "${ pkgs.coreutils }/bin/nohup" )
                                                                 ( originator-pid "ORIGINATOR_PID" )
                                                                 ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
                                                                 ( standard-input "STANDARD_INPUT" )
