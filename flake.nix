@@ -140,6 +140,21 @@
                                                                                                                 (
                                                                                                                     let
                                                                                                                         candidate = builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ ( _environment-variable "1" ) ] secondary.arguments secondary.file ] ) ;
+                                                                                                                        duplicates =
+                                                                                                                            let
+                                                                                                                                generator =
+                                                                                                                                    index :
+                                                                                                                                        let
+                                                                                                                                            generator =
+                                                                                                                                                index :
+                                                                                                                                                    let
+                                                                                                                                                        j = builtins.toString index ;
+                                                                                                                                                        in
+                                                                                                                                                            if i == j then "true"
+                                                                                                                                                            else "if [ ${ _environment-variable "CANDIDATE_${ i }" } == ${ _environment-variable "CANDIDATE_${ j }" } ] ; then echo candidate_${ i } EQUALS candidate_${ j } ; fi" ;
+                                                                                                                                            i = builtins.toString index ;
+                                                                                                                                            in builtins.genList generator secondary.count ;
+                                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ;
                                                                                                                         initialization =
                                                                                                                             let
                                                                                                                                 generator =
@@ -165,7 +180,8 @@
                                                                                                                         in
                                                                                                                             ''
                                                                                                                                 ${ initialization } &&
-                                                                                                                                    ${ testing }
+                                                                                                                                    ${ testing } &&
+                                                                                                                                    ${ duplicates }
                                                                                                                             ''
                                                                                                                 )
                                                                                                         ) ;
