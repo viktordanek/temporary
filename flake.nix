@@ -144,8 +144,11 @@
                                                                                                                         in
                                                                                                                             if secondary.status == 0 then
                                                                                                                                 ''
-                                                                                                                                    echo ${ _environment-variable "1" } &&
-                                                                                                                                    stat ${ _environment-variable "1" }
+                                                                                                                                    CANDIDATE=$( ${ candidate } ) &&
+                                                                                                                                        if [ -z "${ _environment-variable "CANDIDATE" }" ]
+                                                                                                                                        then
+                                                                                                                                            echo empty candidate
+                                                                                                                                        fi
                                                                                                                                 ''
                                                                                                                             else
                                                                                                                                 ''
