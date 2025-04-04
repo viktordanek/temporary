@@ -3,6 +3,7 @@ export RESOURCES=${TMP_DIR} &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   export TARGET=${TARGET_MOUNT}/target &&
   ${MKDIR} ${TARGET_MOUNT} &&
+  ${ECHO} ORIGINATOR_PID=${ORIGINATOR_PID} >&2 &&
   if ${HAS_STANDARD_INPUT}
   then
     if ${ECHO} "${STANDARD_INPUT}" | ${INIT} ${@} > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
