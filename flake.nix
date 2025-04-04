@@ -114,13 +114,15 @@
                                                                                                         else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
                                                                                                     paste =
                                                                                                         if builtins.typeOf paste == "lambda" then
-                                                                                                            let
-                                                                                                                generator =
-                                                                                                                    index :
-                                                                                                                        let
-                                                                                                                            value = paste ( _environment-variable "CANDIDATE_${ builtins.toString index }" ) ;
-                                                                                                                            in if builtins.typeOf value == "string" then value else builtins.throw "paste is not string but ${ builtins.typeOf paste }." ;
-                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count )
+                                                                                                            if primary.status == 0 then
+                                                                                                                let
+                                                                                                                    generator =
+                                                                                                                        index :
+                                                                                                                            let
+                                                                                                                                value = paste ( _environment-variable "CANDIDATE_${ builtins.toString index }" ) ;
+                                                                                                                                in if builtins.typeOf value == "string" then value else builtins.throw "paste is not string but ${ builtins.typeOf paste }." ;
+                                                                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count )
+                                                                                                                else builtins.throw "it does not make sense to define paste when status is not zero."
                                                                                                         else if builtins.typeOf paste == "null" then paste
                                                                                                         else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                     pipe =
