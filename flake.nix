@@ -209,47 +209,51 @@
                                                             else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
                                                     } ;
                                         setup =
-                                            _shell-script
-                                                {
-                                                    extensions =
-                                                        {
-                                                            has-standard-input = name : "export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/false ; fi )" ;
-                                                            # originator-pid = name : "export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= | ${ pkgs.findutils }/bin/xargs ; elif [ -p /proc/self/fd/0 ] ; then ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= | ${ pkgs.findutils }/bin/xargs ; elif [ -f /proc/self/fd/0 ] ; then ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= | ${ pkgs.findutils }/bin/xargs ; else ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= | ${ pkgs.findutils }/bin/xargs ; fi ; )" ;
-                                                            originator-pid =
-                                                                name :
-                                                                    let
-                                                                        grandparent-pid = "${ pkgs.procps }/bin/ps -p $( ${ parent-pid } ) -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
-                                                                        greatgrandparent-pid = "${ pkgs.procps }/bin/ps -p $( ${ grandparent-pid } ) -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
-                                                                        parent-pid = "${ pkgs.procps }/bin/ps -p ${ _environment-variable "$" } -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
-                                                                        in
-                                                                            "export ${ name }=$( if [ -t 0 ] ; then ${ grandparent-pid } ; elif [ -p /proc/self/fd/0 ] ; then ${ greatgrandparent-pid } ; elif [ -f /proc/self/fd/0 ] ; then ${ greatgrandparent-pid } ; else ${ grandparent-pid } ; fi ; )" ;
-                                                            standard-input = name : "export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )" ;
-                                                            string = name : value : "export ${ name }=\"${ builtins.toString value }\"" ;
-                                                        } ;
-                                                    name = "setup" ;
-                                                    profile =
-                                                        { has-standard-input , originator-pid , standard-input , string } :
-                                                            [
-                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                ( has-standard-input "HAS_STANDARD_INPUT" )
-                                                                ( string "INIT" primary.init.shell-script )
-                                                                ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
-                                                                ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
-                                                                ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
-                                                                ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                ( originator-pid "ORIGINATOR_PID" )
-                                                                ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
-                                                                ( standard-input "STANDARD_INPUT" )
-                                                                ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
-                                                                ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
-                                                                ( string "WC" "${ pkgs.coreutils }/bin/wc" )
-                                                            ] ;
-                                                    script = self + "/setup.sh" ;
-                                                    tests = primary.tests ;
-                                                } ;
+                                            let
+                                                setup =
+                                                    post :
+                                                        _shell-script
+                                                            {
+                                                                extensions =
+                                                                    {
+                                                                        has-standard-input = name : "export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/true ; else ${ pkgs.coreutils }/bin/false ; fi )" ;
+                                                                        # originator-pid = name : "export ${ name }=$( if [ -t 0 ] ; then ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= | ${ pkgs.findutils }/bin/xargs ; elif [ -p /proc/self/fd/0 ] ; then ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= | ${ pkgs.findutils }/bin/xargs ; elif [ -f /proc/self/fd/0 ] ; then ${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= | ${ pkgs.findutils }/bin/xargs ; else ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= | ${ pkgs.findutils }/bin/xargs ; fi ; )" ;
+                                                                        originator-pid =
+                                                                            name :
+                                                                                let
+                                                                                    grandparent-pid = "${ pkgs.procps }/bin/ps -p $( ${ parent-pid } ) -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
+                                                                                    greatgrandparent-pid = "${ pkgs.procps }/bin/ps -p $( ${ grandparent-pid } ) -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
+                                                                                    parent-pid = "${ pkgs.procps }/bin/ps -p ${ _environment-variable "$" } -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
+                                                                                    in
+                                                                                        "export ${ name }=$( if [ -t 0 ] ; then ${ grandparent-pid } ; elif [ -p /proc/self/fd/0 ] ; then ${ greatgrandparent-pid } ; elif [ -f /proc/self/fd/0 ] ; then ${ greatgrandparent-pid } ; else ${ grandparent-pid } ; fi ; )" ;
+                                                                        standard-input = name : "export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )" ;
+                                                                        string = name : value : "export ${ name }=\"${ builtins.toString value }\"" ;
+                                                                    } ;
+                                                                name = "setup" ;
+                                                                profile =
+                                                                    { has-standard-input , originator-pid , standard-input , string } :
+                                                                        [
+                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                            ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                            ( has-standard-input "HAS_STANDARD_INPUT" )
+                                                                            ( string "INIT" primary.init.shell-script )
+                                                                            ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
+                                                                            ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
+                                                                            ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
+                                                                            ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                            ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                            ( originator-pid "ORIGINATOR_PID" )
+                                                                            ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
+                                                                            ( standard-input "STANDARD_INPUT" )
+                                                                            ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
+                                                                            ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
+                                                                            ( string "WC" "${ pkgs.coreutils }/bin/wc" )
+                                                                        ] ;
+                                                                script = self + "/setup.sh" ;
+                                                                tests = primary.tests ;
+                                                            } ;
+                                                in setup primary.post ;
                                         teardown =
                                             _shell-script
                                                 {
