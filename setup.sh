@@ -37,4 +37,5 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
     exit ${STDERR_EMITTED_ERROR_CODE}
   else
     ${ECHO} ${TARGET}
-  fi
+  fi &&
+  ${RESOURCE}/teardown.sh &
