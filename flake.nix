@@ -130,7 +130,6 @@
                                                                                         in identity ( value null ) ;
                                                                                 in
                                                                                     {
-                                                                                        status = secondary.status ;
                                                                                         test =
                                                                                             let
                                                                                                 program =
@@ -141,23 +140,33 @@
                                                                                                                 (
                                                                                                                     let
                                                                                                                         candidate = builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ ( _environment-variable "1" ) ] secondary.arguments secondary.file ] ) ;
+                                                                                                                        initialization =
+                                                                                                                            let
+                                                                                                                                generator =
+                                                                                                                                    index :
+                                                                                                                                        let
+                                                                                                                                            i = builtins.toString index ;
+                                                                                                                                            in
+                                                                                                                                                "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
+                                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
+                                                                                                                        testing =
+                                                                                                                            let
+                                                                                                                                generator =
+                                                                                                                                    index :
+                                                                                                                                        let
+                                                                                                                                            i = builtins.toString index ;
+                                                                                                                                            in
+                                                                                                                                                if secondary.status == 0
+                                                                                                                                                then
+                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e ${ _environment-variable "CANDIDATE_${ i }" } ] ; then echo non-existant candidate ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi''
+                                                                                                                                                else
+                                                                                                                                                   ''if [ ! -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-empty candidate ${ i } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi'' ;
+                                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         in
-                                                                                                                            if secondary.status == 0 then
-                                                                                                                                ''
-                                                                                                                                    CANDIDATE=$( ${ candidate } ) &&
-                                                                                                                                        if [ -z "${ _environment-variable "CANDIDATE" }" ]
-                                                                                                                                        then
-                                                                                                                                            echo empty candidate
-                                                                                                                                        elif [ ! -e ${ _environment-variable "CANDIDATE" } ]
-                                                                                                                                        then
-                                                                                                                                            echo non-existant candidate
-                                                                                                                                        fi
-                                                                                                                                ''
-                                                                                                                            else
-                                                                                                                                ''
-                                                                                                                                    CANDIDATE=$( ${ candidate } ) &&
-                                                                                                                                        exit ${ _environment-variable "?" }
-                                                                                                                                ''
+                                                                                                                            ''
+                                                                                                                                ${ initialization } &&
+                                                                                                                                    ${ testing }
+                                                                                                                            ''
                                                                                                                 )
                                                                                                         ) ;
                                                                                                     in "${ program } $( ${ pkgs.which }/bin/which candidate )" ;
