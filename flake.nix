@@ -148,6 +148,9 @@
                                                                                                                                         if [ -z "${ _environment-variable "CANDIDATE" }" ]
                                                                                                                                         then
                                                                                                                                             echo empty candidate
+                                                                                                                                        elif [ ! -e ${ _environment-variable "CANDIDATE" } ]
+                                                                                                                                        then
+                                                                                                                                            echo non-existant candidate
                                                                                                                                         fi
                                                                                                                                 ''
                                                                                                                             else
