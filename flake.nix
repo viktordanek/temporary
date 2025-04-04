@@ -22,6 +22,7 @@
                                     init ? null ,
                                     initialization-error-code ? 66 ,
                                     lock-failure ? 64 ,
+                                    over-initialized-target-error-code ? 68 ,
                                     post ? null ,
                                     release ? null ,
                                     shell-scripts ? { } ,
@@ -72,6 +73,9 @@
                                                         lock-failure =
                                                             if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
                                                             else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
+                                                        over-initialized-target-error-code =
+                                                            if builtins.typeOf over-initialized-target-error-code == "int" then builtins.toString over-initialized-target-error-code
+                                                            else builtins.throw "over-initialized-target-error-code is not int but ${ builtins.typeOf over-initialized-target-error-code }." ;
                                                         post = enrich "post" post ;
                                                         release = enrich "release" release ;
                                                         stderr-emitted-error-code =
@@ -176,9 +180,11 @@
                                                                         ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
                                                                         ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                        ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
                                                                         ( standard-input "STANDARD_INPUT" )
                                                                         ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
                                                                         ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
+                                                                        ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                                     ]
                                                                 ] ;
                                                     script = self + "/setup.sh" ;

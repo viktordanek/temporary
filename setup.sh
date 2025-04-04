@@ -23,12 +23,19 @@ export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   then
     exit ${UNINITIALIZED_TARGET_ERROR_CODE}
   fi &&
+  if [ $( ${FIND} ${TARGET_MOUNT} -mindepth 1 -maxdepth 1 | ${WC} --lines ) != 1 ]
+  then
+    exit ${OVER_INITIALIZED_TARGET_ERROR_CODE}
+  fi &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook
   #
 
   #
   if [ ${STATUS} != 0 ]
   then
+    ${ECHO} ---- ${STATUS} >&2 &&
+    ${CAT} ${RESOURCE}/init.standard-error >&2 &&
+    ${ECHO} ---- ${STATUS} >&2 &&
     exit ${INITIALIZATION_ERROR_CODE}
   elif [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error )" ]
   then
