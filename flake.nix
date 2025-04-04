@@ -270,7 +270,6 @@
                                                                     [
                                                                         ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
                                                                         ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                        ( string "STATUS" 0 ) # FIXME
                                                                         ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
                                                                         ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
                                                                         ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
@@ -321,6 +320,29 @@
                                                                                     ] ;
                                                                             } ;
                                                                     } ;
+
+                                                                profile =
+                                                                    { string } :
+                                                                        builtins.concatLists
+                                                                            [
+                                                                                [
+                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                    ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                    ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                                    ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                                    ( string "ORIGINATOR_PID" 9999 )
+                                                                                ]
+                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
+                                                                                [
+                                                                                    ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
+                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                    ( string "STATUS" 0 )
+                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                    ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
+                                                                                    ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
+                                                                                ]
+                                                                            ] ;
                                                                 standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf primary.post == "null" then "0" else "1" }" ;
                                                             } ;
                                                 } ;
