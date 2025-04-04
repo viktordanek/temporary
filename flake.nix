@@ -31,6 +31,113 @@
                                     uninitialized-target-error-code ? 65 ,
                                 } :
                                     let
+                                        fun =
+                                            post :
+                                                _shell-script
+                                                    {
+                                                        extensions =
+                                                            {
+                                                                string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                            } ;
+                                                        mounts =
+                                                            {
+                                                                "/mount" =
+                                                                    {
+                                                                        host-path = _environment-variable "RESOURCES" ;
+                                                                        is-read-only = false ;
+                                                                    } ;
+                                                            } ;
+                                                        name = "teardown" ;
+                                                        profile =
+                                                            { string } :
+                                                                builtins.concatLists
+                                                                    [
+                                                                        [
+                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                            ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                            ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                            ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                        ]
+                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
+                                                                        [
+                                                                            ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
+                                                                            ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                            ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                            ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
+                                                                            ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
+                                                                        ]
+                                                                    ] ;
+                                                        script =
+                                                            let
+                                                                all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                                array =
+                                                                    builtins.concatLists
+                                                                        [
+                                                                            [ 0 ]
+                                                                            [ 1 ]
+                                                                            [ 2 ]
+                                                                            [ 3 ]
+                                                                            [ 4 ]
+                                                                            [ 5 ]
+                                                                            [ 6 ]
+                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
+                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
+                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
+                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 11 ] )
+                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 12 ] )
+                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 13 ] )
+                                                                            ( if builtins.typeOf primary.post == "null" then [ ] else [ 16 ] )
+                                                                            [ 18 ]
+                                                                            [ 19 ]
+                                                                            [ 20 ]
+                                                                            [ 21 ]
+                                                                            [ 22 ]
+                                                                        ] ;
+                                                                with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
+                                                                filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
+                                                                simplified = builtins.map ( x : x.line ) filtered ;
+                                                                in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
+                                                        tests =
+                                                            ignore :
+                                                                {
+                                                                    mounts =
+                                                                        {
+                                                                            "/mount" =
+                                                                                {
+                                                                                    expected = self + "/expected/teardown/mounts/resource" ;
+                                                                                    initial =
+                                                                                        [
+                                                                                            "mkdir --parents /mount/target/resource"
+                                                                                            "echo a60aa448919abcb69f7804ee9f3879fc9bd06765172f6c86cc697cc217719ae46278551a687cd80cc5a7d2c22ba2d79fccee95905ebb2865da1609da90d491c1 > /mount/target/resource/target"
+                                                                                        ] ;
+                                                                                } ;
+                                                                        } ;
+                                                                    profile =
+                                                                        { string } :
+                                                                            builtins.concatLists
+                                                                                [
+                                                                                    [
+                                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                                        ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
+                                                                                        ( string "LOCK_FAILURE" primary.lock-failure )
+                                                                                        ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                                        ( string "ORIGINATOR_PID" 9999 )
+                                                                                    ]
+                                                                                    ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
+                                                                                    ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
+                                                                                    [
+                                                                                        ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
+                                                                                        ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                                        ( string "STATUS" 0 )
+                                                                                        ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
+                                                                                        ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
+                                                                                        ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
+                                                                                    ]
+                                                                                ] ;
+                                                                    standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf primary.post == "null" then "0" else "1" }" ;
+                                                                } ;
+                                                } ;
                                         primary =
                                             let
                                                 enrich =
@@ -250,112 +357,8 @@
                                                     script = self + "/setup.sh" ;
                                                     tests = primary.tests ;
                                                 } ;
-                                        teardown =
-                                            _shell-script
-                                                {
-                                                    extensions =
-                                                        {
-                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                        } ;
-                                                    mounts =
-                                                        {
-                                                            "/mount" =
-                                                                {
-                                                                    host-path = _environment-variable "RESOURCES" ;
-                                                                    is-read-only = false ;
-                                                                } ;
-                                                        } ;
-                                                    name = "teardown" ;
-                                                    profile =
-                                                        { string } :
-                                                            builtins.concatLists
-                                                                [
-                                                                    [
-                                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                        ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                        ( string "LOCK_FAILURE" primary.lock-failure )
-                                                                        ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                    ]
-                                                                    ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
-                                                                    ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
-                                                                    [
-                                                                        ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
-                                                                        ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                        ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                        ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
-                                                                        ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
-                                                                    ]
-                                                                ] ;
-                                                    script =
-                                                        let
-                                                            all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
-                                                            array =
-                                                                builtins.concatLists
-                                                                    [
-                                                                        [ 0 ]
-                                                                        [ 1 ]
-                                                                        [ 2 ]
-                                                                        [ 3 ]
-                                                                        [ 4 ]
-                                                                        [ 5 ]
-                                                                        [ 6 ]
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 11 ] )
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 12 ] )
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 13 ] )
-                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ 16 ] )
-                                                                        [ 18 ]
-                                                                        [ 19 ]
-                                                                        [ 20 ]
-                                                                        [ 21 ]
-                                                                        [ 22 ]
-                                                                    ] ;
-                                                            with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                            filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
-                                                            simplified = builtins.map ( x : x.line ) filtered ;
-                                                            in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
-                                                    tests =
-                                                        ignore :
-                                                            {
-                                                                mounts =
-                                                                    {
-                                                                        "/mount" =
-                                                                            {
-                                                                                expected = self + "/expected/teardown/mounts/resource" ;
-                                                                                initial =
-                                                                                    [
-                                                                                        "mkdir --parents /mount/target/resource"
-                                                                                        "echo a60aa448919abcb69f7804ee9f3879fc9bd06765172f6c86cc697cc217719ae46278551a687cd80cc5a7d2c22ba2d79fccee95905ebb2865da1609da90d491c1 > /mount/target/resource/target"
-                                                                                    ] ;
-                                                                            } ;
-                                                                    } ;
-                                                                profile =
-                                                                    { string } :
-                                                                        builtins.concatLists
-                                                                            [
-                                                                                [
-                                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                                    ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
-                                                                                    ( string "LOCK_FAILURE" primary.lock-failure )
-                                                                                    ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                                    ( string "ORIGINATOR_PID" 9999 )
-                                                                                ]
-                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
-                                                                                [
-                                                                                    ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
-                                                                                    ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                                    ( string "STATUS" 0 )
-                                                                                    ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
-                                                                                    ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
-                                                                                    ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
-                                                                                ]
-                                                                            ] ;
-                                                                standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf primary.post == "null" then "0" else "1" }" ;
-                                                            } ;
-                                                } ;
+                                        teardown = fun primary.post ;
+                                        teardown-mock = fun shell-script.vacuum ;
                                         in
                                             {
                                                 tests =
