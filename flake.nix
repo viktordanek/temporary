@@ -144,16 +144,12 @@
                                                                                                                         in
                                                                                                                             if secondary.status == 0 then
                                                                                                                                 ''
-                                                                                                                                    CANDIDATE=$( ${ candidate } 2> /build/candidate.standard-error ) &&
-                                                                                                                                    if [ -z "${ _environment-variable "CANDIDATE" }" ]
-                                                                                                                                    then
-                                                                                                                                        echo ${ _environment-variable "?" } 'empty candidate for ${ candidate }' >&2
-                                                                                                                                    fi
+                                                                                                                                    echo ${ _environment-variable "1" } &&
+                                                                                                                                    stat ${ _environment-variable "1" }
                                                                                                                                 ''
                                                                                                                             else
                                                                                                                                 ''
                                                                                                                                     CANDIDATE=$( ${ candidate } ) &&
-                                                                                                                                        # echo ${ _environment-variable "CANDIDATE" } &&
                                                                                                                                         exit ${ _environment-variable "?" }
                                                                                                                                 ''
                                                                                                                 )
@@ -189,6 +185,7 @@
                                                                         ( has-standard-input "HAS_STANDARD_INPUT" )
                                                                         ( string "INIT" primary.init.shell-script )
                                                                         ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
+                                                                        ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
                                                                         ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                         ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
