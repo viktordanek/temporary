@@ -270,6 +270,7 @@
                                                                     [
                                                                         ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
                                                                         ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                        ( string "STATUS" 0 ) # FIXME
                                                                         ( string "TAIL" "${ pkgs.coreutils }/bin/tail" )
                                                                         ( string "TARGET" "$( ${ _environment-variable "MKTEMP" } )" )
                                                                         ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
@@ -285,18 +286,21 @@
                                                                         [ 1 ]
                                                                         [ 2 ]
                                                                         [ 3 ]
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 5 ] )
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 6 ] )
-                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 7 ] )
+                                                                        [ 4 ]
+                                                                        [ 5 ]
+                                                                        [ 6 ]
                                                                         ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
                                                                         ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
                                                                         ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
-                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ 13 ] )
-                                                                        [ 15 ]
-                                                                        [ 16 ]
-                                                                        [ 17 ]
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 11 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 12 ] )
+                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ 13 ] )
+                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ 16 ] )
                                                                         [ 18 ]
                                                                         [ 19 ]
+                                                                        [ 20 ]
+                                                                        [ 21 ]
+                                                                        [ 22 ]
                                                                     ] ;
                                                             with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
                                                             filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
