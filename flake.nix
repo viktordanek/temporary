@@ -217,8 +217,8 @@
                                                             originator-pid =
                                                                 name :
                                                                     let
-                                                                        grandparent-pid = "${ pkgs.procps }/bin/ps -p $( ${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= ) -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
-                                                                        parent-pid = "${ pkgs.procps }/bin/ps -p ${ builtins.concatStringsSep "" [ "$" "{" "$" "}" ] } -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
+                                                                        grandparent-pid = "${ pkgs.procps }/bin/ps -p $( ${ parent-pid } ) -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
+                                                                        parent-pid = "${ pkgs.procps }/bin/ps -p ${ _environment-variable "$" } -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
                                                                         in
                                                                             "export ${ name }=$( if [ -t 0 ] ; then ${ parent-pid } ; elif [ -p /proc/self/fd/0 ] ; then ${ grandparent-pid } ; elif [ -f /proc/self/fd/0 ] ; then ${ grandparent-pid } ; else ${ parent-pid } ; fi ; )" ;
                                                             standard-input = name : "export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )" ;
