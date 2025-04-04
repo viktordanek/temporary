@@ -114,7 +114,7 @@
                                                                                                         else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
                                                                                                     paste =
                                                                                                         if builtins.typeOf paste == "lambda" then
-                                                                                                            if primary.status == 0 then
+                                                                                                            if secondary.status == 0 then
                                                                                                                 let
                                                                                                                     generator =
                                                                                                                         index :
@@ -127,7 +127,9 @@
                                                                                                         else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                     pipe =
                                                                                                         if builtins.typeOf pipe == "null" then [ ]
-                                                                                                        else if builtins.typeOf pipe == "string" then [ "cat ${ builtins.toFile "pipe" pipe } |" ]
+                                                                                                        else if builtins.typeOf pipe == "string" then
+                                                                                                            if builtins.typeOf secondary.file == "null" then [ "cat ${ builtins.toFile "pipe" pipe } |" ]
+                                                                                                            else builtins.throw "if we define both a pipe and a file then the file overrides the pipe"
                                                                                                         else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
                                                                                                     status =
                                                                                                         if builtins.typeOf status == "int" then status
@@ -171,7 +173,7 @@
                                                                                                                                         let
                                                                                                                                             i = builtins.toString index ;
                                                                                                                                             in
-                                                                                                                                                "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
+                                                                                                                                                "if CANDIDATE_${ i }=$( ${ builtins.trace candidate candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         paste = if builtins.typeOf secondary.paste == "null" then "true" else secondary.paste ;
                                                                                                                         testing =
@@ -452,7 +454,9 @@
                                                                     ignore :
                                                                         {
                                                                             arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
-                                                                            pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
+                                                                            file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
+                                                                            paste = candidate : "echo 5d17ad89c35290bf6dd06bfea3f9ece317138a5a954fb525e245b469b827d850a4489a3587a5453293f2d686f2e9239780b52b4e1e1d50cc8ac14d0b79e4994a" ;
+                                                                            # pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
                                                                         } ;
                                                             } ;
                                                     in
