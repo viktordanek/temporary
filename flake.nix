@@ -113,9 +113,16 @@
                                                                                                         else if builtins.typeOf file == "string" then [ "< ${ builtins.toFile "file" file }" ]
                                                                                                         else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
                                                                                                     paste =
-                                                                                                        if builtins.typeOf paste == "null" then ""
-                                                                                                        else if builtins.typeOf paste == "string" then paste
-                                                                                                        else builtins.throw "arguments is not null, string but ${ builtins.typeOf paste }." ;
+                                                                                                        if builtins.typeOf paste == "lambda" then
+                                                                                                            let
+                                                                                                                generator =
+                                                                                                                    index :
+                                                                                                                        let
+                                                                                                                            value = paste ( _environment-variable "CANDIDATE_${ builtins.toString index }" ) ;
+                                                                                                                            in if builtins.typeOf value == "string" then value else builtins.throw "paste is not string but ${ builtins.typeOf paste }." ;
+                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count )
+                                                                                                        else if builtins.typeOf paste == "null" then paste
+                                                                                                        else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
                                                                                                     pipe =
                                                                                                         if builtins.typeOf pipe == "null" then [ ]
                                                                                                         else if builtins.typeOf pipe == "string" then [ "cat ${ builtins.toFile "pipe" pipe } |" ]
