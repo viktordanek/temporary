@@ -178,6 +178,7 @@
                                                                                                                                                 "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         paste = if builtins.typeOf secondary.paste == "null" then "true" else secondary.paste ;
+                                                                                                                        program = pkgs.writeShellScript "program" "${ initialization } && ${ testing }" ;
                                                                                                                         testing =
                                                                                                                             let
                                                                                                                                 generator =
@@ -193,8 +194,7 @@
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         in
                                                                                                                             ''
-                                                                                                                                ${ initialization } &&
-                                                                                                                                    ${ testing }
+                                                                                                                                ${ program } ${ _environment-variable "1" }
                                                                                                                             ''
                                                                                                                 )
                                                                                                         ) ;
