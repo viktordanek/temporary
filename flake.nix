@@ -228,6 +228,12 @@
                                                                         ( string "INIT" primary.init.shell-script )
                                                                         ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
                                                                         ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
+                                                                    ]
+                                                                    (
+                                                                        if builtins.typeOf primary.release == "null" then [ ]
+                                                                        else [ ( string "MAKE_WRAPPER_RELEASE" primary.release.shell-script ) ]
+                                                                    )
+                                                                    [
                                                                         ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                         ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
