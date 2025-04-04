@@ -404,7 +404,7 @@
                                                                                 ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/links/post" ] )
                                                                                 [
                                                                                     "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/links/teardown"
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ setup.tests } ${ _environment-variable "OUT" }/links/setup"
+                                                                                    "${ _environment-variable "LN" } --symbolic ${ setup-mock.tests } ${ _environment-variable "OUT" }/links/setup"
                                                                                     "${ _environment-variable "LN" } --symbolic ${ vacuum.tests } ${ _environment-variable "OUT" }/links/vacuum"
                                                                                 ]
                                                                             ] ;
