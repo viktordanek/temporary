@@ -1,3 +1,4 @@
+${TOUCH} /build/${NAME} &&
 if [ "${NAME}" == "init" ]
 then
   ${MKDIR} /mount/target &&

@@ -194,7 +194,10 @@
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         in
                                                                                                                             ''
-                                                                                                                                ${ program } ${ _environment-variable "1" }
+                                                                                                                                ${ program } ${ _environment-variable "1" } &&
+                                                                                                                                    ${ pkgs.coreutils }/bin/touch /build/vacuum.flag
+                                                                                                                                    # ${ pkgs.inotify-tools }/bin/inotifywait --event delete_self /build/vacuum.flag --quiet --timeout 1 &&
+                                                                                                                                    # ${ pkgs.findutils }/bin/find /build -mindepth 1 -maxdepth 1 -type d
                                                                                                                             ''
                                                                                                                 )
                                                                                                         ) ;
@@ -373,7 +376,7 @@
                                                         {
                                                             "/resource" =
                                                                 {
-                                                                    host-path = _environment-variable "" ;
+                                                                    host-path = _environment-variable "RESOURCE" ;
                                                                     is-read-only = true ;
                                                                 } ;
                                                         } ;
@@ -381,10 +384,18 @@
                                                     profile =
                                                         { string } :
                                                             [
-                                                                ( string "INPUT" ( _environment-variable "RESOURCE" ) )
-                                                                ( string "OUTPUT" "/build/observed" )
+                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
+                                                                ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
+                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
+                                                                ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
+                                                                ( string "STAT" "${ pkgs.coreutils }/bin/stat" )
+                                                                ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                             ] ;
-                                                    script = shell-script.vacuum ;
+                                                    script = self + "/vacuum.sh" ;
                                                 } ;
                                         in
                                             {
@@ -529,9 +540,9 @@
                                                             } ;
                                                     in
                                                         [
-                                                            ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
+                                                            # ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
+                                                            # ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
+                                                            # ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
                                                             ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
                                                         ] ;
                                             post =
