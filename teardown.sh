@@ -4,7 +4,7 @@ exec 201> /mount/resource.lock &&
     if [ ${STATUS} == 0 ]
     then
       ${TAIL} --follow --pid ${ORIGINATOR_PID}
-    fi &&
+    fi && ls -lah /mount >&2 &&
 #
     if ${RELEASE} > /mount/resource/release.standard-output >2 /mount/resource/release.standard-error
     then
