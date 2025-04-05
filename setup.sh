@@ -1,4 +1,4 @@
-export RESOURCES=${TMP_DIR} &&
+export RESOURCES=${TMPDIR} &&
   export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   export TARGET=${TARGET_MOUNT}/target &&
