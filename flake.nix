@@ -362,6 +362,7 @@
                                                                                     ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
                                                                                     ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
                                                                                     [
+                                                                                        ( string "RESOURCE_NAME" "resource" )
                                                                                         ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
                                                                                         ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                                         ( string "STATUS" 0 )
