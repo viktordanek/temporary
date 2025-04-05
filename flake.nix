@@ -35,8 +35,7 @@
                                             let
                                                 enrich =
                                                     name : set :
-                                                        if name == "init" && builtins.typeOf set == "null" then builtins.throw "${ name } is null not set."
-                                                        else if builtins.typeOf set == "null" then set
+                                                        if builtins.typeOf set == "null" then set
                                                         else if builtins.typeOf set == "set" then
                                                             let
                                                                 arguments-minus = builtins.removeAttrs set [ "mounts" "resource" "target" ] ;
@@ -49,19 +48,10 @@
                                                                                 host-path = _environment-variable "RESOURCE" ;
                                                                                 is-read-only = true ;
                                                                             } ;
-                                                                        "${ target }" =
-                                                                            {
-                                                                                host-path = _environment-variable ( if name == "init" then "TARGET_MOUNT" else "TARGET" ) ;
-                                                                                is-read-only = name != "init" ;
-                                                                            } ;
                                                                     } ;
                                                                 resource =
                                                                     if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
                                                                     else "/resource" ;
-                                                                target =
-                                                                    if builtins.hasAttr "target" set then builtins.getAttr "target" set
-                                                                    else if name == "init" then "/mount"
-                                                                    else "/target" ;
                                                                 in if eval.success then eval.value else builtins.throw "There was a problem evaluating ${ name }."
                                                         else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
                                                 enrich-init =
@@ -587,14 +577,6 @@
                                                                                         "echo c019fafab6f1d19b6266c357f4fa9ba6e6c88ef21e6f02a7777c2a94afec6608660f8252393648307b81da9d1a74552fbcaff38444bf42925a3001504fa5a65d > /mount/target"
                                                                                     ] ;
                                                                             } ;
-                                                                        "/target" =
-                                                                            {
-                                                                                expected = self + "/expected/post/mounts/target" ;
-                                                                                initial =
-                                                                                    [
-                                                                                        "echo aa4b0468d9b5bc33422777fcb8892f76073a60fc9cd2f6089ca9dbe12336c89861e9b6149832ed99b30be163177d0c3b561554bef3ba9eebb8da96a22838b08e > /mount/target"
-                                                                                    ] ;
-                                                                            } ;
                                                                     } ;
                                                                 standard-output = self + "/expected/post/standard-output" ;
                                                             } ;
@@ -611,11 +593,6 @@
                                                             "/resource" =
                                                                 {
                                                                     host-path = _environment-variable "RESOURCE" ;
-                                                                    is-read-only = true ;
-                                                                } ;
-                                                            "/target" =
-                                                                {
-                                                                    host-path = _environment-variable "TARGET" ;
                                                                     is-read-only = true ;
                                                                 } ;
                                                         } ;
@@ -641,14 +618,6 @@
                                                                                 initial =
                                                                                     [
                                                                                         "echo 230ad29bc6c9ba25fb5afe5d79640fd2eeddd526483d1f5e844490e697d6917b4804a4f6d0eea656405a23f437071ad95c1cd71f2f62fe7a844f8cd216543750 > /mount/target"
-                                                                                    ] ;
-                                                                            } ;
-                                                                        "/target" =
-                                                                            {
-                                                                                expected = self + "/expected/release/mounts/target" ;
-                                                                                initial =
-                                                                                    [
-                                                                                        "echo fd20a7c74b6a58415e1ae2816cdfbc56ffbd19f0db2a4e4bd2ff772c8975743c42493e673122e3638fa37de04bc2b34da56eb55bc4b154b1e73431f46b9d43e1 > /mount/target"
                                                                                     ] ;
                                                                             } ;
                                                                     } ;
