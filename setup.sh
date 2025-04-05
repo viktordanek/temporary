@@ -21,21 +21,15 @@ export RESOURCES=${TMPDIR} &&
     fi
   fi &&
   ${ECHO} ${?} > ${RESOURCE}/init.status
-  if [ ! -e ${TARGET} ]
-  then
-    exit ${UNINITIALIZED_TARGET_ERROR_CODE}
-  fi &&
-  if [ $( ${FIND} ${TARGET_MOUNT} -mindepth 1 -maxdepth 1 | ${WC} --lines ) != 1 ]
-  then
-    exit ${OVER_INITIALIZED_TARGET_ERROR_CODE}
-  fi &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook &&
-  echo makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} >&2 &&
   makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
-  ( ${RESOURCE}/teardown.sh > /build/teardown.standard-output > /build/teardown.standard-error & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error.
+  ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error.
   if [ ${STATUS} != 0 ]
   then
     exit ${INITIALIZATION_ERROR_CODE}
+  elif [ $( ${FIND} ${TARGET_MOUNT} -mindepth 1 -maxdepth 1 | ${WC} --lines ) > 1 ]
+  then
+    exit ${OVER_INITIALIZED_TARGET_ERROR_CODE}
   elif [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error )" ]
   then
     exit ${STDERR_EMITTED_ERROR_CODE}
