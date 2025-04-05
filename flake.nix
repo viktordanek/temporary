@@ -33,7 +33,7 @@
                                     let
                                         primary =
                                             let
-                                                                                            enrich =
+                                                enrich =
                                                     name : set :
                                                         if name == "init" && builtins.typeOf set == "null" then builtins.throw "${ name } is null not set."
                                                         else if builtins.typeOf set == "null" then set
@@ -64,9 +64,29 @@
                                                                     else "/target" ;
                                                                 in if eval.success then eval.value else builtins.throw "There was a problem evaluating ${ name }."
                                                         else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
+                                                enrich-init =
+                                                    set :
+                                                        if builtins.typeOf set == "set" then
+                                                            let
+                                                                arguments-minus = builtins.removeAttrs set [ "mount" ] ;
+                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                mount =
+                                                                    if builtins.hasAttr "mount" set then builtins.getAttr "mount" set
+                                                                    else "/mount" ;
+                                                                mounts =
+                                                                    {
+                                                                        "${ mount }" =
+                                                                            {
+                                                                                host-path = _environment-variable "TARGET_MOUNT" ;
+                                                                                is-read-only = false ;
+                                                                            } ;
+                                                                    } ;
+                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
+                                                        else builtins.throw "init is not set but ${ builtins.typeOf set }." ;
                                                 in
                                                     {
-                                                        init = enrich "init" init ;
+                                                        init = enrich-init init ;
                                                         initialization-error-code =
                                                             if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
                                                             else builtins.throw "initialization-error-code is not int but ${ builtins.typeOf initialization-error-code }." ;
@@ -464,20 +484,12 @@
                                                                 ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
                                                                 ( string "UUID" "a0ec4aaa08d8dc652beb39be11f4b9619ec8b69d547c92e249c9fb06c295e13e2fcbf2ad25d60388e8c34241ade94494c598e3d413d7c90f95667b309ed62a8d" )
                                                             ] ;
-                                                    script = self + "/flag.sh" ;
+                                                    script = self + "/init.sh" ;
                                                     tests =
                                                         ignore :
                                                             {
                                                                 mounts =
                                                                     {
-                                                                        "/resource" =
-                                                                            {
-                                                                                expected = self + "/expected/init/mounts/resource" ;
-                                                                                initial =
-                                                                                    [
-                                                                                        "echo 4806851f94f416164d4f20028664c37e592579ebed9be9976f55045699f35cd5ef3335775e1f774e0803ba3a1fee5a67aba1be7f1005fa9aec5bbd952dac207e > /mount/target"
-                                                                                    ] ;
-                                                                            } ;
                                                                         "/mount" =
                                                                             {
                                                                                 expected = self + "/expected/init/mounts/target" ;
@@ -487,7 +499,6 @@
                                                                                     ] ;
                                                                             } ;
                                                                     } ;
-                                                                standard-output = self + "/expected/init/standard-output" ;
                                                             } ;
                                                 } ;
                                             list =
