@@ -36,6 +36,10 @@ export RESOURCES=${TMPDIR} &&
   elif [ ! -z "$( ${CAT} ${RESOURCE}/init.standard-error )" ]
   then
     exit ${STDERR_EMITTED_ERROR_CODE}
+  elif [ ! -e ${TARGET} ] ## THIS CLAUSE IS A TOTAL KLUDGE
+  then
+    ${ECHO} ${TARGET} > /build/setup-target &&
+    exit 98
   else
     ${ECHO} ${TARGET}
   fi

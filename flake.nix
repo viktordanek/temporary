@@ -198,7 +198,7 @@
                                                                                                                                             in
                                                                                                                                                 if secondary.status == 0
                                                                                                                                                 then
-                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo  echo BEFORE && cat /build/candidate.0.standard-error && echo AFTER && ls ${ _environment-variable "TMPDIR" } && echo non-existant candidate ${ _environment-variable "CANDIDATE_${ i }" } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
+                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then ${ pkgs.findutils }/bin/find /build && ls ${ _environment-variable "TMPDIR" } && echo non-existant candidate ${ _environment-variable "CANDIDATE_${ i }" } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
                                                                                                                                                 else
                                                                                                                                                    ''if [ ! -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-empty candidate ${ i } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi'' ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
@@ -541,7 +541,7 @@
                                                             } ;
                                                     in
                                                         [
-                                                            # ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
+                                                            ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
                                                             # ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
                                                             # ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
                                                             ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
