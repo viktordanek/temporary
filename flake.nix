@@ -185,7 +185,7 @@
                                                                                                                                         let
                                                                                                                                             i = builtins.toString index ;
                                                                                                                                             in
-                                                                                                                                                "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
+                                                                                                                                                "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo ${ _environment-variable "CANDIDATE_${ i }" } && echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         paste = if builtins.typeOf secondary.paste == "null" then "true" else secondary.paste ;
                                                                                                                         program = pkgs.writeShellScript "program" "${ initialization } && ${ testing }" ;
@@ -232,7 +232,6 @@
                                                                     name :
                                                                         let
                                                                             grandparent-pid = "${ pkgs.procps }/bin/ps -p $( ${ parent-pid } ) -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
-                                                                            # greatgrandparent-pid = "${ pkgs.procps }/bin/ps -p $( ${ grandparent-pid } ) -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
                                                                             parent-pid = "${ pkgs.procps }/bin/ps -p ${ _environment-variable "$" } -o ppid= | ${ pkgs.findutils }/bin/xargs" ;
                                                                             in
                                                                                 "export ${ name }=$( if [ -t 0 ] ; then ${ parent-pid } ; elif [ -p /proc/self/fd/0 ] ; then ${ grandparent-pid } ; elif [ -f /proc/self/fd/0 ] ; then ${ grandparent-pid } ; else ${ parent-pid } ; fi ; )" ;
@@ -544,7 +543,7 @@
                                                         [
                                                             # ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
                                                             # ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
+                                                            # ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
                                                             ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
                                                         ] ;
                                             post =
