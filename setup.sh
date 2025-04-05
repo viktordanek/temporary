@@ -1,5 +1,6 @@
 export RESOURCES=${TMPDIR} &&
   export RESOURCE=$( ${MKTEMP} --tmpdir --directory XXXXXXXX ) &&
+  export RESOURCE_NAME=$( ${BASENAME} ${RESOURCE} ) &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   export TARGET=${TARGET_MOUNT}/target &&
   ${MKDIR} ${TARGET_MOUNT} &&
@@ -30,7 +31,7 @@ export RESOURCES=${TMPDIR} &&
   fi &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   echo makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} >&2 &&
-  makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
+  makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
   ( ${RESOURCE}/teardown.sh > /build/teardown.standard-output > /build/teardown.standard-error & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error.
   if [ ${STATUS} != 0 ]
   then

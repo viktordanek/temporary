@@ -243,6 +243,7 @@
                                                         profile =
                                                             { has-standard-input , originator-pid , standard-input , string } :
                                                                 [
+                                                                    ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                     ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                     ( string "FIND" "${ pkgs.findutils }/bin/find" )
