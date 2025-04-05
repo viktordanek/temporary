@@ -30,7 +30,7 @@ export RESOURCES=${TMP_DIR} &&
   fi &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook
   makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCES ${RESOURCE} --set STATUS ${STATUS} &&
-  ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error.
+  ( ${RESOURCE}/teardown.sh > /build/teardown.standard-output > /build/teardown.standard-error & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error.
   if [ ${STATUS} != 0 ]
   then
     exit ${INITIALIZATION_ERROR_CODE}

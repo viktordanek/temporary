@@ -33,7 +33,7 @@
                                     let
                                         primary =
                                             let
-                                                enrich =
+                                                                                            enrich =
                                                     name : set :
                                                         if name == "init" && builtins.typeOf set == "null" then builtins.throw "${ name } is null not set."
                                                         else if builtins.typeOf set == "null" then set
