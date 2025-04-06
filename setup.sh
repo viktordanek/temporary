@@ -1,7 +1,7 @@
-export RESOURCE=$( ${MKTEMP} --directory /resourcesx/XXXXXXXX ) &&
-  touch /resourcesx/FLAG_1 &&
+export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
+  touch ${RESOURCES}/FLAG_1 &&
   touch ${RESOURCE}/FLAG_2 &&
-  ${MOUNT} | ${GREP} /resourcesx >&2 &&
+  ${MOUNT} | ${GREP} /BBBB >&2 &&
   export RESOURCE_NAME=$( ${BASENAME} ${RESOURCE} ) &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   export TARGET=${TARGET_MOUNT}/target &&
@@ -25,7 +25,7 @@ export RESOURCE=$( ${MKTEMP} --directory /resourcesx/XXXXXXXX ) &&
   ${ECHO} ${?} > ${RESOURCE}/init.status &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook &&
   makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
-  ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error.
+  # ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error.
   if [ ${STATUS} != 0 ]
   then
     exit ${INITIALIZATION_ERROR_CODE}
