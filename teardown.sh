@@ -16,7 +16,7 @@ exec 201> /mount/${RESOURCE_NAME}/lock &&
 #
       ( ${POST} || ${TRUE} ) &&
 #
-      echo ${RM} --recursive --force /mount/${RESOURCE_NAME} # KLUDGE
+      ${RM} --recursive --force /mount/${RESOURCE_NAME}
   else
     ${ECHO} FAILED TO LOCK /mount/${RESOURCE_NAME}/lock >&2 &&
       exit ${LOCK_FAILURE}

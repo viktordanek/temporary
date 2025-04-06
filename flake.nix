@@ -24,7 +24,7 @@
                                     over-initialized-target-error-code ? 68 ,
                                     post ? null ,
                                     release ? null ,
-                                    resources ? "${ _environment-variable "TMPDIR" }/resources" ,
+                                    resources ? "${ _environment-variable "TMPDIR" }/resourcesx" ,
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
                                     tests ? null ,
@@ -209,7 +209,7 @@
                                                                                                                                             in
                                                                                                                                                 if secondary.status == 0
                                                                                                                                                 then
-                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then ${ pkgs.findutils }/bin/find /build/resources && echo non-existant candidate ${ _environment-variable "CANDIDATE_${ i }" } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
+                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then ${ pkgs.findutils }/bin/find /build/resourcesx && echo non-existant candidate ${ _environment-variable "CANDIDATE_${ i }" } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
                                                                                                                                                 else
                                                                                                                                                    ''if [ ! -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-empty candidate ${ i } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi'' ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
@@ -558,7 +558,7 @@
                                                                             # paste = candidate : "echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid" ;
                                                                             # pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
                                                                             vacuum = self ;
-                                                                        } ;
+                                                                         } ;
                                                             } ;
                                                     in
                                                         [
