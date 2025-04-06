@@ -158,7 +158,7 @@
                                                                                     {
                                                                                         mounts =
                                                                                             {
-                                                                                                "${ primary.resources }" =
+                                                                                                "/resources" =
                                                                                                     {
                                                                                                         expected = self + "/expected/root/mounts/target" ;
                                                                                                         initial = "mkdir /mount/target" ;
@@ -251,7 +251,7 @@
                                                             } ;
                                                         mounts =
                                                             {
-                                                                "${ primary.resources }" =
+                                                                "/resources" =
                                                                     {
                                                                         host-path = primary.resources ;
                                                                         is-read-only = false ;
