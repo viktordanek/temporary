@@ -18,13 +18,13 @@
                             _visitor = builtins.getAttr system visitor.lib ;
                             lib =
                                 {
-                                    host-path ? "${ _environment-variable "TMPDIR" }/resources" ,
                                     init ? null ,
                                     initialization-error-code ? 66 ,
                                     lock-failure ? 64 ,
                                     over-initialized-target-error-code ? 68 ,
                                     post ? null ,
                                     release ? null ,
+                                    resources ? "${ _environment-variable "TMPDIR" }/resources" ,
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
                                     tests ? null ,
@@ -61,12 +61,9 @@
                                                                 arguments-minus = builtins.removeAttrs set [ "mount" ] ;
                                                                 arguments-plus = arguments-minus // { mounts = mounts ; } ;
                                                                 eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                mount =
-                                                                    if builtins.hasAttr "mount" set then builtins.getAttr "mount" set
-                                                                    else "/mount" ;
                                                                 mounts =
                                                                     {
-                                                                        "${ mount }" =
+                                                                        "${ primary.resources }" =
                                                                             {
                                                                                 host-path = _environment-variable "TARGET_MOUNT" ;
                                                                                 is-read-only = false ;
@@ -88,6 +85,9 @@
                                                             else builtins.throw "over-initialized-target-error-code is not int but ${ builtins.typeOf over-initialized-target-error-code }." ;
                                                         post = enrich "post" post ;
                                                         release = enrich "release" release ;
+                                                        resources =
+                                                            if builtins.typeOf resources == "string" then resources
+                                                            else builtins.throw "resources is not string but ${ builtins.typeOf resources }." ;
                                                         stderr-emitted-error-code =
                                                             if builtins.typeOf stderr-emitted-error-code == "int" then builtins.toString stderr-emitted-error-code
                                                             else builtins.throw "stderr-emitted-error-code is not int but ${ builtins.typeOf stderr-emitted-error-code }." ;
