@@ -18,7 +18,7 @@
                             _visitor = builtins.getAttr system visitor.lib ;
                             lib =
                                 {
-                                    host-path ? "\${TMP_DIR}" ,
+                                    host-path ? "${ _environment-variable "TMPDIR" }/resources" ,
                                     init ? null ,
                                     initialization-error-code ? 66 ,
                                     lock-failure ? 64 ,
