@@ -209,7 +209,7 @@
                                                                                                                                             in
                                                                                                                                                 if secondary.status == 0
                                                                                                                                                 then
-                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then ${ pkgs.findutils }/bin/find ${ primary.resources } && echo non-existant candidate ${ _environment-variable "CANDIDATE_${ i }" } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
+                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then ${ pkgs.findutils }/bin/find ${ primary.resources } && cat /build/candidate.${ i }.standard-error && echo non-existant candidate ${ _environment-variable "CANDIDATE_${ i }" } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
                                                                                                                                                 else
                                                                                                                                                    ''if [ ! -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-empty candidate ${ i } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi'' ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
@@ -279,6 +279,8 @@
                                                                     ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
                                                                     ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
                                                                     ( string "WC" "${ pkgs.coreutils }/bin/wc" )
+                                                                    ( string "MOUNT" "${ pkgs.mount }/bin/mount" ) # KLUDGE
+                                                                    ( string "GREP" "${ pkgs.gnugrep }/bin/grep" ) # KLUDGE
                                                                 ] ;
                                                         script = self + "/setup.sh" ;
                                                         tests = primary.tests ;

@@ -1,4 +1,7 @@
-export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
+export RESOURCE=$( ${MKTEMP} --directory /resourcesx/XXXXXXXX ) &&
+  touch /resourcesx/FLAG_1 &&
+  touch ${RESOURCE}/FLAG_2 &&
+  ${MOUNT} | ${GREP} /resourcesx >&2 &&
   export RESOURCE_NAME=$( ${BASENAME} ${RESOURCE} ) &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   export TARGET=${TARGET_MOUNT}/target &&
