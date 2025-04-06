@@ -61,9 +61,12 @@
                                                                 arguments-minus = builtins.removeAttrs set [ "mount" ] ;
                                                                 arguments-plus = arguments-minus // { mounts = mounts ; } ;
                                                                 eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                mount =
+                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "mount" set
+                                                                    else "/mount" ;
                                                                 mounts =
                                                                     {
-                                                                        "${ primary.resources }" =
+                                                                        "${ mount }" =
                                                                             {
                                                                                 host-path = _environment-variable "TARGET_MOUNT" ;
                                                                                 is-read-only = false ;
@@ -153,6 +156,14 @@
                                                                                         in identity ( value null ) ;
                                                                                 in
                                                                                     {
+                                                                                        mounts =
+                                                                                            {
+                                                                                                "${ primary.resources }" =
+                                                                                                    {
+                                                                                                        expected = self + "/expected/root/mounts/target" ;
+                                                                                                        initial = "mkdir /mount/target" ;
+                                                                                                    } ;
+                                                                                            } ;
                                                                                         test =
                                                                                             let
                                                                                                 program =
@@ -238,6 +249,14 @@
                                                                 standard-input = name : "export ${ name }=$( if [ -f /proc/self/fd/0 ] || [ -p /proc/self/fd/0 ] ; then ${ pkgs.coreutils }/bin/cat ; else ${ pkgs.coreutils }/bin/echo ; fi )" ;
                                                                 string = name : value : "export ${ name }=\"${ builtins.toString value }\"" ;
                                                             } ;
+                                                        mounts =
+                                                            {
+                                                                "${ primary.resources }" =
+                                                                    {
+                                                                        host-path = primary.resources ;
+                                                                        is-read-only = false ;
+                                                                    } ;
+                                                            } ;
                                                         name = "setup" ;
                                                         profile =
                                                             { has-standard-input , originator-pid , standard-input , string } :
@@ -255,6 +274,7 @@
                                                                     ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                     ( originator-pid "ORIGINATOR_PID" )
                                                                     ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
+                                                                    ( string "RESOURCES" primary.resources )
                                                                     ( standard-input "STANDARD_INPUT" )
                                                                     ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
                                                                     ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
@@ -435,6 +455,7 @@
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out/bin
                                                                                 makeWrapper ${ pkgs.writeShellScript "constructors" ( builtins.concatStringsSep " &&\n\t" constructors ) } $out/bin/constructors --set LN ${ pkgs.coreutils }/bin/ln --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OUT $out &&
                                                                                 $out/bin/constructors &&
+                                                                                ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 + 1 + 1 ) } &&
                                                                                 ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 + 1 + 1 ) } &&
                                                                                 SUCCESS=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name SUCCESS | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 FAILURE=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name FAILURE | ${ pkgs.coreutils }/bin/wc --lines ) &&
