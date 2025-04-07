@@ -24,7 +24,7 @@
                                     over-initialized-target-error-code ? 68 ,
                                     post ? null ,
                                     release ? null ,
-                                    resources ? "/BBBB" ,
+                                    resources ? _environment-variable "RESOURCES" ,
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
                                     tests ? null ,
@@ -158,7 +158,7 @@
                                                                                     {
                                                                                         mounts =
                                                                                             {
-                                                                                                "/resources" =
+                                                                                                "${ _environment-variable "RESOURCES" }" =
                                                                                                     {
                                                                                                         expected = self + "/expected/root/mounts/target" ;
                                                                                                         initial = "mkdir /mount/target" ;
@@ -199,7 +199,7 @@
                                                                                                                                                 "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo ${ _environment-variable "CANDIDATE_${ i }" } && echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         paste = if builtins.typeOf secondary.paste == "null" then "true" else secondary.paste ;
-                                                                                                                        program = pkgs.writeShellScript "program" "mkdir ${ primary.resources } && mkdir ${ primary.resources }/target && chmod a+rwx ${ primary.resources } ${ primary.resources }/target && ${ initialization } && ${ testing }" ;
+                                                                                                                        program = pkgs.writeShellScript "program" "export RESOURCES=/my-resources && ${ pkgs.coreutils }/bin/mkdir ${ _environment-variable "RESOURCES" } && ${ initialization } && ${ testing }" ;
                                                                                                                         testing =
                                                                                                                             let
                                                                                                                                 generator =
@@ -251,7 +251,7 @@
                                                             } ;
                                                         mounts =
                                                             {
-                                                                "/resources" =
+                                                                "${ _environment-variable "RESOURCES" }" =
                                                                     {
                                                                         host-path = primary.resources ;
                                                                         is-read-only = false ;
@@ -431,6 +431,7 @@
                                                 } ;
                                         in
                                             {
+                                                shell-script = setup.shell-script ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -526,6 +527,7 @@
                                                                             installPhase =
                                                                                 ''
                                                                                     ${ pkgs.coreutils }/bin/touch $out &&
+                                                                                        ${ pkgs.coreutils }/bin/echo The shell-script is ${ temporary.shell-script }. &&
                                                                                         if [ -f ${ temporary.tests }/SUCCESS ]
                                                                                         then
                                                                                             ${ pkgs.coreutils }/bin/echo There was success in ${ temporary.tests }.
