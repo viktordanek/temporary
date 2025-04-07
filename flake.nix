@@ -24,7 +24,7 @@
                                     over-initialized-target-error-code ? 68 ,
                                     post ? null ,
                                     release ? null ,
-                                    resources ? _environment-variable "RESOURCES" ,
+                                    resources ? "${ _environment-variable "TMPDIR" }/resources" ,
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
                                     tests ? null ,
@@ -199,7 +199,7 @@
                                                                                                                                                 "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo ${ _environment-variable "CANDIDATE_${ i }" } && echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
                                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
                                                                                                                         paste = if builtins.typeOf secondary.paste == "null" then "true" else secondary.paste ;
-                                                                                                                        program = pkgs.writeShellScript "program" "export RESOURCES=/my-resources && ${ pkgs.coreutils }/bin/mkdir ${ _environment-variable "RESOURCES" } && ${ initialization } && ${ testing }" ;
+                                                                                                                        program = pkgs.writeShellScript "program" "${ initialization } && ${ testing }" ;
                                                                                                                         testing =
                                                                                                                             let
                                                                                                                                 generator =

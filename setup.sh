@@ -1,4 +1,4 @@
-export RESOURCE=$( ${MKTEMP} --directory /my-resources/XXXXXXXX ) &&
+export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
   # touch /mount/resources/FLAG_1 &&
   touch ${RESOURCE}/FLAG_2 &&
   # ${MOUNT} | ${GREP} /mount/resources >&2 &&
