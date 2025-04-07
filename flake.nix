@@ -173,10 +173,10 @@
                                                                                                 test =
                                                                                                     _shell-script
                                                                                                         {
-                                                                                                            # extensions =
-                                                                                                            #     {
-                                                                                                            #         string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                                                            #     } ;
+                                                                                                            extensions =
+                                                                                                                {
+                                                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                                                                                } ;
                                                                                                             # mounts =
                                                                                                             #     {
                                                                                                             #         archive =
@@ -187,11 +187,11 @@
                                                                                                             #         script = self + "/test.sh" ;
                                                                                                             #     } ;
                                                                                                             name = "test" ;
-                                                                                                            # profile =
-                                                                                                            #     { string } :
-                                                                                                            #         [
-                                                                                                            #             ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                            #         ] ;
+                                                                                                            profile =
+                                                                                                                { string } :
+                                                                                                                    [
+                                                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                                                                    ] ;
                                                                                                             script = self + "/test.sh" ;
                                                                                                         } ;
                                                                                                 in builtins.trace ( builtins.typeOf test.shell-script ) "${ pkgs.coreutils }/bin/echo $( ${ pkgs.which }/bin/which candidate )" ;
