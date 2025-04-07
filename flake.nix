@@ -25,6 +25,7 @@
                                     post ? null ,
                                     release ? null ,
                                     resources ? "${ _environment-variable "TMPDIR" }/resources" ,
+                                    self-deletion ? true ,
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
                                     tests ? null ,
@@ -91,6 +92,9 @@
                                                         resources =
                                                             if builtins.typeOf resources == "string" then resources
                                                             else builtins.throw "resources is not string but ${ builtins.typeOf resources }." ;
+                                                        self-deletion =
+                                                            if builtins.typeOf self-deletion == "bool" then self-deletion
+                                                            else builtins.throw "self-deletion is not bool but ${ builtins.typeOf self-deletion }." ;
                                                         stderr-emitted-error-code =
                                                             if builtins.typeOf stderr-emitted-error-code == "int" then builtins.toString stderr-emitted-error-code
                                                             else builtins.throw "stderr-emitted-error-code is not int but ${ builtins.typeOf stderr-emitted-error-code }." ;
