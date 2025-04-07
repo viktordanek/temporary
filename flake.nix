@@ -176,7 +176,7 @@
                                                                                                         ''
                                                                                                             ${ _environment-variable "CANDIDATE" }
                                                                                                         '' ;
-                                                                                                in "${ pkgs.writeShellScript "external" ( builtins.readFile ( self + "/test/external.sh" ) ) } $( ${ pkgs.which }/bin/which candidate ) ${ pkgs.findutils }/bin/find ${ pkgs.coreutils }/bin/sleep ${ pkgs.coreutils }/bin/touch" ;
+                                                                                                in "${ pkgs.writeShellScript "external" ( builtins.readFile ( self + "/test/external.sh" ) ) } $( ${ pkgs.which }/bin/which candidate ) ${ pkgs.findutils }/bin/find ${ internal } ${ pkgs.coreutils }/bin/mkdir ${ pkgs.coreutils }/bin/sleep ${ pkgs.coreutils }/bin/touch" ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
@@ -361,6 +361,11 @@
                                                         } ;
                                                     mounts =
                                                         {
+                                                            "/archive" =
+                                                                {
+                                                                    host-path = "/build/archive" ;
+                                                                    is-read-only = false ;
+                                                                } ;
                                                             "/resource" =
                                                                 {
                                                                     host-path = _environment-variable "RESOURCE" ;
