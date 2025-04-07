@@ -177,15 +177,14 @@
                                                                                                                 {
                                                                                                                     string = name : value : "export ${ name }=${ builtins.toString value }" ;
                                                                                                                 } ;
-                                                                                                            # mounts =
-                                                                                                            #     {
-                                                                                                            #         archive =
-                                                                                                            #             {
-                                                                                                            #                 host-path = "/mount/archive" ;
-                                                                                                            #                 is-read-only = true ;
-                                                                                                            #             } ;
-                                                                                                            #         script = self + "/test.sh" ;
-                                                                                                            #     } ;
+                                                                                                            mounts =
+                                                                                                                {
+                                                                                                                    archive =
+                                                                                                                        {
+                                                                                                                            host-path = "/mount/archive" ;
+                                                                                                                            is-read-only = true ;
+                                                                                                                        } ;
+                                                                                                                } ;
                                                                                                             name = "test" ;
                                                                                                             profile =
                                                                                                                 { string } :
@@ -194,7 +193,7 @@
                                                                                                                     ] ;
                                                                                                             script = self + "/test.sh" ;
                                                                                                         } ;
-                                                                                                in builtins.trace ( builtins.typeOf test.shell-script ) "${ pkgs.coreutils }/bin/echo $( ${ pkgs.which }/bin/which candidate )" ;
+                                                                                                in "${ test.shell-script } $( ${ pkgs.which }/bin/which candidate )" ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
