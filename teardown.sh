@@ -4,7 +4,7 @@ exec 201> /mount/${RESOURCE_NAME}/lock &&
     if [ ${STATUS} == 0 ]
     then
       ${TAIL} --follow --pid ${ORIGINATOR_PID}
-    fi && sleep 10s && # KLUDGE
+    fi &&
 #
     if ${RELEASE} > /mount/${RESOURCE_NAME}/release.standard-output >2 /mount/resource/release.standard-error
     then
