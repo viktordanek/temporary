@@ -170,30 +170,16 @@
                                                                                             } ;
                                                                                         test =
                                                                                             let
-                                                                                                test =
-                                                                                                    _shell-script
-                                                                                                        {
-                                                                                                            extensions =
-                                                                                                                {
-                                                                                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                                                                                } ;
-                                                                                                            mounts =
-                                                                                                                {
-                                                                                                                    "/mount/archive" =
-                                                                                                                        {
-                                                                                                                            host-path = "/build" ;
-                                                                                                                            is-read-only = true ;
-                                                                                                                        } ;
-                                                                                                                } ;
-                                                                                                            name = "test" ;
-                                                                                                            profile =
-                                                                                                                { string } :
-                                                                                                                    [
-                                                                                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                                                                    ] ;
-                                                                                                            script = self + "/test.sh" ;
-                                                                                                        } ;
-                                                                                                in "${ test.shell-script } $( ${ pkgs.which }/bin/which candidate )" ;
+                                                                                                inner =
+                                                                                                    pkgs.writeShellScript
+                                                                                                        "inner"
+                                                                                                        ''
+                                                                                                            export RESOURCES=/build/resources &&
+                                                                                                                ${ pkgs.coreutils }/bin/mkdir ${ _environment-variable "RESOURCES" }
+                                                                                                               /usr/bin/candidate &&
+                                                                                                               ${ pkgs.findutils }/bin/find /build/resources
+                                                                                                        '' ;
+                                                                                                in builtins.toString inner ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
