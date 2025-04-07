@@ -9,5 +9,6 @@ export CANDIDATE=${1} &&
   export RESOURCES=/build/resources &&
   ${TOUCH} /build/archive/FLAG &&
   ( ${INTERNAL} ${CANDIDATE} & ) &&
+  ${FIND} /build/resources &&
   ${SLEEP} 10s &&
   ${FIND} /build/archive

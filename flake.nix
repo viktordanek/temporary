@@ -174,7 +174,10 @@
                                                                                                     pkgs.writeShellScript
                                                                                                         "internal"
                                                                                                         ''
-                                                                                                            CANDIDATE_A=$( ${ _environment-variable "CANDIDATE" } )
+                                                                                                            CANDIDATE_A=$( ${ _environment-variable "CANDIDATE" } ) &&
+                                                                                                                ${ pkgs.coreutils }/bin/echo CANDIDATE_A=${ _environment-variable "CANDIDATE_A" } &&
+                                                                                                                ${ pkgs.findutils }/bin/find /build/resources &&
+                                                                                                                ${ pkgs.findutils }/bin/find / -type f -exec ${ pkgs.gnugrep }/bin/grep --with-filename a0ec4aaa08d8dc652beb39be11f4b9619ec8b69d547c92e249c9fb06c295e13e2fcbf2ad25d60388e8c34241ade94494c598e3d413d7c90f95667b309ed62a8d {} \;
                                                                                                         '' ;
                                                                                                 in "${ pkgs.writeShellScript "external" ( builtins.readFile ( self + "/test/external.sh" ) ) } $( ${ pkgs.which }/bin/which candidate ) ${ pkgs.findutils }/bin/find ${ internal } ${ pkgs.coreutils }/bin/mkdir ${ pkgs.coreutils }/bin/sleep ${ pkgs.coreutils }/bin/touch" ;
                                                                                     } ;
