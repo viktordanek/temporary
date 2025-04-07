@@ -24,7 +24,7 @@
                                     over-initialized-target-error-code ? 68 ,
                                     post ? null ,
                                     release ? null ,
-                                    resources ? "${ _environment-variable "TMPDIR" }/resources" ,
+                                    resources ? _environment-variable "RESOURCES" ,
                                     self-deletion ? true ,
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
@@ -256,7 +256,7 @@
                                                             } ;
                                                         mounts =
                                                             {
-                                                                "${ _environment-variable "RESOURCES" }" =
+                                                                "${ primary.resources }" =
                                                                     {
                                                                         host-path = primary.resources ;
                                                                         is-read-only = false ;
