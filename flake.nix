@@ -179,9 +179,9 @@
                                                                                                                 } ;
                                                                                                             mounts =
                                                                                                                 {
-                                                                                                                    archive =
+                                                                                                                    "/mount/archive" =
                                                                                                                         {
-                                                                                                                            host-path = "/mount/archive" ;
+                                                                                                                            host-path = "/build" ;
                                                                                                                             is-read-only = true ;
                                                                                                                         } ;
                                                                                                                 } ;
