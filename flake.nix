@@ -170,63 +170,13 @@
                                                                                             } ;
                                                                                         test =
                                                                                             let
-                                                                                                program =
-                                                                                                    builtins.toString
-                                                                                                        (
-                                                                                                            pkgs.writeShellScript
-                                                                                                                "script"
-                                                                                                                (
-                                                                                                                    let
-                                                                                                                        candidate = builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ ( _environment-variable "1" ) ] secondary.arguments secondary.file ] ) ;
-                                                                                                                        duplicates =
-                                                                                                                            let
-                                                                                                                                generator =
-                                                                                                                                    index :
-                                                                                                                                        let
-                                                                                                                                            generator =
-                                                                                                                                                index :
-                                                                                                                                                    let
-                                                                                                                                                        j = builtins.toString index ;
-                                                                                                                                                        in
-                                                                                                                                                            if i == j then "true"
-                                                                                                                                                            else ''if [ "${ _environment-variable "CANDIDATE_${ i }" }" == "${ _environment-variable "CANDIDATE_${ j }" }" ] ; then echo candidate_${ i } ${ _environment-variable "CANDIDATE_${ i }" } EQUALS candidate_${ j } ${ _environment-variable "CANDIDATE_${ j }" } ; fi'' ;
-                                                                                                                                            i = builtins.toString index ;
-                                                                                                                                            in builtins.genList generator secondary.count ;
-                                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ;
-                                                                                                                        initialization =
-                                                                                                                            let
-                                                                                                                                generator =
-                                                                                                                                    index :
-                                                                                                                                        let
-                                                                                                                                            i = builtins.toString index ;
-                                                                                                                                            in
-                                                                                                                                                "if CANDIDATE_${ i }=$( ${ candidate } 2> /build/candidate.${ i }.standard-error ) ; then STATUS_${ i }=${ _environment-variable "?" } ; else STATUS_${ i }=${ _environment-variable "?" } ; fi && if [ ${ _environment-variable "STATUS_${ i }" } != ${ builtins.toString secondary.status } ] ; then echo ${ _environment-variable "CANDIDATE_${ i }" } && echo wrong status expected ${ builtins.toString secondary.status } observed ${ _environment-variable "STATUS_${ i }" } ; fi"  ;
-                                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
-                                                                                                                        paste = if builtins.typeOf secondary.paste == "null" then "true" else secondary.paste ;
-                                                                                                                        program = pkgs.writeShellScript "program" "${ initialization } && ${ testing }" ;
-                                                                                                                        testing =
-                                                                                                                            let
-                                                                                                                                generator =
-                                                                                                                                    index :
-                                                                                                                                        let
-                                                                                                                                            i = builtins.toString index ;
-                                                                                                                                            in
-                                                                                                                                                if secondary.status == 0
-                                                                                                                                                then
-                                                                                                                                                    ''if [ -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo empty candidate ${ i } ; elif [ ! -e "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then ${ pkgs.findutils }/bin/find ${ primary.resources } && cat /build/candidate.${ i }.standard-error && echo non-existant candidate ${ _environment-variable "CANDIDATE_${ i }" } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi && ${ duplicates } && ${ paste }''
-                                                                                                                                                else
-                                                                                                                                                   ''if [ ! -z "${ _environment-variable "CANDIDATE_${ i }" }" ] ; then echo non-empty candidate ${ i } ; elif [ ! -z "$( cat /build/candidate.${ i }.standard-error )" ] ; then echo standard error ${ i } && cat /build/candidate.${ i }.standard-error ; fi'' ;
-                                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count ) ;
-                                                                                                                        in
-                                                                                                                            ''
-                                                                                                                                ${ program } ${ _environment-variable "1" } &&
-                                                                                                                                    ${ pkgs.coreutils }/bin/touch /build/vacuum.flag
-                                                                                                                                    # ${ pkgs.inotify-tools }/bin/inotifywait --event delete_self /build/vacuum.flag --quiet --timeout 1 &&
-                                                                                                                                    # ${ pkgs.findutils }/bin/find /build -mindepth 1 -maxdepth 1 -type d
-                                                                                                                            ''
-                                                                                                                )
-                                                                                                        ) ;
-                                                                                                    in "${ program } $( ${ pkgs.which }/bin/which candidate )" ;
+                                                                                                internal =
+                                                                                                    pkgs.writeShellScript
+                                                                                                        "internal"
+                                                                                                        ''
+                                                                                                            ${ _environment-variable "CANDIDATE" }
+                                                                                                        '' ;
+                                                                                                in "${ pkgs.writeShellScript "external" ( builtins.readFile ( self + "/test/external.sh" ) ) } $( ${ pkgs.which }/bin/which candidate ) ${ pkgs.findutils }/bin/find ${ pkgs.coreutils }/bin/sleep ${ pkgs.coreutils }/bin/touch" ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
