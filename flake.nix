@@ -174,7 +174,7 @@
                                                                                                     pkgs.writeShellScript
                                                                                                         "internal"
                                                                                                         ''
-                                                                                                            ${ _environment-variable "CANDIDATE" }
+                                                                                                            CANDIDATE_A=$( ${ _environment-variable "CANDIDATE" } )
                                                                                                         '' ;
                                                                                                 in "${ pkgs.writeShellScript "external" ( builtins.readFile ( self + "/test/external.sh" ) ) } $( ${ pkgs.which }/bin/which candidate ) ${ pkgs.findutils }/bin/find ${ internal } ${ pkgs.coreutils }/bin/mkdir ${ pkgs.coreutils }/bin/sleep ${ pkgs.coreutils }/bin/touch" ;
                                                                                     } ;

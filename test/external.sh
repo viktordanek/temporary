@@ -5,7 +5,9 @@ export CANDIDATE=${1} &&
   export SLEEP=${5} &&
   export TOUCH=${6} &&
   ${MKDIR} /build/archive &&
+  ${MKDIR} /build/resources &&
+  export RESOURCES=/build/resources &&
   ${TOUCH} /build/archive/FLAG &&
-  # ( ${INTERNAL} ${CANDIDATE} & ) &&
+  ( ${INTERNAL} ${CANDIDATE} & ) &&
   ${SLEEP} 10s &&
   ${FIND} /build/archive
