@@ -420,6 +420,15 @@
                                         in
                                             {
                                                 shell-script = setup.shell-script ;
+                                                setup-test =
+                                                    pkgs.writeShellScript
+                                                        "setup-test"
+                                                        ''
+                                                            export ARCHIVE=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
+                                                                export RESOURCES=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
+                                                                ${ setup-mock.shell-script } &&
+                                                                ${ pkgs.coreutils }/bin/echo ${ _environment-variable "ARCHIVE" } ${ _environment-variable "RESOURCES" }
+                                                        '' ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -514,6 +523,7 @@
                                                                                 ''
                                                                                     ${ pkgs.coreutils }/bin/touch $out &&
                                                                                         ${ pkgs.coreutils }/bin/echo The shell-script is ${ temporary.shell-script }. &&
+                                                                                        ${ pkgs.coreutils }/bin/echo The tester for shell-script is ${ temporary.setup-test }. &&
                                                                                         if [ -f ${ temporary.tests }/SUCCESS ]
                                                                                         then
                                                                                             ${ pkgs.coreutils }/bin/echo There was success in ${ temporary.tests }.
@@ -525,7 +535,7 @@
                                                                                             ${ pkgs.coreutils }/bin/echo There was error in ${ temporary.tests }. >&2 &&
                                                                                                 exit 62
                                                                                         fi &&
-                                                                                        ${ pkgs.coreutils }/bin/true
+                                                                                        exit 61
                                                                                 '' ;
                                                                             name = name ;
                                                                             src = ./. ;
