@@ -564,7 +564,7 @@
                                                             } ;
                                                     in
                                                         [
-                                                            # ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
+                                                            ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
                                                             ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
                                                             ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
                                                             ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
