@@ -231,7 +231,6 @@
                                                         profile =
                                                             { has-standard-input , originator-pid , standard-input , string } :
                                                                 [
-                                                                    ( string "ARCHIVE" primary.archive )
                                                                     ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                     ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
@@ -377,7 +376,7 @@
                                                         } ;
                                                     mounts =
                                                         {
-                                                            "${ primary.archive }" =
+                                                            "/archive" =
                                                                 {
                                                                     host-path = "/build/archive" ;
                                                                     is-read-only = false ;
