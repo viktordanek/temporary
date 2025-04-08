@@ -536,8 +536,7 @@
                                                                                         else
                                                                                             ${ pkgs.coreutils }/bin/echo There was error in ${ temporary.tests }. >&2 &&
                                                                                                 exit 62
-                                                                                        fi &&
-                                                                                        exit 61
+                                                                                        fi
                                                                                 '' ;
                                                                             name = name ;
                                                                             src = ./. ;
@@ -565,8 +564,8 @@
                                                     in
                                                         [
                                                             ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
-                                                            # ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
-                                                            # ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
+                                                            ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
+                                                            ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
                                                             ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
                                                         ] ;
                                             post =
