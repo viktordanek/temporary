@@ -18,6 +18,7 @@
                             _visitor = builtins.getAttr system visitor.lib ;
                             lib =
                                 {
+                                    archive ? _environment-variable "ARCHIVE" ,
                                     init ? null ,
                                     initialization-error-code ? 66 ,
                                     lock-failure ? 64 ,
@@ -25,7 +26,7 @@
                                     post ? null ,
                                     release ? null ,
                                     resources ? _environment-variable "RESOURCES" ,
-                                    self-deletion ? true ,
+                                    self-teardown ? true ,
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
                                     tests ? null ,
@@ -77,6 +78,9 @@
                                                         else builtins.throw "init is not set but ${ builtins.typeOf set }." ;
                                                 in
                                                     {
+                                                        archive =
+                                                            if builtins.typeOf archive == "string" then archive
+                                                            else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
                                                         init = enrich-init init ;
                                                         initialization-error-code =
                                                             if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
@@ -92,9 +96,9 @@
                                                         resources =
                                                             if builtins.typeOf resources == "string" then resources
                                                             else builtins.throw "resources is not string but ${ builtins.typeOf resources }." ;
-                                                        self-deletion =
-                                                            if builtins.typeOf self-deletion == "bool" then self-deletion
-                                                            else builtins.throw "self-deletion is not bool but ${ builtins.typeOf self-deletion }." ;
+                                                        self-teardown =
+                                                            if builtins.typeOf self-teardown == "bool" then self-teardown
+                                                            else builtins.throw "self-teardown is not bool but ${ builtins.typeOf self-teardown }." ;
                                                         stderr-emitted-error-code =
                                                             if builtins.typeOf stderr-emitted-error-code == "int" then builtins.toString stderr-emitted-error-code
                                                             else builtins.throw "stderr-emitted-error-code is not int but ${ builtins.typeOf stderr-emitted-error-code }." ;
@@ -108,15 +112,20 @@
                                                                                     let
                                                                                         identity =
                                                                                             {
+                                                                                                archive ,
                                                                                                 arguments ? null ,
                                                                                                 count ? 2 ,
                                                                                                 file ? null ,
                                                                                                 paste ? null ,
                                                                                                 pipe ? null ,
-                                                                                                status ? 0 ,
-                                                                                                vacuum
+                                                                                                status ? 0
                                                                                             } :
                                                                                                 {
+                                                                                                    archive =
+                                                                                                        if builtins.typeOf archive == "string" then
+                                                                                                            if builtins.pathExists archive then archive
+                                                                                                            else builtins.throw "the path for ${ archive } does not exist"
+                                                                                                        else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
                                                                                                     arguments =
                                                                                                         if builtins.typeOf arguments == "list" then builtins.map ( value : if builtins.typeOf value == "string" then value else builtins.throw "argument is not string but ${ builtins.typeOf value }." ) arguments
                                                                                                         else if builtins.typeOf arguments == "null" then [ ]
@@ -151,20 +160,20 @@
                                                                                                     status =
                                                                                                         if builtins.typeOf status == "int" then status
                                                                                                         else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
-                                                                                                    vacuum =
-                                                                                                        if builtins.typeOf vacuum == "string" then
-                                                                                                            if builtins.pathExists vacuum then vacuum
-                                                                                                            else builtins.throw "the path for ${ vacuum } does not exist"
-                                                                                                        else builtins.throw "vacuum is not string but ${ builtins.typeOf vacuum }." ;
                                                                                                 } ;
                                                                                         in identity ( value null ) ;
                                                                                 in
                                                                                     {
                                                                                         mounts =
                                                                                             {
+                                                                                                "/archive" =
+                                                                                                    {
+                                                                                                        expected = secondary.archive ;
+                                                                                                        initial = "mkdir /mount/target" ;
+                                                                                                    } ;
                                                                                                 "${ _environment-variable "RESOURCES" }" =
                                                                                                     {
-                                                                                                        expected = self + "/expected/root/mounts/target" ;
+                                                                                                        expected = self + "/expected/setup/mounts/resources" ;
                                                                                                         initial = "mkdir /mount/target" ;
                                                                                                     } ;
                                                                                             } ;
@@ -174,10 +183,8 @@
                                                                                                     pkgs.writeShellScript
                                                                                                         "inner"
                                                                                                         ''
-                                                                                                            export RESOURCES=/build/resources &&
-                                                                                                                ${ pkgs.coreutils }/bin/mkdir ${ _environment-variable "RESOURCES" }
-                                                                                                               /usr/bin/candidate &&
-                                                                                                               ${ pkgs.findutils }/bin/find /build/resources
+                                                                                                            CANDIDATE=$( /usr/bin/candidate ) &&
+                                                                                                                ${ pkgs.coreutils }/bin/echo ${ _environment-variable "CANDIDATE" }
                                                                                                         '' ;
                                                                                                 in builtins.toString inner ;
                                                                                     } ;
@@ -190,7 +197,7 @@
                                                             else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
                                                     } ;
                                         setup-fun =
-                                            teardown :
+                                            self-teardown : teardown :
                                                 _shell-script
                                                     {
                                                         extensions =
@@ -209,6 +216,11 @@
                                                             } ;
                                                         mounts =
                                                             {
+                                                                "/archive" =
+                                                                    {
+                                                                        host-path = primary.archive ;
+                                                                        is-read-only = false ;
+                                                                    } ;
                                                                 "${ primary.resources }" =
                                                                     {
                                                                         host-path = primary.resources ;
@@ -219,6 +231,7 @@
                                                         profile =
                                                             { has-standard-input , originator-pid , standard-input , string } :
                                                                 [
+                                                                    ( string "ARCHIVE" primary.archive )
                                                                     ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                     ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
@@ -243,8 +256,8 @@
                                                         script = self + "/setup.sh" ;
                                                         tests = primary.tests ;
                                                     } ;
-                                        setup = setup-fun teardown ;
-                                        setup-mock = setup-fun teardown-mock ;
+                                        setup = setup-fun primary.self-teardown teardown ;
+                                        setup-mock = setup-fun false teardown-mock ;
                                         teardown-fun =
                                             post :
                                                 _shell-script
@@ -364,7 +377,7 @@
                                                         } ;
                                                     mounts =
                                                         {
-                                                            "/archive" =
+                                                            "${ primary.archive }" =
                                                                 {
                                                                     host-path = "/build/archive" ;
                                                                     is-read-only = false ;
@@ -513,18 +526,18 @@
                                                                 failure =
                                                                     ignore :
                                                                         {
+                                                                            archive = self + "/expected/setup/mounts/archive" ;
                                                                             arguments = "fd4107d952c0d02f4ea2e8963d673543791619d2ff0178d03222ea551c539c235a516d9f6dbb2c852618c634ead3ebc72d6beff6ee08880d422e10341390a94c" ;
                                                                             status = 66 ;
-                                                                            vacuum = self ;
                                                                         } ;
                                                                 success =
                                                                     ignore :
                                                                         {
+                                                                            archive = self + "/expected/setup/mounts/archive" ;
                                                                             arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
                                                                             file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
                                                                             # paste = candidate : "echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid" ;
                                                                             # pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
-                                                                            vacuum = self ;
                                                                          } ;
                                                             } ;
                                                     in
