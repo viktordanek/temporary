@@ -252,7 +252,7 @@
                                                                     ( string "MOUNT" "${ pkgs.mount }/bin/mount" ) # KLUDGE
                                                                     ( string "GREP" "${ pkgs.gnugrep }/bin/grep" ) # KLUDGE
                                                                 ] ;
-                                                        script = self + "/setup.sh" ;
+                                                        script = self + "/setup-prime.sh" ;
                                                         tests = primary.tests ;
                                                     } ;
                                         setup = setup-fun primary.self-teardown teardown ;
