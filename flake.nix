@@ -537,8 +537,7 @@
                                                                                         else
                                                                                             ${ pkgs.coreutils }/bin/echo There was error in ${ temporary.tests }. >&2 &&
                                                                                                 exit 62
-                                                                                        fi &&
-                                                                                        exit 61
+                                                                                        fi
                                                                                 '' ;
                                                                             name = name ;
                                                                             src = ./. ;
