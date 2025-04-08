@@ -3,8 +3,8 @@ exec 201> /mount/${RESOURCE_NAME}/lock &&
   then
     if [ ${STATUS} == 0 ]
     then
-      ${TAIL} --follow --pid ${ORIGINATOR_PID}
-    fi &&
+      ${TAIL} --follow /dev/null --pid ${ORIGINATOR_PID}
+    fi && export RESOURCE=/mount/${RESOURCE_NAME} &&
 #
     if ${RELEASE} > /mount/${RESOURCE_NAME}/release.standard-output 2> /mount/${RESOURCE_NAME}/release.standard-error
     then
@@ -14,7 +14,7 @@ exec 201> /mount/${RESOURCE_NAME}/lock &&
     fi &&
 #
 #
-      ( ${POST} || ${TRUE} ) &&
+      ${ECHO} BEFORE POST && ( ${POST} || ${TRUE} ) && ${ECHO} AFTER POST &&
 #
       ${RM} --recursive --force /mount/${RESOURCE_NAME}
   else

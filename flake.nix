@@ -288,7 +288,7 @@
                                                                             ( string "LOCK_FAILURE" primary.lock-failure )
                                                                             ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                         ]
-                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
+                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" post.shell-script ) ] )
                                                                         ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
                                                                         [
                                                                             ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
@@ -379,7 +379,7 @@
                                                                 } ;
                                                 } ;
                                         teardown = teardown-fun primary.post ;
-                                        teardown-mock = teardown-fun shell-script.vacuum ;
+                                        teardown-mock = teardown-fun vacuum ;
                                         vacuum =
                                             _shell-script
                                                 {
@@ -391,12 +391,12 @@
                                                         {
                                                             "/archive" =
                                                                 {
-                                                                    host-path = "/build/archive" ;
+                                                                    host-path = "/archive" ;
                                                                     is-read-only = false ;
                                                                 } ;
                                                             "/resource" =
                                                                 {
-                                                                    host-path = _environment-variable "RESOURCE" ;
+                                                                    host-path = "${ _environment-variable "RESOURCE" }" ;
                                                                     is-read-only = true ;
                                                                 } ;
                                                         } ;
@@ -412,6 +412,7 @@
                                                                 ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
                                                                 ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                 ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
+                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
                                                                 ( string "STAT" "${ pkgs.coreutils }/bin/stat" )
                                                                 ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                             ] ;
