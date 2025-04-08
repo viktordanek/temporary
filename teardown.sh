@@ -14,7 +14,7 @@ exec 201> /mount/${RESOURCE_NAME}/lock &&
     fi &&
 #
 #
-      ${ECHO} BEFORE POST && ( ${POST} || ${TRUE} ) && ${ECHO} AFTER POST &&
+      ( ${POST} || ${TRUE} ) &&
 #
       ${RM} --recursive --force /mount/${RESOURCE_NAME}
   else
