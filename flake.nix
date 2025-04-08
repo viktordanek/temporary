@@ -251,7 +251,7 @@
                                                                     ( string "MOUNT" "${ pkgs.mount }/bin/mount" ) # KLUDGE
                                                                     ( string "GREP" "${ pkgs.gnugrep }/bin/grep" ) # KLUDGE
                                                                 ] ;
-                                                        script = self + "/setup-prime.sh" ;
+                                                        script = self + "/setup.sh" ;
                                                         tests = primary.tests ;
                                                     } ;
                                         setup = setup-fun primary.self-teardown teardown ;
@@ -419,16 +419,18 @@
                                                 } ;
                                         in
                                             {
-                                                shell-script = setup.shell-script ;
-                                                setup-test =
+                                                post-check =
                                                     pkgs.writeShellScript
-                                                        "setup-test"
+                                                        "post-check"
                                                         ''
                                                             export ARCHIVE=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
                                                                 export RESOURCES=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
                                                                 ${ setup-mock.shell-script } &&
+                                                                ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } &&
+                                                                ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } -name teardown.sh -exec ${ pkgs.coreutils }/bin/cat {} \; &&
                                                                 ${ pkgs.coreutils }/bin/echo ${ _environment-variable "ARCHIVE" } ${ _environment-variable "RESOURCES" }
                                                         '' ;
+                                                shell-script = setup.shell-script ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
                                                         {
@@ -523,7 +525,7 @@
                                                                                 ''
                                                                                     ${ pkgs.coreutils }/bin/touch $out &&
                                                                                         ${ pkgs.coreutils }/bin/echo The shell-script is ${ temporary.shell-script }. &&
-                                                                                        ${ pkgs.coreutils }/bin/echo The tester for shell-script is ${ temporary.setup-test }. &&
+                                                                                        ${ pkgs.coreutils }/bin/echo The post-checks for shell-script is ${ temporary.post-check }. &&
                                                                                         if [ -f ${ temporary.tests }/SUCCESS ]
                                                                                         then
                                                                                             ${ pkgs.coreutils }/bin/echo There was success in ${ temporary.tests }.
