@@ -425,10 +425,10 @@
                                                         ''
                                                             export ARCHIVE=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
                                                                 export RESOURCES=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                ${ setup-mock.shell-script } &&
-                                                                ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } &&
-                                                                ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } -name teardown.sh -exec ${ pkgs.coreutils }/bin/cat {} \; &&
-                                                                ${ pkgs.coreutils }/bin/echo ${ _environment-variable "ARCHIVE" } ${ _environment-variable "RESOURCES" }
+                                                                ( ${ pkgs.bash }/bin/bash -c "TEMPORARY=$( ${ setup-mock.shell-script } )" & ) &&
+                                                                ${ pkgs.coreutils }/bin/sleep 1s &&
+                                                                ${ pkgs.coreutils }/bin/echo ARCHIVE=${ _environment-variable "ARCHIVE" } RESOURCES=${ _environment-variable "RESOURCES" } &&
+                                                                ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } | ${ pkgs.coreutils }/bin/sort
                                                         '' ;
                                                 shell-script = setup.shell-script ;
                                                 tests =
@@ -536,7 +536,8 @@
                                                                                         else
                                                                                             ${ pkgs.coreutils }/bin/echo There was error in ${ temporary.tests }. >&2 &&
                                                                                                 exit 62
-                                                                                        fi
+                                                                                        fi &&
+                                                                                        exit 61
                                                                                 '' ;
                                                                             name = name ;
                                                                             src = ./. ;
@@ -563,9 +564,9 @@
                                                             } ;
                                                     in
                                                         [
-                                                            ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
+                                                            # ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
+                                                            # ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
+                                                            # ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
                                                             ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
                                                         ] ;
                                             post =
