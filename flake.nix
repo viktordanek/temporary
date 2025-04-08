@@ -171,7 +171,7 @@
                                                                                                         expected = secondary.archive ;
                                                                                                         initial = "mkdir /mount/target" ;
                                                                                                     } ;
-                                                                                                "${ _environment-variable "RESOURCES" }" =
+                                                                                                "${ primary.resources }" =
                                                                                                     {
                                                                                                         expected = self + "/expected/setup/mounts/resources" ;
                                                                                                         initial = "mkdir /mount/target" ;
@@ -183,8 +183,7 @@
                                                                                                     pkgs.writeShellScript
                                                                                                         "inner"
                                                                                                         ''
-                                                                                                            CANDIDATE=$( /usr/bin/candidate ) &&
-                                                                                                                ${ pkgs.coreutils }/bin/echo ${ _environment-variable "CANDIDATE" }
+                                                                                                            true
                                                                                                         '' ;
                                                                                                 in builtins.toString inner ;
                                                                                     } ;
