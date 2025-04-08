@@ -288,7 +288,7 @@
                                                                             ( string "LOCK_FAILURE" primary.lock-failure )
                                                                             ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                         ]
-                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" post.shell-script ) ] )
+                                                                        ( if builtins.typeOf post == "null" then [ ] else [ ( string "POST" post.shell-script ) ] )
                                                                         ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
                                                                         [
                                                                             ( string "RESOURCE" "$( ${ _environment-variable "MKTEMP" } )" )
@@ -317,7 +317,7 @@
                                                                             ( if builtins.typeOf primary.release == "null" then [ ] else [ 11 ] )
                                                                             ( if builtins.typeOf primary.release == "null" then [ ] else [ 12 ] )
                                                                             ( if builtins.typeOf primary.release == "null" then [ ] else [ 13 ] )
-                                                                            ( if builtins.typeOf primary.post == "null" then [ ] else [ 16 ] )
+                                                                            ( if builtins.typeOf post == "null" then [ ] else [ 16 ] )
                                                                             [ 18 ]
                                                                             [ 19 ]
                                                                             [ 20 ]
