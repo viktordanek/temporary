@@ -656,13 +656,14 @@
                             in
                                 {
                                     apps =
-                                        {
-                                            tough =
-                                                {
-                                                    type = "app" ;
-                                                    program = builtins.toString ( pkgs.writeShellScript "program" "${ pkgs.coreutils }/bin/echo HI" ) ;
-                                                } ;
-                                        } ;
+                                        let
+                                            mapper =
+                                                name : value :
+                                                    {
+                                                        type = "app" ;
+                                                        program = "${ value.post-check }" ;
+                                                    } ;
+                                            in builtins.mapAttrs mapper foobar ;
                                     checks =
                                         let
                                             mapper =
