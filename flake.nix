@@ -4,7 +4,7 @@
             environment-variable.url = "github:/viktordanek/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script/scratch/0d2e6138-6c74-4217-8e36-65f0ad07d7de" ;
+            shell-script.url = "github:viktordanek/shell-script/scratch/db9a2c41-865b-4fda-a329-c9b0b78ce43a" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
     outputs =
@@ -191,11 +191,16 @@
                                                                                                                                 [
                                                                                                                                     "CANDIDATE_${ builtins.toString index }=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )"
                                                                                                                                 ]
-                                                                                                                                [
-                                                                                                                                    "${ pkgs.findutils }/bin/find /build/resources >&2"
-                                                                                                                                    "${ pkgs.coreutils }/bin/echo SPLIT >&2"
-                                                                                                                                    "${ pkgs.findutils }/bin/find ${ _environment-variable "CANDIDATE_${ builtins.toString index }" } >&2"
-                                                                                                                                ]
+                                                                                                                                (
+                                                                                                                                    if builtins.typeOf secondary.paste == "list" then
+                                                                                                                                        [
+                                                                                                                                            "${ pkgs.findutils }/bin/find /build/resources >&2"
+                                                                                                                                            "${ pkgs.findutils }/bin/find /build/archive >&2"
+                                                                                                                                            "${ pkgs.coreutils }/bin/echo SPLIT >&2"
+                                                                                                                                            "${ pkgs.findutils }/bin/find ${ _environment-variable "CANDIDATE_${ builtins.toString index }" } >&2"
+                                                                                                                                        ]
+                                                                                                                                    else [ ]
+                                                                                                                                )
                                                                                                                                 (
                                                                                                                                     if builtins.typeOf secondary.paste == "null" then [ ]
                                                                                                                                     else secondary.paste
