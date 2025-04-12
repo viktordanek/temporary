@@ -1,10 +1,10 @@
-${FIND} /resource | ${SORT} | while read FILE
+${FIND} /resource/${RESOURCE_NAME} | ${SORT} | while read FILE
   do
-    KEY=${FILE#/resource} &&
+    KEY=${FILE#/resource/${RESOURCE_NAME}} &&
       HASH=$( ${ECHO} ${KEY} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
       INDEX=$( ${FIND} /archive -mindepth 2 -maxdepth 2 -type f -name ${HASH}.key | ${WC} --lines ) &&
       ${MKDIR} --parents /archive/${INDEX} &&
-      ${ECHO} ${KEY} > /archive/${INDEX}/${HASH}.key &&
+      ${ECHO} AAARESOURCE_NAME=${RESOURCE_NAME}/${KEY} > /archive/${INDEX}/${HASH}.key &&
       ${STAT} --format "%a" ${FILE} > /archive/${INDEX}/${HASH}.stat &&
       ${CHMOD} 0777 /archive/${INDEX}/${HASH}.key /archive/${INDEX}/${HASH}.stat &&
       if [ -f ${FILE} ]

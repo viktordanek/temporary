@@ -191,6 +191,11 @@
                                                                                                                                 [
                                                                                                                                     "CANDIDATE_${ builtins.toString index }=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )"
                                                                                                                                 ]
+                                                                                                                                [
+                                                                                                                                    "${ pkgs.findutils }/bin/find /build/resources >&2"
+                                                                                                                                    "${ pkgs.coreutils }/bin/echo SPLIT >&2"
+                                                                                                                                    "${ pkgs.findutils }/bin/find ${ _environment-variable "CANDIDATE_${ builtins.toString index }" } >&2"
+                                                                                                                                ]
                                                                                                                                 (
                                                                                                                                     if builtins.typeOf secondary.paste == "null" then [ ]
                                                                                                                                     else secondary.paste
@@ -206,7 +211,8 @@
                                                                                                                 export RESOURCES=/build/resources &&
                                                                                                                 ${ _environment-variable "MKDIR" } ${ _environment-variable "ARCHIVE" } >&2 &&
                                                                                                                 ${ _environment-variable "MKDIR" } ${ _environment-variable "RESOURCES" } >&2 &&
-                                                                                                                ${ inner }
+                                                                                                                ${ inner } &&
+                                                                                                                ${ _environment-variable "SLEEP" } 10s
                                                                                                         '' ;
                                                                                                 in builtins.toString outer ;
                                                                                     } ;
