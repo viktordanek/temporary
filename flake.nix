@@ -600,16 +600,36 @@
                                         in
                                             {
                                                 post-check =
-                                                    pkgs.writeShellScript
-                                                        "post-check"
-                                                        ''
+                                                    let
+                                                        inner =
+                                                            pkgs.writeShellScript
+                                                                "inner"
+                                                                ''
+                                                                    TEMPORARY=$( ${ setup-mock.shell-script } 2> ${ _environment-variable "ROOT" }/standard-error )
+                                                                '' ;
+                                                        outer =
+                                                            pkgs.writeShellScript
+                                                                "post-check"
+                                                                ''
+                                                                    export ROOT=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
+                                                                        export ARCHIVE=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
+                                                                        export RESOURCES=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
+                                                                        ${ inner } &&
+                                                                        ${ pkgs.coreutils }/bin/sleep 1s &&
+                                                                        ${ pkgs.coreutils }/bin/echo ROOT=${ _environment-variable "ROOT" } ARCHIVE=${ _environment-variable "ARCHIVE" } RESOURCES=${ _environment-variable "RESOURCES" } &&
+                                                                        ${ pkgs.coreutils }/bin/echo MOCK=${ setup-mock.shell-script } REAL=${ setup.shell-script } &&
+                                                                        ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } | ${ pkgs.coreutils }/bin/sort
+                                                                        ${ pkgs.findutils }/bin/find ${ _environment-variable "ARCHIVE" } | ${ pkgs.coreutils }/bin/sort
+                                                                '' ;
+                                                        in pkgs.writeShellScriptBin "post-check" ''
                                                             export ARCHIVE=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                export RESOURCES=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                ( ${ pkgs.bash }/bin/bash -c "TEMPORARY=$( ${ setup-mock.shell-script } )" & ) &&
-                                                                ${ pkgs.coreutils }/bin/sleep 1s &&
-                                                                ${ pkgs.coreutils }/bin/echo ARCHIVE=${ _environment-variable "ARCHIVE" } RESOURCES=${ _environment-variable "RESOURCES" } &&
-                                                                ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } | ${ pkgs.coreutils }/bin/sort
-                                                        '' ;
+                                                            export RESOURCES=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
+                                                            TEMPORARY=$( ${ setup-mock.shell-script } ) &&
+                                                            ${ pkgs.coreutils }/bin/sleep 10s &&
+                                                            ${ pkgs.coreutils }/bin/echo TEMPORARY=${ _environment-variable "TEMPORARY" } &&
+                                                            ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } | ${ pkgs.coreutils }/bin/sort
+                                                            ${ pkgs.findutils }/bin/find ${ _environment-variable "ARCHIVE" } | ${ pkgs.coreutils }/bin/sort
+                                                         '' ;
                                                 shell-script = setup.shell-script ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
@@ -655,13 +675,14 @@
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
                                 {
+                                    tough = { type = "app" ; program = builtins.toString ( pkgs.writeShellScriptBin "tough" "${ pkgs.coreutils }/bin/echo HI" ) ; } ;
                                     apps =
                                         let
                                             mapper =
                                                 name : value :
                                                     {
                                                         type = "app" ;
-                                                        program = "${ value.post-check }" ;
+                                                        program = "${ value.post-check }/bin/post-check" ;
                                                     } ;
                                             in builtins.mapAttrs mapper foobar ;
                                     checks =
