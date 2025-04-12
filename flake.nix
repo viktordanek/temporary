@@ -15,7 +15,152 @@
                         let
                             _environment-variable = builtins.getAttr system environment-variable.lib ;
                             _shell-script = builtins.getAttr system shell-script.lib ;
-                            _visitor = builtins.getAttr system visitor.lib ;
+                            _visitor = builtins.getAttr system visitor.lib ;                                                       
+                            foobar =
+                                let
+                                    init =
+                                        {
+                                            extensions =
+                                                {
+                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                } ;
+                                            name = "init" ;
+                                            profile =
+                                                { string } :
+                                                    [
+                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                        ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                        ( string "NAME" "init" )
+                                                        ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                        ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
+                                                        ( string "UUID" "a0ec4aaa08d8dc652beb39be11f4b9619ec8b69d547c92e249c9fb06c295e13e2fcbf2ad25d60388e8c34241ade94494c598e3d413d7c90f95667b309ed62a8d" )
+                                                    ] ;
+                                            script = self + "/init.sh" ;
+                                            tests =
+                                                ignore :
+                                                    {
+                                                        mounts =
+                                                            {
+                                                                "/mount" =
+                                                                    {
+                                                                        expected = self + "/expected/init/mounts/target" ;
+                                                                        initial =
+                                                                            [
+                                                                                "mkdir /mount/target"
+                                                                            ] ;
+                                                                    } ;
+                                                            } ;
+                                                    } ;
+                                        } ;
+                                    list =
+                                        let
+                                            foobar = name : temporary : { name = name ; value = temporary ; } ;
+                                            tests =
+                                                {
+                                                    failure =
+                                                        ignore :
+                                                            {
+                                                                archive = self + "/expected/setup/mounts/archive" ;
+                                                                arguments = "fd4107d952c0d02f4ea2e8963d673543791619d2ff0178d03222ea551c539c235a516d9f6dbb2c852618c634ead3ebc72d6beff6ee08880d422e10341390a94c" ;
+                                                                status = 66 ;
+                                                            } ;
+                                                    success =
+                                                        ignore :
+                                                            {
+                                                                archive = self + "/expected/setup/mounts/archive" ;
+                                                                arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
+                                                                file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
+                                                                paste = candidate : "echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid" ;
+                                                                # pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
+                                                             } ;
+                                                } ;
+                                            in
+                                                [
+                                                    ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
+                                                    ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
+                                                    ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
+                                                    ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
+                                                ] ;
+                                    post =
+                                        {
+                                            extensions =
+                                                {
+                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                } ;
+                                            name = "post" ;
+                                            profile =
+                                                { string } :
+                                                    [
+                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                        ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                        ( string "NAME" "post" )
+                                                        ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                        ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
+                                                    ] ;
+                                            script = self + "/flag.sh" ;
+                                            tests =
+                                                ignore :
+                                                    {
+                                                        mounts =
+                                                            {
+                                                                "/resource" =
+                                                                    {
+                                                                        expected = self + "/expected/post/mounts/resource" ;
+                                                                        initial =
+                                                                            [
+                                                                                "echo c019fafab6f1d19b6266c357f4fa9ba6e6c88ef21e6f02a7777c2a94afec6608660f8252393648307b81da9d1a74552fbcaff38444bf42925a3001504fa5a65d > /mount/target"
+                                                                            ] ;
+                                                                    } ;
+                                                            } ;
+                                                        standard-output = self + "/expected/post/standard-output" ;
+                                                    } ;
+                                        } ;
+                                    release =
+                                        {
+                                            extensions =
+                                                {
+                                                    string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                } ;
+                                            name = "release" ;
+                                            mounts =
+                                                {
+                                                    "/resource" =
+                                                        {
+                                                            host-path = _environment-variable "RESOURCE" ;
+                                                            is-read-only = true ;
+                                                        } ;
+                                                } ;
+                                            profile =
+                                                { string } :
+                                                    [
+                                                        ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                        ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                        ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                        ( string "NAME" "release" )
+                                                        ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
+                                                        ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
+                                                    ] ;
+                                            script = self + "/flag.sh" ;
+                                            tests =
+                                                ignore :
+                                                    {
+                                                        mounts =
+                                                            {
+                                                                "/resource" =
+                                                                    {
+                                                                        expected = self + "/expected/release/mounts/resource" ;
+                                                                        initial =
+                                                                            [
+                                                                                "echo 230ad29bc6c9ba25fb5afe5d79640fd2eeddd526483d1f5e844490e697d6917b4804a4f6d0eea656405a23f437071ad95c1cd71f2f62fe7a844f8cd216543750 > /mount/target"
+                                                                            ] ;
+                                                                    } ;
+                                                            } ;
+                                                        standard-output = self + "/expected/release/standard-output" ;
+                                                    } ;
+                                        } ;
+                                    in builtins.listToAttrs ( list ) ;
                             lib =
                                 {
                                     archive ? _environment-variable "ARCHIVE" ,
@@ -520,176 +665,31 @@
                                         } ;
                                     checks =
                                         let
-                                            init =
-                                                {
-                                                    extensions =
+                                            mapper =
+                                                name : value :
+                                                    pkgs.stdenv.mkDerivation
                                                         {
-                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
+                                                            installPhase =
+                                                                ''
+                                                                    ${ pkgs.coreutils }/bin/touch $out &&
+                                                                        ${ pkgs.coreutils }/bin/echo The shell-script is ${ value.shell-script }. &&
+                                                                        ${ pkgs.coreutils }/bin/echo The post-checks for shell-script is ${ value.post-check }. &&
+                                                                        if [ -f ${ value.tests }/SUCCESS ]
+                                                                        then
+                                                                            ${ pkgs.coreutils }/bin/echo There was success in ${ value.tests }.
+                                                                        elif [ -f ${ value.tests }/FAILURE ]
+                                                                        then
+                                                                            ${ pkgs.coreutils }/bin/echo There was failure in ${ value.tests }. >&2 &&
+                                                                                exit 63
+                                                                        else
+                                                                            ${ pkgs.coreutils }/bin/echo There was error in ${ value.tests }. >&2 &&
+                                                                                exit 62
+                                                                        fi
+                                                                '' ;
+                                                            name = name ;
+                                                            src = ./. ;
                                                         } ;
-                                                    name = "init" ;
-                                                    profile =
-                                                        { string } :
-                                                            [
-                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                ( string "NAME" "init" )
-                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
-                                                                ( string "UUID" "a0ec4aaa08d8dc652beb39be11f4b9619ec8b69d547c92e249c9fb06c295e13e2fcbf2ad25d60388e8c34241ade94494c598e3d413d7c90f95667b309ed62a8d" )
-                                                            ] ;
-                                                    script = self + "/init.sh" ;
-                                                    tests =
-                                                        ignore :
-                                                            {
-                                                                mounts =
-                                                                    {
-                                                                        "/mount" =
-                                                                            {
-                                                                                expected = self + "/expected/init/mounts/target" ;
-                                                                                initial =
-                                                                                    [
-                                                                                        "mkdir /mount/target"
-                                                                                    ] ;
-                                                                            } ;
-                                                                    } ;
-                                                            } ;
-                                                } ;
-                                            list =
-                                                let
-                                                    foobar =
-                                                        name : temporary :
-                                                            {
-                                                                name = name ;
-                                                                value =
-                                                                    pkgs.stdenv.mkDerivation
-                                                                        {
-                                                                            installPhase =
-                                                                                ''
-                                                                                    ${ pkgs.coreutils }/bin/touch $out &&
-                                                                                        ${ pkgs.coreutils }/bin/echo The shell-script is ${ temporary.shell-script }. &&
-                                                                                        ${ pkgs.coreutils }/bin/echo The post-checks for shell-script is ${ temporary.post-check }. &&
-                                                                                        if [ -f ${ temporary.tests }/SUCCESS ]
-                                                                                        then
-                                                                                            ${ pkgs.coreutils }/bin/echo There was success in ${ temporary.tests }.
-                                                                                        elif [ -f ${ temporary.tests }/FAILURE ]
-                                                                                        then
-                                                                                            ${ pkgs.coreutils }/bin/echo There was failure in ${ temporary.tests }. >&2 &&
-                                                                                                exit 63
-                                                                                        else
-                                                                                            ${ pkgs.coreutils }/bin/echo There was error in ${ temporary.tests }. >&2 &&
-                                                                                                exit 62
-                                                                                        fi
-                                                                                '' ;
-                                                                            name = name ;
-                                                                            src = ./. ;
-                                                                        } ;
-                                                            } ;
-                                                        tests =
-                                                            {
-                                                                failure =
-                                                                    ignore :
-                                                                        {
-                                                                            archive = self + "/expected/setup/mounts/archive" ;
-                                                                            arguments = "fd4107d952c0d02f4ea2e8963d673543791619d2ff0178d03222ea551c539c235a516d9f6dbb2c852618c634ead3ebc72d6beff6ee08880d422e10341390a94c" ;
-                                                                            status = 66 ;
-                                                                        } ;
-                                                                success =
-                                                                    ignore :
-                                                                        {
-                                                                            archive = self + "/expected/setup/mounts/archive" ;
-                                                                            arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
-                                                                            file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
-                                                                            paste = candidate : "echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid" ;
-                                                                            # pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
-                                                                         } ;
-                                                            } ;
-                                                    in
-                                                        [
-                                                            ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
-                                                            ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
-                                                            ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
-                                                            ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
-                                                        ] ;
-                                            post =
-                                                {
-                                                    extensions =
-                                                        {
-                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                        } ;
-                                                    name = "post" ;
-                                                    profile =
-                                                        { string } :
-                                                            [
-                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                ( string "NAME" "post" )
-                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
-                                                            ] ;
-                                                    script = self + "/flag.sh" ;
-                                                    tests =
-                                                        ignore :
-                                                            {
-                                                                mounts =
-                                                                    {
-                                                                        "/resource" =
-                                                                            {
-                                                                                expected = self + "/expected/post/mounts/resource" ;
-                                                                                initial =
-                                                                                    [
-                                                                                        "echo c019fafab6f1d19b6266c357f4fa9ba6e6c88ef21e6f02a7777c2a94afec6608660f8252393648307b81da9d1a74552fbcaff38444bf42925a3001504fa5a65d > /mount/target"
-                                                                                    ] ;
-                                                                            } ;
-                                                                    } ;
-                                                                standard-output = self + "/expected/post/standard-output" ;
-                                                            } ;
-                                                } ;
-                                            release =
-                                                {
-                                                    extensions =
-                                                        {
-                                                            string = name : value : "export ${ name }=${ builtins.toString value }" ;
-                                                        } ;
-                                                    name = "release" ;
-                                                    mounts =
-                                                        {
-                                                            "/resource" =
-                                                                {
-                                                                    host-path = _environment-variable "RESOURCE" ;
-                                                                    is-read-only = true ;
-                                                                } ;
-                                                        } ;
-                                                    profile =
-                                                        { string } :
-                                                            [
-                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                ( string "NAME" "release" )
-                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                ( string "TOUCH" "${ pkgs.coreutils }/bin/touch" )
-                                                            ] ;
-                                                    script = self + "/flag.sh" ;
-                                                    tests =
-                                                        ignore :
-                                                            {
-                                                                mounts =
-                                                                    {
-                                                                        "/resource" =
-                                                                            {
-                                                                                expected = self + "/expected/release/mounts/resource" ;
-                                                                                initial =
-                                                                                    [
-                                                                                        "echo 230ad29bc6c9ba25fb5afe5d79640fd2eeddd526483d1f5e844490e697d6917b4804a4f6d0eea656405a23f437071ad95c1cd71f2f62fe7a844f8cd216543750 > /mount/target"
-                                                                                    ] ;
-                                                                            } ;
-                                                                    } ;
-                                                                standard-output = self + "/expected/release/standard-output" ;
-                                                            } ;
-                                                } ;
-                                            in builtins.listToAttrs ( list ) ;
+                                            in builtins.mapAttrs mapper foobar ;
                                     lib = lib ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
