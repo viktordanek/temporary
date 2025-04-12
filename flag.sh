@@ -1,4 +1,3 @@
-${TOUCH} /build/${NAME} &&
 if ${TOUCH} /resource > /dev/null 2>&1
 then
   ${ECHO} did touch /resource

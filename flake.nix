@@ -378,7 +378,7 @@
                                                                     standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf primary.post == "null" then "0" else "1" }" ;
                                                                 } ;
                                                 } ;
-                                        teardown = teardown-fun vacuum ; # FIXME primary.post ;
+                                        teardown = teardown-fun primary.post ;
                                         teardown-mock = teardown-fun vacuum ;
                                         vacuum =
                                             _shell-script
@@ -447,7 +447,7 @@
                                                                                 ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/links/release" ] )
                                                                                 ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/links/post" ] )
                                                                                 [
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ setup.tests } ${ _environment-variable "OUT" }/links/setup"
+                                                                                    "${ _environment-variable "LN" } --symbolic ${ setup-mock.tests } ${ _environment-variable "OUT" }/links/setup"
                                                                                     "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/links/teardown"
                                                                                     "${ _environment-variable "LN" } --symbolic ${ vacuum.tests } ${ _environment-variable "OUT" }/links/vacuum"
                                                                                 ]
