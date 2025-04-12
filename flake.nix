@@ -511,6 +511,14 @@
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
                                 {
+                                    apps =
+                                        {
+                                            tough =
+                                                {
+                                                    type = "app" ;
+                                                    program = builtins.toString ( pkgs.writeShellScript "program" "${ pkgs.coreutils }/bin/echo HI" ) ;
+                                                } ;
+                                        } ;
                                     checks =
                                         let
                                             init =
