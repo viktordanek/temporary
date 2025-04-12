@@ -627,7 +627,9 @@
                                                             TEMPORARY=$( ${ setup-mock.shell-script } ) &&
                                                             ${ pkgs.coreutils }/bin/sleep 10s &&
                                                             ${ pkgs.coreutils }/bin/echo TEMPORARY=${ _environment-variable "TEMPORARY" } &&
-                                                            ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } | ${ pkgs.coreutils }/bin/sort
+                                                            ${ pkgs.coreutils }/bin/echo RESOURCES &&
+                                                            ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } | ${ pkgs.coreutils }/bin/sort &&
+                                                            ${ pkgs.coreutils }/bin/echo ARCHIVE &&
                                                             ${ pkgs.findutils }/bin/find ${ _environment-variable "ARCHIVE" } | ${ pkgs.coreutils }/bin/sort
                                                          '' ;
                                                 shell-script = setup.shell-script ;
