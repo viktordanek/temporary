@@ -183,7 +183,11 @@
                                                                                                     pkgs.writeShellScript
                                                                                                         "inner"
                                                                                                         ''
-                                                                                                            true
+                                                                                                            export ARCHIVE=/build/archive &&
+                                                                                                                export RESOURCES=/build/resources &&
+                                                                                                                ${ _environment-variable "MKDIR" } ${ _environment-variable "ARCHIVE" } >&2 &&
+                                                                                                                ${ _environment-variable "MKDIR" } ${ _environment-variable "RESOURCES" } >&2 &&
+                                                                                                                candidate
                                                                                                         '' ;
                                                                                                 in builtins.toString inner ;
                                                                                     } ;
@@ -255,7 +259,7 @@
                                                         tests = primary.tests ;
                                                     } ;
                                         setup = setup-fun primary.self-teardown teardown ;
-                                        setup-mock = setup-fun false teardown-mock ;
+                                        setup-mock = setup-fun true teardown-mock ;
                                         teardown-fun =
                                             post :
                                                 _shell-script
