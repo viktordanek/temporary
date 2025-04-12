@@ -14,7 +14,7 @@ exec 201> /mount/${RESOURCE_NAME}/lock &&
     fi &&
 #
 #
-      ( ${POST} || ${TRUE} ) &&
+      ${ECHO} TEARDOWN M >> /archive/DEBUG && ( ${POST} || ${TRUE} ) && ${ECHO} TEARDOWN N >> /archive/DEBUG &&
 #
       ${RM} --recursive --force /mount/${RESOURCE_NAME}
   else

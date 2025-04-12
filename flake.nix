@@ -378,7 +378,7 @@
                                                                     standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf primary.post == "null" then "0" else "1" }" ;
                                                                 } ;
                                                 } ;
-                                        teardown = teardown-fun primary.post ;
+                                        teardown = teardown-fun vacuum ; # FIXME primary.post ;
                                         teardown-mock = teardown-fun vacuum ;
                                         vacuum =
                                             _shell-script

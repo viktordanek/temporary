@@ -1,6 +1,7 @@
+${ECHO} VACUUM A >> /archive/DEBUG &&
 ${FIND} /resource | ${SORT} | while read FILE
   do
-    KEY=${FILE#/build} &&
+    KEY=${FILE#/resource} &&
       HASH=$( ${ECHO} ${KEY} | ${SHA512SUM} | ${CUT} --bytes -128 ) &&
       INDEX=$( ${FIND} /archive -mindepth 2 -maxdepth 2 -type f -name ${HASH}.key | ${WC} --lines ) &&
       ${MKDIR} --parents /archive/${INDEX} &&
