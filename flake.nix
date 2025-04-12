@@ -147,7 +147,7 @@
                                                                                                                             let
                                                                                                                                 value = paste ( _environment-variable "CANDIDATE_${ builtins.toString index }" ) ;
                                                                                                                                 in if builtins.typeOf value == "string" then value else builtins.throw "paste is not string but ${ builtins.typeOf paste }." ;
-                                                                                                                    in builtins.concatStringsSep " &&\n\t" ( builtins.genList generator secondary.count )
+                                                                                                                    in builtins.genList generator secondary.count
                                                                                                                 else builtins.throw "it does not make sense to define paste when status is not zero."
                                                                                                         else if builtins.typeOf paste == "null" then paste
                                                                                                         else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
@@ -182,14 +182,33 @@
                                                                                                 inner =
                                                                                                     pkgs.writeShellScript
                                                                                                         "inner"
+                                                                                                        (
+                                                                                                            let
+                                                                                                                generator =
+                                                                                                                    index :
+                                                                                                                        builtins.concatLists
+                                                                                                                            [
+                                                                                                                                [
+                                                                                                                                    "CANDIDATE_${ builtins.toString index }=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )"
+                                                                                                                                ]
+                                                                                                                                (
+                                                                                                                                    if builtins.typeOf secondary.paste == "null" then [ ]
+                                                                                                                                    else secondary.paste
+                                                                                                                                )
+                                                                                                                            ] ;
+                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) )
+                                                                                                        ) ;
+                                                                                                outer =
+                                                                                                    pkgs.writeShellScript
+                                                                                                        "outer"
                                                                                                         ''
                                                                                                             export ARCHIVE=/build/archive &&
                                                                                                                 export RESOURCES=/build/resources &&
                                                                                                                 ${ _environment-variable "MKDIR" } ${ _environment-variable "ARCHIVE" } >&2 &&
                                                                                                                 ${ _environment-variable "MKDIR" } ${ _environment-variable "RESOURCES" } >&2 &&
-                                                                                                                candidate
+                                                                                                                ${ inner }
                                                                                                         '' ;
-                                                                                                in builtins.toString inner ;
+                                                                                                in builtins.toString outer ;
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
