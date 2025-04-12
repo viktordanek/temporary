@@ -1,4 +1,3 @@
-${ECHO} VACUUM A >> /archive/DEBUG &&
 ${FIND} /resource | ${SORT} | while read FILE
   do
     KEY=${FILE#/resource} &&
