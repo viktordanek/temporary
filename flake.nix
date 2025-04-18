@@ -436,11 +436,6 @@
                                                             } ;
                                                         mounts =
                                                             {
-                                                                "/archive" =
-                                                                    {
-                                                                        host-path = primary.archive ;
-                                                                        is-read-only = false ;
-                                                                    } ;
                                                                 "${ primary.resources }" =
                                                                     {
                                                                         host-path = primary.resources ;
