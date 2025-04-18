@@ -650,14 +650,13 @@
                             pkgs = builtins.import nixpkgs { system = system ; } ;
                             in
                                 {
-                                    tough = { type = "app" ; program = builtins.toString ( pkgs.writeShellScriptBin "tough" "${ pkgs.coreutils }/bin/echo HI" ) ; } ;
                                     apps =
                                         let
                                             mapper =
                                                 name : value :
                                                     {
                                                         type = "app" ;
-                                                        program = "${ value.post-check }/bin/post-check" ;
+                                                        program = "${ value.tests }/bin/observe" ;
                                                     } ;
                                             in builtins.mapAttrs mapper foobar ;
                                     checks =
