@@ -353,7 +353,7 @@
                                                                                         delay = true ;
                                                                                         mounts =
                                                                                             {
-                                                                                                "/archive" =
+                                                                                                "${ primay.archive }" =
                                                                                                     {
                                                                                                         expected = secondary.archive ;
                                                                                                         initial = "mkdir /mount/target" ;
