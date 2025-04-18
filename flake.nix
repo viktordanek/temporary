@@ -606,19 +606,12 @@
                                                     profile =
                                                         { string } :
                                                             [
-                                                                ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                ( string "CHMOD" "${ pkgs.coreutils }/bin/chmod" )
-                                                                ( string "CUT" "${ pkgs.coreutils }/bin/cut" )
                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                 ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
-                                                                ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
-                                                                ( string "SORT" "${ pkgs.coreutils }/bin/sort" )
-                                                                ( string "STAT" "${ pkgs.coreutils }/bin/stat" )
                                                                 ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                             ] ;
                                                     script = self + "/vacuum.sh" ;
+                                                    tests = [ ] ;
                                                 } ;
                                         in
                                             {
@@ -640,6 +633,7 @@
                                                                                 [
                                                                                     "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/links/setup"
                                                                                     "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/links/teardown"
+                                                                                    "${ _environment-variable "LN" } --symbolic ${ vacuum.tests } ${ _environment-variable "OUT" }/links/vacuum"
                                                                                 ]
                                                                             ] ;
                                                                     in
