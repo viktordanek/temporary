@@ -2,6 +2,8 @@ ERROR=0 &&
   while read LINK
   do
     ${ECHO} &&
+      export ARCHIVE=$( ${MKTEMP} --directory ) &&
+      export RESOURCES=$( ${MKTEMP} --directory ) &&
       ${BASENAME} ${LINK} &&
       ${ECHO} tests ${OUT} &&
       DERIVATIVE=$( ${READLINK} ${LINK} ) &&

@@ -163,7 +163,7 @@
                                     in builtins.listToAttrs ( list ) ;
                             lib =
                                 {
-                                    archive ? _environment-variable "ARCHIVE" ,
+                                    archive ? "ARCHIVE" ,
                                     init ? null ,
                                     initialization-error-code ? 66 ,
                                     lock-failure ? 64 ,
@@ -437,7 +437,7 @@
                                                                         {
                                                                             "/archive" =
                                                                                 {
-                                                                                    host-path = primary.archive ;
+                                                                                    host-path = _environment-variable primary.archive ;
                                                                                     is-read-only = false ;
                                                                                 } ;
                                                                         }
@@ -670,7 +670,7 @@
                                                                                 makeWrapper ${ pkgs.writeShellScript "constructors" ( builtins.concatStringsSep " &&\n\t" constructors ) } $out/bin/constructors --set LN ${ pkgs.coreutils }/bin/ln --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OUT $out &&
                                                                                 $out/bin/constructors &&
                                                                                 ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.readFile ( self + "/observe.sh" ) ) } $out/bin/observe.sh &&
-                                                                                makeWrapper $out/bin/observe.sh $out/bin/observe --set BASENAME ${ pkgs.coreutils }/bin/basename --set ECHO ${ pkgs.coreutils }/bin/echo --set FALSE ${ pkgs.coreutils }/bin/false --set FIND ${ pkgs.findutils }/bin/find --set OUT $out --set READLINK ${ pkgs.coreutils }/bin/readlink --set SORT ${ pkgs.coreutils }/bin/sort --set TRUE ${ pkgs.coreutils }/bin/true &&
+                                                                                makeWrapper $out/bin/observe.sh $out/bin/observe --set BASENAME ${ pkgs.coreutils }/bin/basename --set ECHO ${ pkgs.coreutils }/bin/echo --set FALSE ${ pkgs.coreutils }/bin/false --set FIND ${ pkgs.findutils }/bin/find --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set OUT $out --set READLINK ${ pkgs.coreutils }/bin/readlink --set SORT ${ pkgs.coreutils }/bin/sort --set TRUE ${ pkgs.coreutils }/bin/true &&
                                                                                 ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 + 1 + 1 ) } &&
                                                                                 SUCCESS=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name SUCCESS | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 DELAYED=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name DELAYED | ${ pkgs.coreutils }/bin/wc --lines ) &&
