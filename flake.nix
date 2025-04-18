@@ -417,7 +417,7 @@
                                                             else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
                                                     } ;
                                         setup-fun =
-                                            self-teardown : teardown :
+                                            is-mock : self-teardown : teardown :
                                                 _shell-script
                                                     {
                                                         extensions =
@@ -435,13 +435,26 @@
                                                                 string = name : value : "export ${ name }=\"${ builtins.toString value }\"" ;
                                                             } ;
                                                         mounts =
-                                                            {
-                                                                "${ primary.resources }" =
+                                                            let
+                                                                archive =
+                                                                    if is-mock then
+                                                                        {
+                                                                            "${ primary.archive }" =
+                                                                                {
+                                                                                    host-path = "${ _environment-variable "ARCHIVE" }" ;
+                                                                                    is-read-only = false ;
+                                                                                } ;
+                                                                        }
+                                                                    else { } ;
+                                                                resource =
                                                                     {
-                                                                        host-path = primary.resources ;
-                                                                        is-read-only = false ;
+                                                                        "${ primary.resources }" =
+                                                                            {
+                                                                                host-path = primary.resources ;
+                                                                                is-read-only = false ;
+                                                                            } ;
                                                                     } ;
-                                                            } ;
+                                                                in archive // resource ;
                                                         name = "setup" ;
                                                         profile =
                                                             { has-standard-input , originator-pid , standard-input , string } :
@@ -470,8 +483,8 @@
                                                         script = self + "/setup.sh" ;
                                                         tests = primary.tests ;
                                                     } ;
-                                        setup = setup-fun primary.self-teardown teardown ;
-                                        setup-mock = setup-fun true teardown-mock ;
+                                        setup = setup-fun false primary.self-teardown teardown ;
+                                        setup-mock = setup-fun true true teardown-mock ;
                                         teardown-fun =
                                             post :
                                                 _shell-script
