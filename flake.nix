@@ -604,7 +604,7 @@
                                                         } ;
                                                     mounts =
                                                         {
-                                                            "/archive" =
+                                                            "${ primary.archive }" =
                                                                 {
                                                                     host-path = "/archive" ;
                                                                     is-read-only = false ;
@@ -630,7 +630,7 @@
                                                             {
                                                                 mounts =
                                                                     {
-                                                                        "/archive" =
+                                                                        "${ primary.archive }" =
                                                                             {
                                                                                 expected = self + "/expected/vacuum/mounts/archive" ;
                                                                                 initial = [ "mkdir /mount/target" ] ;
