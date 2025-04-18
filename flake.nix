@@ -623,6 +623,7 @@
                                                                                 ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/links/release" ] )
                                                                                 ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/links/post" ] )
                                                                                 [
+                                                                                    "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/links/setup"
                                                                                     "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/links/teardown"
                                                                                 ]
                                                                             ] ;
@@ -634,7 +635,7 @@
                                                                                 $out/bin/constructors &&
                                                                                 ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.readFile ( self + "/observe.sh" ) ) } $out/bin/observe.sh &&
                                                                                 makeWrapper $out/bin/observe.sh $out/bin/observe --set FIND ${ pkgs.findutils }/bin/find --set OUT $out --set READLINK ${ pkgs.coreutils }/bin/readlink --set SORT ${ pkgs.coreutils }/bin/sort &&
-                                                                                ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 ) } &&
+                                                                                ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 + 1 ) } &&
                                                                                 SUCCESS=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name SUCCESS | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 FAILURE=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name FAILURE | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 if [ ${ _environment-variable "ALL" } == ${ _environment-variable "SUCCESS" } ]
