@@ -399,11 +399,7 @@
                                                                                                     pkgs.writeShellScript
                                                                                                         "outer"
                                                                                                         ''
-                                                                                                            export ARCHIVE=/build/archive &&
-                                                                                                                export RESOURCES=/build/resources &&
-                                                                                                                ${ _environment-variable "MKDIR" } ${ _environment-variable "ARCHIVE" } >&2 &&
-                                                                                                                ${ _environment-variable "MKDIR" } ${ _environment-variable "RESOURCES" } >&2 &&
-                                                                                                                ${ inner } &&
+                                                                                                            ${ inner } &&
                                                                                                                 ${ _environment-variable "SLEEP" } 10s
                                                                                                         '' ;
                                                                                                 in builtins.toString outer ;

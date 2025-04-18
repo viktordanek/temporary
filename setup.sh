@@ -1,8 +1,15 @@
+${ECHO} AAAA >&2 &&
 export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
+${ECHO} AAAB >&2 &&
   export RESOURCE_NAME=$( ${BASENAME} ${RESOURCE} ) &&
+${ECHO} AAAC >&2 &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
+${ECHO} AAAD >&2 &&
   export TARGET=${TARGET_MOUNT}/target &&
+${ECHO} AAAE >&2 &&
+  ${ECHO} AAAM >&2 &&
   ${MKDIR} ${TARGET_MOUNT} &&
+  ${ECHO} AAAN >&2 &&
   if ${HAS_STANDARD_INPUT}
   then
     if ${ECHO} "${STANDARD_INPUT}" | ${INIT} ${@} > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
