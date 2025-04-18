@@ -487,11 +487,6 @@
                                                             } ;
                                                         mounts =
                                                             {
-                                                                "/archive" =
-                                                                    {
-                                                                        host-path = "/archive" ;
-                                                                        is-read-only = false ;
-                                                                    } ;
                                                                 "/mount" =
                                                                     {
                                                                         host-path = _environment-variable "RESOURCES" ;
@@ -554,15 +549,6 @@
                                                                 {
                                                                     mounts =
                                                                         {
-                                                                            "/archive" =
-                                                                                {
-                                                                                    expected = self + "/expected/teardown/mounts/archive" ;
-                                                                                    initial =
-                                                                                        [
-                                                                                            "mkdir /mount/target"
-                                                                                            "echo d5bb0df4dcfee94311969902570c6c91dbb52302931bf46a9952d8f52aa1fe67248f32b6a39e75e561937c7c8d5fa30e82f277e5a1d40210bc7798c5fc7e1494 > /mount/target/uuid"
-                                                                                        ] ;
-                                                                                } ;
                                                                             "/mount" =
                                                                                 {
                                                                                     expected = self + "/expected/teardown/mounts/resource" ;
