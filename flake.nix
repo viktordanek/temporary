@@ -187,7 +187,7 @@
                                                                 if builtins.typeOf set == "null" then set
                                                                 else if builtins.typeOf set == "set" then
                                                                     let
-                                                                        arguments-minus = builtins.removeAttrs set [ "mounts" "resource" "target" ] ;
+                                                                        arguments-minus = builtins.removeAttrs set [ "mounts" ] ;
                                                                         arguments-plus = arguments-minus // { mounts = mounts ; } ;
                                                                         eval = builtins.tryEval ( _shell-script arguments-plus ) ;
                                                                         mounts =
