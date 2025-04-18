@@ -353,12 +353,12 @@
                                                                                         delay = true ;
                                                                                         mounts =
                                                                                             {
-                                                                                                "${ primary.archive }" =
+                                                                                                "/archive" =
                                                                                                     {
                                                                                                         expected = secondary.archive ;
                                                                                                         initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
-                                                                                                "${ primary.resources }" =
+                                                                                                "/resources" =
                                                                                                     {
                                                                                                         expected = self + "/expected/setup/mounts/resources" ;
                                                                                                         initial = [ "mkdir /mount/target" ] ;
@@ -439,16 +439,16 @@
                                                                 archive =
                                                                     if is-mock then
                                                                         {
-                                                                            "${ primary.archive }" =
+                                                                            "/archive" =
                                                                                 {
-                                                                                    host-path = "${ _environment-variable "ARCHIVE" }" ;
+                                                                                    host-path = primary.archive ;
                                                                                     is-read-only = false ;
                                                                                 } ;
                                                                         }
                                                                     else { } ;
                                                                 resource =
                                                                     {
-                                                                        "${ primary.resources }" =
+                                                                        "/resources" =
                                                                             {
                                                                                 host-path = primary.resources ;
                                                                                 is-read-only = false ;
@@ -604,7 +604,7 @@
                                                         } ;
                                                     mounts =
                                                         {
-                                                            "${ primary.archive }" =
+                                                            "/archive" =
                                                                 {
                                                                     host-path = "/archive" ;
                                                                     is-read-only = false ;
@@ -630,7 +630,7 @@
                                                             {
                                                                 mounts =
                                                                     {
-                                                                        "${ primary.archive }" =
+                                                                        "/archive" =
                                                                             {
                                                                                 expected = self + "/expected/vacuum/mounts/archive" ;
                                                                                 initial = [ "mkdir /mount/target" ] ;
