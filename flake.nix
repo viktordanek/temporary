@@ -4,7 +4,7 @@
             environment-variable.url = "github:/viktordanek/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script/scratch/db9a2c41-865b-4fda-a329-c9b0b78ce43a" ;
+            shell-script.url = "github:viktordanek/shell-script/issue/47-new-imple" ;
             visitor.url = "github:viktordanek/visitor" ;
         } ;
     outputs =
@@ -599,39 +599,6 @@
                                                 } ;
                                         in
                                             {
-                                                post-check =
-                                                    let
-                                                        inner =
-                                                            pkgs.writeShellScript
-                                                                "inner"
-                                                                ''
-                                                                    TEMPORARY=$( ${ setup-mock.shell-script } 2> ${ _environment-variable "ROOT" }/standard-error )
-                                                                '' ;
-                                                        outer =
-                                                            pkgs.writeShellScript
-                                                                "post-check"
-                                                                ''
-                                                                    export ROOT=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                        export ARCHIVE=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                        export RESOURCES=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                                        ${ inner } &&
-                                                                        ${ pkgs.coreutils }/bin/sleep 1s &&
-                                                                        ${ pkgs.coreutils }/bin/echo ROOT=${ _environment-variable "ROOT" } ARCHIVE=${ _environment-variable "ARCHIVE" } RESOURCES=${ _environment-variable "RESOURCES" } &&
-                                                                        ${ pkgs.coreutils }/bin/echo MOCK=${ setup-mock.shell-script } REAL=${ setup.shell-script } &&
-                                                                        ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } | ${ pkgs.coreutils }/bin/sort
-                                                                        ${ pkgs.findutils }/bin/find ${ _environment-variable "ARCHIVE" } | ${ pkgs.coreutils }/bin/sort
-                                                                '' ;
-                                                        in pkgs.writeShellScriptBin "post-check" ''
-                                                            export ARCHIVE=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                            export RESOURCES=$( ${ pkgs.coreutils }/bin/mktemp --directory ) &&
-                                                            TEMPORARY=$( ${ setup-mock.shell-script } ) &&
-                                                            ${ pkgs.coreutils }/bin/sleep 10s &&
-                                                            ${ pkgs.coreutils }/bin/echo TEMPORARY=${ _environment-variable "TEMPORARY" } &&
-                                                            ${ pkgs.coreutils }/bin/echo RESOURCES &&
-                                                            ${ pkgs.findutils }/bin/find ${ _environment-variable "RESOURCES" } | ${ pkgs.coreutils }/bin/sort &&
-                                                            ${ pkgs.coreutils }/bin/echo ARCHIVE &&
-                                                            ${ pkgs.findutils }/bin/find ${ _environment-variable "ARCHIVE" } | ${ pkgs.coreutils }/bin/sort
-                                                         '' ;
                                                 shell-script = setup.shell-script ;
                                                 tests =
                                                     pkgs.stdenv.mkDerivation
@@ -649,7 +616,6 @@
                                                                                 ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/links/post" ] )
                                                                                 [
                                                                                     "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/links/teardown"
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ vacuum.tests } ${ _environment-variable "OUT" }/links/vacuum"
                                                                                 ]
                                                                             ] ;
                                                                     in
@@ -658,7 +624,7 @@
                                                                                 ${ pkgs.coreutils }/bin/mkdir $out/bin
                                                                                 makeWrapper ${ pkgs.writeShellScript "constructors" ( builtins.concatStringsSep " &&\n\t" constructors ) } $out/bin/constructors --set LN ${ pkgs.coreutils }/bin/ln --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OUT $out &&
                                                                                 $out/bin/constructors &&
-                                                                                ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 + 1 ) } &&
+                                                                                ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 ) } &&
                                                                                 SUCCESS=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name SUCCESS | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 FAILURE=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name FAILURE | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 if [ ${ _environment-variable "ALL" } == ${ _environment-variable "SUCCESS" } ]
@@ -697,7 +663,6 @@
                                                                 ''
                                                                     ${ pkgs.coreutils }/bin/touch $out &&
                                                                         ${ pkgs.coreutils }/bin/echo The shell-script is ${ value.shell-script }. &&
-                                                                        ${ pkgs.coreutils }/bin/echo The post-checks for shell-script is ${ value.post-check }. &&
                                                                         if [ -f ${ value.tests }/SUCCESS ]
                                                                         then
                                                                             ${ pkgs.coreutils }/bin/echo There was success in ${ value.tests }.
