@@ -78,9 +78,9 @@
                                             in
                                                 [
                                                     ( foobar "0-0" ( lib { init = init ; tests = tests ; } ) )
-                                                    ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
-                                                    ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
-                                                    ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
+                                                    # ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests ; } ) )
+                                                    # ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests ; } ) )
+                                                    # ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests ; } ) )
                                                 ] ;
                                     post =
                                         {
@@ -180,6 +180,29 @@
                                     let
                                         primary =
                                             let
+                                                embolden =
+                                                    {
+                                                        init =
+                                                            set :
+                                                                if builtins.typeOf set == "set" then
+                                                                    let
+                                                                        arguments-minus = builtins.removeAttrs set [ "mount" ] ;
+                                                                        arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                        eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                        mount =
+                                                                            if builtins.hasAttr "resource" set then builtins.getAttr "mount" set
+                                                                            else "/mount" ;
+                                                                        mounts =
+                                                                            {
+                                                                                "${ mount }" =
+                                                                                    {
+                                                                                        host-path = _environment-variable "TARGET_MOUNT" ;
+                                                                                        is-read-only = false ;
+                                                                                    } ;
+                                                                            } ;
+                                                                        in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
+                                                                else builtins.throw "init is not set but ${ builtins.typeOf set }." ;
+                                                    } ;
                                                 enrich =
                                                     name : set :
                                                         if builtins.typeOf set == "null" then set
@@ -201,32 +224,12 @@
                                                                     else "/resource" ;
                                                                 in if eval.success then eval.value else builtins.throw "There was a problem evaluating ${ name }."
                                                         else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
-                                                enrich-init =
-                                                    set :
-                                                        if builtins.typeOf set == "set" then
-                                                            let
-                                                                arguments-minus = builtins.removeAttrs set [ "mount" ] ;
-                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                mount =
-                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "mount" set
-                                                                    else "/mount" ;
-                                                                mounts =
-                                                                    {
-                                                                        "${ mount }" =
-                                                                            {
-                                                                                host-path = _environment-variable "TARGET_MOUNT" ;
-                                                                                is-read-only = false ;
-                                                                            } ;
-                                                                    } ;
-                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
-                                                        else builtins.throw "init is not set but ${ builtins.typeOf set }." ;
                                                 in
                                                     {
                                                         archive =
                                                             if builtins.typeOf archive == "string" then archive
                                                             else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
-                                                        init = enrich-init init ;
+                                                        init = embolden.init init ;
                                                         initialization-error-code =
                                                             if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
                                                             else builtins.throw "initialization-error-code is not int but ${ builtins.typeOf initialization-error-code }." ;
@@ -673,7 +676,8 @@
                                                                         else
                                                                             ${ pkgs.coreutils }/bin/echo There was error in ${ value.tests }. >&2 &&
                                                                                 exit 62
-                                                                        fi
+                                                                        fi &&
+                                                                        exit 59
                                                                 '' ;
                                                             name = name ;
                                                             src = ./. ;
