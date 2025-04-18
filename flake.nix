@@ -353,15 +353,15 @@
                                                                                         delay = true ;
                                                                                         mounts =
                                                                                             {
-                                                                                                "${ primay.archive }" =
+                                                                                                "${ primary.archive }" =
                                                                                                     {
                                                                                                         expected = secondary.archive ;
-                                                                                                        initial = "mkdir /mount/target" ;
+                                                                                                        initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
                                                                                                 "${ primary.resources }" =
                                                                                                     {
                                                                                                         expected = self + "/expected/setup/mounts/resources" ;
-                                                                                                        initial = "mkdir /mount/target" ;
+                                                                                                        initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
                                                                                             } ;
                                                                                         test =
