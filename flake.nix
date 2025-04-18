@@ -205,35 +205,38 @@
                                                                 else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
                                                         in
                                                             {
-                                                                init =
-                                                                    set :
-                                                                        if builtins.typeOf set == "set" then
-                                                                            let
-                                                                                arguments-minus = builtins.removeAttrs set [ "mount" ] ;
-                                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                                mount =
-                                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "mount" set
-                                                                                    else "/mount" ;
-                                                                                mounts =
-                                                                                    {
-                                                                                        "${ mount }" =
+                                                                production =
+                                                                    {
+                                                                        init =
+                                                                            set :
+                                                                                if builtins.typeOf set == "set" then
+                                                                                    let
+                                                                                        arguments-minus = builtins.removeAttrs set [ "mount" ] ;
+                                                                                        arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                                        eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                                        mount =
+                                                                                            if builtins.hasAttr "resource" set then builtins.getAttr "mount" set
+                                                                                            else "/mount" ;
+                                                                                        mounts =
                                                                                             {
-                                                                                                host-path = _environment-variable "TARGET_MOUNT" ;
-                                                                                                is-read-only = false ;
+                                                                                                "${ mount }" =
+                                                                                                    {
+                                                                                                        host-path = _environment-variable "TARGET_MOUNT" ;
+                                                                                                        is-read-only = false ;
+                                                                                                    } ;
                                                                                             } ;
-                                                                                    } ;
-                                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
-                                                                        else builtins.throw "init is not set but ${ builtins.typeOf set }." ;
-                                                                post = embolden "post" ;
-                                                                release = embolden "release" ;
+                                                                                        in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
+                                                                                else builtins.throw "init is not set but ${ builtins.typeOf set }." ;
+                                                                        post = embolden "post" ;
+                                                                        release = embolden "release" ;
+                                                                    } ;
                                                             } ;
                                                 in
                                                     {
                                                         archive =
                                                             if builtins.typeOf archive == "string" then archive
                                                             else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
-                                                        init = embolden.init init ;
+                                                        init = embolden.production.init init ;
                                                         initialization-error-code =
                                                             if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
                                                             else builtins.throw "initialization-error-code is not int but ${ builtins.typeOf initialization-error-code }." ;
@@ -243,8 +246,8 @@
                                                         over-initialized-target-error-code =
                                                             if builtins.typeOf over-initialized-target-error-code == "int" then builtins.toString over-initialized-target-error-code
                                                             else builtins.throw "over-initialized-target-error-code is not int but ${ builtins.typeOf over-initialized-target-error-code }." ;
-                                                        post = embolden.post post ;
-                                                        release = embolden.release release ;
+                                                        post = embolden.production.post post ;
+                                                        release = embolden.production.release release ;
                                                         resources =
                                                             if builtins.typeOf resources == "string" then resources
                                                             else builtins.throw "resources is not string but ${ builtins.typeOf resources }." ;
