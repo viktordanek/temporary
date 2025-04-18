@@ -677,13 +677,19 @@
                                                                                 makeWrapper $out/bin/observe.sh $out/bin/observe --set BASENAME ${ pkgs.coreutils }/bin/basename --set ECHO ${ pkgs.coreutils }/bin/echo --set FIND ${ pkgs.findutils }/bin/find --set OUT $out --set READLINK ${ pkgs.coreutils }/bin/readlink --set SORT ${ pkgs.coreutils }/bin/sort &&
                                                                                 ALL=${ builtins.toString ( 1 + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 + 1 + 1 ) } &&
                                                                                 SUCCESS=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name SUCCESS | ${ pkgs.coreutils }/bin/wc --lines ) &&
+                                                                                DELAYED=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name DELAYED | ${ pkgs.coreutils }/bin/wc --lines ) &&
                                                                                 FAILURE=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name FAILURE | ${ pkgs.coreutils }/bin/wc --lines ) &&
-                                                                                if [ ${ _environment-variable "ALL" } == ${ _environment-variable "SUCCESS" } ]
+                                                                                if [ ${ _environment-variable "ALL" } == ${ _environment-variable "SUCCESS" } ] && [ ${ _environment-variable "DELAYED" } == 0 ] && [ ${ _environment-variable "FAILURE" } == 0 ]
                                                                                 then
                                                                                     ${ pkgs.coreutils }/bin/echo ${ _environment-variable "ALL" } > $out/SUCCESS
-                                                                                elif [ ${ _environment-variable "ALL" } == $(( ${ _environment-variable "SUCCESS" } + ${ _environment-variable "FAILURE" } )) ]
+                                                                                elif [ ${ _environment-variable "ALL" } == $(( ${ _environment-variable "SUCCESS" } + ${ _environment-variable "DELAYED" } )) ] && [ ${ _environment-variable "FAILURE" } == 0 ]
+                                                                                then
+                                                                                    ${ pkgs.coreutils }/bin/echo ${ _environment-variable "DELAYED" } > $out/DELAYED
+                                                                                elif [ ${ _environment-variable "ALL" } == $(( ${ _environment-variable "SUCCESS" } + ${ _environment-variable "DELAYED" } + ${ _environment-variable "FAILURE" } )) ]
                                                                                 then
                                                                                     ${ pkgs.coreutils }/bin/echo ${ _environment-variable "FAILURE" } > $out/FAILURE
+                                                                                else
+                                                                                    ${ pkgs.coreutils }/bin/echo '{ ALL : ${ _environment-variable "ALL" } , SUCCESS : ${ _environment-variable "SUCCESS" } , DELAYED : ${ _environment-variable "DELAYED" } , FAILURE : ${ _environment-variable "FAILURE" } }' > $out/ERROR
                                                                                 fi
                                                                         '' ;
                                                             name = "tests" ;
@@ -715,14 +721,18 @@
                                                                         ${ pkgs.coreutils }/bin/echo The shell-script is ${ value.shell-script }. &&
                                                                         if [ -f ${ value.tests }/SUCCESS ]
                                                                         then
-                                                                            ${ pkgs.coreutils }/bin/echo There was success in ${ value.tests }.
+                                                                            ${ pkgs.coreutils }/bin/echo There was success in ${ value.tests }. >&2 &&
+                                                                                exit 63
+                                                                        elif [ -f ${ value.tests }/DELAYED ]
+                                                                        then
+                                                                            ${ pkgs.coreutils }/bin/echo There was delay in ${ value.tests }.
                                                                         elif [ -f ${ value.tests }/FAILURE ]
                                                                         then
                                                                             ${ pkgs.coreutils }/bin/echo There was failure in ${ value.tests }. >&2 &&
-                                                                                exit 63
+                                                                                exit 61
                                                                         else
                                                                             ${ pkgs.coreutils }/bin/echo There was error in ${ value.tests }. >&2 &&
-                                                                                exit 62
+                                                                                exit 60
                                                                         fi
                                                                 '' ;
                                                             name = name ;
