@@ -611,7 +611,24 @@
                                                                 ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                             ] ;
                                                     script = self + "/vacuum.sh" ;
-                                                    tests = [ ] ;
+                                                    tests =
+                                                        ignore :
+                                                            {
+                                                                mounts =
+                                                                    {
+                                                                        "/archive" =
+                                                                            {
+                                                                                expected = self + "/expected/vacuum/mounts/archive" ;
+                                                                                initial = "mkdir /mount/target" ;
+                                                                            } ;
+                                                                        "/resource" =
+                                                                            {
+                                                                                expected = self + "/expected/vacuum/mounts/resource" ;
+                                                                                initial = "echo 58d9819914147cb93fb80eb662cd0f15a960feafe47c43d7a8dbedb20022f38f8b42b56d4edb54f5298608a6dc04cd1fb689e9c1ccbc409b67ccc518f40a061c > /mount/target" ;
+                                                                            } ;
+                                                                    } ;
+                                                                test = "candidate" ;
+                                                            } ;
                                                 } ;
                                         in
                                             {
