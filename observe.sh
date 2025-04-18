@@ -1,4 +1,8 @@
-${FIND} ${OUT}/links -mindepth 1 -maxdepth 1 -type l -exec ${READLINK} {} \; | ${SORT} | while read DERIVATIVE
+${FIND} ${OUT}/links -mindepth 1 -maxdepth 1 -type l | ${SORT} | while read LINK
 do
-  ${DERIVATIVE}/bin/observe
+  ${ECHO} &&
+    ${BASENAME} ${LINK} &&
+    ${ECHO} tests ${OUT} &&
+    DERIVATIVE=$( ${READLINK} ${LINK} ) &&
+    ${DERIVATIVE}/bin/observe
 done
