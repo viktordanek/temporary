@@ -622,6 +622,7 @@
                                                                 ( string "CP" "${ pkgs.coreutils }/bin/cp" )
                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                 ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "SED" "${ pkgs.gnused }/bin/sed" )
                                                                 ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                             ] ;
                                                     script = self + "/vacuum.sh" ;
