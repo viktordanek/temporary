@@ -9,10 +9,11 @@ ERROR=0 &&
       DERIVATIVE=$( ${READLINK} ${LINK} ) &&
       if ! ${DERIVATIVE}/bin/observe
       then
-        ERROR=1
+        ERROR=${LINK}
       fi
   done < <( ${FIND} ${OUT}/links -mindepth 1 -maxdepth 1 -type l | ${SORT} ) &&
   if [ ${ERROR} != 0 ]
   then
-    exit 63
+    ${ECHO} There was an error in ${ERROR} &&
+      exit 62
   fi
