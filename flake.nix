@@ -400,7 +400,7 @@
                                                                                                         "outer"
                                                                                                         ''
                                                                                                             ${ inner } &&
-                                                                                                                ${ _environment-variable "SLEEP" } 10s
+                                                                                                                ${ pkgs.coreutils }/bin/sleep 10s
                                                                                                         '' ;
                                                                                                 in builtins.toString outer ;
                                                                                     } ;
