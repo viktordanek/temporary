@@ -11,4 +11,5 @@ ${ECHO} AD >> /archive/FLAG &&
 ${ECHO} AE >> /archive/FLAG &&
 ${ECHO} ${CP} --recursive /resource /archive/${INDEX} >> /archive/FLAG &&
 ls -lah / >> /archive/FLAG &&
+${ECHO} BA >> /archive/FLAG &&
   ${CP} --recursive /resource /archive/${INDEX}
