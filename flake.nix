@@ -458,6 +458,7 @@
                                                                     ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                     ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                     ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                    ( string "DIRNAME" "${ pkgs.coreutils }/bin/dirname" )
                                                                     ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                     ( has-standard-input "HAS_STANDARD_INPUT" )
                                                                     ( string "INIT" primary.init.shell-script )
