@@ -253,16 +253,16 @@
         "visitor": "visitor"
       },
       "locked": {
-        "lastModified": 1744922302,
-        "narHash": "sha256-pFj4+QDVq+IVaz1k/WKHBoDTJXG1P9UnBy19FTUJiSk=",
+        "lastModified": 1745061174,
+        "narHash": "sha256-qzc4J/t6rV12tzg0d+XQf8XbP5YRi0o0w5exokIfSmY=",
         "owner": "viktordanek",
         "repo": "shell-script",
-        "rev": "61f0c6b10f9afa2079359be7d5d5c5740e34c83d",
+        "rev": "7452d8b1c8411ad94739f1eb223f570d06c1f840",
         "type": "github"
       },
       "original": {
         "owner": "viktordanek",
-        "ref": "issue/47-new-imple",
+        "ref": "scratch/bf45cd3c-30b4-443b-84e6-ffb8c5d4297e",
         "repo": "shell-script",
         "type": "github"
       }
