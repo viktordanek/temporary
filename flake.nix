@@ -365,6 +365,7 @@
                                                                                                         initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
                                                                                             } ;
+                                                                                        status = secondary.status ;
                                                                                         test =
                                                                                             let
                                                                                                 inner =
