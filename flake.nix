@@ -72,7 +72,7 @@
                                                                     archive = self + "/expected/setup/success/mounts/archive/${ builtins.toJSON release }" ;
                                                                     arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
                                                                     file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
-                                                                    ## paste = candidate : "echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid" ;
+                                                                    paste = candidate : "echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid" ;
                                                                     ## pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
                                                                  } ;
                                                     } ;
@@ -383,10 +383,7 @@
                                                                                                                                 (
                                                                                                                                     if builtins.typeOf secondary.paste == "list" then
                                                                                                                                         [
-                                                                                                                                            "${ pkgs.findutils }/bin/find /build/resources >&2"
-                                                                                                                                            "${ pkgs.findutils }/bin/find /build/archive >&2"
-                                                                                                                                            "${ pkgs.coreutils }/bin/echo SPLIT >&2"
-                                                                                                                                            "${ pkgs.findutils }/bin/find ${ _environment-variable "CANDIDATE_${ builtins.toString index }" } >&2"
+                                                                                                                                            ( pkgs.writeShellScript "paste" ( builtins.concatStringsSep " &&\n\t" secondary.paste ) )
                                                                                                                                         ]
                                                                                                                                     else [ ]
                                                                                                                                 )
