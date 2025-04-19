@@ -3,7 +3,6 @@ export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   export TARGET=${TARGET_MOUNT}/target &&
   ${MKDIR} ${TARGET_MOUNT} &&
-${ECHO} AAAI >&2 &&
   if ${HAS_STANDARD_INPUT}
   then
     if ${ECHO} "${STANDARD_INPUT}" | ${INIT} ${@} > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
@@ -20,10 +19,8 @@ ${ECHO} AAAI >&2 &&
       STATUS=${?}
     fi
   fi &&
-${ECHO} AAAJ >&2 &&
   ${ECHO} ${?} > ${RESOURCE}/init.status &&
 #
-${ECHO} AAAK >&2 &&
   source ${MAKE_WRAPPER}/nix-support/setup-hook &&
 ${ECHO} AAAL >&2 &&
   ${ECHO} makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} >&2 &&
@@ -31,7 +28,6 @@ ${ECHO} AAAL >&2 &&
 #
 ${ECHO} AAAM >&2 &&
   ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error. FIXME UNCOMMENT ME
-${ECHO} AAAN >&2
   if [ ${STATUS} != 0 ]
   then
     exit ${INITIALIZATION_ERROR_CODE}
