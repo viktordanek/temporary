@@ -360,7 +360,7 @@
                                                                                                     } ;
                                                                                                 "/resources" =
                                                                                                     {
-                                                                                                        expected = self + "/expected/setup/mounts/resources" ;
+                                                                                                        expected = self + "/resources" ;
                                                                                                         initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
                                                                                             } ;
