@@ -3,4 +3,4 @@ export ORIGINATOR_PID='${ORIGINATOR_PID}'
 export RESOURCE_NAME='${RESOURCE_NAME}'
 export RESOURCES='${RESOURCES}'
 export STATUS='19'
-exec "/nix/store/hq6fcx2y9wsb2ia2q7hs5c4n492ndzd1-teardown/bin/teardown"  "$@" 
+exec ${SCRIPT} ${@}
