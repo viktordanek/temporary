@@ -5,4 +5,4 @@ INDEX=$( ${FIND} /archive -mindepth 1 -maxdepth 1 -type d | ${WC} --lines ) &&
       exit 64
   fi &&
   ${CP} --recursive /resource /archive/${INDEX} &&
-  ${SED} -i "s#^export ORIGINATOR_PID='.*'\$#export ORIGINATOR_PID='\${ORIGINATOR_PID}'#" /archive/${INDEX}/teardown.sh
+  ${SED} -i -e "s#^export ORIGINATOR_PID='.*'\$#export ORIGINATOR_PID='\${ORIGINATOR_PID}'#" -e "s#^export RESOURCE_NAME='.*'\$#export RESOURCE_NAME='\${RESOURCE_NAME}'#" -e "s#^export RESOURCES='.*'#export RESOURCES='\${RESOURCES}'#" /archive/${INDEX}/teardown.sh

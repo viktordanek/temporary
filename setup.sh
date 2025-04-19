@@ -22,7 +22,7 @@ export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
   ${ECHO} ${?} > ${RESOURCE}/init.status &&
 #
   source ${MAKE_WRAPPER}/nix-support/setup-hook &&
-  makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --run 'export RESOURCE_NAME=$( ${BASENAME} $( ${DIRNAME} ${0} ) )' --run 'export RESOURCES=$( ${DIRNAME} $( ${DIRNAME} ${0} ) )' --set STATUS ${STATUS} &&
+  makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
 #
   ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error. FIXME UNCOMMENT ME
   if [ ${STATUS} != 0 ]
