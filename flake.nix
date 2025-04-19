@@ -468,6 +468,7 @@
                                                                     ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                     ( originator-pid "ORIGINATOR_PID" )
                                                                     ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
+                                                                    ( string "READLINK" "${ pkgs.coreutils }/bin/readlink" )
                                                                     ( string "RESOURCES" ( _environment-variable primary.resources ) )
                                                                     ( standard-input "STANDARD_INPUT" )
                                                                     ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
