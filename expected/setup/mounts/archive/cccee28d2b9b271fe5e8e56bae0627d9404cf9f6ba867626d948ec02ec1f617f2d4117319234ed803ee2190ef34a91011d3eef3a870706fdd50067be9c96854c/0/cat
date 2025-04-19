@@ -1,0 +1,6 @@
+#! /nix/store/9nw8b61s8lfdn8fkabxhbz0s775gjhbr-bash-5.2p37/bin/bash -e
+export ORIGINATOR_PID='3011991'
+export RESOURCE_NAME=$( ${BASENAME} $( ${DIRNAME} ${0} ) )
+export RESOURCES=$( ${DIRNAME} $( ${DIRNAME} ${0} ) )
+export STATUS='19'
+exec "/nix/store/i8y226m657rj5wlgcxdxp37yc043z3g9-teardown/bin/teardown"  "$@" 
