@@ -1,0 +1,24 @@
+/resource/init.standard-error
+
+/resource/init.standard-output
+
+/resource/init.status
+0
+
+/resource/lock
+
+/resource/mount/target/uuid
+a0ec4aaa08d8dc652beb39be11f4b9619ec8b69d547c92e249c9fb06c295e13e2fcbf2ad25d60388e8c34241ade94494c598e3d413d7c90f95667b309ed62a8d
+
+/resource/release.standard-error
+
+/resource/release.standard-output
+
+/resource/teardown.sh
+#! /nix/store/9nw8b61s8lfdn8fkabxhbz0s775gjhbr-bash-5.2p37/bin/bash -e
+export ORIGINATOR_PID='4004071'
+export RESOURCE_NAME='2oFQaXPK'
+export RESOURCES='/tmp/tmp.uEELO1MEdP'
+export STATUS='19'
+exec "/nix/store/sfx23hb36dh9h1ylhm5ys8fbw2h4nw0i-teardown/bin/teardown"  "$@" 
+

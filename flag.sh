@@ -5,7 +5,7 @@ fi &&
   ${FIND} /resource -type f | ${SORT} | while read FILE
   do
     ${ECHO} ${FILE} &&
-      if [ ${FILE} != /resource/${NAME}.standard-output ] && [ ${FILE} != /resource/${NAME}.standard-error ]
+      if [ ${FILE} != /resource/${NAME}.standard-output ] && [ ${FILE} != /resource/${NAME}.standard-error ] && [ ${FILE} != /resource/teardown.sh ]
       then
         ${CAT} ${FILE}
       fi &&
