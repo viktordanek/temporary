@@ -383,13 +383,9 @@
                                                                                                                                 (
                                                                                                                                     if builtins.typeOf secondary.paste == "list" then
                                                                                                                                         [
-                                                                                                                                            ( pkgs.writeShellScript "paste" ( builtins.concatStringsSep " &&\n\t" secondary.paste ) )
+                                                                                                                                            ( builtins.elemAt secondary.paste index )
                                                                                                                                         ]
                                                                                                                                     else [ ]
-                                                                                                                                )
-                                                                                                                                (
-                                                                                                                                    if builtins.typeOf secondary.paste == "null" then [ ]
-                                                                                                                                    else secondary.paste
                                                                                                                                 )
                                                                                                                             ] ;
                                                                                                                 in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) )
