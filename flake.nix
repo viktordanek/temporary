@@ -394,7 +394,7 @@
                                                                                                                             ''${ _environment-variable "ECHO" } $(( $( ${ _environment-variable "ECHO" } -e "${ builtins.concatStringsSep "\n" ( builtins.genList ( index : _environment-variable "CANDIDATE_${ builtins.toString index }" ) secondary.count ) }" | ${ _environment-variable "SORT" } | ${ _environment-variable "UNIQ" } ) - ${ builtins.toString secondary.count } ))''
                                                                                                                         ]
                                                                                                                     else [ ] ;
-                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.genList generator secondary.count ) )
+                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ ( builtins.concatLists ( builtins.genList generator secondary.count ) ) ] )
                                                                                                         ) ;
                                                                                                 outer =
                                                                                                     pkgs.writeShellScript
