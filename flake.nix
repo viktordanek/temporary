@@ -402,7 +402,7 @@
                                                                                                         "outer"
                                                                                                         ''
                                                                                                             ${ inner } &&
-                                                                                                                ${ pkgs.coreutils }/bin/sleep 10s
+                                                                                                                ${ pkgs.coreutils }/bin/sleep 1s
                                                                                                         '' ;
                                                                                                 in builtins.toString outer ;
                                                                                     } ;
