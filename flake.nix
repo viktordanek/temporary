@@ -301,7 +301,7 @@
                                                                                             {
                                                                                                 archive ,
                                                                                                 arguments ? null ,
-                                                                                                count ? 2 ,
+                                                                                                count ? 1 ,
                                                                                                 file ? null ,
                                                                                                 paste ? null ,
                                                                                                 pipe ? null ,
