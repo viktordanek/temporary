@@ -364,7 +364,7 @@
                                                                                                                             installPhase =
                                                                                                                                 ''
                                                                                                                                     ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                                                                        ${ pkgs.coreutils }/bin/seq 0 ${ builtins.toString ( secondary.count - 1 ) } | while read INDEX
+                                                                                                                                        ${ pkgs.coreutils }/bin/seq 0 0 | while read INDEX
                                                                                                                                         do
                                                                                                                                             ${ pkgs.coreutils }/bin/ln --symbolic ${ secondary.archive } $out/${ _environment-variable "INDEX" }
                                                                                                                                         done
@@ -636,8 +636,10 @@
                                                         { string } :
                                                             [
                                                                 ( string "CP" "${ pkgs.coreutils }/bin/cp" )
+                                                                ( string "DIFF" "${ pkgs.coreutils }/bin/diff" )
                                                                 ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                 ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                ( string "RM" "${ pkgs.coreutils }/bin/rm" )
                                                                 ( string "SED" "${ pkgs.gnused }/bin/sed" )
                                                                 ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                             ] ;
