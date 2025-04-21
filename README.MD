@@ -1,5 +1,5 @@
 ```
-nix-collect-garbage -d &&
+`nix-collect-garbage -d &&
 echo BEFORE &&
 date &&
 echo AAAAAAAAAAAAAAAAAAA &&
@@ -22,5 +22,5 @@ nix run .#1-1-0 &&
 echo EEEEEEEEEEEEEEEEEEEEE &&
 # nix run .#1-1-1 &&
 date &&
-echo AFTER
+echo AFTER`
 ```
