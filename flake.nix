@@ -356,7 +356,23 @@
                                                                                             {
                                                                                                 "/archive" =
                                                                                                     {
-                                                                                                        expected = secondary.archive ;
+                                                                                                        expected =
+                                                                                                            builtins.toString
+                                                                                                                (
+                                                                                                                    pkgs.stdenv.mkDerivation
+                                                                                                                        {
+                                                                                                                            installPhase =
+                                                                                                                                ''
+                                                                                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                                                                        ${ pkgs.coreutils }/bin/seq 0 ${ builtins.toString ( secondary.count - 1 ) } | while read INDEX
+                                                                                                                                        do
+                                                                                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ secondary.archive } $out/${ _environment-variable "INDEX" }
+                                                                                                                                        done
+                                                                                                                                '' ;
+                                                                                                                            name = "expected" ;
+                                                                                                                            src = ./. ;
+                                                                                                                        }
+                                                                                                                ) ;
                                                                                                         initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
                                                                                                 "/resources" =
