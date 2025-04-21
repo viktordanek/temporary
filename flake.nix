@@ -508,28 +508,26 @@
                                                                             [ 2 ]
                                                                             [ 3 ]
                                                                             [ 4 ]
-                                                                            [ 5 ]
                                                                             [ 6 ]
-                                                                            [ 7 ]
-                                                                            [ 8 ]
-                                                                            [ 9 ]
-                                                                            [ 10 ]
-                                                                            [ 11 ]
-                                                                            [ 12 ]
-                                                                            [ 13 ]
-                                                                            [ 14 ]
-                                                                            [ 15 ]
-                                                                            [ 16 ]
-                                                                            [ 17 ]
-                                                                            [ 18 ]
-                                                                            [ 19 ]
-                                                                            [ 20 ]
-                                                                            [ 21 ]
-                                                                            [ 22 ]
-                                                                            [ 23 ]
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 7 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 8 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 9 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 10 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 11 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 12 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 13 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 14 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 15 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 16 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 17 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 18 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 19 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 20 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 21 ] )
+                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 22 ] )
                                                                             [ 24 ]
-                                                                            ( if self-teardown then [ 26 ] else [ ] )
-                                                                            [ 28 ]
+                                                                            [ 25 ]
+                                                                            ( if self-teardown then [ 27 ] else [ ] )
                                                                             [ 29 ]
                                                                             [ 30 ]
                                                                             [ 31 ]
@@ -541,6 +539,7 @@
                                                                             [ 37 ]
                                                                             [ 38 ]
                                                                             [ 39 ]
+                                                                            [ 40 ]
                                                                         ] ;
                                                                 with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
                                                                 filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;

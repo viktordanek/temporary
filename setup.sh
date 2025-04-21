@@ -3,6 +3,7 @@ export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   export TARGET=${TARGET_MOUNT}/target &&
   ${MKDIR} ${TARGET_MOUNT} &&
+#
   if ${HAS_STANDARD_INPUT}
   then
     if ${ECHO} "${STANDARD_INPUT}" | ${INIT} ${@} > ${RESOURCE}/init.standard-output 2> ${RESOURCE}/init.standard-error
