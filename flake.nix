@@ -57,7 +57,7 @@
                                         let
                                             foobar = name : temporary : { name = name ; value = temporary ; } ;
                                             tests =
-                                                release :
+                                                release : init :
                                                     {
                                                         failure =
                                                             ignore :
@@ -79,10 +79,14 @@
                                                     } ;
                                             in
                                                 [
-                                                    ( foobar "0-0" ( lib { init = init ; tests = tests false ; } ) )
-                                                    ( foobar "0-1" ( lib { init = init ; post = post ; tests = tests false ; } ) )
-                                                    ( foobar "1-0" ( lib { init = init ; release = release ; tests = tests true ; } ) )
-                                                    ( foobar "1-1" ( lib { init = init ; release = release ; post = post ; tests = tests true ; } ) )
+                                                    ( foobar "0-0-0" ( lib { tests = tests false false ; } ) )
+                                                    ( foobar "0-0-1" ( lib { post = post ; tests = tests false false ; } ) )
+                                                    ( foobar "0-1-0" ( lib { release = release ; tests = tests true false ; } ) )
+                                                    ( foobar "0-1-1" ( lib { release = release ; post = post ; tests = tests true false ; } ) )
+                                                    ( foobar "1-0-0" ( lib { init = init ; tests = tests false true ; } ) )
+                                                    ( foobar "1-0-1" ( lib { init = init ; post = post ; tests = tests false true ; } ) )
+                                                    ( foobar "1-1-0" ( lib { init = init ; release = release ; tests = tests true true ; } ) )
+                                                    ( foobar "1-1-1" ( lib { init = init ; release = release ; post = post ; tests = tests true true ; } ) )
                                                 ] ;
                                     post =
                                         {
@@ -243,7 +247,8 @@
                                                                     {
                                                                         init =
                                                                             set :
-                                                                                if builtins.typeOf set == "set" then
+                                                                                if builtins.typeOf set == "null" then set
+                                                                                else if builtins.typeOf set == "set" then
                                                                                     let
                                                                                         arguments-minus = builtins.removeAttrs set [ "mount" ] ;
                                                                                         arguments-plus = arguments-minus // { mounts = mounts ; } ;
@@ -260,7 +265,7 @@
                                                                                                     } ;
                                                                                             } ;
                                                                                         in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
-                                                                                else builtins.throw "init is not set but ${ builtins.typeOf set }." ;
+                                                                                else builtins.throw "init is not null, set but ${ builtins.typeOf set }." ;
                                                                         post = embolden "post" ;
                                                                         release = embolden "release" ;
                                                                     } ;
@@ -474,30 +479,35 @@
                                                         name = "setup" ;
                                                         profile =
                                                             { has-standard-input , originator-pid , standard-input , string } :
-                                                                [
-                                                                    ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
-                                                                    ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
-                                                                    ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
-                                                                    ( string "DIRNAME" "${ pkgs.coreutils }/bin/dirname" )
-                                                                    ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                    ( has-standard-input "HAS_STANDARD_INPUT" )
-                                                                    ( string "INIT" primary.init.shell-script )
-                                                                    ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
-                                                                    ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
-                                                                    ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
-                                                                    ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
-                                                                    ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
-                                                                    ( originator-pid "ORIGINATOR_PID" )
-                                                                    ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
-                                                                    ( string "READLINK" "${ pkgs.coreutils }/bin/readlink" )
-                                                                    ( string "RESOURCES" ( _environment-variable primary.resources ) )
-                                                                    ( standard-input "STANDARD_INPUT" )
-                                                                    ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
-                                                                    ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
-                                                                    ( string "WC" "${ pkgs.coreutils }/bin/wc" )
-                                                                    ( string "MOUNT" "${ pkgs.mount }/bin/mount" ) # KLUDGE
-                                                                    ( string "GREP" "${ pkgs.gnugrep }/bin/grep" ) # KLUDGE
-                                                                ] ;
+                                                                builtins.concatLists
+                                                                    [
+                                                                        [
+                                                                            ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
+                                                                            ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
+                                                                            ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                            ( string "DIRNAME" "${ pkgs.coreutils }/bin/dirname" )
+                                                                            ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                            ( has-standard-input "HAS_STANDARD_INPUT" )
+                                                                        ]
+                                                                        ( if builtins.typeOf init == "null" then [ ] else [ ( string "INIT" primary.init.shell-script ) ] )
+                                                                        [
+                                                                            ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
+                                                                            ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
+                                                                            ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
+                                                                            ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
+                                                                            ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
+                                                                            ( originator-pid "ORIGINATOR_PID" )
+                                                                            ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
+                                                                            ( string "READLINK" "${ pkgs.coreutils }/bin/readlink" )
+                                                                            ( string "RESOURCES" ( _environment-variable primary.resources ) )
+                                                                            ( standard-input "STANDARD_INPUT" )
+                                                                            ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
+                                                                            ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
+                                                                            ( string "WC" "${ pkgs.coreutils }/bin/wc" )
+                                                                            ( string "MOUNT" "${ pkgs.mount }/bin/mount" ) # KLUDGE
+                                                                            ( string "GREP" "${ pkgs.gnugrep }/bin/grep" ) # KLUDGE
+                                                                        ]
+                                                                    ] ;
                                                         script =
                                                             let
                                                                 all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/setup.sh" ) ) ) ) ;
@@ -509,7 +519,7 @@
                                                                             [ 2 ]
                                                                             [ 3 ]
                                                                             [ 4 ]
-                                                                            [ 6 ]
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 6 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 7 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 8 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 9 ] )
@@ -726,8 +736,8 @@
                                                                             [
                                                                                 [
                                                                                     "${ _environment-variable "MKDIR" } ${ _environment-variable "OUT" }/links"
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ primary.init.tests } ${ _environment-variable "OUT" }/links/init"
                                                                                 ]
+                                                                                ( if builtins.typeOf primary.init == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.init.tests } ${ _environment-variable "OUT" }/links/init" ] )
                                                                                 ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/links/release" ] )
                                                                                 ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/links/post" ] )
                                                                                 [
