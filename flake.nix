@@ -388,7 +388,7 @@
                                                                                                         initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
                                                                                             } ;
-                                                                                        standard-output = builtins.toFile "standard-output" ( if secondary.status == 0 then builtins.toString secondary.count else "" ) ;
+                                                                                        standard-output = builtins.toFile "standard-output" ( if secondary.status == 0 && builtins.typeOf primary.init != "null" then secondary.count else "" ) ;
                                                                                         status = secondary.status ;
                                                                                         test =
                                                                                             let
