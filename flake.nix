@@ -620,15 +620,15 @@
                                                         } ;
                                                     mounts =
                                                         {
-                                                            "/archive" =
-                                                                {
-                                                                    host-path = "/archive" ;
-                                                                    is-read-only = false ;
-                                                                } ;
-                                                            "/resource" =
+                                                            "/input" =
                                                                 {
                                                                     host-path = "${ _environment-variable "RESOURCE" }" ;
                                                                     is-read-only = true ;
+                                                                } ;
+                                                            "/output" =
+                                                                {
+                                                                    host-path = "/archive" ;
+                                                                    is-read-only = false ;
                                                                 } ;
                                                         } ;
                                                     name = "vacuum" ;
@@ -641,7 +641,10 @@
                                                                 ( string "SED" "${ pkgs.gnused }/bin/sed" )
                                                                 ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                             ] ;
-                                                    script = self + "/vacuum.sh" ;
+                                                    script =
+                                                        let
+                                                            x = builtins.getAttr "tests" ( builtins.getAttr system shell-script.vacuum ) ;
+                                                            in builtins.trace x x ;
                                                     tests =
                                                         ignore :
                                                             {
