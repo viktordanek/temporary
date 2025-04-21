@@ -58,25 +58,34 @@
                                             foobar = name : temporary : { name = name ; value = temporary ; } ;
                                             tests =
                                                 release : init :
-                                                    {
+                                                    let
                                                         failure =
-                                                            ignore :
+                                                            if init then
                                                                 {
-                                                                    archive = self + "/expected/setup/failure/mounts/archive/${ builtins.toJSON release }/${ builtins.toJSON init }" ;
-                                                                    arguments = "fd4107d952c0d02f4ea2e8963d673543791619d2ff0178d03222ea551c539c235a516d9f6dbb2c852618c634ead3ebc72d6beff6ee08880d422e10341390a94c" ;
-                                                                    status = if init then 66 else 0 ;
-                                                                } ;
+                                                                    failure =
+                                                                        ignore :
+                                                                            {
+                                                                                archive = self + "/expected/setup/failure/mounts/archive/${ builtins.toJSON release }/${ builtins.toJSON init }" ;
+                                                                                arguments = "fd4107d952c0d02f4ea2e8963d673543791619d2ff0178d03222ea551c539c235a516d9f6dbb2c852618c634ead3ebc72d6beff6ee08880d422e10341390a94c" ;
+                                                                                count = 501 ;
+                                                                                status = 66 ;
+                                                                            } ;
+                                                                }
+                                                            else { } ;
                                                         success =
-                                                            ignore :
-                                                                {
-                                                                    archive = self + "/expected/setup/success/mounts/archive/${ builtins.toJSON release }/${ builtins.toJSON init }" ;
-                                                                    arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
-                                                                    count = 500 ;
-                                                                    file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
-                                                                    paste = candidate : "if [ -d ${ candidate } ] ; then echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid ; else ${ _environment-variable "ECHO" } 21475b33095ae73d95cfba493a60ab1af51a1fb1921902ed4240b256cd704baa4515654cfb2fedc805a952df473aaabb5145c180c9adcfaa87fea24013e1aef4 > ${ candidate } ; fi" ;
-                                                                    ## pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
-                                                                 } ;
-                                                    } ;
+                                                            {
+                                                                success =
+                                                                    ignore :
+                                                                        {
+                                                                            archive = self + "/expected/setup/success/mounts/archive/${ builtins.toJSON release }/${ builtins.toJSON init }" ;
+                                                                            arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
+                                                                            count = 502 ;
+                                                                            file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
+                                                                            paste = candidate : "if [ -d ${ candidate } ] ; then echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid ; else ${ _environment-variable "ECHO" } 21475b33095ae73d95cfba493a60ab1af51a1fb1921902ed4240b256cd704baa4515654cfb2fedc805a952df473aaabb5145c180c9adcfaa87fea24013e1aef4 > ${ candidate } ; fi" ;
+                                                                            ## pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
+                                                                         } ;
+                                                            } ;
+                                                        in failure // success ;
                                             in
                                                 [
                                                     ( foobar "0-0-0" ( lib { tests = tests false false ; } ) )
@@ -388,7 +397,7 @@
                                                                                                         initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
                                                                                             } ;
-                                                                                        standard-output = builtins.toFile "standard-output" ( if secondary.status == 0 && builtins.typeOf primary.init != "null" then secondary.count else "" ) ;
+                                                                                        standard-output = builtins.toFile "standard-output" ( builtins.toString secondary.count ) ;
                                                                                         status = secondary.status ;
                                                                                         test =
                                                                                             let
