@@ -91,6 +91,7 @@
                                                     ( foobar "0-0-0" ( lib { tests = tests false false ; } ) )
                                                     ( foobar "0-0-1" ( lib { post = post ; tests = tests false false ; } ) )
                                                     ( foobar "0-1-0" ( lib { release = release ; tests = tests true false ; } ) )
+                                                    ( foobar "0-1-0" ( lib { release = release ; tests = tests true false ; } ) )
                                                     ( foobar "0-1-1" ( lib { release = release ; post = post ; tests = tests true false ; } ) )
                                                     ( foobar "1-0-0" ( lib { init = init ; tests = tests false true ; } ) )
                                                     ( foobar "1-0-1" ( lib { init = init ; post = post ; tests = tests false true ; } ) )
@@ -397,7 +398,7 @@
                                                                                                         initial = [ "mkdir /mount/target" ] ;
                                                                                                     } ;
                                                                                             } ;
-                                                                                        standard-output = builtins.toFile "standard-output" ( builtins.toString secondary.count ) ;
+                                                                                        standard-output = builtins.toFile "standard-output" ( if secondary.status == 0 then builtins.toString secondary.count else "" ) ;
                                                                                         status = secondary.status ;
                                                                                         test =
                                                                                             let
