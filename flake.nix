@@ -211,7 +211,8 @@
                                                                     {
                                                                         init =
                                                                             set :
-                                                                                if builtins.typeOf set == "set" then
+                                                                                if builtins.typeOf set == "null" then set
+                                                                                else if builtins.typeOf set == "set" then
                                                                                     let
                                                                                         archive =
                                                                                             if builtins.hasAttr "archive" set then builtins.getAttr "archive" set
@@ -236,7 +237,7 @@
                                                                                                     } ;
                                                                                             } ;
                                                                                         in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
-                                                                                else builtins.throw "init is not set but ${ builtins.typeOf set }." ;
+                                                                                else builtins.throw "init is not null, set but ${ builtins.typeOf set }." ;
                                                                     } ;
                                                                 production =
                                                                     {
@@ -509,22 +510,22 @@
                                                                             [ 3 ]
                                                                             [ 4 ]
                                                                             [ 6 ]
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 7 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 8 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 9 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 10 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 11 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 12 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 13 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 14 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 15 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 16 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 17 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 18 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 19 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 20 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 21 ] )
-                                                                            ( if builtins.typeOf init == "null" then [ ] else [ 22 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 7 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 8 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 9 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 10 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 11 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 12 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 13 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 14 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 15 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 16 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 17 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 18 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 19 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 20 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 21 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 22 ] )
                                                                             [ 24 ]
                                                                             [ 25 ]
                                                                             ( if self-teardown then [ 27 ] else [ ] )
