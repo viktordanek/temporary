@@ -69,7 +69,7 @@
                                                         success =
                                                             ignore :
                                                                 {
-                                                                    archive = self + "/expected/setup/success/mounts/archive/${ builtins.toJSON release }" ;
+                                                                    archive = self + "/expected/setup/success/mounts/archive/${ builtins.toJSON release }/${ builtins.toJSON init }" ;
                                                                     arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
                                                                     count = 500 ;
                                                                     file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
