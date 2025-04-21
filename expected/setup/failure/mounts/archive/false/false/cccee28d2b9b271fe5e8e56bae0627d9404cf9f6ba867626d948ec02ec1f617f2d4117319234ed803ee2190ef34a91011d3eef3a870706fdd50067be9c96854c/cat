@@ -2,5 +2,5 @@
 export ORIGINATOR_PID='${ORIGINATOR_PID}'
 export RESOURCE_NAME='${RESOURCE_NAME}'
 export RESOURCES='${RESOURCES}'
-export STATUS='19'
+export STATUS=''
 exec ${SCRIPT} ${@}
