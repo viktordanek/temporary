@@ -4,8 +4,8 @@
             environment-variable.url = "github:/viktordanek/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script/issue/47-new-imple" ;
-            visitor.url = "github:viktordanek/visitor" ;
+            shell-script.url = "github:viktordanek/shell-script/scratch/b6bb8f5b-7d48-4542-810c-58b5e36a3b0a" ;
+            visitor.url = "github:viktordanek/visitor/scratch/1bd1c881-b72b-43d7-a819-f6072a9dfdf7" ;
         } ;
     outputs =
         { environment-variable , flake-utils , nixpkgs , self , shell-script , visitor } :
