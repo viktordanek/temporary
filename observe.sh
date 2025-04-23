@@ -7,7 +7,7 @@ ERROR=0 &&
       ${BASENAME} ${LINK} &&
       ${ECHO} tests ${OUT} &&
       DERIVATIVE=$( ${READLINK} ${LINK} ) &&
-      if ! ${DERIVATIVE}/bin/observe
+      if ! ${DERIVATIVE}/observe.wrapped.sh
       then
         ERROR=${LINK}
       fi
