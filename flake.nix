@@ -441,7 +441,6 @@
                                                                                     } ;
                                                                     null = path : value : null ;
                                                                 }
-                                                                { }
                                                                 tests ;
                                                         uninitialized-target-error-code =
                                                             if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
