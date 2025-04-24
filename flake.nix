@@ -781,15 +781,51 @@
                                                                                                 let
                                                                                                     observe =
                                                                                                         let
-                                                                                                            mapper =
-                                                                                                                value :
-                                                                                                                    [
-                                                                                                                        "${ _environment-variable "ECHO" }"
-                                                                                                                        "${ _environment-variable "ECHO" } ${ value.path }"
-                                                                                                                        "${ value.value }/observe.wrapped.sh"
-                                                                                                                        "${ _environment-variable "ECHO" } SUCCESS"
-                                                                                                                    ] ;
-                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.map mapper metrics.delayed ) ) ;
+                                                                                                            delayed =
+                                                                                                                let
+                                                                                                                    mapper =
+                                                                                                                        value :
+                                                                                                                            [
+                                                                                                                                "${ _environment-variable "ECHO" }"
+                                                                                                                                "${ _environment-variable "ECHO" } TESTING ${ value.path } because it was DELAYED"
+                                                                                                                                "if ${ value.value }/observe.wrapped.sh ; then ${ _environment-variable "ECHO" } SUCCESS ; else ${ _environment-variable "ECHO" } FAILURE ; fi"
+                                                                                                                            ] ;
+                                                                                                                    in builtins.concatLists ( builtins.map mapper metrics.delayed ) ;
+                                                                                                            error =
+                                                                                                                let
+                                                                                                                    mapper =
+                                                                                                                        value :
+                                                                                                                            [
+                                                                                                                                "${ _environment-variable "ECHO" }"
+                                                                                                                                "${ _environment-variable "ECHO" } NOT TESTING ${ value.path } because it was ERROR"
+                                                                                                                                "${ _environment-variable "ECHO" } ${ value.value }"
+                                                                                                                                "${ _environment-variable "ECHO" } ERROR"
+                                                                                                                                "exit 64"
+                                                                                                                            ] ;
+                                                                                                                    in builtins.concatLists ( builtins.map mapper metrics.error ) ;
+                                                                                                            failure =
+                                                                                                                let
+                                                                                                                    mapper =
+                                                                                                                        value :
+                                                                                                                            [
+                                                                                                                                "${ _environment-variable "ECHO" }"
+                                                                                                                                "${ _environment-variable "ECHO" } NOT TESTING ${ value.path } because it was FAILURE"
+                                                                                                                                "${ _environment-variable "ECHO" } ${ value.value }"
+                                                                                                                                "${ _environment-variable "ECHO" } FAILURE"
+                                                                                                                                "exit 64"
+                                                                                                                            ] ;
+                                                                                                                    in builtins.concatLists ( builtins.map mapper metrics.failure ) ;
+                                                                                                            success =
+                                                                                                                let
+                                                                                                                    mapper =
+                                                                                                                        value :
+                                                                                                                            [
+                                                                                                                                "${ _environment-variable "ECHO" }"
+                                                                                                                                "${ _environment-variable "ECHO" } SKIPPING ${ value.path } because it was SUCCESS"
+                                                                                                                                "${ _environment-variable "ECHO" } SUCCESS"
+                                                                                                                            ] ;
+                                                                                                                    in builtins.concatLists ( builtins.map mapper metrics.success ) ;
+                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ error failure delayed success ] ) ;
                                                                                                     in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" }"
                                                                                             )
                                                                                         ]
