@@ -741,45 +741,64 @@
                                                         {
                                                             installPhase =
                                                                 let
-                                                                    constructors =
-                                                                        builtins.concatLists
-                                                                            [
-                                                                                [
-                                                                                    "${ _environment-variable "MKDIR" } ${ _environment-variable "OUT" }/links"
-                                                                                ]
-                                                                                ( if builtins.typeOf primary.init == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.init.tests } ${ _environment-variable "OUT" }/links/init" ] )
-                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.release.tests } ${ _environment-variable "OUT" }/links/release" ] )
-                                                                                ( if builtins.typeOf primary.post == "null" then [ ] else [ "${ _environment-variable "LN" } --symbolic ${ primary.post.tests } ${ _environment-variable "OUT" }/links/post" ] )
-                                                                                [
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ setup-mock.tests } ${ _environment-variable "OUT" }/links/setup"
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ teardown.tests } ${ _environment-variable "OUT" }/links/teardown"
-                                                                                    "${ _environment-variable "LN" } --symbolic ${ vacuum.tests } ${ _environment-variable "OUT" }/links/vacuum"
-                                                                                ]
-                                                                            ] ;
+                                                                    constructor =
+                                                                        builtins.concatStringsSep " &&\n\t"
+                                                                            (
+                                                                                let
+                                                                                    metrics =
+                                                                                        let
+                                                                                            all =
+                                                                                                builtins.concatLists
+                                                                                                    [
+                                                                                                        ( if builtins.typeOf primary.init == "null" then [ ] else [ { path = "init" ; value = primary.init.tests ; } ] )
+                                                                                                        ( if builtins.typeOf primary.release == "null" then [ ] else [ { path = "release" ; value = primary.release.tests ; } ] )
+                                                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ { path = "post" ; value = primary.post.tests ; } ] )
+                                                                                                        [ { path = "teardown" ; value = teardown.tests ; } ]
+                                                                                                        [ { path = "vacuum" ; value = vacuum.tests ; } ]
+                                                                                                        [ { path = "setup" ; value = setup-mock.tests ; } ]
+                                                                                                    ] ;
+                                                                                            in
+                                                                                                {
+                                                                                                    all = all ;
+                                                                                                    delayed = builtins.filter ( value : builtins.pathExists "${ value.value }/DELAYED" && ! ( builtins.pathExists "${ value.value }/ERROR" || builtins.pathExists "${ value.value }/FAILURE" || builtins.pathExists "${ value.value }/SUCCESS" ) ) all ;
+                                                                                                    error = builtins.filter ( value : builtins.pathExists "${ value.value }/ERROR" && ! ( builtins.pathExists "${ value.value }/DELAYED" || builtins.pathExists "${ value.value }/FAILURE" || builtins.pathExists "${ value.value }/SUCCESS" ) ) all ;
+                                                                                                    failure = builtins.filter ( value : builtins.pathExists "${ value.value }/FAILURE" && ! ( builtins.pathExists "${ value.value }/DELAYED" || builtins.pathExists "${ value.value }/ERROR" || builtins.pathExists "${ value.value }/SUCCESS" ) ) all ;
+                                                                                                    success = builtins.filter ( value : builtins.pathExists "${ value.value }/SUCCESS" && ! ( builtins.pathExists "${ value.value }/DELAYED" || builtins.pathExists "${ value.value }/ERROR" || builtins.pathExists "${ value.value }/FAILURE" ) ) all ;
+                                                                                                } ;
+                                                                                    in
+                                                                                        [
+                                                                                            (
+                                                                                                let
+                                                                                                    status =
+                                                                                                        if builtins.length metrics.all == builtins.length metrics.success && builtins.length metrics.delayed == 0 && builtins.length metrics.error == 0 && builtins.length metrics.failure == 0 then "SUCCESS"
+                                                                                                        else if builtins.length metrics.all == builtins.length metrics.success + builtins.length metrics.delayed && builtins.length metrics.error == 0 && builtins.length metrics.failure == 0 then "DELAYED"
+                                                                                                        else if builtins.length metrics.all == builtins.length metrics.success + builtins.length metrics.delayed + builtins.length metrics.failure && builtins.length metrics.error == 0 then "FAILURE"
+                                                                                                        else "ERROR" ;
+                                                                                                    in "${ _environment-variable "TOUCH" } ${ _environment-variable "OUT" }/${ status }"
+                                                                                            )
+                                                                                            "source ${ _environment-variable "MAKE_WRAPPER" }/nix-support/setup-hook"
+                                                                                            (
+                                                                                                let
+                                                                                                    observe =
+                                                                                                        let
+                                                                                                            mapper =
+                                                                                                                value :
+                                                                                                                    [
+                                                                                                                        "${ _environment-variable "ECHO" }"
+                                                                                                                        "${ _environment-variable "ECHO" } ${ value.path }"
+                                                                                                                        "${ value.value }/observe.wrapped.sh"
+                                                                                                                        "${ _environment-variable "ECHO" } SUCCESS"
+                                                                                                                    ] ;
+                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists ( builtins.map mapper metrics.delayed ) ) ;
+                                                                                                    in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" }"
+                                                                                            )
+                                                                                        ]
+                                                                            ) ;
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                ${ pkgs.coreutils }/bin/mkdir $out/bin
-                                                                                makeWrapper ${ pkgs.writeShellScript "constructors" ( builtins.concatStringsSep " &&\n\t" constructors ) } $out/bin/constructors --set LN ${ pkgs.coreutils }/bin/ln --set MKDIR ${ pkgs.coreutils }/bin/mkdir --set OUT $out &&
-                                                                                $out/bin/constructors &&
-                                                                                ${ pkgs.coreutils }/bin/ln --symbolic ${ pkgs.writeShellScript "observe.sh" ( builtins.readFile ( self + "/observe.sh" ) ) } $out/bin/observe.sh &&
-                                                                                makeWrapper $out/bin/observe.sh $out/bin/observe --set BASENAME ${ pkgs.coreutils }/bin/basename --set ECHO ${ pkgs.coreutils }/bin/echo --set FALSE ${ pkgs.coreutils }/bin/false --set FIND ${ pkgs.findutils }/bin/find --set MKTEMP ${ pkgs.coreutils }/bin/mktemp --set OUT $out --set READLINK ${ pkgs.coreutils }/bin/readlink --set SORT ${ pkgs.coreutils }/bin/sort --set UNIQ ${ pkgs.coreutils }/bin/uniq --set TRUE ${ pkgs.coreutils }/bin/true --set WC ${ pkgs.coreutils }/bin/wc &&
-                                                                                ALL=${ builtins.toString ( ( if builtins.typeOf primary.init == "null" then 0 else 1 ) + ( if builtins.typeOf primary.release == "null" then 0 else 1 ) + ( if builtins.typeOf primary.post == "null" then 0 else 1 ) + 1 + 1 + 1 ) } &&
-                                                                                SUCCESS=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name SUCCESS | ${ pkgs.coreutils }/bin/wc --lines ) &&
-                                                                                DELAYED=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name DELAYED | ${ pkgs.coreutils }/bin/wc --lines ) &&
-                                                                                FAILURE=$( ${ pkgs.findutils }/bin/find $out/links -mindepth 1 -type l -exec ${ pkgs.coreutils }/bin/readlink {} \; | ${ pkgs.findutils }/bin/find $( ${ pkgs.coreutils }/bin/tee ) -mindepth 1 -maxdepth 1 -type f -name FAILURE | ${ pkgs.coreutils }/bin/wc --lines ) &&
-                                                                                if [ ${ _environment-variable "ALL" } == ${ _environment-variable "SUCCESS" } ] && [ ${ _environment-variable "DELAYED" } == 0 ] && [ ${ _environment-variable "FAILURE" } == 0 ]
-                                                                                then
-                                                                                    ${ pkgs.coreutils }/bin/echo ${ _environment-variable "ALL" } > $out/SUCCESS
-                                                                                elif [ ${ _environment-variable "ALL" } == $(( ${ _environment-variable "SUCCESS" } + ${ _environment-variable "DELAYED" } )) ] && [ ${ _environment-variable "FAILURE" } == 0 ]
-                                                                                then
-                                                                                    ${ pkgs.coreutils }/bin/echo ${ _environment-variable "DELAYED" } > $out/DELAYED
-                                                                                elif [ ${ _environment-variable "ALL" } == $(( ${ _environment-variable "SUCCESS" } + ${ _environment-variable "DELAYED" } + ${ _environment-variable "FAILURE" } )) ]
-                                                                                then
-                                                                                    ${ pkgs.coreutils }/bin/echo ${ _environment-variable "FAILURE" } > $out/FAILURE
-                                                                                else
-                                                                                    ${ pkgs.coreutils }/bin/echo "{ ALL : ${ _environment-variable "ALL" } , SUCCESS : ${ _environment-variable "SUCCESS" } , DELAYED : ${ _environment-variable "DELAYED" } , FAILURE : ${ _environment-variable "FAILURE" } }" > $out/ERROR
-                                                                                fi
+                                                                                makeWrapper ${ pkgs.writeShellScript "constructor.sh" constructor } $out/constructor.wrapped.sh --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.makeWrapper } --set OUT $out --set TOUCH ${ pkgs.coreutils }/bin/touch &&
+                                                                                $out/constructor.wrapped.sh
                                                                         '' ;
                                                             name = "tests" ;
                                                             nativeBuildInputs = [ pkgs.makeWrapper ] ;
@@ -795,7 +814,7 @@
                                                 name : value :
                                                     {
                                                         type = "app" ;
-                                                        program = "${ value.tests }/bin/observe" ;
+                                                        program = "${ value.tests }/observe.wrapped.sh" ;
                                                     } ;
                                             in builtins.mapAttrs mapper foobar ;
                                     checks =
