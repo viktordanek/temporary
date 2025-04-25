@@ -75,6 +75,8 @@ fi &&
 #
   ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error. FIXME UNCOMMENT ME
 #
+  ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error. FIXME UNCOMMENT ME
+#
 #
   if [ ${STATUS} != 0 ]
   then
