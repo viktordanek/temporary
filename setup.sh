@@ -1,8 +1,8 @@
-
-
-
-
-
+if [ -z "${!TIMESTAMP_ENVIRONMENT_VARIABLE}" ]
+then
+  declare ${TIMESTAMP_ENVIRONMENT_VARIABLE}=$( ${DATE} +%s )
+  export ${TIMESTAMP_ENVIRONMENT_VARIABLE}
+fi
 
 
 

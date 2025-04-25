@@ -507,6 +507,9 @@
                                                                             ( string "BASENAME" "${ pkgs.coreutils }/bin/basename" )
                                                                             ( string "CAT" "${ pkgs.coreutils }/bin/cat" )
                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
+                                                                        ]
+                                                                        ( if builtins.typeOf primary.lifespan == "int" then [ ( string "DATE" "${ pkgs.coreutils }/bin/date" ) ] else [ ] )
+                                                                        [
                                                                             ( string "DIRNAME" "${ pkgs.coreutils }/bin/dirname" )
                                                                             ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                         ]
