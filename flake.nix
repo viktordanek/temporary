@@ -648,35 +648,66 @@
                                                                         ]
                                                                     ] ;
                                                         script =
-                                                            let
-                                                                all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown-0.sh" ) ) ) ) ;
-                                                                array =
-                                                                    builtins.concatLists
-                                                                        [
-                                                                            [ 0 ]
-                                                                            [ 1 ]
-                                                                            [ 2 ]
-                                                                            [ 3 ]
-                                                                            [ 4 ]
-                                                                            [ 5 ]
-                                                                            [ 6 ]
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 11 ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 12 ] )
-                                                                            ( if builtins.typeOf primary.release == "null" then [ ] else [ 13 ] )
-                                                                            ( if builtins.typeOf post == "null" then [ ] else [ 16 ] )
-                                                                            [ 18 ]
-                                                                            [ 19 ]
-                                                                            [ 20 ]
-                                                                            [ 21 ]
-                                                                            [ 22 ]
-                                                                        ] ;
-                                                                with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
-                                                                filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
-                                                                simplified = builtins.map ( x : x.line ) filtered ;
-                                                                in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
+                                                            if builtins.typeOf primary.lifespan == "int" then
+                                                                let
+                                                                    all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown-1.sh" ) ) ) ) ;
+                                                                    array =
+                                                                        builtins.concatLists
+                                                                            [
+                                                                                [ 0 ]
+                                                                                [ 1 ]
+                                                                                [ 2 ]
+                                                                                [ 3 ]
+                                                                                [ 4 ]
+                                                                                [ 5 ]
+                                                                                [ 6 ]
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 11 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 12 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 13 ] )
+                                                                                ( if builtins.typeOf post == "null" then [ ] else [ 16 ] )
+                                                                                [ 18 ]
+                                                                                [ 19 ]
+                                                                                [ 20 ]
+                                                                                [ 21 ]
+                                                                                [ 22 ]
+                                                                            ] ;
+                                                                    with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
+                                                                    filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
+                                                                    simplified = builtins.map ( x : x.line ) filtered ;
+                                                                    in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified )
+                                                            else
+                                                                let
+                                                                    all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown-0.sh" ) ) ) ) ;
+                                                                    array =
+                                                                        builtins.concatLists
+                                                                            [
+                                                                                [ 0 ]
+                                                                                [ 1 ]
+                                                                                [ 2 ]
+                                                                                [ 3 ]
+                                                                                [ 4 ]
+                                                                                [ 5 ]
+                                                                                [ 6 ]
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 8 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 9 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 10 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 11 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 12 ] )
+                                                                                ( if builtins.typeOf primary.release == "null" then [ ] else [ 13 ] )
+                                                                                ( if builtins.typeOf post == "null" then [ ] else [ 16 ] )
+                                                                                [ 18 ]
+                                                                                [ 19 ]
+                                                                                [ 20 ]
+                                                                                [ 21 ]
+                                                                                [ 22 ]
+                                                                            ] ;
+                                                                    with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
+                                                                    filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
+                                                                    simplified = builtins.map ( x : x.line ) filtered ;
+                                                                    in builtins.toFile "teardown" ( builtins.concatStringsSep "\n" simplified ) ;
                                                         tests =
                                                             ignore :
                                                                 {
