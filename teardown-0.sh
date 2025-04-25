@@ -6,7 +6,7 @@ exec 201> /mount/${RESOURCE_NAME}/lock &&
       ${TAIL} --follow /dev/null --pid ${ORIGINATOR_PID}
     fi && export RESOURCE=/mount/${RESOURCE_NAME} &&
 #
-    if ${RELEASE} > /mount/${RESOURCE_NAME}/release.standard-output 2> /mount/${RESOURCE_NAME}/release.standard-error
+    if  ${RELEASE} > /mount/${RESOURCE_NAME}/release.standard-output 2> /mount/${RESOURCE_NAME}/release.standard-error
     then
       ${ECHO} ${?} > /mount/${RESOURCE_NAME}/release.status
     else

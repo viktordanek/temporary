@@ -649,7 +649,7 @@
                                                                     ] ;
                                                         script =
                                                             let
-                                                                all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown.sh" ) ) ) ) ;
+                                                                all = builtins.filter ( x : builtins.typeOf x == "string" ) ( builtins.split "\n" ( builtins.readFile ( builtins.toString ( self + "/teardown-0.sh" ) ) ) ) ;
                                                                 array =
                                                                     builtins.concatLists
                                                                         [
