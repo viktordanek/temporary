@@ -528,7 +528,7 @@
                                                                             ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                             ( originator-pid "ORIGINATOR_PID" )
                                                                             ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
-                                                                            ( string "PRE_HASH" ( builtins.hashString "sha512" ( builtins.toJSON { init = primary.init ; } ) ) )
+                                                                            ( string "PRE_HASH" ( builtins.hashString "sha512" ( builtins.toJSON [ primary.init primary.release primary.post primary.self-teardown primary.lifespan ] ) ) )
                                                                             ( string "READLINK" "${ pkgs.coreutils }/bin/readlink" )
                                                                             ( string "RESOURCES" ( _environment-variable primary.resources ) )
                                                                             ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
