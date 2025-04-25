@@ -481,6 +481,14 @@
                                                                                 } ;
                                                                         }
                                                                     else { } ;
+                                                                config =
+                                                                    {
+                                                                        "/config" =
+                                                                            {
+                                                                                host-path = "/config" ;
+                                                                                is-read-only = false ;
+                                                                            } ;
+                                                                    } ;
                                                                 resource =
                                                                     {
                                                                         "/resources" =
