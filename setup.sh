@@ -12,10 +12,10 @@ fi &&
   fi &&
 declare ${HASH_ENVIRONMENT_VARIABLE}=$( ${ECHO} ${PRE_HASH} $(( ${!TIMESTAMP_ENVIRONMENT_VARIABLE} )) | ${SHA512SUM} | ${CUT} --bytes 128 ) &&
 export ${HASH_ENVIRONMENT_VARIABLE} &&
-
-
-
-
+if [ -d ${RESOURCE}/${HASH_ENVIRONMENT_VARIABLE} ]
+then
+else
+fi &&
 
 
   export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
