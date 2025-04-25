@@ -12,16 +12,16 @@ fi &&
   fi &&
   declare ${HASH_ENVIRONMENT_VARIABLE}=$( ${ECHO} ${PRE_HASH} $(( ${!TIMESTAMP_ENVIRONMENT_VARIABLE} )) | ${SHA512SUM} | ${CUT} --bytes 128 ) &&
   export ${HASH_ENVIRONMENT_VARIABLE} &&
-  exec 201> ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE}.lock
+  exec 201> ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}.lock
   if ${FLOCK} 201
   then
-    if [ ! -d ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE} ]
+    if [ ! -d ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE} ]
     then
-      ${MKDIR} ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE}
+      ${MKDIR} ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}
     fi &&
-      if [ ! -z "${PARENT_HASH}" ]
+      if [ ! -z "${PARENT_HASH}" ] && [ ! -e ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/${PARENT_HASH}.hash ]
       then
-        ${LN} --symbolic ${RESOURCES}/${PARENT_HASH}/teardown.sh ${RESOURCES}/${HASH}/${PARENT_HASH}.hash
+        ${LN} --symbolic ${RESOURCES}/${PARENT_HASH}/teardown.sh ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/${PARENT_HASH}.hash
       fi
   else
     exit ${LOCK_FAILURE}
@@ -67,6 +67,10 @@ fi &&
   makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS 0 &&
 #
   makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
+#
+  makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS 0 &&
+#
+  makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
 #
 #
   ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error. FIXME UNCOMMENT ME

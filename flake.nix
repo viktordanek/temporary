@@ -582,11 +582,7 @@
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 62 ] )
                                                                             [ 64 ]
                                                                             ( if builtins.typeOf primary.init == "null" then [ 66 ] else [ 68 ] )
-                                                                            ( if self-teardown then [ 71 ] else [ ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 74 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 75 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 76 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 77 ] )
+                                                                            ( if self-teardown then [ 75 ] else [ ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 78 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 79 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 80 ] )
@@ -595,7 +591,11 @@
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 83 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 84 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 85 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ 87 ] else [ ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 86 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 87 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 88 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 89 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ 91 ] else [ ] )
                                                                         ] ;
                                                                 with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
                                                                 filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
