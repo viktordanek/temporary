@@ -183,6 +183,7 @@
                                     init ? null ,
                                     initialization-error-code ? 66 ,
                                     lock-failure ? 64 ,
+                                    lifespan ? null ,
                                     over-initialized-target-error-code ? 68 ,
                                     post ? null ,
                                     release ? null ,
@@ -289,6 +290,10 @@
                                                         initialization-error-code =
                                                             if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
                                                             else builtins.throw "initialization-error-code is not int but ${ builtins.typeOf initialization-error-code }." ;
+                                                        lifespan =
+                                                            if builtins.typeOf lifespan == "int" then lifespan
+                                                            else if builtins.typeOf lifespan == "null" then lifespan
+                                                            else builtins.throw "lifespan is not int, null but ${ builtins.typeOf lifespan }." ;
                                                         lock-failure =
                                                             if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
                                                             else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
@@ -496,6 +501,7 @@
                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                             ( string "DIRNAME" "${ pkgs.coreutils }/bin/dirname" )
                                                                             ( string "FIND" "${ pkgs.findutils }/bin/find" )
+                                                                            ( string "LIFESPAN" primary.lifespan )
                                                                             ( has-standard-input "HAS_STANDARD_INPUT" )
                                                                         ]
                                                                         ( if builtins.typeOf init == "null" then [ ] else [ ( string "INIT" primary.init.shell-script ) ] )
