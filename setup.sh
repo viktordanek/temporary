@@ -15,17 +15,17 @@ fi &&
   exec 201> ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE}.lock
   if ${FLOCK} 201
   then
-    if [ -d ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE} ]
+    if [ ! -d ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE} ]
     then
-    else
       ${MKDIR} ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE}
-    fi
+    fi &&
+      if [ ! -z "${PARENT_HASH}" ]
+      then
+        ${LN} --symbolic ${RESOURCES}/${PARENT_HASH}/teardown.sh ${RESOURCES}/${HASH}/${PARENT_HASH}.hash
+      fi
   else
     exit ${LOCK_FAILURE}
   fi
-
-
-
 
 
 

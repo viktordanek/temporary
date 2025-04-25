@@ -521,7 +521,6 @@
                                                                         ]
                                                                         ( if builtins.typeOf primary.lifespan == "int" then [ ( string "FLOCK" "${ pkgs.flock }/bin/flock" ) ] else [ ] )
                                                                         ( if builtins.typeOf primary.lifespan == "int" then [ ( string "HASH_ENVIRONMENT_VARIABLE" primary.hash-environment-variable ) ] else [ ] )
-                                                                        ( if builtins.typeOf primary.lifespan == "int" then [ ( string "LIFESPAN" primary.lifespan ) ] else [ ] )
                                                                         [
                                                                             ( has-standard-input "HAS_STANDARD_INPUT" )
                                                                         ]
@@ -530,6 +529,7 @@
                                                                             ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
                                                                         ]
                                                                         ( if builtins.typeOf primary.lifespan == "int" then [ ( string "LIFESPAN" primary.lifespan ) ] else [ ] )
+                                                                        ( if builtins.typeOf primary.lifespan == "int" then [ ( string "LN" "${ pkgs.coreutils }/bin/ln" ) ] else [ ] )
                                                                         [
                                                                             ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
                                                                             ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
