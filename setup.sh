@@ -1,3 +1,4 @@
+
 if [ -z "${!TIMESTAMP_ENVIRONMENT_VARIABLE}" ]
 then
   declare ${TIMESTAMP_ENVIRONMENT_VARIABLE}=$( ${DATE} +%s )
@@ -9,9 +10,8 @@ fi &&
   else
     PARENT_HASH=${!HASH_ENVIRONMENT_VARIABLE}
   fi &&
-
-
-
+declare ${HASH_ENVIRONMENT_VARIABLE}=$( ${ECHO} ${PRE_HASH} $(( ${!TIMESTAMP_ENVIRONMENT_VARIABLE} )) | ${SHA512SUM} | ${CUT} --bytes 128 ) &&
+export ${HASH_ENVIRONMENT_VARIABLE} &&
 
 
 
