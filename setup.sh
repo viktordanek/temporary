@@ -1,8 +1,14 @@
 if [ -z "${!TIMESTAMP_ENVIRONMENT_VARIABLE}" ]
 then
   declare ${TIMESTAMP_ENVIRONMENT_VARIABLE}=$( ${DATE} +%s )
-  export ${TIMESTAMP_ENVIRONMENT_VARIABLE}
-fi
+    export ${TIMESTAMP_ENVIRONMENT_VARIABLE}
+fi &&
+  if [ -z "${!HASH_ENVIRONMENT_VARIABLE}" ]
+  then
+    PARENT_HASH=
+  else
+    PARENT_HASH=${!HASH_ENVIRONMENT_VARIABLE}
+  fi &&
 
 
 
@@ -12,13 +18,7 @@ fi
 
 
 
-
-
-
-
-
-
-export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
+  export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&
   export RESOURCE_NAME=$( ${BASENAME} ${RESOURCE} ) &&
   export TARGET_MOUNT=${RESOURCE}/mount &&
   export TARGET=${TARGET_MOUNT}/target &&
