@@ -186,6 +186,7 @@
                                     lock-failure ? 64 ,
                                     lifespan ? null ,
                                     over-initialized-target-error-code ? 68 ,
+                                    path ? null ,
                                     post ? null ,
                                     release ? null ,
                                     resources ? "RESOURCES" ,
@@ -305,6 +306,10 @@
                                                         over-initialized-target-error-code =
                                                             if builtins.typeOf over-initialized-target-error-code == "int" then builtins.toString over-initialized-target-error-code
                                                             else builtins.throw "over-initialized-target-error-code is not int but ${ builtins.typeOf over-initialized-target-error-code }." ;
+                                                        path =
+                                                            if builtins.typeOf path == "list" then builtins.map ( p : if builtins.typeOf p == "int" then p else if builtins.typeOf p == "string" then p else builtins.throw "path is not string but ${ builtins.typeOf p }." ) path
+                                                            else if builtins.typeOf path == "null" then path
+                                                            else builtins.throw "path is not list but ${ builtins.typeOf path }." ;
                                                         post = embolden.production.post post ;
                                                         release = embolden.production.release release ;
                                                         resources =
@@ -528,7 +533,7 @@
                                                                             ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                             ( originator-pid "ORIGINATOR_PID" )
                                                                             ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
-                                                                            ( string "PRE_HASH" ( builtins.hashString "sha512" ( builtins.toJSON [ primary.init primary.release primary.post primary.self-teardown primary.lifespan ] ) ) )
+                                                                            ( string "PRE_HASH" ( builtins.hashString "sha512" ( builtins.toJSON [ primary.init primary.release primary.post primary.self-teardown primary.lifespan primary.path ] ) ) )
                                                                             ( string "READLINK" "${ pkgs.coreutils }/bin/readlink" )
                                                                             ( string "RESOURCES" ( _environment-variable primary.resources ) )
                                                                             ( string "SHA512SUM" "${ pkgs.coreutils }/bin/sha512sum" )
