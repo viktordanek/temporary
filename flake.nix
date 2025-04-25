@@ -180,6 +180,7 @@
                             lib =
                                 {
                                     archive ? "ARCHIVE" ,
+                                    hash-environment-variable ? "da8902e44a76989723aa965266daf8aa88ca9483df28ea7d5b3bb73286e24a67fec4144e7173c107044992c93cd24d4713688b9eb97fd25915d6de9c52a6f0a3" ,
                                     init ? null ,
                                     initialization-error-code ? 66 ,
                                     lock-failure ? 64 ,
@@ -192,6 +193,7 @@
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
                                     tests ? null ,
+                                    timestamp-environment-variable ? "d0b3db81aec04cfbd86658a019d26a049ed65fe6c00829041dfcad7b2f2cdf62559a99e00de058985449ad7ea0b1289161088609b6cb9f20c655b2d4b52aba2a" ,
                                     uninitialized-target-error-code ? 65 ,
                                 } :
                                     let
@@ -286,6 +288,9 @@
                                                         archive =
                                                             if builtins.typeOf archive == "string" then archive
                                                             else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
+                                                        hash-environment-variable =
+                                                            if builtins.typeOf hash-environment-variable == "string" then hash-environment-variable
+                                                            else builtins.throw "hash-environment-variable is not string but ${ builtins.typeOf hash-environment-variable }." ;
                                                         init = embolden.production.init init ;
                                                         initialization-error-code =
                                                             if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
@@ -447,6 +452,9 @@
                                                                     null = path : value : null ;
                                                                 }
                                                                 tests ;
+                                                        timestamp-environment-variable =
+                                                            if builtins.typeOf timestamp-environment-variable == "string" then timestamp-environment-variable
+                                                            else builtins.throw "timestamp-environment-variable is not string but ${ builtins.typeOf timestamp-environment-variable }." ;
                                                         uninitialized-target-error-code =
                                                             if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
                                                             else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
@@ -501,10 +509,13 @@
                                                                             ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                             ( string "DIRNAME" "${ pkgs.coreutils }/bin/dirname" )
                                                                             ( string "FIND" "${ pkgs.findutils }/bin/find" )
-                                                                            ( string "LIFESPAN" primary.lifespan )
+                                                                        ]
+                                                                        ( if builtins.typeOf primary.lifespan == "int" then [ ( string "HASH_ENVIRONMENT_VARIABLE" primary.hash-environment-variable ) ] else [ ] )
+                                                                        ( if builtins.typeOf primary.lifespan == "int" then [ ( string "LIFESPAN" primary.lifespan ) ] else [ ] )
+                                                                        [
                                                                             ( has-standard-input "HAS_STANDARD_INPUT" )
                                                                         ]
-                                                                        ( if builtins.typeOf init == "null" then [ ] else [ ( string "INIT" primary.init.shell-script ) ] )
+                                                                        ( if builtins.typeOf primary.init == "null" then [ ] else [ ( string "INIT" primary.init.shell-script ) ] )
                                                                         [
                                                                             ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
                                                                             ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
@@ -517,6 +528,9 @@
                                                                             ( string "RESOURCES" ( _environment-variable primary.resources ) )
                                                                             ( standard-input "STANDARD_INPUT" )
                                                                             ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
+                                                                        ]
+                                                                        ( if builtins.typeOf primary.lifespan == "int" then [ ( string "TIMESTAMP_ENVIRONMENT_VARIABLE" primary.timestamp-environment-variable ) ] else [ ] )
+                                                                        [
                                                                             ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
                                                                             ( string "WC" "${ pkgs.coreutils }/bin/wc" )
                                                                             ( string "MOUNT" "${ pkgs.mount }/bin/mount" ) # KLUDGE
