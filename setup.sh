@@ -19,6 +19,10 @@ fi &&
     then
       ${MKDIR} ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}
     fi &&
+      if [ ! -e ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/${ORIGINATOR_PID}.pid ]
+      then
+        ${ECHO} ${ORIGINATOR_PID} > ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/${ORIGINATOR_PID}.pid
+      fi &&
       if [ ! -z "${PARENT_HASH}" ] && [ ! -e ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/${PARENT_HASH}.hash ]
       then
         ${LN} --symbolic ${RESOURCES}/${PARENT_HASH}/teardown.sh ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/${PARENT_HASH}.hash
@@ -26,10 +30,6 @@ fi &&
   else
     exit ${LOCK_FAILURE}
   fi
-
-
-
-
 
 
 
