@@ -581,7 +581,10 @@
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 61 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 62 ] )
                                                                             [ 64 ]
-                                                                            ( if builtins.typeOf primary.init == "null" then [ 66 ] else [ 68 ] )
+                                                                            ( if builtins.typeOf primary.lifespan == "null" && builtins.typeOf primary.init == "null" then [ 66 ] else [ ] )
+                                                                            ( if builtins.typeOf primary.lifespan == "null" && builtins.typeOf primary.init != "null" then [ 68 ] else [ ] )
+                                                                            ( if builtins.typeOf primary.lifespan == "int" && builtins.typeOf primary.init == "null" then [ 70 ] else [ ] )
+                                                                            ( if builtins.typeOf primary.lifespan == "int" && builtins.typeOf primary.init != "null" then [ 72 ] else [ ] )
                                                                             ( if self-teardown then [ 75 ] else [ ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 78 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 79 ] )
