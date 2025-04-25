@@ -10,12 +10,32 @@ fi &&
   else
     PARENT_HASH=${!HASH_ENVIRONMENT_VARIABLE}
   fi &&
-declare ${HASH_ENVIRONMENT_VARIABLE}=$( ${ECHO} ${PRE_HASH} $(( ${!TIMESTAMP_ENVIRONMENT_VARIABLE} )) | ${SHA512SUM} | ${CUT} --bytes 128 ) &&
-export ${HASH_ENVIRONMENT_VARIABLE} &&
-if [ -d ${RESOURCE}/${HASH_ENVIRONMENT_VARIABLE} ]
-then
-else
-fi &&
+  declare ${HASH_ENVIRONMENT_VARIABLE}=$( ${ECHO} ${PRE_HASH} $(( ${!TIMESTAMP_ENVIRONMENT_VARIABLE} )) | ${SHA512SUM} | ${CUT} --bytes 128 ) &&
+  export ${HASH_ENVIRONMENT_VARIABLE} &&
+  exec 201> ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE}.lock
+  if ${FLOCK} 201
+  then
+    if [ -d ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE} ]
+    then
+    else
+      ${MKDIR} ${RESOURCES}/${HASH_ENVIRONMENT_VARIABLE}
+    fi
+  else
+    exit ${LOCK_FAILURE}
+  fi
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   export RESOURCE=$( ${MKTEMP} --directory ${RESOURCES}/XXXXXXXX ) &&

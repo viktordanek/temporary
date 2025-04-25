@@ -519,6 +519,7 @@
                                                                             ( string "DIRNAME" "${ pkgs.coreutils }/bin/dirname" )
                                                                             ( string "FIND" "${ pkgs.findutils }/bin/find" )
                                                                         ]
+                                                                        ( if builtins.typeOf primary.lifespan == "int" then [ ( string "FLOCK" "${ pkgs.flock }/bin/flock" ) ] else [ ] )
                                                                         ( if builtins.typeOf primary.lifespan == "int" then [ ( string "HASH_ENVIRONMENT_VARIABLE" primary.hash-environment-variable ) ] else [ ] )
                                                                         ( if builtins.typeOf primary.lifespan == "int" then [ ( string "LIFESPAN" primary.lifespan ) ] else [ ] )
                                                                         [
@@ -527,6 +528,9 @@
                                                                         ( if builtins.typeOf primary.init == "null" then [ ] else [ ( string "INIT" primary.init.shell-script ) ] )
                                                                         [
                                                                             ( string "INITIALIZATION_ERROR_CODE" primary.initialization-error-code )
+                                                                        ]
+                                                                        ( if builtins.typeOf primary.lifespan == "int" then [ ( string "LIFESPAN" primary.lifespan ) ] else [ ] )
+                                                                        [
                                                                             ( string "MAKE_WRAPPER" "${ pkgs.makeWrapper }" )
                                                                             ( string "MAKE_WRAPPER_TEARDOWN" "${ teardown.shell-script }" )
                                                                             ( string "MKDIR" "${ pkgs.coreutils }/bin/mkdir" )
@@ -554,31 +558,19 @@
                                                                 array =
                                                                     builtins.concatLists
                                                                         [
-                                                                            [ 20 ]
-                                                                            [ 21 ]
-                                                                            [ 22 ]
-                                                                            [ 23 ]
-                                                                            [ 24 ]
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 26 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 27 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 28 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 29 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 30 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 31 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 32 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 33 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 34 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 35 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 36 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 37 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 38 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 39 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 40 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 41 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 42 ] )
+                                                                            [ 40 ]
+                                                                            [ 41 ]
+                                                                            [ 42 ]
+                                                                            [ 43 ]
                                                                             [ 44 ]
-                                                                            ( if builtins.typeOf primary.init == "null" then [ 46 ] else [ 48 ] )
-                                                                            ( if self-teardown then [ 51 ] else [ ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 46 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 47 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 48 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 49 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 50 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 51 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 52 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 53 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 54 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 55 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 56 ] )
@@ -588,10 +580,22 @@
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 60 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 61 ] )
                                                                             ( if builtins.typeOf primary.init == "null" then [ ] else [ 62 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 63 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 64 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 65 ] )
-                                                                            ( if builtins.typeOf primary.init == "null" then [ 67 ] else [ ] )
+                                                                            [ 64 ]
+                                                                            ( if builtins.typeOf primary.init == "null" then [ 66 ] else [ 68 ] )
+                                                                            ( if self-teardown then [ 71 ] else [ ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 74 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 75 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 76 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 77 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 78 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 79 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 80 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 81 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 82 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 83 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 84 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ ] else [ 85 ] )
+                                                                            ( if builtins.typeOf primary.init == "null" then [ 87 ] else [ ] )
                                                                         ] ;
                                                                 with-index = builtins.genList ( index : { index = index ; line = builtins.elemAt all index ; } ) ( builtins.length all ) ;
                                                                 filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
