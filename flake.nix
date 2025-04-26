@@ -813,7 +813,7 @@
                                                                                                                         value :
                                                                                                                             [
                                                                                                                                 "${ _environment-variable "ECHO" }"
-                                                                                                                                "${ _environment-variable "ECHO" } SKIPPING ${ value.path } because it was SUCCESS"
+                                                                                                                                "${ _environment-variable "ECHO" } SKIPPING ${ value.path } in ${ _environment-variable "OUT" } because it was SUCCESS"
                                                                                                                                 "${ _environment-variable "ECHO" } SUCCESS"
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.success ) ;
