@@ -743,6 +743,7 @@
                                                                                                 builtins.concatLists
                                                                                                     [
                                                                                                         ( if builtins.typeOf primary.init == "null" then [ ] else [ { path = "init" ; value = primary.init.tests ; } ] )
+
                                                                                                         ( if builtins.typeOf primary.release == "null" then [ ] else [ { path = "release" ; value = primary.release.tests ; } ] )
                                                                                                         ( if builtins.typeOf primary.post == "null" then [ ] else [ { path = "post" ; value = primary.post.tests ; } ] )
                                                                                                         [ { path = "teardown" ; value = teardown.tests ; } ]
