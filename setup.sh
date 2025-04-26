@@ -68,9 +68,9 @@ fi &&
 #
       makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCE}/teardown.sh --set ORIGINATOR_PID ${ORIGINATOR_PID} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
 #
-      makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/teardown.sh --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS 0 &&
+      makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/teardown.sh --set ${HASH} ${!HASH_ENVIRONMENT_VARIABLE} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS 0 &&
 #
-      makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/teardown.sh --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
+      makeWrapper ${MAKE_WRAPPER_TEARDOWN} ${RESOURCES}/${!HASH_ENVIRONMENT_VARIABLE}/teardown.sh --set ${HASH} ${!HASH_ENVIRONMENT_VARIABLE} --set RESOURCE_NAME ${RESOURCE_NAME} --set RESOURCES ${RESOURCES} --set STATUS ${STATUS} &&
 #
 #
       ( ${RESOURCE}/teardown.sh > /dev/null 2>&1 & ) && ## KLUDGE ALERT:  We should not have to redirect standard output and error.  this probably indicates an error. FIXME UNCOMMENT ME
