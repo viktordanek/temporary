@@ -779,9 +779,9 @@
                                                                                                                     mapper =
                                                                                                                         value :
                                                                                                                             [
-                                                                                                                                "${ _environment-variable "ECHO" }"
-                                                                                                                                "${ _environment-variable "ECHO" } TESTING ${ value.path } because it was DELAYED"
-                                                                                                                                "if ${ value.value }/observe.wrapped.sh ; then ${ _environment-variable "ECHO" } SUCCESS ; else ${ _environment-variable "ECHO" } FAILURE ; fi"
+                                                                                                                                ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  status: DELAYED"''
+                                                                                                                                ''if ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output ":." ; then ${ _environment-variable "ECHO" } "  result: SUCCESS" ; else ${ _environment-variable "ECHO" } "  result: FAILURE" ; fi''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.delayed ) ;
                                                                                                             error =
@@ -819,14 +819,14 @@
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.success ) ;
                                                                                                             in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ delayed ] ) ;
-                                                                                                    in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" }"
+                                                                                                    in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" } --echo YQ ${ _environment-variable "YQ" }"
                                                                                             )
                                                                                         ]
                                                                             ) ;
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                makeWrapper ${ pkgs.writeShellScript "constructor.sh" constructor } $out/constructor.wrapped.sh --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.makeWrapper } --set OUT $out --set TOUCH ${ pkgs.coreutils }/bin/touch &&
+                                                                                makeWrapper ${ pkgs.writeShellScript "constructor.sh" constructor } $out/constructor.wrapped.sh --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.makeWrapper } --set OUT $out --set TOUCH ${ pkgs.coreutils }/bin/touch --set YQ ${ pkgs.coreutils }/bin/yq &&
                                                                                 $out/constructor.wrapped.sh
                                                                         '' ;
                                                             name = "tests" ;
