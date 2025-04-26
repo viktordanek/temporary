@@ -465,26 +465,18 @@
                                                                 string = name : value : "export ${ name }=\"${ builtins.toString value }\"" ;
                                                             } ;
                                                         mounts =
-                                                            let
-                                                                archive =
-                                                                    if is-mock then
-                                                                        {
-                                                                            "/archive" =
-                                                                                {
-                                                                                    host-path = _environment-variable primary.archive ;
-                                                                                    is-read-only = false ;
-                                                                                } ;
-                                                                        }
-                                                                    else { } ;
-                                                                resource =
+                                                            {
+                                                                "/archive" =
                                                                     {
-                                                                        "/resources" =
-                                                                            {
-                                                                                host-path = _environment-variable primary.resources ;
-                                                                                is-read-only = false ;
-                                                                            } ;
+                                                                        host-path = _environment-variable primary.archive ;
+                                                                        is-read-only = false ;
                                                                     } ;
-                                                                in archive // resource ;
+                                                                "/resources" =
+                                                                    {
+                                                                        host-path = _environment-variable primary.resources ;
+                                                                        is-read-only = false ;
+                                                                    } ;
+                                                            } ;
                                                         name = "setup" ;
                                                         profile =
                                                             { has-standard-input , originator-pid , standard-input , string } :
