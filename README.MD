@@ -1,26 +1,27 @@
 ```
-`nix-collect-garbage -d &&
+nix-collect-garbage -d &&
 echo BEFORE &&
 date &&
-echo AAAAAAAAAAAAAAAAAAA &&
+echo AA &&
 nix flake check &&
-echo BBBBBBBBBBBBBBBBBBBBBBB &&
+echo BB &&
 nix run .#0-0-0 &&
-echo CCCCCCCCCCCCCCCCCCCCCc &&
-# nix run .#0-0-1 &&
-echo DDDDDDDDDDDDDDDDDDDDDD &&
+echo CC &&
+nix run .#0-0-1 &&
+echo DD &&
 nix run .#0-1-0 &&
-echo EEEEEEEEEEEEEEEEEEEEE &&
-# nix run .#0-1-1 &&
-echo AAAAAAAAAAAAAAAAAAA &&
-echo BBBBBBBBBBBBBBBBBBBBBBB &&
+echo EE &&
+nix run .#0-1-1 &&
+echo FF &&
 nix run .#1-0-0 &&
-echo CCCCCCCCCCCCCCCCCCCCCc &&
-# nix run .#1-0-1 &&
-echo DDDDDDDDDDDDDDDDDDDDDD &&
+echo GG &&
+nix run .#1-0-1 &&
+echo HH &&
 nix run .#1-1-0 &&
-echo EEEEEEEEEEEEEEEEEEEEE &&
-# nix run .#1-1-1 &&
+echo II &&
+nix run .#1-1-1 &&
 date &&
-echo AFTER`
+echo AFTER &&
+git commit -am "" 
+`
 ```
