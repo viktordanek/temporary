@@ -195,319 +195,228 @@
                                 } :
                                     let
                                         primary =
-                                            let
-                                                embolden =
-                                                    let
-                                                        embolden =
-                                                            name : set :
-                                                                if builtins.typeOf set == "null" then set
-                                                                else if builtins.typeOf set == "set" then
-                                                                    let
-                                                                        arguments-minus = builtins.removeAttrs set [ "mounts" ] ;
-                                                                        arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                        eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                        mounts =
-                                                                            {
-                                                                                "${ resource }" =
-                                                                                    {
-                                                                                        host-path = _environment-variable "RESOURCE" ;
-                                                                                        is-read-only = true ;
-                                                                                    } ;
-                                                                            } ;
-                                                                        resource =
-                                                                            if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
-                                                                            else "/resource" ;
-                                                                        in if eval.success then eval.value else builtins.throw "There was a problem evaluating ${ name }."
-                                                                else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
-                                                        in
-                                                            {
-                                                                init =
-                                                                    set :
-                                                                        if builtins.typeOf set == "null" then set
-                                                                        else if builtins.typeOf set == "set" then
-                                                                            let
-                                                                                arguments-minus = builtins.removeAttrs set [ "mount" ] ;
-                                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                                mount =
-                                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "mount" set
-                                                                                    else "/mount" ;
-                                                                                mounts =
-                                                                                    {
-                                                                                        "${ mount }" =
-                                                                                            {
-                                                                                                host-path = _environment-variable "TARGET_MOUNT" ;
-                                                                                                is-read-only = false ;
-                                                                                            } ;
-                                                                                    } ;
-                                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
-                                                                        else builtins.throw "init is not null, set but ${ builtins.typeOf set }." ;
-                                                                post =
-                                                                    set :
-                                                                        if builtins.typeOf set == "null" then set
-                                                                        else if builtins.typeOf set == "set" then
-                                                                            let
-                                                                                arguments-minus = builtins.removeAttrs set [ "mounts" ] ;
-                                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                                mounts =
-                                                                                    {
-                                                                                        "${ resource }" =
-                                                                                            {
-                                                                                                host-path = _environment-variable "RESOURCE" ;
-                                                                                                is-read-only = true ;
-                                                                                            } ;
-                                                                                    } ;
-                                                                                resource =
-                                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
-                                                                                    else "/resource" ;
-                                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
-                                                                        else builtins.throw "post is not null, set but ${ builtins.typeOf set }." ;
-                                                                release =
-                                                                    set :
-                                                                        if builtins.typeOf set == "null" then set
-                                                                        else if builtins.typeOf set == "set" then
-                                                                            let
-                                                                                arguments-minus = builtins.removeAttrs set [ "mounts" ] ;
-                                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                                mounts =
-                                                                                    {
-                                                                                        "${ resource }" =
-                                                                                            {
-                                                                                                host-path = _environment-variable "RESOURCE" ;
-                                                                                                is-read-only = true ;
-                                                                                            } ;
-                                                                                    } ;
-                                                                                resource =
-                                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
-                                                                                    else "/resource" ;
-                                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating release."
-                                                                        else builtins.throw "release is not null, set but ${ builtins.typeOf set }." ;
-                                                                    } ;
-                                                in
-                                                    {
-                                                        archive =
-                                                            if builtins.typeOf archive == "string" then archive
-                                                            else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
-                                                        init =
-                                                            if builtins.typeOf init == "null" then init
-                                                            else if builtins.typeOf init == "set" then
-                                                                let
-                                                                    arguments-minus = builtins.removeAttrs init [ "mount" ] ;
-                                                                    arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                    eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                    mount =
-                                                                        if builtins.hasAttr "resource" init then builtins.getAttr "mount" init
-                                                                        else "/mount" ;
-                                                                    mounts =
-                                                                        {
-                                                                            "${ mount }" =
-                                                                                {
-                                                                                    host-path = _environment-variable "TARGET_MOUNT" ;
-                                                                                    is-read-only = false ;
-                                                                                } ;
-                                                                        } ;
-                                                                    in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
-                                                            else builtins.throw "init is not null, set but ${ builtins.typeOf init }." ;
-                                                        initialization-error-code =
-                                                            if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
-                                                            else builtins.throw "initialization-error-code is not int but ${ builtins.typeOf initialization-error-code }." ;
-                                                        lock-failure =
-                                                            if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
-                                                            else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
-                                                        over-initialized-target-error-code =
-                                                            if builtins.typeOf over-initialized-target-error-code == "int" then builtins.toString over-initialized-target-error-code
-                                                            else builtins.throw "over-initialized-target-error-code is not int but ${ builtins.typeOf over-initialized-target-error-code }." ;
-                                                        post =
-                                                            if builtins.typeOf post == "null" then post
-                                                            else if builtins.typeOf post == "set" then
-                                                                let
-                                                                    arguments-minus = builtins.removeAttrs post [ "mounts" ] ;
-                                                                    arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                    eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                    mounts =
-                                                                        {
-                                                                            "${ resource }" =
-                                                                                {
-                                                                                    host-path = _environment-variable "RESOURCE" ;
-                                                                                    is-read-only = true ;
-                                                                                } ;
-                                                                        } ;
-                                                                    resource =
-                                                                        if builtins.hasAttr "resource" post then builtins.getAttr "resource" post
-                                                                        else "/resource" ;
-                                                                    in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
-                                                            else builtins.throw "post is not null, set but ${ builtins.typeOf post }." ;
-                                                        release =
-                                                            if builtins.typeOf release == "null" then release
-                                                            else if builtins.typeOf release == "set" then
-                                                                let
-                                                                    arguments-minus = builtins.removeAttrs release [ "mounts" ] ;
-                                                                    arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                    eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                    mounts =
-                                                                        {
-                                                                            "${ resource }" =
-                                                                                {
-                                                                                    host-path = _environment-variable "RESOURCE" ;
-                                                                                    is-read-only = true ;
-                                                                                } ;
-                                                                        } ;
-                                                                    resource =
-                                                                        if builtins.hasAttr "resource" release then builtins.getAttr "resource" release
-                                                                        else "/resource" ;
-                                                                    in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
-                                                            else builtins.throw "post is not null, set but ${ builtins.typeOf release }." ;
-                                                        resources =
-                                                            if builtins.typeOf resources == "string" then resources
-                                                            else builtins.throw "resources is not string but ${ builtins.typeOf resources }." ;
-                                                        self-teardown =
-                                                            if builtins.typeOf self-teardown == "bool" then self-teardown
-                                                            else builtins.throw "self-teardown is not bool but ${ builtins.typeOf self-teardown }." ;
-                                                        stderr-emitted-error-code =
-                                                            if builtins.typeOf stderr-emitted-error-code == "int" then builtins.toString stderr-emitted-error-code
-                                                            else builtins.throw "stderr-emitted-error-code is not int but ${ builtins.typeOf stderr-emitted-error-code }." ;
-                                                        tests =
-                                                            _visitor
+                                            {
+                                                archive =
+                                                    if builtins.typeOf archive == "string" then archive
+                                                    else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
+                                                init =
+                                                    if builtins.typeOf init == "null" then init
+                                                    else if builtins.typeOf init == "set" then
+                                                        let
+                                                            arguments-minus = builtins.removeAttrs init [ "mount" ] ;
+                                                            arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                            eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                            mount =
+                                                                if builtins.hasAttr "resource" init then builtins.getAttr "mount" init
+                                                                else "/mount" ;
+                                                            mounts =
                                                                 {
-                                                                    lambda =
-                                                                        path : value : ignore :
+                                                                    "${ mount }" =
+                                                                        {
+                                                                            host-path = _environment-variable "TARGET_MOUNT" ;
+                                                                            is-read-only = false ;
+                                                                        } ;
+                                                                } ;
+                                                            in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
+                                                    else builtins.throw "init is not null, set but ${ builtins.typeOf init }." ;
+                                                initialization-error-code =
+                                                    if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
+                                                    else builtins.throw "initialization-error-code is not int but ${ builtins.typeOf initialization-error-code }." ;
+                                                lock-failure =
+                                                    if builtins.typeOf lock-failure == "int" then builtins.toString lock-failure
+                                                    else builtins.throw "lock-failure is not int but ${ builtins.typeOf lock-failure }." ;
+                                                over-initialized-target-error-code =
+                                                    if builtins.typeOf over-initialized-target-error-code == "int" then builtins.toString over-initialized-target-error-code
+                                                    else builtins.throw "over-initialized-target-error-code is not int but ${ builtins.typeOf over-initialized-target-error-code }." ;
+                                                post =
+                                                    if builtins.typeOf post == "null" then post
+                                                    else if builtins.typeOf post == "set" then
+                                                        let
+                                                            arguments-minus = builtins.removeAttrs post [ "mounts" ] ;
+                                                            arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                            eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                            mounts =
+                                                                {
+                                                                    "${ resource }" =
+                                                                        {
+                                                                            host-path = _environment-variable "RESOURCE" ;
+                                                                            is-read-only = true ;
+                                                                        } ;
+                                                                } ;
+                                                            resource =
+                                                                if builtins.hasAttr "resource" post then builtins.getAttr "resource" post
+                                                                else "/resource" ;
+                                                            in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
+                                                    else builtins.throw "post is not null, set but ${ builtins.typeOf post }." ;
+                                                release =
+                                                    if builtins.typeOf release == "null" then release
+                                                    else if builtins.typeOf release == "set" then
+                                                        let
+                                                            arguments-minus = builtins.removeAttrs release [ "mounts" ] ;
+                                                            arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                            eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                            mounts =
+                                                                {
+                                                                    "${ resource }" =
+                                                                        {
+                                                                            host-path = _environment-variable "RESOURCE" ;
+                                                                            is-read-only = true ;
+                                                                        } ;
+                                                                } ;
+                                                            resource =
+                                                                if builtins.hasAttr "resource" release then builtins.getAttr "resource" release
+                                                                else "/resource" ;
+                                                            in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
+                                                    else builtins.throw "post is not null, set but ${ builtins.typeOf release }." ;
+                                                resources =
+                                                    if builtins.typeOf resources == "string" then resources
+                                                    else builtins.throw "resources is not string but ${ builtins.typeOf resources }." ;
+                                                self-teardown =
+                                                    if builtins.typeOf self-teardown == "bool" then self-teardown
+                                                    else builtins.throw "self-teardown is not bool but ${ builtins.typeOf self-teardown }." ;
+                                                stderr-emitted-error-code =
+                                                    if builtins.typeOf stderr-emitted-error-code == "int" then builtins.toString stderr-emitted-error-code
+                                                    else builtins.throw "stderr-emitted-error-code is not int but ${ builtins.typeOf stderr-emitted-error-code }." ;
+                                                tests =
+                                                    _visitor
+                                                        {
+                                                            lambda =
+                                                                path : value : ignore :
+                                                                    let
+                                                                        secondary =
                                                                             let
-                                                                                secondary =
-                                                                                    let
-                                                                                        identity =
-                                                                                            {
-                                                                                                archive ,
-                                                                                                arguments ? null ,
-                                                                                                count ? 2 ,
-                                                                                                file ? null ,
-                                                                                                paste ? null ,
-                                                                                                pipe ? null ,
-                                                                                                status ? 0
-                                                                                            } :
-                                                                                                {
-                                                                                                    archive =
-                                                                                                        if builtins.typeOf archive == "string" then
-                                                                                                            if builtins.pathExists archive then archive
-                                                                                                            else builtins.throw "the path for ${ archive } does not exist"
-                                                                                                        else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
-                                                                                                    arguments =
-                                                                                                        if builtins.typeOf arguments == "list" then builtins.map ( value : if builtins.typeOf value == "string" then value else builtins.throw "argument is not string but ${ builtins.typeOf value }." ) arguments
-                                                                                                        else if builtins.typeOf arguments == "null" then [ ]
-                                                                                                        else if builtins.typeOf arguments == "string" then [ arguments ]
-                                                                                                        else builtins.throw "arguments is not list, null, string but ${ builtins.typeOf arguments }." ;
-                                                                                                    count =
-                                                                                                        if builtins.typeOf count == "int" then count
-                                                                                                        else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
-                                                                                                    file =
-                                                                                                        if builtins.typeOf file == "null" then [ ]
-                                                                                                        else if builtins.typeOf file == "string" then [ "< ${ builtins.toFile "file" file }" ]
-                                                                                                        else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
-                                                                                                    paste =
-                                                                                                        if builtins.typeOf paste == "lambda" then
-                                                                                                            if secondary.status == 0 then
-                                                                                                                let
-                                                                                                                    generator =
-                                                                                                                        index :
-                                                                                                                            let
-                                                                                                                                value = paste ( _environment-variable "CANDIDATE_${ builtins.toString index }" ) ;
-                                                                                                                                in if builtins.typeOf value == "string" then value else builtins.throw "paste is not string but ${ builtins.typeOf paste }." ;
-                                                                                                                    in builtins.genList generator secondary.count
-                                                                                                                else builtins.throw "it does not make sense to define paste when status is not zero."
-                                                                                                        else if builtins.typeOf paste == "null" then paste
-                                                                                                        else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
-                                                                                                    pipe =
-                                                                                                        if builtins.typeOf pipe == "null" then [ ]
-                                                                                                        else if builtins.typeOf pipe == "string" then
-                                                                                                            if builtins.typeOf secondary.file == "null" then [ "cat ${ builtins.toFile "pipe" pipe } |" ]
-                                                                                                            else builtins.throw "if we define both a pipe and a file then the file overrides the pipe"
-                                                                                                        else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
-                                                                                                    status =
-                                                                                                        if builtins.typeOf status == "int" then status
-                                                                                                        else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
-                                                                                                } ;
-                                                                                        in identity ( value null ) ;
-                                                                                in
+                                                                                identity =
                                                                                     {
-                                                                                        delay = true ;
-                                                                                        mounts =
+                                                                                        archive ,
+                                                                                        arguments ? null ,
+                                                                                        count ? 2 ,
+                                                                                        file ? null ,
+                                                                                        paste ? null ,
+                                                                                        pipe ? null ,
+                                                                                        status ? 0
+                                                                                    } :
+                                                                                        {
+                                                                                            archive =
+                                                                                                if builtins.typeOf archive == "string" then
+                                                                                                    if builtins.pathExists archive then archive
+                                                                                                    else builtins.throw "the path for ${ archive } does not exist"
+                                                                                                else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
+                                                                                            arguments =
+                                                                                                if builtins.typeOf arguments == "list" then builtins.map ( value : if builtins.typeOf value == "string" then value else builtins.throw "argument is not string but ${ builtins.typeOf value }." ) arguments
+                                                                                                else if builtins.typeOf arguments == "null" then [ ]
+                                                                                                else if builtins.typeOf arguments == "string" then [ arguments ]
+                                                                                                else builtins.throw "arguments is not list, null, string but ${ builtins.typeOf arguments }." ;
+                                                                                            count =
+                                                                                                if builtins.typeOf count == "int" then count
+                                                                                                else builtins.throw "count is not int but ${ builtins.typeOf count }." ;
+                                                                                            file =
+                                                                                                if builtins.typeOf file == "null" then [ ]
+                                                                                                else if builtins.typeOf file == "string" then [ "< ${ builtins.toFile "file" file }" ]
+                                                                                                else builtins.throw "file is not null, string but ${ builtins.typeOf file }." ;
+                                                                                            paste =
+                                                                                                if builtins.typeOf paste == "lambda" then
+                                                                                                    if secondary.status == 0 then
+                                                                                                        let
+                                                                                                            generator =
+                                                                                                                index :
+                                                                                                                    let
+                                                                                                                        value = paste ( _environment-variable "CANDIDATE_${ builtins.toString index }" ) ;
+                                                                                                                        in if builtins.typeOf value == "string" then value else builtins.throw "paste is not string but ${ builtins.typeOf paste }." ;
+                                                                                                            in builtins.genList generator secondary.count
+                                                                                                        else builtins.throw "it does not make sense to define paste when status is not zero."
+                                                                                                else if builtins.typeOf paste == "null" then paste
+                                                                                                else builtins.throw "paste is not lambda, null but ${ builtins.typeOf paste }." ;
+                                                                                            pipe =
+                                                                                                if builtins.typeOf pipe == "null" then [ ]
+                                                                                                else if builtins.typeOf pipe == "string" then
+                                                                                                    if builtins.typeOf secondary.file == "null" then [ "cat ${ builtins.toFile "pipe" pipe } |" ]
+                                                                                                    else builtins.throw "if we define both a pipe and a file then the file overrides the pipe"
+                                                                                                else builtins.throw "pipe is not null, string but ${ builtins.typeOf pipe }." ;
+                                                                                            status =
+                                                                                                if builtins.typeOf status == "int" then status
+                                                                                                else builtins.throw "status is not int but ${ builtins.typeOf status }." ;
+                                                                                        } ;
+                                                                                in identity ( value null ) ;
+                                                                        in
+                                                                            {
+                                                                                delay = true ;
+                                                                                mounts =
+                                                                                    {
+                                                                                        "/archive" =
                                                                                             {
-                                                                                                "/archive" =
-                                                                                                    {
-                                                                                                        expected =
-                                                                                                            builtins.toString
-                                                                                                                (
-                                                                                                                    pkgs.stdenv.mkDerivation
-                                                                                                                        {
-                                                                                                                            installPhase =
-                                                                                                                                ''
-                                                                                                                                    ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                                                                        ${ pkgs.coreutils }/bin/seq 0 0 | while read INDEX
-                                                                                                                                        do
-                                                                                                                                            ${ pkgs.coreutils }/bin/ln --symbolic ${ secondary.archive } $out/${ _environment-variable "INDEX" }
-                                                                                                                                        done
-                                                                                                                                '' ;
-                                                                                                                            name = "expected" ;
-                                                                                                                            src = ./. ;
-                                                                                                                        }
-                                                                                                                ) ;
-                                                                                                        initial = [ "mkdir /mount/target" ] ;
-                                                                                                    } ;
-                                                                                                "/resources" =
-                                                                                                    {
-                                                                                                        expected = self + "/resources" ;
-                                                                                                        initial = [ "mkdir /mount/target" ] ;
-                                                                                                    } ;
-                                                                                            } ;
-                                                                                        standard-output = builtins.toFile "standard-output" ( if secondary.status == 0 then builtins.toString secondary.count else "" ) ;
-                                                                                        status = secondary.status ;
-                                                                                        test =
-                                                                                            let
-                                                                                                inner =
-                                                                                                    pkgs.writeShellScript
-                                                                                                        "inner"
+                                                                                                expected =
+                                                                                                    builtins.toString
                                                                                                         (
-                                                                                                            let
-                                                                                                                generator =
-                                                                                                                    index :
-                                                                                                                        builtins.concatLists
-                                                                                                                            [
-                                                                                                                                [
-                                                                                                                                    "CANDIDATE_${ builtins.toString index }=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )"
-                                                                                                                                ]
-                                                                                                                                (
-                                                                                                                                    if builtins.typeOf secondary.paste == "list" then
-                                                                                                                                        [
-                                                                                                                                            ( builtins.elemAt secondary.paste index )
-                                                                                                                                        ]
-                                                                                                                                    else [ ]
-                                                                                                                                )
-                                                                                                                            ] ;
-                                                                                                                unique-vars =
-                                                                                                                    if builtins.typeOf secondary.paste == "list" then
-                                                                                                                        [
-                                                                                                                            ''${ _environment-variable "ECHO" } -n $( ${ _environment-variable "ECHO" } -e "${ builtins.concatStringsSep "\n" ( builtins.genList ( index : _environment-variable "CANDIDATE_${ builtins.toString index }" ) secondary.count ) }" | ${ _environment-variable "SORT" } | ${ _environment-variable "UNIQ" } | ${ _environment-variable "WC" } --lines )''
-                                                                                                                        ]
-                                                                                                                    else [ ] ;
-                                                                                                                in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ ( builtins.concatLists ( builtins.genList generator secondary.count ) ) unique-vars ] )
+                                                                                                            pkgs.stdenv.mkDerivation
+                                                                                                                {
+                                                                                                                    installPhase =
+                                                                                                                        ''
+                                                                                                                            ${ pkgs.coreutils }/bin/mkdir $out &&
+                                                                                                                                ${ pkgs.coreutils }/bin/seq 0 0 | while read INDEX
+                                                                                                                                do
+                                                                                                                                    ${ pkgs.coreutils }/bin/ln --symbolic ${ secondary.archive } $out/${ _environment-variable "INDEX" }
+                                                                                                                                done
+                                                                                                                        '' ;
+                                                                                                                    name = "expected" ;
+                                                                                                                    src = ./. ;
+                                                                                                                }
                                                                                                         ) ;
-                                                                                                outer =
-                                                                                                    pkgs.writeShellScript
-                                                                                                        "outer"
-                                                                                                        ''
-                                                                                                            ${ inner } &&
-                                                                                                                ${ pkgs.coreutils }/bin/sleep 0.1s
-                                                                                                        '' ;
-                                                                                                in builtins.toString outer ;
+                                                                                                initial = [ "mkdir /mount/target" ] ;
+                                                                                            } ;
+                                                                                        "/resources" =
+                                                                                            {
+                                                                                                expected = self + "/resources" ;
+                                                                                                initial = [ "mkdir /mount/target" ] ;
+                                                                                            } ;
                                                                                     } ;
-                                                                    null = path : value : null ;
-                                                                }
-                                                                tests ;
-                                                        uninitialized-target-error-code =
-                                                            if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
-                                                            else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
-                                                    } ;
+                                                                                standard-output = builtins.toFile "standard-output" ( if secondary.status == 0 then builtins.toString secondary.count else "" ) ;
+                                                                                status = secondary.status ;
+                                                                                test =
+                                                                                    let
+                                                                                        inner =
+                                                                                            pkgs.writeShellScript
+                                                                                                "inner"
+                                                                                                (
+                                                                                                    let
+                                                                                                        generator =
+                                                                                                            index :
+                                                                                                                builtins.concatLists
+                                                                                                                    [
+                                                                                                                        [
+                                                                                                                            "CANDIDATE_${ builtins.toString index }=$( ${ builtins.concatStringsSep " " ( builtins.concatLists [ secondary.pipe [ "candidate" ] secondary.arguments secondary.file ] ) } )"
+                                                                                                                        ]
+                                                                                                                        (
+                                                                                                                            if builtins.typeOf secondary.paste == "list" then
+                                                                                                                                [
+                                                                                                                                    ( builtins.elemAt secondary.paste index )
+                                                                                                                                ]
+                                                                                                                            else [ ]
+                                                                                                                        )
+                                                                                                                    ] ;
+                                                                                                        unique-vars =
+                                                                                                            if builtins.typeOf secondary.paste == "list" then
+                                                                                                                [
+                                                                                                                    ''${ _environment-variable "ECHO" } -n $( ${ _environment-variable "ECHO" } -e "${ builtins.concatStringsSep "\n" ( builtins.genList ( index : _environment-variable "CANDIDATE_${ builtins.toString index }" ) secondary.count ) }" | ${ _environment-variable "SORT" } | ${ _environment-variable "UNIQ" } | ${ _environment-variable "WC" } --lines )''
+                                                                                                                ]
+                                                                                                            else [ ] ;
+                                                                                                        in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ ( builtins.concatLists ( builtins.genList generator secondary.count ) ) unique-vars ] )
+                                                                                                ) ;
+                                                                                        outer =
+                                                                                            pkgs.writeShellScript
+                                                                                                "outer"
+                                                                                                ''
+                                                                                                    ${ inner } &&
+                                                                                                        ${ pkgs.coreutils }/bin/sleep 0.1s
+                                                                                                '' ;
+                                                                                        in builtins.toString outer ;
+                                                                            } ;
+                                                            null = path : value : null ;
+                                                        }
+                                                        tests ;
+                                                uninitialized-target-error-code =
+                                                    if builtins.typeOf uninitialized-target-error-code == "int" then builtins.toString uninitialized-target-error-code
+                                                    else builtins.throw "uninitialized-target-error-code is not int but ${ builtins.typeOf uninitialized-target-error-code }." ;
+                                            } ;
                                         setup-fun =
                                             is-mock : self-teardown : teardown :
                                                 _shell-script
