@@ -290,7 +290,26 @@
                                                         archive =
                                                             if builtins.typeOf archive == "string" then archive
                                                             else builtins.throw "archive is not string but ${ builtins.typeOf archive }." ;
-                                                        init = embolden.init init ;
+                                                        init =
+                                                            if builtins.typeOf init == "null" then init
+                                                            else if builtins.typeOf init == "set" then
+                                                                let
+                                                                    arguments-minus = builtins.removeAttrs init [ "mount" ] ;
+                                                                    arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                    eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                    mount =
+                                                                        if builtins.hasAttr "resource" init then builtins.getAttr "mount" init
+                                                                        else "/mount" ;
+                                                                    mounts =
+                                                                        {
+                                                                            "${ mount }" =
+                                                                                {
+                                                                                    host-path = _environment-variable "TARGET_MOUNT" ;
+                                                                                    is-read-only = false ;
+                                                                                } ;
+                                                                        } ;
+                                                                    in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
+                                                            else builtins.throw "init is not null, set but ${ builtins.typeOf init }." ;
                                                         initialization-error-code =
                                                             if builtins.typeOf initialization-error-code == "int" then builtins.toString initialization-error-code
                                                             else builtins.throw "initialization-error-code is not int but ${ builtins.typeOf initialization-error-code }." ;
