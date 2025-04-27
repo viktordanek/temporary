@@ -242,9 +242,49 @@
                                                                                     } ;
                                                                                 in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
                                                                         else builtins.throw "init is not null, set but ${ builtins.typeOf set }." ;
-                                                                post = embolden "post" ;
-                                                                release = embolden "release" ;
-                                                            } ;
+                                                                post =
+                                                                    set :
+                                                                        if builtins.typeOf set == "null" then set
+                                                                        else if builtins.typeOf set == "set" then
+                                                                            let
+                                                                                arguments-minus = builtins.removeAttrs set [ "mounts" ] ;
+                                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                                mounts =
+                                                                                    {
+                                                                                        "${ resource }" =
+                                                                                            {
+                                                                                                host-path = _environment-variable "RESOURCE" ;
+                                                                                                is-read-only = true ;
+                                                                                            } ;
+                                                                                    } ;
+                                                                                resource =
+                                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
+                                                                                    else "/resource" ;
+                                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
+                                                                        else builtins.throw "post is not null, set but ${ builtins.typeOf set }." ;
+                                                                release =
+                                                                    set :
+                                                                        if builtins.typeOf set == "null" then set
+                                                                        else if builtins.typeOf set == "set" then
+                                                                            let
+                                                                                arguments-minus = builtins.removeAttrs set [ "mounts" ] ;
+                                                                                arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                                eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                                mounts =
+                                                                                    {
+                                                                                        "${ resource }" =
+                                                                                            {
+                                                                                                host-path = _environment-variable "RESOURCE" ;
+                                                                                                is-read-only = true ;
+                                                                                            } ;
+                                                                                    } ;
+                                                                                resource =
+                                                                                    if builtins.hasAttr "resource" set then builtins.getAttr "resource" set
+                                                                                    else "/resource" ;
+                                                                                in if eval.success then eval.value else builtins.throw "There was a problem evaluating release."
+                                                                        else builtins.throw "release is not null, set but ${ builtins.typeOf set }." ;
+                                                                    } ;
                                                 in
                                                     {
                                                         archive =
