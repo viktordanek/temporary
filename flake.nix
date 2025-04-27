@@ -339,7 +339,26 @@
                                                                         else "/resource" ;
                                                                     in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
                                                             else builtins.throw "post is not null, set but ${ builtins.typeOf post }." ;
-                                                        release = embolden.release release ;
+                                                        release =
+                                                            if builtins.typeOf release == "null" then release
+                                                            else if builtins.typeOf release == "set" then
+                                                                let
+                                                                    arguments-minus = builtins.removeAttrs release [ "mounts" ] ;
+                                                                    arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                    eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                    mounts =
+                                                                        {
+                                                                            "${ resource }" =
+                                                                                {
+                                                                                    host-path = _environment-variable "RESOURCE" ;
+                                                                                    is-read-only = true ;
+                                                                                } ;
+                                                                        } ;
+                                                                    resource =
+                                                                        if builtins.hasAttr "resource" release then builtins.getAttr "resource" release
+                                                                        else "/resource" ;
+                                                                    in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
+                                                            else builtins.throw "post is not null, set but ${ builtins.typeOf release }." ;
                                                         resources =
                                                             if builtins.typeOf resources == "string" then resources
                                                             else builtins.throw "resources is not string but ${ builtins.typeOf resources }." ;
