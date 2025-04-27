@@ -790,10 +790,9 @@
                                                                                                                     mapper =
                                                                                                                         value :
                                                                                                                             [
-                                                                                                                                "${ _environment-variable "ECHO" }"
-                                                                                                                                "${ _environment-variable "ECHO" } NOT TESTING ${ value.path } because it was ERROR"
-                                                                                                                                "${ _environment-variable "ECHO" } ${ value.value }"
-                                                                                                                                "${ _environment-variable "ECHO" } ERROR"
+                                                                                                                                ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  status: ERROR"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
                                                                                                                                 "exit 64"
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.error ) ;
