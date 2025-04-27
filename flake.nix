@@ -319,7 +319,26 @@
                                                         over-initialized-target-error-code =
                                                             if builtins.typeOf over-initialized-target-error-code == "int" then builtins.toString over-initialized-target-error-code
                                                             else builtins.throw "over-initialized-target-error-code is not int but ${ builtins.typeOf over-initialized-target-error-code }." ;
-                                                        post = embolden.post post ;
+                                                        post =
+                                                            if builtins.typeOf post == "null" then post
+                                                            else if builtins.typeOf post == "set" then
+                                                                let
+                                                                    arguments-minus = builtins.removeAttrs post [ "mounts" ] ;
+                                                                    arguments-plus = arguments-minus // { mounts = mounts ; } ;
+                                                                    eval = builtins.tryEval ( _shell-script arguments-plus ) ;
+                                                                    mounts =
+                                                                        {
+                                                                            "${ resource }" =
+                                                                                {
+                                                                                    host-path = _environment-variable "RESOURCE" ;
+                                                                                    is-read-only = true ;
+                                                                                } ;
+                                                                        } ;
+                                                                    resource =
+                                                                        if builtins.hasAttr "resource" post then builtins.getAttr "resource" post
+                                                                        else "/resource" ;
+                                                                    in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
+                                                            else builtins.throw "post is not null, set but ${ builtins.typeOf post }." ;
                                                         release = embolden.release release ;
                                                         resources =
                                                             if builtins.typeOf resources == "string" then resources
