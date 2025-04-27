@@ -233,13 +233,18 @@
                                                     else if builtins.typeOf post == "set" then
                                                         let
                                                             archive =
-                                                                if builtins.hasAttr "archive" then builtins.getAttr "archive" post
+                                                                if builtins.hasAttr "archive" post then builtins.getAttr "archive" post
                                                                 else "/archive" ;
                                                             arguments-minus = builtins.removeAttrs post [ "mounts" ] ;
                                                             arguments-plus = arguments-minus // { mounts = mounts ; } ;
                                                             eval = builtins.tryEval ( _shell-script arguments-plus ) ;
                                                             mounts =
                                                                 {
+                                                                    "${ archive }" =
+                                                                        {
+                                                                            host-path = _environment-variable "ARCHIVE" ;
+                                                                            is-read-only = false ;
+                                                                        } ;
                                                                     "${ resource }" =
                                                                         {
                                                                             host-path = _environment-variable "RESOURCE" ;
