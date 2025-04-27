@@ -780,8 +780,9 @@
                                                                                                                         value :
                                                                                                                             [
                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
-                                                                                                                                ''${ _environment-variable "ECHO" } "  status: FAILURE"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  status: ERROR"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
+                                                                                                                                ''if ! ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output "{observe:.}" | ${ _environment-variable "SED" } -e "s#^#  #" ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
                                                                                                                                 "exit 64"
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.error ) ;
@@ -790,11 +791,11 @@
                                                                                                                     mapper =
                                                                                                                         value :
                                                                                                                             [
-                                                                                                                                "${ _environment-variable "ECHO" }"
-                                                                                                                                "${ _environment-variable "ECHO" } NOT TESTING ${ value.path } because it was FAILURE"
-                                                                                                                                "${ _environment-variable "ECHO" } ${ value.value }"
-                                                                                                                                "${ _environment-variable "ECHO" } FAILURE"
-                                                                                                                                "exit 64"
+                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
+                                                                                                                                 ''${ _environment-variable "ECHO" } "  status: FAILURE"''
+                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
+                                                                                                                                 ''if ! ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output "{observe:.}" | ${ _environment-variable "SED" } -e "s#^#  #" ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
+                                                                                                                                 "exit 64"
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.failure ) ;
                                                                                                             success =
@@ -805,6 +806,7 @@
                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  status: SUCCESS"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
+                                                                                                                                 ''if ! ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output "{observe:.}" | ${ _environment-variable "SED" } -e "s#^#  #" ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.success ) ;
                                                                                                             in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ error failure delayed success ] ) ;
