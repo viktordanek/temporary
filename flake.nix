@@ -733,7 +733,7 @@
 
                                                                                                         ( if builtins.typeOf primary.release == "null" then [ ] else [ { path = "release" ; value = primary.release.tests ; } ] )
                                                                                                         ( if builtins.typeOf primary.post == "null" then [ ] else [ { path = "post" ; value = primary.post.tests ; } ] )
-                                                                                                        # [ { path = "teardown" ; value = teardown.tests ; } ]
+                                                                                                        [ { path = "teardown" ; value = teardown.tests ; } ]
                                                                                                         [ { path = "vacuum" ; value = vacuum.tests ; } ]
                                                                                                         [ { path = "setup" ; value = setup-mock.tests ; } ]
                                                                                                     ] ;
