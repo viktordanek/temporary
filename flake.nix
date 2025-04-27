@@ -232,6 +232,9 @@
                                                     if builtins.typeOf post == "null" then post
                                                     else if builtins.typeOf post == "set" then
                                                         let
+                                                            archive =
+                                                                if builtins.hasAttr "archive" then builtins.getAttr "archive" post
+                                                                else "/archive" ;
                                                             arguments-minus = builtins.removeAttrs post [ "mounts" ] ;
                                                             arguments-plus = arguments-minus // { mounts = mounts ; } ;
                                                             eval = builtins.tryEval ( _shell-script arguments-plus ) ;
