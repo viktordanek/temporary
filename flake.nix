@@ -221,38 +221,6 @@
                                                                 else builtins.throw "${ name } is not null, set but ${ builtins.typeOf set }." ;
                                                         in
                                                             {
-                                                                mock =
-                                                                    {
-                                                                        init =
-                                                                            set :
-                                                                                if builtins.typeOf set == "null" then set
-                                                                                else if builtins.typeOf set == "set" then
-                                                                                    let
-                                                                                        archive =
-                                                                                            if builtins.hasAttr "archive" set then builtins.getAttr "archive" set
-                                                                                            else "/archive" ;
-                                                                                        arguments-minus = builtins.removeAttrs set [ "mount" ] ;
-                                                                                        arguments-plus = arguments-minus // { mounts = mounts ; } ;
-                                                                                        eval = builtins.tryEval ( _shell-script arguments-plus ) ;
-                                                                                        mount =
-                                                                                            if builtins.hasAttr "resource" set then builtins.getAttr "mount" set
-                                                                                            else "/mount" ;
-                                                                                        mounts =
-                                                                                            {
-                                                                                                "${ archive }" =
-                                                                                                    {
-                                                                                                        host-path = _environment-variable "ARCHIVE" ;
-                                                                                                        is-read-only = true ;
-                                                                                                    } ;
-                                                                                                "${ mount }" =
-                                                                                                    {
-                                                                                                        host-path = _environment-variable "TARGET_MOUNT" ;
-                                                                                                        is-read-only = false ;
-                                                                                                    } ;
-                                                                                            } ;
-                                                                                        in if eval.success then eval.value else builtins.throw "There was a problem evaluating init."
-                                                                                else builtins.throw "init is not null, set but ${ builtins.typeOf set }." ;
-                                                                    } ;
                                                                 production =
                                                                     {
                                                                         init =
