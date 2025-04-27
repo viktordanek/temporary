@@ -818,7 +818,7 @@
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.success ) ;
-                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ delayed success ] ) ;
+                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ error delayed success ] ) ;
                                                                                                     in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" } --set SED ${ _environment-variable "SED" } --set YQ ${ _environment-variable "YQ" }"
                                                                                             )
                                                                                         ]
