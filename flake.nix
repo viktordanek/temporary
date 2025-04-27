@@ -4,7 +4,7 @@
             environment-variable.url = "github:/viktordanek/environment-variable" ;
             flake-utils.url = "github:numtide/flake-utils" ;
             nixpkgs.url = "github:NixOs/nixpkgs" ;
-            shell-script.url = "github:viktordanek/shell-script/scratch/73ef5480-0376-4935-8a25-e03935e45b6c" ;
+            shell-script.url = "github:viktordanek/shell-script/scratch/25055790-bcfe-46ef-9080-a2b8c02124a8" ;
             visitor.url = "github:viktordanek/visitor/scratch/1bd1c881-b72b-43d7-a819-f6072a9dfdf7" ;
         } ;
     outputs =
@@ -81,7 +81,7 @@
                                                                             arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
                                                                             count = 502 ;
                                                                             file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
-                                                                            paste = candidate : "if [ -d ${ candidate } ] ; then echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid ; else ${ _environment-variable "ECHO" } 21475b33095ae73d95cfba493a60ab1af51a1fb1921902ed4240b256cd704baa4515654cfb2fedc805a952df473aaabb5145c180c9adcfaa87fea24013e1aef4 > ${ candidate } ; fi" ;
+                                                                            paste = candidate : "if [ ! -e ${ candidate } ] ; then echo WTF ; elif [ -d ${ candidate } ] ; then echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid ; else ${ _environment-variable "ECHO" } 21475b33095ae73d95cfba493a60ab1af51a1fb1921902ed4240b256cd704baa4515654cfb2fedc805a952df473aaabb5145c180c9adcfaa87fea24013e1aef4 > ${ candidate } ; fi" ;
                                                                             ## pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
                                                                          } ;
                                                             } ;
@@ -412,7 +412,7 @@
                                                                                                         unique-vars =
                                                                                                             if builtins.typeOf secondary.paste == "list" then
                                                                                                                 [
-                                                                                                                    ''${ _environment-variable "ECHO" } -n $( ${ _environment-variable "ECHO" } -e "${ builtins.concatStringsSep "\n" ( builtins.genList ( index : _environment-variable "CANDIDATE_${ builtins.toString index }" ) secondary.count ) }" | ${ _environment-variable "SORT" } | ${ _environment-variable "UNIQ" } | ${ _environment-variable "WC" } --lines )''
+                                                                                                                    ''${ _environment-variable "ECHO" } -n $( ${ _environment-variable "ECHO" } -e "${ builtins.concatStringsSep "\n" ( builtins.genList ( index : _environment-variable "CANDIDATE_${ builtins.toString index }" ) secondary.count ) }" | ${ _environment-variable "SORT" } | ${ _environment-variable "UNIQ" } | ${ pkgs.coreutils }/bin/wc --lines )''  ### KLUDGE ALERT
                                                                                                                 ]
                                                                                                             else [ ] ;
                                                                                                         in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ ( builtins.concatLists ( builtins.genList generator secondary.count ) ) unique-vars ] )
@@ -771,7 +771,7 @@
                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  status: DELAYED"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
-                                                                                                                                ''if ! ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output "{observe:.}" | ${ _environment-variable "SED" } -e "s#^#  #" ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
+                                                                                                                                ''if ! ${ value.value }/observe.wrapped.sh ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.delayed ) ;
                                                                                                             error =
@@ -782,7 +782,7 @@
                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  status: ERROR"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
-                                                                                                                                ''if ! ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output "{observe:.}" | ${ _environment-variable "SED" } -e "s#^#  #" ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
+                                                                                                                                ''if ! ${ value.value }/observe.wrapped.sh ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
                                                                                                                                 "exit 64"
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.error ) ;
@@ -794,7 +794,7 @@
                                                                                                                                  ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
                                                                                                                                  ''${ _environment-variable "ECHO" } "  status: FAILURE"''
                                                                                                                                  ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
-                                                                                                                                 ''if ! ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output "{observe:.}" | ${ _environment-variable "SED" } -e "s#^#  #" ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
+                                                                                                                                 ''if ! ${ value.value }/observe.wrapped.sh ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
                                                                                                                                  "exit 64"
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.failure ) ;
@@ -806,7 +806,7 @@
                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  status: SUCCESS"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
-                                                                                                                                 ''if ! ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output "{observe:.}" | ${ _environment-variable "SED" } -e "s#^#  #" ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
+                                                                                                                                 ''if ! ${ value.value }/observe.wrapped.sh ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.success ) ;
                                                                                                             in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ error failure delayed success ] ) ;

@@ -253,16 +253,16 @@
         "visitor": "visitor"
       },
       "locked": {
-        "lastModified": 1745780766,
-        "narHash": "sha256-FiG+iQWX3a8gvkzZdtWFZ7yZPnfwwb17HBup7ZxBSMw=",
+        "lastModified": 1745789879,
+        "narHash": "sha256-B1IJeE6+xPlGGyzI7xFBPB5Ew1f0kVRy2CmS7o9s6sk=",
         "owner": "viktordanek",
         "repo": "shell-script",
-        "rev": "113799eed7956405e9c71a217b3867b291864355",
+        "rev": "5d60ad0b7247d2e9b853a266c7c0e686f427a487",
         "type": "github"
       },
       "original": {
         "owner": "viktordanek",
-        "ref": "scratch/73ef5480-0376-4935-8a25-e03935e45b6c",
+        "ref": "scratch/25055790-bcfe-46ef-9080-a2b8c02124a8",
         "repo": "shell-script",
         "type": "github"
       }
