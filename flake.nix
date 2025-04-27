@@ -781,6 +781,7 @@
                                                                                                                             [
                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  status: DELAYED"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
                                                                                                                                 ''if ! ${ value.value }/observe.wrapped.sh | ${ _environment-variable "YQ" } --yaml-output "{observe:.}" | ${ _environment-variable "SED" } -e "s#^#  #" ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.delayed ) ;
@@ -813,12 +814,12 @@
                                                                                                                     mapper =
                                                                                                                         value :
                                                                                                                             [
-                                                                                                                                "${ _environment-variable "ECHO" }"
-                                                                                                                                "${ _environment-variable "ECHO" } SKIPPING ${ value.path } in ${ _environment-variable "OUT" } because it was SUCCESS"
-                                                                                                                                "${ _environment-variable "ECHO" } SUCCESS"
+                                                                                                                                ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  status: SUCCESS"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.success ) ;
-                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ delayed ] ) ;
+                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ delayed success ] ) ;
                                                                                                     in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" } --set SED ${ _environment-variable "SED" } --set YQ ${ _environment-variable "YQ" }"
                                                                                             )
                                                                                         ]
