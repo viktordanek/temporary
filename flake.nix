@@ -121,6 +121,14 @@
                                                     {
                                                         mounts =
                                                             {
+                                                                "/archive" =
+                                                                    {
+                                                                        expected = self + "/expected/post/mounts/archive" ;
+                                                                        initial =
+                                                                            [
+                                                                                "echo a9a04d4b18eb5cdcb0139a78563d3e3d88ff2c18be44d8e46b188a7878520d226e1862201b3a16f37bbfebed6c7771798995ff009ccac2e34c8fc7a22a6ad081 > /mount/target"
+                                                                            ] ;
+                                                                    } ;
                                                                 "/resource" =
                                                                     {
                                                                         expected = self + "/expected/post/mounts/resource" ;
