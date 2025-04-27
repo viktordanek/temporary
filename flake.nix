@@ -637,6 +637,7 @@
                                                                             builtins.concatLists
                                                                                 [
                                                                                     [
+                                                                                        ( string "ARCHIVE" "/build" )
                                                                                         ( string "ECHO" "${ pkgs.coreutils }/bin/echo" )
                                                                                         ( string "FLOCK" "${ pkgs.flock }/bin/flock" )
                                                                                         ( string "LOCK_FAILURE" primary.lock-failure )
