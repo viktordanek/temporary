@@ -819,7 +819,7 @@
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.success ) ;
                                                                                                             in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ delayed ] ) ;
-                                                                                                    in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" } --echo YQ ${ _environment-variable "YQ" }"
+                                                                                                    in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" } --set YQ ${ _environment-variable "YQ" }"
                                                                                             )
                                                                                         ]
                                                                             ) ;
