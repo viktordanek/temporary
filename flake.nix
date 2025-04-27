@@ -791,7 +791,7 @@
                                                                                                                         value :
                                                                                                                             [
                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
-                                                                                                                                ''${ _environment-variable "ECHO" } "  status: ERROR"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  status: FAILURE"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
                                                                                                                                 "exit 64"
                                                                                                                             ] ;
@@ -818,7 +818,7 @@
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.success ) ;
-                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ error delayed success ] ) ;
+                                                                                                            in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ error failure delayed success ] ) ;
                                                                                                     in "makeWrapper ${ pkgs.writeShellScript "observe.sh" observe } ${ _environment-variable "OUT" }/observe.wrapped.sh --set ECHO ${ _environment-variable "ECHO" } --set SED ${ _environment-variable "SED" } --set YQ ${ _environment-variable "YQ" }"
                                                                                             )
                                                                                         ]
