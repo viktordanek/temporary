@@ -826,7 +826,7 @@
                                                                     in
                                                                         ''
                                                                             ${ pkgs.coreutils }/bin/mkdir $out &&
-                                                                                makeWrapper ${ pkgs.writeShellScript "constructor.sh" constructor } $out/constructor.wrapped.sh --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.makeWrapper } --set OUT $out --set TOUCH ${ pkgs.coreutils }/bin/touch --set YQ ${ pkgs.coreutils }/bin/yq &&
+                                                                                makeWrapper ${ pkgs.writeShellScript "constructor.sh" constructor } $out/constructor.wrapped.sh --set ECHO ${ pkgs.coreutils }/bin/echo --set MAKE_WRAPPER ${ pkgs.makeWrapper } --set OUT $out --set TOUCH ${ pkgs.coreutils }/bin/touch --set YQ ${ pkgs.yq }/bin/yq &&
                                                                                 $out/constructor.wrapped.sh
                                                                         '' ;
                                                             name = "tests" ;
