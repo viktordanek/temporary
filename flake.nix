@@ -772,6 +772,7 @@
                                                                                                                                 ''${ _environment-variable "ECHO" } "- path: ${ builtins.replaceStrings [ "\"" ] [ "\\\"" ] ( builtins.toJSON value.path ) }"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  status: DELAYED"''
                                                                                                                                 ''${ _environment-variable "ECHO" } "  out: ${ value.value }"''
+                                                                                                                                ''${ _environment-variable "ECHO" } "  observed:"''
                                                                                                                                 ''if ! ${ value.value }/observe.wrapped.sh ; then ${ _environment-variable "ECHO" } "  result: FAILURE" && exit 64 ; fi''
                                                                                                                             ] ;
                                                                                                                     in builtins.concatLists ( builtins.map mapper metrics.delayed ) ;
