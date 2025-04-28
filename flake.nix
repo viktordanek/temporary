@@ -81,7 +81,7 @@
                                                                             arguments = "5fcf30da8e09e5808370ee26227e38080bc3970d44cf95f50622b96b4b0daad9fdfc511b0bbfa974fc911d211b01b8e1051398b0bd9ca4d322b2f10e614b8474" ;
                                                                             count = 502 ;
                                                                             file = "db2717f674d6e7dde381029c828b969e6bc5e27ebf99d134264e3373fb892f42a988e34b0d9ff6b8609ed131b786ad1b9f6e82c9f45cc6ed50860e690e70bedf" ;
-                                                                            paste = candidate : "if [ ! -e ${ candidate } ] ; then echo WTF ; elif [ -d ${ candidate } ] ; then echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid ; else ${ _environment-variable "ECHO" } 21475b33095ae73d95cfba493a60ab1af51a1fb1921902ed4240b256cd704baa4515654cfb2fedc805a952df473aaabb5145c180c9adcfaa87fea24013e1aef4 > ${ candidate } ; fi" ;
+                                                                            paste = candidate : "if [ -d ${ candidate } ] ; then echo 275a6f1d6dfa76aa2bf189957d0dea80d6f61a7c42b373105f9307ca56917c4eca5dd54ebc13da72aded4fed2929c65f92e49bd474e616532cc29c64bb257a34 >> ${ candidate }/uuid ; else ${ _environment-variable "ECHO" } 21475b33095ae73d95cfba493a60ab1af51a1fb1921902ed4240b256cd704baa4515654cfb2fedc805a952df473aaabb5145c180c9adcfaa87fea24013e1aef4 > ${ candidate } ; fi" ;
                                                                             ## pipe = "8f3bf8bd37789fa3bba0f5d7dcabc848d42e9dfa1bca75c05e020ac8830912100623212067be8699aa489d5ee13367249a5f6ad3921296d4b9699375a9bc4ca6" ;
                                                                          } ;
                                                             } ;
@@ -379,7 +379,7 @@
                                                                                                         ) ;
                                                                                                 initial = [ "mkdir /mount/target" ] ;
                                                                                             } ;
-                                                                                        "/resources" =
+                                                                                        "${ primary.resources }" =
                                                                                             {
                                                                                                 expected = self + "/resources" ;
                                                                                                 initial = [ "mkdir /mount/target" ] ;
@@ -412,7 +412,8 @@
                                                                                                         unique-vars =
                                                                                                             if builtins.typeOf secondary.paste == "list" then
                                                                                                                 [
-                                                                                                                    ''${ _environment-variable "ECHO" } -n $( ${ _environment-variable "ECHO" } -e "${ builtins.concatStringsSep "\n" ( builtins.genList ( index : _environment-variable "CANDIDATE_${ builtins.toString index }" ) secondary.count ) }" | ${ _environment-variable "SORT" } | ${ _environment-variable "UNIQ" } | ${ pkgs.coreutils }/bin/wc --lines )''  ### KLUDGE ALERT
+                                                                                                                    ''${ _environment-variable "ECHO" } -n $( ${ _environment-variable "ECHO" } -e "${ builtins.concatStringsSep "\n" ( builtins.genList ( index : _environment-variable "CANDIDATE_${ builtins.toString index }" ) secondary.count ) }" )''  ### KLUDGE ALERT
+                                                                                                                    # ''${ _environment-variable "ECHO" } -n $( ${ _environment-variable "ECHO" } -e "${ builtins.concatStringsSep "\n" ( builtins.genList ( index : _environment-variable "CANDIDATE_${ builtins.toString index }" ) secondary.count ) }" | ${ _environment-variable "SORT" } | ${ _environment-variable "UNIQ" } | ${ pkgs.coreutils }/bin/wc --lines )''  ### KLUDGE ALERT
                                                                                                                 ]
                                                                                                             else [ ] ;
                                                                                                         in builtins.concatStringsSep " &&\n\t" ( builtins.concatLists [ ( builtins.concatLists ( builtins.genList generator secondary.count ) ) unique-vars ] )
@@ -458,7 +459,7 @@
                                                                         host-path = _environment-variable primary.archive ;
                                                                         is-read-only = false ;
                                                                     } ;
-                                                                "/resources" =
+                                                                "${ primary.resources }" =
                                                                     {
                                                                         host-path = _environment-variable primary.resources ;
                                                                         is-read-only = false ;
@@ -487,7 +488,7 @@
                                                                             ( originator-pid "ORIGINATOR_PID" )
                                                                             ( string "OVER_INITIALIZED_TARGET_ERROR_CODE" primary.over-initialized-target-error-code )
                                                                             ( string "READLINK" "${ pkgs.coreutils }/bin/readlink" )
-                                                                            ( string "RESOURCES" ( _environment-variable primary.resources ) )
+                                                                            ( string "RESOURCES" ( _environment-variable "TMPDIR" ) )
                                                                             ( standard-input "STANDARD_INPUT" )
                                                                             ( string "STDERR_EMITTED_ERROR_CODE" primary.stderr-emitted-error-code )
                                                                             ( string "UNINITIALIZED_TARGET_ERROR_CODE" primary.uninitialized-target-error-code )
