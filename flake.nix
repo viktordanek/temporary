@@ -546,7 +546,7 @@
                                                                 filtered = builtins.filter ( x : builtins.any ( i : x.index == i ) array ) with-index ;
                                                                 simplified = builtins.map ( x : x.line ) filtered ;
                                                                 in builtins.toFile "setup" ( builtins.concatStringsSep "\n" simplified ) ;
-                                                        sleep = 30 ;
+                                                        sleep = 60 ;
                                                         tests = primary.tests ;
                                                     } ;
                                         setup = setup-fun false primary.self-teardown teardown ;
