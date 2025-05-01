@@ -262,7 +262,7 @@
                                                             resource =
                                                                 if builtins.hasAttr "resource" post then builtins.getAttr "resource" post
                                                                 else "/resource" ;
-                                                            in if eval.success then eval.value else builtins.throw "There was a problem evaluating post."
+                                                            in if builtins.trace "YES" eval.success then eval.value else builtins.throw "There was a problem evaluating post."
                                                     else builtins.throw "post is not null, set but ${ builtins.typeOf post }." ;
                                                 release =
                                                     if builtins.typeOf release == "null" then release
