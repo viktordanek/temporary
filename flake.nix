@@ -868,7 +868,8 @@
                                                             name = name ;
                                                             src = ./. ;
                                                         } ;
-                                            in builtins.mapAttrs mapper foobar ;
+                                            # in builtins.mapAttrs mapper foobar ;
+                                            in { } ;
                                     lib = lib ;
                                 } ;
                 in flake-utils.lib.eachDefaultSystem fun ;
