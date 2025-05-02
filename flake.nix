@@ -646,7 +646,7 @@
                                                                                         ( string "MKTEMP" "${ pkgs.coreutils }/bin/mktemp" )
                                                                                         ( string "ORIGINATOR_PID" 9999 )
                                                                                     ]
-                                                                                    ( if builtins.typeOf primary.post == "null" then [ ] else [ ( string "POST" primary.post.shell-script ) ] )
+                                                                                    ( if builtins.typeOf ( builtins.trace "HI 1" primary.post ) == "null" then [ ] else [ ( string "POST" ( builtins.trace "HI 2" primary.post ).shell-script ) ] )
                                                                                     ( if builtins.typeOf primary.release == "null" then [ ] else [ ( string "RELEASE" primary.release.shell-script ) ] )
                                                                                     [
                                                                                         ( string "RESOURCE_NAME" "resource" )
@@ -658,10 +658,10 @@
                                                                                         ( string "TRUE" "${ pkgs.coreutils }/bin/true" )
                                                                                     ]
                                                                                 ] ;
-                                                                    standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf primary.post == "null" then "0" else "1" }" ;
+                                                                    standard-output = self + "/expected/teardown/standard-output-${ if builtins.typeOf primary.release == "null" then "0" else "1" }-${ if builtins.typeOf ( builtins.trace "HI 3" primary.post ) == "null" then "0" else "1" }" ;
                                                                 } ;
                                                 } ;
-                                        teardown = teardown-fun primary.post ;
+                                        teardown = teardown-fun ( builtins.trace "HI 4" primary.post ) ;
                                         teardown-mock = teardown-fun vacuum ;
                                         vacuum =
                                             _shell-script
@@ -735,7 +735,7 @@
                                                                                                         ( if builtins.typeOf primary.init == "null" then [ ] else [ { path = "init" ; value = primary.init.tests ; } ] )
 
                                                                                                         ( if builtins.typeOf primary.release == "null" then [ ] else [ { path = "release" ; value = primary.release.tests ; } ] )
-                                                                                                        ( if builtins.typeOf primary.post == "null" then [ ] else [ { path = "post" ; value = primary.post.tests ; } ] )
+                                                                                                        ( if builtins.typeOf ( builtins.trace "HI 5" primary.post ) == "null" then [ ] else [ { path = "post" ; value = ( builtins.trace "HI 6" primary.post ).tests ; } ] )
                                                                                                         [ { path = "teardown" ; value = teardown.tests ; } ]
                                                                                                         [ { path = "vacuum" ; value = vacuum.tests ; } ]
                                                                                                         [ { path = "setup" ; value = setup-mock.tests ; } ]
