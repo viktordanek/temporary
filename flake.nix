@@ -198,6 +198,7 @@
                                     self-teardown ? true ,
                                     shell-scripts ? { } ,
                                     stderr-emitted-error-code ? 67 ,
+                                    teardown-delay ? false ,
                                     tests ? null ,
                                     uninitialized-target-error-code ? 65 ,
                                 } :
@@ -293,6 +294,9 @@
                                                 stderr-emitted-error-code =
                                                     if builtins.typeOf stderr-emitted-error-code == "int" then builtins.toString stderr-emitted-error-code
                                                     else builtins.throw "stderr-emitted-error-code is not int but ${ builtins.typeOf stderr-emitted-error-code }." ;
+                                                teardown-delay =
+                                                    if builtins.typeOf teardown-delay == "bool" then teardown-delay
+                                                    else builtins.throw "teardown-delay is not bool but ${ builtins.typeOf teardown-delay }." ;
                                                 tests =
                                                     _visitor
                                                         {
@@ -621,6 +625,7 @@
                                                         tests =
                                                             ignore :
                                                                 {
+                                                                    delay = teardown-delay ;
                                                                     mounts =
                                                                         {
                                                                             "/mount" =
