@@ -1,0 +1,14 @@
+name: Self-hosted Flake Check
+on:
+  schedule:
+    - cron: '*/1 * * * *'
+  workflow_dispatch:
+jobs:
+  flake-check:
+    name: Check Flake
+    runs-on: [nixos]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Run nix flake check
+        run: nix flake check
