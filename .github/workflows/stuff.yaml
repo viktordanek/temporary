@@ -1,7 +1,7 @@
 name: Self-hosted Flake Check
 on:
   schedule:
-    - cron '*/1 * * * *'
+    - cron: '*/1 * * * *'
   workflow_dispatch:
 jobs:
   flake-check:
